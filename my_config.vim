@@ -4,6 +4,10 @@ call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'lifepillar/vim-mucomplete'
 
+Plug 'jiangmiao/auto-pairs'
+
+Plug 'junegunn/goyo.vim'
+
 Plug 'tpope/vim-fugitive'
 
 Plug 'tpope/vim-commentary'
@@ -32,6 +36,8 @@ Plug 'sickill/vim-monokai'
 
 Plug 'joshdick/onedark.vim'
 
+Plug 'altercation/vim-colors-solarized'
+
 Plug 'majutsushi/tagbar'
 
 " Plug 'drmingdrmer/xptemplate'
@@ -46,7 +52,7 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 
 Plug 'chengzeyi/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+Plug 'chengzeyi/fzf.vim'
 
 " Plug 'asins/vim-dict'
 
@@ -153,7 +159,7 @@ endif
 set ruler
 
 " Height of the command bar
-set cmdheight=2
+set cmdheight=1
 
 " A buffer becomes hidden when it is abandoned
 set hid
@@ -284,6 +290,11 @@ nnoremap K <c-w>k
 nnoremap H <c-w>h
 nnoremap L <c-w>l
 
+nnoremap <c-h> :bprevious<cr>
+nnoremap <c-l> :bnext<cr>
+nnoremap <c-j> :tabp<cr>
+nnoremap <c-k> :tabn<cr>
+
 " Close the current buffer
 map <leader>bd :Bclose<cr>:tabclose<cr>gT
 
@@ -297,8 +308,8 @@ map <leader>h :bprevious<cr>
 map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove 
-map <leader>t<leader> :tabnext 
+map <leader>tm :tabmove<cr>
+map <leader>t<leader> :tabnext<cr>
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
@@ -420,8 +431,8 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fast editing and reloading of vimrc configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>e :e! ~/.vimrc<cr>
-autocmd! bufwritepost ~/.vimrc source ~/.vimrc
+map <leader>e :e! ~/.vim_runtime/my_config.vim<cr>
+autocmd! bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Turn persistent undo on 
@@ -647,4 +658,7 @@ let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
 
+let g:goyo_width = '85%'
+let g:goyo_height = '85%'
+nnoremap <leader>zz :Goyo<cr>
 
