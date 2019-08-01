@@ -4,6 +4,8 @@ call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'lifepillar/vim-mucomplete'
 
+Plug 'liuchengxu/vim-which-key'
+
 Plug 'mhinz/vim-grepper'
 
 Plug 'jiangmiao/auto-pairs'
@@ -666,4 +668,8 @@ let g:goyo_height = '85%'
 nnoremap <leader>zz :Goyo<cr>
 
 map <leader>gg :Grepper<cr>
+
+set timeoutlen=500
+nnoremap <silent> <leader> :<c-u>WhichKey '<space>'<cr>
+vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<space>'<cr>
 
