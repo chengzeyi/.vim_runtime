@@ -4,6 +4,8 @@ call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'lifepillar/vim-mucomplete'
 
+Plug 'mhinz/vim-grepper'
+
 Plug 'jiangmiao/auto-pairs'
 
 Plug 'junegunn/goyo.vim'
@@ -633,7 +635,7 @@ nnoremap <c-x><c-r> :SyntasticReset<CR>
 
 " let g:asyncrun_open = 8
 
-map <leader>sh :AsyncRun<space>
+map <leader>rr :AsyncRun<space>
 
 map <leader>qq :call asyncrun#quickfix_toggle(8)<cr>
 let g:asyncrun_open = 8
@@ -657,8 +659,11 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
+let g:airline_theme='bubblegum'
 
 let g:goyo_width = '85%'
 let g:goyo_height = '85%'
 nnoremap <leader>zz :Goyo<cr>
+
+map <leader>gg :Grepper<cr>
 
