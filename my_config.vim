@@ -4,6 +4,8 @@ call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'lifepillar/vim-mucomplete'
 
+Plug 'mhinz/vim-startify'
+
 Plug 'liuchengxu/vim-which-key'
 
 Plug 'mhinz/vim-grepper'
@@ -36,12 +38,6 @@ Plug 'vim-syntastic/syntastic'
 
 Plug 'octol/vim-cpp-enhanced-highlight'
 
-Plug 'sickill/vim-monokai'
-
-Plug 'joshdick/onedark.vim'
-
-Plug 'altercation/vim-colors-solarized'
-
 Plug 'majutsushi/tagbar'
 
 " Plug 'drmingdrmer/xptemplate'
@@ -61,6 +57,14 @@ Plug 'chengzeyi/fzf.vim'
 " Plug 'asins/vim-dict'
 
 " Plug 'w0rp/ale'
+
+Plug 'cocopon/iceberg.vim'
+
+Plug 'sickill/vim-monokai'
+
+Plug 'joshdick/onedark.vim'
+
+Plug 'NLKNguyen/papercolor-theme'
 
 call plug#end() 
 
@@ -305,8 +309,8 @@ map <leader>bd :Bclose<cr>:tabclose<cr>gT
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
 
-map <leader>l :bnext<cr>
-map <leader>h :bprevious<cr>
+map <leader><tab> :bnext<cr>
+map <leader><s-tab> :bprevious<cr>
 
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
@@ -563,10 +567,10 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 " Close popup by <Space>.
 "inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
 
-autocmd vimenter * NERDTree
+" autocmd vimenter * NERDTree
 let NERDTreeShowHidden = 1
 let NERDTreeWinPos = "left"
-let g:NERDTreeWinSize=35
+let g:NERDTreeWinSize = 35
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
 map <leader>nf :NERDTreeFind<cr>
@@ -594,8 +598,8 @@ map <leader>o :BufExplorer<cr>
 
 let g:yankstack_yank_keys = ['y', 'd']
 
-nmap <c-p> <Plug>yankstack_substitute_older_paste
-nmap <c-n> <Plug>yankstack_substitute_newer_paste
+map <leader>, <Plug>yankstack_substitute_older_paste
+map <leader>. <Plug>yankstack_substitute_newer_paste
 
 " let Tlist_Ctags_Cmd = '/usr/bin/ctags'
 " let Tlist_Show_One_File = 1
@@ -637,16 +641,16 @@ nnoremap <c-x><c-r> :SyntasticReset<CR>
 
 " let g:asyncrun_open = 8
 
-map <leader>rr :AsyncRun<space>
+map <leader>r :AsyncRun<space>
 
-map <leader>qq :call asyncrun#quickfix_toggle(8)<cr>
+map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
 let g:asyncrun_open = 8
 
 let g:fzf_command_prefix = 'Fzf'
 " Mapping selecting mappings
-nmap <leader><tab> <plug>(fzf-maps-n)
-xmap <leader><tab> <plug>(fzf-maps-x)
-omap <leader><tab> <plug>(fzf-maps-o)
+" nmap <leader><tab> <plug>(fzf-maps-n)
+" xmap <leader><tab> <plug>(fzf-maps-x)
+" omap <leader><tab> <plug>(fzf-maps-o)
 nnoremap <c-c> :FzfCommand<cr>
 " [Commands] --expect expression for directly executing the command
 let g:fzf_commands_expect = 'alt-enter'
@@ -665,11 +669,13 @@ let g:airline_theme='bubblegum'
 
 let g:goyo_width = '85%'
 let g:goyo_height = '85%'
-nnoremap <leader>zz :Goyo<cr>
+nnoremap <leader>z :Goyo<cr>
 
-map <leader>gg :Grepper<cr>
+map <leader>g :Grepper<cr>
 
 set timeoutlen=500
 nnoremap <silent> <leader> :<c-u>WhichKey '<space>'<cr>
 vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<space>'<cr>
+
+let g:neomake_open_list = 2
 
