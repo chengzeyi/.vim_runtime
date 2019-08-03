@@ -6,7 +6,7 @@ call plug#begin('~/.vim_runtime/plugged')
 
 Plug 'mhinz/vim-startify'
 
-Plug 'liuchengxu/vim-which-key'
+" Plug 'liuchengxu/vim-which-key'
 
 Plug 'mhinz/vim-grepper'
 
@@ -659,6 +659,7 @@ nnoremap <c-c> :FzfCommand<cr>
 let g:fzf_commands_expect = 'alt-enter'
 
 nmap <c-_> <Plug>CommentaryLine
+autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 
 " let g:easytags_dynamic_files = 1
 let g:easytags_include_members = 1
@@ -676,9 +677,9 @@ nnoremap <leader>z :Goyo<cr>
 
 map <leader>g :Grepper<cr>
 
-set timeoutlen=500
-nnoremap <silent> <leader> :<c-u>WhichKey '<space>'<cr>
-vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<space>'<cr>
+" set timeoutlen=500
+" nnoremap <silent> <leader> :<c-u>WhichKey '<space>'<cr>
+" vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<space>'<cr>
 
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_text_changed = 'never'
