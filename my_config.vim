@@ -34,7 +34,7 @@ Plug 'kien/ctrlp.vim'
 
 Plug 'Shougo/neocomplcache.vim'
 
-Plug 'vim-syntastic/syntastic'
+" Plug 'vim-syntastic/syntastic'
 
 Plug 'octol/vim-cpp-enhanced-highlight'
 
@@ -57,6 +57,8 @@ Plug 'chengzeyi/fzf.vim'
 " Plug 'asins/vim-dict'
 
 " Plug 'w0rp/ale'
+
+Plug 'dense-analysis/ale'
 
 Plug 'cocopon/iceberg.vim'
 
@@ -132,6 +134,9 @@ set autoread
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
 let mapleader = " "
+
+map <leader>p :set invpaste paste?<cr>
+set showmode
 
 " Fast saving
 nmap <leader>w :w!<cr>
@@ -598,8 +603,8 @@ map <leader>o :BufExplorer<cr>
 
 let g:yankstack_yank_keys = ['y', 'd']
 
-map <leader>, <Plug>yankstack_substitute_older_paste
-map <leader>. <Plug>yankstack_substitute_newer_paste
+map <leader>[ <Plug>yankstack_substitute_older_paste
+map <leader>] <Plug>yankstack_substitute_newer_paste
 
 " let Tlist_Ctags_Cmd = '/usr/bin/ctags'
 " let Tlist_Show_One_File = 1
@@ -612,34 +617,32 @@ nmap <leader>tt :TagbarToggle<cr>
 " let g:xptemplate_always_show_pum = 1
 " let g:xptemplate_vars = "SParg=&BRloop= &BRif= &BRstc= &BRfun= "
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 0
+" let g:syntastic_check_on_wq = 0
 
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_c_check_header = 1
-let g:syntastic_cpp_check_header = 1
+" let g:syntastic_aggregate_errors = 1
+" let g:syntastic_c_check_header = 1
+" let g:syntastic_cpp_check_header = 1
 
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
-let g:syntastic_c_include_dirs = ['./include', './headers',
-    \ './_external/usr/include', './_external/usr/local/include',
-    \ '../_external/usr/include', '../_external/usr/local/include']
-let g:syntastic_cpp_include_dirs = ['./include', './headers',
-    \ './_external/usr/include', './_external/usr/local/include',
-    \ '../_external/usr/include', '../_external/usr/local/include']
-let g:syntastic_c_checkers = ['cppcheck']
-let g:syntastic_cpp_checkers = ['cppcheck']
-let g:syntastic_c_cppcheck_args = ['--enable=warning,style,information']
-let g:syntastic_cpp_cppcheck_args = ['--enable=warning,style,information', '--std']
-nnoremap <c-x><c-x> :SyntasticCheck<CR>
-nnoremap <c-x><c-r> :SyntasticReset<CR>
-
-" let g:asyncrun_open = 8
+" let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
+" let g:syntastic_c_include_dirs = ['./include', './headers',
+"     \ './_external/usr/include', './_external/usr/local/include',
+"     \ '../_external/usr/include', '../_external/usr/local/include']
+" let g:syntastic_cpp_include_dirs = ['./include', './headers',
+"     \ './_external/usr/include', './_external/usr/local/include',
+"     \ '../_external/usr/include', '../_external/usr/local/include']
+" let g:syntastic_c_checkers = ['cppcheck']
+" let g:syntastic_cpp_checkers = ['cppcheck']
+" let g:syntastic_c_cppcheck_args = ['--enable=warning,style,information']
+" let g:syntastic_cpp_cppcheck_args = ['--enable=warning,style,information', '--std']
+" nnoremap <c-x><c-x> :SyntasticCheck<CR>
+" nnoremap <c-x><c-r> :SyntasticReset<CR>
 
 map <leader>r :AsyncRun<space>
 
@@ -677,5 +680,10 @@ set timeoutlen=500
 nnoremap <silent> <leader> :<c-u>WhichKey '<space>'<cr>
 vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<space>'<cr>
 
-let g:neomake_open_list = 2
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_text_changed = 'never'
+map <leader>ag :ALEGoToDefinition<cr>
+map <leader>af :ALEFindReferences<cr>
+map <leader>ah :ALEHover<cr>
+map <leader>as :ALESymbolSearch<space>
 
