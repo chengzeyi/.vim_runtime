@@ -682,8 +682,8 @@ vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<space>'<cr>
 
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_text_changed = 'never'
-map <leader>ag :ALEGoToDefinition<cr>
-map <leader>af :ALEFindReferences<cr>
-map <leader>ah :ALEHover<cr>
-map <leader>as :ALESymbolSearch<space>
+" map <leader>ag :ALEGoToDefinition<cr>
+" map <leader>af :ALEFindReferences<cr>
+" map <leader>ah :ALEHover<cr>
+" map <leader>as :ALESymbolSearch<space>
 
