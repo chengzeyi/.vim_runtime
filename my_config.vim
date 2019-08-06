@@ -68,7 +68,9 @@ Plug 'chengzeyi/fzf.vim'
 
 Plug 'dense-analysis/ale'
 
-Plug 'cocopon/iceberg.vim'
+" Plug 'cocopon/iceberg.vim'
+
+Plug 'chengzeyi/iceberg.vim'
 
 " Plug 'sickill/vim-monokai'
 
@@ -240,12 +242,14 @@ set foldcolumn=1
 syntax enable 
 
 " Enable 256 colors palette in Gnome Terminal
-if $COLORTERM == 'gnome-terminal'
-    set t_Co=256
-endif
+" if $COLORTERM == 'gnome-terminal'
+    " set t_Co=256
+" endif
+
+set t_Co=256
 
 try
-    colorscheme onedark
+    colorscheme iceberg
 catch
 endtry
 
