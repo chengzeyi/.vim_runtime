@@ -4,6 +4,12 @@ call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'lifepillar/vim-mucomplete'
 
+" Plug 'hecal3/vim-leader-guide'
+
+Plug 'chengzeyi/a.vim'
+
+" Plug 'vim-scripts/a.vim' 
+
 Plug 'mhinz/vim-startify'
 
 " Plug 'liuchengxu/vim-which-key'
@@ -30,6 +36,8 @@ Plug 'maxbrunsfeld/vim-yankstack'
 
 Plug 'scrooloose/nerdtree'
 
+Plug 'tacahiroy/ctrlp-funky'
+
 Plug 'kien/ctrlp.vim'
 
 Plug 'Shougo/neocomplcache.vim'
@@ -40,7 +48,7 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 
 Plug 'majutsushi/tagbar'
 
-" Plug 'drmingdrmer/xptemplate'
+Plug 'drmingdrmer/xptemplate'
 
 Plug 'google/vim-maktaba'
 Plug 'google/vim-codefmt'
@@ -62,15 +70,21 @@ Plug 'dense-analysis/ale'
 
 Plug 'cocopon/iceberg.vim'
 
-Plug 'sickill/vim-monokai'
+" Plug 'sickill/vim-monokai'
 
 Plug 'joshdick/onedark.vim'
 
-Plug 'NLKNguyen/papercolor-theme'
+" Plug 'NLKNguyen/papercolor-theme'
+
+" Plug 'arcticicestudio/nord-vim'
 
 call plug#end() 
 
 set tags+=./tags
+set tags+=../tags
+set tags+=../../tags
+set tags+=../../../tags
+set tags+=../../../../tags
 set tags+=~/.vimtags
 set tags+=~/.vim_runtime/systags
 set updatetime=1500
@@ -121,6 +135,11 @@ highlight CursorColumn cterm=none ctermbg=236
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set showmode
+
+set splitbelow
+
 " Sets how many lines of history VIM has to remember
 set history=500
 
@@ -136,7 +155,6 @@ set autoread
 let mapleader = " "
 
 map <leader>p :set invpaste paste?<cr>
-set showmode
 
 " Fast saving
 nmap <leader>w :w!<cr>
@@ -303,16 +321,18 @@ nnoremap K <c-w>k
 nnoremap H <c-w>h
 nnoremap L <c-w>l
 
+tnoremap <leader><esc> <c-w>N
+
 nnoremap <c-h> :bprevious<cr>
 nnoremap <c-l> :bnext<cr>
 nnoremap <c-j> :tabp<cr>
 nnoremap <c-k> :tabn<cr>
 
 " Close the current buffer
-map <leader>bd :Bclose<cr>:tabclose<cr>gT
+map <leader>bc :Bclose<cr>:tabclose<cr>gT
 
 " Close all the buffers
-map <leader>ba :bufdo bd<cr>
+map <leader>bd :bufdo bd<cr>
 
 map <leader><tab> :bnext<cr>
 map <leader><s-tab> :bprevious<cr>
@@ -339,7 +359,8 @@ map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " Specify the behavior when switching between buffers 
 try
-  set switchbuf=useopen,usetab,newtab
+  " set switchbuf=useopen,usetab,newtab
+  set switchbuf=vsplit
   set stal=2
 catch
 endtry
@@ -422,7 +443,7 @@ endfunction
 
 function! CmdLine(str)
     call feedkeys(":" . a:str)
-endfunction 
+endfunction
 
 function! VisualSelection(direction, extra_filter) range
     let l:saved_reg = @"
@@ -448,7 +469,7 @@ map <leader>e :e! ~/.vim_runtime/my_config.vim<cr>
 autocmd! bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Turn persistent undo on 
+" => Turn persistent undo on
 "    means that you can undo even when you close a buffer/VIM
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 try
@@ -461,7 +482,7 @@ endtry
 " => Command mode related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " $q is super useful when browsing on the command line
-" it deletes everything until the last slash 
+" it deletes everything until the last slash
 cno $q <C-\>eDeleteTillSlash()<cr>
 
 " Bash like keys for the command line
@@ -546,14 +567,18 @@ let g:cpp_experimental_template_highlight = 1
 " let g:mucomplete#completion_delay = 1
 " let g:mucomplete#always_use_completeopt = 1
 " let g:mucomplete#chains = {'default': ['path', 'keyn', 'dict', 'uspl']}
+
+" let g:acp_enableAtStartup = 0
 " Use neocomplcache.
 let g:neocomplcache_enable_at_startup = 1
 " Use smartcase.
 let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_enable_underbar_completion = 1
+let g:neocomplcache_enable_underbar_completion = 0
 " Set minimum syntax keyword length.
 let g:neocomplcache_min_syntax_length = 3
 let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+let g:neocomplcache_enable_auto_select = 1
+" let g:neocomplcache_disable_auto_complete = 1
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
@@ -563,7 +588,8 @@ function! s:my_cr_function()
     return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
 endfunction
 " <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><TAB>  pumvisible() ? "\<cr>" : "\<TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
@@ -583,7 +609,7 @@ map <leader>nf :NERDTreeFind<cr>
 let g:ctrlp_working_path_mode = 0
 
 let g:ctrlp_map = '<c-f>'
-map <leader>j :CtrlP<cr>
+" map <leader>j :CtrlP<cr>
 map <c-b> :CtrlPBuffer<cr>
 
 let g:ctrlp_max_height = 20
@@ -614,8 +640,8 @@ map <leader>] <Plug>yankstack_substitute_newer_paste
 
 nmap <leader>tt :TagbarToggle<cr>
 
-" let g:xptemplate_always_show_pum = 1
-" let g:xptemplate_vars = "SParg=&BRloop= &BRif= &BRstc= &BRfun= "
+let g:xptemplate_always_show_pum = 1
+let g:xptemplate_vars = "SParg=&BRloop= &BRif= &BRstc= &BRfun= "
 
 " set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
@@ -671,8 +697,8 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
 let g:airline_theme='bubblegum'
 
-let g:goyo_width = '85%'
-let g:goyo_height = '85%'
+let g:goyo_width = '80%'
+let g:goyo_height = '95%'
 nnoremap <leader>z :Goyo<cr>
 
 map <leader>g :Grepper<cr>
@@ -681,10 +707,23 @@ map <leader>g :Grepper<cr>
 " nnoremap <silent> <leader> :<c-u>WhichKey '<space>'<cr>
 " vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<space>'<cr>
 
+" call leaderGuide#register_prefix_descriptions("<space>", "g:lmap")
+" nnoremap <silent> <leader> :<c-u>LeaderGuide '<space>'<cr>
+" vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<space>'<cr>
+
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 0
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_text_changed = 'never'
 " map <leader>ag :ALEGoToDefinition<cr>
 " map <leader>af :ALEFindReferences<cr>
 " map <leader>ah :ALEHover<cr>
 " map <leader>as :ALESymbolSearch<space>
+
+nnoremap <leader>f :CtrlPFunky<Cr>
+" narrow the list down with a word under cursor
+nnoremap <leader>F :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+let g:ctrlp_funky_syntax_highlight = 1
+let g:ctrlp_funky_matchtype = 'path'
+let g:ctrlp_funky_multi_buffers = 1
 
