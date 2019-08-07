@@ -42,6 +42,8 @@ Plug 'kien/ctrlp.vim'
 
 Plug 'Shougo/neocomplcache.vim'
 
+" Plug 'vim-scripts/OmniCppComplete'
+
 " Plug 'vim-syntastic/syntastic'
 
 Plug 'octol/vim-cpp-enhanced-highlight'
@@ -59,8 +61,8 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 
-Plug 'chengzeyi/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'chengzeyi/fzf.vim'
+" Plug 'chengzeyi/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'chengzeyi/fzf.vim'
 
 " Plug 'asins/vim-dict'
 
@@ -68,9 +70,9 @@ Plug 'chengzeyi/fzf.vim'
 
 Plug 'dense-analysis/ale'
 
-" Plug 'cocopon/iceberg.vim'
+Plug 'cocopon/iceberg.vim'
 
-Plug 'chengzeyi/iceberg.vim'
+" Plug 'chengzeyi/iceberg.vim'
 
 " Plug 'sickill/vim-monokai'
 
@@ -81,6 +83,11 @@ Plug 'joshdick/onedark.vim'
 " Plug 'arcticicestudio/nord-vim'
 
 call plug#end() 
+
+set mouse=a
+
+nnoremap <c-]> g<c-]>
+nnoremap g<c-]> <c-]>
 
 set tags+=./tags
 set tags+=../tags
@@ -168,8 +175,8 @@ command W w !sudo tee % > /dev/null
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Set 7 lines to the cursor - when moving vertically using j/k
-set so=7
+" Set 5 lines to the cursor - when moving vertically using j/k
+set so=5
 
 " Avoid garbled characters in Chinese language windows OS
 let $LANG='en' 
@@ -325,7 +332,7 @@ nnoremap K <c-w>k
 nnoremap H <c-w>h
 nnoremap L <c-w>l
 
-tnoremap <leader><esc> <c-w>N
+tnoremap <c-q> <c-w>N
 
 nnoremap <c-h> :bprevious<cr>
 nnoremap <c-l> :bnext<cr>
@@ -334,6 +341,7 @@ nnoremap <c-k> :tabn<cr>
 
 " Close the current buffer
 map <leader>bc :Bclose<cr>:tabclose<cr>gT
+map <leader>x :Bclose<cr>:tabclose<cr>gT
 
 " Close all the buffers
 map <leader>bd :bufdo bd<cr>
@@ -602,6 +610,32 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 " Close popup by <Space>.
 "inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
 
+" set omnifunc=ale#completion#OmniFunc
+set omnifunc=syntaxcomplete#Complete
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+autocmd FileType c setlocal omnifunc=ccomplete#Complete
+autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+
+if !exists('g:neocomplcache_omni_patterns')
+  let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" autocmd FileType cpp let OmniCpp_NamespaceSearch = 1
+" autocmd FileType cpp let OmniCpp_GlobalScopeSearch = 1
+" autocmd FileType cpp let OmniCpp_ShowAccess = 1
+" autocmd FileType cpp let OmniCpp_MayCompleteDot = 1
+" autocmd FileType cpp let OmniCpp_MayCompleteArrow = 1
+" autocmd FileType cpp let OmniCpp_MayCompleteScope = 1
+" autocmd FileType cpp let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
+
 " autocmd vimenter * NERDTree
 let NERDTreeShowHidden = 1
 let NERDTreeWinPos = "left"
@@ -679,14 +713,14 @@ map <leader>r :AsyncRun<space>
 map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
 let g:asyncrun_open = 8
 
-let g:fzf_command_prefix = 'Fzf'
+" let g:fzf_command_prefix = 'Fzf'
 " Mapping selecting mappings
 " nmap <leader><tab> <plug>(fzf-maps-n)
 " xmap <leader><tab> <plug>(fzf-maps-x)
 " omap <leader><tab> <plug>(fzf-maps-o)
-nnoremap <c-c> :FzfCommand<cr>
+" nnoremap <c-c> :FzfCommand<cr>
 " [Commands] --expect expression for directly executing the command
-let g:fzf_commands_expect = 'alt-enter'
+" let g:fzf_commands_expect = 'alt-enter'
 
 nmap <c-_> <Plug>CommentaryLine
 autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
@@ -715,9 +749,12 @@ map <leader>g :Grepper<cr>
 " nnoremap <silent> <leader> :<c-u>LeaderGuide '<space>'<cr>
 " vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<space>'<cr>
 
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 0
+map <leader>a :ALEToggle<cr>
+let g:ale_enabled = 0
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_save = 1
 let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_filetype_changed = 1
 let g:ale_lint_on_text_changed = 'never'
 " map <leader>ag :ALEGoToDefinition<cr>
 " map <leader>af :ALEFindReferences<cr>

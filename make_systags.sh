@@ -3,7 +3,12 @@
 #     /usr/include/*.h \
 #     /usr/include/c++ \
 
-ctags -R -f \
+ctags \
+    -R \
+    --c++-kinds=+p \
+    --fields=+iaS \
+    --extra=+q \
+    -f \
     ~/.vim_runtime/systags \
     /usr/include/*.h \
     /usr/include/c++ \
