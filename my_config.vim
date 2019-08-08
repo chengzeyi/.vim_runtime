@@ -272,7 +272,13 @@ try
 catch
 endtry
 
-set background=dark
+hi Comment cterm=italic
+" hi Normal     ctermbg=NONE guibg=NONE
+" hi LineNr     ctermbg=NONE guibg=NONE
+" hi SignColumn ctermbg=NONE guibg=NONE
+hi Comment guifg=#5C6370 ctermfg=59
+
+" set background=dark
 
 " Set extra options when running in GUI mode
 if has("gui_running")
