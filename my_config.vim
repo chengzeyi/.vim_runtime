@@ -6,6 +6,8 @@ call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'hecal3/vim-leader-guide'
 
+" Plug 'powerman/vim-plugin-viewdoc'
+
 Plug 'Valloric/ListToggle'
 
 Plug 'chengzeyi/a.vim'
@@ -158,6 +160,8 @@ highlight CursorLine cterm=none ctermbg=236
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+runtime ftplugin/man.vim
 
 set showmode
 
@@ -810,4 +814,8 @@ let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_multi_buffers = 1
 
 " let g:indent_guides_enable_on_vim_startup = 1
+
+" let  g:no_viewdoc_maps = 1
+" let  g:viewdoc_open = "belowright vnew"
+" let  g:viewdoc_openempty = 0
 
