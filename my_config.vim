@@ -344,7 +344,9 @@ nnoremap K <c-w>k
 nnoremap H <c-w>h
 nnoremap L <c-w>l
 
-tnoremap <c-q> <c-w>N
+if exists(':terminal')
+    tnoremap <c-q> <c-w>N
+endif
 
 nnoremap <c-h> :bprevious<cr>
 nnoremap <c-l> :bnext<cr>
