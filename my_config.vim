@@ -119,11 +119,11 @@ set secure
 " set shiftwidth=4
 " set noexpandtab
 
-set cursorcolumn
+" set cursorcolumn
 set cursorline
 
 highlight CursorLine cterm=none ctermbg=236
-highlight CursorColumn cterm=none ctermbg=236
+" highlight CursorColumn cterm=none ctermbg=236
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Maintainer: 
