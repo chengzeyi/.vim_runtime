@@ -68,7 +68,9 @@ Plug 'xolox/vim-easytags'
 
 " Plug 'w0rp/ale'
 
-Plug 'nathanaelkane/vim-indent-guides'
+" Plug 'nathanaelkane/vim-indent-guides'
+
+Plug 'Yggdroot/indentLine'
 
 Plug 'sheerun/vim-polyglot'
 
@@ -735,6 +737,7 @@ let g:asyncrun_open = 8
 " let g:fzf_commands_expect = 'alt-enter'
 
 nmap <c-_> <Plug>CommentaryLine
+vmap <c-_> <Plug>Commentary
 autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 
 " let g:easytags_dynamic_files = 1
@@ -779,4 +782,6 @@ nnoremap <leader>F :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_multi_buffers = 1
+
+" let g:indent_guides_enable_on_vim_startup = 1
 
