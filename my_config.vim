@@ -68,13 +68,23 @@ Plug 'xolox/vim-easytags'
 
 " Plug 'w0rp/ale'
 
+Plug 'nathanaelkane/vim-indent-guides'
+
+Plug 'sheerun/vim-polyglot'
+
 Plug 'dense-analysis/ale'
+
+" Plug 'flazz/vim-colorschemes'
+
+Plug 'liuchengxu/space-vim-dark'
+
+Plug 'chriskempson/base16-vim'
 
 Plug 'cocopon/iceberg.vim'
 
 " Plug 'chengzeyi/iceberg.vim'
 
-" Plug 'sickill/vim-monokai'
+Plug 'sickill/vim-monokai'
 
 Plug 'joshdick/onedark.vim'
 
@@ -256,7 +266,7 @@ syntax enable
 set t_Co=256
 
 try
-    colorscheme iceberg
+    colorscheme space-vim-dark
 catch
 endtry
 
@@ -340,8 +350,10 @@ nnoremap <c-j> :tabp<cr>
 nnoremap <c-k> :tabn<cr>
 
 " Close the current buffer
-map <leader>bc :Bclose<cr>:tabclose<cr>gT
-map <leader>x :Bclose<cr>:tabclose<cr>gT
+" map <leader>bc :Bclose<cr>:tabclose<cr>gT
+" map <leader>x :Bclose<cr>:tabclose<cr>gT
+map <leader>bc :Bclose<cr>
+map <leader>x :Bclose<cr>
 
 " Close all the buffers
 map <leader>bd :bufdo bd<cr>
