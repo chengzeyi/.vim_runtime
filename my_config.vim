@@ -6,6 +6,8 @@ call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'hecal3/vim-leader-guide'
 
+Plug 'Valloric/ListToggle'
+
 Plug 'chengzeyi/a.vim'
 
 " Plug 'vim-scripts/a.vim' 
@@ -187,6 +189,16 @@ command W w !sudo tee % > /dev/null
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set foldmethod=indent
+set foldnestmax=3
+set nofoldenable
+
+set display+=lastline
+
+set re=1
+set lazyredraw
+
 " Set 5 lines to the cursor - when moving vertically using j/k
 set so=5
 
@@ -633,7 +645,8 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 "inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
 
 " set omnifunc=ale#completion#OmniFunc
-set omnifunc=syntaxcomplete#Complete
+" set omnifunc=syntaxcomplete#Complete
+set omnifunc=ale#completion#OmniFunc
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
@@ -732,8 +745,8 @@ let g:xptemplate_vars = "SParg=&BRloop= &BRif= &BRstc= &BRfun= "
 
 map <leader>r :AsyncRun<space>
 
-map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
-let g:asyncrun_open = 8
+" map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
+" let g:asyncrun_open = 8
 
 " let g:fzf_command_prefix = 'Fzf'
 " Mapping selecting mappings
@@ -770,9 +783,14 @@ map <leader>g :Grepper<cr>
 
 " call leaderGuide#register_prefix_descriptions("<space>", "g:lmap")
 " nnoremap <silent> <leader> :<c-u>LeaderGuide '<space>'<cr>
-" vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<space>'<cr>
+" vnoremap <silent> <leader> :C-Space<c-u>LeaderGuideVisual '<space>'<cr>
 
-map <leader>a :ALEToggle<cr>
+" inoremap <silent> <c-x><space> <C-\><C-O>:ALEComplete<CR>
+map <leader>aa :ALEToggle<cr>
+map <leader>al :ALELint<cr>
+map <leader>ag :ALEGoToDefinitionInVSplit<cr>
+map <leader>af :ALEFindReferences<cr>
+map <leader>ah :ALEHover<cr>
 let g:ale_enabled = 0
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
