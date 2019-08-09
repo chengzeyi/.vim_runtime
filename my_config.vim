@@ -649,23 +649,22 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 "inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
 
 " set omnifunc=ale#completion#OmniFunc
-" set omnifunc=syntaxcomplete#Complete
-set omnifunc=ale#completion#OmniFunc
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+set omnifunc=syntaxcomplete#Complete
+" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-autocmd FileType c setlocal omnifunc=ccomplete#Complete
-autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+" autocmd FileType c setlocal omnifunc=ccomplete#Complete
+" autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
 
-if !exists('g:neocomplcache_omni_patterns')
-  let g:neocomplcache_omni_patterns = {}
-endif
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+" if !exists('g:neocomplcache_omni_patterns')
+  " let g:neocomplcache_omni_patterns = {}
+" endif
+" let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+" let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+" let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
 " autocmd FileType cpp let OmniCpp_NamespaceSearch = 1
 " autocmd FileType cpp let OmniCpp_GlobalScopeSearch = 1
