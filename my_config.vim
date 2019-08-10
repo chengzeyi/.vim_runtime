@@ -8,11 +8,13 @@ call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'powerman/vim-plugin-viewdoc'
 
+Plug 'ntpeters/vim-better-whitespace'
+
 Plug 'Valloric/ListToggle'
 
 Plug 'chengzeyi/a.vim'
 
-" Plug 'vim-scripts/a.vim' 
+" Plug 'vim-scripts/a.vim'
 
 Plug 'mhinz/vim-startify'
 
@@ -38,6 +40,8 @@ Plug 'jlanzarotta/bufexplorer'
 
 Plug 'maxbrunsfeld/vim-yankstack'
 
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
 Plug 'scrooloose/nerdtree'
 
 Plug 'tacahiroy/ctrlp-funky'
@@ -45,6 +49,8 @@ Plug 'tacahiroy/ctrlp-funky'
 Plug 'kien/ctrlp.vim'
 
 Plug 'Shougo/neocomplcache.vim'
+" Plug 'Shougo/neosnippet.vim'
+" Plug 'Shougo/neosnippet-snippets'
 
 " Plug 'vim-scripts/OmniCppComplete'
 
@@ -261,9 +267,10 @@ set mat=2
 
 " No annoying sound on errors
 set noerrorbells
+" set visualbell
 set novisualbell
 set t_vb=
-set tm=500
+" set tm=500
 
 " Properly disable sound on errors on MacVim
 if has("gui_macvim")
@@ -288,6 +295,18 @@ try
 catch
 endtry
 
+if has("gui_running")
+    if has("gui_gtk2")
+        set guifont=Courier\ New\ 10
+    elseif has("gui_gtk3")
+        set guifont=Courier\ New\ 10
+    elseif has("gui_macvim")
+        set guifont=Menlo\ Regular:h10
+    elseif has("gui_win32")
+        set guifont=Consolas\ 10
+    endif
+endif
+
 hi Comment cterm=italic
 " hi Normal     ctermbg=NONE guibg=NONE
 " hi LineNr     ctermbg=NONE guibg=NONE
@@ -301,6 +320,13 @@ if has("gui_running")
     set guioptions-=T
     set guioptions-=e
     set t_Co=256
+    set guioptions-=m  "menu bar
+    set guioptions-=T  "toolbar
+    set guioptions-=r  "scrollbar
+    set guioptions-=R  "scrollbar
+    set guioptions-=l  "scrollbar
+    set guioptions-=L  "scrollbar
+    set guioptions-=b  "scrollbar
     set guitablabel=%M\ %t
 endif
 
@@ -365,6 +391,9 @@ nnoremap J <c-w>j
 nnoremap K <c-w>k
 nnoremap H <c-w>h
 nnoremap L <c-w>l
+
+nnoremap <silent> <Leader>= :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
 
 if exists(':terminal')
     tnoremap <c-q> <c-w>N
@@ -434,17 +463,17 @@ set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ 
 " map 0 ^
 
 " Delete trailing white space on save, useful for some filetypes ;)
-fun! CleanExtraSpaces()
-    let save_cursor = getpos(".")
-    let old_query = getreg('/')
-    silent! %s/\s\+$//e
-    call setpos('.', save_cursor)
-    call setreg('/', old_query)
-endfun
+" fun! CleanExtraSpaces()
+"     let save_cursor = getpos(".")
+"     let old_query = getreg('/')
+"     silent! %s/\s\+$//e
+"     call setpos('.', save_cursor)
+"     call setreg('/', old_query)
+" endfun
 
-if has("autocmd")
-    autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
-endif
+" if has("autocmd")
+"     autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
+" endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking
@@ -618,6 +647,26 @@ let g:cpp_experimental_template_highlight = 1
 " let g:mucomplete#always_use_completeopt = 1
 " let g:mucomplete#chains = {'default': ['path', 'keyn', 'dict', 'uspl']}
 
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+" imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+" if has('conceal')
+  " set conceallevel=2 concealcursor=niv
+" endif
+
 " let g:acp_enableAtStartup = 0
 " Use neocomplcache.
 let g:neocomplcache_enable_at_startup = 1
@@ -628,7 +677,9 @@ let g:neocomplcache_enable_underbar_completion = 0
 let g:neocomplcache_min_syntax_length = 3
 let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 let g:neocomplcache_enable_auto_select = 1
+let g:neocomplcache_tags_caching_limit_file_size = 10000000
 " let g:neocomplcache_disable_auto_complete = 1
+
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
@@ -637,6 +688,7 @@ function! s:my_cr_function()
     " For no inserting <CR> key.
     return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
 endfunction
+
 " <TAB>: completion.
 " inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><TAB>  pumvisible() ? "\<cr>" : "\<TAB>"
@@ -747,6 +799,7 @@ let g:xptemplate_vars = "SParg=&BRloop= &BRif= &BRstc= &BRfun= "
 " nnoremap <c-x><c-r> :SyntasticReset<CR>
 
 map <leader>r :AsyncRun<space>
+" let g:asyncrun_bell = 1
 
 " map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
 " let g:asyncrun_open = 8
@@ -773,6 +826,8 @@ let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
 let g:airline_theme='jellybeans'
+let g:asyncrun_status = "stopped"
+let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
 
 let g:goyo_width = '80%'
 let g:goyo_height = '95%'
@@ -818,3 +873,5 @@ let g:ctrlp_funky_multi_buffers = 1
 " let  g:viewdoc_open = "belowright vnew"
 " let  g:viewdoc_openempty = 0
 
+let g:better_whitespace_ctermcolor = '63'
+let g:better_whitespace_guicolor = '#5f5fff'
