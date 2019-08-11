@@ -62,6 +62,9 @@ Plug 'majutsushi/tagbar'
 
 Plug 'drmingdrmer/xptemplate'
 
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
+
 Plug 'google/vim-maktaba'
 Plug 'google/vim-codefmt'
 Plug 'google/vim-glaive'
@@ -99,6 +102,8 @@ Plug 'cocopon/iceberg.vim'
 Plug 'sickill/vim-monokai'
 
 Plug 'joshdick/onedark.vim'
+
+" Plug 'cseelus/vim-colors-lucid'
 
 " Plug 'NLKNguyen/papercolor-theme'
 
@@ -278,7 +283,7 @@ if has("gui_macvim")
 endif
 
 " Add a bit extra margin to the left
-set foldcolumn=1
+set foldcolumn=0
 
 " Enable syntax highlighting
 syntax enable 
@@ -290,10 +295,18 @@ syntax enable
 
 set t_Co=256
 
+let g:space_vim_dark_background = 234
+
 try
     colorscheme space-vim-dark
 catch
 endtry
+
+" hi Comment cterm=italic
+" hi Normal     ctermbg=NONE guibg=NONE
+hi LineNr     ctermbg=NONE guibg=NONE
+hi SignColumn ctermbg=NONE guibg=NONE
+hi Comment guifg=#5C6370 ctermfg=59 cterm=italic
 
 if has("gui_running")
     if has("gui_gtk2")
@@ -306,12 +319,6 @@ if has("gui_running")
         set guifont=Consolas\ 10
     endif
 endif
-
-hi Comment cterm=italic
-" hi Normal     ctermbg=NONE guibg=NONE
-" hi LineNr     ctermbg=NONE guibg=NONE
-" hi SignColumn ctermbg=NONE guibg=NONE
-hi Comment guifg=#5C6370 ctermfg=59
 
 " set background=dark
 
@@ -729,7 +736,7 @@ set omnifunc=syntaxcomplete#Complete
 " autocmd vimenter * NERDTree
 let NERDTreeShowHidden = 1
 let NERDTreeWinPos = "left"
-let g:NERDTreeWinSize = 35
+let g:NERDTreeWinSize = 30
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
 map <leader>nf :NERDTreeFind<cr>
@@ -769,7 +776,14 @@ map <leader>] <Plug>yankstack_substitute_newer_paste
 nmap <leader>tt :TagbarToggle<cr>
 
 let g:xptemplate_always_show_pum = 1
-let g:xptemplate_vars = "SParg=&BRloop= &BRif= &BRstc= &BRfun= "
+let g:xptemplate_vars = "SParg=&BRloop= &BRif= &BRel= &BRstc= &BRfun= "
+let g:xptemplate_nav_next = '<c-]>'
+let g:xptemplate_nav_prev = '<c-[>'
+
+" let g:UltiSnipsListSnippets = "<s-tab>"
+" let g:UltiSnipsExpandTrigger = "<c-]>"
+" let g:UltiSnipsJumpForwardTrigger = "<c-]>"
+" let g:UltiSnipsJumpBackwardTrigger = "<c-[>"
 
 " set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
@@ -855,6 +869,8 @@ let g:ale_lint_on_save = 1
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_filetype_changed = 1
 let g:ale_lint_on_text_changed = 'never'
+let g:ale_set_highlights = 0
+let g:ale_echo_cursor = 0
 " map <leader>ag :ALEGoToDefinition<cr>
 " map <leader>af :ALEFindReferences<cr>
 " map <leader>ah :ALEHover<cr>
