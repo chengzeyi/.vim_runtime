@@ -71,6 +71,7 @@ Plug 'google/vim-maktaba'
 Plug 'google/vim-codefmt'
 Plug 'google/vim-glaive'
 
+Plug 'skywind3000/vim-preview'
 Plug 'skywind3000/asyncrun.vim'
 
 Plug 'xolox/vim-misc'
@@ -813,6 +814,17 @@ let g:xptemplate_nav_prev = '<c-[>'
 " let g:syntastic_cpp_cppcheck_args = ['--enable=warning,style,information', '--std']
 " nnoremap <c-x><c-x> :SyntasticCheck<CR>
 " nnoremap <c-x><c-r> :SyntasticReset<CR>
+
+let g:preview#preview_position = 'top'
+let g:preview#preview_size = 8
+noremap <m-u> :PreviewScroll -1<cr>
+noremap <m-d> :PreviewScroll +1<cr>
+inoremap <m-u> <c-\><c-o>:PreviewScroll -1<cr>
+inoremap <m-d> <c-\><c-o>:PreviewScroll +1<cr>
+noremap <F12> :PreviewSignature!<cr>
+inoremap <F12> <c-\><c-o>:PreviewSignature!<cr>
+autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
+autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
 
 map <leader>r :AsyncRun<space>
 " let g:asyncrun_bell = 1
