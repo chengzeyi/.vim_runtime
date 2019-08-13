@@ -8,7 +8,7 @@ call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'powerman/vim-plugin-viewdoc'
 
-Plug 'Olical/vim-enmasse'
+Plug 'stefandtw/quickfix-reflector.vim'
 
 Plug 'ntpeters/vim-better-whitespace'
 
@@ -553,7 +553,7 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fast editing and reloading of vimrc configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>ee :e! ~/.vim_runtime/my_config.vim<cr>
+map <leader>e :e! ~/.vim_runtime/my_config.vim<cr>
 autocmd! bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -895,6 +895,4 @@ let g:ctrlp_funky_multi_buffers = 1
 
 let g:better_whitespace_ctermcolor = '63'
 let g:better_whitespace_guicolor = '#5f5fff'
-
-map <leader>eq :EnMasse<cr>
 
