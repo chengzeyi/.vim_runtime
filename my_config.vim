@@ -819,10 +819,10 @@ let g:xptemplate_nav_prev = '<c-[>'
 
 let g:preview#preview_position = 'top'
 let g:preview#preview_size = 8
-noremap <m-u> :PreviewScroll -1<cr>
-noremap <m-d> :PreviewScroll +1<cr>
-inoremap <m-u> <c-\><c-o>:PreviewScroll -1<cr>
-inoremap <m-d> <c-\><c-o>:PreviewScroll +1<cr>
+noremap <m-k> :PreviewScroll -1<cr>
+noremap <m-j> :PreviewScroll +1<cr>
+inoremap <m-k> <c-\><c-o>:PreviewScroll -1<cr>
+inoremap <m-j> <c-\><c-o>:PreviewScroll +1<cr>
 noremap <F12> :PreviewSignature!<cr>
 inoremap <F12> <c-\><c-o>:PreviewSignature!<cr>
 autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
