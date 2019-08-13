@@ -848,6 +848,7 @@ let g:goyo_height = '95%'
 nnoremap <leader>z :Goyo<cr>
 
 map <leader>g :Grepper<cr>
+let g:grepper.prompt_mapping_tool = '<leader>g'
 
 " set timeoutlen=500
 " nnoremap <silent> <leader> :<c-u>WhichKey '<space>'<cr>
