@@ -8,6 +8,8 @@ call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'powerman/vim-plugin-viewdoc'
 
+Plug 'Olical/vim-enmasse'
+
 Plug 'ntpeters/vim-better-whitespace'
 
 Plug 'Valloric/ListToggle'
@@ -551,7 +553,7 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fast editing and reloading of vimrc configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>e :e! ~/.vim_runtime/my_config.vim<cr>
+map <leader>ee :e! ~/.vim_runtime/my_config.vim<cr>
 autocmd! bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -848,6 +850,7 @@ let g:goyo_height = '95%'
 nnoremap <leader>z :Goyo<cr>
 
 map <leader>g :Grepper<cr>
+runtime plugin/grepper.vim
 let g:grepper.prompt_mapping_tool = '<leader>g'
 
 " set timeoutlen=500
@@ -892,3 +895,6 @@ let g:ctrlp_funky_multi_buffers = 1
 
 let g:better_whitespace_ctermcolor = '63'
 let g:better_whitespace_guicolor = '#5f5fff'
+
+map <leader>eq :EnMasse<cr>
+
