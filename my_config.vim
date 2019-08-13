@@ -8,6 +8,8 @@ call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'powerman/vim-plugin-viewdoc'
 
+Plug 'easymotion/vim-easymotion'
+
 Plug 'stefandtw/quickfix-reflector.vim'
 
 Plug 'ntpeters/vim-better-whitespace'
@@ -907,4 +909,6 @@ let g:ctrlp_funky_multi_buffers = 1
 
 let g:better_whitespace_ctermcolor = '63'
 let g:better_whitespace_guicolor = '#5f5fff'
+
+let g:EasyMotion_do_mapping = 1
 
