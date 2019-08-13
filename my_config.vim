@@ -403,7 +403,7 @@ nnoremap <silent> <Leader>= :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
 
 if exists(':terminal')
-    tnoremap <c-q> <c-w>N
+    tnoremap <c-n> <c-w>N
 endif
 
 nnoremap <c-h> :bprevious<cr>
