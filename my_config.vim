@@ -139,11 +139,11 @@ set secure
 " set shiftwidth=4
 " set noexpandtab
 
-" set cursorcolumn
+set cursorcolumn
 set cursorline
 
 highlight CursorLine cterm=none ctermbg=236
-" highlight CursorColumn cterm=none ctermbg=236
+highlight CursorColumn cterm=none ctermbg=236
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Maintainer: 
@@ -451,7 +451,7 @@ map <leader>cd :cd %:p:h<cr>:pwd<cr>
 " Specify the behavior when switching between buffers 
 try
   " set switchbuf=useopen,usetab,newtab
-  set switchbuf=vsplit
+  set switchbuf=useopen
   set stal=2
 catch
 endtry
@@ -648,10 +648,10 @@ let g:cpp_experimental_template_highlight = 1
 
 " autocmd FileType vim let b:vcm_tab_complete = 'vim'
 " set completeopt+=menuone
-" if v:version > 704 || (v:version == 704 && has('patch775'))
+if v:version > 704 || (v:version == 704 && has('patch775'))
     " set completeopt+=noselect
     " set completeopt+=noinsert
-" endif
+endif
 " set shortmess+=c   " Shut off completion messages
 " set belloff+=ctrlg " If Vim beeps during completion
 " let g:mucomplete#enable_auto_at_startup = 1
@@ -688,7 +688,7 @@ let g:neocomplcache_enable_underbar_completion = 0
 " Set minimum syntax keyword length.
 let g:neocomplcache_min_syntax_length = 3
 let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-let g:neocomplcache_enable_auto_select = 1
+" let g:neocomplcache_enable_auto_select = 1
 let g:neocomplcache_tags_caching_limit_file_size = 10000000
 " let g:neocomplcache_disable_auto_complete = 1
 
@@ -702,11 +702,12 @@ function! s:my_cr_function()
 endfunction
 
 " <TAB>: completion.
-" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><TAB>  pumvisible() ? "\<cr>" : "\<TAB>"
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
+" inoremap <expr><TAB>  pumvisible() ? "\<cr>" : "\<TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+" inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><C-y>  neocomplcache#close_popup()
 inoremap <expr><C-e>  neocomplcache#cancel_popup()
 " Close popup by <Space>.
@@ -780,6 +781,7 @@ map <leader>] <Plug>yankstack_substitute_newer_paste
 
 nmap <leader>tt :TagbarToggle<cr>
 
+let g:xptemplate_fallback = ''
 let g:xptemplate_always_show_pum = 1
 let g:xptemplate_vars = "SParg=&BRloop= &BRif= &BRel= &BRstc= &BRfun= "
 let g:xptemplate_nav_next = '<c-]>'
