@@ -8,6 +8,12 @@ call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'powerman/vim-plugin-viewdoc'
 
+Plug 'terryma/vim-smooth-scroll'
+
+Plug 'mbbill/undotree'
+
+Plug 'luochen1990/rainbow'
+
 Plug 'easymotion/vim-easymotion'
 
 Plug 'stefandtw/quickfix-reflector.vim'
@@ -139,11 +145,11 @@ set secure
 " set shiftwidth=4
 " set noexpandtab
 
-set cursorcolumn
 set cursorline
+" set cursorcolumn
 
 highlight CursorLine cterm=none ctermbg=236
-highlight CursorColumn cterm=none ctermbg=236
+" highlight CursorColumn cterm=none ctermbg=236
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Maintainer: 
@@ -197,7 +203,7 @@ set autoread
 " like <leader>w saves the current file
 let mapleader = " "
 
-map <leader>p :set invpaste paste?<cr>
+nnoremap <leader>p :set invpaste paste?<cr>
 
 " Fast saving
 nmap <leader>w :w!<cr>
@@ -419,21 +425,21 @@ nnoremap <c-k> :tabn<cr>
 " Close the current buffer
 " map <leader>bc :Bclose<cr>:tabclose<cr>gT
 " map <leader>x :Bclose<cr>:tabclose<cr>gT
-map <leader>bc :Bclose<cr>
-map <leader>x :Bclose<cr>
+nnoremap <leader>bc :Bclose<cr>
+nnoremap <leader>x :Bclose<cr>
 
 " Close all the buffers
-map <leader>bd :bufdo bd<cr>
+nnoremap <leader>bd :bufdo bd<cr>
 
-map <leader><tab> :bnext<cr>
-map <leader><s-tab> :bprevious<cr>
+nnoremap <leader><tab> :bnext<cr>
+nnoremap <leader><s-tab> :bprevious<cr>
 
 " Useful mappings for managing tabs
-map <leader>tn :tabnew<cr>
-map <leader>to :tabonly<cr>
-map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove<cr>
-map <leader>t<leader> :tabnext<cr>
+nnoremap <leader>tn :tabnew<cr>
+nnoremap <leader>to :tabonly<cr>
+nnoremap <leader>tc :tabclose<cr>
+nnoremap <leader>tm :tabmove<cr>
+nnoremap <leader>t<leader> :tabnext<cr>
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
@@ -443,10 +449,10 @@ au TabLeave * let g:lasttab = tabpagenr()
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
-map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 " Switch CWD to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>:pwd<cr>
+nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " Specify the behavior when switching between buffers 
 try
@@ -491,13 +497,13 @@ set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ 
 " => Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Pressing ,ss will toggle and untoggle spell checking
-map <leader>ss :setlocal spell!<cr>
+nnoremap <leader>ss :setlocal spell!<cr>
 
 " Shortcuts using <leader>
-map <leader>sn ]s
-map <leader>sp [s
-map <leader>sa zg
-map <leader>s? z=
+nnoremap <leader>sn ]s
+nnoremap <leader>sp [s
+nnoremap <leader>sa zg
+nnoremap <leader>s? z=
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -556,7 +562,7 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fast editing and reloading of vimrc configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>e :e! ~/.vim_runtime/my_config.vim<cr>
+nnoremap <leader>e :e! ~/.vim_runtime/my_config.vim<cr>
 autocmd! bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -743,9 +749,9 @@ set omnifunc=syntaxcomplete#Complete
 let NERDTreeShowHidden = 1
 let NERDTreeWinPos = "left"
 let g:NERDTreeWinSize = 30
-map <leader>nn :NERDTreeToggle<cr>
-map <leader>nb :NERDTreeFromBookmark<Space>
-map <leader>nf :NERDTreeFind<cr>
+nnoremap <leader>nn :NERDTreeToggle<cr>
+nnoremap <leader>nb :NERDTreeFromBookmark<Space>
+nnoremap <leader>nf :NERDTreeFind<cr>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 let g:ctrlp_working_path_mode = 0
@@ -764,15 +770,15 @@ let g:bufExplorerDefaultHelp=0
 let g:bufExplorerShowRelativePath=1
 let g:bufExplorerFindActive=1
 let g:bufExplorerSortBy='name'
-map <leader>o :BufExplorer<cr>
+nnoremap <leader>o :BufExplorer<cr>
 
 " let MRU_Max_Entries = 400
 " map <leader>f :MRU<CR>
 
 let g:yankstack_yank_keys = ['y', 'd']
 
-map <leader>[ <Plug>yankstack_substitute_older_paste
-map <leader>] <Plug>yankstack_substitute_newer_paste
+nnoremap <leader>[ <Plug>yankstack_substitute_older_paste
+nnoremap <leader>] <Plug>yankstack_substitute_newer_paste
 
 " let Tlist_Ctags_Cmd = '/usr/bin/ctags'
 " let Tlist_Show_One_File = 1
@@ -831,7 +837,7 @@ inoremap <F12> <c-\><c-o>:PreviewSignature!<cr>
 autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
 
-map <leader>r :AsyncRun<space>
+nnoremap <leader>r :AsyncRun<space>
 " let g:asyncrun_bell = 1
 
 " map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
@@ -866,7 +872,7 @@ let g:goyo_width = '80%'
 let g:goyo_height = '95%'
 nnoremap <leader>z :Goyo<cr>
 
-map <leader>g :Grepper<cr>
+nnoremap <leader>g :Grepper<cr>
 runtime plugin/grepper.vim
 let g:grepper.prompt_mapping_tool = '<leader>g'
 
@@ -879,11 +885,11 @@ let g:grepper.prompt_mapping_tool = '<leader>g'
 " vnoremap <silent> <leader> :C-Space<c-u>LeaderGuideVisual '<space>'<cr>
 
 " inoremap <silent> <c-x><space> <C-\><C-O>:ALEComplete<CR>
-map <leader>aa :ALEToggle<cr>
-map <leader>al :ALELint<cr>
-map <leader>ag :ALEGoToDefinitionInVSplit<cr>
-map <leader>af :ALEFindReferences<cr>
-map <leader>ah :ALEHover<cr>
+nnoremap <leader>aa :ALEToggle<cr>
+nnoremap <leader>al :ALELint<cr>
+nnoremap <leader>ag :ALEGoToDefinitionInVSplit<cr>
+nnoremap <leader>af :ALEFindReferences<cr>
+nnoremap <leader>ah :ALEHover<cr>
 let g:ale_enabled = 0
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
@@ -914,4 +920,14 @@ let g:better_whitespace_ctermcolor = '63'
 let g:better_whitespace_guicolor = '#5f5fff'
 
 let g:EasyMotion_do_mapping = 1
+
+let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
+
+nnoremap <leader>u :UndotreeToggle<cr>
+let g:undotree_WindowLayout = 3
+
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
