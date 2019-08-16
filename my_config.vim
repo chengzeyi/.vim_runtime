@@ -8,6 +8,8 @@ call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'powerman/vim-plugin-viewdoc'
 
+Plug 'tomtom/quickfixsigns_vim'
+
 Plug 'terryma/vim-smooth-scroll'
 
 Plug 'mbbill/undotree'
