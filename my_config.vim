@@ -766,11 +766,11 @@ let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 let g:gitgutter_enabled=1
 nnoremap <silent> <leader>d :GitGutterToggle<cr>
 
-let g:bufExplorerDefaultHelp=0
+" let g:bufExplorerDefaultHelp=0
 let g:bufExplorerShowRelativePath=1
 let g:bufExplorerFindActive=1
 let g:bufExplorerSortBy='name'
-nnoremap <leader>o :BufExplorer<cr>
+nnoremap <leader>o :ToggleBufExplorer<cr>
 
 " let MRU_Max_Entries = 400
 " map <leader>f :MRU<CR>
@@ -925,6 +925,7 @@ let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowTo
 
 nnoremap <leader>u :UndotreeToggle<cr>
 let g:undotree_WindowLayout = 3
+let g:undotree_SetFocusWhenToggle = 1
 
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
