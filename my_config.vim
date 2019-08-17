@@ -8,7 +8,15 @@ call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'powerman/vim-plugin-viewdoc'
 
-Plug 'tomtom/quickfixsigns_vim'
+" Plug 'tomtom/quickfixsigns_vim'
+
+Plug 'chengzeyi/hier.vim'
+
+Plug 'tpope/vim-surround'
+
+" Plug 'dhruvasagar/vim-markify'
+
+" Plug 'jceb/vim-hier'
 
 Plug 'terryma/vim-smooth-scroll'
 
@@ -212,7 +220,7 @@ nmap <leader>w :w!<cr>
 
 " :W sudo saves the file 
 " (useful for handling the permission-denied error)
-command W w !sudo tee % > /dev/null
+command! W w !sudo tee % > /dev/null
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -474,7 +482,7 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 set laststatus=2
 
 " Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+" set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
@@ -933,4 +941,11 @@ noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
 noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+
+" nnoremap <leader>m :MarkifyToggle<cr>
+" let g:markify_echo_current_message = 1
+
+let g:better_whitespace_operator = '<leader>sw'
+
+nnoremap <leader>hh :HierToggle<cr>
 
