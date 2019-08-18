@@ -80,8 +80,8 @@ Plug 'tacahiroy/ctrlp-funky'
 Plug 'kien/ctrlp.vim'
 
 Plug 'Shougo/neocomplcache.vim'
-" Plug 'Shougo/neosnippet.vim'
-" Plug 'Shougo/neosnippet-snippets'
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 
 " Plug 'vim-scripts/OmniCppComplete'
 
@@ -91,7 +91,7 @@ Plug 'octol/vim-cpp-enhanced-highlight', { 'for': [ 'cpp', 'c' ] }
 
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 
-Plug 'drmingdrmer/xptemplate'
+" Plug 'drmingdrmer/xptemplate'
 
 " Plug 'SirVer/ultisnips'
 " Plug 'honza/vim-snippets'
@@ -700,9 +700,9 @@ endif
 
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-" imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-" smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-" xmap <C-k>     <Plug>(neosnippet_expand_target)
+inoremap <C-\>     <Plug>(neosnippet_expand_or_jump)
+snoremap <C-\>     <Plug>(neosnippet_expand_or_jump)
+xnoremap <C-\>     <Plug>(neosnippet_expand_target)
 
 " SuperTab like snippets behavior.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
@@ -821,11 +821,11 @@ nnoremap <silent> <leader>] <Plug>yankstack_substitute_newer_paste
 
 nnoremap <silent> <leader>tt :TagbarToggle<cr>
 
-let g:xptemplate_fallback = ''
-let g:xptemplate_always_show_pum = 1
-let g:xptemplate_vars = "SParg=&BRloop= &BRif= &BRel= &BRstc= &BRfun= "
-let g:xptemplate_nav_next = '<c-]>'
-let g:xptemplate_nav_prev = '<c-[>'
+" let g:xptemplate_fallback = ''
+" let g:xptemplate_always_show_pum = 1
+" let g:xptemplate_vars = "SParg=&BRloop= &BRif= &BRel= &BRstc= &BRfun= "
+" let g:xptemplate_nav_next = '<c-]>'
+" let g:xptemplate_nav_prev = '<c-[>'
 
 " let g:UltiSnipsListSnippets = "<s-tab>"
 " let g:UltiSnipsExpandTrigger = "<c-]>"
