@@ -18,7 +18,7 @@ Plug 'FooSoft/vim-argwrap', { 'on': 'ArgWrap' }
 
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 
-Plug 'terryma/vim-expand-region', { 'on': [ '<Plug>(expand_region_expand)', '<Plug>(expand_region_shrink)' ] }
+Plug 'terryma/vim-expand-region'
 
 " Plug 'dhruvasagar/vim-markify'
 
@@ -112,9 +112,9 @@ Plug 'xolox/vim-easytags'
 
 " Plug 'w0rp/ale'
 
-" Plug 'nathanaelkane/vim-indent-guides'
+Plug 'nathanaelkane/vim-indent-guides'
 
-Plug 'Yggdroot/indentLine'
+" Plug 'Yggdroot/indentLine'
 
 Plug 'sheerun/vim-polyglot'
 
@@ -703,9 +703,9 @@ imap <C-\>     <Plug>(neosnippet_expand_or_jump)
 smap <C-\>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-\>     <Plug>(neosnippet_expand_target)
 " For conceal markers.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-endif
+" if has('conceal')
+  " set conceallevel=2 concealcursor=niv
+" endif
 
 " SuperTab like snippets behavior.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
@@ -788,7 +788,7 @@ let g:NERDTreeWinSize = 30
 nnoremap <silent> <leader>nn :NERDTreeToggle<cr>
 nnoremap <leader>nb :NERDTreeFromBookmark<space>
 nnoremap <silent> <leader>nf :NERDTreeFind<cr>
-autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
+" autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
 
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = '<c-f>'
@@ -950,6 +950,9 @@ let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_multi_buffers = 1
 
 " let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_guide_size = 1
+let g:indent_guides_start_level = 2
+nnoremap <silent> <leader>i :IndentGuidesToggle<cr>
 
 " let  g:no_viewdoc_maps = 1
 " let  g:viewdoc_open = "belowright vnew"
