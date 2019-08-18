@@ -14,7 +14,7 @@ Plug 'chengzeyi/hier.vim'
 
 Plug 'chengzeyi/a.vim', { 'on': 'A' }
 
-Plug 'FooSoft/vim-argwrap'
+Plug 'FooSoft/vim-argwrap', { 'on': 'ArgWrap' }
 
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 
@@ -65,17 +65,14 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 
 Plug 'jlanzarotta/bufexplorer', { 'on': 'ToggleBufExplorer' }
-nnoremap <silent> <leader>[ <Plug>yankstack_substitute_older_paste
-nnoremap <silent> <leader>] <Plug>yankstack_substitute_newer_paste
 
-
-Plug 'maxbrunsfeld/vim-yankstack', { 'on': [ '<Plug>yankstack_substitute_older_paste', '<Plug>yankstack_substitute_newer_paste' ] }
+Plug 'maxbrunsfeld/vim-yankstack'
 
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
-Plug 'tacahiroy/ctrlp-funky'
+Plug 'tacahiroy/ctrlp-funky', { 'on': 'CtrlPFunky' }
 
 Plug 'kien/ctrlp.vim'
 
@@ -96,9 +93,11 @@ Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 " Plug 'SirVer/ultisnips'
 " Plug 'honza/vim-snippets'
 
-Plug 'google/vim-maktaba'
-Plug 'google/vim-codefmt'
-Plug 'google/vim-glaive'
+" Plug 'google/vim-maktaba'
+" Plug 'google/vim-codefmt'
+" Plug 'google/vim-glaive'
+
+Plug 'sbdchd/neoformat', { 'on': 'Neoformat' }
 
 Plug 'skywind3000/vim-preview'
 Plug 'skywind3000/asyncrun.vim'
@@ -780,19 +779,18 @@ set omnifunc=syntaxcomplete#Complete
 " autocmd FileType cpp let OmniCpp_MayCompleteDot = 1
 " autocmd FileType cpp let OmniCpp_MayCompleteArrow = 1
 " autocmd FileType cpp let OmniCpp_MayCompleteScope = 1
-" autocmd FileType cpp let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
+" autocmd FileType cpp let OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
 
 " autocmd vimenter * NERDTree
 let NERDTreeShowHidden = 1
-let NERDTreeWinPos = "left"
+let NERDTreeWinPos = 'left'
 let g:NERDTreeWinSize = 30
 nnoremap <silent> <leader>nn :NERDTreeToggle<cr>
 nnoremap <leader>nb :NERDTreeFromBookmark<space>
 nnoremap <silent> <leader>nf :NERDTreeFind<cr>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
 
-let g:ctrlp_working_path_mode = 0
-
+let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = '<c-f>'
 " map <leader>j :CtrlP<cr>
 nnoremap <silent> <c-b> :CtrlPBuffer<cr>
@@ -814,8 +812,8 @@ nnoremap <silent> <leader>o :ToggleBufExplorer<cr>
 
 let g:yankstack_yank_keys = ['y', 'd']
 
-nnoremap <silent> <leader>[ <Plug>yankstack_substitute_older_paste
-nnoremap <silent> <leader>] <Plug>yankstack_substitute_newer_paste
+nmap <silent> <leader>[ <Plug>yankstack_substitute_older_paste
+nmap <silent> <leader>] <Plug>yankstack_substitute_newer_paste
 
 " let Tlist_Ctags_Cmd = '/usr/bin/ctags'
 " let Tlist_Show_One_File = 1
@@ -827,7 +825,7 @@ nnoremap <silent> <leader>tt :TagbarToggle<cr>
 
 " let g:xptemplate_fallback = ''
 " let g:xptemplate_always_show_pum = 1
-" let g:xptemplate_vars = "SParg=&BRloop= &BRif= &BRel= &BRstc= &BRfun= "
+" let g:xptemplate_vars = 'SParg=&BRloop= &BRif= &BRel= &BRstc= &BRfun= '
 " let g:xptemplate_nav_next = '<c-]>'
 " let g:xptemplate_nav_prev = '<c-[>'
 
@@ -893,8 +891,8 @@ nnoremap <leader>r :AsyncRun<space>
 " [Commands] --expect expression for directly executing the command
 " let g:fzf_commands_expect = 'alt-enter'
 
-nnoremap <c-_> <Plug>CommentaryLine
-vnoremap <c-_> <Plug>Commentary
+nmap <c-_> <Plug>CommentaryLine
+vmap <c-_> <Plug>Commentary
 autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 
 " let g:easytags_dynamic_files = 1
