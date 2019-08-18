@@ -65,8 +65,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 
 Plug 'jlanzarotta/bufexplorer', { 'on': 'ToggleBufExplorer' }
-nnoremap <leader>[ <Plug>yankstack_substitute_older_paste
-nnoremap <leader>] <Plug>yankstack_substitute_newer_paste
+nnoremap <silent> <leader>[ <Plug>yankstack_substitute_older_paste
+nnoremap <silent> <leader>] <Plug>yankstack_substitute_newer_paste
 
 
 Plug 'maxbrunsfeld/vim-yankstack', { 'on': [ '<Plug>yankstack_substitute_older_paste', '<Plug>yankstack_substitute_newer_paste' ] }
@@ -224,10 +224,10 @@ set autoread
 " like <leader>w saves the current file
 let mapleader = " "
 
-nnoremap <leader>p :set invpaste paste?<cr>
+nnoremap <silent> <leader>p :set invpaste paste?<cr>
 
 " Fast saving
-nmap <leader>w :w!<cr>
+nnoremap <silent> <leader>w :w!<cr>
 
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
@@ -402,8 +402,8 @@ set expandtab
 set smarttab
 
 " 1 tab == 4 spaces
-" set shiftwidth=4
-" set tabstop=4
+set shiftwidth=4
+set tabstop=4
 
 " Linebreak on 500 characters
 set lbr
@@ -435,7 +435,7 @@ inoremap <F10> <Esc><C-w>p<C-e><C-w>pi
 " map <c-space> ?
 
 " Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
+nnoremap <silent> <leader><cr> :noh<cr>
 
 " Smart way to move between windows
 nnoremap J <c-w>j
@@ -450,42 +450,42 @@ if exists(':terminal')
     tnoremap <c-n> <c-w>N
 endif
 
-nnoremap <c-h> :bprevious<cr>
-nnoremap <c-l> :bnext<cr>
-nnoremap <c-j> :tabp<cr>
-nnoremap <c-k> :tabn<cr>
+nnoremap <silent> <c-h> :bprevious<cr>
+nnoremap <silent> <c-l> :bnext<cr>
+nnoremap <silent> <c-j> :tabp<cr>
+nnoremap <silent> <c-k> :tabn<cr>
 
 " Close the current buffer
 " map <leader>bc :Bclose<cr>:tabclose<cr>gT
 " map <leader>x :Bclose<cr>:tabclose<cr>gT
-nnoremap <leader>bc :Bclose<cr>
+nnoremap <silent> <leader>bc :Bclose<cr>
 " nnoremap <leader>x :Bclose<cr>
 
 " Close all the buffers
-nnoremap <leader>bd :bufdo bd<cr>
+nnoremap <silent> <leader>bd :bufdo bd<cr>
 
-nnoremap <leader><tab> :bnext<cr>
-nnoremap <leader><s-tab> :bprevious<cr>
+nnoremap <silent> <leader><tab> :bnext<cr>
+nnoremap <silent> <leader><s-tab> :bprevious<cr>
 
 " Useful mappings for managing tabs
-nnoremap <leader>tn :tabnew<cr>
-nnoremap <leader>to :tabonly<cr>
-nnoremap <leader>tc :tabclose<cr>
-nnoremap <leader>tm :tabmove<cr>
-nnoremap <leader>t<leader> :tabnext<cr>
+nnoremap <silent> <leader>tn :tabnew<cr>
+nnoremap <silent> <leader>to :tabonly<cr>
+nnoremap <silent> <leader>tc :tabclose<cr>
+nnoremap <silent> <leader>tm :tabmove<cr>
+nnoremap <silent> <leader>t<leader> :tabnext<cr>
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
-nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
+nnoremap <silent> <leader>tl :exe "tabn ".g:lasttab<cr>
 au TabLeave * let g:lasttab = tabpagenr()
 
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
-nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+nnoremap <silent> <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 " Switch CWD to the directory of the open buffer
-nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
+nnoremap <silent> <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " Specify the behavior when switching between buffers
 try
@@ -530,13 +530,13 @@ set laststatus=2
 " => Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Pressing ,ss will toggle and untoggle spell checking
-nnoremap <leader>ss :setlocal spell!<cr>
+nnoremap <silent> <leader>ss :setlocal spell!<cr>
 
 " Shortcuts using <leader>
-nnoremap <leader>sn ]s
-nnoremap <leader>sp [s
-nnoremap <leader>sa zg
-nnoremap <leader>s? z=
+nnoremap <silent> <leader>sn ]s
+nnoremap <silent> <leader>sp [s
+nnoremap <silent> <leader>sa zg
+nnoremap <silent> <leader>s? z=
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -595,7 +595,7 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fast editing and reloading of vimrc configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <leader>e :e! ~/.vim_runtime/my_config.vim<cr>
+nnoremap <silent> <leader>e :e! ~/.vim_runtime/my_config.vim<cr>
 autocmd! bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -782,16 +782,16 @@ set omnifunc=syntaxcomplete#Complete
 let NERDTreeShowHidden = 1
 let NERDTreeWinPos = "left"
 let g:NERDTreeWinSize = 30
-nnoremap <leader>nn :NERDTreeToggle<cr>
-nnoremap <leader>nb :NERDTreeFromBookmark<Space>
-nnoremap <leader>nf :NERDTreeFind<cr>
+nnoremap <silent> <leader>nn :NERDTreeToggle<cr>
+nnoremap <leader>nb :NERDTreeFromBookmark<space>
+nnoremap <silent> <leader>nf :NERDTreeFind<cr>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 let g:ctrlp_working_path_mode = 0
 
 let g:ctrlp_map = '<c-f>'
 " map <leader>j :CtrlP<cr>
-map <c-b> :CtrlPBuffer<cr>
+nnoremap <silent> <c-b> :CtrlPBuffer<cr>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
@@ -803,15 +803,15 @@ nnoremap <silent> <leader>d :GitGutterToggle<cr>
 let g:bufExplorerShowRelativePath=1
 let g:bufExplorerFindActive=1
 let g:bufExplorerSortBy='name'
-nnoremap <leader>o :ToggleBufExplorer<cr>
+nnoremap <silent> <leader>o :ToggleBufExplorer<cr>
 
 " let MRU_Max_Entries = 400
 " map <leader>f :MRU<CR>
 
 let g:yankstack_yank_keys = ['y', 'd']
 
-nnoremap <leader>[ <Plug>yankstack_substitute_older_paste
-nnoremap <leader>] <Plug>yankstack_substitute_newer_paste
+nnoremap <silent> <leader>[ <Plug>yankstack_substitute_older_paste
+nnoremap <silent> <leader>] <Plug>yankstack_substitute_newer_paste
 
 " let Tlist_Ctags_Cmd = '/usr/bin/ctags'
 " let Tlist_Show_One_File = 1
@@ -819,7 +819,7 @@ nnoremap <leader>] <Plug>yankstack_substitute_newer_paste
 " let Tlist_Use_Right_Window = 1
 " map <leader>tt :TlistToggle<cr>
 
-nmap <leader>tt :TagbarToggle<cr>
+nnoremap <silent> <leader>tt :TagbarToggle<cr>
 
 let g:xptemplate_fallback = ''
 let g:xptemplate_always_show_pum = 1
@@ -861,16 +861,16 @@ let g:xptemplate_nav_prev = '<c-[>'
 
 let g:preview#preview_position = 'top'
 let g:preview#preview_size = 8
-noremap <F7> :PreviewScroll -1<cr>
-noremap <F7> :PreviewScroll +1<cr>
-inoremap <F8> <c-\><c-o>:PreviewScroll -1<cr>
-inoremap <F8> <c-\><c-o>:PreviewScroll +1<cr>
-noremap <F5> :PreviewTag<cr>
-inoremap <F5> <c-\><c-o>:PreviewTag<cr>
-noremap <F6> :PreviewClose<cr>
-inoremap <F6> <c-\><c-o>:PreviewClose<cr>
-noremap <F12> :PreviewSignature!<cr>
-inoremap <F12> <c-\><c-o>:PreviewSignature!<cr>
+noremap <silent> <F7> :PreviewScroll -1<cr>
+noremap <silent> <F8> :PreviewScroll +1<cr>
+inoremap <silent> <F7> <c-\><c-o>:PreviewScroll -1<cr>
+inoremap <silent> <F8> <c-\><c-o>:PreviewScroll +1<cr>
+noremap <silent> <F5> :PreviewTag<cr>
+inoremap <silent> <F5> <c-\><c-o>:PreviewTag<cr>
+noremap <silent> <F6> :PreviewClose<cr>
+inoremap <silent> <F6> <c-\><c-o>:PreviewClose<cr>
+noremap <silent> <F12> :PreviewSignature!<cr>
+inoremap <silent> <F12> <c-\><c-o>:PreviewSignature!<cr>
 autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
 
@@ -889,8 +889,8 @@ nnoremap <leader>r :AsyncRun<space>
 " [Commands] --expect expression for directly executing the command
 " let g:fzf_commands_expect = 'alt-enter'
 
-nmap <c-_> <Plug>CommentaryLine
-vmap <c-_> <Plug>Commentary
+nnoremap <c-_> <Plug>CommentaryLine
+vnoremap <c-_> <Plug>Commentary
 autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 
 " let g:easytags_dynamic_files = 1
@@ -907,9 +907,9 @@ let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status
 
 let g:goyo_width = '80%'
 let g:goyo_height = '95%'
-nnoremap <leader>z :Goyo<cr>
+nnoremap <silent> <leader>z :Goyo<cr>
 
-nnoremap <leader>g :Grepper<cr>
+nnoremap <silent> <leader>g :Grepper<cr>
 runtime plugin/grepper.vim
 let g:grepper.prompt_mapping_tool = '<leader>g'
 
@@ -922,11 +922,11 @@ let g:grepper.prompt_mapping_tool = '<leader>g'
 " vnoremap <silent> <leader> :C-Space<c-u>LeaderGuideVisual '<space>'<cr>
 
 " inoremap <silent> <c-x><space> <C-\><C-O>:ALEComplete<CR>
-nnoremap <leader>aa :ALEToggle<cr>
-nnoremap <leader>al :ALELint<cr>
-nnoremap <leader>ag :ALEGoToDefinitionInVSplit<cr>
-nnoremap <leader>af :ALEFindReferences<cr>
-nnoremap <leader>ah :ALEHover<cr>
+nnoremap <silent> <leader>aa :ALEToggle<cr>
+nnoremap <silent> <leader>al :ALELint<cr>
+nnoremap <silent> <leader>ag :ALEGoToDefinition<cr>
+nnoremap <silent> <leader>af :ALEFindReferences<cr>
+nnoremap <silent> <leader>ah :ALEHover<cr>
 let g:ale_enabled = 0
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
@@ -940,9 +940,9 @@ let g:ale_echo_cursor = 0
 " map <leader>ah :ALEHover<cr>
 " map <leader>as :ALESymbolSearch<space>
 
-nnoremap <leader>f :CtrlPFunky<Cr>
+nnoremap <silent> <leader>f :CtrlPFunky<Cr>
 " narrow the list down with a word under cursor
-nnoremap <leader>F :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+nnoremap <silent> <leader>F :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_multi_buffers = 1
@@ -960,7 +960,7 @@ let g:EasyMotion_do_mapping = 1
 
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
 
-nnoremap <leader>u :UndotreeToggle<cr>
+nnoremap <silent> <leader>u :UndotreeToggle<cr>
 let g:undotree_WindowLayout = 3
 let g:undotree_SetFocusWhenToggle = 1
 
@@ -974,10 +974,10 @@ let g:undotree_SetFocusWhenToggle = 1
 
 let g:better_whitespace_operator = '<leader>sw'
 
-nnoremap <leader>hh :HierToggle<cr>
+nnoremap <silent> <leader>hh :HierToggle<cr>
 
-nnoremap <leader>x :Sayonara<cr>
-nnoremap <leader>X :Sayonara!<cr>
+nnoremap <silent> <leader>x :Sayonara<cr>
+nnoremap <silent> <leader>X :Sayonara!<cr>
 
-nnoremap <silent> <leader>aw :ArgWrap<CR>
+nnoremap <silent> <leader>aw :ArgWrap<cr>
 
