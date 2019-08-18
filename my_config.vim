@@ -10,17 +10,19 @@ call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'tomtom/quickfixsigns_vim'
 
-Plug 'chengzeyi/hier.vim'
+Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 
-Plug 'tpope/vim-surround'
+Plug 'terryma/vim-expand-region', { 'on': [ '<Plug>(expand_region_expand)', '<Plug>(expand_region_shrink)' ] }
+
+Plug 'chengzeyi/hier.vim'
 
 " Plug 'dhruvasagar/vim-markify'
 
 " Plug 'jceb/vim-hier'
 
-Plug 'terryma/vim-smooth-scroll'
+" Plug 'terryma/vim-smooth-scroll'
 
-Plug 'mbbill/undotree'
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 
 Plug 'luochen1990/rainbow'
 
@@ -32,7 +34,7 @@ Plug 'ntpeters/vim-better-whitespace'
 
 Plug 'Valloric/ListToggle'
 
-Plug 'chengzeyi/a.vim'
+Plug 'chengzeyi/a.vim', { 'on': 'A' }
 
 " Plug 'vim-scripts/a.vim'
 
@@ -44,11 +46,15 @@ Plug 'mhinz/vim-grepper'
 
 Plug 'jiangmiao/auto-pairs'
 
-Plug 'junegunn/goyo.vim'
+Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
 
 Plug 'tpope/vim-fugitive'
 
 Plug 'tpope/vim-commentary'
+
+Plug 'tpope/vim-surround'
+
+Plug 'tpope/vim-sleuth'
 
 Plug 'vim-airline/vim-airline'
 
@@ -56,13 +62,16 @@ Plug 'vim-airline/vim-airline-themes'
 
 Plug 'airblade/vim-gitgutter'
 
-Plug 'jlanzarotta/bufexplorer'
+Plug 'jlanzarotta/bufexplorer', { 'on': 'ToggleBufExplorer' }
+nnoremap <leader>[ <Plug>yankstack_substitute_older_paste
+nnoremap <leader>] <Plug>yankstack_substitute_newer_paste
 
-Plug 'maxbrunsfeld/vim-yankstack'
 
-Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'maxbrunsfeld/vim-yankstack', { 'on': [ '<Plug>yankstack_substitute_older_paste', '<Plug>yankstack_substitute_newer_paste' ] }
 
-Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
+
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 Plug 'tacahiroy/ctrlp-funky'
 
@@ -76,9 +85,9 @@ Plug 'Shougo/neocomplcache.vim'
 
 " Plug 'vim-syntastic/syntastic'
 
-Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'octol/vim-cpp-enhanced-highlight', { 'for': [ 'cpp', 'c' ] }
 
-Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 
 Plug 'drmingdrmer/xptemplate'
 
@@ -130,7 +139,7 @@ Plug 'joshdick/onedark.vim'
 
 " Plug 'arcticicestudio/nord-vim'
 
-call plug#end() 
+call plug#end()
 
 set mouse=a
 
@@ -162,7 +171,7 @@ highlight CursorLine cterm=none ctermbg=236
 " highlight CursorColumn cterm=none ctermbg=236
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Maintainer: 
+" Maintainer:
 "       Amir Salihefendic — @amix3k
 "
 " Awesome_version:
@@ -218,7 +227,7 @@ nnoremap <leader>p :set invpaste paste?<cr>
 " Fast saving
 nmap <leader>w :w!<cr>
 
-" :W sudo saves the file 
+" :W sudo saves the file
 " (useful for handling the permission-denied error)
 command! W w !sudo tee % > /dev/null
 
@@ -239,7 +248,7 @@ set lazyredraw
 set so=5
 
 " Avoid garbled characters in Chinese language windows OS
-let $LANG='en' 
+let $LANG='en'
 set langmenu=en
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
@@ -271,23 +280,23 @@ set whichwrap+=<,>,h,l
 " Ignore case when searching
 set ignorecase
 
-" When searching try to be smart about cases 
+" When searching try to be smart about cases
 set smartcase
 
 " Highlight search results
 set hlsearch
 
 " Makes search act like search in modern browsers
-set incsearch 
+set incsearch
 
 " Don't redraw while executing macros (good performance config)
-set lazyredraw 
+set lazyredraw
 
 " For regular expressions turn magic on
 set magic
 
 " Show matching brackets when text indicator is over them
-set showmatch 
+set showmatch
 " How many tenths of a second to blink when matching brackets
 set mat=2
 
@@ -307,7 +316,7 @@ endif
 set foldcolumn=0
 
 " Enable syntax highlighting
-syntax enable 
+syntax enable
 
 " Enable 256 colors palette in Gnome Terminal
 " if $COLORTERM == 'gnome-terminal'
@@ -317,6 +326,13 @@ syntax enable
 set t_Co=256
 
 let g:space_vim_dark_background = 234
+
+augroup my-colors
+    autocmd!
+    autocmd ColorScheme * hi LineNr     ctermbg=NONE guibg=NONE
+    autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
+    autocmd ColorScheme * hi Comment    guifg=#5C6370 ctermfg=59 cterm=italic
+augroup END
 
 try
     colorscheme space-vim-dark
@@ -384,8 +400,8 @@ set expandtab
 set smarttab
 
 " 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
+" set shiftwidth=4
+" set tabstop=4
 
 " Linebreak on 500 characters
 set lbr
@@ -407,6 +423,11 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <F9> <C-w>p<C-y><C-w>p
+nnoremap <F10> <C-w>p<C-e><C-w>p
+inoremap <F9> <Esc><C-w>p<C-y><C-w>pi
+inoremap <F10> <Esc><C-w>p<C-e><C-w>pi
+
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
 " map <space> /
 " map <c-space> ?
@@ -436,7 +457,7 @@ nnoremap <c-k> :tabn<cr>
 " map <leader>bc :Bclose<cr>:tabclose<cr>gT
 " map <leader>x :Bclose<cr>:tabclose<cr>gT
 nnoremap <leader>bc :Bclose<cr>
-nnoremap <leader>x :Bclose<cr>
+" nnoremap <leader>x :Bclose<cr>
 
 " Close all the buffers
 nnoremap <leader>bd :bufdo bd<cr>
@@ -464,7 +485,7 @@ nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 " Switch CWD to the directory of the open buffer
 nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
 
-" Specify the behavior when switching between buffers 
+" Specify the behavior when switching between buffers
 try
   " set switchbuf=useopen,usetab,newtab
   set switchbuf=useopen
@@ -646,7 +667,7 @@ func! DeleteTillSlash()
         else
             let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
         endif
-    endif   
+    endif
 
     return g:cmd_edited
 endfunc
@@ -838,10 +859,14 @@ let g:xptemplate_nav_prev = '<c-[>'
 
 let g:preview#preview_position = 'top'
 let g:preview#preview_size = 8
-noremap <m-k> :PreviewScroll -1<cr>
-noremap <m-j> :PreviewScroll +1<cr>
-inoremap <m-k> <c-\><c-o>:PreviewScroll -1<cr>
-inoremap <m-j> <c-\><c-o>:PreviewScroll +1<cr>
+noremap <F7> :PreviewScroll -1<cr>
+noremap <F7> :PreviewScroll +1<cr>
+inoremap <F8> <c-\><c-o>:PreviewScroll -1<cr>
+inoremap <F8> <c-\><c-o>:PreviewScroll +1<cr>
+noremap <F5> :PreviewTag<cr>
+inoremap <F5> <c-\><c-o>:PreviewTag<cr>
+noremap <F6> :PreviewClose<cr>
+inoremap <F6> <c-\><c-o>:PreviewClose<cr>
 noremap <F12> :PreviewSignature!<cr>
 inoremap <F12> <c-\><c-o>:PreviewSignature!<cr>
 autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
@@ -937,10 +962,10 @@ nnoremap <leader>u :UndotreeToggle<cr>
 let g:undotree_WindowLayout = 3
 let g:undotree_SetFocusWhenToggle = 1
 
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
-noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
-noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+" noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+" noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+" noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+" noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
 " nnoremap <leader>m :MarkifyToggle<cr>
 " let g:markify_echo_current_message = 1
@@ -948,4 +973,7 @@ noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 let g:better_whitespace_operator = '<leader>sw'
 
 nnoremap <leader>hh :HierToggle<cr>
+
+nnoremap <leader>x :Sayonara<cr>
+nnoremap <leader>X :Sayonara!<cr>
 
