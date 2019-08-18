@@ -10,11 +10,15 @@ call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'tomtom/quickfixsigns_vim'
 
+Plug 'chengzeyi/hier.vim'
+
+Plug 'chengzeyi/a.vim', { 'on': 'A' }
+
+Plug 'FooSoft/vim-argwrap'
+
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 
 Plug 'terryma/vim-expand-region', { 'on': [ '<Plug>(expand_region_expand)', '<Plug>(expand_region_shrink)' ] }
-
-Plug 'chengzeyi/hier.vim'
 
 " Plug 'dhruvasagar/vim-markify'
 
@@ -33,8 +37,6 @@ Plug 'stefandtw/quickfix-reflector.vim'
 Plug 'ntpeters/vim-better-whitespace'
 
 Plug 'Valloric/ListToggle'
-
-Plug 'chengzeyi/a.vim', { 'on': 'A' }
 
 " Plug 'vim-scripts/a.vim'
 
@@ -976,4 +978,6 @@ nnoremap <leader>hh :HierToggle<cr>
 
 nnoremap <leader>x :Sayonara<cr>
 nnoremap <leader>X :Sayonara!<cr>
+
+nnoremap <silent> <leader>aw :ArgWrap<CR>
 
