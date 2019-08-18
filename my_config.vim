@@ -687,10 +687,10 @@ let g:cpp_experimental_template_highlight = 1
 
 " autocmd FileType vim let b:vcm_tab_complete = 'vim'
 " set completeopt+=menuone
-if v:version > 704 || (v:version == 704 && has('patch775'))
+" if v:version > 704 || (v:version == 704 && has('patch775'))
     " set completeopt+=noselect
     " set completeopt+=noinsert
-endif
+" endif
 " set shortmess+=c   " Shut off completion messages
 " set belloff+=ctrlg " If Vim beeps during completion
 " let g:mucomplete#enable_auto_at_startup = 1
@@ -700,9 +700,13 @@ endif
 
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-inoremap <C-\>     <Plug>(neosnippet_expand_or_jump)
-snoremap <C-\>     <Plug>(neosnippet_expand_or_jump)
-xnoremap <C-\>     <Plug>(neosnippet_expand_target)
+imap <C-\>     <Plug>(neosnippet_expand_or_jump)
+smap <C-\>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-\>     <Plug>(neosnippet_expand_target)
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
 
 " SuperTab like snippets behavior.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
