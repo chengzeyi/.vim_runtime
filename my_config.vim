@@ -453,8 +453,8 @@ if exists(':terminal')
     tnoremap <c-n> <c-w>N
 endif
 
-nnoremap <silent> <c-h> :bprevious<cr>
-nnoremap <silent> <c-l> :bnext<cr>
+" nnoremap <silent> <c-h> :bprevious<cr>
+" nnoremap <silent> <c-l> :bnext<cr>
 nnoremap <silent> <c-j> :tabp<cr>
 nnoremap <silent> <c-k> :tabn<cr>
 
@@ -481,7 +481,6 @@ nnoremap <silent> <leader>t<leader> :tabnext<cr>
 let g:lasttab = 1
 nnoremap <silent> <leader>tl :exe "tabn ".g:lasttab<cr>
 au TabLeave * let g:lasttab = tabpagenr()
-
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
