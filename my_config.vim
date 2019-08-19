@@ -14,6 +14,10 @@ Plug 'chengzeyi/hier.vim'
 
 Plug 'chengzeyi/a.vim', { 'on': 'A' }
 
+Plug 'vim-utils/vim-man'
+
+Plug 'mattn/gist-vim'
+
 Plug 'FooSoft/vim-argwrap', { 'on': 'ArgWrap' }
 
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
@@ -203,7 +207,7 @@ highlight CursorLine cterm=none ctermbg=236
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-runtime ftplugin/man.vim
+" runtime ftplugin/man.vim
 
 set showmode
 
