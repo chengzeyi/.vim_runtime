@@ -352,13 +352,13 @@ hi Comment guifg=#5C6370 ctermfg=59 cterm=italic
 
 if has("gui_running")
     if has("gui_gtk2")
-        set guifont=Courier\ New\ 10
+        set guifont=Courier\ New\ 12
     elseif has("gui_gtk3")
-        set guifont=Courier\ New\ 10
+        set guifont=Courier\ New\ 12
     elseif has("gui_macvim")
-        set guifont=Menlo\ Regular:h10
+        set guifont=Menlo\ Regular:h12
     elseif has("gui_win32")
-        set guifont=Consolas\ 10
+        set guifont=Consolas\ 12
     endif
 endif
 
