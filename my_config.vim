@@ -870,20 +870,21 @@ noremap <silent> <F7> :PreviewScroll -1<cr>
 noremap <silent> <F8> :PreviewScroll +1<cr>
 inoremap <silent> <F7> <c-\><c-o>:PreviewScroll -1<cr>
 inoremap <silent> <F8> <c-\><c-o>:PreviewScroll +1<cr>
-noremap <silent> <F5> :PreviewTag<cr>
-inoremap <silent> <F5> <c-\><c-o>:PreviewTag<cr>
-noremap <silent> <F6> :PreviewClose<cr>
-inoremap <silent> <F6> <c-\><c-o>:PreviewClose<cr>
+noremap <silent> <F9> :PreviewTag<cr>
+inoremap <silent> <F9> <c-\><c-o>:PreviewTag<cr>
+noremap <silent> <F10> :PreviewClose<cr>
+inoremap <silent> <F10> <c-\><c-o>:PreviewClose<cr>
 noremap <silent> <F12> :PreviewSignature!<cr>
 inoremap <silent> <F12> <c-\><c-o>:PreviewSignature!<cr>
-autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
-autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
+autocmd FileType qf nnoremap <silent><buffer> <F9> :PreviewQuickfix<cr>
+autocmd FileType qf nnoremap <silent><buffer> <F10> :PreviewClose<cr>
 
 nnoremap <leader>r :AsyncRun<space>
 " let g:asyncrun_bell = 1
 
 " map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
 let g:asyncrun_open = 10
+let g:asyncrun_save = 2
 
 " let g:fzf_command_prefix = 'Fzf'
 " Mapping selecting mappings
