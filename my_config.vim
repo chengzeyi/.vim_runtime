@@ -428,10 +428,10 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <F9> <C-w>p<C-y><C-w>p
-nnoremap <F10> <C-w>p<C-e><C-w>p
-inoremap <F9> <Esc><C-w>p<C-y><C-w>pi
-inoremap <F10> <Esc><C-w>p<C-e><C-w>pi
+nnoremap <c-k> <C-w>p<C-y><C-w>p
+nnoremap <c-j> <C-w>p<C-e><C-w>p
+inoremap <c-k> <Esc><C-w>p<C-y><C-w>pi
+inoremap <c-j> <Esc><C-w>p<C-e><C-w>pi
 
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
 " map <space> /
@@ -455,8 +455,8 @@ endif
 
 " nnoremap <silent> <c-h> :bprevious<cr>
 " nnoremap <silent> <c-l> :bnext<cr>
-nnoremap <silent> <c-j> :tabp<cr>
-nnoremap <silent> <c-k> :tabn<cr>
+nnoremap <silent> <c-h> :tabp<cr>
+nnoremap <silent> <c-l> :tabn<cr>
 
 " Close the current buffer
 " map <leader>bc :Bclose<cr>:tabclose<cr>gT
@@ -883,7 +883,7 @@ nnoremap <leader>r :AsyncRun<space>
 " let g:asyncrun_bell = 1
 
 " map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
-" let g:asyncrun_open = 8
+let g:asyncrun_open = 10
 
 " let g:fzf_command_prefix = 'Fzf'
 " Mapping selecting mappings
