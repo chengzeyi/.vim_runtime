@@ -14,8 +14,6 @@ Plug 'chengzeyi/hier.vim'
 
 Plug 'chengzeyi/a.vim', { 'on': 'A' }
 
-" Plug 'fholgado/minibufexpl.vim', { 'on': 'MBEToggle' }
-
 Plug 'vim-utils/vim-man'
 
 Plug 'mattn/gist-vim'
@@ -493,9 +491,9 @@ nnoremap <silent> <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " Specify the behavior when switching between buffers
 try
-" set switchbuf=useopen,usetab,newtab
-set switchbuf=useopen
-set stal=2
+  " set switchbuf=useopen,usetab,newtab
+  set switchbuf=useopen
+  set stal=2
 catch
 endtry
 
@@ -548,52 +546,52 @@ nnoremap <silent> <leader>s? z=
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Returns true if paste mode is enabled
 function! HasPaste()
-  if &paste
-      return 'PASTE MODE  '
-  endif
-  return ''
+    if &paste
+        return 'PASTE MODE  '
+    endif
+    return ''
 endfunction
 
 " Don't close window, when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
 function! <SID>BufcloseCloseIt()
-  let l:currentBufNum = bufnr("%")
-  let l:alternateBufNum = bufnr("#")
+    let l:currentBufNum = bufnr("%")
+    let l:alternateBufNum = bufnr("#")
 
-  if buflisted(l:alternateBufNum)
-      buffer #
-  else
-      bnext
-  endif
+    if buflisted(l:alternateBufNum)
+        buffer #
+    else
+        bnext
+    endif
 
-  if bufnr("%") == l:currentBufNum
-      new
-  endif
+    if bufnr("%") == l:currentBufNum
+        new
+    endif
 
-  if buflisted(l:currentBufNum)
-      execute("bdelete! ".l:currentBufNum)
-  endif
+    if buflisted(l:currentBufNum)
+        execute("bdelete! ".l:currentBufNum)
+    endif
 endfunction
 
 function! CmdLine(str)
-  call feedkeys(":" . a:str)
+    call feedkeys(":" . a:str)
 endfunction
 
 function! VisualSelection(direction, extra_filter) range
-  let l:saved_reg = @"
-  execute "normal! vgvy"
+    let l:saved_reg = @"
+    execute "normal! vgvy"
 
-  let l:pattern = escape(@", "\\/.*'$^~[]")
-  let l:pattern = substitute(l:pattern, "\n$", "", "")
+    let l:pattern = escape(@", "\\/.*'$^~[]")
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
 
-  if a:direction == 'gv'
-      call CmdLine("Ack '" . l:pattern . "' " )
-  elseif a:direction == 'replace'
-      call CmdLine("%s" . '/'. l:pattern . '/')
-  endif
+    if a:direction == 'gv'
+        call CmdLine("Ack '" . l:pattern . "' " )
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    endif
 
-  let @/ = l:pattern
-  let @" = l:saved_reg
+    let @/ = l:pattern
+    let @" = l:saved_reg
 endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -607,8 +605,8 @@ autocmd! bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_conf
 "    means that you can undo even when you close a buffer/VIM
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 try
-  set undodir=~/.vim_runtime/temp_dirs/undodir
-  set undofile
+    set undodir=~/.vim_runtime/temp_dirs/undodir
+    set undofile
 catch
 endtry
 
@@ -659,27 +657,27 @@ iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 func! DeleteTillSlash()
-  let g:cmd = getcmdline()
+    let g:cmd = getcmdline()
 
-  if has("win16") || has("win32")
-      let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\]\\).*", "\\1", "")
-  else
-      let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*", "\\1", "")
-  endif
+    if has("win16") || has("win32")
+        let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\]\\).*", "\\1", "")
+    else
+        let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*", "\\1", "")
+    endif
 
-  if g:cmd == g:cmd_edited
-      if has("win16") || has("win32")
-          let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\\]\\).*\[\\\\\]", "\\1", "")
-      else
-          let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
-      endif
-  endif
+    if g:cmd == g:cmd_edited
+        if has("win16") || has("win32")
+            let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\\]\\).*\[\\\\\]", "\\1", "")
+        else
+            let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
+        endif
+    endif
 
-  return g:cmd_edited
+    return g:cmd_edited
 endfunc
 
 func! CurrentFileDir(cmd)
-  return a:cmd . " " . expand("%:p:h") . "/"
+    return a:cmd . " " . expand("%:p:h") . "/"
 endfunc
 
 " ---
@@ -692,8 +690,8 @@ let g:cpp_experimental_template_highlight = 1
 " autocmd FileType vim let b:vcm_tab_complete = 'vim'
 " set completeopt+=menuone
 " if v:version > 704 || (v:version == 704 && has('patch775'))
-  " set completeopt+=noselect
-  " set completeopt+=noinsert
+    " set completeopt+=noselect
+    " set completeopt+=noinsert
 " endif
 " set shortmess+=c   " Shut off completion messages
 " set belloff+=ctrlg " If Vim beeps during completion
@@ -709,7 +707,7 @@ smap <C-\>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-\>     <Plug>(neosnippet_expand_target)
 " For conceal markers.
 " if has('conceal')
-" set conceallevel=2 concealcursor=niv
+  " set conceallevel=2 concealcursor=niv
 " endif
 
 " SuperTab like snippets behavior.
@@ -723,7 +721,7 @@ xmap <C-\>     <Plug>(neosnippet_expand_target)
 
 " For conceal markers.
 " if has('conceal')
-" set conceallevel=2 concealcursor=niv
+  " set conceallevel=2 concealcursor=niv
 " endif
 
 " let g:acp_enableAtStartup = 0
@@ -743,9 +741,9 @@ let g:neocomplcache_tags_caching_limit_file_size = 10000000
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
-  " return neocomplcache#smart_close_popup() . "\<CR>"
-  " For no inserting <CR> key.
-  return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+    " return neocomplcache#smart_close_popup() . "\<CR>"
+    " For no inserting <CR> key.
+    return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
 endfunction
 
 " <TAB>: completion.
@@ -772,7 +770,7 @@ set omnifunc=syntaxcomplete#Complete
 " autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
 
 " if !exists('g:neocomplcache_omni_patterns')
-" let g:neocomplcache_omni_patterns = {}
+  " let g:neocomplcache_omni_patterns = {}
 " endif
 " let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 " let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
@@ -876,8 +874,8 @@ noremap <silent> <F9> :PreviewTag<cr>
 inoremap <silent> <F9> <c-\><c-o>:PreviewTag<cr>
 noremap <silent> <F10> :PreviewClose<cr>
 inoremap <silent> <F10> <c-\><c-o>:PreviewClose<cr>
-noremap <F12> :PreviewSignature!<cr>
-" inoremap <F12> <c-\><c-o>:PreviewSignature!<cr>
+noremap <silent> <F12> :PreviewSignature!<cr>
+inoremap <silent> <F12> <c-\><c-o>:PreviewSignature!<cr>
 autocmd FileType qf nnoremap <silent><buffer> <F9> :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> <F10> :PreviewClose<cr>
 
@@ -991,6 +989,4 @@ nnoremap <silent> <leader>x :Sayonara<cr>
 nnoremap <silent> <leader>X :Sayonara!<cr>
 
 nnoremap <silent> <leader>aw :ArgWrap<cr>
-
-" nnoremap <silent> <leader>o :MBEToggle<cr>
 
