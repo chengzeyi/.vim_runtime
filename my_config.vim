@@ -10,7 +10,9 @@ call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'tomtom/quickfixsigns_vim'
 
-Plug 'chengzeyi/hier.vim'
+" Plug 'chengzeyi/hier.vim'
+
+Plug 'chengzeyi/vim-markify'
 
 Plug 'chengzeyi/a.vim', { 'on': 'A' }
 
@@ -978,12 +980,12 @@ let g:undotree_SetFocusWhenToggle = 1
 " noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 " noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
-" nnoremap <leader>m :MarkifyToggle<cr>
+nnoremap <leader>m :MarkifyToggle<cr>
 " let g:markify_echo_current_message = 1
 
 let g:better_whitespace_operator = '<leader>sw'
 
-nnoremap <silent> <leader>hh :HierToggle<cr>
+" nnoremap <silent> <leader>hh :HierToggle<cr>
 
 nnoremap <silent> <leader>x :Sayonara<cr>
 nnoremap <silent> <leader>X :Sayonara!<cr>
