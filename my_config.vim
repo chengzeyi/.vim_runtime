@@ -875,7 +875,7 @@ inoremap <silent> <F9> <c-\><c-o>:PreviewTag<cr>
 noremap <silent> <F10> :PreviewClose<cr>
 inoremap <silent> <F10> <c-\><c-o>:PreviewClose<cr>
 noremap <silent> <F12> :PreviewSignature!<cr>
-inoremap <silent> <F12> <c-\><c-o>:PreviewSignature!<cr>
+" inoremap <silent> <F12> <c-\><c-o>:PreviewSignature!<cr>
 autocmd FileType qf nnoremap <silent><buffer> <F9> :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> <F10> :PreviewClose<cr>
 
