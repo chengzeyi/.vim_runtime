@@ -81,8 +81,9 @@ Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 Plug 'tacahiroy/ctrlp-funky', { 'on': 'CtrlPFunky' }
+Plug 'fisadev/vim-ctrlp-cmdpalette', { 'on': 'CtrlPCmdPalette' }
 
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 
 Plug 'Shougo/neocomplcache.vim'
 Plug 'Shougo/neosnippet.vim'
@@ -806,6 +807,15 @@ nnoremap <silent> <c-b> :CtrlPBuffer<cr>
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 
+nnoremap <silent> <leader>f :CtrlPFunky<Cr>
+" narrow the list down with a word under cursor
+nnoremap <silent> <leader>F :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+let g:ctrlp_funky_syntax_highlight = 1
+let g:ctrlp_funky_matchtype = 'path'
+let g:ctrlp_funky_multi_buffers = 1
+
+nnoremap <silent> <c-c> :CtrlPCmdPalette<cr>
+
 let g:gitgutter_enabled=1
 nnoremap <silent> <leader>d :GitGutterToggle<cr>
 
@@ -952,13 +962,6 @@ let g:ale_echo_cursor = 0
 " map <leader>af :ALEFindReferences<cr>
 " map <leader>ah :ALEHover<cr>
 " map <leader>as :ALESymbolSearch<space>
-
-nnoremap <silent> <leader>f :CtrlPFunky<Cr>
-" narrow the list down with a word under cursor
-nnoremap <silent> <leader>F :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
-let g:ctrlp_funky_syntax_highlight = 1
-let g:ctrlp_funky_matchtype = 'path'
-let g:ctrlp_funky_multi_buffers = 1
 
 " let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
