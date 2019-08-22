@@ -16,6 +16,8 @@ Plug 'chengzeyi/vim-markify'
 
 Plug 'chengzeyi/a.vim', { 'on': 'A' }
 
+Plug 'lfilho/cosco.vim'
+
 Plug 'vim-utils/vim-man'
 
 Plug 'mattn/gist-vim'
@@ -448,8 +450,9 @@ nnoremap K <c-w>k
 nnoremap H <c-w>h
 nnoremap L <c-w>l
 
-nnoremap <silent> <Leader>= :exe "resize " . (winheight(0) * 3/2)<CR>
-nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
+nnoremap <silent> <leader>= <c-w>=
+nnoremap <silent> <leader>+ :exe "resize +5"<cr>
+nnoremap <silent> <leader>- :exe "resize -5"<cr>
 
 if exists(':terminal')
     tnoremap <c-n> <c-w>N
@@ -617,7 +620,7 @@ endtry
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " $q is super useful when browsing on the command line
 " it deletes everything until the last slash
-cno $q <C-\>eDeleteTillSlash()<cr>
+" cno $q <C-\>eDeleteTillSlash()<cr>
 
 " Bash like keys for the command line
 cnoremap <C-A>		<Home>
@@ -628,27 +631,27 @@ cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
 
 " Map ½ to something useful
-map ½ $
-cmap ½ $
-imap ½ $
+" map ½ $
+" cmap ½ $
+" imap ½ $
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Parenthesis/bracket
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-vnoremap $1 <esc>`>a)<esc>`<i(<esc>
-vnoremap $2 <esc>`>a]<esc>`<i[<esc>
-vnoremap $3 <esc>`>a}<esc>`<i{<esc>
-vnoremap $$ <esc>`>a"<esc>`<i"<esc>
-vnoremap $q <esc>`>a'<esc>`<i'<esc>
-vnoremap $e <esc>`>a"<esc>`<i"<esc>
+" vnoremap $1 <esc>`>a)<esc>`<i(<esc>
+" vnoremap $2 <esc>`>a]<esc>`<i[<esc>
+" vnoremap $3 <esc>`>a}<esc>`<i{<esc>
+" vnoremap $$ <esc>`>a"<esc>`<i"<esc>
+" vnoremap $q <esc>`>a'<esc>`<i'<esc>
+" vnoremap $e <esc>`>a"<esc>`<i"<esc>
 
 " Map auto complete of (, ", ', [
-inoremap $1 ()<esc>i
-inoremap $2 []<esc>i
-inoremap $3 {}<esc>i
-inoremap $4 {<esc>o}<esc>O
-inoremap $q ''<esc>i
-inoremap $e ""<esc>i
+" inoremap $1 ()<esc>i
+" inoremap $2 []<esc>i
+" inoremap $3 {}<esc>i
+" inoremap $4 {<esc>o}<esc>O
+" inoremap $q ''<esc>i
+" inoremap $e ""<esc>i
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General abbreviations
@@ -658,29 +661,29 @@ iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-func! DeleteTillSlash()
-    let g:cmd = getcmdline()
+" func! DeleteTillSlash()
+"     let g:cmd = getcmdline()
 
-    if has("win16") || has("win32")
-        let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\]\\).*", "\\1", "")
-    else
-        let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*", "\\1", "")
-    endif
+"     if has("win16") || has("win32")
+"         let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\]\\).*", "\\1", "")
+"     else
+"         let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*", "\\1", "")
+"     endif
 
-    if g:cmd == g:cmd_edited
-        if has("win16") || has("win32")
-            let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\\]\\).*\[\\\\\]", "\\1", "")
-        else
-            let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
-        endif
-    endif
+"     if g:cmd == g:cmd_edited
+"         if has("win16") || has("win32")
+"             let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\\]\\).*\[\\\\\]", "\\1", "")
+"         else
+"             let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
+"         endif
+"     endif
 
-    return g:cmd_edited
-endfunc
+"     return g:cmd_edited
+" endfunc
 
-func! CurrentFileDir(cmd)
-    return a:cmd . " " . expand("%:p:h") . "/"
-endfunc
+" func! CurrentFileDir(cmd)
+"     return a:cmd . " " . expand("%:p:h") . "/"
+" endfunc
 
 " ---
 
@@ -826,7 +829,9 @@ nmap <silent> <leader>] <Plug>yankstack_substitute_newer_paste
 " let Tlist_Use_Right_Window = 1
 " map <leader>tt :TlistToggle<cr>
 
+let g:tagbar_width = 30
 nnoremap <silent> <leader>tt :TagbarToggle<cr>
+nnoremap <silent> <leader>ta :TagbarOpenAutoClose<cr>
 
 " let g:xptemplate_fallback = ''
 " let g:xptemplate_always_show_pum = 1
@@ -991,4 +996,9 @@ nnoremap <silent> <leader>x :Sayonara<cr>
 nnoremap <silent> <leader>X :Sayonara!<cr>
 
 nnoremap <silent> <leader>aw :ArgWrap<cr>
+
+nmap <silent> <c-right> <Plug>(cosco-commaOrSemiColon)
+imap <silent> <c-right> <esc><Plug>(cosco-commaOrSemiColon)
+nmap <silent> <c-down> <Plug>(cosco-commaOrSemiColon)o
+imap <silent> <c-down> <esc><Plug>(cosco-commaOrSemiColon)o
 
