@@ -240,7 +240,14 @@ nnoremap <silent> <leader>w :w!<cr>
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
 command! W w !sudo tee % > /dev/null
-command! -nargs=* CtagsCpp !ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ <args>
+
+command! -nargs=+ Sub call s:sub(<f-args>)
+fun! s:sub(search, replace)
+    execute ':%s/' . a:search . '/' . a:replace . '/gc'
+endfun
+
+command! -nargs=* CtagsCpp !ctags
+    \ -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ <args>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -552,12 +559,12 @@ nnoremap <silent> <leader>s? z=
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Returns true if paste mode is enabled
-function! HasPaste()
-    if &paste
-        return 'PASTE MODE  '
-    endif
-    return ''
-endfunction
+" function! HasPaste()
+"     if &paste
+"         return 'PASTE MODE  '
+"     endif
+"     return ''
+" endfunction
 
 " Don't close window, when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
