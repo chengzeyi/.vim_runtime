@@ -113,10 +113,10 @@ Plug 'sbdchd/neoformat', { 'on': 'Neoformat' }
 Plug 'skywind3000/vim-preview'
 Plug 'skywind3000/asyncrun.vim'
 
-" Plug 'xolox/vim-misc'
-" Plug 'xolox/vim-easytags'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-easytags'
 
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'ludovicchabant/vim-gutentags'
 
 " Plug 'chengzeyi/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Plug 'chengzeyi/fzf.vim'
@@ -798,13 +798,14 @@ let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
 " let g:echodoc_enable_at_startup = 1
 
-autocmd FileType cpp let OmniCpp_NamespaceSearch = 1
-autocmd FileType cpp let OmniCpp_GlobalScopeSearch = 1
-autocmd FileType cpp let OmniCpp_ShowAccess = 1
-autocmd FileType cpp let OmniCpp_MayCompleteDot = 1
-autocmd FileType cpp let OmniCpp_MayCompleteArrow = 1
-autocmd FileType cpp let OmniCpp_MayCompleteScope = 1
-" autocmd FileType cpp let OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
+let OmniCpp_NamespaceSearch = 1
+let OmniCpp_GlobalScopeSearch = 1
+let OmniCpp_ShowAccess = 1
+let OmniCpp_MayCompleteDot = 1
+let OmniCpp_MayCompleteArrow = 1
+let OmniCpp_MayCompleteScope = 1
+let OmniCpp_ShowPrototypeInAbbr = 1
+" let OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
 
 " autocmd vimenter * NERDTree
 let NERDTreeShowHidden = 1
@@ -819,6 +820,7 @@ let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = '<c-f>'
 " map <leader>j :CtrlP<cr>
 nnoremap <silent> <c-b> :CtrlPBuffer<cr>
+nnoremap <silent> <c-v> :CtrlPTag<cr>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
@@ -913,7 +915,8 @@ noremap <silent> <F12> :PreviewSignature!<cr>
 autocmd FileType qf nnoremap <silent><buffer> <F9> :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> <F10> :PreviewClose<cr>
 
-nnoremap <leader>r :AsyncRun<space>
+nnoremap <leader>rr :AsyncRun<space>
+nnoremap <silent> <leader>rs :AsyncStop<cr>
 " let g:asyncrun_bell = 1
 
 " map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
@@ -933,13 +936,12 @@ nmap <c-_> <Plug>CommentaryLine
 vmap <c-_> <Plug>Commentary
 autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 
-" let g:easytags_dynamic_files = 1
-" let g:easytags_include_members = 1
-" let g:easytags_async = 1
+let g:easytags_include_members = 1
+let g:easytags_async = 1
 
-let g:gutentags_cache_dir = '~/.vim_gutentags'
-autocmd FileType c,cpp let g:gutentags_ctags_extra_args =
-    \ ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q', '--language-force=C++']
+" let g:gutentags_cache_dir = '~/.vim_gutentags'
+" autocmd FileType c,cpp let g:gutentags_ctags_extra_args =
+    " \ ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q', '--language-force=C++']
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
@@ -1026,4 +1028,6 @@ nmap <silent> <c-right> <Plug>(cosco-commaOrSemiColon)
 imap <silent> <c-right> <esc><Plug>(cosco-commaOrSemiColon)
 nmap <silent> <c-down> <Plug>(cosco-commaOrSemiColon)o
 imap <silent> <c-down> <esc><Plug>(cosco-commaOrSemiColon)o
+" nmap <silent> <c-space> <Plug>(cosco-commaOrSemiColon)o
+" imap <silent> <c-space> <esc><Plug>(cosco-commaOrSemiColon)o
 
