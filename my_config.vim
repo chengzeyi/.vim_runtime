@@ -89,7 +89,7 @@ Plug 'Shougo/neocomplcache.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 
-" Plug 'vim-scripts/OmniCppComplete'
+Plug 'vim-scripts/OmniCppComplete'
 
 " Plug 'vim-syntastic/syntastic'
 
@@ -240,6 +240,7 @@ nnoremap <silent> <leader>w :w!<cr>
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
 command! W w !sudo tee % > /dev/null
+command! -nargs=* CtagsCpp !ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ <args>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -766,28 +767,29 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 
 " set omnifunc=ale#completion#OmniFunc
 set omnifunc=syntaxcomplete#Complete
-" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " autocmd FileType c setlocal omnifunc=ccomplete#Complete
-" autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
 
-" if !exists('g:neocomplcache_omni_patterns')
-  " let g:neocomplcache_omni_patterns = {}
-" endif
-" let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-" let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-" let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+" Enable heavy omni completion.
+if !exists('g:neocomplcache_force_omni_patterns')
+  let g:neocomplcache_force_omni_patterns = {}
+endif
+let g:neocomplcache_force_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
-" autocmd FileType cpp let OmniCpp_NamespaceSearch = 1
-" autocmd FileType cpp let OmniCpp_GlobalScopeSearch = 1
-" autocmd FileType cpp let OmniCpp_ShowAccess = 1
-" autocmd FileType cpp let OmniCpp_MayCompleteDot = 1
-" autocmd FileType cpp let OmniCpp_MayCompleteArrow = 1
-" autocmd FileType cpp let OmniCpp_MayCompleteScope = 1
+autocmd FileType cpp let OmniCpp_NamespaceSearch = 1
+autocmd FileType cpp let OmniCpp_GlobalScopeSearch = 1
+autocmd FileType cpp let OmniCpp_ShowAccess = 1
+autocmd FileType cpp let OmniCpp_MayCompleteDot = 1
+autocmd FileType cpp let OmniCpp_MayCompleteArrow = 1
+autocmd FileType cpp let OmniCpp_MayCompleteScope = 1
 " autocmd FileType cpp let OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
 
 " autocmd vimenter * NERDTree
