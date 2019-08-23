@@ -738,6 +738,7 @@ xmap <C-\>     <Plug>(neosnippet_expand_target)
   " set conceallevel=2 concealcursor=niv
 " endif
 
+set completeopt-=preview
 " let g:acp_enableAtStartup = 0
 " Use neocomplcache.
 let g:neocomplcache_enable_at_startup = 1
