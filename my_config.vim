@@ -80,10 +80,10 @@ Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
-Plug 'tacahiroy/ctrlp-funky', { 'on': 'CtrlPFunky' }
-Plug 'fisadev/vim-ctrlp-cmdpalette', { 'on': 'CtrlPCmdPalette' }
-
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tacahiroy/ctrlp-funky', { 'on': 'CtrlPFunky' }
+" Plug 'fisadev/vim-ctrlp-cmdpalette', { 'on': 'CtrlPCmdPalette' }
+Plug 'dbeecham/ctrlp-commandpalette.vim', { 'on': 'CtrlPCommandPalette' }
 
 Plug 'Shougo/neocomplcache.vim'
 Plug 'Shougo/neosnippet.vim'
@@ -830,7 +830,8 @@ let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_multi_buffers = 1
 
-nnoremap <silent> <c-c> :CtrlPCmdPalette<cr>
+" nnoremap <silent> <c-c> :CtrlPCmdPalette<cr>
+nnoremap <silent> <c-c> :CtrlPCommandPalette<cr>
 
 let g:gitgutter_enabled=1
 nnoremap <silent> <leader>d :GitGutterToggle<cr>
