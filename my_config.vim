@@ -1,17 +1,5 @@
 call plug#begin('~/.vim_runtime/plugged')
 
-" Plug 'ajh17/VimCompletesMe'
-
-" Plug 'lifepillar/vim-mucomplete'
-
-" Plug 'hecal3/vim-leader-guide'
-
-" Plug 'powerman/vim-plugin-viewdoc'
-
-" Plug 'tomtom/quickfixsigns_vim'
-
-" Plug 'chengzeyi/hier.vim'
-
 Plug 'chengzeyi/vim-markify'
 
 Plug 'chengzeyi/a.vim', { 'on': 'A' }
@@ -28,12 +16,6 @@ Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 
 Plug 'terryma/vim-expand-region'
 
-" Plug 'dhruvasagar/vim-markify'
-
-" Plug 'jceb/vim-hier'
-
-" Plug 'terryma/vim-smooth-scroll'
-
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 
 Plug 'luochen1990/rainbow'
@@ -46,11 +28,7 @@ Plug 'ntpeters/vim-better-whitespace'
 
 Plug 'Valloric/ListToggle'
 
-" Plug 'vim-scripts/a.vim'
-
 Plug 'mhinz/vim-startify'
-
-" Plug 'liuchengxu/vim-which-key'
 
 Plug 'mhinz/vim-grepper'
 
@@ -72,8 +50,6 @@ Plug 'vim-airline/vim-airline-themes'
 
 Plug 'airblade/vim-gitgutter'
 
-" Plug 'jlanzarotta/bufexplorer', { 'on': 'ToggleBufExplorer' }
-
 Plug 'maxbrunsfeld/vim-yankstack'
 
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
@@ -88,25 +64,13 @@ Plug 'dbeecham/ctrlp-commandpalette.vim', { 'on': 'CtrlPCommandPalette' }
 Plug 'Shougo/neocomplcache.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
+Plug 'Shougo/echodoc.vim'
 
-" Plug 'Shougo/echodoc.vim'
-
-Plug 'vim-scripts/OmniCppComplete'
-
-" Plug 'vim-syntastic/syntastic'
+Plug 'chengzeyi/OmniCppComplete', { 'for': [ 'cpp', 'c' ] }
 
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': [ 'cpp', 'c' ] }
 
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-
-" Plug 'drmingdrmer/xptemplate'
-
-" Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
-
-" Plug 'google/vim-maktaba'
-" Plug 'google/vim-codefmt'
-" Plug 'google/vim-glaive'
 
 Plug 'sbdchd/neoformat', { 'on': 'Neoformat' }
 
@@ -116,24 +80,14 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 
-" Plug 'ludovicchabant/vim-gutentags'
-
 " Plug 'chengzeyi/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Plug 'chengzeyi/fzf.vim'
 
-" Plug 'asins/vim-dict'
-
-" Plug 'w0rp/ale'
-
 Plug 'nathanaelkane/vim-indent-guides'
-
-" Plug 'Yggdroot/indentLine'
 
 Plug 'sheerun/vim-polyglot'
 
 Plug 'dense-analysis/ale'
-
-" Plug 'flazz/vim-colorschemes'
 
 Plug 'liuchengxu/space-vim-dark'
 
@@ -141,17 +95,9 @@ Plug 'chriskempson/base16-vim'
 
 Plug 'cocopon/iceberg.vim'
 
-" Plug 'chengzeyi/iceberg.vim'
-
 Plug 'sickill/vim-monokai'
 
 Plug 'joshdick/onedark.vim'
-
-" Plug 'cseelus/vim-colors-lucid'
-
-" Plug 'NLKNguyen/papercolor-theme'
-
-" Plug 'arcticicestudio/nord-vim'
 
 call plug#end()
 
@@ -184,65 +130,23 @@ set cursorline
 highlight CursorLine cterm=none ctermbg=236
 " highlight CursorColumn cterm=none ctermbg=236
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Maintainer:
-"       Amir Salihefendic — @amix3k
-"
-" Awesome_version:
-"       Get this config, nice color schemes and lots of plugins!
-"
-"       Install the awesome version from:
-"
-"           https://github.com/amix/vimrc
-"
-" Sections:
-"    -> General
-"    -> VIM user interface
-"    -> Colors and Fonts
-"    -> Files and backups
-"    -> Text, tab and indent related
-"    -> Visual mode related
-"    -> Moving around, tabs and buffers
-"    -> Status line
-"    -> Editing mappings
-"    -> vimgrep searching and cope displaying
-"    -> Spell checking
-"    -> Misc
-"    -> Helper functions
-"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" runtime ftplugin/man.vim
-
-set showmode
+set noshowmode
 
 set splitbelow
 
-" Sets how many lines of history VIM has to remember
 set history=500
 
-" Enable filetype plugins
 filetype plugin on
 filetype indent on
 
-" Set to auto read when a file is changed from the outside
 set autoread
 
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
 let mapleader = " "
 
 nnoremap <silent> <leader>p :set invpaste paste?<cr>
 
-" Fast saving
 nnoremap <silent> <leader>w :w!<cr>
 
-" :W sudo saves the file
-" (useful for handling the permission-denied error)
 command! W w !sudo tee % > /dev/null
 
 command! -nargs=+ Sub call s:sub(<f-args>)
@@ -251,11 +155,7 @@ fun! s:sub(search, replace)
 endfun
 
 command! -nargs=* CtagsCpp !ctags
-    \ -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ <args>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    \ -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q <args>
 
 set foldmethod=indent
 set foldnestmax=3
@@ -264,21 +164,16 @@ set nofoldenable
 set display+=lastline
 
 set re=1
-set lazyredraw
 
-" Set 5 lines to the cursor - when moving vertically using j/k
-set so=5
+set scrolloff=5
 
-" Avoid garbled characters in Chinese language windows OS
 let $LANG='en'
 set langmenu=en
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
-" Turn on the Wild menu
 set wildmenu
 
-" Ignore compiled files
 set wildignore=*.o,*~,*.pyc
 if has("win16") || has("win32")
     set wildignore+=.git\*,.hg\*,.svn\*
@@ -286,45 +181,28 @@ else
     set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 endif
 
-"Always show current position
 set ruler
-
-" Height of the command bar
 set cmdheight=1
 
-" A buffer becomes hidden when it is abandoned
 set hid
 
-" Configure backspace so it acts as it should act
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
 
-" Ignore case when searching
 set ignorecase
-
-" When searching try to be smart about cases
 set smartcase
-
-" Highlight search results
 set hlsearch
-
-" Makes search act like search in modern browsers
 set incsearch
 
-" Don't redraw while executing macros (good performance config)
 set lazyredraw
 
-" For regular expressions turn magic on
 set magic
 
-" Show matching brackets when text indicator is over them
 set showmatch
 " How many tenths of a second to blink when matching brackets
 set mat=2
 
-" No annoying sound on errors
 set noerrorbells
-" set visualbell
 set novisualbell
 set t_vb=
 " set tm=500
@@ -403,18 +281,11 @@ set encoding=utf8
 set ffs=unix,dos,mac
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups and undo
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
 set nowb
 set noswapfile
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use spaces instead of tabs
 set expandtab
 
@@ -433,26 +304,15 @@ set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
 
-""""""""""""""""""""""""""""""
-" => Visual mode related
-""""""""""""""""""""""""""""""
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Moving around, tabs, windows and buffers
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <c-k> <C-w>p<C-y><C-w>p
 nnoremap <c-j> <C-w>p<C-e><C-w>p
 inoremap <c-k> <Esc><C-w>p<C-y><C-w>pi
 inoremap <c-j> <Esc><C-w>p<C-e><C-w>pi
-
-" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-" map <space> /
-" map <c-space> ?
 
 " Disable highlight when <leader><cr> is pressed
 nnoremap <silent> <leader><cr> :noh<cr>
@@ -478,9 +338,7 @@ nnoremap <silent> <c-l> :tabn<cr>
 
 " Close the current buffer
 " map <leader>bc :Bclose<cr>:tabclose<cr>gT
-" map <leader>x :Bclose<cr>:tabclose<cr>gT
 nnoremap <silent> <leader>bb :Bclose<cr>
-" nnoremap <leader>x :Bclose<cr>
 
 " Close all the buffers
 nnoremap <silent> <leader>bd :bufdo bd<cr>
@@ -518,37 +376,12 @@ endtry
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-""""""""""""""""""""""""""""""
-" => Status line
-""""""""""""""""""""""""""""""
 " Always show the status line
 set laststatus=2
 
 " Format the status line
 " set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Editing mappings
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Remap VIM 0 to first non-blank character
-" map 0 ^
-
-" Delete trailing white space on save, useful for some filetypes ;)
-" fun! CleanExtraSpaces()
-"     let save_cursor = getpos(".")
-"     let old_query = getreg('/')
-"     silent! %s/\s\+$//e
-"     call setpos('.', save_cursor)
-"     call setreg('/', old_query)
-" endfun
-
-" if has("autocmd")
-"     autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
-" endif
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Spell checking
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Pressing ,ss will toggle and untoggle spell checking
 nnoremap <silent> <leader>ss :setlocal spell!<cr>
 
@@ -557,18 +390,6 @@ nnoremap <silent> <leader>sn ]s
 nnoremap <silent> <leader>sp [s
 nnoremap <silent> <leader>sa zg
 nnoremap <silent> <leader>s? z=
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Helper functions
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Returns true if paste mode is enabled
-" function! HasPaste()
-"     if &paste
-"         return 'PASTE MODE  '
-"     endif
-"     return ''
-" endfunction
 
 " Don't close window, when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
@@ -628,13 +449,6 @@ try
 catch
 endtry
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Command mode related
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" $q is super useful when browsing on the command line
-" it deletes everything until the last slash
-" cno $q <C-\>eDeleteTillSlash()<cr>
-
 " Bash like keys for the command line
 cnoremap <C-A>		<Home>
 cnoremap <C-E>		<End>
@@ -643,83 +457,18 @@ cnoremap <C-K>		<C-U>
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
 
-" Map ½ to something useful
-" map ½ $
-" cmap ½ $
-" imap ½ $
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Parenthesis/bracket
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" vnoremap $1 <esc>`>a)<esc>`<i(<esc>
-" vnoremap $2 <esc>`>a]<esc>`<i[<esc>
-" vnoremap $3 <esc>`>a}<esc>`<i{<esc>
-" vnoremap $$ <esc>`>a"<esc>`<i"<esc>
-" vnoremap $q <esc>`>a'<esc>`<i'<esc>
-" vnoremap $e <esc>`>a"<esc>`<i"<esc>
-
-" Map auto complete of (, ", ', [
-" inoremap $1 ()<esc>i
-" inoremap $2 []<esc>i
-" inoremap $3 {}<esc>i
-" inoremap $4 {<esc>o}<esc>O
-" inoremap $q ''<esc>i
-" inoremap $e ""<esc>i
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General abbreviations
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Helper functions
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" func! DeleteTillSlash()
-"     let g:cmd = getcmdline()
-
-"     if has("win16") || has("win32")
-"         let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\]\\).*", "\\1", "")
-"     else
-"         let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*", "\\1", "")
-"     endif
-
-"     if g:cmd == g:cmd_edited
-"         if has("win16") || has("win32")
-"             let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\\]\\).*\[\\\\\]", "\\1", "")
-"         else
-"             let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
-"         endif
-"     endif
-
-"     return g:cmd_edited
-" endfunc
-
-" func! CurrentFileDir(cmd)
-"     return a:cmd . " " . expand("%:p:h") . "/"
-" endfunc
-
-" ---
 
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
 let g:cpp_experimental_template_highlight = 1
 
-" autocmd FileType vim let b:vcm_tab_complete = 'vim'
-" set completeopt+=menuone
-" if v:version > 704 || (v:version == 704 && has('patch775'))
-    " set completeopt+=noselect
-    " set completeopt+=noinsert
-" endif
-" set shortmess+=c   " Shut off completion messages
-" set belloff+=ctrlg " If Vim beeps during completion
-" let g:mucomplete#enable_auto_at_startup = 1
-" let g:mucomplete#completion_delay = 1
-" let g:mucomplete#always_use_completeopt = 1
-" let g:mucomplete#chains = {'default': ['path', 'keyn', 'dict', 'uspl']}
-
-" Plugin key-mappings.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
 imap <C-\>     <Plug>(neosnippet_expand_or_jump)
 smap <C-\>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-\>     <Plug>(neosnippet_expand_target)
@@ -728,35 +477,16 @@ xmap <C-\>     <Plug>(neosnippet_expand_target)
   " set conceallevel=2 concealcursor=niv
 " endif
 
-" SuperTab like snippets behavior.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-"imap <expr><TAB>
-" \ pumvisible() ? "\<C-n>" :
-" \ neosnippet#expandable_or_jumpable() ?
-" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-" smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-" \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" For conceal markers.
-" if has('conceal')
-  " set conceallevel=2 concealcursor=niv
-" endif
-
 set completeopt-=preview
-" let g:acp_enableAtStartup = 0
-" Use neocomplcache.
 let g:neocomplcache_enable_at_startup = 1
-" Use smartcase.
 let g:neocomplcache_enable_smart_case = 1
 let g:neocomplcache_enable_underbar_completion = 0
-" Set minimum syntax keyword length.
 let g:neocomplcache_min_syntax_length = 3
 let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 " let g:neocomplcache_enable_auto_select = 1
 let g:neocomplcache_tags_caching_limit_file_size = 10000000
 " let g:neocomplcache_disable_auto_complete = 1
 
-" Recommended key-mappings.
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
@@ -765,10 +495,8 @@ function! s:my_cr_function()
     return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
 endfunction
 
-" <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
-" inoremap <expr><TAB>  pumvisible() ? "\<cr>" : "\<TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
 " inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
 " inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
@@ -779,24 +507,31 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 
 " set omnifunc=ale#completion#OmniFunc
 set omnifunc=syntaxcomplete#Complete
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" autocmd FileType c setlocal omnifunc=ccomplete#Complete
-autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+augroup setOmniFunc
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+    autocmd FileType c,cpp setlocal omnifunc=omni#cpp#complete#Main
+augroup END
 
 " Enable heavy omni completion.
 if !exists('g:neocomplcache_omni_patterns')
   let g:neocomplcache_omni_patterns = {}
 endif
+let g:neocomplcache_omni_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
+let g:neocomplcache_omni_patterns.html = '<[^>]*'
+let g:neocomplcache_omni_patterns.markdown = '<[^>]*'
+let g:neocomplcache_omni_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
+let g:neocomplcache_omni_patterns.python = '[^. \t]\.\w*'
+let g:neocomplcache_omni_patterns.xml = '<[^>]*'
 let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
-" let g:echodoc_enable_at_startup = 1
+let g:echodoc_enable_at_startup = 1
 
 let OmniCpp_NamespaceSearch = 1
 let OmniCpp_GlobalScopeSearch = 1
@@ -805,7 +540,7 @@ let OmniCpp_MayCompleteDot = 1
 let OmniCpp_MayCompleteArrow = 1
 let OmniCpp_MayCompleteScope = 1
 let OmniCpp_ShowPrototypeInAbbr = 1
-" let OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
+let OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
 
 " autocmd vimenter * NERDTree
 let NERDTreeShowHidden = 1
@@ -818,7 +553,6 @@ nnoremap <silent> <leader>nf :NERDTreeFind<cr>
 
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = '<c-f>'
-" map <leader>j :CtrlP<cr>
 nnoremap <silent> <c-b> :CtrlPBuffer<cr>
 nnoremap <silent> <c-v> :CtrlPTag<cr>
 
@@ -838,67 +572,13 @@ nnoremap <silent> <c-c> :CtrlPCommandPalette<cr>
 let g:gitgutter_enabled=1
 nnoremap <silent> <leader>d :GitGutterToggle<cr>
 
-" let g:bufExplorerDefaultHelp=0
-" let g:bufExplorerShowRelativePath=1
-" let g:bufExplorerFindActive=1
-" let g:bufExplorerSortBy='name'
-" nnoremap <silent> <leader>o :ToggleBufExplorer<cr>
-
-" let MRU_Max_Entries = 400
-" map <leader>f :MRU<CR>
-
 let g:yankstack_yank_keys = ['y', 'd']
-
 nmap <silent> <leader>[ <Plug>yankstack_substitute_older_paste
 nmap <silent> <leader>] <Plug>yankstack_substitute_newer_paste
-
-" let Tlist_Ctags_Cmd = '/usr/bin/ctags'
-" let Tlist_Show_One_File = 1
-" let Tlist_Exit_OnlyWindow = 1
-" let Tlist_Use_Right_Window = 1
-" map <leader>tt :TlistToggle<cr>
 
 let g:tagbar_width = 30
 nnoremap <silent> <leader>tt :TagbarToggle<cr>
 nnoremap <silent> <leader>ta :TagbarOpenAutoClose<cr>
-
-" let g:xptemplate_fallback = ''
-" let g:xptemplate_always_show_pum = 1
-" let g:xptemplate_vars = 'SParg=&BRloop= &BRif= &BRel= &BRstc= &BRfun= '
-" let g:xptemplate_nav_next = '<c-]>'
-" let g:xptemplate_nav_prev = '<c-[>'
-
-" let g:UltiSnipsListSnippets = "<s-tab>"
-" let g:UltiSnipsExpandTrigger = "<c-]>"
-" let g:UltiSnipsJumpForwardTrigger = "<c-]>"
-" let g:UltiSnipsJumpBackwardTrigger = "<c-[>"
-
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 0
-" let g:syntastic_check_on_wq = 0
-
-" let g:syntastic_aggregate_errors = 1
-" let g:syntastic_c_check_header = 1
-" let g:syntastic_cpp_check_header = 1
-
-" let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
-" let g:syntastic_c_include_dirs = ['./include', './headers',
-"     \ './_external/usr/include', './_external/usr/local/include',
-"     \ '../_external/usr/include', '../_external/usr/local/include']
-" let g:syntastic_cpp_include_dirs = ['./include', './headers',
-"     \ './_external/usr/include', './_external/usr/local/include',
-"     \ '../_external/usr/include', '../_external/usr/local/include']
-" let g:syntastic_c_checkers = ['cppcheck']
-" let g:syntastic_cpp_checkers = ['cppcheck']
-" let g:syntastic_c_cppcheck_args = ['--enable=warning,style,information']
-" let g:syntastic_cpp_cppcheck_args = ['--enable=warning,style,information', '--std']
-" nnoremap <c-x><c-x> :SyntasticCheck<CR>
-" nnoremap <c-x><c-r> :SyntasticReset<CR>
 
 let g:preview#preview_position = 'top'
 let g:preview#preview_size = 8
@@ -911,14 +591,13 @@ inoremap <silent> <F9> <c-\><c-o>:PreviewTag<cr>
 noremap <silent> <F10> :PreviewClose<cr>
 inoremap <silent> <F10> <c-\><c-o>:PreviewClose<cr>
 noremap <silent> <F12> :PreviewSignature!<cr>
-" inoremap <silent> <F12> <c-\><c-o>:PreviewSignature!<cr>
+inoremap <silent> <F12> <c-\><c-o>:PreviewSignature!<cr>
 autocmd FileType qf nnoremap <silent><buffer> <F9> :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> <F10> :PreviewClose<cr>
 
 nnoremap <leader>rr :AsyncRun<space>
 nnoremap <silent> <leader>rs :AsyncStop<cr>
 " let g:asyncrun_bell = 1
-
 " map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
 let g:asyncrun_open = 10
 let g:asyncrun_save = 2
@@ -938,10 +617,7 @@ autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 
 let g:easytags_include_members = 1
 let g:easytags_async = 1
-
-" let g:gutentags_cache_dir = '~/.vim_gutentags'
-" autocmd FileType c,cpp let g:gutentags_ctags_extra_args =
-    " \ ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q', '--language-force=C++']
+let g:easytags_opts = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
@@ -960,14 +636,6 @@ nnoremap <silent> <leader>g :Grepper<cr>
 runtime plugin/grepper.vim
 let g:grepper.prompt_mapping_tool = '<leader>g'
 
-" set timeoutlen=500
-" nnoremap <silent> <leader> :<c-u>WhichKey '<space>'<cr>
-" vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<space>'<cr>
-
-" call leaderGuide#register_prefix_descriptions("<space>", "g:lmap")
-" nnoremap <silent> <leader> :<c-u>LeaderGuide '<space>'<cr>
-" vnoremap <silent> <leader> :C-Space<c-u>LeaderGuideVisual '<space>'<cr>
-
 " inoremap <silent> <c-x><space> <C-\><C-O>:ALEComplete<CR>
 nnoremap <silent> <leader>aa :ALEToggle<cr>
 nnoremap <silent> <leader>al :ALELint<cr>
@@ -982,19 +650,11 @@ let g:ale_lint_on_filetype_changed = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_set_highlights = 0
 let g:ale_echo_cursor = 0
-" map <leader>ag :ALEGoToDefinition<cr>
-" map <leader>af :ALEFindReferences<cr>
-" map <leader>ah :ALEHover<cr>
-" map <leader>as :ALESymbolSearch<space>
 
 " let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
 nnoremap <silent> <leader>i :IndentGuidesToggle<cr>
-
-" let  g:no_viewdoc_maps = 1
-" let  g:viewdoc_open = "belowright vnew"
-" let  g:viewdoc_openempty = 0
 
 let g:better_whitespace_ctermcolor = '63'
 let g:better_whitespace_guicolor = '#5f5fff'
@@ -1007,17 +667,10 @@ nnoremap <silent> <leader>u :UndotreeToggle<cr>
 let g:undotree_WindowLayout = 3
 let g:undotree_SetFocusWhenToggle = 1
 
-" noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
-" noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
-" noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
-" noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
-
 nnoremap <silent> <leader>m :MarkifyToggle<cr>
 " let g:markify_echo_current_message = 1
 
 let g:better_whitespace_operator = '<leader>sw'
-
-" nnoremap <silent> <leader>hh :HierToggle<cr>
 
 nnoremap <silent> <leader>x :Sayonara<cr>
 nnoremap <silent> <leader>X :Sayonara!<cr>
