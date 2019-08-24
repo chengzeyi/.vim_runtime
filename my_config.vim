@@ -1,8 +1,8 @@
 call plug#begin('~/.vim_runtime/plugged')
 
 Plug 'chengzeyi/vim-markify'
-
 Plug 'chengzeyi/a.vim', { 'on': 'A' }
+Plug 'chengzeyi/OmniCppComplete', { 'for': [ 'cpp', 'c' ] }
 
 Plug 'lfilho/cosco.vim'
 
@@ -65,8 +65,7 @@ Plug 'Shougo/neocomplcache.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/echodoc.vim'
-
-Plug 'chengzeyi/OmniCppComplete', { 'for': [ 'cpp', 'c' ] }
+Plug 'Shougo/deol.nvim'
 
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': [ 'cpp', 'c' ] }
 
