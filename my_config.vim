@@ -129,7 +129,7 @@ set cursorline
 highlight CursorLine cterm=none ctermbg=236
 " highlight CursorColumn cterm=none ctermbg=236
 
-set noshowmode
+set showmode
 
 set splitbelow
 
@@ -153,7 +153,7 @@ fun! s:sub(search, replace)
     execute ':%s/' . a:search . '/' . a:replace . '/gc'
 endfun
 
-command! -nargs=* CtagsCpp !ctags
+command! -nargs=* MakeTags !ctags
     \ -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q <args>
 
 set foldmethod=indent
@@ -181,7 +181,7 @@ else
 endif
 
 set ruler
-set cmdheight=1
+set cmdheight=2
 
 set hid
 
@@ -208,7 +208,10 @@ set t_vb=
 
 " Properly disable sound on errors on MacVim
 if has("gui_macvim")
-    autocmd GUIEnter * set vb t_vb=
+    augroup macBell
+        autocmd!
+        autocmd GUIEnter * set vb t_vb=
+    augroup END
 endif
 
 " Add a bit extra margin to the left
@@ -436,7 +439,10 @@ endfunction
 " => Fast editing and reloading of vimrc configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <silent> <leader>e :e! ~/.vim_runtime/my_config.vim<cr>
-autocmd! bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
+augroup vimConfig
+    autocmd!
+    autocmd bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Turn persistent undo on
@@ -507,6 +513,7 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 " set omnifunc=ale#completion#OmniFunc
 set omnifunc=syntaxcomplete#Complete
 augroup setOmniFunc
+    autocmd!
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
@@ -553,7 +560,7 @@ nnoremap <silent> <leader>nf :NERDTreeFind<cr>
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = '<c-f>'
 nnoremap <silent> <c-b> :CtrlPBuffer<cr>
-nnoremap <silent> <c-v> :CtrlPTag<cr>
+nnoremap <silent> <c-c> :CtrlPTag<cr>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
@@ -565,11 +572,24 @@ let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_multi_buffers = 1
 
-" nnoremap <silent> <c-c> :CtrlPCmdPalette<cr>
-nnoremap <silent> <c-c> :CtrlPCommandPalette<cr>
+" nnoremap <silent> <c-p> :CtrlPCmdPalette<cr>
+nnoremap <silent> <c-p> :CtrlPCommandPalette<cr>
 
 let g:gitgutter_enabled=1
 nnoremap <silent> <leader>d :GitGutterToggle<cr>
+
+nnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>gc :Gcommit<cr>
+nnoremap <leader>gd :Gdiff<cr>
+nnoremap <leader>gB :Gbrowse<cr>
+nnoremap <leader>gg :Ggrep
+nnoremap <leader>gl :Glog!<cr>
+nnoremap <leader>gp :Git pull<cr>
+nnoremap <leader>gP :Git push<cr>
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gr :Gread<cr>
+nnoremap <leader>gw :Gwrite<cr>
+nnoremap <leader>g? :map <leader>g<cr>
 
 let g:yankstack_yank_keys = ['y', 'd']
 nmap <silent> <leader>[ <Plug>yankstack_substitute_older_paste
@@ -591,8 +611,11 @@ noremap <silent> <F10> :PreviewClose<cr>
 inoremap <silent> <F10> <c-\><c-o>:PreviewClose<cr>
 noremap <silent> <F12> :PreviewSignature!<cr>
 inoremap <silent> <F12> <c-\><c-o>:PreviewSignature!<cr>
-autocmd FileType qf nnoremap <silent><buffer> <F9> :PreviewQuickfix<cr>
-autocmd FileType qf nnoremap <silent><buffer> <F10> :PreviewClose<cr>
+augroup qfPreview
+  autocmd!
+  autocmd FileType qf nnoremap <silent><buffer> <F9> :PreviewQuickfix<cr>
+  autocmd FileType qf nnoremap <silent><buffer> <F10> :PreviewClose<cr>
+augroup END
 
 nnoremap <leader>rr :AsyncRun<space>
 nnoremap <silent> <leader>rs :AsyncStop<cr>
@@ -612,7 +635,10 @@ let g:asyncrun_save = 2
 
 nmap <c-_> <Plug>CommentaryLine
 vmap <c-_> <Plug>Commentary
-autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
+augroup commentStr
+  autocmd!
+  autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
+augroup END
 
 let g:easytags_include_members = 1
 let g:easytags_async = 1
@@ -631,9 +657,9 @@ let g:goyo_width = '80%'
 let g:goyo_height = '95%'
 nnoremap <silent> <leader>z :Goyo<cr>
 
-nnoremap <silent> <leader>g :Grepper<cr>
+nnoremap <silent> <c-g> :Grepper<cr>
 runtime plugin/grepper.vim
-let g:grepper.prompt_mapping_tool = '<leader>g'
+let g:grepper.prompt_mapping_tool = '<c-g>'
 
 " inoremap <silent> <c-x><space> <C-\><C-O>:ALEComplete<CR>
 nnoremap <silent> <leader>aa :ALEToggle<cr>
