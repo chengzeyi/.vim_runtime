@@ -142,6 +142,8 @@ set autoread
 
 let mapleader = " "
 
+nnoremap <silent> <leader>? :map <lt>leader><cr>
+
 nnoremap <silent> <leader>p :set invpaste paste?<cr>
 
 nnoremap <silent> <leader>w :w!<cr>
@@ -578,18 +580,18 @@ nnoremap <silent> <c-p> :CtrlPCommandPalette<cr>
 let g:gitgutter_enabled=1
 nnoremap <silent> <leader>d :GitGutterToggle<cr>
 
-nnoremap <leader>gb :Gblame<cr>
-nnoremap <leader>gc :Gcommit<cr>
-nnoremap <leader>gd :Gdiff<cr>
-nnoremap <leader>gB :Gbrowse<cr>
-nnoremap <leader>gg :Ggrep
-nnoremap <leader>gl :Glog!<cr>
-nnoremap <leader>gp :Git pull<cr>
-nnoremap <leader>gP :Git push<cr>
-nnoremap <leader>gs :Gstatus<cr>
-nnoremap <leader>gr :Gread<cr>
-nnoremap <leader>gw :Gwrite<cr>
-nnoremap <leader>g? :execute 'map <leader>g'<cr>
+nnoremap <silent> <leader>gb :Gblame<cr>
+nnoremap <silent> <leader>gc :Gcommit<cr>
+nnoremap <silent> <leader>gd :Gdiff<cr>
+nnoremap <silent> <leader>gB :Gbrowse<cr>
+nnoremap <silent> <leader>gg :Ggrep
+nnoremap <silent> <leader>gl :Glog!<cr>
+nnoremap <silent> <leader>gp :Git pull<cr>
+nnoremap <silent> <leader>gP :Git push<cr>
+nnoremap <silent> <leader>gs :Gstatus<cr>
+nnoremap <silent> <leader>gr :Gread<cr>
+nnoremap <silent> <leader>gw :Gwrite<cr>
+nnoremap <silent> <leader>g? :map <lt>leader>g<cr>
 
 let g:yankstack_yank_keys = ['y', 'd']
 nmap <silent> <leader>[ <Plug>yankstack_substitute_older_paste
