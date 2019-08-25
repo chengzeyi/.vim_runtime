@@ -589,7 +589,7 @@ nnoremap <leader>gP :Git push<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gr :Gread<cr>
 nnoremap <leader>gw :Gwrite<cr>
-nnoremap <leader>g? :map <leader>g<cr>
+nnoremap <leader>g? :execute 'map <leader>g'<cr>
 
 let g:yankstack_yank_keys = ['y', 'd']
 nmap <silent> <leader>[ <Plug>yankstack_substitute_older_paste
