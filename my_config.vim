@@ -105,13 +105,13 @@ set mouse=a
 nnoremap <c-]> g<c-]>
 nnoremap g<c-]> <c-]>
 
-set tags+=./.tags
-set tags+=../.tags
-set tags+=../../.tags
-set tags+=../../../.tags
-set tags+=../../../../.tags
 set tags+=~/.vimtags
 set tags+=~/.vim_runtime/tags/cpp_tags
+set tags+=./tags
+set tags+=../tags
+set tags+=../../tags
+set tags+=../../../tags
+set tags+=../../../../tags
 set updatetime=1500
 
 set number
@@ -152,7 +152,7 @@ command! W w !sudo tee % > /dev/null
 
 nnoremap <leader>ct :Ctags<space>
 command! -nargs=* Ctags !ctags
-    \ -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q -f .tags <args> > /dev/null
+    \ -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q <args> > /dev/null
 
 command! -nargs=+ Sub call s:sub(<f-args>)
 fun! s:sub(search, replace)
