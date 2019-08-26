@@ -512,7 +512,7 @@ let g:neocomplcache_enable_underbar_completion = 0
 let g:neocomplcache_min_syntax_length = 3
 let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 " let g:neocomplcache_enable_auto_select = 1
-let g:neocomplcache_tags_caching_limit_file_size = 10000000
+let g:neocomplcache_tags_caching_limit_file_size = 20000000
 " let g:neocomplcache_disable_auto_complete = 1
 
 " <CR>: close popup and save indent.
@@ -615,6 +615,7 @@ nnoremap <silent> <leader>gf :Gfetch<cr>
 nnoremap <silent> <leader>gp :Gpull<cr>
 nnoremap <silent> <leader>gP :Gpush<cr>
 nnoremap <silent> <leader>gs :Gstatus<cr>
+nnoremap <silent> <leader>gS :Git stash<cr>
 nnoremap <silent> <leader>gr :Gread<cr>
 nnoremap <silent> <leader>gR :Gremove<cr>
 nnoremap <silent> <leader>ge :Gedit<cr>
