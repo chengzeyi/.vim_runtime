@@ -150,6 +150,7 @@ nnoremap <silent> <leader>. :cnext<cr>
 
 command! W w !sudo tee % > /dev/null
 
+nnoremap <leader>ct :Ctags<space>
 command! -nargs=* Ctags !ctags
     \ -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q <args> > /dev/null
 
