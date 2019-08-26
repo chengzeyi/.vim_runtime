@@ -106,7 +106,7 @@ nnoremap <c-]> g<c-]>
 nnoremap g<c-]> <c-]>
 
 set tags+=~/.vimtags
-set tags+=~/.vim_runtime/tags/cpp_tags
+" set tags+=~/.vim_runtime/tags/cpp_tags
 set tags+=./tags
 set tags+=../tags
 set tags+=../../tags
