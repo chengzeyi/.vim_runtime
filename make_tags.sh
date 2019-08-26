@@ -6,10 +6,12 @@
 
 ctags \
     -R \
+    --sort=yes \
     --c++-kinds=+p \
     --fields=+iaS \
     --extra=+q \
+    --language-force=C++ \
     -f \
-    ~/.vim_runtime/systags \
-    lang_src
+    ~/.vim_runtime/tags/cpp_tags \
+    lang_src/cpp_src
 

@@ -111,7 +111,7 @@ set tags+=../../.tags
 set tags+=../../../.tags
 set tags+=../../../../.tags
 set tags+=~/.vimtags
-set tags+=~/.vim_runtime/systags
+set tags+=~/.vim_runtime/tags/cpp_tags
 set updatetime=1500
 
 set number
