@@ -155,8 +155,9 @@ fun! s:sub(search, replace)
     execute ':%s/' . a:search . '/' . a:replace . '/gc'
 endfun
 
-command! -nargs=* MakeTags !ctags
-    \ -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q <args>
+nnoremap <leader>ct :Ctags<space>
+command! -nargs=* Ctags !ctags
+    \ -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q <args> > /dev/null
 
 set foldmethod=indent
 set foldnestmax=3
@@ -183,7 +184,7 @@ else
 endif
 
 set ruler
-set cmdheight=2
+set cmdheight=1
 
 set hid
 
@@ -343,9 +344,44 @@ nnoremap <silent> <c-l> :tabn<cr>
 " Close the current buffer
 " map <leader>bc :Bclose<cr>:tabclose<cr>gT
 nnoremap <silent> <leader>bb :Bclose<cr>
+" Don't close window, when deleting a buffer
+command! Bclose call <SID>BufcloseCloseIt()
+function! <SID>BufcloseCloseIt()
+    let l:currentBufNum = bufnr("%")
+    let l:alternateBufNum = bufnr("#")
+
+    if buflisted(l:alternateBufNum)
+        buffer #
+    else
+        bnext
+    endif
+
+    if bufnr("%") == l:currentBufNum
+        new
+    endif
+
+    if buflisted(l:currentBufNum)
+        execute("bdelete! ".l:currentBufNum)
+    endif
+endfunction
 
 " Close all the buffers
 nnoremap <silent> <leader>bd :bufdo bd<cr>
+nnoremap <silent> <leader>bh :CloseHiddenBuffers<cr>
+command! CloseHiddenBuffers call s:CloseHiddenBuffers()
+function! s:CloseHiddenBuffers()
+  let open_buffers = []
+
+  for i in range(tabpagenr('$'))
+    call extend(open_buffers, tabpagebuflist(i + 1))
+  endfor
+
+  for num in range(1, bufnr("$") + 1)
+    if buflisted(num) && index(open_buffers, num) == -1
+      exec "bdelete ".num
+    endif
+  endfor
+endfunction
 
 nnoremap <silent> <leader><tab> :bnext<cr>
 nnoremap <silent> <leader><s-tab> :bprevious<cr>
@@ -400,27 +436,6 @@ nnoremap <silent> <leader>sn ]s
 nnoremap <silent> <leader>sp [s
 nnoremap <silent> <leader>sa zg
 nnoremap <silent> <leader>s? z=
-
-" Don't close window, when deleting a buffer
-command! Bclose call <SID>BufcloseCloseIt()
-function! <SID>BufcloseCloseIt()
-    let l:currentBufNum = bufnr("%")
-    let l:alternateBufNum = bufnr("#")
-
-    if buflisted(l:alternateBufNum)
-        buffer #
-    else
-        bnext
-    endif
-
-    if bufnr("%") == l:currentBufNum
-        new
-    endif
-
-    if buflisted(l:currentBufNum)
-        execute("bdelete! ".l:currentBufNum)
-    endif
-endfunction
 
 function! CmdLine(str)
     call feedkeys(":" . a:str)
@@ -545,7 +560,7 @@ let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
-let g:echodoc_enable_at_startup = 1
+" let g:echodoc_enable_at_startup = 1
 
 let OmniCpp_NamespaceSearch = 1
 let OmniCpp_GlobalScopeSearch = 1
@@ -613,17 +628,19 @@ let g:tagbar_width = 30
 nnoremap <silent> <leader>tt :TagbarToggle<cr>
 nnoremap <silent> <leader>ta :TagbarOpenAutoClose<cr>
 
-let g:preview#preview_position = 'top'
+let g:preview#preview_position = 'bottom'
 let g:preview#preview_size = 8
-noremap <silent> <F7> :PreviewScroll -1<cr>
-noremap <silent> <F8> :PreviewScroll +1<cr>
+nnoremap <silent> <F7> :PreviewScroll -1<cr>
+nnoremap <silent> <F8> :PreviewScroll +1<cr>
 inoremap <silent> <F7> <c-\><c-o>:PreviewScroll -1<cr>
 inoremap <silent> <F8> <c-\><c-o>:PreviewScroll +1<cr>
-noremap <silent> <F9> :PreviewTag<cr>
+nnoremap <silent> <F9> :PreviewTag<cr>
+nnoremap <silent> <C-LeftMouse> :PreviewTag<cr>
+nnoremap <silent> <C-RightMouse> g<c-]>
 inoremap <silent> <F9> <c-\><c-o>:PreviewTag<cr>
-noremap <silent> <F10> :PreviewClose<cr>
+nnoremap <silent> <F10> :PreviewClose<cr>
 inoremap <silent> <F10> <c-\><c-o>:PreviewClose<cr>
-noremap <silent> <F12> :PreviewSignature!<cr>
+nnoremap <silent> <F12> :PreviewSignature!<cr>
 inoremap <silent> <F12> <c-\><c-o>:PreviewSignature!<cr>
 augroup qfPreview
   autocmd!
