@@ -143,21 +143,20 @@ set autoread
 let mapleader = " "
 
 nnoremap <silent> <leader>? :execute 'map <lt>leader>' . nr2char(getchar())<cr>
-
 nnoremap <silent> <leader>p :set invpaste paste?<cr>
-
 nnoremap <silent> <leader>w :w!<cr>
+nnoremap <silent> <leader>, :cprev<cr>
+nnoremap <silent> <leader>. :cnext<cr>
 
 command! W w !sudo tee % > /dev/null
+
+command! -nargs=* Ctags !ctags
+    \ -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q <args> > /dev/null
 
 command! -nargs=+ Sub call s:sub(<f-args>)
 fun! s:sub(search, replace)
     execute ':%s/' . a:search . '/' . a:replace . '/gc'
 endfun
-
-nnoremap <leader>ct :Ctags<space>
-command! -nargs=* Ctags !ctags
-    \ -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q <args> > /dev/null
 
 set foldmethod=indent
 set foldnestmax=3
