@@ -13,5 +13,5 @@ ctags \
     --language-force=C++ \
     -f \
     ~/.vim_runtime/tags/cpp_tags \
-    ~/.vim_runtime/lang_src/cpp_src
+    ~/.vim_runtime/tags/cpp_src
 
