@@ -130,6 +130,10 @@ nnoremap <c-]> g<c-]>
 nnoremap g<c-]> <c-]>
 
 set tags=./.tags;,~/.vimtags
+augroup setFtTags
+  autocmd!
+  autocmd FileType cpp set tags^=~/.vim_runtime/tags/cpp_tags
+augroup END
 " set tags+=./.tags
 " set tags+=../.tags
 " set tags+=../../.tags
@@ -512,6 +516,7 @@ xmap <C-\>     <Plug>(neosnippet_expand_target)
 " endif
 
 set completeopt-=preview
+set pumheight=10
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_smart_case = 1
 let g:neocomplcache_enable_underbar_completion = 0
@@ -549,23 +554,23 @@ augroup setOmniFunc
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
     autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-    autocmd FileType c setlocal omnifunc=ccomplete#Complete
-    autocmd FileType cpp setlocal omnifunc=omni#cpp#complete#Main
+    " autocmd FileType c setlocal omnifunc=ccomplete#Complete
+    autocmd FileType c,cpp setlocal omnifunc=omni#cpp#complete#Main
 augroup END
 
 " Enable heavy omni completion.
-if !exists('g:neocomplcache_omni_patterns')
-  let g:neocomplcache_omni_patterns = {}
+if !exists('g:neocomplcache_force_omni_patterns')
+  let g:neocomplcache_force_omni_patterns = {}
 endif
-let g:neocomplcache_omni_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
-let g:neocomplcache_omni_patterns.html = '<[^>]*'
-let g:neocomplcache_omni_patterns.markdown = '<[^>]*'
-let g:neocomplcache_omni_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
-let g:neocomplcache_omni_patterns.python = '[^. \t]\.\w*'
-let g:neocomplcache_omni_patterns.xml = '<[^>]*'
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:neocomplcache_force_omni_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
+let g:neocomplcache_force_omni_patterns.html = '<[^>]*'
+let g:neocomplcache_force_omni_patterns.markdown = '<[^>]*'
+let g:neocomplcache_force_omni_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
+let g:neocomplcache_force_omni_patterns.python = '[^. \t]\.\w*'
+let g:neocomplcache_force_omni_patterns.xml = '<[^>]*'
+let g:neocomplcache_force_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
 " let g:echodoc_enable_at_startup = 1
 
