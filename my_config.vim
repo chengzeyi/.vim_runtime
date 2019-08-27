@@ -132,7 +132,7 @@ nnoremap g<c-]> <c-]>
 set tags=./.tags;,~/.vimtags
 augroup setFtTags
   autocmd!
-  autocmd FileType cpp set tags^=~/.vim_runtime/tags/cpp_tags
+  autocmd FileType cpp setlocal tags^=~/.vim_runtime/tags/cpp_tags
 augroup END
 " set tags+=./.tags
 " set tags+=../.tags
@@ -559,7 +559,8 @@ augroup setOmniFunc
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
   " autocmd FileType c setlocal omnifunc=ccomplete#Complete
-  autocmd FileType c,cpp setlocal omnifunc=omni#cpp#complete#Main
+  autocmd FileType c setlocal omnifunc=omni#cpp#complete#Main
+  autocmd FileType cpp setlocal omnifunc=omni#cpp#complete#Main
 augroup END
 
 " Enable heavy omni completion.
@@ -657,8 +658,8 @@ nnoremap <silent> <C-RightMouse> g<c-]>
 inoremap <silent> <F9> <c-\><c-o>:PreviewTag<cr>
 nnoremap <silent> <F10> :PreviewClose<cr>
 inoremap <silent> <F10> <c-\><c-o>:PreviewClose<cr>
-nnoremap <silent> <F12> :PreviewSignature!<cr>
-inoremap <silent> <F12> <c-\><c-o>:PreviewSignature!<cr>
+nnoremap <silent> <F12> :PreviewSignature<cr>
+inoremap <silent> <F12> <c-\><c-o>:PreviewSignature<cr>
 augroup qfPreview
   autocmd!
   autocmd FileType qf nnoremap <silent><buffer> <F9> :PreviewQuickfix<cr>
