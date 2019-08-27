@@ -114,11 +114,11 @@ command! W w !sudo tee % > /dev/null
 
 nnoremap <leader>ct :Ctags<space>
 command! -nargs=* Ctags !ctags
-    \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q -f .tags <args> > /dev/null
+      \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q -f .tags <args> > /dev/null
 
 command! -nargs=+ Sub call s:sub(<f-args>)
 fun! s:sub(search, replace)
-    execute ':%s/' . a:search . '/' . a:replace . '/gc'
+  execute ':%s/' . a:search . '/' . a:replace . '/gc'
 endfun
 
 set notimeout
@@ -188,9 +188,9 @@ set wildmenu
 
 set wildignore=*.o,*~,*.pyc
 if has("win16") || has("win32")
-    set wildignore+=.git\*,.hg\*,.svn\*
+  set wildignore+=.git\*,.hg\*,.svn\*
 else
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+  set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 endif
 
 set ruler
@@ -221,10 +221,10 @@ set t_vb=
 
 " Properly disable sound on errors on MacVim
 if has("gui_macvim")
-    augroup macBell
-        autocmd!
-        autocmd GUIEnter * set vb t_vb=
-    augroup END
+  augroup macBell
+    autocmd!
+    autocmd GUIEnter * set vb t_vb=
+  augroup END
 endif
 
 " Add a bit extra margin to the left
@@ -235,7 +235,7 @@ syntax enable
 
 " Enable 256 colors palette in Gnome Terminal
 " if $COLORTERM == 'gnome-terminal'
-    " set t_Co=256
+" set t_Co=256
 " endif
 
 set t_Co=256
@@ -243,14 +243,14 @@ set t_Co=256
 let g:space_vim_dark_background = 234
 
 augroup my-colors
-    autocmd!
-    autocmd ColorScheme * hi LineNr     ctermbg=NONE guibg=NONE
-    autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
-    autocmd ColorScheme * hi Comment    guifg=#5C6370 ctermfg=59 cterm=italic
+  autocmd!
+  autocmd ColorScheme * hi LineNr     ctermbg=NONE guibg=NONE
+  autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
+  autocmd ColorScheme * hi Comment    guifg=#5C6370 ctermfg=59 cterm=italic
 augroup END
 
 try
-    colorscheme space-vim-dark
+  colorscheme space-vim-dark
 catch
 endtry
 
@@ -261,32 +261,32 @@ hi SignColumn ctermbg=NONE guibg=NONE
 hi Comment guifg=#5C6370 ctermfg=59 cterm=italic
 
 if has("gui_running")
-    if has("gui_gtk2")
-        set guifont=Courier\ New\ 12
-    elseif has("gui_gtk3")
-        set guifont=Courier\ New\ 12
-    elseif has("gui_macvim")
-        set guifont=Menlo\ Regular:h12
-    elseif has("gui_win32")
-        set guifont=Consolas\ 12
-    endif
+  if has("gui_gtk2")
+    set guifont=Courier\ New\ 12
+  elseif has("gui_gtk3")
+    set guifont=Courier\ New\ 12
+  elseif has("gui_macvim")
+    set guifont=Menlo\ Regular:h12
+  elseif has("gui_win32")
+    set guifont=Consolas\ 12
+  endif
 endif
 
 " set background=dark
 
 " Set extra options when running in GUI mode
 if has("gui_running")
-    set guioptions-=T
-    set guioptions-=e
-    set t_Co=256
-    set guioptions-=m  "menu bar
-    set guioptions-=T  "toolbar
-    set guioptions-=r  "scrollbar
-    set guioptions-=R  "scrollbar
-    set guioptions-=l  "scrollbar
-    set guioptions-=L  "scrollbar
-    set guioptions-=b  "scrollbar
-    set guitablabel=%M\ %t
+  set guioptions-=T
+  set guioptions-=e
+  set t_Co=256
+  set guioptions-=m  "menu bar
+  set guioptions-=T  "toolbar
+  set guioptions-=r  "scrollbar
+  set guioptions-=R  "scrollbar
+  set guioptions-=l  "scrollbar
+  set guioptions-=L  "scrollbar
+  set guioptions-=b  "scrollbar
+  set guitablabel=%M\ %t
 endif
 
 " Set utf8 as standard encoding and en_US as the standard language
@@ -343,7 +343,7 @@ nnoremap <silent> <leader>+ :exe "resize +5"<cr>
 nnoremap <silent> <leader>- :exe "resize -5"<cr>
 
 if exists(':terminal')
-    tnoremap <c-n> <c-w>N
+  tnoremap <c-n> <c-w>N
 endif
 
 " nnoremap <silent> <c-h> :bprevious<cr>
@@ -357,22 +357,22 @@ nnoremap <silent> <leader>bb :Bclose<cr>
 " Don't close window, when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
 function! <SID>BufcloseCloseIt()
-    let l:currentBufNum = bufnr("%")
-    let l:alternateBufNum = bufnr("#")
+  let l:currentBufNum = bufnr("%")
+  let l:alternateBufNum = bufnr("#")
 
-    if buflisted(l:alternateBufNum)
-        buffer #
-    else
-        bnext
-    endif
+  if buflisted(l:alternateBufNum)
+    buffer #
+  else
+    bnext
+  endif
 
-    if bufnr("%") == l:currentBufNum
-        new
-    endif
+  if bufnr("%") == l:currentBufNum
+    new
+  endif
 
-    if buflisted(l:currentBufNum)
-        execute("bdelete! ".l:currentBufNum)
-    endif
+  if buflisted(l:currentBufNum)
+    execute("bdelete! ".l:currentBufNum)
+  endif
 endfunction
 
 " Close all the buffers
@@ -407,8 +407,8 @@ nnoremap <silent> <leader>t<leader> :tabnext<cr>
 let g:lasttab = 1
 nnoremap <silent> <leader>tl :exe "tabn ".g:lasttab<cr>
 augroup tabLeave
-    au!
-    au TabLeave * let g:lasttab = tabpagenr()
+  au!
+  au TabLeave * let g:lasttab = tabpagenr()
 augroup END
 
 " Opens a new tab with the current buffer's path
@@ -427,9 +427,9 @@ catch
 endtry
 
 augroup bufReadPost
-    au!
-    " Return to last edit position when opening files (You want this!)
-    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+  au!
+  " Return to last edit position when opening files (You want this!)
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 augroup END
 
 " Always show the status line
@@ -448,24 +448,24 @@ nnoremap <silent> <leader>sa zg
 nnoremap <silent> <leader>s? z=
 
 function! CmdLine(str)
-    call feedkeys(":" . a:str)
+  call feedkeys(":" . a:str)
 endfunction
 
 function! VisualSelection(direction, extra_filter) range
-    let l:saved_reg = @"
-    execute "normal! vgvy"
+  let l:saved_reg = @"
+  execute "normal! vgvy"
 
-    let l:pattern = escape(@", "\\/.*'$^~[]")
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
+  let l:pattern = escape(@", "\\/.*'$^~[]")
+  let l:pattern = substitute(l:pattern, "\n$", "", "")
 
-    if a:direction == 'gv'
-        call CmdLine("Ack '" . l:pattern . "' " )
-    elseif a:direction == 'replace'
-        call CmdLine("%s" . '/'. l:pattern . '/')
-    endif
+  if a:direction == 'gv'
+    call CmdLine("Ack '" . l:pattern . "' " )
+  elseif a:direction == 'replace'
+    call CmdLine("%s" . '/'. l:pattern . '/')
+  endif
 
-    let @/ = l:pattern
-    let @" = l:saved_reg
+  let @/ = l:pattern
+  let @" = l:saved_reg
 endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -473,8 +473,8 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <silent> <leader>e :e! ~/.vim_runtime/my_config.vim<cr>
 augroup vimConfig
-    autocmd!
-    autocmd bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
+  autocmd!
+  autocmd bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -482,8 +482,8 @@ augroup END
 "    means that you can undo even when you close a buffer/VIM
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 try
-    set undodir=~/.vim_runtime/temp_dirs/undodir
-    set undofile
+  set undodir=~/.vim_runtime/temp_dirs/undodir
+  set undofile
 catch
 endtry
 
@@ -512,7 +512,7 @@ smap <C-\>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-\>     <Plug>(neosnippet_expand_target)
 " For conceal markers.
 " if has('conceal')
-  " set conceallevel=2 concealcursor=niv
+" set conceallevel=2 concealcursor=niv
 " endif
 
 set completeopt-=preview
@@ -529,9 +529,9 @@ let g:neocomplcache_tags_caching_limit_file_size = 20000000
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
-    " return neocomplcache#smart_close_popup() . "\<CR>"
-    " For no inserting <CR> key.
-    return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+  " return neocomplcache#smart_close_popup() . "\<CR>"
+  " For no inserting <CR> key.
+  return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
 endfunction
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -547,15 +547,19 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 " set omnifunc=ale#completion#OmniFunc
 set omnifunc=syntaxcomplete#Complete
 augroup setOmniFunc
-    autocmd!
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd!
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  if has('python3')
+    autocmd FileType python setlocal omnifunc=python3complete#Complete
+  elseif has('python')
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-    autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-    " autocmd FileType c setlocal omnifunc=ccomplete#Complete
-    autocmd FileType c,cpp setlocal omnifunc=omni#cpp#complete#Main
+  endif
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+  " autocmd FileType c setlocal omnifunc=ccomplete#Complete
+  autocmd FileType c,cpp setlocal omnifunc=omni#cpp#complete#Main
 augroup END
 
 " Enable heavy omni completion.
