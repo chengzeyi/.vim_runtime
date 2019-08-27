@@ -146,6 +146,7 @@ augroup END
 
 augroup setCompiler
   autocmd!
+  autocmd FileType python compiler pylint
   autocmd FileType c compiler gcc
   autocmd FileType cpp compiler gcc
 augroup END
@@ -303,7 +304,6 @@ set encoding=utf8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
-
 
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
