@@ -141,6 +141,13 @@ augroup END
 " set tags+=../../../../.tags
 " set tags+=~/.vimtags
 " set tags+=~/.vim_runtime/tags/cpp_tags
+
+augroup setCompiler
+  autocmd!
+  autocmd FileType c compiler gcc
+  autocmd FileType cpp compiler gcc
+augroup END
+
 set updatetime=1500
 
 set number
