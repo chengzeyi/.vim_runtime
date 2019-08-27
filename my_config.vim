@@ -114,7 +114,7 @@ command! W w !sudo tee % > /dev/null
 
 nnoremap <leader>ct :Ctags<space>
 command! -nargs=* Ctags !ctags
-    \ -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q -f .tags <args> > /dev/null
+    \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q -f .tags <args> > /dev/null
 
 command! -nargs=+ Sub call s:sub(<f-args>)
 fun! s:sub(search, replace)
@@ -129,13 +129,14 @@ set mouse=a
 nnoremap <c-]> g<c-]>
 nnoremap g<c-]> <c-]>
 
-set tags+=~/.vimtags
+set tags=./.tags;,~/.vimtags
+" set tags+=./.tags
+" set tags+=../.tags
+" set tags+=../../.tags
+" set tags+=../../../.tags
+" set tags+=../../../../.tags
+" set tags+=~/.vimtags
 " set tags+=~/.vim_runtime/tags/cpp_tags
-set tags+=./.tags
-set tags+=../.tags
-set tags+=../../.tags
-set tags+=../../../.tags
-set tags+=../../../../.tags
 set updatetime=1500
 
 set number
@@ -548,7 +549,8 @@ augroup setOmniFunc
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
     autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-    autocmd FileType c,cpp setlocal omnifunc=omni#cpp#complete#Main
+    autocmd FileType c setlocal omnifunc=ccomplete#Complete
+    autocmd FileType cpp setlocal omnifunc=omni#cpp#complete#Main
 augroup END
 
 " Enable heavy omni completion.
@@ -660,6 +662,7 @@ nnoremap <silent> <leader>rs :AsyncStop<cr>
 " map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
 let g:asyncrun_open = 10
 let g:asyncrun_save = 2
+let g:asyncrun_auto = "make"
 
 " let g:fzf_command_prefix = 'Fzf'
 " Mapping selecting mappings
