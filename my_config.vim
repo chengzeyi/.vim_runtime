@@ -107,6 +107,7 @@ nnoremap <silent> <leader>p :set invpaste paste?<cr>
 nnoremap <silent> <leader>w :w!<cr>
 nnoremap <silent> <leader>, :cprev<cr>
 nnoremap <silent> <leader>. :cnext<cr>
+
 vnoremap <silent> S( xi()<esc>P
 vnoremap <silent> Sb xi()<esc>P
 vnoremap <silent> S[ xi[]<esc>P
@@ -116,20 +117,42 @@ vnoremap <silent> S<lt> xi<lt>><esc>P
 vnoremap <silent> S' xi''<esc>P
 vnoremap <silent> S" xi""<esc>P
 
-nnoremap <silent> <leader>a :call SwitchSourceHeader()<cr>
+vnoremap <silent> cS( holxr)hr(p
+vnoremap <silent> cSb holxr)hr(p
+vnoremap <silent> cS[ holxr]hr[p
+vnoremap <silent> cS{ holxr}hr{p
+vnoremap <silent> cSB holxr}hr{p
+vnoremap <silent> cS<lt> holxr>hr<lt>p
+vnoremap <silent> cS' holxr'hr'p
+vnoremap <silent> cS" holxr"hr"p
+
+vnoremap <silent> dS xhPlxx
+
+nnoremap <silent> dS( vi(xhPlxx
+nnoremap <silent> dSb vi(xhPlxx
+nnoremap <silent> dS[ vi[xhPlxx
+nnoremap <silent> dS{ vi{xhPlxx
+nnoremap <silent> dSB vi{xhPlxx
+nnoremap <silent> dS<lt> vi<lt>xhPlxx
+nnoremap <silent> dS' vi'xhPlxx
+nnoremap <silent> dS" vi"xhPlxx
+
+nnoremap <silent> <leader>aa :call SwitchSourceHeader()<cr>
 function! SwitchSourceHeader() 
-  if (expand ("%:e") == "cpp")
-    find %:t:r.h
-    find %:t:r.hpp
-  elseif (expand ("%:e") == "c")
-    find %:t:r.h
-  elseif (expand ("%:e") == "hpp")
-    find %:t:r.cpp
-  elseif (expand ("%:e") == "h")
-    find %:t:r.cpp
-    find %:t:r.c
+  let suffix = expand("%:e")
+  if suffix == "cpp"
+    silent! find %:t:r.h
+    silent! find %:t:r.hpp
+  elseif suffix == "c"
+    silent! find %:t:r.h
+  elseif suffix == "hpp"
+    silent! find %:t:r.cpp
+  elseif suffix == "h"
+    silent! find %:t:r.cpp
+    silent! find %:t:r.c
   endif
 endfunction
+
 nnoremap <leader>ct :Ctags<space>
 command! -nargs=* Ctags !ctags
       \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q -f .tags <args> > /dev/null
