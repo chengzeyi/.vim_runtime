@@ -76,6 +76,8 @@ Plug 'sbdchd/neoformat', { 'on': 'Neoformat' }
 Plug 'skywind3000/vim-preview'
 Plug 'skywind3000/asyncrun.vim'
 
+Plug 'xuhdev/SingleCompile'
+
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 
@@ -680,6 +682,9 @@ nnoremap <silent> <leader>rs :AsyncStop<cr>
 let g:asyncrun_open = 10
 let g:asyncrun_save = 2
 let g:asyncrun_auto = "make"
+
+nnoremap <silent> <F5> :SCCompile<cr>
+nnoremap <silent> <F6> :SCCompileRun<cr>
 
 " let g:fzf_command_prefix = 'Fzf'
 " Mapping selecting mappings
