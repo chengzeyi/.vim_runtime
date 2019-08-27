@@ -1,7 +1,7 @@
 call plug#begin('~/.vim_runtime/plugged')
 
 Plug 'chengzeyi/vim-markify'
-Plug 'chengzeyi/a.vim', { 'on': 'A' }
+" Plug 'chengzeyi/a.vim', { 'on': 'A' }
 Plug 'chengzeyi/OmniCppComplete', { 'for': [ 'cpp', 'c' ] }
 
 Plug 'lfilho/cosco.vim'
@@ -37,15 +37,11 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
 
 Plug 'tpope/vim-fugitive'
-
 Plug 'tpope/vim-commentary'
-
-Plug 'tpope/vim-surround'
-
+" Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 
 Plug 'vim-airline/vim-airline'
-
 Plug 'vim-airline/vim-airline-themes'
 
 Plug 'airblade/vim-gitgutter'
@@ -64,7 +60,7 @@ Plug 'dbeecham/ctrlp-commandpalette.vim', { 'on': 'CtrlPCommandPalette' }
 Plug 'Shougo/neocomplcache.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
-Plug 'Shougo/echodoc.vim'
+" Plug 'Shougo/echodoc.vim'
 " Plug 'Shougo/deol.nvim'
 
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': [ 'cpp', 'c' ] }
@@ -88,7 +84,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 
 Plug 'sheerun/vim-polyglot'
 
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
 
 Plug 'liuchengxu/space-vim-dark'
 
@@ -111,9 +107,29 @@ nnoremap <silent> <leader>p :set invpaste paste?<cr>
 nnoremap <silent> <leader>w :w!<cr>
 nnoremap <silent> <leader>, :cprev<cr>
 nnoremap <silent> <leader>. :cnext<cr>
+vnoremap <silent> S( xi()<esc>P
+vnoremap <silent> Sb xi()<esc>P
+vnoremap <silent> S[ xi[]<esc>P
+vnoremap <silent> S{ xi{}<esc>P
+vnoremap <silent> SB xi{}<esc>P
+vnoremap <silent> S<lt> xi<lt>><esc>P
+vnoremap <silent> S' xi''<esc>P
+vnoremap <silent> S" xi""<esc>P
 
-command! W w !sudo tee % > /dev/null
-
+nnoremap <silent> <leader>a :call SwitchSourceHeader()<cr>
+function! SwitchSourceHeader() 
+  if (expand ("%:e") == "cpp")
+    find %:t:r.h
+    find %:t:r.hpp
+  elseif (expand ("%:e") == "c")
+    find %:t:r.h
+  elseif (expand ("%:e") == "hpp")
+    find %:t:r.cpp
+  elseif (expand ("%:e") == "h")
+    find %:t:r.cpp
+    find %:t:r.c
+  endif
+endfunction
 nnoremap <leader>ct :Ctags<space>
 command! -nargs=* Ctags !ctags
       \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q -f .tags <args> > /dev/null
@@ -122,6 +138,8 @@ command! -nargs=+ Sub call s:sub(<f-args>)
 fun! s:sub(search, replace)
   execute ':%s/' . a:search . '/' . a:replace . '/gc'
 endfun
+
+command! W w !sudo tee % > /dev/null
 
 set notimeout
 set nottimeout
@@ -724,19 +742,19 @@ runtime plugin/grepper.vim
 let g:grepper.prompt_mapping_tool = '<c-g>'
 
 " inoremap <silent> <c-x><space> <C-\><C-O>:ALEComplete<CR>
-nnoremap <silent> <leader>aa :ALEToggle<cr>
-nnoremap <silent> <leader>al :ALELint<cr>
-nnoremap <silent> <leader>ag :ALEGoToDefinition<cr>
-nnoremap <silent> <leader>af :ALEFindReferences<cr>
-nnoremap <silent> <leader>ah :ALEHover<cr>
-let g:ale_enabled = 0
-let g:ale_lint_on_enter = 1
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_insert_leave = 0
-let g:ale_lint_on_filetype_changed = 1
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_set_highlights = 0
-let g:ale_echo_cursor = 0
+" nnoremap <silent> <leader>aa :ALEToggle<cr>
+" nnoremap <silent> <leader>al :ALELint<cr>
+" nnoremap <silent> <leader>ag :ALEGoToDefinition<cr>
+" nnoremap <silent> <leader>af :ALEFindReferences<cr>
+" nnoremap <silent> <leader>ah :ALEHover<cr>
+" let g:ale_enabled = 0
+" let g:ale_lint_on_enter = 1
+" let g:ale_lint_on_save = 1
+" let g:ale_lint_on_insert_leave = 0
+" let g:ale_lint_on_filetype_changed = 1
+" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_set_highlights = 0
+" let g:ale_echo_cursor = 0
 
 " let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
