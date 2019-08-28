@@ -124,18 +124,18 @@ vnoremap <silent> S` xi``<esc>P
 
 nnoremap <silent> yS :call AddSurround()<cr>
 function! AddSurround()
-  let cmd = 'normal v'
-  let ch = getchar()
-  while ch >= char2nr('0') && ch <= char2nr('9')
-    let cmd .= nr2char(ch)
+    let cmd = 'normal v'
     let ch = getchar()
-  endwhile
-  let ch = nr2char(ch)
-  let cmd .= ch
-  if ch == 'i' || ch == 'a'
-      let cmd .= nr2char(getchar())
-  endif
-  silent! execute cmd . 'S' . nr2char(getchar())
+    while ch >= char2nr('0') && ch <= char2nr('9')
+        let cmd .= nr2char(ch)
+        let ch = getchar()
+    endwhile
+    let ch = nr2char(ch)
+    let cmd .= ch
+    if ch == 'i' || ch == 'a'
+        let cmd .= nr2char(getchar())
+    endif
+    silent! execute cmd . 'S' . nr2char(getchar())
 endfunction
 
 vnoremap <silent> cS( holxr)hr(p
@@ -154,9 +154,9 @@ vnoremap <silent> cS` holxr`hr`p
 
 nnoremap <silent> cS :call ChangeSurround()<cr>
 function! ChangeSurround()
-  let from = nr2char(getchar())
-  let to = nr2char(getchar())
-  silent! execute 'normal ' . 'va' . from . 'cS' . to
+    let from = nr2char(getchar())
+    let to = nr2char(getchar())
+    silent! execute 'normal ' . 'va' . from . 'cS' . to
 endfunction
 
 vnoremap <silent> dS xhPlxx
@@ -177,27 +177,27 @@ nnoremap <silent> dS` vi`xhPlxx
 
 nnoremap <silent> <leader>aa :call SwitchSourceHeader()<cr>
 function! SwitchSourceHeader()
-  let suffix = expand("%:e")
-  if suffix == "cpp"
-    silent! find %:t:r.h
-    silent! find %:t:r.hpp
-  elseif suffix == "c"
-    silent! find %:t:r.h
-  elseif suffix == "hpp"
-    silent! find %:t:r.cpp
-  elseif suffix == "h"
-    silent! find %:t:r.cpp
-    silent! find %:t:r.c
-  endif
+    let suffix = expand("%:e")
+    if suffix == "cpp"
+        silent! find %:t:r.h
+        silent! find %:t:r.hpp
+    elseif suffix == "c"
+        silent! find %:t:r.h
+    elseif suffix == "hpp"
+        silent! find %:t:r.cpp
+    elseif suffix == "h"
+        silent! find %:t:r.cpp
+        silent! find %:t:r.c
+    endif
 endfunction
 
 nnoremap <leader>ct :Ctags<space>
 command! -nargs=* Ctags !ctags
-      \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q -f .tags <args> > /dev/null
+            \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q -f .tags <args> > /dev/null
 
 command! -nargs=+ Sub call s:sub(<f-args>)
 fun! s:sub(search, replace)
-  execute ':%s/' . a:search . '/' . a:replace . '/gc'
+    execute ':%s/' . a:search . '/' . a:replace . '/gc'
 endfun
 
 command! W w !sudo tee % > /dev/null
@@ -212,8 +212,8 @@ nnoremap g<c-]> <c-]>
 
 set tags=./.tags;,~/.vimtags
 augroup setFtTags
-  autocmd!
-  autocmd FileType cpp setlocal tags^=~/.vim_runtime/tags/cpp_tags
+    autocmd!
+    autocmd FileType cpp setlocal tags^=~/.vim_runtime/tags/cpp_tags
 augroup END
 " set tags+=./.tags
 " set tags+=../.tags
@@ -224,10 +224,10 @@ augroup END
 " set tags+=~/.vim_runtime/tags/cpp_tags
 
 augroup setCompiler
-  autocmd!
-  autocmd FileType python compiler pylint
-  autocmd FileType c compiler gcc
-  autocmd FileType cpp compiler gcc
+    autocmd!
+    autocmd FileType python compiler pylint
+    autocmd FileType c compiler gcc
+    autocmd FileType cpp compiler gcc
 augroup END
 
 set updatetime=1500
@@ -277,9 +277,9 @@ set wildmenu
 
 set wildignore=*.o,*~,*.pyc
 if has("win16") || has("win32")
-  set wildignore+=.git\*,.hg\*,.svn\*
+    set wildignore+=.git\*,.hg\*,.svn\*
 else
-  set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 endif
 
 set ruler
@@ -310,10 +310,10 @@ set t_vb=
 
 " Properly disable sound on errors on MacVim
 if has("gui_macvim")
-  augroup macBell
-    autocmd!
-    autocmd GUIEnter * set vb t_vb=
-  augroup END
+    augroup macBell
+        autocmd!
+        autocmd GUIEnter * set vb t_vb=
+    augroup END
 endif
 
 " Add a bit extra margin to the left
@@ -332,14 +332,14 @@ set t_Co=256
 let g:space_vim_dark_background = 234
 
 augroup my-colors
-  autocmd!
-  autocmd ColorScheme * hi LineNr     ctermbg=NONE guibg=NONE
-  autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
-  autocmd ColorScheme * hi Comment    guifg=#5C6370 ctermfg=59 cterm=italic
+    autocmd!
+    autocmd ColorScheme * hi LineNr     ctermbg=NONE guibg=NONE
+    autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
+    autocmd ColorScheme * hi Comment    guifg=#5C6370 ctermfg=59 cterm=italic
 augroup END
 
 try
-  colorscheme space-vim-dark
+    colorscheme space-vim-dark
 catch
 endtry
 
@@ -350,32 +350,32 @@ hi SignColumn ctermbg=NONE guibg=NONE
 hi Comment guifg=#5C6370 ctermfg=59 cterm=italic
 
 if has("gui_running")
-  if has("gui_gtk2")
-    set guifont=Courier\ New\ 12
-  elseif has("gui_gtk3")
-    set guifont=Courier\ New\ 12
-  elseif has("gui_macvim")
-    set guifont=Menlo\ Regular:h12
-  elseif has("gui_win32")
-    set guifont=Consolas\ 12
-  endif
+    if has("gui_gtk2")
+        set guifont=Courier\ New\ 12
+    elseif has("gui_gtk3")
+        set guifont=Courier\ New\ 12
+    elseif has("gui_macvim")
+        set guifont=Menlo\ Regular:h12
+    elseif has("gui_win32")
+        set guifont=Consolas\ 12
+    endif
 endif
 
 " set background=dark
 
 " Set extra options when running in GUI mode
 if has("gui_running")
-  set guioptions-=T
-  set guioptions-=e
-  set t_Co=256
-  set guioptions-=m  "menu bar
-  set guioptions-=T  "toolbar
-  set guioptions-=r  "scrollbar
-  set guioptions-=R  "scrollbar
-  set guioptions-=l  "scrollbar
-  set guioptions-=L  "scrollbar
-  set guioptions-=b  "scrollbar
-  set guitablabel=%M\ %t
+    set guioptions-=T
+    set guioptions-=e
+    set t_Co=256
+    set guioptions-=m  "menu bar
+    set guioptions-=T  "toolbar
+    set guioptions-=r  "scrollbar
+    set guioptions-=R  "scrollbar
+    set guioptions-=l  "scrollbar
+    set guioptions-=L  "scrollbar
+    set guioptions-=b  "scrollbar
+    set guitablabel=%M\ %t
 endif
 
 " Set utf8 as standard encoding and en_US as the standard language
@@ -431,7 +431,7 @@ nnoremap <silent> <leader>+ :exe "resize +5"<cr>
 nnoremap <silent> <leader>- :exe "resize -5"<cr>
 
 if exists(':terminal')
-  tnoremap <c-n> <c-w>N
+    tnoremap <c-n> <c-w>N
 endif
 
 " nnoremap <silent> <c-h> :bprevious<cr>
@@ -445,22 +445,22 @@ nnoremap <silent> <leader>bb :Bclose<cr>
 " Don't close window, when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
 function! <SID>BufcloseCloseIt()
-  let l:currentBufNum = bufnr("%")
-  let l:alternateBufNum = bufnr("#")
+    let l:currentBufNum = bufnr("%")
+    let l:alternateBufNum = bufnr("#")
 
-  if buflisted(l:alternateBufNum)
-    buffer #
-  else
-    bnext
-  endif
+    if buflisted(l:alternateBufNum)
+        buffer #
+    else
+        bnext
+    endif
 
-  if bufnr("%") == l:currentBufNum
-    new
-  endif
+    if bufnr("%") == l:currentBufNum
+        new
+    endif
 
-  if buflisted(l:currentBufNum)
-    execute("bdelete! ".l:currentBufNum)
-  endif
+    if buflisted(l:currentBufNum)
+        execute("bdelete! ".l:currentBufNum)
+    endif
 endfunction
 
 " Close all the buffers
@@ -468,17 +468,17 @@ nnoremap <silent> <leader>bd :bufdo bd<cr>
 nnoremap <silent> <leader>bh :CloseHiddenBuffers<cr>
 command! CloseHiddenBuffers call s:CloseHiddenBuffers()
 function! s:CloseHiddenBuffers()
-  let open_buffers = []
+    let open_buffers = []
 
-  for i in range(tabpagenr('$'))
-    call extend(open_buffers, tabpagebuflist(i + 1))
-  endfor
+    for i in range(tabpagenr('$'))
+        call extend(open_buffers, tabpagebuflist(i + 1))
+    endfor
 
-  for num in range(1, bufnr("$") + 1)
-    if buflisted(num) && index(open_buffers, num) == -1
-      exec "bdelete ".num
-    endif
-  endfor
+    for num in range(1, bufnr("$") + 1)
+        if buflisted(num) && index(open_buffers, num) == -1
+            exec "bdelete ".num
+        endif
+    endfor
 endfunction
 
 nnoremap <silent> <leader><tab> :bnext<cr>
@@ -495,8 +495,8 @@ nnoremap <silent> <leader>t<leader> :tabnext<cr>
 let g:lasttab = 1
 nnoremap <silent> <leader>tl :exe "tabn ".g:lasttab<cr>
 augroup tabLeave
-  au!
-  au TabLeave * let g:lasttab = tabpagenr()
+    au!
+    au TabLeave * let g:lasttab = tabpagenr()
 augroup END
 
 " Opens a new tab with the current buffer's path
@@ -508,16 +508,16 @@ nnoremap <silent> <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " Specify the behavior when switching between buffers
 try
-  " set switchbuf=useopen,usetab,newtab
-  set switchbuf=useopen
-  set stal=2
+    " set switchbuf=useopen,usetab,newtab
+    set switchbuf=useopen
+    set stal=2
 catch
 endtry
 
 augroup bufReadPost
-  au!
-  " Return to last edit position when opening files (You want this!)
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+    au!
+    " Return to last edit position when opening files (You want this!)
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 augroup END
 
 " Always show the status line
@@ -536,24 +536,24 @@ nnoremap <silent> <leader>sa zg
 nnoremap <silent> <leader>s? z=
 
 function! CmdLine(str)
-  call feedkeys(":" . a:str)
+    call feedkeys(":" . a:str)
 endfunction
 
 function! VisualSelection(direction, extra_filter) range
-  let l:saved_reg = @"
-  execute "normal! vgvy"
+    let l:saved_reg = @"
+    execute "normal! vgvy"
 
-  let l:pattern = escape(@", "\\/.*'$^~[]")
-  let l:pattern = substitute(l:pattern, "\n$", "", "")
+    let l:pattern = escape(@", "\\/.*'$^~[]")
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
 
-  if a:direction == 'gv'
-    call CmdLine("Ack '" . l:pattern . "' " )
-  elseif a:direction == 'replace'
-    call CmdLine("%s" . '/'. l:pattern . '/')
-  endif
+    if a:direction == 'gv'
+        call CmdLine("Ack '" . l:pattern . "' " )
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    endif
 
-  let @/ = l:pattern
-  let @" = l:saved_reg
+    let @/ = l:pattern
+    let @" = l:saved_reg
 endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -561,8 +561,8 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <silent> <leader>e :e! ~/.vim_runtime/my_config.vim<cr>
 augroup vimConfig
-  autocmd!
-  autocmd bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
+    autocmd!
+    autocmd bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -570,8 +570,8 @@ augroup END
 "    means that you can undo even when you close a buffer/VIM
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 try
-  set undodir=~/.vim_runtime/temp_dirs/undodir
-  set undofile
+    set undodir=~/.vim_runtime/temp_dirs/undodir
+    set undofile
 catch
 endtry
 
@@ -617,9 +617,9 @@ let g:neocomplcache_tags_caching_limit_file_size = 20000000
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
-  " return neocomplcache#smart_close_popup() . "\<CR>"
-  " For no inserting <CR> key.
-  return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+    " return neocomplcache#smart_close_popup() . "\<CR>"
+    " For no inserting <CR> key.
+    return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
 endfunction
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -635,25 +635,25 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 " set omnifunc=ale#completion#OmniFunc
 set omnifunc=syntaxcomplete#Complete
 augroup setOmniFunc
-  autocmd!
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  if has('python3')
-    autocmd FileType python setlocal omnifunc=python3complete#Complete
-  elseif has('python')
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  endif
-  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-  " autocmd FileType c setlocal omnifunc=ccomplete#Complete
-  autocmd FileType c setlocal omnifunc=omni#cpp#complete#Main
-  autocmd FileType cpp setlocal omnifunc=omni#cpp#complete#Main
+    autocmd!
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    if has('python3')
+        autocmd FileType python setlocal omnifunc=python3complete#Complete
+    elseif has('python')
+        autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    endif
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+    " autocmd FileType c setlocal omnifunc=ccomplete#Complete
+    autocmd FileType c setlocal omnifunc=omni#cpp#complete#Main
+    autocmd FileType cpp setlocal omnifunc=omni#cpp#complete#Main
 augroup END
 
 " Enable heavy omni completion.
 if !exists('g:neocomplcache_force_omni_patterns')
-  let g:neocomplcache_force_omni_patterns = {}
+    let g:neocomplcache_force_omni_patterns = {}
 endif
 let g:neocomplcache_force_omni_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
 let g:neocomplcache_force_omni_patterns.html = '<[^>]*'
@@ -749,9 +749,9 @@ inoremap <silent> <F10> <c-\><c-o>:PreviewClose<cr>
 nnoremap <silent> <F12> :PreviewSignature<cr>
 inoremap <silent> <F12> <c-\><c-o>:PreviewSignature<cr>
 augroup qfPreview
-  autocmd!
-  autocmd FileType qf nnoremap <silent><buffer> <F9> :PreviewQuickfix<cr>
-  autocmd FileType qf nnoremap <silent><buffer> <F10> :PreviewClose<cr>
+    autocmd!
+    autocmd FileType qf nnoremap <silent><buffer> <F9> :PreviewQuickfix<cr>
+    autocmd FileType qf nnoremap <silent><buffer> <F10> :PreviewClose<cr>
 augroup END
 
 nnoremap <leader>rr :AsyncRun<space>
@@ -777,8 +777,8 @@ nnoremap <silent> <F6> :SCCompileRun<cr>
 nmap <c-_> <Plug>CommentaryLine
 vmap <c-_> <Plug>Commentary
 augroup commentStr
-  autocmd!
-  autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
+    autocmd!
+    autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 augroup END
 
 let g:easytags_include_members = 1
