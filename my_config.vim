@@ -117,6 +117,22 @@ vnoremap <silent> S<lt> xi<lt>><esc>P
 vnoremap <silent> S' xi''<esc>P
 vnoremap <silent> S" xi""<esc>P
 
+nnoremap <silent> yS :call AddSurround()<cr>
+function! AddSurround()
+  let cmd = 'normal v'
+  let ch = getchar()
+  while (ch >= char2nr('0') && ch <= char2nr('9'))
+    let cmd .= nr2char(ch)
+    let ch = getchar()
+  endwhile
+  let ch = nr2char(ch)
+  let cmd .= ch
+  if (ch == 'i' || ch == 'a')
+      let cmd .= nr2char(getchar())
+  endif
+  silent! execute cmd . 'S' . nr2char(getchar())
+endfunction
+
 vnoremap <silent> cS( holxr)hr(p
 vnoremap <silent> cSb holxr)hr(p
 vnoremap <silent> cS[ holxr]hr[p
@@ -125,6 +141,13 @@ vnoremap <silent> cSB holxr}hr{p
 vnoremap <silent> cS<lt> holxr>hr<lt>p
 vnoremap <silent> cS' holxr'hr'p
 vnoremap <silent> cS" holxr"hr"p
+
+nnoremap <silent> cS :call ChangeSurround()<cr>
+function! ChangeSurround()
+  let from = nr2char(getchar())
+  let to = nr2char(getchar())
+  silent! execute 'normal ' . 'va' . from . 'cS' . to
+endfunction
 
 vnoremap <silent> dS xhPlxx
 
@@ -138,7 +161,7 @@ nnoremap <silent> dS' vi'xhPlxx
 nnoremap <silent> dS" vi"xhPlxx
 
 nnoremap <silent> <leader>aa :call SwitchSourceHeader()<cr>
-function! SwitchSourceHeader() 
+function! SwitchSourceHeader()
   let suffix = expand("%:e")
   if suffix == "cpp"
     silent! find %:t:r.h
