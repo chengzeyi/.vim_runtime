@@ -120,6 +120,7 @@ vnoremap <silent> S<lt> xi<lt>><esc>P
 vnoremap <silent> S> xi<lt>><esc>P
 vnoremap <silent> S' xi''<esc>P
 vnoremap <silent> S" xi""<esc>P
+vnoremap <silent> S` xi``<esc>P
 
 nnoremap <silent> yS :call AddSurround()<cr>
 function! AddSurround()
@@ -149,6 +150,7 @@ vnoremap <silent> cS<lt> holxr>hr<lt>p
 vnoremap <silent> cS> holxr>hr<lt>p
 vnoremap <silent> cS' holxr'hr'p
 vnoremap <silent> cS" holxr"hr"p
+vnoremap <silent> cS` holxr`hr`p
 
 nnoremap <silent> cS :call ChangeSurround()<cr>
 function! ChangeSurround()
@@ -171,6 +173,7 @@ nnoremap <silent> dS<lt> vi<lt>xhPlxx
 nnoremap <silent> dS> vi<lt>xhPlxx
 nnoremap <silent> dS' vi'xhPlxx
 nnoremap <silent> dS" vi"xhPlxx
+nnoremap <silent> dS` vi`xhPlxx
 
 nnoremap <silent> <leader>aa :call SwitchSourceHeader()<cr>
 function! SwitchSourceHeader()
