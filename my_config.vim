@@ -1,8 +1,10 @@
+set nocompatible
+
 call plug#begin('~/.vim_runtime/plugged')
 
 Plug 'chengzeyi/vim-markify'
-" Plug 'chengzeyi/a.vim', { 'on': 'A' }
-Plug 'chengzeyi/OmniCppComplete', { 'for': [ 'cpp', 'c' ] }
+" Plug 'chengzeyi/a.vim', {'on': 'A'}
+Plug 'chengzeyi/OmniCppComplete', {'for': ['cpp', 'c']}
 
 Plug 'lfilho/cosco.vim'
 
@@ -10,13 +12,13 @@ Plug 'vim-utils/vim-man'
 
 Plug 'mattn/gist-vim'
 
-Plug 'FooSoft/vim-argwrap', { 'on': 'ArgWrap' }
+Plug 'FooSoft/vim-argwrap', {'on': 'ArgWrap'}
 
-Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
+Plug 'mhinz/vim-sayonara', {'on': 'Sayonara'}
 
 Plug 'terryma/vim-expand-region'
 
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 
 Plug 'luochen1990/rainbow'
 
@@ -34,7 +36,7 @@ Plug 'mhinz/vim-grepper'
 
 Plug 'jiangmiao/auto-pairs'
 
-Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
+Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
 Plug 'junegunn/vim-easy-align'
 
 Plug 'tpope/vim-fugitive'
@@ -49,14 +51,14 @@ Plug 'airblade/vim-gitgutter'
 
 Plug 'maxbrunsfeld/vim-yankstack'
 
-Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeToggle'}
 
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tacahiroy/ctrlp-funky', { 'on': 'CtrlPFunky' }
+Plug 'tacahiroy/ctrlp-funky', {'on': 'CtrlPFunky'}
 " Plug 'fisadev/vim-ctrlp-cmdpalette', { 'on': 'CtrlPCmdPalette' }
-Plug 'dbeecham/ctrlp-commandpalette.vim', { 'on': 'CtrlPCommandPalette' }
+Plug 'dbeecham/ctrlp-commandpalette.vim', {'on': 'CtrlPCommandPalette'}
 
 Plug 'Shougo/neocomplcache.vim'
 Plug 'Shougo/neosnippet.vim'
@@ -64,11 +66,11 @@ Plug 'Shougo/neosnippet-snippets'
 " Plug 'Shougo/echodoc.vim'
 " Plug 'Shougo/deol.nvim'
 
-Plug 'octol/vim-cpp-enhanced-highlight', { 'for': [ 'cpp', 'c' ] }
+Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['cpp', 'c' ]}
 
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+Plug 'majutsushi/tagbar', {'on': ['TagbarToggle', 'TagbarOpenAutoClose']}
 
-Plug 'sbdchd/neoformat', { 'on': 'Neoformat' }
+Plug 'sbdchd/neoformat', {'on': 'Neoformat'}
 
 Plug 'skywind3000/vim-preview'
 Plug 'skywind3000/asyncrun.vim'
@@ -99,8 +101,6 @@ Plug 'joshdick/onedark.vim'
 
 call plug#end()
 
-set nocompatible
-
 let mapleader = " "
 
 nnoremap <silent> <leader>? :execute 'map <lt>leader>' . nr2char(getchar())<cr>
@@ -108,6 +108,7 @@ nnoremap <silent> <leader>p :set invpaste paste?<cr>
 nnoremap <silent> <leader>w :w!<cr>
 nnoremap <silent> <leader>, :cprev<cr>
 nnoremap <silent> <leader>. :cnext<cr>
+nnoremap <silent> " :registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>
 
 xnoremap <silent> S( xi()<esc>P
 xnoremap <silent> S) xi()<esc>P
@@ -413,10 +414,10 @@ set wrap "Wrap lines
 xnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 xnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
-nnoremap <c-k> <C-w>p<C-y><C-w>p
-nnoremap <c-j> <C-w>p<C-e><C-w>p
-inoremap <c-k> <Esc><C-w>p<C-y><C-w>pi
-inoremap <c-j> <Esc><C-w>p<C-e><C-w>pi
+nnoremap <c-k> <C-w>p5<C-y><C-w>p
+nnoremap <c-j> <C-w>p5<C-e><C-w>p
+inoremap <c-k> <Esc><C-w>p5<C-y><C-w>pi
+inoremap <c-j> <Esc><C-w>p5<C-e><C-w>pi
 
 " Disable highlight when <leader><cr> is pressed
 nnoremap <silent> <leader><cr> :noh<cr>
@@ -615,23 +616,25 @@ let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 let g:neocomplcache_tags_caching_limit_file_size = 20000000
 " let g:neocomplcache_disable_auto_complete = 1
 
+inoremap <expr><C-g> neocomplcache#undo_completion()
+inoremap <expr><C-l> neocomplcache#complete_common_string()
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
-    " return neocomplcache#smart_close_popup() . "\<CR>"
+    return neocomplcache#smart_close_popup() . "\<CR>"
     " For no inserting <CR> key.
-    return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+    " return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
 endfunction
 
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
-" inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-" inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplcache#close_popup()
-inoremap <expr><C-e>  neocomplcache#cancel_popup()
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y> neocomplcache#close_popup()
+inoremap <expr><C-e> neocomplcache#cancel_popup()
 " Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
+inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
 
 " set omnifunc=ale#completion#OmniFunc
 set omnifunc=syntaxcomplete#Complete
