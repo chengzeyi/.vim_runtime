@@ -201,25 +201,31 @@ nnoremap <leader>sc :Sch<space>
 nnoremap <leader>ss :Sub<space>
 nnoremap <leader>sq :SubQ<space>
 nnoremap <leader>sl :SubL<space>
+nnoremap <leader>sb :SubB<space>
 command! -nargs=+ Sch call s:sch(<f-args>)
-fun! s:sch(search, ...)
+fun! s:sch(s, ...)
     let path = get(a:, 1, '%')
-    execute ':vimgrep /' . a:search . '/ ' . path . ' | cw'
+    execute ':vimgrep /' . a:s . '/ ' . path . ' | cw'
 endfun
 command! -nargs=+ Sub call s:sub(<f-args>)
-fun! s:sub(search, replace, ...)
+fun! s:sub(s, r, ...)
     let flags = get(a:, 1, '')
-    exe ':%s/' . a:search . '/' . a:replace . '/g' . flags . ' | update'
+    exe ':%s/' . a:s . '/' . a:r . '/g' . flags
 endfun
 command! -nargs=+ SubQ call s:subq(<f-args>)
-fun! s:subq(search, replace, ...)
+fun! s:subq(s, r, ...)
     let flags = get(a:, 1, '')
-    exe ':cdo s/' . a:search . '/' . a:replace . '/g' . flags . ' | update'
+    exe ':cdo s/' . a:s . '/' . a:r . '/g' . flags . ' | update'
 endfun
 command! -nargs=+ SubL call s:subl(<f-args>)
-fun! s:subl(search, replace)
+fun! s:subl(s, r, ...)
     let flags = get(a:, 1, '')
-    exe ':ldo s/' . a:search . '/' . a:replace . '/g' . flags . ' | update'
+    exe ':ldo s/' . a:s . '/' . a:r . '/g' . flags . ' | update'
+endfun
+command! -nargs=+ SubB call s:subb(<f-args>)
+fun! s:subb(s, r, ...)
+    let flags = get(a:, 1, '')
+    exe ':bufdo %s/' . a:s . '/' . a:r . '/g' . flags
 endfun
 
 command! W w !sudo tee % > /dev/null
