@@ -121,13 +121,13 @@ nnoremap <silent> yS :call AddSurround()<cr>
 function! AddSurround()
   let cmd = 'normal v'
   let ch = getchar()
-  while (ch >= char2nr('0') && ch <= char2nr('9'))
+  while ch >= char2nr('0') && ch <= char2nr('9')
     let cmd .= nr2char(ch)
     let ch = getchar()
   endwhile
   let ch = nr2char(ch)
   let cmd .= ch
-  if (ch == 'i' || ch == 'a')
+  if ch == 'i' || ch == 'a'
       let cmd .= nr2char(getchar())
   endif
   silent! execute cmd . 'S' . nr2char(getchar())
