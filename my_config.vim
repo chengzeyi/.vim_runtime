@@ -109,11 +109,15 @@ nnoremap <silent> <leader>, :cprev<cr>
 nnoremap <silent> <leader>. :cnext<cr>
 
 vnoremap <silent> S( xi()<esc>P
+vnoremap <silent> S) xi()<esc>P
 vnoremap <silent> Sb xi()<esc>P
 vnoremap <silent> S[ xi[]<esc>P
+vnoremap <silent> S] xi[]<esc>P
 vnoremap <silent> S{ xi{}<esc>P
+vnoremap <silent> S} xi{}<esc>P
 vnoremap <silent> SB xi{}<esc>P
 vnoremap <silent> S<lt> xi<lt>><esc>P
+vnoremap <silent> S> xi<lt>><esc>P
 vnoremap <silent> S' xi''<esc>P
 vnoremap <silent> S" xi""<esc>P
 
@@ -134,11 +138,15 @@ function! AddSurround()
 endfunction
 
 vnoremap <silent> cS( holxr)hr(p
+vnoremap <silent> cS) holxr)hr(p
 vnoremap <silent> cSb holxr)hr(p
 vnoremap <silent> cS[ holxr]hr[p
+vnoremap <silent> cS] holxr]hr[p
 vnoremap <silent> cS{ holxr}hr{p
+vnoremap <silent> cS} holxr}hr{p
 vnoremap <silent> cSB holxr}hr{p
 vnoremap <silent> cS<lt> holxr>hr<lt>p
+vnoremap <silent> cS> holxr>hr<lt>p
 vnoremap <silent> cS' holxr'hr'p
 vnoremap <silent> cS" holxr"hr"p
 
@@ -152,11 +160,15 @@ endfunction
 vnoremap <silent> dS xhPlxx
 
 nnoremap <silent> dS( vi(xhPlxx
+nnoremap <silent> dS) vi(xhPlxx
 nnoremap <silent> dSb vi(xhPlxx
 nnoremap <silent> dS[ vi[xhPlxx
+nnoremap <silent> dS] vi[xhPlxx
 nnoremap <silent> dS{ vi{xhPlxx
+nnoremap <silent> dS} vi{xhPlxx
 nnoremap <silent> dSB vi{xhPlxx
 nnoremap <silent> dS<lt> vi<lt>xhPlxx
+nnoremap <silent> dS> vi<lt>xhPlxx
 nnoremap <silent> dS' vi'xhPlxx
 nnoremap <silent> dS" vi"xhPlxx
 
