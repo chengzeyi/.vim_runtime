@@ -225,7 +225,8 @@ endfun
 command! W w !sudo tee % > /dev/null
 
 set notimeout
-set nottimeout
+set ttimeout
+set ttimeoutlen=10
 
 set mouse=a
 
