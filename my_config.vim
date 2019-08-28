@@ -197,9 +197,40 @@ nnoremap <leader>ct :Ctags<space>
 command! -nargs=* Ctags !ctags
             \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q -f .tags <args> > /dev/null
 
+nnoremap <leader>sh :Sch<space>
+nnoremap <leader>ss :Sub<space>
+nnoremap <leader>sq :SubQ<space>
+nnoremap <leader>sl :SubL<space>
+nnoremap <leader>scs :SubC<space>
+nnoremap <leader>scq :SubCQ<space>
+nnoremap <leader>scl :SubCL<space>
+command! -nargs=1 Sch call s:sch(<f-args>)
+fun! s:sch(search)
+    execute ':vimgrep /' . a:search . '/ % | cw'
+endfun
 command! -nargs=+ Sub call s:sub(<f-args>)
 fun! s:sub(search, replace)
-    execute ':%s/' . a:search . '/' . a:replace . '/gc'
+    execute ':%s/' . a:search . '/' . a:replace . '/g | update'
+endfun
+command! -nargs=+ SubQ call s:subq(<f-args>)
+fun! s:subq(search, replace)
+    execute ':cdo s/' . a:search . '/' . a:replace . '/g | update'
+endfun
+command! -nargs=+ SubL call s:subl(<f-args>)
+fun! s:subl(search, replace)
+    execute ':ldo s/' . a:search . '/' . a:replace . '/g | update'
+endfun
+command! -nargs=+ SubC call s:subc(<f-args>)
+fun! s:subc(search, replace)
+    execute ':%s/' . a:search . '/' . a:replace . '/gc | update'
+endfun
+command! -nargs=+ SubCQ call s:subcq(<f-args>)
+fun! s:subcq(search, replace)
+    execute ':cdo s/' . a:search . '/' . a:replace . '/gc | update'
+endfun
+command! -nargs=+ SubCL call s:subcl(<f-args>)
+fun! s:subcl(search, replace)
+    execute ':ldo s/' . a:search . '/' . a:replace . '/gc | update'
 endfun
 
 command! W w !sudo tee % > /dev/null
@@ -529,13 +560,13 @@ set laststatus=2
 " set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
 " Pressing ,ss will toggle and untoggle spell checking
-nnoremap <silent> <leader>ss :setlocal spell!<cr>
+" nnoremap <silent> <leader>ss :setlocal spell!<cr>
 
 " Shortcuts using <leader>
-nnoremap <silent> <leader>sn ]s
-nnoremap <silent> <leader>sp [s
-nnoremap <silent> <leader>sa zg
-nnoremap <silent> <leader>s? z=
+" nnoremap <silent> <leader>sn ]s
+" nnoremap <silent> <leader>sp [s
+" nnoremap <silent> <leader>sa zg
+" nnoremap <silent> <leader>s? z=
 
 function! CmdLine(str)
     call feedkeys(":" . a:str)
