@@ -35,6 +35,7 @@ Plug 'mhinz/vim-grepper'
 Plug 'jiangmiao/auto-pairs'
 
 Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
+Plug 'junegunn/vim-easy-align'
 
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
@@ -108,19 +109,19 @@ nnoremap <silent> <leader>w :w!<cr>
 nnoremap <silent> <leader>, :cprev<cr>
 nnoremap <silent> <leader>. :cnext<cr>
 
-vnoremap <silent> S( xi()<esc>P
-vnoremap <silent> S) xi()<esc>P
-vnoremap <silent> Sb xi()<esc>P
-vnoremap <silent> S[ xi[]<esc>P
-vnoremap <silent> S] xi[]<esc>P
-vnoremap <silent> S{ xi{}<esc>P
-vnoremap <silent> S} xi{}<esc>P
-vnoremap <silent> SB xi{}<esc>P
-vnoremap <silent> S<lt> xi<lt>><esc>P
-vnoremap <silent> S> xi<lt>><esc>P
-vnoremap <silent> S' xi''<esc>P
-vnoremap <silent> S" xi""<esc>P
-vnoremap <silent> S` xi``<esc>P
+xnoremap <silent> S( xi()<esc>P
+xnoremap <silent> S) xi()<esc>P
+xnoremap <silent> Sb xi()<esc>P
+xnoremap <silent> S[ xi[]<esc>P
+xnoremap <silent> S] xi[]<esc>P
+xnoremap <silent> S{ xi{}<esc>P
+xnoremap <silent> S} xi{}<esc>P
+xnoremap <silent> SB xi{}<esc>P
+xnoremap <silent> S<lt> xi<lt>><esc>P
+xnoremap <silent> S> xi<lt>><esc>P
+xnoremap <silent> S' xi''<esc>P
+xnoremap <silent> S" xi""<esc>P
+xnoremap <silent> S` xi``<esc>P
 
 nnoremap <silent> yS :call AddSurround()<cr>
 function! AddSurround()
@@ -138,19 +139,19 @@ function! AddSurround()
     silent! execute cmd . 'S' . nr2char(getchar())
 endfunction
 
-vnoremap <silent> cS( holxr)hr(p
-vnoremap <silent> cS) holxr)hr(p
-vnoremap <silent> cSb holxr)hr(p
-vnoremap <silent> cS[ holxr]hr[p
-vnoremap <silent> cS] holxr]hr[p
-vnoremap <silent> cS{ holxr}hr{p
-vnoremap <silent> cS} holxr}hr{p
-vnoremap <silent> cSB holxr}hr{p
-vnoremap <silent> cS<lt> holxr>hr<lt>p
-vnoremap <silent> cS> holxr>hr<lt>p
-vnoremap <silent> cS' holxr'hr'p
-vnoremap <silent> cS" holxr"hr"p
-vnoremap <silent> cS` holxr`hr`p
+xnoremap <silent> cS( holxr)hr(p
+xnoremap <silent> cS) holxr)hr(p
+xnoremap <silent> cSb holxr)hr(p
+xnoremap <silent> cS[ holxr]hr[p
+xnoremap <silent> cS] holxr]hr[p
+xnoremap <silent> cS{ holxr}hr{p
+xnoremap <silent> cS} holxr}hr{p
+xnoremap <silent> cSB holxr}hr{p
+xnoremap <silent> cS<lt> holxr>hr<lt>p
+xnoremap <silent> cS> holxr>hr<lt>p
+xnoremap <silent> cS' holxr'hr'p
+xnoremap <silent> cS" holxr"hr"p
+xnoremap <silent> cS` holxr`hr`p
 
 nnoremap <silent> cS :call ChangeSurround()<cr>
 function! ChangeSurround()
@@ -159,7 +160,7 @@ function! ChangeSurround()
     silent! execute 'normal ' . 'va' . from . 'cS' . to
 endfunction
 
-vnoremap <silent> dS xhPlxx
+xnoremap <silent> dS xhPlxx
 
 nnoremap <silent> dS( vi(xhPlxx
 nnoremap <silent> dS) vi(xhPlxx
@@ -409,8 +410,8 @@ set wrap "Wrap lines
 
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
-vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+xnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+xnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
 nnoremap <c-k> <C-w>p<C-y><C-w>p
 nnoremap <c-j> <C-w>p<C-e><C-w>p
@@ -797,6 +798,9 @@ let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status
 let g:goyo_width = '80%'
 let g:goyo_height = '95%'
 nnoremap <silent> <leader>z :Goyo<cr>
+
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
 
 nnoremap <silent> <c-g> :Grepper<cr>
 runtime plugin/grepper.vim
