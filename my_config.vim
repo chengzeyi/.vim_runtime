@@ -578,9 +578,9 @@ catch
 endtry
 
 " Bash like keys for the command line
-cnoremap <C-A>		<Home>
-cnoremap <C-E>		<End>
-cnoremap <C-K>		<C-U>
+cnoremap <C-A>      <Home>
+cnoremap <C-E>      <End>
+cnoremap <C-K>      <C-U>
 
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
@@ -697,9 +697,9 @@ nnoremap <silent> <c-c> :CtrlPTag<cr>
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 
-nnoremap <silent> <leader>f :CtrlPFunky<Cr>
+nnoremap <silent> <leader>fu :CtrlPFunky<Cr>
 " narrow the list down with a word under cursor
-nnoremap <silent> <leader>F :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+nnoremap <silent> <leader>fc :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_multi_buffers = 1
@@ -856,4 +856,9 @@ nmap <silent> <c-down> <Plug>(cosco-commaOrSemiColon)o
 imap <silent> <c-down> <esc><Plug>(cosco-commaOrSemiColon)o
 " nmap <silent> <c-space> <Plug>(cosco-commaOrSemiColon)o
 " imap <silent> <c-space> <esc><Plug>(cosco-commaOrSemiColon)o
+
+let g:neoformat_basic_format_align = 1
+let g:neoformat_basic_format_retab = 1
+let g:neoformat_basic_format_trim = 1
+nnoremap <silent> <leader>ff :Neoformat<cr>
 
