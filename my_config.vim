@@ -103,6 +103,20 @@ call plug#end()
 
 let mapleader = " "
 
+inoremap <c-a> <home>
+inoremap <c-e> <end>
+nnoremap 0 ^
+nnoremap ^ 0
+nnoremap j gj
+nnoremap gj j
+nnoremap k gk
+nnoremap gk k
+xnoremap 0 ^
+xnoremap ^ 0
+xnoremap j gj
+xnoremap gj j
+xnoremap k gk
+xnoremap gk k
 nnoremap <silent> <leader>? :execute 'map <lt>leader>' . nr2char(getchar())<cr>
 nnoremap <silent> <leader>p :set invpaste paste?<cr>
 nnoremap <silent> <leader>w :w!<cr>
@@ -180,14 +194,14 @@ nnoremap <silent> dS` vi`xhPlxx
 nnoremap <silent> <leader>aa :call SwitchSourceHeader()<cr>
 function! SwitchSourceHeader()
     let suffix = expand("%:e")
-    if suffix == "cpp"
+    if suffix ==# "cpp"
         silent! find %:t:r.h
         silent! find %:t:r.hpp
-    elseif suffix == "c"
+    elseif suffix ==# "c"
         silent! find %:t:r.h
-    elseif suffix == "hpp"
+    elseif suffix ==# "hpp"
         silent! find %:t:r.cpp
-    elseif suffix == "h"
+    elseif suffix ==# "h"
         silent! find %:t:r.cpp
         silent! find %:t:r.c
     endif
@@ -296,7 +310,7 @@ set cmdheight=1
 set hid
 
 set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
+set whichwrap+=<,>,[,]
 
 set ignorecase
 set smartcase
@@ -622,8 +636,8 @@ let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 let g:neocomplcache_tags_caching_limit_file_size = 20000000
 " let g:neocomplcache_disable_auto_complete = 1
 
-inoremap <expr><C-g> neocomplcache#undo_completion()
-inoremap <expr><C-l> neocomplcache#complete_common_string()
+" inoremap <expr><C-g> neocomplcache#undo_completion()
+" inoremap <expr><C-l> neocomplcache#complete_common_string()
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
@@ -637,8 +651,8 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y> neocomplcache#close_popup()
-inoremap <expr><C-e> neocomplcache#cancel_popup()
+" inoremap <expr><C-y> neocomplcache#close_popup()
+" inoremap <expr><C-e> neocomplcache#cancel_popup()
 " Close popup by <Space>.
 inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
 
