@@ -68,7 +68,7 @@ Plug 'dbeecham/ctrlp-commandpalette.vim', {'on': 'CtrlPCommandPalette'}
 Plug 'Shougo/neocomplcache.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
-" Plug 'Shougo/echodoc.vim'
+Plug 'Shougo/echodoc.vim'
 " Plug 'Shougo/deol.nvim'
 
 Plug 'majutsushi/tagbar', {'on': ['TagbarToggle', 'TagbarOpenAutoClose']}
@@ -164,6 +164,8 @@ set notimeout
 set ttimeout
 set ttimeoutlen=10
 
+" set shortmess=a
+
 set mouse=a
 
 nnoremap <c-]> g<c-]>
@@ -243,6 +245,7 @@ endif
 
 set ruler
 set cmdheight=1
+set noshowmode
 
 set hid
 
@@ -578,7 +581,7 @@ augroup lspReg
                     \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
                     \ 'whitelist': ['go'],
                     \ })
-        autocmd BufWritePre *.go LspDocumentFormatSync
+        " autocmd BufWritePre *.go LspDocumentFormatSync
         autocmd FileType go setlocal omnifunc=lsp#complete
     endif
 augroup END
@@ -645,7 +648,7 @@ let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 let g:neocomplcache_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
 
-" let g:echodoc_enable_at_startup = 1
+let g:echodoc_enable_at_startup = 1
 
 let OmniCpp_NamespaceSearch = 1
 let OmniCpp_GlobalScopeSearch = 1
