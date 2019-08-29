@@ -6,6 +6,9 @@ Plug 'chengzeyi/vim-markify'
 " Plug 'chengzeyi/a.vim', {'on': 'A'}
 Plug 'chengzeyi/OmniCppComplete', {'for': ['cpp', 'c']}
 
+Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['cpp', 'c']}
+Plug 'fatih/vim-go', {'for': 'go', 'on': ['GoUpdateBinaries', 'GoInstallBinaries']}
+
 Plug 'lfilho/cosco.vim'
 
 Plug 'vim-utils/vim-man'
@@ -41,7 +44,7 @@ Plug 'junegunn/vim-easy-align'
 
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
-" Plug 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 
 Plug 'vim-airline/vim-airline'
@@ -65,8 +68,6 @@ Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 " Plug 'Shougo/echodoc.vim'
 " Plug 'Shougo/deol.nvim'
-
-Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['cpp', 'c' ]}
 
 Plug 'majutsushi/tagbar', {'on': ['TagbarToggle', 'TagbarOpenAutoClose']}
 
@@ -117,79 +118,12 @@ xnoremap j gj
 xnoremap gj j
 xnoremap k gk
 xnoremap gk k
-nnoremap <silent> <leader>? :execute 'map <lt>leader>' . nr2char(getchar())<cr>
-nnoremap <silent> <leader>p :set invpaste paste?<cr>
+nnoremap <silent> <leader>? :map <lt>leader><cr>
+nnoremap <silent> <leader>/ :execute 'map <lt>leader>' . nr2char(getchar())<cr>
 nnoremap <silent> <leader>w :w!<cr>
 nnoremap <silent> <leader>, :cprev<cr>
 nnoremap <silent> <leader>. :cnext<cr>
 nnoremap <silent> " :registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>
-
-xnoremap <silent> S( xi()<esc>P
-xnoremap <silent> S) xi()<esc>P
-xnoremap <silent> Sb xi()<esc>P
-xnoremap <silent> S[ xi[]<esc>P
-xnoremap <silent> S] xi[]<esc>P
-xnoremap <silent> S{ xi{}<esc>P
-xnoremap <silent> S} xi{}<esc>P
-xnoremap <silent> SB xi{}<esc>P
-xnoremap <silent> S<lt> xi<lt>><esc>P
-xnoremap <silent> S> xi<lt>><esc>P
-xnoremap <silent> S' xi''<esc>P
-xnoremap <silent> S" xi""<esc>P
-xnoremap <silent> S` xi``<esc>P
-
-nnoremap <silent> yS :call AddSurround()<cr>
-function! AddSurround()
-    let cmd = 'normal v'
-    let ch = getchar()
-    while ch >= char2nr('0') && ch <= char2nr('9')
-        let cmd .= nr2char(ch)
-        let ch = getchar()
-    endwhile
-    let ch = nr2char(ch)
-    let cmd .= ch
-    if ch == 'i' || ch == 'a'
-        let cmd .= nr2char(getchar())
-    endif
-    silent! execute cmd . 'S' . nr2char(getchar())
-endfunction
-
-xnoremap <silent> cS( holxr)hr(p
-xnoremap <silent> cS) holxr)hr(p
-xnoremap <silent> cSb holxr)hr(p
-xnoremap <silent> cS[ holxr]hr[p
-xnoremap <silent> cS] holxr]hr[p
-xnoremap <silent> cS{ holxr}hr{p
-xnoremap <silent> cS} holxr}hr{p
-xnoremap <silent> cSB holxr}hr{p
-xnoremap <silent> cS<lt> holxr>hr<lt>p
-xnoremap <silent> cS> holxr>hr<lt>p
-xnoremap <silent> cS' holxr'hr'p
-xnoremap <silent> cS" holxr"hr"p
-xnoremap <silent> cS` holxr`hr`p
-
-nnoremap <silent> cS :call ChangeSurround()<cr>
-function! ChangeSurround()
-    let from = nr2char(getchar())
-    let to = nr2char(getchar())
-    silent! execute 'normal ' . 'va' . from . 'cS' . to
-endfunction
-
-xnoremap <silent> dS xhPlxx
-
-nnoremap <silent> dS( vi(xhPlxx
-nnoremap <silent> dS) vi(xhPlxx
-nnoremap <silent> dSb vi(xhPlxx
-nnoremap <silent> dS[ vi[xhPlxx
-nnoremap <silent> dS] vi[xhPlxx
-nnoremap <silent> dS{ vi{xhPlxx
-nnoremap <silent> dS} vi{xhPlxx
-nnoremap <silent> dSB vi{xhPlxx
-nnoremap <silent> dS<lt> vi<lt>xhPlxx
-nnoremap <silent> dS> vi<lt>xhPlxx
-nnoremap <silent> dS' vi'xhPlxx
-nnoremap <silent> dS" vi"xhPlxx
-nnoremap <silent> dS` vi`xhPlxx
 
 nnoremap <silent> <leader>aa :call SwitchSourceHeader()<cr>
 function! SwitchSourceHeader()
@@ -211,7 +145,7 @@ nnoremap <leader>ct :Ctags<space>
 command! -nargs=* Ctags !ctags
             \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q -f .tags <args> > /dev/null
 
-nnoremap <leader>vg :vimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
+nnoremap <leader>ff :vimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
 nnoremap <leader>ss :%s//g<left><left>
 nnoremap <leader>sq :cdo s//g<left><left>
 nnoremap <leader>sl :ldo s//g<left><left>
@@ -222,6 +156,29 @@ nnoremap <leader>scl :ldo s//gc<left><left><left>
 nnoremap <leader>scb :bufdo %s//gc<left><left><left>
 
 command! W w !sudo tee % > /dev/null
+
+augroup languageSpecificKeyBindings
+    au!
+    au FileType go nnoremap <buffer> <silent> <leader>\b :GoBuild<cr>
+    au FileType go nnoremap <buffer> <silent> <leader>\i :GoInstall<cr>
+    au FileType go nnoremap <buffer> <silent> <leader>\I :GoImpl<cr>
+    au FileType go nnoremap <buffer> <silent> <leader>\t :GoTest<cr>
+    au FileType go nnoremap <buffer> <silent> <leader>\T :GoTestFunc<cr>
+    au FileType go nnoremap <buffer> <silent> <leader>\r :GoRun %<cr>
+    au FileType go nnoremap <buffer> <silent> <leader>\R :GoRun<cr>
+    au FileType go nnoremap <buffer> <silent> <leader>\d :GoDoc<cr>
+    au FileType go nnoremap <buffer> <silent> <leader>\D :GoDebugStart<cr>
+    au FileType go nnoremap <buffer> <silent> <leader>\g :GoDef<cr>
+    au FileType go nnoremap <buffer> <silent> <leader>\n :GoRename<cr>
+    au FileType go nnoremap <buffer> <silent> <leader>\c :GoCoverage<cr>
+    au FileType go nnoremap <buffer> <silent> <leader>\l :GoLint<cr>
+    au FileType go nnoremap <buffer> <silent> <leader>\v :GoVet<cr>
+    au FileType go nnoremap <buffer> <silent> <leader>\e :GoErrCheck<cr>
+    au FileType go nnoremap <buffer> <silent> <leader>\p :GoPointsTo<cr>
+    au FileType go nnoremap <buffer> <silent> <leader>\a :GoAlternate!<cr>
+    au FileType go nnoremap <buffer> <leader>\+ :GoImport!<space>
+    au FileType go nnoremap <buffer> <leader>\- :GoDrop<space>
+augroup END
 
 set notimeout
 set ttimeout
@@ -439,7 +396,7 @@ nnoremap <c-j> <C-w>p5<C-e><C-w>p
 inoremap <c-k> <Esc><C-w>p5<C-y><C-w>pi
 inoremap <c-j> <Esc><C-w>p5<C-e><C-w>pi
 
-" Disable highlight when <leader><cr> is pressed
+" Disable highlight when <leader>\ is pressed
 nnoremap <silent> <leader><cr> :noh<cr>
 
 " Smart way to move between windows
@@ -657,37 +614,22 @@ inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
 
 " set omnifunc=ale#completion#OmniFunc
-set omnifunc=syntaxcomplete#Complete
-augroup setOmniFunc
-    autocmd!
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    if has('python3')
-        autocmd FileType python setlocal omnifunc=python3complete#Complete
-    elseif has('python')
-        autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    endif
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-    autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-    " autocmd FileType c setlocal omnifunc=ccomplete#Complete
-    autocmd FileType c setlocal omnifunc=omni#cpp#complete#Main
-    autocmd FileType cpp setlocal omnifunc=omni#cpp#complete#Main
-augroup END
+" set omnifunc=syntaxcomplete#Complete
 
 " Enable heavy omni completion.
-if !exists('g:neocomplcache_force_omni_patterns')
-    let g:neocomplcache_force_omni_patterns = {}
+if !exists('g:neocomplcache_omni_patterns')
+    let g:neocomplcache_omni_patterns = {}
 endif
-let g:neocomplcache_force_omni_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
-let g:neocomplcache_force_omni_patterns.html = '<[^>]*'
-let g:neocomplcache_force_omni_patterns.markdown = '<[^>]*'
-let g:neocomplcache_force_omni_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
-let g:neocomplcache_force_omni_patterns.python = '[^. \t]\.\w*'
-let g:neocomplcache_force_omni_patterns.xml = '<[^>]*'
-let g:neocomplcache_force_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:neocomplcache_omni_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
+let g:neocomplcache_omni_patterns.html = '<[^>]*'
+let g:neocomplcache_omni_patterns.markdown = '<[^>]*'
+let g:neocomplcache_omni_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
+let g:neocomplcache_omni_patterns.python = '[^. \t]\.\w*'
+let g:neocomplcache_omni_patterns.xml = '<[^>]*'
+let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:neocomplcache_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
 
 " let g:echodoc_enable_at_startup = 1
 
@@ -711,16 +653,16 @@ nnoremap <silent> <leader>nf :NERDTreeFind<cr>
 
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = '<c-f>'
-nnoremap <silent> <c-b> :CtrlPBuffer<cr>
-nnoremap <silent> <c-c> :CtrlPTag<cr>
-nnoremap <silent> <c-l> :CtrlPLine<cr>
+nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
+nnoremap <silent> <leader>pt :CtrlPTag<cr>
+nnoremap <silent> <leader>pl :CtrlPLine<cr>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 
-nnoremap <silent> <leader>fu :CtrlPFunky<Cr>
+nnoremap <silent> <leader>pf :CtrlPFunky<Cr>
 " narrow the list down with a word under cursor
-nnoremap <silent> <leader>fc :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+nnoremap <silent> <leader>pF :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_multi_buffers = 1
@@ -881,5 +823,5 @@ imap <silent> <c-down> <esc><Plug>(cosco-commaOrSemiColon)o
 let g:neoformat_basic_format_align = 1
 let g:neoformat_basic_format_retab = 1
 let g:neoformat_basic_format_trim = 1
-nnoremap <silent> <leader>ff :Neoformat<cr>
+nnoremap <silent> <leader>fm :Neoformat<cr>
 
