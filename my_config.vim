@@ -197,36 +197,15 @@ nnoremap <leader>ct :Ctags<space>
 command! -nargs=* Ctags !ctags
             \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q -f .tags <args> > /dev/null
 
-nnoremap <leader>sc :Sch<space>
-nnoremap <leader>ss :Sub<space>
-nnoremap <leader>sq :SubQ<space>
-nnoremap <leader>sl :SubL<space>
-nnoremap <leader>sb :SubB<space>
-command! -nargs=+ Sch call s:sch(<f-args>)
-fun! s:sch(s, ...)
-    let path = get(a:, 1, '%')
-    exe 'vimgrep /' . a:s . '/ ' . path . ' | cw'
-endfun
-command! -nargs=+ Sub call s:sub(<f-args>)
-fun! s:sub(s, r, ...)
-    let flags = get(a:, 1, '')
-    exe '%s/' . a:s . '/' . a:r . '/g' . flags
-endfun
-command! -nargs=+ SubQ call s:subq(<f-args>)
-fun! s:subq(s, r, ...)
-    let flags = get(a:, 1, '')
-    exe 'cdo s/' . a:s . '/' . a:r . '/g' . flags . ' | update'
-endfun
-command! -nargs=+ SubL call s:subl(<f-args>)
-fun! s:subl(s, r, ...)
-    let flags = get(a:, 1, '')
-    exe 'ldo s/' . a:s . '/' . a:r . '/g' . flags . ' | update'
-endfun
-command! -nargs=+ SubB call s:subb(<f-args>)
-fun! s:subb(s, r, ...)
-    let flags = get(a:, 1, '')
-    exe 'bufdo %s/' . a:s . '/' . a:r . '/g' . flags
-endfun
+nnoremap <leader>vg :vimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
+nnoremap <leader>ss :%s//g<left><left>
+nnoremap <leader>sq :cdo s//g<left><left>
+nnoremap <leader>sl :ldo s//g<left><left>
+nnoremap <leader>sb :bufdo %s//g<left><left>
+nnoremap <leader>scs :%s//gc<left><left><left>
+nnoremap <leader>scq :cdo s//gc<left><left><left>
+nnoremap <leader>scl :ldo s//gc<left><left><left>
+nnoremap <leader>scb :bufdo %s//gc<left><left><left>
 
 command! W w !sudo tee % > /dev/null
 
@@ -720,6 +699,7 @@ let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = '<c-f>'
 nnoremap <silent> <c-b> :CtrlPBuffer<cr>
 nnoremap <silent> <c-c> :CtrlPTag<cr>
+nnoremap <silent> <c-l> :CtrlPLine<cr>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
