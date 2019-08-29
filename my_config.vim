@@ -6,8 +6,10 @@ Plug 'chengzeyi/vim-markify'
 " Plug 'chengzeyi/a.vim', {'on': 'A'}
 Plug 'chengzeyi/OmniCppComplete', {'for': ['cpp', 'c']}
 
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['cpp', 'c']}
-Plug 'fatih/vim-go', {'for': 'go', 'on': ['GoUpdateBinaries', 'GoInstallBinaries']}
+" Plug 'fatih/vim-go', {'for': 'go', 'on': ['GoUpdateBinaries', 'GoInstallBinaries']}
 
 Plug 'lfilho/cosco.vim'
 
@@ -106,6 +108,7 @@ let mapleader = " "
 
 inoremap <c-a> <home>
 inoremap <c-e> <end>
+nnoremap Q @q
 nnoremap 0 ^
 nnoremap ^ 0
 nnoremap j gj
@@ -118,8 +121,8 @@ xnoremap j gj
 xnoremap gj j
 xnoremap k gk
 xnoremap gk k
-nnoremap <silent> <leader>? :map <lt>leader><cr>
-nnoremap <silent> <leader>/ :execute 'map <lt>leader>' . nr2char(getchar())<cr>
+nnoremap <silent> <leader>? :nmap <lt>leader><cr>
+nnoremap <silent> <leader>/ :execute 'nmap <lt>leader>' . nr2char(getchar())<cr>
 nnoremap <silent> <leader>w :w!<cr>
 nnoremap <silent> <leader>, :cprev<cr>
 nnoremap <silent> <leader>. :cnext<cr>
@@ -156,29 +159,6 @@ nnoremap <leader>scl :ldo s//gc<left><left><left>
 nnoremap <leader>scb :bufdo %s//gc<left><left><left>
 
 command! W w !sudo tee % > /dev/null
-
-augroup languageSpecificKeyBindings
-    au!
-    au FileType go nnoremap <buffer> <silent> <leader>\b :GoBuild<cr>
-    au FileType go nnoremap <buffer> <silent> <leader>\i :GoInstall<cr>
-    au FileType go nnoremap <buffer> <silent> <leader>\I :GoImpl<cr>
-    au FileType go nnoremap <buffer> <silent> <leader>\t :GoTest<cr>
-    au FileType go nnoremap <buffer> <silent> <leader>\T :GoTestFunc<cr>
-    au FileType go nnoremap <buffer> <silent> <leader>\r :GoRun %<cr>
-    au FileType go nnoremap <buffer> <silent> <leader>\R :GoRun<cr>
-    au FileType go nnoremap <buffer> <silent> <leader>\d :GoDoc<cr>
-    au FileType go nnoremap <buffer> <silent> <leader>\D :GoDebugStart<cr>
-    au FileType go nnoremap <buffer> <silent> <leader>\g :GoDef<cr>
-    au FileType go nnoremap <buffer> <silent> <leader>\n :GoRename<cr>
-    au FileType go nnoremap <buffer> <silent> <leader>\c :GoCoverage<cr>
-    au FileType go nnoremap <buffer> <silent> <leader>\l :GoLint<cr>
-    au FileType go nnoremap <buffer> <silent> <leader>\v :GoVet<cr>
-    au FileType go nnoremap <buffer> <silent> <leader>\e :GoErrCheck<cr>
-    au FileType go nnoremap <buffer> <silent> <leader>\p :GoPointsTo<cr>
-    au FileType go nnoremap <buffer> <silent> <leader>\a :GoAlternate!<cr>
-    au FileType go nnoremap <buffer> <leader>\+ :GoImport!<space>
-    au FileType go nnoremap <buffer> <leader>\- :GoDrop<space>
-augroup END
 
 set notimeout
 set ttimeout
@@ -397,7 +377,7 @@ inoremap <c-k> <Esc><C-w>p5<C-y><C-w>pi
 inoremap <c-j> <Esc><C-w>p5<C-e><C-w>pi
 
 " Disable highlight when <leader>\ is pressed
-nnoremap <silent> <leader><cr> :noh<cr>
+nnoremap <silent> <leader>\ :noh<cr>
 
 " Smart way to move between windows
 nnoremap J <c-w>j
@@ -568,6 +548,40 @@ cnoremap <C-N> <Down>
 iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+nnoremap <silent> <leader><cr><cr> :LspStatus<cr>
+nnoremap <silent> <leader><cr>a :LspCodeAction<cr>
+nnoremap <silent> <leader><cr>f :LspDocumentRangeFormat<cr>
+nnoremap <silent> <leader><cr>F :LspDocumentFormat<cr>
+nnoremap <silent> <leader><cr>d :LspDocumentDiagnostics<cr>
+nnoremap <silent> <leader><cr>g :LspDeclaration<cr>
+nnoremap <silent> <leader><cr>G :LspDefinition<cr>
+nnoremap <silent> <leader><cr>p :LspPeekDeclaration<cr>
+nnoremap <silent> <leader><cr>P :LspPeekDefinition<cr>
+nnoremap <silent> <leader><cr>i :LspPeekImplementation<cr>
+nnoremap <silent> <leader><cr>I :LspImplementation<cr>
+nnoremap <silent> <leader><cr>h :LspHover<cr>
+nnoremap <silent> <leader><cr>r :LspReferences<cr>
+nnoremap <silent> <leader><cr>R :LspRename<cr>
+nnoremap <silent> <leader><cr>t :LspTypeDefinition<cr>
+nnoremap <silent> <leader><cr>s :LspDocumentSymbol<cr>
+nnoremap <silent> <leader><cr>S :LspWorkspaceSymbol<cr>
+nnoremap <silent> <leader><cr>n :LspNextError<cr>
+nnoremap <silent> <leader><cr>N :LspNextReference<cr>
+nnoremap <silent> <leader><cr>p :LspPreviousError<cr>
+nnoremap <silent> <leader><cr>P :LspPreviousReference<cr>
+augroup lspReg
+    au!
+    if executable('gopls')
+        au User lsp_setup call lsp#register_server({
+                    \ 'name': 'gopls',
+                    \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+                    \ 'whitelist': ['go'],
+                    \ })
+        autocmd BufWritePre *.go LspDocumentFormatSync
+        autocmd FileType go setlocal omnifunc=lsp#complete
+    endif
+augroup END
 
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
