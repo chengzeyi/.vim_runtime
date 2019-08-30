@@ -104,7 +104,8 @@ Plug 'joshdick/onedark.vim'
 
 call plug#end()
 
-let mapleader = " "
+let mapleader = ' '
+set pastetoggle=<F2>
 
 inoremap <c-a> <home>
 inoremap <c-e> <end>
@@ -127,6 +128,7 @@ nnoremap <silent> <leader>w :w!<cr>
 nnoremap <silent> <leader>, :cprev<cr>
 nnoremap <silent> <leader>. :cnext<cr>
 nnoremap <silent> " :registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>
+nnoremap <silent> ` :marks<CR>
 
 nnoremap <silent> <leader>aa :call SwitchSourceHeader()<cr>
 function! SwitchSourceHeader()
@@ -139,8 +141,8 @@ function! SwitchSourceHeader()
     elseif suffix ==# "hpp"
         silent! find %:t:r.cpp
     elseif suffix ==# "h"
-        silent! find %:t:r.cpp
         silent! find %:t:r.c
+        silent! find %:t:r.cpp
     endif
 endfunction
 
@@ -670,6 +672,7 @@ nnoremap <silent> <leader>nf :NERDTreeFind<cr>
 
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = '<c-f>'
+nnoremap <silent> <leader>pp :CtrlP<cr>
 nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
 nnoremap <silent> <leader>pt :CtrlPTag<cr>
 nnoremap <silent> <leader>pl :CtrlPLine<cr>
