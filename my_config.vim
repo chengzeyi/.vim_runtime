@@ -778,7 +778,7 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
 let g:airline_theme='jellybeans'
 
-let g:asyncrun_status = '$'
+let g:asyncrun_status = '-'
 let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
 
 let g:goyo_width = '80%'
