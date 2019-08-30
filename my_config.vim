@@ -701,8 +701,8 @@ nnoremap <leader>gm :Gmerge<space>
 nnoremap <leader>gM :Gmove<space>
 nnoremap <silent> <leader>gl :Glog!<cr>
 nnoremap <silent> <leader>gf :Gfetch<cr>
-nnoremap <silent> <leader>gp :Gpull<cr>
-nnoremap <silent> <leader>gP :Gpush<cr>
+nnoremap <silent> <leader>gp :Gpush<cr>
+nnoremap <silent> <leader>gP :Gpull<cr>
 nnoremap <silent> <leader>gs :Gstatus<cr>
 nnoremap <silent> <leader>gS :Git stash<cr>
 nnoremap <silent> <leader>gr :Gread<cr>
