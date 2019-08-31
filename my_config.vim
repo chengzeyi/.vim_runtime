@@ -568,13 +568,15 @@ nnoremap <silent> <leader><cr>I :LspImplementation<cr>
 nnoremap <silent> <leader><cr>h :LspHover<cr>
 nnoremap <silent> <leader><cr>r :LspReferences<cr>
 nnoremap <silent> <leader><cr>R :LspRename<cr>
-nnoremap <silent> <leader><cr>t :LspTypeDefinition<cr>
+nnoremap <silent> <leader><cr>t :LspPeekTypeDefinition<cr>
+nnoremap          <leader><cr>T :LspTypeDefinition<space>
 nnoremap <silent> <leader><cr>s :LspDocumentSymbol<cr>
 nnoremap <silent> <leader><cr>S :LspWorkspaceSymbol<cr>
-nnoremap <silent> <leader><cr>n :LspNextError<cr>
-nnoremap <silent> <leader><cr>N :LspNextReference<cr>
-nnoremap <silent> <leader><cr>p :LspPreviousError<cr>
-nnoremap <silent> <leader><cr>P :LspPreviousReference<cr>
+nnoremap <silent> <leader><cr>] :LspNextError<cr>
+nnoremap <silent> <leader><cr>} :LspNextReference<cr>
+nnoremap <silent> <leader><cr>[ :LspPreviousError<cr>
+nnoremap <silent> <leader><cr>{ :LspPreviousReference<cr>
+let g:lsp_diagnostics_echo_cursor = 1
 augroup lspReg
     au!
     if executable('gopls')
