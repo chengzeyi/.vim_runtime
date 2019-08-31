@@ -625,8 +625,7 @@ function! s:my_cr_function()
 endfunction
 
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" :
-    \ neocomplcache#start_manual_complete(['omni_complete'])
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
@@ -634,23 +633,28 @@ inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
 " inoremap <expr><C-e> neocomplcache#cancel_popup()
 " Close popup by <Space>.
 inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
+inoremap <expr><C-Up>
+    \ neocomplcache#start_manual_complete(['omni_complete'])
 
 " set omnifunc=ale#completion#OmniFunc
 " set omnifunc=syntaxcomplete#Complete
 
 " Enable heavy omni completion.
+if !exists('g:neocomplcache_force_omni_patterns')
+    let g:neocomplcache_force_omni_patterns = {}
+endif
+let g:neocomplcache_force_omni_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
+let g:neocomplcache_force_omni_patterns.html = '<[^>]*'
+let g:neocomplcache_force_omni_patterns.markdown = '<[^>]*'
+let g:neocomplcache_force_omni_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
+let g:neocomplcache_force_omni_patterns.python = '[^. \t]\.\w*'
+let g:neocomplcache_force_omni_patterns.xml = '<[^>]*'
+let g:neocomplcache_force_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 if !exists('g:neocomplcache_omni_patterns')
     let g:neocomplcache_omni_patterns = {}
 endif
-let g:neocomplcache_omni_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
-let g:neocomplcache_omni_patterns.html = '<[^>]*'
-let g:neocomplcache_omni_patterns.markdown = '<[^>]*'
-let g:neocomplcache_omni_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
-let g:neocomplcache_omni_patterns.python = '[^. \t]\.\w*'
-let g:neocomplcache_omni_patterns.xml = '<[^>]*'
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 let g:neocomplcache_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
 
 let g:echodoc_enable_at_startup = 1
@@ -671,7 +675,7 @@ let g:NERDTreeWinSize = 30
 nnoremap <silent> <leader>nn :NERDTreeToggle<cr>
 nnoremap <leader>nb :NERDTreeFromBookmark<space>
 nnoremap <silent> <leader>nf :NERDTreeFind<cr>
-" autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
+autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
 
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = '<c-f>'
@@ -679,6 +683,8 @@ nnoremap <silent> <leader>pp :CtrlP<cr>
 nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
 nnoremap <silent> <leader>pt :CtrlPTag<cr>
 nnoremap <silent> <leader>pl :CtrlPLine<cr>
+nnoremap <silent> <leader>pm :CtrlPMRUFiles<cr>
+nnoremap <silent> <leader>pM :CtrlPMixed<cr>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
