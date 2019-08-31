@@ -127,8 +127,8 @@ nnoremap <silent> <leader>/ :execute 'nmap <lt>leader>' . nr2char(getchar())<cr>
 nnoremap <silent> <leader>w :w!<cr>
 nnoremap <silent> <leader>, :cprev<cr>
 nnoremap <silent> <leader>. :cnext<cr>
-nnoremap <silent> " :registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>
-nnoremap <silent> ` :marks<CR>
+nnoremap <silent> <leader>" :registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>
+nnoremap <silent> <leader>` :marks<CR>
 
 nnoremap <silent> <leader>aa :call SwitchSourceHeader()<cr>
 function! SwitchSourceHeader()
