@@ -210,8 +210,6 @@ set cursorline
 highlight CursorLine cterm=none ctermbg=236
 " highlight CursorColumn cterm=none ctermbg=236
 
-set showmode
-
 set splitbelow
 
 set history=500
@@ -247,7 +245,7 @@ endif
 
 set ruler
 set cmdheight=1
-set noshowmode
+set showmode
 
 set hid
 
@@ -606,6 +604,7 @@ xmap <C-\>     <Plug>(neosnippet_expand_target)
 set completeopt-=preview
 set pumheight=10
 let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_ignore_case = 1
 let g:neocomplcache_enable_smart_case = 1
 let g:neocomplcache_enable_underbar_completion = 0
 let g:neocomplcache_min_syntax_length = 3
@@ -652,12 +651,13 @@ let g:neocomplcache_force_omni_patterns.xml = '<[^>]*'
 let g:neocomplcache_force_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplcache_force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:neocomplcache_force_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
 if !exists('g:neocomplcache_omni_patterns')
     let g:neocomplcache_omni_patterns = {}
 endif
-let g:neocomplcache_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
+nnoremap <silent> <leader>nc :NeoComplCacheClean<cr>
 
-let g:echodoc_enable_at_startup = 1
+" let g:echodoc_enable_at_startup = 1
 
 let OmniCpp_NamespaceSearch = 1
 let OmniCpp_GlobalScopeSearch = 1
