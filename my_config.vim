@@ -93,14 +93,11 @@ Plug 'sheerun/vim-polyglot'
 " Plug 'dense-analysis/ale'
 
 Plug 'liuchengxu/space-vim-dark'
-
 Plug 'chriskempson/base16-vim'
-
 Plug 'cocopon/iceberg.vim'
-
 Plug 'sickill/vim-monokai'
-
 Plug 'joshdick/onedark.vim'
+Plug 'arcticicestudio/nord-vim'
 
 call plug#end()
 
@@ -191,6 +188,7 @@ augroup setCompiler
     autocmd FileType python compiler pylint
     autocmd FileType c compiler gcc
     autocmd FileType cpp compiler gcc
+    autocmd FileType go compiler go
 augroup END
 
 set updatetime=1500
@@ -245,7 +243,7 @@ endif
 
 set ruler
 set cmdheight=1
-set showmode
+set noshowmode
 
 set hid
 
@@ -377,19 +375,19 @@ set wrap "Wrap lines
 xnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 xnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
-nnoremap <c-k> <C-w>p5<C-y><C-w>p
-nnoremap <c-j> <C-w>p5<C-e><C-w>p
-inoremap <c-k> <Esc><C-w>p5<C-y><C-w>pi
-inoremap <c-j> <Esc><C-w>p5<C-e><C-w>pi
+nnoremap <F5> <C-w>p5<C-y><C-w>p
+nnoremap <F6> <C-w>p5<C-e><C-w>p
+inoremap <F5> <Esc><C-w>p5<C-y><C-w>pi
+inoremap <F6> <Esc><C-w>p5<C-e><C-w>pi
 
 " Disable highlight when <leader>\ is pressed
 nnoremap <silent> <leader>\ :noh<cr>
 
 " Smart way to move between windows
-nnoremap J <c-w>j
-nnoremap K <c-w>k
-nnoremap H <c-w>h
-nnoremap L <c-w>l
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
 
 nnoremap <silent> <leader>= <c-w>=
 nnoremap <silent> <leader>+ :exe "resize +5"<cr>
@@ -401,8 +399,8 @@ endif
 
 " nnoremap <silent> <c-h> :bprevious<cr>
 " nnoremap <silent> <c-l> :bnext<cr>
-nnoremap <silent> <c-h> :tabp<cr>
-nnoremap <silent> <c-l> :tabn<cr>
+nnoremap <silent> <F3> :tabp<cr>
+nnoremap <silent> <F4> :tabn<cr>
 
 " Close the current buffer
 " map <leader>bc :Bclose<cr>:tabclose<cr>gT
@@ -660,7 +658,7 @@ if !exists('g:neocomplcache_omni_patterns')
 endif
 nnoremap <silent> <leader>nc :NeoComplCacheClean<cr>
 
-" let g:echodoc_enable_at_startup = 1
+let g:echodoc_enable_at_startup = 1
 
 let OmniCpp_NamespaceSearch = 1
 let OmniCpp_GlobalScopeSearch = 1
@@ -829,7 +827,8 @@ let g:better_whitespace_guicolor = '#5f5fff'
 
 let g:EasyMotion_do_mapping = 1
 
-let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
+let g:rainbow_active = 0 "set to 0 if you want to enable it later via :RainbowToggle
+nnoremap <silent> <leader>rb :RainbowToggle<cr>
 
 nnoremap <silent> <leader>u :UndotreeToggle<cr>
 let g:undotree_WindowLayout = 3
