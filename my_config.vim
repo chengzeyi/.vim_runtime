@@ -9,7 +9,7 @@ Plug 'chengzeyi/OmniCppComplete', {'for': ['cpp', 'c']}
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['cpp', 'c']}
-" Plug 'fatih/vim-go', {'for': 'go', 'on': ['GoUpdateBinaries', 'GoInstallBinaries']}
+Plug 'fatih/vim-go', {'for': 'go', 'on': ['GoUpdateBinaries', 'GoInstallBinaries']}
 
 Plug 'lfilho/cosco.vim'
 
@@ -62,8 +62,8 @@ Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tacahiroy/ctrlp-funky', {'on': 'CtrlPFunky'}
-" Plug 'fisadev/vim-ctrlp-cmdpalette', { 'on': 'CtrlPCmdPalette' }
-Plug 'dbeecham/ctrlp-commandpalette.vim', {'on': 'CtrlPCommandPalette'}
+Plug 'fisadev/vim-ctrlp-cmdpalette', { 'on': 'CtrlPCmdPalette' }
+" Plug 'dbeecham/ctrlp-commandpalette.vim', {'on': 'CtrlPCommandPalette'}
 
 Plug 'Shougo/neocomplcache.vim'
 Plug 'Shougo/neosnippet.vim'
@@ -80,8 +80,12 @@ Plug 'skywind3000/asyncrun.vim'
 
 Plug 'xuhdev/SingleCompile'
 
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-easytags'
+" Plug 'vim-scripts/TagHighlight'
+
+Plug 'ludovicchabant/vim-gutentags'
+
+" Plug 'xolox/vim-misc'
+" Plug 'xolox/vim-easytags'
 
 " Plug 'chengzeyi/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Plug 'chengzeyi/fzf.vim'
@@ -170,7 +174,7 @@ set mouse=a
 nnoremap <c-]> g<c-]>
 nnoremap g<c-]> <c-]>
 
-set tags=./.tags;,~/.vimtags
+set tags=./.tags;,./.TAGS;,./tags;,./TAGS
 augroup setFtTags
     autocmd!
     autocmd FileType cpp setlocal tags^=~/.vim_runtime/tags/cpp_tags
@@ -313,9 +317,9 @@ hi Comment guifg=#5C6370 ctermfg=59 cterm=italic
 
 if has("gui_running")
     if has("gui_gtk2")
-        set guifont=Courier\ New\ 12
+        set guifont=Inconsolata\ 12
     elseif has("gui_gtk3")
-        set guifont=Courier\ New\ 12
+        set guifont=Inconsolata\ 12
     elseif has("gui_macvim")
         set guifont=Menlo\ Regular:h12
     elseif has("gui_win32")
@@ -586,7 +590,7 @@ augroup lspReg
                     \ 'whitelist': ['go'],
                     \ })
         " autocmd BufWritePre *.go LspDocumentFormatSync
-        autocmd FileType go setlocal omnifunc=lsp#complete
+        " autocmd FileType go setlocal omnifunc=lsp#complete
     endif
 augroup END
 
@@ -653,9 +657,10 @@ let g:neocomplcache_force_omni_patterns.xml = '<[^>]*'
 let g:neocomplcache_force_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplcache_force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-let g:neocomplcache_force_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
+" let g:neocomplcache_force_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
 if !exists('g:neocomplcache_omni_patterns')
     let g:neocomplcache_omni_patterns = {}
+    let g:neocomplcache_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
 endif
 nnoremap <silent> <leader>nc :NeoComplCacheClean<cr>
 
@@ -677,6 +682,7 @@ let OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
 
 " autocmd vimenter * NERDTree
 let NERDTreeShowHidden = 1
+let NERDTreeMinimalUI = 1
 let NERDTreeWinPos = 'left'
 let g:NERDTreeWinSize = 30
 nnoremap <silent> <leader>nn :NERDTreeToggle<cr>
@@ -693,7 +699,7 @@ nnoremap <silent> <leader>pl :CtrlPLine<cr>
 nnoremap <silent> <leader>pm :CtrlPMRUFiles<cr>
 nnoremap <silent> <leader>pM :CtrlPMixed<cr>
 
-let g:ctrlp_max_height = 20
+let g:ctrlp_max_height = 30
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 
 nnoremap <silent> <leader>pf :CtrlPFunky<Cr>
@@ -703,8 +709,12 @@ let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_multi_buffers = 1
 
-" nnoremap <silent> <c-p> :CtrlPCmdPalette<cr>
-nnoremap <silent> <c-p> :CtrlPCommandPalette<cr>
+if has('python') || has('python3')
+    nnoremap <silent> <leader>pc :CtrlPCmdPalette<cr>
+    nnoremap <silent> <c-p> :CtrlPCmdPalette<cr>
+endif
+" nnoremap <silent> <leader>pc :CtrlPCommandPalette<cr>
+" nnoremap <silent> <c-p> :CtrlPCommandPalette<cr>
 
 let g:gitgutter_enabled=1
 nnoremap <silent> <leader>hh :GitGutterToggle<cr>
@@ -734,6 +744,7 @@ nmap <silent> <leader>[ <Plug>yankstack_substitute_older_paste
 nmap <silent> <leader>] <Plug>yankstack_substitute_newer_paste
 
 let g:tagbar_width = 30
+let g:tagbar_compact = 1
 nnoremap <silent> <leader>tt :TagbarToggle<cr>
 nnoremap <silent> <leader>ta :TagbarOpenAutoClose<cr>
 
@@ -784,9 +795,46 @@ augroup commentStr
     autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 augroup END
 
-let g:easytags_include_members = 1
-let g:easytags_async = 1
-let g:easytags_opts = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
+let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
+let g:gutentags_cache_dir = '~/.vim_gutentags'
+
+" let g:easytags_include_members = 1
+" let g:easytags_async = 1
+" let g:easytags_opts = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
+
+let g:airline_powerline_fonts = 1
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+" unicode symbols
+" let g:airline_left_sep = '»'
+" let g:airline_left_sep = '▶'
+" let g:airline_right_sep = '«'
+" let g:airline_right_sep = '◀'
+" let g:airline_symbols.crypt = '🔒'
+" let g:airline_symbols.linenr = '☰'
+" let g:airline_symbols.linenr = '␊'
+" let g:airline_symbols.linenr = '␤'
+" let g:airline_symbols.linenr = '¶'
+" let g:airline_symbols.maxlinenr = ''
+" let g:airline_symbols.maxlinenr = '㏑'
+" let g:airline_symbols.branch = '⎇'
+" let g:airline_symbols.paste = 'ρ'
+" let g:airline_symbols.paste = 'Þ'
+" let g:airline_symbols.paste = '∥'
+" let g:airline_symbols.spell = 'Ꞩ'
+" let g:airline_symbols.notexists = 'Ɇ'
+" let g:airline_symbols.whitespace = 'Ξ'
+" powerline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = '☰'
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.dirty='⚡'
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
@@ -839,6 +887,7 @@ nnoremap <silent> <leader>rb :RainbowToggle<cr>
 nnoremap <silent> <leader>u :UndotreeToggle<cr>
 let g:undotree_WindowLayout = 3
 let g:undotree_SetFocusWhenToggle = 1
+let g:undotree_HelpLine = 0
 
 nnoremap <silent> <leader>m :MarkifyToggle<cr>
 " let g:markify_echo_current_message = 1
