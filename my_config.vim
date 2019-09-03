@@ -85,7 +85,7 @@ Plug 'xuhdev/SingleCompile'
 Plug 'ludovicchabant/vim-gutentags'
 
 " Plug 'xolox/vim-misc'
-Plug 'xolox/vim-easytags'
+" Plug 'xolox/vim-easytags'
 
 " Plug 'chengzeyi/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Plug 'chengzeyi/fzf.vim'
