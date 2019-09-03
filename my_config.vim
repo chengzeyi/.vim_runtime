@@ -80,7 +80,11 @@ Plug 'skywind3000/asyncrun.vim'
 
 Plug 'xuhdev/SingleCompile'
 
-Plug 'xolox/vim-misc'
+" Plug 'vim-scripts/TagHighlight'
+
+Plug 'ludovicchabant/vim-gutentags'
+
+" Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 
 " Plug 'chengzeyi/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -170,7 +174,7 @@ set mouse=a
 nnoremap <c-]> g<c-]>
 nnoremap g<c-]> <c-]>
 
-set tags=./.tags;,~/.vimtags
+set tags=./.tags;,./.TAGS;,./tags;,./TAGS
 augroup setFtTags
     autocmd!
     autocmd FileType cpp setlocal tags^=~/.vim_runtime/tags/cpp_tags
@@ -789,9 +793,12 @@ augroup commentStr
     autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 augroup END
 
-let g:easytags_include_members = 1
-let g:easytags_async = 1
-let g:easytags_opts = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
+let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
+let g:gutentags_cache_dir = '~/.vim_gutentags'
+
+" let g:easytags_include_members = 1
+" let g:easytags_async = 1
+" let g:easytags_opts = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
 
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
