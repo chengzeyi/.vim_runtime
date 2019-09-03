@@ -243,7 +243,6 @@ endif
 
 set ruler
 set cmdheight=1
-set noshowmode
 
 set hid
 
@@ -375,19 +374,19 @@ set wrap "Wrap lines
 xnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 xnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
-nnoremap <F5> <C-w>p5<C-y><C-w>p
-nnoremap <F6> <C-w>p5<C-e><C-w>p
-inoremap <F5> <Esc><C-w>p5<C-y><C-w>pi
-inoremap <F6> <Esc><C-w>p5<C-e><C-w>pi
+nnoremap <c-k> <C-w>p5<C-y><C-w>p
+nnoremap <c-j> <C-w>p5<C-e><C-w>p
+inoremap <c-k> <Esc><C-w>p5<C-y><C-w>pi
+inoremap <c-j> <Esc><C-w>p5<C-e><C-w>pi
 
 " Disable highlight when <leader>\ is pressed
 nnoremap <silent> <leader>\ :noh<cr>
 
 " Smart way to move between windows
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
+nnoremap <s-j> <c-w>j
+nnoremap <s-k> <c-w>k
+nnoremap <s-h> <c-w>h
+nnoremap <s-l> <c-w>l
 
 nnoremap <silent> <leader>= <c-w>=
 nnoremap <silent> <leader>+ :exe "resize +5"<cr>
@@ -553,28 +552,30 @@ iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-nnoremap <silent> <leader><cr><cr> :LspStatus<cr>
-nnoremap <silent> <leader><cr>a :LspCodeAction<cr>
-nnoremap <silent> <leader><cr>f :LspDocumentRangeFormat<cr>
-nnoremap <silent> <leader><cr>F :LspDocumentFormat<cr>
-nnoremap <silent> <leader><cr>d :LspDocumentDiagnostics<cr>
-nnoremap <silent> <leader><cr>g :LspDeclaration<cr>
-nnoremap <silent> <leader><cr>G :LspDefinition<cr>
-nnoremap <silent> <leader><cr>p :LspPeekDeclaration<cr>
-nnoremap <silent> <leader><cr>P :LspPeekDefinition<cr>
-nnoremap <silent> <leader><cr>i :LspPeekImplementation<cr>
-nnoremap <silent> <leader><cr>I :LspImplementation<cr>
-nnoremap <silent> <leader><cr>h :LspHover<cr>
-nnoremap <silent> <leader><cr>r :LspReferences<cr>
-nnoremap <silent> <leader><cr>R :LspRename<cr>
-nnoremap <silent> <leader><cr>t :LspPeekTypeDefinition<cr>
-nnoremap          <leader><cr>T :LspTypeDefinition<space>
-nnoremap <silent> <leader><cr>s :LspDocumentSymbol<cr>
-nnoremap <silent> <leader><cr>S :LspWorkspaceSymbol<cr>
-nnoremap <silent> <leader><cr>] :LspNextError<cr>
-nnoremap <silent> <leader><cr>} :LspNextReference<cr>
-nnoremap <silent> <leader><cr>[ :LspPreviousError<cr>
-nnoremap <silent> <leader><cr>{ :LspPreviousReference<cr>
+nmap <silent> <leader><cr><cr> <Plug>(lsp-status) 
+nmap <silent> <leader><cr>a <Plug>(lsp-code-action)
+nmap <silent> <leader><cr>f <Plug>(lsp-document-range-format)
+nmap <silent> <leader><cr>F <Plug>(lsp-document-format)
+nmap <silent> <leader><cr>d <Plug>(lsp-document-diagnostics)
+nmap <silent> <leader><cr>g <Plug>(lsp-declaration)
+nmap <silent> <leader><cr>G <Plug>(lsp-definition)
+nmap <silent> <leader><cr>p <Plug>(lsp-peek-declaration)
+nmap <silent> <leader><cr>P <Plug>(lsp-peek-definition)
+nmap <silent> <leader><cr>i <Plug>(lsp-peek-implementation)
+nmap <silent> <leader><cr>I <Plug>(lsp-implementation)
+nmap <silent> <leader><cr>h <Plug>(lsp-hover)
+nmap <silent> <leader><cr>r <Plug>(lsp-references)
+nmap <silent> <leader><cr>R <Plug>(lsp-rename)
+nmap <silent> <leader><cr>t <Plug>(lsp-peek-type-definition)
+nmap <silent> <leader><cr>T <Plug>(lsp-type-definition)
+nmap <silent> <leader><cr>s <Plug>(lsp-document-symbol)
+nmap <silent> <leader><cr>S <Plug>(lsp-workspace-symbol)
+nmap <silent> <leader><cr>] <Plug>(lsp-next-error)
+nmap <silent> <leader><cr>} <Plug>(lsp-next-reference)
+nmap <silent> <leader><cr>[ <Plug>(lsp-previous-error)
+nmap <silent> <leader><cr>{ <Plug>(lsp-previous-reference)
+nmap <silent> <leader><cr>\ <Plug>(lsp-preview-focus)
+nmap <silent> <leader><cr><bar> <Plug>(lsp-preview-close)
 let g:lsp_diagnostics_echo_cursor = 1
 augroup lspReg
     au!
@@ -659,6 +660,11 @@ endif
 nnoremap <silent> <leader>nc :NeoComplCacheClean<cr>
 
 let g:echodoc_enable_at_startup = 1
+if has('nvim')
+    let g:echodoc#type = 'virtual'
+else
+    set noshowmode
+endif
 
 let OmniCpp_NamespaceSearch = 1
 let OmniCpp_GlobalScopeSearch = 1
