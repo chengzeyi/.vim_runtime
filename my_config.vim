@@ -237,6 +237,7 @@ source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
 set wildmenu
+set wildignorecase
 
 set wildignore=*.o,*~,*.pyc
 if has("win16") || has("win32")
@@ -247,6 +248,7 @@ endif
 
 set ruler
 set cmdheight=1
+set noshowmode
 
 set hid
 
@@ -308,6 +310,8 @@ try
     colorscheme space-vim-dark
 catch
 endtry
+
+nnoremap <leader>uc :colorscheme desert<cr>
 
 " hi Comment cterm=italic
 " hi Normal     ctermbg=NONE guibg=NONE
@@ -619,8 +623,8 @@ let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 let g:neocomplcache_tags_caching_limit_file_size = 20000000
 " let g:neocomplcache_disable_auto_complete = 1
 
-" inoremap <expr><C-g> neocomplcache#undo_completion()
-" inoremap <expr><C-l> neocomplcache#complete_common_string()
+inoremap <expr><C-g> neocomplcache#undo_completion()
+inoremap <expr><C-l> neocomplcache#complete_common_string()
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
@@ -665,11 +669,11 @@ endif
 nnoremap <silent> <leader>nc :NeoComplCacheClean<cr>
 
 let g:echodoc_enable_at_startup = 1
-if has('nvim')
-    let g:echodoc#type = 'virtual'
-else
-    set noshowmode
-endif
+" if has('nvim')
+"     let g:echodoc#type = 'virtual'
+" else
+"     set noshowmode
+" endif
 
 let OmniCpp_NamespaceSearch = 1
 let OmniCpp_GlobalScopeSearch = 1
@@ -884,7 +888,7 @@ let g:EasyMotion_do_mapping = 1
 let g:rainbow_active = 0 "set to 0 if you want to enable it later via :RainbowToggle
 nnoremap <silent> <leader>rb :RainbowToggle<cr>
 
-nnoremap <silent> <leader>u :UndotreeToggle<cr>
+nnoremap <silent> <leader>uu :UndotreeToggle<cr>
 let g:undotree_WindowLayout = 3
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_HelpLine = 0
