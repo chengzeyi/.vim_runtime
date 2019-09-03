@@ -682,6 +682,7 @@ let OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
 
 " autocmd vimenter * NERDTree
 let NERDTreeShowHidden = 1
+let NERDTreeMinimalUI = 1
 let NERDTreeWinPos = 'left'
 let g:NERDTreeWinSize = 30
 nnoremap <silent> <leader>nn :NERDTreeToggle<cr>
@@ -743,6 +744,7 @@ nmap <silent> <leader>[ <Plug>yankstack_substitute_older_paste
 nmap <silent> <leader>] <Plug>yankstack_substitute_newer_paste
 
 let g:tagbar_width = 30
+let g:tagbar_compact = 1
 nnoremap <silent> <leader>tt :TagbarToggle<cr>
 nnoremap <silent> <leader>ta :TagbarOpenAutoClose<cr>
 
@@ -885,6 +887,7 @@ nnoremap <silent> <leader>rb :RainbowToggle<cr>
 nnoremap <silent> <leader>u :UndotreeToggle<cr>
 let g:undotree_WindowLayout = 3
 let g:undotree_SetFocusWhenToggle = 1
+let g:undotree_HelpLine = 0
 
 nnoremap <silent> <leader>m :MarkifyToggle<cr>
 " let g:markify_echo_current_message = 1
