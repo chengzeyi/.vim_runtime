@@ -107,8 +107,8 @@ set pastetoggle=<F2>
 inoremap <c-a> <home>
 inoremap <c-e> <end>
 nnoremap Q @q
-nnoremap 0 ^
-nnoremap ^ 0
+" nnoremap 0 ^
+" nnoremap ^ 0
 nnoremap j gj
 nnoremap gj j
 nnoremap k gk
