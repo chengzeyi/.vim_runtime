@@ -718,6 +718,8 @@ nnoremap <silent> <leader>pp :CtrlP<cr>
 nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
 nnoremap <silent> <leader>pt :CtrlPTag<cr>
 nnoremap <silent> <leader>pl :CtrlPLine<cr>
+nnoremap <silent> <leader>pq :CtrlPQuickfix<cr>
+nnoremap <silent> <leader>pr :CtrlPRTS<cr>
 nnoremap <silent> <leader>pm :CtrlPMRUFiles<cr>
 nnoremap <silent> <leader>pM :CtrlPMixed<cr>
 
