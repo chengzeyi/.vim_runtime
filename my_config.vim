@@ -897,7 +897,7 @@ let g:grepper.prompt_mapping_tool = '<c-g>'
 " let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
-nnoremap <silent> <leader>i :IndentGuidesToggle<cr>
+" nnoremap <silent> <leader>i :IndentGuidesToggle<cr>
 
 let g:better_whitespace_ctermcolor = '63'
 let g:better_whitespace_guicolor = '#5f5fff'
