@@ -563,7 +563,7 @@ iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-nmap <silent> <leader><cr><cr> <Plug>(lsp-status) 
+nmap <silent> <leader><cr><cr> <Plug>(lsp-status)
 nmap <silent> <leader><cr>a <Plug>(lsp-code-action)
 nmap <silent> <leader><cr>f <Plug>(lsp-document-range-format)
 nmap <silent> <leader><cr>F <Plug>(lsp-document-format)
