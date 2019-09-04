@@ -934,3 +934,13 @@ let g:neoformat_basic_format_retab = 1
 let g:neoformat_basic_format_trim = 1
 nnoremap <silent> <leader>fm :Neoformat<cr>
 
+let g:startify_change_to_vcs_root = 1
+let g:startify_custom_header = [
+        \ '',
+        \ '            __',
+        \ '    __  __ /\_\    ___ ___',
+        \ '   /\ \/\ \\/\ \ /'' __` __`\',
+        \ '   \ \ \_/ |\ \ \/\ \/\ \/\ \',
+        \ '    \ \___/  \ \_\ \_\ \_\ \_\',
+        \ '     \/__/    \/_/\/_/\/_/\/_/',
+\ ]
