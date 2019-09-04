@@ -344,6 +344,7 @@ if has("gui_running")
     set guioptions-=r  "scrollbar
     set guioptions-=L  "scrollbar
     set guioptions-=T  "toolbar
+    set guioptions-=c  "dialogs
     " set guioptions-=b  "scrollbar
     " set guioptions-=R  "scrollbar
     " set guioptions-=l  "scrollbar
