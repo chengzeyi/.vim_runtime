@@ -659,7 +659,7 @@ inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
 " inoremap <expr><C-y> neocomplcache#close_popup()
 " inoremap <expr><C-e> neocomplcache#cancel_popup()
 " Close popup by <Space>.
-inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
+" inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
 inoremap <expr><C-Up>
     \ neocomplcache#start_manual_complete(['omni_complete'])
 
