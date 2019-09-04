@@ -592,10 +592,10 @@ augroup lspReg
     au!
     if executable('gopls')
         au User lsp_setup call lsp#register_server({
-                    \ 'name': 'gopls',
-                    \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-                    \ 'whitelist': ['go'],
-                    \ })
+            \ 'name': 'gopls',
+            \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+            \ 'whitelist': ['go'],
+            \ })
         " autocmd BufWritePre *.go LspDocumentFormatSync
         " autocmd FileType go setlocal omnifunc=lsp#complete
     endif
