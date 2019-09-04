@@ -338,16 +338,15 @@ endif
 
 " Set extra options when running in GUI mode
 if has("gui_running")
-    set guioptions-=T
-    set guioptions-=e
     set t_Co=256
+    set guioptions-=e  "tab pages
     set guioptions-=m  "menu bar
-    set guioptions-=T  "toolbar
     set guioptions-=r  "scrollbar
-    set guioptions-=R  "scrollbar
-    set guioptions-=l  "scrollbar
     set guioptions-=L  "scrollbar
-    set guioptions-=b  "scrollbar
+    set guioptions-=T  "toolbar
+    " set guioptions-=b  "scrollbar
+    " set guioptions-=R  "scrollbar
+    " set guioptions-=l  "scrollbar
     set guitablabel=%M\ %t
 endif
 
