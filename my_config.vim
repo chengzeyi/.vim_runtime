@@ -88,7 +88,7 @@ Plug 'ludovicchabant/vim-gutentags'
 " Plug 'xolox/vim-easytags'
 
 " Plug 'chengzeyi/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" Plug 'chengzeyi/fzf.vim'
+Plug 'junegunn/fzf.vim'
 
 Plug 'nathanaelkane/vim-indent-guides'
 
@@ -111,14 +111,15 @@ set pastetoggle=<F2>
 inoremap <c-a> <home>
 inoremap <c-e> <end>
 nnoremap Q @q
+nnoremap Y y$
 " nnoremap 0 ^
 " nnoremap ^ 0
+" xnoremap 0 ^
+" xnoremap ^ 0
 nnoremap j gj
 nnoremap gj j
 nnoremap k gk
 nnoremap gk k
-xnoremap 0 ^
-xnoremap ^ 0
 xnoremap j gj
 xnoremap gj j
 xnoremap k gk
@@ -163,7 +164,8 @@ nnoremap <leader>scb :bufdo %s//gc<left><left><left>
 
 command! W w !sudo tee % > /dev/null
 
-set notimeout
+set timeout
+set timeoutlen=2000
 set ttimeout
 set ttimeoutlen=10
 
@@ -192,7 +194,7 @@ augroup setCompiler
     autocmd FileType python compiler pylint
     autocmd FileType c compiler gcc
     autocmd FileType cpp compiler gcc
-    autocmd FileType go compiler go
+    " autocmd FileType go compiler go
 augroup END
 
 set updatetime=1500
@@ -237,6 +239,8 @@ source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
 set wildmenu
+set wildmode=longest,full
+set wildignorecase
 
 set wildignore=*.o,*~,*.pyc
 if has("win16") || has("win32")
@@ -247,6 +251,7 @@ endif
 
 set ruler
 set cmdheight=1
+set noshowmode
 
 set hid
 
@@ -308,6 +313,8 @@ try
     colorscheme space-vim-dark
 catch
 endtry
+
+nnoremap <leader>uc :colorscheme desert<cr>
 
 " hi Comment cterm=italic
 " hi Normal     ctermbg=NONE guibg=NONE
@@ -384,7 +391,7 @@ inoremap <c-k> <Esc><C-w>p5<C-y><C-w>pi
 inoremap <c-j> <Esc><C-w>p5<C-e><C-w>pi
 
 " Disable highlight when <leader>\ is pressed
-nnoremap <silent> <leader>\ :noh<cr>
+nnoremap <silent> <leader>nh :noh<cr>
 
 " Smart way to move between windows
 nnoremap <s-j> <c-w>j
@@ -592,6 +599,21 @@ augroup lspReg
         " autocmd BufWritePre *.go LspDocumentFormatSync
         " autocmd FileType go setlocal omnifunc=lsp#complete
     endif
+    if executable('pyls')
+        " pip install python-language-server
+        au User lsp_setup call lsp#register_server({
+            \ 'name': 'pyls',
+            \ 'cmd': {server_info->['pyls']},
+            \ 'whitelist': ['python'],
+            \ })
+    endif
+    if executable('clangd')
+        au User lsp_setup call lsp#register_server({
+            \ 'name': 'clangd',
+            \ 'cmd': {server_info->['clangd', '-background-index']},
+            \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+            \ })
+    endif
 augroup END
 
 let g:cpp_class_scope_highlight = 1
@@ -619,8 +641,8 @@ let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 let g:neocomplcache_tags_caching_limit_file_size = 20000000
 " let g:neocomplcache_disable_auto_complete = 1
 
-" inoremap <expr><C-g> neocomplcache#undo_completion()
-" inoremap <expr><C-l> neocomplcache#complete_common_string()
+inoremap <expr><C-g> neocomplcache#undo_completion()
+inoremap <expr><C-l> neocomplcache#complete_common_string()
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
@@ -665,11 +687,11 @@ endif
 nnoremap <silent> <leader>nc :NeoComplCacheClean<cr>
 
 let g:echodoc_enable_at_startup = 1
-if has('nvim')
-    let g:echodoc#type = 'virtual'
-else
-    set noshowmode
-endif
+" if has('nvim')
+"     let g:echodoc#type = 'virtual'
+" else
+"     set noshowmode
+" endif
 
 let OmniCpp_NamespaceSearch = 1
 let OmniCpp_GlobalScopeSearch = 1
@@ -779,14 +801,14 @@ let g:asyncrun_auto = "make"
 nnoremap <silent> <F5> :SCCompile<cr>
 nnoremap <silent> <F6> :SCCompileRun<cr>
 
-" let g:fzf_command_prefix = 'Fzf'
+let g:fzf_command_prefix = 'FZF'
 " Mapping selecting mappings
 " nmap <leader><tab> <plug>(fzf-maps-n)
 " xmap <leader><tab> <plug>(fzf-maps-x)
 " omap <leader><tab> <plug>(fzf-maps-o)
 " nnoremap <c-c> :FzfCommand<cr>
 " [Commands] --expect expression for directly executing the command
-" let g:fzf_commands_expect = 'alt-enter'
+let g:fzf_commands_expect = 'alt-enter'
 
 nmap <c-_> <Plug>CommentaryLine
 vmap <c-_> <Plug>Commentary
@@ -795,6 +817,7 @@ augroup commentStr
     autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 augroup END
 
+let g:gutentags_define_advanced_commands = 1
 let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
 let g:gutentags_cache_dir = '~/.vim_gutentags'
 
@@ -884,7 +907,7 @@ let g:EasyMotion_do_mapping = 1
 let g:rainbow_active = 0 "set to 0 if you want to enable it later via :RainbowToggle
 nnoremap <silent> <leader>rb :RainbowToggle<cr>
 
-nnoremap <silent> <leader>u :UndotreeToggle<cr>
+nnoremap <silent> <leader>uu :UndotreeToggle<cr>
 let g:undotree_WindowLayout = 3
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_HelpLine = 0
