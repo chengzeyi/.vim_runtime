@@ -391,7 +391,7 @@ inoremap <c-k> <Esc><C-w>p5<C-y><C-w>pi
 inoremap <c-j> <Esc><C-w>p5<C-e><C-w>pi
 
 " Disable highlight when <leader>\ is pressed
-nnoremap <silent> <leader>nh :noh<cr>
+nnoremap <silent> <leader>\ :noh<cr>
 
 " Smart way to move between windows
 nnoremap <s-j> <c-w>j
