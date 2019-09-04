@@ -721,7 +721,7 @@ nnoremap <silent> <leader>pl :CtrlPLine<cr>
 nnoremap <silent> <leader>pm :CtrlPMRUFiles<cr>
 nnoremap <silent> <leader>pM :CtrlPMixed<cr>
 
-let g:ctrlp_max_height = 30
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:50'
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 
 nnoremap <silent> <leader>pf :CtrlPFunky<Cr>
