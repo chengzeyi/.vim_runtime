@@ -251,7 +251,7 @@ endif
 
 set ruler
 set cmdheight=1
-set noshowmode
+set showmode
 
 set hid
 
@@ -706,7 +706,7 @@ if !exists('g:neocomplcache_omni_patterns')
 endif
 nnoremap <silent> <leader>nc :NeoComplCacheClean<cr>
 
-let g:echodoc_enable_at_startup = 1
+" let g:echodoc_enable_at_startup = 1
 " if has('nvim')
 "     let g:echodoc#type = 'virtual'
 " else
