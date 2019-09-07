@@ -971,7 +971,6 @@ nnoremap <silent> <leader>fm :Neoformat<cr>
 
 let g:startify_change_to_vcs_root = 1
 let g:startify_custom_header = [
-        \ '',
         \ '            __',
         \ '    __  __ /\_\    ___ ___',
         \ '   /\ \/\ \\/\ \ /'' __` __`\',
