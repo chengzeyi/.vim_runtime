@@ -387,8 +387,8 @@ xnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
 nnoremap <c-k> <C-w>p5<C-y><C-w>p
 nnoremap <c-j> <C-w>p5<C-e><C-w>p
-inoremap <c-k> <Esc><C-w>p5<C-y><C-w>pi
-inoremap <c-j> <Esc><C-w>p5<C-e><C-w>pi
+" inoremap <c-k> <Esc><C-w>p5<C-y><C-w>pi
+" inoremap <c-j> <Esc><C-w>p5<C-e><C-w>pi
 
 " Disable highlight when <leader>\ is pressed
 nnoremap <silent> <leader>\ :noh<cr>
@@ -680,6 +680,9 @@ inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
 " inoremap <expr><C-e> neocomplcache#cancel_popup()
 " Close popup by <Space>.
 " inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
+inoremap <expr><C-j> neocomplcache#start_manual_complete()
+inoremap <expr><C-k> neocomplcache#cancel_popup()
+inoremap <expr><C-l> neocomplcache#complete_common_string()
 inoremap <expr><C-Up>
     \ neocomplcache#start_manual_complete(['omni_complete'])
 
