@@ -704,11 +704,11 @@ let g:neocomplcache_force_omni_patterns.xml = '<[^>]*'
 let g:neocomplcache_force_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplcache_force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-" let g:neocomplcache_force_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
+let g:neocomplcache_force_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
 if !exists('g:neocomplcache_omni_patterns')
     let g:neocomplcache_omni_patterns = {}
-    let g:neocomplcache_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
 endif
+" let g:neocomplcache_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
 nnoremap <silent> <leader>nc :NeoComplCacheClean<cr>
 
 " let g:echodoc_enable_at_startup = 1
