@@ -9,7 +9,7 @@ Plug 'chengzeyi/OmniCppComplete', {'for': ['cpp', 'c']}
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['cpp', 'c']}
-Plug 'fatih/vim-go', {'for': 'go', 'on': ['GoUpdateBinaries', 'GoInstallBinaries']}
+" Plug 'fatih/vim-go', {'for': 'go', 'on': ['GoUpdateBinaries', 'GoInstallBinaries']}
 
 Plug 'lfilho/cosco.vim'
 
@@ -195,7 +195,7 @@ augroup setCompiler
     autocmd FileType python compiler pylint
     autocmd FileType c compiler gcc
     autocmd FileType cpp compiler gcc
-    " autocmd FileType go compiler go
+    autocmd FileType go compiler go
 augroup END
 
 set updatetime=1500
@@ -598,7 +598,7 @@ augroup lspReg
             \ 'whitelist': ['go'],
             \ })
         " autocmd BufWritePre *.go LspDocumentFormatSync
-        " autocmd FileType go setlocal omnifunc=lsp#complete
+        autocmd FileType go setlocal omnifunc=lsp#complete
     endif
     if executable('pyls')
         " pip install python-language-server
@@ -607,6 +607,7 @@ augroup lspReg
             \ 'cmd': {server_info->['pyls']},
             \ 'whitelist': ['python'],
             \ })
+        autocmd FileType python setlocal omnifunc=lsp#complete
     endif
     if executable('clangd')
         au User lsp_setup call lsp#register_server({
