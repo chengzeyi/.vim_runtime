@@ -325,13 +325,13 @@ hi Comment guifg=#5C6370 ctermfg=59 cterm=italic
 
 if has("gui_running")
     if has("gui_gtk2")
-        set guifont=Inconsolata\ 13
+        set guifont=Inconsolata\ 14
     elseif has("gui_gtk3")
-        set guifont=Inconsolata\ 13
+        set guifont=Inconsolata\ 14
     elseif has("gui_macvim")
-        set guifont=Menlo\ Regular:h13
+        set guifont=Menlo\ Regular:h14
     elseif has("gui_win32")
-        set guifont=Consolas\ 13
+        set guifont=Consolas\ 14
     endif
 endif
 
@@ -586,8 +586,8 @@ nmap <silent> <leader><cr>] <Plug>(lsp-next-error)
 nmap <silent> <leader><cr>} <Plug>(lsp-next-reference)
 nmap <silent> <leader><cr>[ <Plug>(lsp-previous-error)
 nmap <silent> <leader><cr>{ <Plug>(lsp-previous-reference)
-nmap <silent> <leader><cr>\ <Plug>(lsp-preview-focus)
-nmap <silent> <leader><cr><bar> <Plug>(lsp-preview-close)
+nmap <silent> <leader><cr><up> <Plug>(lsp-preview-focus)
+nmap <silent> <leader><cr><down> <Plug>(lsp-preview-close)
 let g:lsp_diagnostics_echo_cursor = 1
 augroup lspReg
     au!
@@ -699,12 +699,13 @@ let g:neocomplcache_force_omni_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@
 let g:neocomplcache_force_omni_patterns.html = '<[^>]*'
 let g:neocomplcache_force_omni_patterns.markdown = '<[^>]*'
 let g:neocomplcache_force_omni_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
-let g:neocomplcache_force_omni_patterns.python = '[^. \t]\.\w*'
 let g:neocomplcache_force_omni_patterns.xml = '<[^>]*'
 let g:neocomplcache_force_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplcache_force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 let g:neocomplcache_force_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
+let g:neocomplcache_force_omni_patterns.python = '[^. \t]\.\w*'
+
 if !exists('g:neocomplcache_omni_patterns')
     let g:neocomplcache_omni_patterns = {}
 endif
@@ -798,7 +799,7 @@ nnoremap <silent> <leader>tt :TagbarToggle<cr>
 nnoremap <silent> <leader>ta :TagbarOpenAutoClose<cr>
 
 let g:preview#preview_position = 'bottom'
-let g:preview#preview_size = 8
+" let g:preview#preview_size = 8
 nnoremap <silent> <F7> :PreviewScroll -1<cr>
 nnoremap <silent> <F8> :PreviewScroll +1<cr>
 inoremap <silent> <F7> <c-\><c-o>:PreviewScroll -1<cr>
