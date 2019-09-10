@@ -76,7 +76,7 @@ Plug 'majutsushi/tagbar', {'on': ['TagbarToggle', 'TagbarOpenAutoClose']}
 
 Plug 'sbdchd/neoformat', {'on': 'Neoformat'}
 
-Plug 'skywind3000/vim-preview'
+" Plug 'skywind3000/vim-preview'
 Plug 'skywind3000/asyncrun.vim'
 
 Plug 'xuhdev/SingleCompile'
@@ -132,6 +132,8 @@ nnoremap <silent> <leader>, :cprev<cr>
 nnoremap <silent> <leader>. :cnext<cr>
 nnoremap <silent> <leader>" :registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>
 nnoremap <silent> <leader>` :marks<CR>
+nnoremap <silent> <F9> :execute 'ptag ' . expand('<cword>')<cr>
+nnoremap <silent> <F10> :pclose<cr>
 
 nnoremap <silent> <leader>aa :call SwitchSourceHeader()<cr>
 function! SwitchSourceHeader()
@@ -586,8 +588,8 @@ nmap <silent> <leader><cr>] <Plug>(lsp-next-error)
 nmap <silent> <leader><cr>} <Plug>(lsp-next-reference)
 nmap <silent> <leader><cr>[ <Plug>(lsp-previous-error)
 nmap <silent> <leader><cr>{ <Plug>(lsp-previous-reference)
-nmap <silent> <leader><cr><up> <Plug>(lsp-preview-focus)
-nmap <silent> <leader><cr><down> <Plug>(lsp-preview-close)
+nmap <silent> <leader><cr>\ <Plug>(lsp-preview-focus)
+nmap <silent> <leader><cr><bar> <Plug>(lsp-preview-close)
 let g:lsp_diagnostics_echo_cursor = 1
 augroup lspReg
     au!
@@ -651,8 +653,12 @@ xmap <C-\>     <Plug>(neosnippet_expand_target)
 " set conceallevel=2 concealcursor=niv
 " endif
 
-set completeopt-=preview
-set pumheight=10
+" set completeopt-=preview
+if has('textprop')
+    set completeopt+=popup
+    set previewpopup=height:10,width:60
+endif
+set pumheight=12
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_ignore_case = 1
 let g:neocomplcache_enable_smart_case = 1
@@ -798,25 +804,25 @@ let g:tagbar_compact = 1
 nnoremap <silent> <leader>tt :TagbarToggle<cr>
 nnoremap <silent> <leader>ta :TagbarOpenAutoClose<cr>
 
-let g:preview#preview_position = 'bottom'
-" let g:preview#preview_size = 8
-nnoremap <silent> <F7> :PreviewScroll -1<cr>
-nnoremap <silent> <F8> :PreviewScroll +1<cr>
-inoremap <silent> <F7> <c-\><c-o>:PreviewScroll -1<cr>
-inoremap <silent> <F8> <c-\><c-o>:PreviewScroll +1<cr>
-nnoremap <silent> <F9> :PreviewTag<cr>
-nnoremap <silent> <C-LeftMouse> :PreviewTag<cr>
-nnoremap <silent> <C-RightMouse> g<c-]>
-inoremap <silent> <F9> <c-\><c-o>:PreviewTag<cr>
-nnoremap <silent> <F10> :PreviewClose<cr>
-inoremap <silent> <F10> <c-\><c-o>:PreviewClose<cr>
-nnoremap <silent> <F12> :PreviewSignature<cr>
-inoremap <silent> <F12> <c-\><c-o>:PreviewSignature<cr>
-augroup qfPreview
-    autocmd!
-    autocmd FileType qf nnoremap <silent><buffer> <F9> :PreviewQuickfix<cr>
-    autocmd FileType qf nnoremap <silent><buffer> <F10> :PreviewClose<cr>
-augroup END
+" let g:preview#preview_position = 'bottom'
+" let g:preview#preview_size = 10
+" nnoremap <silent> <F7> :PreviewScroll -1<cr>
+" nnoremap <silent> <F8> :PreviewScroll +1<cr>
+" inoremap <silent> <F7> <c-\><c-o>:PreviewScroll -1<cr>
+" inoremap <silent> <F8> <c-\><c-o>:PreviewScroll +1<cr>
+" nnoremap <silent> <F9> :PreviewTag<cr>
+" nnoremap <silent> <C-LeftMouse> :PreviewTag<cr>
+" nnoremap <silent> <C-RightMouse> g<c-]>
+" inoremap <silent> <F9> <c-\><c-o>:PreviewTag<cr>
+" nnoremap <silent> <F10> :PreviewClose<cr>
+" inoremap <silent> <F10> <c-\><c-o>:PreviewClose<cr>
+" nnoremap <silent> <F12> :PreviewSignature<cr>
+" inoremap <silent> <F12> <c-\><c-o>:PreviewSignature<cr>
+" augroup qfPreview
+"     autocmd!
+"     autocmd FileType qf nnoremap <silent><buffer> <F9> :PreviewQuickfix<cr>
+"     autocmd FileType qf nnoremap <silent><buffer> <F10> :PreviewClose<cr>
+" augroup END
 
 nnoremap <leader>rr :AsyncRun<space>
 nnoremap <silent> <leader>rs :AsyncStop<cr>
