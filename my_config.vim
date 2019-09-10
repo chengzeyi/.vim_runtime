@@ -653,11 +653,12 @@ xmap <C-\>     <Plug>(neosnippet_expand_target)
 " set conceallevel=2 concealcursor=niv
 " endif
 
-" set completeopt-=preview
-if has('textprop')
+set completeopt-=preview
+try
     set completeopt+=popup
     set previewpopup=height:10,width:60
-endif
+catch
+endtry
 set pumheight=12
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_ignore_case = 1
