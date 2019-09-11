@@ -132,6 +132,30 @@ nnoremap <silent> <leader>, :cprev<cr>
 nnoremap <silent> <leader>. :cnext<cr>
 nnoremap <silent> <leader>" :registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>
 nnoremap <silent> <leader>` :marks<CR>
+if exists(':terminal')
+    nnoremap <silent> <leader>dd :terminal<cr>
+    nnoremap <leader>dD :terminal<space>
+    tnoremap <c-n> <c-w>N
+endif
+if exists(':packadd')
+    nnoremap         <leader>db :packadd termdebug <bar> Termdebug<space>
+    nnoremap         <leader>dB :packadd termdebug <bar> TermdebugCommand<space>
+    nnoremap <silent><leader>dr :Run<cr>
+    nnoremap         <leader>dR :Run<space>
+    nnoremap         <leader>da :Arguments<space>
+    nnoremap <silent><leader>de :Evaluate<cr>
+    nnoremap         <leader>dE :Evaluate<space>
+    nnoremap <silent><leader>db :Break<cr>
+    nnoremap <silent><leader>dc :Clear<cr>
+    nnoremap <silent><leader>ds :Step<cr>
+    nnoremap <silent><leader>do :Over<cr>
+    nnoremap <silent><leader>df :Finish<cr>
+    nnoremap <silent><leader>dc :Continue<cr>
+    nnoremap <silent><leader>dS :Stop<cr>
+    nnoremap <silent><leader>d[ :Gdb<cr>
+    nnoremap <silent><leader>d] :Program<cr>
+    nnoremap <silent><leader>d\ :Source<cr>
+endif
 nnoremap <silent> <F9> :execute 'ptag ' . expand('<cword>')<cr>
 nnoremap <silent> <F10> :pclose<cr>
 
@@ -406,10 +430,6 @@ nnoremap <silent> <leader>= <c-w>=
 nnoremap <silent> <leader>+ :exe "resize +5"<cr>
 nnoremap <silent> <leader>- :exe "resize -5"<cr>
 
-if exists(':terminal')
-    tnoremap <c-n> <c-w>N
-endif
-
 " nnoremap <silent> <c-h> :bprevious<cr>
 " nnoremap <silent> <c-l> :bnext<cr>
 nnoremap <silent> <F3> :tabp<cr>
@@ -618,6 +638,14 @@ augroup lspReg
             \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
             \ })
     endif
+    if executable('bash-language-server')
+        au User lsp_setup call lsp#register_server({
+                    \ 'name': 'bash-language-server',
+                    \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
+                    \ 'whitelist': ['sh'],
+                    \ })
+        autocmd FileType sh setlocal omnifunc=lsp#complete
+    endif
 augroup END
 
 let g:cpp_class_scope_highlight = 1
@@ -691,8 +719,8 @@ inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><C-j> neocomplcache#start_manual_complete()
 inoremap <expr><C-k> neocomplcache#cancel_popup()
 inoremap <expr><C-l> neocomplcache#complete_common_string()
-inoremap <expr><C-Up>
-    \ neocomplcache#start_manual_complete(['omni_complete'])
+" inoremap <expr><C-Up>
+"     \ neocomplcache#start_manual_complete(['omni_complete'])
 
 " set omnifunc=ale#completion#OmniFunc
 " set omnifunc=syntaxcomplete#Complete
