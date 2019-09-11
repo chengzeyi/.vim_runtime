@@ -79,7 +79,7 @@ Plug 'sbdchd/neoformat', {'on': 'Neoformat'}
 " Plug 'skywind3000/vim-preview'
 Plug 'skywind3000/asyncrun.vim'
 
-Plug 'xuhdev/SingleCompile'
+" Plug 'xuhdev/SingleCompile'
 
 " Plug 'vim-scripts/TagHighlight'
 
@@ -128,8 +128,10 @@ xnoremap gk k
 nnoremap <silent> <leader>? :nmap <lt>leader><cr>
 nnoremap <silent> <leader>/ :execute 'nmap <lt>leader>' . nr2char(getchar())<cr>
 nnoremap <silent> <leader>w :w!<cr>
-nnoremap <silent> <leader>, :cprev<cr>
-nnoremap <silent> <leader>. :cnext<cr>
+nnoremap <silent> <F7> :cprev<cr>
+nnoremap <silent> <F8> :cnext<cr>
+nnoremap <silent> <F5> :lprev<cr>
+nnoremap <silent> <F6> :lnext<cr>
 nnoremap <silent> <leader>" :registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>
 nnoremap <silent> <leader>` :marks<CR>
 if exists(':terminal')
@@ -158,6 +160,19 @@ if exists(':packadd')
 endif
 nnoremap <silent> <F9> :execute 'ptag ' . expand('<cword>')<cr>
 nnoremap <silent> <F10> :pclose<cr>
+
+augroup compileAndRun
+    au!
+    if executable('python3')
+        au filetype python nnoremap <silent><leader>cr :w <bar> exec '!python3 '.shellescape('%')<CR>
+    else
+        au filetype python nnoremap <silent><leader>cr :w <bar> exec '!python '.shellescape('%')<CR>
+    endif
+    au filetype c nnoremap <silent><leader>cr :w <bar>
+        \ exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+    au filetype cpp nnoremap <silent><leader>cr :w <bar>
+        \ exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+augroup END
 
 nnoremap <silent> <leader>aa :call SwitchSourceHeader()<cr>
 function! SwitchSourceHeader()
@@ -813,7 +828,10 @@ nnoremap <silent> <leader>gD :Gdelete<cr>
 nnoremap <leader>gg :Ggrep<space>
 nnoremap <leader>gm :Gmerge<space>
 nnoremap <leader>gM :Gmove<space>
-nnoremap <silent> <leader>gl :Glog!<cr>
+nnoremap <silent> <leader>gl :Glog<cr>
+nnoremap <silent> <leader>gL :Glog!<cr>
+nnoremap <silent> <leader>gh :0Glog<cr>
+nnoremap <silent> <leader>gH :0Glog!<cr>
 nnoremap <silent> <leader>gf :Gfetch<cr>
 nnoremap <silent> <leader>gp :Gpush<cr>
 nnoremap <silent> <leader>gP :Gpull<cr>
@@ -861,8 +879,8 @@ let g:asyncrun_open = 10
 let g:asyncrun_save = 2
 let g:asyncrun_auto = "make"
 
-nnoremap <silent> <F5> :SCCompile<cr>
-nnoremap <silent> <F6> :SCCompileRun<cr>
+" nnoremap <silent> <F5> :SCCompile<cr>
+" nnoremap <silent> <F6> :SCCompileRun<cr>
 
 let g:fzf_command_prefix = 'FZF'
 " Mapping selecting mappings
