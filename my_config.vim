@@ -344,7 +344,7 @@ endif
 
 " let g:space_vim_dark_background = 234
 
-augroup my-colors
+augroup myColors
     autocmd!
     autocmd ColorScheme * hi LineNr     ctermbg=NONE guibg=NONE
     autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
