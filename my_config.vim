@@ -113,10 +113,10 @@ inoremap <c-a> <home>
 inoremap <c-e> <end>
 nnoremap Q @q
 nnoremap Y y$
-" nnoremap 0 ^
-" nnoremap ^ 0
-" xnoremap 0 ^
-" xnoremap ^ 0
+nnoremap 0 ^
+nnoremap ^ 0
+xnoremap 0 ^
+xnoremap ^ 0
 nnoremap j gj
 nnoremap gj j
 nnoremap k gk
@@ -206,8 +206,8 @@ nnoremap <leader>scb :bufdo %s//gc<left><left><left>
 
 command! W w !sudo tee % > /dev/null
 
-set timeout
-set timeoutlen=2000
+set notimeout
+" set timeoutlen=2000
 set ttimeout
 set ttimeoutlen=10
 
@@ -760,7 +760,7 @@ if !exists('g:neocomplcache_omni_patterns')
     let g:neocomplcache_omni_patterns = {}
 endif
 " let g:neocomplcache_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
-nnoremap <silent> <leader>nc :NeoComplCacheClean<cr>
+nnoremap <silent> <leader>nC :NeoComplCacheClean<cr>
 
 " let g:echodoc_enable_at_startup = 1
 " if has('nvim')
@@ -784,8 +784,13 @@ let NERDTreeMinimalUI = 1
 let NERDTreeWinPos = 'left'
 let g:NERDTreeWinSize = 30
 nnoremap <silent> <leader>nn :NERDTreeToggle<cr>
-nnoremap <leader>nb :NERDTreeFromBookmark<space>
+nnoremap          <leader>nb :NERDTreeFromBookmark<space>
 nnoremap <silent> <leader>nf :NERDTreeFind<cr>
+nnoremap <silent> <leader>nF :NERDTreeFocus<cr>
+nnoremap <silent> <leader>nv :NERDTreeVCS<cr>
+nnoremap <silent> <leader>nc :NERDTreeCWD<cr>
+nnoremap <silent> <leader>nr :NERDTreeRefreshRoot<cr>
+nnoremap <silent> <leader>nm :NERDTreeMirror<cr>
 autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
 
 let g:ctrlp_working_path_mode = 'ra'
@@ -794,10 +799,14 @@ nnoremap <silent> <leader>pp :CtrlP<cr>
 nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
 nnoremap <silent> <leader>pt :CtrlPTag<cr>
 nnoremap <silent> <leader>pl :CtrlPLine<cr>
+nnoremap <silent> <leader>pL :CtrlPLastMode<cr>
 nnoremap <silent> <leader>pq :CtrlPQuickfix<cr>
 nnoremap <silent> <leader>pr :CtrlPRTS<cr>
-nnoremap <silent> <leader>pm :CtrlPMRUFiles<cr>
+nnoremap <silent> <leader>pm :CtrlPMRU<cr>
 nnoremap <silent> <leader>pM :CtrlPMixed<cr>
+nnoremap <silent> <leader>pu :CtrlPUndo<cr>
+nnoremap <silent> <leader>pC :CtrlPChange<cr>
+nnoremap <silent> <leader>pd :CtrlPDir<cr>
 
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:50'
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
@@ -906,7 +915,7 @@ let g:gutentags_cache_dir = '~/.vim_gutentags'
 " let g:easytags_async = 1
 " let g:easytags_opts = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
 
-let g:airline_theme='jellybeans'
+let g:airline_theme = 'dracula'
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
