@@ -696,12 +696,12 @@ xmap <C-\>     <Plug>(neosnippet_expand_target)
 " set conceallevel=2 concealcursor=niv
 " endif
 
-set completeopt-=preview
-try
+if v:version > 801 || (v:version == 801 && has("patch188"))
     set completeopt+=popup
     set previewpopup=height:10,width:60
-catch
-endtry
+else
+    set completeopt-=preview
+endif
 set pumheight=12
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_ignore_case = 1
