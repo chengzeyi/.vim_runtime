@@ -831,12 +831,12 @@ nnoremap <silent> <leader>hh :GitGutterToggle<cr>
 nnoremap <silent> <leader>gb :Gblame<cr>
 nnoremap <silent> <leader>gB :Gbrowse<cr>
 nnoremap <silent> <leader>gc :Gcommit<cr>
-nnoremap <leader>gC :Git checkout<space>
+nnoremap          <leader>gC :Git checkout<space>
 nnoremap <silent> <leader>gd :Gdiff<cr>
 nnoremap <silent> <leader>gD :Gdelete<cr>
-nnoremap <leader>gg :Ggrep<space>
-nnoremap <leader>gm :Gmerge<space>
-nnoremap <leader>gM :Gmove<space>
+nnoremap          <leader>gg :Ggrep<space>
+nnoremap          <leader>gm :Gmerge<space>
+nnoremap          <leader>gM :Gmove<space>
 nnoremap <silent> <leader>gl :Glog<cr>
 nnoremap <silent> <leader>gL :Glog!<cr>
 nnoremap <silent> <leader>gh :0Glog<cr>
@@ -1046,3 +1046,4 @@ let g:startify_custom_header = [
         \ '    \ \___/  \ \_\ \_\ \_\ \_\',
         \ '     \/__/    \/_/\/_/\/_/\/_/',
 \ ]
+
