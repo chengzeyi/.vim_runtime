@@ -63,7 +63,7 @@ Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tacahiroy/ctrlp-funky', {'on': 'CtrlPFunky'}
-Plug 'fisadev/vim-ctrlp-cmdpalette', { 'on': 'CtrlPCmdPalette' }
+Plug 'fisadev/vim-ctrlp-cmdpalette', {'on': 'CtrlPCmdPalette'}
 " Plug 'dbeecham/ctrlp-commandpalette.vim', {'on': 'CtrlPCommandPalette'}
 
 Plug 'Shougo/neocomplcache.vim'
