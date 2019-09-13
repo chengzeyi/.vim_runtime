@@ -97,6 +97,8 @@ Plug 'sheerun/vim-polyglot'
 
 " Plug 'dense-analysis/ale'
 
+Plug 'Lenovsky/nuake'
+
 Plug 'liuchengxu/space-vim-dark'
 Plug 'chriskempson/base16-vim'
 Plug 'cocopon/iceberg.vim'
@@ -135,10 +137,7 @@ nnoremap <silent> <F6> :lnext<cr>
 nnoremap <silent> <leader>" :registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>
 nnoremap <silent> <leader>` :marks<CR>
 if exists(':terminal')
-    nnoremap <silent> <F12> :terminal<cr>
-    tnoremap <silent> <F12> <c-w>:close!<cr>
     tnoremap <c-n> <c-w>N
-    tnoremap <c-p> <c-w>p
 endif
 if exists(':packadd')
     nnoremap         <leader>dd :packadd termdebug <bar> Termdebug<space>
@@ -1047,4 +1046,7 @@ let g:startify_custom_header = [
         \ '    \ \___/  \ \_\ \_\ \_\ \_\',
         \ '     \/__/    \/_/\/_/\/_/\/_/',
 \ ]
+
+nnoremap <silent> <F12> :Nuake<CR>
+tnoremap <silent> <F12> <C-w>:Nuake<CR>
 
