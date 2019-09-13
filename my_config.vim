@@ -137,6 +137,7 @@ nnoremap <silent> <F8> :cnext<cr>
 nnoremap <silent> <F5> :lprev<cr>
 nnoremap <silent> <F6> :lnext<cr>
 nnoremap <silent> <leader>" :registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>
+nnoremap <silent> <leader>' :marks<CR>
 nnoremap <silent> <leader>` :marks<CR>
 if exists(':terminal')
     tnoremap <c-n> <c-w>N
