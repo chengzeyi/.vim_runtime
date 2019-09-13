@@ -29,6 +29,8 @@ Plug 'luochen1990/rainbow'
 
 Plug 'easymotion/vim-easymotion'
 
+Plug 'deris/vim-shot-f'
+
 Plug 'stefandtw/quickfix-reflector.vim'
 
 Plug 'ntpeters/vim-better-whitespace'
