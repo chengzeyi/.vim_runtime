@@ -656,10 +656,10 @@ augroup lspReg
     endif
     if executable('bash-language-server')
         au User lsp_setup call lsp#register_server({
-                    \ 'name': 'bash-language-server',
-                    \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
-                    \ 'whitelist': ['sh'],
-                    \ })
+            \ 'name': 'bash-language-server',
+            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
+            \ 'whitelist': ['sh'],
+            \ })
         autocmd FileType sh setlocal omnifunc=lsp#complete
     endif
 augroup END
