@@ -135,25 +135,26 @@ nnoremap <silent> <F6> :lnext<cr>
 nnoremap <silent> <leader>" :registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>
 nnoremap <silent> <leader>` :marks<CR>
 if exists(':terminal')
-    nnoremap <silent> <leader>dd :terminal<cr>
-    nnoremap <leader>dD :terminal<space>
+    nnoremap <silent> <F12> :terminal<cr>
+    tnoremap <silent> <F12> <c-w>:close!<cr>
     tnoremap <c-n> <c-w>N
+    tnoremap <c-p> <c-w>p
 endif
 if exists(':packadd')
-    nnoremap         <leader>db :packadd termdebug <bar> Termdebug<space>
-    nnoremap         <leader>dB :packadd termdebug <bar> TermdebugCommand<space>
+    nnoremap         <leader>dd :packadd termdebug <bar> Termdebug<space>
+    nnoremap         <leader>dD :packadd termdebug <bar> TermdebugCommand<space>
     nnoremap <silent><leader>dr :Run<cr>
     nnoremap         <leader>dR :Run<space>
     nnoremap         <leader>da :Arguments<space>
     nnoremap <silent><leader>de :Evaluate<cr>
     nnoremap         <leader>dE :Evaluate<space>
     nnoremap <silent><leader>db :Break<cr>
-    nnoremap <silent><leader>dc :Clear<cr>
     nnoremap <silent><leader>ds :Step<cr>
+    nnoremap <silent><leader>dS :Stop<cr>
     nnoremap <silent><leader>do :Over<cr>
     nnoremap <silent><leader>df :Finish<cr>
     nnoremap <silent><leader>dc :Continue<cr>
-    nnoremap <silent><leader>dS :Stop<cr>
+    nnoremap <silent><leader>dC :Clear<cr>
     nnoremap <silent><leader>d[ :Gdb<cr>
     nnoremap <silent><leader>d] :Program<cr>
     nnoremap <silent><leader>d\ :Source<cr>
