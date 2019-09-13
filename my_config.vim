@@ -236,7 +236,7 @@ augroup setCompiler
     autocmd FileType python compiler pylint
     autocmd FileType c compiler gcc
     autocmd FileType cpp compiler gcc
-    " autocmd FileType go compiler go
+    autocmd FileType go compiler go
 augroup END
 
 set updatetime=1500
