@@ -794,7 +794,10 @@ nnoremap <silent> <leader>nv :NERDTreeVCS<cr>
 nnoremap <silent> <leader>nc :NERDTreeCWD<cr>
 nnoremap <silent> <leader>nr :NERDTreeRefreshRoot<cr>
 nnoremap <silent> <leader>nm :NERDTreeMirror<cr>
-autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
+augroup closeNERDTreeBuffer
+    autocmd!
+    autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
+augroup END
 
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = '<c-f>'
