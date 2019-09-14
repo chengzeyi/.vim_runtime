@@ -284,7 +284,7 @@ source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
 set wildmenu
-set wildmode=longest,full
+" set wildmode=longest,full
 set wildignorecase
 
 set wildignore=*.o,*~,*.pyc
