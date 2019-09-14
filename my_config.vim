@@ -945,6 +945,7 @@ endif
 " let g:airline_symbols.spell = 'Ꞩ'
 " let g:airline_symbols.notexists = 'Ɇ'
 " let g:airline_symbols.whitespace = 'Ξ'
+
 " powerline symbols
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
