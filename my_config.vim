@@ -260,6 +260,7 @@ highlight CursorLine cterm=none ctermbg=236
 " highlight CursorColumn cterm=none ctermbg=236
 
 set splitbelow
+set splitright
 
 set history=500
 
@@ -297,6 +298,7 @@ endif
 set ruler
 set cmdheight=1
 set showmode
+set showcmd
 
 set hid
 
