@@ -1054,6 +1054,7 @@ let g:startify_custom_header = [
         \ '    \ \___/  \ \_\ \_\ \_\ \_\',
         \ '     \/__/    \/_/\/_/\/_/\/_/',
 \ ]
+nnoremap <silent> <leader>st :Startify<cr>
 
 nnoremap <silent> <F12> :Nuake<CR>
 tnoremap <silent> <F12> <C-w>:Nuake<CR>
