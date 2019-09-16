@@ -220,6 +220,8 @@ set ttimeoutlen=10
 
 nnoremap <c-]> g<c-]>
 nnoremap g<c-]> <c-]>
+xnoremap <c-]> g<c-]>
+xnoremap g<c-]> <c-]>
 
 set tags=./.tags;,./.TAGS;,./tags;,./TAGS
 augroup setFtTags
