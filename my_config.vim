@@ -129,56 +129,56 @@ xnoremap j gj
 xnoremap gj j
 xnoremap k gk
 xnoremap gk k
-nnoremap <silent> <leader>? :nmap <lt>leader><cr>
-nnoremap <silent> <leader>/ :execute 'nmap <lt>leader>' . nr2char(getchar())<cr>
-nnoremap <silent> <leader>w :w!<cr>
-nnoremap <silent> <F7> :cprev<cr>
-nnoremap <silent> <F8> :cnext<cr>
-nnoremap <silent> <F5> :lprev<cr>
-nnoremap <silent> <F6> :lnext<cr>
-nnoremap <silent> <leader>" :registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>
-nnoremap <silent> <leader>' :marks<CR>
-nnoremap <silent> <leader>` :marks<CR>
+nnoremap <leader>? :nmap <lt>leader><cr>
+nnoremap <leader>/ :execute 'nmap <lt>leader>' . nr2char(getchar())<cr>
+nnoremap <leader>w :w!<cr>
+nnoremap <leader>cb :cbuffer<cr>
+nnoremap <F7> :cprev<cr>
+nnoremap <F8> :cnext<cr>
+nnoremap <F5> :lprev<cr>
+nnoremap <F6> :lnext<cr>
+nnoremap <leader>" :registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>
+nnoremap <leader>' :marks<CR>
+nnoremap <leader>` :marks<CR>
 if exists(':terminal')
     tnoremap <c-n> <c-w>N
-    tnoremap <silent> <c-q> <c-w>:cbuffer<cr>
 endif
 if exists(':packadd')
-    nnoremap         <leader>dd :packadd termdebug <bar> Termdebug<space>
-    nnoremap         <leader>dD :packadd termdebug <bar> TermdebugCommand<space>
-    nnoremap <silent><leader>dr :Run<cr>
-    nnoremap         <leader>dR :Run<space>
-    nnoremap         <leader>da :Arguments<space>
-    nnoremap <silent><leader>de :Evaluate<cr>
-    nnoremap         <leader>dE :Evaluate<space>
-    nnoremap <silent><leader>db :Break<cr>
-    nnoremap <silent><leader>ds :Step<cr>
-    nnoremap <silent><leader>dS :Stop<cr>
-    nnoremap <silent><leader>do :Over<cr>
-    nnoremap <silent><leader>df :Finish<cr>
-    nnoremap <silent><leader>dc :Continue<cr>
-    nnoremap <silent><leader>dC :Clear<cr>
-    nnoremap <silent><leader>d[ :Gdb<cr>
-    nnoremap <silent><leader>d] :Program<cr>
-    nnoremap <silent><leader>d\ :Source<cr>
+    nnoremap <leader>dd :packadd termdebug <bar> Termdebug<space>
+    nnoremap <leader>dD :packadd termdebug <bar> TermdebugCommand<space>
+    nnoremap <leader>dr :Run<cr>
+    nnoremap <leader>dR :Run<space>
+    nnoremap <leader>da :Arguments<space>
+    nnoremap <leader>de :Evaluate<cr>
+    nnoremap <leader>dE :Evaluate<space>
+    nnoremap <leader>db :Break<cr>
+    nnoremap <leader>ds :Step<cr>
+    nnoremap <leader>dS :Stop<cr>
+    nnoremap <leader>do :Over<cr>
+    nnoremap <leader>df :Finish<cr>
+    nnoremap <leader>dc :Continue<cr>
+    nnoremap <leader>dC :Clear<cr>
+    nnoremap <leader>d[ :Gdb<cr>
+    nnoremap <leader>d] :Program<cr>
+    nnoremap <leader>d\ :Source<cr>
 endif
-nnoremap <silent> <F9> :execute 'ptag ' . expand('<cword>')<cr>
-nnoremap <silent> <F10> :pclose<cr>
+nnoremap <F9> :execute 'ptag ' . expand('<cword>')<cr>
+nnoremap <F10> :pclose<cr>
 
 augroup compileAndRun
     au!
     if executable('python3')
-        au filetype python nnoremap <silent><leader>cr :w <bar> exec '!python3 '.shellescape('%')<CR>
+        au filetype python nnoremap <leader>cr :w <bar> exec '!python3 '.shellescape('%')<CR>
     else
-        au filetype python nnoremap <silent><leader>cr :w <bar> exec '!python '.shellescape('%')<CR>
+        au filetype python nnoremap <leader>cr :w <bar> exec '!python '.shellescape('%')<CR>
     endif
-    au filetype c nnoremap <silent><leader>cr :w <bar>
-        \ exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
-    au filetype cpp nnoremap <silent><leader>cr :w <bar>
-        \ exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+    au filetype c nnoremap <leader>cr :w <bar>
+                \ exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+    au filetype cpp nnoremap <leader>cr :w <bar>
+                \ exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
 augroup END
 
-nnoremap <silent> <leader>aa :call SwitchSourceHeader()<cr>
+nnoremap <leader>aa :call SwitchSourceHeader()<cr>
 function! SwitchSourceHeader()
     let suffix = expand("%:e")
     if suffix ==# "cpp"
@@ -347,7 +347,7 @@ syntax enable
 
 set t_Co=256
 if has('termguicolors')
-    nnoremap <silent> <leader>tg :set invtermguicolors<cr>
+    nnoremap <leader>tg :set invtermguicolors<cr>
 endif
 
 " let g:space_vim_dark_background = 234
@@ -430,8 +430,8 @@ set wrap "Wrap lines
 
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
-xnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-xnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+xnoremap * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+xnoremap # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
 nnoremap <c-k> <C-w>p5<C-y><C-w>p
 nnoremap <c-j> <C-w>p5<C-e><C-w>p
@@ -439,7 +439,7 @@ nnoremap <c-j> <C-w>p5<C-e><C-w>p
 " inoremap <c-j> <Esc><C-w>p5<C-e><C-w>pi
 
 " Disable highlight when <leader>\ is pressed
-nnoremap <silent> <leader>\ :noh<cr>
+nnoremap <leader>\ :noh<cr>
 
 " Smart way to move between windows
 nnoremap <s-j> <c-w>j
@@ -447,18 +447,18 @@ nnoremap <s-k> <c-w>k
 nnoremap <s-h> <c-w>h
 nnoremap <s-l> <c-w>l
 
-nnoremap <silent> <leader>= <c-w>=
-nnoremap <silent> <leader>+ :exe "resize +5"<cr>
-nnoremap <silent> <leader>- :exe "resize -5"<cr>
+nnoremap <leader>= <c-w>=
+nnoremap <leader>+ :exe "resize +5"<cr>
+nnoremap <leader>- :exe "resize -5"<cr>
 
-" nnoremap <silent> <c-h> :bprevious<cr>
-" nnoremap <silent> <c-l> :bnext<cr>
-nnoremap <silent> <F3> :tabp<cr>
-nnoremap <silent> <F4> :tabn<cr>
+" nnoremap <c-h> :bprevious<cr>
+" nnoremap <c-l> :bnext<cr>
+nnoremap <F3> :tabp<cr>
+nnoremap <F4> :tabn<cr>
 
 " Close the current buffer
 " map <leader>bc :Bclose<cr>:tabclose<cr>gT
-nnoremap <silent> <leader>bb :Bclose<cr>
+nnoremap <leader>bb :Bclose<cr>
 " Don't close window, when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
 function! <SID>BufcloseCloseIt()
@@ -481,8 +481,8 @@ function! <SID>BufcloseCloseIt()
 endfunction
 
 " Close all the buffers
-nnoremap <silent> <leader>bd :bufdo bd<cr>
-nnoremap <silent> <leader>bh :CloseHiddenBuffers<cr>
+nnoremap <leader>bd :bufdo bd<cr>
+nnoremap <leader>bh :CloseHiddenBuffers<cr>
 command! CloseHiddenBuffers call s:CloseHiddenBuffers()
 function! s:CloseHiddenBuffers()
     let open_buffers = []
@@ -498,19 +498,19 @@ function! s:CloseHiddenBuffers()
     endfor
 endfunction
 
-nnoremap <silent> <leader><tab> :bnext<cr>
-nnoremap <silent> <leader><s-tab> :bprevious<cr>
+nnoremap <leader><tab> :bnext<cr>
+nnoremap <leader><s-tab> :bprevious<cr>
 
 " Useful mappings for managing tabs
-nnoremap <silent> <leader>tn :tabnew<cr>
-nnoremap <silent> <leader>to :tabonly<cr>
-nnoremap <silent> <leader>tc :tabclose<cr>
-nnoremap <silent> <leader>tm :tabmove<cr>
-nnoremap <silent> <leader>t<leader> :tabnext<cr>
+nnoremap <leader>tn :tabnew<cr>
+nnoremap <leader>to :tabonly<cr>
+nnoremap <leader>tc :tabclose<cr>
+nnoremap <leader>tm :tabmove<cr>
+nnoremap <leader>t<leader> :tabnext<cr>
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
-nnoremap <silent> <leader>tl :exe "tabn ".g:lasttab<cr>
+nnoremap <leader>tl :exe "tabn ".g:lasttab<cr>
 augroup tabLeave
     au!
     au TabLeave * let g:lasttab = tabpagenr()
@@ -518,10 +518,10 @@ augroup END
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
-nnoremap <silent> <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 " Switch CWD to the directory of the open buffer
-nnoremap <silent> <leader>cd :cd %:p:h<cr>:pwd<cr>
+nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " Specify the behavior when switching between buffers
 try
@@ -544,13 +544,13 @@ set laststatus=2
 " set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
 " Pressing ,ss will toggle and untoggle spell checking
-" nnoremap <silent> <leader>ss :setlocal spell!<cr>
+" nnoremap <leader>ss :setlocal spell!<cr>
 
 " Shortcuts using <leader>
-" nnoremap <silent> <leader>sn ]s
-" nnoremap <silent> <leader>sp [s
-" nnoremap <silent> <leader>sa zg
-" nnoremap <silent> <leader>s? z=
+" nnoremap <leader>sn ]s
+" nnoremap <leader>sp [s
+" nnoremap <leader>sa zg
+" nnoremap <leader>s? z=
 
 function! CmdLine(str)
     call feedkeys(":" . a:str)
@@ -576,7 +576,7 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fast editing and reloading of vimrc configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <silent> <leader>e :e! ~/.vim_runtime/my_config.vim<cr>
+nnoremap <leader>e :e! ~/.vim_runtime/my_config.vim<cr>
 augroup vimConfig
     autocmd!
     autocmd bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
@@ -607,64 +607,64 @@ iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-nmap <silent> <leader><cr><cr> <Plug>(lsp-status)
-nmap <silent> <leader><cr>a <Plug>(lsp-code-action)
-nmap <silent> <leader><cr>f <Plug>(lsp-document-range-format)
-nmap <silent> <leader><cr>F <Plug>(lsp-document-format)
-nmap <silent> <leader><cr>d <Plug>(lsp-document-diagnostics)
-nmap <silent> <leader><cr>g <Plug>(lsp-declaration)
-nmap <silent> <leader><cr>G <Plug>(lsp-definition)
-nmap <silent> <leader><cr>p <Plug>(lsp-peek-declaration)
-nmap <silent> <leader><cr>P <Plug>(lsp-peek-definition)
-nmap <silent> <leader><cr>i <Plug>(lsp-peek-implementation)
-nmap <silent> <leader><cr>I <Plug>(lsp-implementation)
-nmap <silent> <leader><cr>h <Plug>(lsp-hover)
-nmap <silent> <leader><cr>r <Plug>(lsp-references)
-nmap <silent> <leader><cr>R <Plug>(lsp-rename)
-nmap <silent> <leader><cr>t <Plug>(lsp-peek-type-definition)
-nmap <silent> <leader><cr>T <Plug>(lsp-type-definition)
-nmap <silent> <leader><cr>s <Plug>(lsp-document-symbol)
-nmap <silent> <leader><cr>S <Plug>(lsp-workspace-symbol)
-nmap <silent> <leader><cr>] <Plug>(lsp-next-error)
-nmap <silent> <leader><cr>} <Plug>(lsp-next-reference)
-nmap <silent> <leader><cr>[ <Plug>(lsp-previous-error)
-nmap <silent> <leader><cr>{ <Plug>(lsp-previous-reference)
-nmap <silent> <leader><cr>\ <Plug>(lsp-preview-focus)
-nmap <silent> <leader><cr><bar> <Plug>(lsp-preview-close)
+nmap <leader><cr><cr> <Plug>(lsp-status)
+nmap <leader><cr>a <Plug>(lsp-code-action)
+nmap <leader><cr>f <Plug>(lsp-document-range-format)
+nmap <leader><cr>F <Plug>(lsp-document-format)
+nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
+nmap <leader><cr>g <Plug>(lsp-declaration)
+nmap <leader><cr>G <Plug>(lsp-definition)
+nmap <leader><cr>p <Plug>(lsp-peek-declaration)
+nmap <leader><cr>P <Plug>(lsp-peek-definition)
+nmap <leader><cr>i <Plug>(lsp-peek-implementation)
+nmap <leader><cr>I <Plug>(lsp-implementation)
+nmap <leader><cr>h <Plug>(lsp-hover)
+nmap <leader><cr>r <Plug>(lsp-references)
+nmap <leader><cr>R <Plug>(lsp-rename)
+nmap <leader><cr>t <Plug>(lsp-peek-type-definition)
+nmap <leader><cr>T <Plug>(lsp-type-definition)
+nmap <leader><cr>s <Plug>(lsp-document-symbol)
+nmap <leader><cr>S <Plug>(lsp-workspace-symbol)
+nmap <leader><cr>] <Plug>(lsp-next-error)
+nmap <leader><cr>} <Plug>(lsp-next-reference)
+nmap <leader><cr>[ <Plug>(lsp-previous-error)
+nmap <leader><cr>{ <Plug>(lsp-previous-reference)
+nmap <leader><cr>\ <Plug>(lsp-preview-focus)
+nmap <leader><cr><bar> <Plug>(lsp-preview-close)
 let g:lsp_diagnostics_echo_cursor = 1
 augroup lspReg
     au!
     if executable('gopls')
         au User lsp_setup call lsp#register_server({
-            \ 'name': 'gopls',
-            \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-            \ 'whitelist': ['go'],
-            \ })
+                    \ 'name': 'gopls',
+                    \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+                    \ 'whitelist': ['go'],
+                    \ })
         " autocmd BufWritePre *.go LspDocumentFormatSync
         autocmd FileType go setlocal omnifunc=lsp#complete
     endif
     if executable('pyls')
         " pip install python-language-server
         au User lsp_setup call lsp#register_server({
-            \ 'name': 'pyls',
-            \ 'cmd': {server_info->['pyls']},
-            \ 'whitelist': ['python'],
-            \ })
+                    \ 'name': 'pyls',
+                    \ 'cmd': {server_info->['pyls']},
+                    \ 'whitelist': ['python'],
+                    \ })
         autocmd FileType python setlocal omnifunc=lsp#complete
     endif
     if executable('clangd')
         au User lsp_setup call lsp#register_server({
-            \ 'name': 'clangd',
-            \ 'cmd': {server_info->['clangd', '-background-index']},
-            \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-            \ })
+                    \ 'name': 'clangd',
+                    \ 'cmd': {server_info->['clangd', '-background-index']},
+                    \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+                    \ })
     endif
     if executable('bash-language-server')
         au User lsp_setup call lsp#register_server({
-            \ 'name': 'bash-language-server',
-            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
-            \ 'whitelist': ['sh'],
-            \ })
+                    \ 'name': 'bash-language-server',
+                    \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
+                    \ 'whitelist': ['sh'],
+                    \ })
         autocmd FileType sh setlocal omnifunc=lsp#complete
     endif
 augroup END
@@ -703,7 +703,7 @@ xmap <C-\>     <Plug>(neosnippet_expand_target)
 " endif
 
 if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
-    \ has('textprop')
+            \ has('textprop')
     set completeopt+=popup
     set previewpopup=height:10,width:60
 else
@@ -767,7 +767,7 @@ if !exists('g:neocomplcache_omni_patterns')
     let g:neocomplcache_omni_patterns = {}
 endif
 " let g:neocomplcache_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
-nnoremap <silent> <leader>nC :NeoComplCacheClean<cr>
+nnoremap <leader>nC :NeoComplCacheClean<cr>
 
 " let g:echodoc_enable_at_startup = 1
 " if has('nvim')
@@ -790,14 +790,14 @@ let NERDTreeShowHidden = 1
 let NERDTreeMinimalUI = 1
 let NERDTreeWinPos = 'left'
 let g:NERDTreeWinSize = 30
-nnoremap <silent> <leader>nn :NERDTreeToggle<cr>
+nnoremap <leader>nn :NERDTreeToggle<cr>
 nnoremap          <leader>nb :NERDTreeFromBookmark<space>
-nnoremap <silent> <leader>nf :NERDTreeFind<cr>
-nnoremap <silent> <leader>nF :NERDTreeFocus<cr>
-nnoremap <silent> <leader>nv :NERDTreeVCS<cr>
-nnoremap <silent> <leader>nc :NERDTreeCWD<cr>
-nnoremap <silent> <leader>nr :NERDTreeRefreshRoot<cr>
-nnoremap <silent> <leader>nm :NERDTreeMirror<cr>
+nnoremap <leader>nf :NERDTreeFind<cr>
+nnoremap <leader>nF :NERDTreeFocus<cr>
+nnoremap <leader>nv :NERDTreeVCS<cr>
+nnoremap <leader>nc :NERDTreeCWD<cr>
+nnoremap <leader>nr :NERDTreeRefreshRoot<cr>
+nnoremap <leader>nm :NERDTreeMirror<cr>
 augroup closeNERDTreeBuffer
     autocmd!
     autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
@@ -805,102 +805,102 @@ augroup END
 
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = '<c-f>'
-nnoremap <silent> <leader>pp :CtrlP<cr>
-nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
-nnoremap <silent> <leader>pt :CtrlPTag<cr>
-nnoremap <silent> <leader>pl :CtrlPLine<cr>
-nnoremap <silent> <leader>pL :CtrlPLastMode<cr>
-nnoremap <silent> <leader>pq :CtrlPQuickfix<cr>
-nnoremap <silent> <leader>pr :CtrlPRTS<cr>
-nnoremap <silent> <leader>pm :CtrlPMRU<cr>
-nnoremap <silent> <leader>pM :CtrlPMixed<cr>
-nnoremap <silent> <leader>pu :CtrlPUndo<cr>
-nnoremap <silent> <leader>pC :CtrlPChange<cr>
-nnoremap <silent> <leader>pd :CtrlPDir<cr>
+nnoremap <leader>pp :CtrlP<cr>
+nnoremap <leader>pb :CtrlPBuffer<cr>
+nnoremap <leader>pt :CtrlPTag<cr>
+nnoremap <leader>pl :CtrlPLine<cr>
+nnoremap <leader>pL :CtrlPLastMode<cr>
+nnoremap <leader>pq :CtrlPQuickfix<cr>
+nnoremap <leader>pr :CtrlPRTS<cr>
+nnoremap <leader>pm :CtrlPMRU<cr>
+nnoremap <leader>pM :CtrlPMixed<cr>
+nnoremap <leader>pu :CtrlPUndo<cr>
+nnoremap <leader>pC :CtrlPChange<cr>
+nnoremap <leader>pd :CtrlPDir<cr>
 
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:50'
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 
-nnoremap <silent> <leader>pf :CtrlPFunky<Cr>
+nnoremap <leader>pf :CtrlPFunky<Cr>
 " narrow the list down with a word under cursor
-nnoremap <silent> <leader>pF :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+nnoremap <leader>pF :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_multi_buffers = 1
 
 if has('python') || has('python3')
-    nnoremap <silent> <leader>pc :CtrlPCmdPalette<cr>
-    nnoremap <silent> <c-p> :CtrlPCmdPalette<cr>
+    nnoremap <leader>pc :CtrlPCmdPalette<cr>
+    nnoremap <c-p> :CtrlPCmdPalette<cr>
 endif
-" nnoremap <silent> <leader>pc :CtrlPCommandPalette<cr>
-" nnoremap <silent> <c-p> :CtrlPCommandPalette<cr>
+" nnoremap <leader>pc :CtrlPCommandPalette<cr>
+" nnoremap <c-p> :CtrlPCommandPalette<cr>
 
 let g:gitgutter_enabled=1
-nnoremap <silent> <leader>hh :GitGutterToggle<cr>
+nnoremap <leader>hh :GitGutterToggle<cr>
 
-nnoremap <silent> <leader>gb :Gblame<cr>
-nnoremap <silent> <leader>gB :Gbrowse<cr>
-nnoremap <silent> <leader>gc :Gcommit<cr>
-nnoremap          <leader>gC :Git checkout<space>
-nnoremap <silent> <leader>gd :Gdiff<cr>
-nnoremap <silent> <leader>gD :Gdelete<cr>
-nnoremap          <leader>gg :Ggrep<space>
-nnoremap          <leader>gm :Gmerge<space>
-nnoremap          <leader>gM :Gmove<space>
-nnoremap <silent> <leader>gl :Glog<cr>
-nnoremap <silent> <leader>gL :Glog!<cr>
-nnoremap <silent> <leader>gh :0Glog<cr>
-nnoremap <silent> <leader>gH :0Glog!<cr>
-nnoremap <silent> <leader>gf :Gfetch<cr>
-nnoremap <silent> <leader>gp :Gpush<cr>
-nnoremap <silent> <leader>gP :Gpull<cr>
-nnoremap <silent> <leader>gs :Gstatus<cr>
-nnoremap <silent> <leader>gS :Git stash<cr>
-nnoremap <silent> <leader>gr :Gread<cr>
-nnoremap <silent> <leader>gR :Gremove<cr>
-nnoremap <silent> <leader>ge :Gedit<cr>
-nnoremap <silent> <leader>gw :Gwrite<cr>
-nnoremap <silent> <leader>gi :Gist<cr>
+nnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>gB :Gbrowse<cr>
+nnoremap <leader>gc :Gcommit<cr>
+nnoremap <leader>gC :Git checkout<space>
+nnoremap <leader>gd :Gdiff<cr>
+nnoremap <leader>gD :Gdelete<cr>
+nnoremap <leader>gg :Ggrep<space>
+nnoremap <leader>gm :Gmerge<space>
+nnoremap <leader>gM :Gmove<space>
+nnoremap <leader>gl :Glog<cr>
+nnoremap <leader>gL :Glog!<cr>
+nnoremap <leader>gh :0Glog<cr>
+nnoremap <leader>gH :0Glog!<cr>
+nnoremap <leader>gf :Gfetch<cr>
+nnoremap <leader>gp :Gpush<cr>
+nnoremap <leader>gP :Gpull<cr>
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gS :Git stash<cr>
+nnoremap <leader>gr :Gread<cr>
+nnoremap <leader>gR :Gremove<cr>
+nnoremap <leader>ge :Gedit<cr>
+nnoremap <leader>gw :Gwrite<cr>
+nnoremap <leader>gi :Gist<cr>
 
 let g:yankstack_yank_keys = ['y', 'd']
-nmap <silent> <leader>[ <Plug>yankstack_substitute_older_paste
-nmap <silent> <leader>] <Plug>yankstack_substitute_newer_paste
+nmap <leader>[ <Plug>yankstack_substitute_older_paste
+nmap <leader>] <Plug>yankstack_substitute_newer_paste
 
 let g:tagbar_width = 30
 let g:tagbar_compact = 1
-nnoremap <silent> <leader>tt :TagbarToggle<cr>
-nnoremap <silent> <leader>ta :TagbarOpenAutoClose<cr>
+nnoremap <leader>tt :TagbarToggle<cr>
+nnoremap <leader>ta :TagbarOpenAutoClose<cr>
 
 " let g:preview#preview_position = 'bottom'
 " let g:preview#preview_size = 10
-" nnoremap <silent> <F7> :PreviewScroll -1<cr>
-" nnoremap <silent> <F8> :PreviewScroll +1<cr>
-" inoremap <silent> <F7> <c-\><c-o>:PreviewScroll -1<cr>
-" inoremap <silent> <F8> <c-\><c-o>:PreviewScroll +1<cr>
-" nnoremap <silent> <F9> :PreviewTag<cr>
-" nnoremap <silent> <C-LeftMouse> :PreviewTag<cr>
-" nnoremap <silent> <C-RightMouse> g<c-]>
-" inoremap <silent> <F9> <c-\><c-o>:PreviewTag<cr>
-" nnoremap <silent> <F10> :PreviewClose<cr>
-" inoremap <silent> <F10> <c-\><c-o>:PreviewClose<cr>
-" nnoremap <silent> <F12> :PreviewSignature<cr>
-" inoremap <silent> <F12> <c-\><c-o>:PreviewSignature<cr>
+" nnoremap <F7> :PreviewScroll -1<cr>
+" nnoremap <F8> :PreviewScroll +1<cr>
+" inoremap <F7> <c-\><c-o>:PreviewScroll -1<cr>
+" inoremap <F8> <c-\><c-o>:PreviewScroll +1<cr>
+" nnoremap <F9> :PreviewTag<cr>
+" nnoremap <C-LeftMouse> :PreviewTag<cr>
+" nnoremap <C-RightMouse> g<c-]>
+" inoremap <F9> <c-\><c-o>:PreviewTag<cr>
+" nnoremap <F10> :PreviewClose<cr>
+" inoremap <F10> <c-\><c-o>:PreviewClose<cr>
+" nnoremap <F12> :PreviewSignature<cr>
+" inoremap <F12> <c-\><c-o>:PreviewSignature<cr>
 " augroup qfPreview
 "     autocmd!
-"     autocmd FileType qf nnoremap <silent><buffer> <F9> :PreviewQuickfix<cr>
-"     autocmd FileType qf nnoremap <silent><buffer> <F10> :PreviewClose<cr>
+"     autocmd FileType qf nnoremap <buffer> <F9> :PreviewQuickfix<cr>
+"     autocmd FileType qf nnoremap <buffer> <F10> :PreviewClose<cr>
 " augroup END
 
 nnoremap <leader>rr :AsyncRun<space>
-nnoremap <silent> <leader>rs :AsyncStop<cr>
+nnoremap <leader>rs :AsyncStop<cr>
 " let g:asyncrun_bell = 1
 " map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
 let g:asyncrun_open = 10
 let g:asyncrun_save = 2
 let g:asyncrun_auto = "make"
 
-" nnoremap <silent> <F5> :SCCompile<cr>
-" nnoremap <silent> <F6> :SCCompileRun<cr>
+" nnoremap <F5> :SCCompile<cr>
+" nnoremap <F6> :SCCompileRun<cr>
 
 let g:fzf_command_prefix = 'FZF'
 " Mapping selecting mappings
@@ -986,23 +986,23 @@ let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status
 
 let g:goyo_width = '80%'
 let g:goyo_height = '95%'
-nnoremap <silent> <leader>z :Goyo<cr>
+nnoremap <leader>z :Goyo<cr>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
-nnoremap <silent> <c-g> :Grepper<cr>
+nnoremap <c-g> :Grepper<cr>
 if !exists('g:grepper')
     let g:grepper = {}
 endif
 let g:grepper.prompt_mapping_tool = '<c-g>'
 
-" inoremap <silent> <c-x><space> <C-\><C-O>:ALEComplete<CR>
-" nnoremap <silent> <leader>aa :ALEToggle<cr>
-" nnoremap <silent> <leader>al :ALELint<cr>
-" nnoremap <silent> <leader>ag :ALEGoToDefinition<cr>
-" nnoremap <silent> <leader>af :ALEFindReferences<cr>
-" nnoremap <silent> <leader>ah :ALEHover<cr>
+" inoremap <c-x><space> <C-\><C-O>:ALEComplete<CR>
+" nnoremap <leader>aa :ALEToggle<cr>
+" nnoremap <leader>al :ALELint<cr>
+" nnoremap <leader>ag :ALEGoToDefinition<cr>
+" nnoremap <leader>af :ALEFindReferences<cr>
+" nnoremap <leader>ah :ALEHover<cr>
 " let g:ale_enabled = 0
 " let g:ale_lint_on_enter = 1
 " let g:ale_lint_on_save = 1
@@ -1015,7 +1015,7 @@ let g:grepper.prompt_mapping_tool = '<c-g>'
 " let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
-" nnoremap <silent> <leader>i :IndentGuidesToggle<cr>
+" nnoremap <leader>i :IndentGuidesToggle<cr>
 
 let g:better_whitespace_ctermcolor = '63'
 let g:better_whitespace_guicolor = '#5f5fff'
@@ -1023,46 +1023,46 @@ let g:better_whitespace_guicolor = '#5f5fff'
 let g:EasyMotion_do_mapping = 1
 
 let g:rainbow_active = 0 "set to 0 if you want to enable it later via :RainbowToggle
-nnoremap <silent> <leader>rb :RainbowToggle<cr>
+nnoremap <leader>rb :RainbowToggle<cr>
 
-nnoremap <silent> <leader>uu :UndotreeToggle<cr>
+nnoremap <leader>uu :UndotreeToggle<cr>
 let g:undotree_WindowLayout = 3
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_HelpLine = 0
 
-nnoremap <silent> <leader>m :MarkifyToggle<cr>
+nnoremap <leader>m :MarkifyToggle<cr>
 " let g:markify_echo_current_message = 1
 
 let g:better_whitespace_operator = '<leader>sw'
 
-nnoremap <silent> <leader>x :Sayonara<cr>
-nnoremap <silent> <leader>X :Sayonara!<cr>
+nnoremap <leader>x :Sayonara<cr>
+nnoremap <leader>X :Sayonara!<cr>
 
-nnoremap <silent> <leader>aw :ArgWrap<cr>
+nnoremap <leader>aw :ArgWrap<cr>
 
-nmap <silent> <c-right> <Plug>(cosco-commaOrSemiColon)
-imap <silent> <c-right> <esc><Plug>(cosco-commaOrSemiColon)
-nmap <silent> <c-down> <Plug>(cosco-commaOrSemiColon)o
-imap <silent> <c-down> <esc><Plug>(cosco-commaOrSemiColon)o
-" nmap <silent> <c-space> <Plug>(cosco-commaOrSemiColon)o
-" imap <silent> <c-space> <esc><Plug>(cosco-commaOrSemiColon)o
+nmap <c-right> <Plug>(cosco-commaOrSemiColon)
+imap <c-right> <esc><Plug>(cosco-commaOrSemiColon)
+nmap <c-down> <Plug>(cosco-commaOrSemiColon)o
+imap <c-down> <esc><Plug>(cosco-commaOrSemiColon)o
+" nmap <c-space> <Plug>(cosco-commaOrSemiColon)o
+" imap <c-space> <esc><Plug>(cosco-commaOrSemiColon)o
 
 let g:neoformat_basic_format_align = 1
 let g:neoformat_basic_format_retab = 1
 let g:neoformat_basic_format_trim = 1
-nnoremap <silent> <leader>fm :Neoformat<cr>
+nnoremap <leader>fm :Neoformat<cr>
 
 let g:startify_change_to_vcs_root = 1
 let g:startify_custom_header = [
-        \ '            __',
-        \ '    __  __ /\_\    ___ ___',
-        \ '   /\ \/\ \\/\ \ /'' __` __`\',
-        \ '   \ \ \_/ |\ \ \/\ \/\ \/\ \',
-        \ '    \ \___/  \ \_\ \_\ \_\ \_\',
-        \ '     \/__/    \/_/\/_/\/_/\/_/',
-\ ]
-nnoremap <silent> <leader>st :Startify<cr>
+            \ '            __',
+            \ '    __  __ /\_\    ___ ___',
+            \ '   /\ \/\ \\/\ \ /'' __` __`\',
+            \ '   \ \ \_/ |\ \ \/\ \/\ \/\ \',
+            \ '    \ \___/  \ \_\ \_\ \_\ \_\',
+            \ '     \/__/    \/_/\/_/\/_/\/_/',
+            \ ]
+nnoremap <leader>st :Startify<cr>
 
-nnoremap <silent> <F12> :Nuake<CR>
-tnoremap <silent> <F12> <C-w>:Nuake<CR>
+nnoremap <F12> :Nuake<CR>
+tnoremap <F12> <C-w>:Nuake<CR>
 
