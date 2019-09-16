@@ -927,6 +927,7 @@ let g:gutentags_cache_dir = '~/.vim_gutentags'
 
 let g:airline_theme = 'dracula'
 let g:airline_powerline_fonts = 1
+" let g:airline_symbols_ascii = 1
 " if !exists('g:airline_symbols')
 "     let g:airline_symbols = {}
 " endif
