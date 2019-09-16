@@ -344,7 +344,7 @@ syntax enable
 
 set t_Co=256
 if has('termguicolors')
-    set termguicolors
+    nnoremap <silent> <leader>tg :set invtermguicolors<cr>
 endif
 
 " let g:space_vim_dark_background = 234
@@ -360,8 +360,6 @@ try
     colorscheme space-vim-dark
 catch
 endtry
-
-nnoremap <leader>uc :colorscheme desert<cr>
 
 " hi Comment cterm=italic
 " hi Normal     ctermbg=NONE guibg=NONE
