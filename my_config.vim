@@ -25,9 +25,9 @@ Plug 'terryma/vim-expand-region'
 
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 
-Plug 'luochen1990/rainbow'
+Plug 'luochen1990/rainbow', {'on': 'RainbowToggle'}
 
-Plug 'easymotion/vim-easymotion'
+Plug 'easymotion/vim-easymotion', {'on': '<plug>(easymotion-prefix)'}
 
 Plug 'deris/vim-shot-f'
 
@@ -39,12 +39,12 @@ Plug 'Valloric/ListToggle'
 
 Plug 'mhinz/vim-startify'
 
-Plug 'mhinz/vim-grepper'
+Plug 'mhinz/vim-grepper', {'on': ['Grepper', '<plug>(GrepperOperator)']}
 
 Plug 'jiangmiao/auto-pairs'
 
 Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
-Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
 
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
@@ -857,6 +857,7 @@ nnoremap <silent> <leader>gr :Gread<cr>
 nnoremap <silent> <leader>gR :Gremove<cr>
 nnoremap <silent> <leader>ge :Gedit<cr>
 nnoremap <silent> <leader>gw :Gwrite<cr>
+nnoremap <silent> <leader>gi :Gist<cr>
 
 let g:yankstack_yank_keys = ['y', 'd']
 nmap <silent> <leader>[ <Plug>yankstack_substitute_older_paste
@@ -987,7 +988,9 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 nnoremap <silent> <c-g> :Grepper<cr>
-runtime plugin/grepper.vim
+if !exists('g:grepper')
+    let g:grepper = {}
+endif
 let g:grepper.prompt_mapping_tool = '<c-g>'
 
 " inoremap <silent> <c-x><space> <C-\><C-O>:ALEComplete<CR>
