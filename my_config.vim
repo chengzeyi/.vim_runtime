@@ -68,11 +68,10 @@ Plug 'tacahiroy/ctrlp-funky', {'on': 'CtrlPFunky'}
 Plug 'fisadev/vim-ctrlp-cmdpalette', {'on': 'CtrlPCmdPalette'}
 " Plug 'dbeecham/ctrlp-commandpalette.vim', {'on': 'CtrlPCommandPalette'}
 
-if has('lua')
-    Plug 'Shougo/neocomplete'
-endif
+Plug 'Shougo/neocomplete'
 " Plug 'Shougo/neocomplcache.vim'
 Plug 'Shougo/neco-vim'
+Plug 'Shougo/neco-syntax'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/echodoc.vim'
@@ -706,6 +705,7 @@ xmap <C-\>     <Plug>(neosnippet_expand_target)
 " set conceallevel=2 concealcursor=niv
 " endif
 
+set completeopt=menuone,noselect
 if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
             \ has('textprop')
     set completeopt+=popup
@@ -715,6 +715,13 @@ else
 endif
 set pumheight=12
 
+augroup disableCmdwinMappings
+    au!
+    au CmdwinEnter [:>] iunmap <buffer> <Tab>
+    au CmdwinEnter [:>] nunmap <buffer> <Tab>
+augroup END
+
+let g:neocomplete#enable_auto_close_preview = 1
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
 " Use neocomplete.
@@ -726,10 +733,10 @@ let g:neocomplete#sources#syntax#min_keyword_length = 3
 
 " Define dictionary.
 let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
+            \ 'default' : '',
+            \ 'vimshell' : $HOME.'/.vimshell_hist',
+            \ 'scheme' : $HOME.'/.gosh_completions'
+            \ }
 
 " Define keyword.
 if !exists('g:neocomplete#keyword_patterns')
@@ -744,9 +751,9 @@ inoremap <expr><C-l>     neocomplete#complete_common_string()
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
+    return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+    " For no inserting <CR> key.
+    "return pumvisible() ? "\<C-y>" : "\<CR>"
 endfunction
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -777,9 +784,11 @@ if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
 endif
 
-call neocomplete#custom#source('_', 'converters',
-\ ['converter_remove_overlap', 'converter_remove_last_paren',
-    \  'converter_abbr'])
+if exists('neocomplete#custom#source')
+    call neocomplete#custom#source('_', 'converters',
+                \ ['converter_remove_overlap', 'converter_remove_last_paren',
+                \  'converter_abbr'])
+endif
 
 " let g:echodoc_enable_at_startup = 1
 " if has('nvim')
