@@ -919,7 +919,7 @@ augroup commentStr
 augroup END
 
 let g:gutentags_define_advanced_commands = 1
-let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
+let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+ialS', '--extra=+q']
 let g:gutentags_cache_dir = '~/.vim_gutentags'
 
 " let g:easytags_include_members = 1
