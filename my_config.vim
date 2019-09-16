@@ -68,7 +68,11 @@ Plug 'tacahiroy/ctrlp-funky', {'on': 'CtrlPFunky'}
 Plug 'fisadev/vim-ctrlp-cmdpalette', {'on': 'CtrlPCmdPalette'}
 " Plug 'dbeecham/ctrlp-commandpalette.vim', {'on': 'CtrlPCommandPalette'}
 
-Plug 'Shougo/neocomplcache.vim'
+if has('lua')
+    Plug 'Shougo/neocomplete'
+endif
+" Plug 'Shougo/neocomplcache.vim'
+Plug 'Shougo/neco-vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/echodoc.vim'
@@ -710,64 +714,72 @@ else
     set completeopt-=preview
 endif
 set pumheight=12
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_ignore_case = 1
-let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_enable_underbar_completion = 0
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-" let g:neocomplcache_enable_auto_select = 1
-let g:neocomplcache_tags_caching_limit_file_size = 20000000
-" let g:neocomplcache_disable_auto_complete = 1
 
-inoremap <expr><C-g> neocomplcache#undo_completion()
-inoremap <expr><C-l> neocomplcache#complete_common_string()
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
-    return neocomplcache#smart_close_popup() . "\<CR>"
-    " For no inserting <CR> key.
-    " return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
 endfunction
-
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-" inoremap <expr><C-y> neocomplcache#close_popup()
-" inoremap <expr><C-e> neocomplcache#cancel_popup()
-" Close popup by <Space>.
-" inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
-inoremap <expr><C-j> neocomplcache#start_manual_complete()
-inoremap <expr><C-k> neocomplcache#cancel_popup()
-inoremap <expr><C-l> neocomplcache#complete_common_string()
-" inoremap <expr><C-Up>
-"     \ neocomplcache#start_manual_complete(['omni_complete'])
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 
-" set omnifunc=ale#completion#OmniFunc
-" set omnifunc=syntaxcomplete#Complete
+inoremap <expr><C-j> neocomplete#start_manual_complete()
+inoremap <expr><C-k> neocomplete#cancel_popup()
 
 " Enable heavy omni completion.
-if !exists('g:neocomplcache_force_omni_patterns')
-    let g:neocomplcache_force_omni_patterns = {}
+if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
 endif
-let g:neocomplcache_force_omni_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
-let g:neocomplcache_force_omni_patterns.html = '<[^>]*'
-let g:neocomplcache_force_omni_patterns.markdown = '<[^>]*'
-let g:neocomplcache_force_omni_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
-let g:neocomplcache_force_omni_patterns.xml = '<[^>]*'
-let g:neocomplcache_force_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-let g:neocomplcache_force_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
-let g:neocomplcache_force_omni_patterns.python = '[^. \t]\.\w*'
+let g:neocomplete#force_omni_input_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
+let g:neocomplete#force_omni_input_patterns.html = '<[^>]*'
+let g:neocomplete#force_omni_input_patterns.markdown = '<[^>]*'
+let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
+let g:neocomplete#force_omni_input_patterns.xml = '<[^>]*'
+let g:neocomplete#force_omni_input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.\w*'
+let g:neocomplete#force_omni_input_patterns.python = '[^. \t]\.\w*'
 
-if !exists('g:neocomplcache_omni_patterns')
-    let g:neocomplcache_omni_patterns = {}
+if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
 endif
-" let g:neocomplcache_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
-nnoremap <leader>nC :NeoComplCacheClean<cr>
+
+call neocomplete#custom#source('_', 'converters',
+\ ['converter_remove_overlap', 'converter_remove_last_paren',
+    \  'converter_abbr'])
 
 " let g:echodoc_enable_at_startup = 1
 " if has('nvim')
