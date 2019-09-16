@@ -27,7 +27,7 @@ Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 
 Plug 'luochen1990/rainbow', {'on': 'RainbowToggle'}
 
-Plug 'easymotion/vim-easymotion', {'on': '<plug>(easymotion-prefix)'}
+Plug 'easymotion/vim-easymotion'
 
 Plug 'deris/vim-shot-f'
 
