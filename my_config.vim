@@ -701,7 +701,8 @@ xmap <C-\>     <Plug>(neosnippet_expand_target)
 " set conceallevel=2 concealcursor=niv
 " endif
 
-if v:version > 801 || (v:version == 801 && has("patch188"))
+if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
+    \ has('textprop')
     set completeopt+=popup
     set previewpopup=height:10,width:60
 else
