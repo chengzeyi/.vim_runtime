@@ -216,7 +216,7 @@ set ttimeoutlen=10
 
 " set shortmess=a
 
-set mouse=a
+" set mouse=a
 
 nnoremap <c-]> g<c-]>
 nnoremap g<c-]> <c-]>
