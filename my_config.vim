@@ -141,6 +141,7 @@ nnoremap <silent> <leader>' :marks<CR>
 nnoremap <silent> <leader>` :marks<CR>
 if exists(':terminal')
     tnoremap <c-n> <c-w>N
+    tnoremap <silent> <c-q> <c-w>:cbuffer<cr>
 endif
 if exists(':packadd')
     nnoremap         <leader>dd :packadd termdebug <bar> Termdebug<space>
