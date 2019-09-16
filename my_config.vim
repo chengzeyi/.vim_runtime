@@ -11,7 +11,7 @@ Plug 'prabirshrestha/vim-lsp'
 " Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['cpp', 'c']}
 " Plug 'fatih/vim-go', {'for': 'go', 'on': ['GoUpdateBinaries', 'GoInstallBinaries']}
 
-Plug 'lfilho/cosco.vim'
+Plug 'lfilho/cosco.vim', {'on': '<plug>(cosco-commaOrSemiColon)'}
 
 Plug 'vim-utils/vim-man'
 
@@ -99,7 +99,7 @@ Plug 'sheerun/vim-polyglot'
 
 " Plug 'dense-analysis/ale'
 
-Plug 'Lenovsky/nuake'
+Plug 'Lenovsky/nuake', {'on': 'Nuake'}
 
 Plug 'liuchengxu/space-vim-dark'
 Plug 'chriskempson/base16-vim'
