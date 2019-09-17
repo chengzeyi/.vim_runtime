@@ -69,12 +69,12 @@ Plug 'fisadev/vim-ctrlp-cmdpalette', {'on': 'CtrlPCmdPalette'}
 " Plug 'dbeecham/ctrlp-commandpalette.vim', {'on': 'CtrlPCommandPalette'}
 
 Plug 'Shougo/neocomplete'
-" Plug 'Shougo/neocomplcache.vim'
 Plug 'Shougo/neco-vim'
 Plug 'Shougo/neco-syntax'
+" Plug 'Shougo/neocomplcache.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
-Plug 'Shougo/echodoc.vim'
+" Plug 'Shougo/echodoc.vim'
 " Plug 'Shougo/deol.nvim'
 
 Plug 'majutsushi/tagbar', {'on': ['TagbarToggle', 'TagbarOpenAutoClose']}
@@ -697,13 +697,28 @@ let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
 
+let OmniCpp_NamespaceSearch = 1
+let OmniCpp_GlobalScopeSearch = 1
+let OmniCpp_ShowAccess = 1
+let OmniCpp_MayCompleteDot = 1
+let OmniCpp_MayCompleteArrow = 1
+let OmniCpp_MayCompleteScope = 1
+let OmniCpp_ShowPrototypeInAbbr = 1
+let OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
+
 imap <C-\>     <Plug>(neosnippet_expand_or_jump)
 smap <C-\>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-\>     <Plug>(neosnippet_expand_target)
 " For conceal markers.
-" if has('conceal')
-" set conceallevel=2 concealcursor=niv
-" endif
+if has('conceal')
+    set conceallevel=2 concealcursor=niv
+endif
+
+augroup disableCmdwinMappings
+    au!
+    au CmdwinEnter [:>] iunmap <buffer> <Tab>
+    au CmdwinEnter [:>] nunmap <buffer> <Tab>
+augroup END
 
 set completeopt=menuone,noselect
 if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
@@ -714,12 +729,6 @@ else
     set completeopt-=preview
 endif
 set pumheight=12
-
-augroup disableCmdwinMappings
-    au!
-    au CmdwinEnter [:>] iunmap <buffer> <Tab>
-    au CmdwinEnter [:>] nunmap <buffer> <Tab>
-augroup END
 
 let g:neocomplete#enable_auto_close_preview = 1
 " Disable AutoComplPop.
@@ -774,9 +783,9 @@ let g:neocomplete#force_omni_input_patterns.html = '<[^>]*'
 let g:neocomplete#force_omni_input_patterns.markdown = '<[^>]*'
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
 let g:neocomplete#force_omni_input_patterns.xml = '<[^>]*'
-let g:neocomplete#force_omni_input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:neocomplete#force_omni_input_patterns.php = '[^. \t]->\h\w*\|\h\w*::\w*'
+let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.\w*'
 let g:neocomplete#force_omni_input_patterns.python = '[^. \t]\.\w*'
 
@@ -796,15 +805,6 @@ endif
 " else
 "     set noshowmode
 " endif
-
-let OmniCpp_NamespaceSearch = 1
-let OmniCpp_GlobalScopeSearch = 1
-let OmniCpp_ShowAccess = 1
-let OmniCpp_MayCompleteDot = 1
-let OmniCpp_MayCompleteArrow = 1
-let OmniCpp_MayCompleteScope = 1
-let OmniCpp_ShowPrototypeInAbbr = 1
-let OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
 
 " autocmd vimenter * NERDTree
 let NERDTreeShowHidden = 1
