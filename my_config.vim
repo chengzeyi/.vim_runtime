@@ -148,7 +148,7 @@ nnoremap <F7> :cprev<cr>
 nnoremap <F8> :cnext<cr>
 nnoremap <F5> :lprev<cr>
 nnoremap <F6> :lnext<cr>
-nnoremap <leader>" :registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>
+nnoremap <leader>" :registers<CR>
 nnoremap <leader>' :marks<CR>
 nnoremap <leader>` :marks<CR>
 nnoremap <leader>f0 :set foldlevel=0<cr>
@@ -725,9 +725,9 @@ let OmniCpp_MayCompleteScope = 1
 let OmniCpp_ShowPrototypeInAbbr = 1
 let OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
 
-imap <C-\>     <Plug>(neosnippet_expand_or_jump)
-smap <C-\>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-\>     <Plug>(neosnippet_expand_target)
+imap <C-\> <Plug>(neosnippet_expand_or_jump)
+smap <C-\> <Plug>(neosnippet_expand_or_jump)
+xmap <C-\> <Plug>(neosnippet_expand_target)
 " For conceal markers.
 " if has('conceal')
 "     set conceallevel=2 concealcursor=niv
@@ -853,7 +853,6 @@ else
     endif
 endif
 
-
 " let g:echodoc_enable_at_startup = 1
 " if has('nvim')
 "     let g:echodoc#type = 'virtual'
@@ -867,7 +866,7 @@ let NERDTreeMinimalUI = 1
 let NERDTreeWinPos = 'left'
 let g:NERDTreeWinSize = 30
 nnoremap <leader>nn :NERDTreeToggle<cr>
-nnoremap          <leader>nb :NERDTreeFromBookmark<space>
+nnoremap <leader>nb :NERDTreeFromBookmark<space>
 nnoremap <leader>nf :NERDTreeFind<cr>
 nnoremap <leader>nF :NERDTreeFocus<cr>
 nnoremap <leader>nv :NERDTreeVCS<cr>
