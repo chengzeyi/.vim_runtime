@@ -1100,6 +1100,11 @@ nnoremap <leader>x :Sayonara<cr>
 nnoremap <leader>X :Sayonara!<cr>
 
 nnoremap <leader>aw :ArgWrap<cr>
+augroup setArgWrap
+    au!
+    au FileType go let b:argwrap_tail_comma = 1
+    au FileType vim let b:argwrap_line_prefix = '\ '
+augroup END
 
 nmap <c-right> <Plug>(cosco-commaOrSemiColon)
 imap <c-right> <esc><Plug>(cosco-commaOrSemiColon)
