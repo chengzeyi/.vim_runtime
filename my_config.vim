@@ -48,9 +48,11 @@ Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
 
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-eunuch'
+
+Plug 'machakann/vim-sandwich'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -68,10 +70,14 @@ Plug 'tacahiroy/ctrlp-funky', {'on': 'CtrlPFunky'}
 Plug 'fisadev/vim-ctrlp-cmdpalette', {'on': 'CtrlPCmdPalette'}
 " Plug 'dbeecham/ctrlp-commandpalette.vim', {'on': 'CtrlPCommandPalette'}
 
-Plug 'Shougo/neocomplete'
-Plug 'Shougo/neco-vim'
-Plug 'Shougo/neco-syntax'
-" Plug 'Shougo/neocomplcache.vim'
+if has('lua')
+    Plug 'Shougo/neocomplete'
+    Plug 'Shougo/neco-vim'
+    Plug 'Shougo/neco-syntax'
+else
+    Plug 'Shougo/neocomplcache.vim'
+endif
+
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 " Plug 'Shougo/echodoc.vim'
@@ -143,6 +149,16 @@ nnoremap <F6> :lnext<cr>
 nnoremap <leader>" :registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>
 nnoremap <leader>' :marks<CR>
 nnoremap <leader>` :marks<CR>
+nnoremap <leader>f0 :set foldlevel=0<cr>
+nnoremap <leader>f1 :set foldlevel=1<cr>
+nnoremap <leader>f2 :set foldlevel=2<cr>
+nnoremap <leader>f3 :set foldlevel=3<cr>
+nnoremap <leader>f4 :set foldlevel=4<cr>
+nnoremap <leader>f5 :set foldlevel=5<cr>
+nnoremap <leader>f6 :set foldlevel=6<cr>
+nnoremap <leader>f7 :set foldlevel=7<cr>
+nnoremap <leader>f8 :set foldlevel=8<cr>
+nnoremap <leader>f9 :set foldlevel=9<cr>
 if exists(':terminal')
     tnoremap <c-n> <c-w>N
 endif
@@ -220,7 +236,7 @@ set ttimeoutlen=10
 
 " set shortmess=a
 
-" set mouse=a
+set mouse=a
 
 nnoremap <c-]> g<c-]>
 nnoremap g<c-]> <c-]>
@@ -276,8 +292,9 @@ filetype indent on
 set autoread
 
 set foldmethod=indent
+set foldlevelstart=99
 set foldnestmax=3
-set nofoldenable
+" set nofoldenable
 
 set display+=lastline
 
@@ -338,7 +355,7 @@ if has("gui_macvim")
 endif
 
 " Add a bit extra margin to the left
-set foldcolumn=0
+set foldcolumn=1
 
 " Enable syntax highlighting
 syntax enable
@@ -720,7 +737,11 @@ augroup disableCmdwinMappings
     au CmdwinEnter [:>] nunmap <buffer> <Tab>
 augroup END
 
-set completeopt=menuone,noselect
+if has('lua')
+    set completeopt=menuone,noselect
+else
+    set completeopt=menuone
+endif
 if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
             \ has('textprop')
     set completeopt+=popup
@@ -730,74 +751,115 @@ else
 endif
 set pumheight=12
 
-let g:neocomplete#enable_auto_close_preview = 1
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
+if has('lua')
+    let g:neocomplete#enable_auto_close_preview = 1
+    let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_smart_case = 1
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
+    let g:neocomplete#sources#dictionary#dictionaries = {
+                \ 'default' : '',
+                \ 'vimshell' : $HOME.'/.vimshell_hist',
+                \ 'scheme' : $HOME.'/.gosh_completions'
+                \ }
+    if !exists('g:neocomplete#keyword_patterns')
+        let g:neocomplete#keyword_patterns = {}
+    endif
+    let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+    inoremap <expr><C-g>     neocomplete#undo_completion()
+    inoremap <expr><C-l>     neocomplete#complete_common_string()
+    " <CR>: close popup and save indent.
+    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    function! s:my_cr_function()
+        return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+        " For no inserting <CR> key.
+        "return pumvisible() ? "\<C-y>" : "\<CR>"
+    endfunction
+    " <TAB>: completion.
+    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+    " <C-h>, <BS>: close popup and delete backword char.
+    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><C-j> neocomplete#start_manual_complete()
+    inoremap <expr><C-k> neocomplete#cancel_popup()
+    " Enable heavy omni completion.
+    if !exists('g:neocomplete#force_omni_input_patterns')
+        let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:neocomplete#force_omni_input_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
+    let g:neocomplete#force_omni_input_patterns.html = '<[^>]*'
+    let g:neocomplete#force_omni_input_patterns.xml = '<[^>]*'
+    let g:neocomplete#force_omni_input_patterns.markdown = '<[^>]*'
+    let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
+    let g:neocomplete#force_omni_input_patterns.xml = '<[^>]*'
+    let g:neocomplete#force_omni_input_patterns.php = '[^. \t]->\h\w*\|\h\w*::\w*'
+    let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+    let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+    let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.\w*'
+    let g:neocomplete#force_omni_input_patterns.python = '[^. \t]\.\w*'
+    let g:neocomplete#force_omni_input_patterns.java = '\%(\h\w*\|)\)\.\w*'
 
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-            \ 'default' : '',
-            \ 'vimshell' : $HOME.'/.vimshell_hist',
-            \ 'scheme' : $HOME.'/.gosh_completions'
-            \ }
+    if !exists('g:neocomplete#sources#omni#input_patterns')
+        let g:neocomplete#sources#omni#input_patterns = {}
+    endif
 
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
+    if exists('neocomplete#custom#source')
+        call neocomplete#custom#source('_', 'converters',
+                    \ ['converter_remove_overlap', 'converter_remove_last_paren',
+                    \  'converter_abbr'])
+    endif
+else
+    let g:neocomplcache_enable_at_startup = 1
+    let g:neocomplcache_enable_smart_case = 1
+    let g:neocomplcache_enable_underbar_completion = 0
+    let g:neocomplcache_min_syntax_length = 3
+    let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+    " let g:neocomplcache_enable_auto_select = 1
+    " let g:neocomplcache_disable_auto_complete = 1
+
+    inoremap <expr><C-g> neocomplcache#undo_completion()
+    inoremap <expr><C-l> neocomplcache#complete_common_string()
+    " <CR>: close popup and save indent.
+    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    function! s:my_cr_function()
+        return neocomplcache#smart_close_popup() . "\<CR>"
+        " For no inserting <CR> key.
+        " return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+    endfunction
+
+    inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+    " <C-h>, <BS>: close popup and delete backword char.
+    inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+    " inoremap <expr><C-y> neocomplcache#close_popup()
+    " inoremap <expr><C-e> neocomplcache#cancel_popup()
+    " Close popup by <Space>.
+    " inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
+    inoremap <expr><C-j> neocomplcache#start_manual_complete()
+    inoremap <expr><C-k> neocomplcache#cancel_popup()
+    inoremap <expr><C-l> neocomplcache#complete_common_string()
+
+    " Enable heavy omni completion.
+    if !exists('g:neocomplcache_force_omni_patterns')
+        let g:neocomplcache_force_omni_patterns = {}
+    endif
+    let g:neocomplcache_force_omni_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
+    let g:neocomplcache_force_omni_patterns.html = '<[^>]*'
+    let g:neocomplcache_force_omni_patterns.markdown = '<[^>]*'
+    let g:neocomplcache_force_omni_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
+    let g:neocomplcache_force_omni_patterns.xml = '<[^>]*'
+    let g:neocomplcache_force_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::\w*'
+    let g:neocomplcache_force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+    let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::\w*'
+    let g:neocomplcache_force_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
+    let g:neocomplcache_force_omni_patterns.python = '[^. \t]\.\w*'
+
+    if !exists('g:neocomplcache_omni_patterns')
+        let g:neocomplcache_omni_patterns = {}
+    endif
 endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-    return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-    " For no inserting <CR> key.
-    "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-
-inoremap <expr><C-j> neocomplete#start_manual_complete()
-inoremap <expr><C-k> neocomplete#cancel_popup()
-
-" Enable heavy omni completion.
-if !exists('g:neocomplete#force_omni_input_patterns')
-    let g:neocomplete#force_omni_input_patterns = {}
-endif
-let g:neocomplete#force_omni_input_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
-let g:neocomplete#force_omni_input_patterns.html = '<[^>]*'
-let g:neocomplete#force_omni_input_patterns.markdown = '<[^>]*'
-let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
-let g:neocomplete#force_omni_input_patterns.xml = '<[^>]*'
-let g:neocomplete#force_omni_input_patterns.php = '[^. \t]->\h\w*\|\h\w*::\w*'
-let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.\w*'
-let g:neocomplete#force_omni_input_patterns.python = '[^. \t]\.\w*'
-
-if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-endif
-
-if exists('neocomplete#custom#source')
-    call neocomplete#custom#source('_', 'converters',
-                \ ['converter_remove_overlap', 'converter_remove_last_paren',
-                \  'converter_abbr'])
-endif
 
 " let g:echodoc_enable_at_startup = 1
 " if has('nvim')
@@ -892,26 +954,6 @@ let g:tagbar_compact = 1
 nnoremap <leader>tt :TagbarToggle<cr>
 nnoremap <leader>ta :TagbarOpenAutoClose<cr>
 
-" let g:preview#preview_position = 'bottom'
-" let g:preview#preview_size = 10
-" nnoremap <F7> :PreviewScroll -1<cr>
-" nnoremap <F8> :PreviewScroll +1<cr>
-" inoremap <F7> <c-\><c-o>:PreviewScroll -1<cr>
-" inoremap <F8> <c-\><c-o>:PreviewScroll +1<cr>
-" nnoremap <F9> :PreviewTag<cr>
-" nnoremap <C-LeftMouse> :PreviewTag<cr>
-" nnoremap <C-RightMouse> g<c-]>
-" inoremap <F9> <c-\><c-o>:PreviewTag<cr>
-" nnoremap <F10> :PreviewClose<cr>
-" inoremap <F10> <c-\><c-o>:PreviewClose<cr>
-" nnoremap <F12> :PreviewSignature<cr>
-" inoremap <F12> <c-\><c-o>:PreviewSignature<cr>
-" augroup qfPreview
-"     autocmd!
-"     autocmd FileType qf nnoremap <buffer> <F9> :PreviewQuickfix<cr>
-"     autocmd FileType qf nnoremap <buffer> <F10> :PreviewClose<cr>
-" augroup END
-
 nnoremap <leader>rr :AsyncRun<space>
 nnoremap <leader>rs :AsyncStop<cr>
 " let g:asyncrun_bell = 1
@@ -919,9 +961,6 @@ nnoremap <leader>rs :AsyncStop<cr>
 let g:asyncrun_open = 10
 let g:asyncrun_save = 2
 let g:asyncrun_auto = "make"
-
-" nnoremap <F5> :SCCompile<cr>
-" nnoremap <F6> :SCCompileRun<cr>
 
 let g:fzf_command_prefix = 'FZF'
 " Mapping selecting mappings
@@ -1017,21 +1056,6 @@ if !exists('g:grepper')
     let g:grepper = {}
 endif
 let g:grepper.prompt_mapping_tool = '<c-g>'
-
-" inoremap <c-x><space> <C-\><C-O>:ALEComplete<CR>
-" nnoremap <leader>aa :ALEToggle<cr>
-" nnoremap <leader>al :ALELint<cr>
-" nnoremap <leader>ag :ALEGoToDefinition<cr>
-" nnoremap <leader>af :ALEFindReferences<cr>
-" nnoremap <leader>ah :ALEHover<cr>
-" let g:ale_enabled = 0
-" let g:ale_lint_on_enter = 1
-" let g:ale_lint_on_save = 1
-" let g:ale_lint_on_insert_leave = 0
-" let g:ale_lint_on_filetype_changed = 1
-" let g:ale_lint_on_text_changed = 'never'
-" let g:ale_set_highlights = 0
-" let g:ale_echo_cursor = 0
 
 " let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
