@@ -881,6 +881,8 @@ augroup END
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = '<c-f>'
 nnoremap <leader>pp :CtrlP<cr>
+nnoremap <leader>pw :CtrlPCurFile<cr>
+nnoremap <leader>pW :CtrlPCurWD<cr>
 nnoremap <leader>pb :CtrlPBuffer<cr>
 nnoremap <leader>pt :CtrlPTag<cr>
 nnoremap <leader>pl :CtrlPLine<cr>
@@ -893,7 +895,7 @@ nnoremap <leader>pu :CtrlPUndo<cr>
 nnoremap <leader>pC :CtrlPChange<cr>
 nnoremap <leader>pd :CtrlPDir<cr>
 
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:50'
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 
 nnoremap <leader>pf :CtrlPFunky<Cr>
@@ -956,12 +958,33 @@ let g:asyncrun_auto = "make"
 
 let g:fzf_command_prefix = 'FZF'
 " Mapping selecting mappings
-" nmap <leader><tab> <plug>(fzf-maps-n)
-" xmap <leader><tab> <plug>(fzf-maps-x)
-" omap <leader><tab> <plug>(fzf-maps-o)
+" nmap <c-b> <plug>(fzf-maps-n)
+" xmap <c-b> <plug>(fzf-maps-x)
+" omap <c-b> <plug>(fzf-maps-o)
 " nnoremap <c-c> :FzfCommand<cr>
 " [Commands] --expect expression for directly executing the command
 let g:fzf_commands_expect = 'alt-enter'
+" nnoremap <c-n> :FZFCommands<cr>
+nnoremap <leader>zz :FZF<cr>
+nnoremap <leader>zg :FZFGFiles<cr>
+nnoremap <leader>zg :FZFGFiles?<cr>
+nnoremap <leader>zf :FZFFiles<cr>
+nnoremap <leader>zF :FZFFiletypes<cr>
+nnoremap <leader>zb :FZFBuffers<cr>
+nnoremap <leader>zc :FZFCommands<cr>
+nnoremap <leader>zC :FZFColors<cr>
+nnoremap <leader>zC :FZFColors<cr>
+nnoremap <leader>za :FZFAg<cr>
+nnoremap <leader>zr :FZFRg<cr>
+nnoremap <leader>zl :FZFLines<cr>
+nnoremap <leader>zL :FZFBLines<cr>
+nnoremap <leader>zt :FZFTags<cr>
+nnoremap <leader>zT :FZFBTags<cr>
+nnoremap <leader>zm :FZFMarks<cr>
+nnoremap <leader>zw :FZFWindows<cr>
+nnoremap <leader>zh :FZFHistory<cr>
+nnoremap <leader>zH :FZFHelptags<cr>
+nnoremap <leader>zs :FZFSnippets<cr>
 
 nmap <c-_> <Plug>CommentaryLine
 vmap <c-_> <Plug>Commentary
@@ -1038,7 +1061,8 @@ let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status
 
 let g:goyo_width = '80%'
 let g:goyo_height = '95%'
-nnoremap <leader>z :Goyo<cr>
+nnoremap <leader><bs> :Goyo<cr>
+nnoremap <leader><c-h> :Goyo<cr>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
