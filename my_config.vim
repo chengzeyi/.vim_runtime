@@ -751,6 +751,26 @@ else
 endif
 set pumheight=12
 
+if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
+let g:neocomplete#force_omni_input_patterns.html = '<[^>]*'
+let g:neocomplete#force_omni_input_patterns.xml = '<[^>]*'
+let g:neocomplete#force_omni_input_patterns.markdown = '<[^>]*'
+let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
+let g:neocomplete#force_omni_input_patterns.xml = '<[^>]*'
+let g:neocomplete#force_omni_input_patterns.php = '[^. \t]->\h\w*\|\h\w*::\w*'
+let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.\w*'
+let g:neocomplete#force_omni_input_patterns.python = '[^. \t]\.\w*'
+let g:neocomplete#force_omni_input_patterns.java = '\%(\h\w*\|)\)\.\w*'
+
+if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+endif
+
 if has('lua')
     let g:neocomplete#enable_auto_close_preview = 1
     let g:neocomplete#enable_at_startup = 1
@@ -783,25 +803,6 @@ if has('lua')
     inoremap <expr><C-j> neocomplete#start_manual_complete()
     inoremap <expr><C-k> neocomplete#cancel_popup()
     " Enable heavy omni completion.
-    if !exists('g:neocomplete#force_omni_input_patterns')
-        let g:neocomplete#force_omni_input_patterns = {}
-    endif
-    let g:neocomplete#force_omni_input_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
-    let g:neocomplete#force_omni_input_patterns.html = '<[^>]*'
-    let g:neocomplete#force_omni_input_patterns.xml = '<[^>]*'
-    let g:neocomplete#force_omni_input_patterns.markdown = '<[^>]*'
-    let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
-    let g:neocomplete#force_omni_input_patterns.xml = '<[^>]*'
-    let g:neocomplete#force_omni_input_patterns.php = '[^. \t]->\h\w*\|\h\w*::\w*'
-    let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-    let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-    let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.\w*'
-    let g:neocomplete#force_omni_input_patterns.python = '[^. \t]\.\w*'
-    let g:neocomplete#force_omni_input_patterns.java = '\%(\h\w*\|)\)\.\w*'
-
-    if !exists('g:neocomplete#sources#omni#input_patterns')
-        let g:neocomplete#sources#omni#input_patterns = {}
-    endif
 
     if exists('neocomplete#custom#source')
         call neocomplete#custom#source('_', 'converters',
@@ -842,21 +843,11 @@ else
 
     " Enable heavy omni completion.
     if !exists('g:neocomplcache_force_omni_patterns')
-        let g:neocomplcache_force_omni_patterns = {}
+        let g:neocomplcache_force_omni_patterns = g:neocomplete#force_omni_input_patterns
     endif
-    let g:neocomplcache_force_omni_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
-    let g:neocomplcache_force_omni_patterns.html = '<[^>]*'
-    let g:neocomplcache_force_omni_patterns.markdown = '<[^>]*'
-    let g:neocomplcache_force_omni_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
-    let g:neocomplcache_force_omni_patterns.xml = '<[^>]*'
-    let g:neocomplcache_force_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::\w*'
-    let g:neocomplcache_force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-    let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::\w*'
-    let g:neocomplcache_force_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
-    let g:neocomplcache_force_omni_patterns.python = '[^. \t]\.\w*'
 
     if !exists('g:neocomplcache_omni_patterns')
-        let g:neocomplcache_omni_patterns = {}
+        let g:neocomplcache_omni_patterns = g:neocomplete#sources#omni#input_patterns
     endif
 endif
 
