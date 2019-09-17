@@ -67,7 +67,9 @@ Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tacahiroy/ctrlp-funky', {'on': 'CtrlPFunky'}
-Plug 'fisadev/vim-ctrlp-cmdpalette', {'on': 'CtrlPCmdPalette'}
+if has('python') || has('python3')
+    Plug 'fisadev/vim-ctrlp-cmdpalette', {'on': 'CtrlPCmdPalette'}
+endif
 " Plug 'dbeecham/ctrlp-commandpalette.vim', {'on': 'CtrlPCommandPalette'}
 
 if has('lua')
