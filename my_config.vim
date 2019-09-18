@@ -623,9 +623,9 @@ catch
 endtry
 
 " Bash like keys for the command line
-cnoremap <C-A>      <Home>
-cnoremap <C-E>      <End>
-cnoremap <C-K>      <C-U>
+cnoremap <C-A> <Home>
+cnoremap <C-E> <End>
+cnoremap <C-K> <C-U>
 
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
@@ -633,7 +633,7 @@ cnoremap <C-N> <Down>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General abbreviations
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
+" iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -695,7 +695,7 @@ augroup lspReg
                     \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
                     \ 'whitelist': ['sh'],
                     \ })
-        autocmd FileType sh setlocal omnifunc=lsp#complete
+        " autocmd FileType sh setlocal omnifunc=lsp#complete
     endif
 augroup END
 
@@ -1096,6 +1096,7 @@ let g:better_whitespace_guicolor = '#5f5fff'
 let g:better_whitespace_operator = 'gb'
 
 nnoremap <leader>x :Sayonara<cr>
+nnoremap <leader>X :Sayonara!<cr>
 
 let g:EasyMotion_do_mapping = 1
 
@@ -1114,8 +1115,6 @@ nnoremap <leader>mm :MarkifyToggle<cr>
 nnoremap <leader>mk :Markify<cr>
 nnoremap <leader>mc :MarkifyClear<cr>
 " let g:markify_echo_current_message = 1
-
-nnoremap <leader>X :Sayonara!<cr>
 
 nnoremap <leader>aw :ArgWrap<cr>
 augroup setArgWrap
