@@ -21,7 +21,7 @@ Plug 'FooSoft/vim-argwrap', {'on': 'ArgWrap'}
 
 Plug 'mhinz/vim-sayonara', {'on': 'Sayonara'}
 
-Plug 'terryma/vim-expand-region'
+" Plug 'terryma/vim-expand-region'
 
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 
@@ -1086,6 +1086,9 @@ let g:indent_guides_start_level = 2
 
 let g:better_whitespace_ctermcolor = '63'
 let g:better_whitespace_guicolor = '#5f5fff'
+let g:better_whitespace_operator = 'gb'
+
+nnoremap <leader>x :Sayonara<cr>
 
 let g:EasyMotion_do_mapping = 1
 
@@ -1100,9 +1103,6 @@ let g:undotree_HelpLine = 0
 nnoremap <leader>m :MarkifyToggle<cr>
 " let g:markify_echo_current_message = 1
 
-let g:better_whitespace_operator = '<leader>sw'
-
-nnoremap <leader>x :Sayonara<cr>
 nnoremap <leader>X :Sayonara!<cr>
 
 nnoremap <leader>aw :ArgWrap<cr>
