@@ -1136,6 +1136,7 @@ let g:neoformat_basic_format_trim = 1
 nnoremap <leader>fm :Neoformat<cr>
 
 let g:startify_change_to_vcs_root = 1
+let g:startify_custom_indices = map(range(0,99), 'printf("%02d", v:val)')
 let g:startify_custom_header = [
             \ '            __',
             \ '    __  __ /\_\    ___ ___',
