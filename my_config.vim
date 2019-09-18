@@ -461,7 +461,8 @@ nnoremap <c-j> <C-w>p5<C-e><C-w>p
 " inoremap <c-j> <Esc><C-w>p5<C-e><C-w>pi
 
 " Disable highlight when <leader>\ is pressed
-nnoremap <leader>\ :noh<cr>
+nnoremap <leader><bs> :noh<cr>
+nnoremap <leader><c-h> :noh<cr>
 
 " Smart way to move between windows
 nnoremap <s-j> <c-w>j
@@ -1061,8 +1062,7 @@ let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status
 
 let g:goyo_width = '80%'
 let g:goyo_height = '95%'
-nnoremap <leader><bs> :Goyo<cr>
-nnoremap <leader><c-h> :Goyo<cr>
+nnoremap <leader>\ :Goyo<cr>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
