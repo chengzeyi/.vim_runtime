@@ -1104,7 +1104,9 @@ let g:undotree_WindowLayout = 3
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_HelpLine = 0
 
-nnoremap <leader>m :MarkifyToggle<cr>
+nnoremap <leader>mm :MarkifyToggle<cr>
+nnoremap <leader>mk :Markify<cr>
+nnoremap <leader>mc :MarkifyClear<cr>
 " let g:markify_echo_current_message = 1
 
 nnoremap <leader>X :Sayonara!<cr>
