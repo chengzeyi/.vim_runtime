@@ -41,6 +41,8 @@ Plug 'mhinz/vim-startify'
 
 Plug 'mhinz/vim-grepper', {'on': ['Grepper', '<plug>(GrepperOperator)']}
 
+Plug 'wsdjeg/FlyGrep.vim', {'on': 'FlyGrep'}
+
 Plug 'jiangmiao/auto-pairs'
 
 Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
@@ -219,7 +221,8 @@ nnoremap <leader>ct :Ctags<space>
 command! -nargs=* Ctags !ctags
             \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q -f .tags <args> > /dev/null
 
-nnoremap <leader>ff :vimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
+nnoremap <leader>vv :vimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
+nnoremap <leader>vl :lvimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
 nnoremap <leader>ss :%s//g<left><left>
 nnoremap <leader>sq :cdo s//g<left><left>
 nnoremap <leader>sl :ldo s//g<left><left>
@@ -1072,6 +1075,8 @@ if !exists('g:grepper')
     let g:grepper = {}
 endif
 let g:grepper.prompt_mapping_tool = '<c-g>'
+
+nnoremap <leader>ff :FlyGrep<cr>
 
 " let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
