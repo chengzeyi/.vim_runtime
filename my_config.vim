@@ -979,7 +979,7 @@ let g:fzf_commands_expect = 'alt-enter'
 " nnoremap <c-n> :FZFCommands<cr>
 nnoremap <leader>zz :FZFFiles<cr>
 nnoremap <leader>zg :FZFGFiles<cr>
-nnoremap <leader>zg :FZFGFiles?<cr>
+nnoremap <leader>zG :FZFGFiles?<cr>
 nnoremap <leader>zf :FZFFiles<cr>
 nnoremap <leader>zF :FZFFiletypes<cr>
 nnoremap <leader>zb :FZFBuffers<cr>
