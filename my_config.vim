@@ -165,6 +165,9 @@ nnoremap <leader>f6 :set foldlevel=6<cr>
 nnoremap <leader>f7 :set foldlevel=7<cr>
 nnoremap <leader>f8 :set foldlevel=8<cr>
 nnoremap <leader>f9 :set foldlevel=9<cr>
+nnoremap <leader>f- :set foldlevel-=1<cr>
+nnoremap <leader>f+ :set foldlevel+=1<cr>
+nnoremap <leader>f= :set foldlevel=99<cr>
 if exists(':terminal')
     tnoremap <c-n> <c-w>N
 endif
