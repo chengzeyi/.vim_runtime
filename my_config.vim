@@ -113,7 +113,9 @@ Plug 'sheerun/vim-polyglot'
 
 " Plug 'dense-analysis/ale'
 
-Plug 'Lenovsky/nuake', {'on': 'Nuake'}
+if exists(':terminal')
+    Plug 'Lenovsky/nuake', {'on': 'Nuake'}
+endif
 
 Plug 'liuchengxu/space-vim-dark'
 Plug 'chriskempson/base16-vim'
@@ -1150,6 +1152,8 @@ let g:startify_custom_header = [
             \ ]
 nnoremap <leader>st :Startify<cr>
 
-nnoremap <F12> :Nuake<CR>
-tnoremap <F12> <C-w>:Nuake<CR>
+if exists(':terminal')
+    nnoremap <F12> :Nuake<CR>
+    tnoremap <F12> <C-w>:Nuake<CR>
+endif
 
