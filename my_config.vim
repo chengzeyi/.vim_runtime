@@ -969,7 +969,7 @@ let g:fzf_command_prefix = 'FZF'
 " [Commands] --expect expression for directly executing the command
 let g:fzf_commands_expect = 'alt-enter'
 " nnoremap <c-n> :FZFCommands<cr>
-nnoremap <leader>zz :FZF<cr>
+nnoremap <leader>zz :FZFFiles<cr>
 nnoremap <leader>zg :FZFGFiles<cr>
 nnoremap <leader>zg :FZFGFiles?<cr>
 nnoremap <leader>zf :FZFFiles<cr>
