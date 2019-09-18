@@ -104,6 +104,7 @@ Plug 'ludovicchabant/vim-gutentags'
 " Plug 'xolox/vim-easytags'
 
 " Plug 'chengzeyi/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', {'dir': '~/.fzf'}
 Plug 'junegunn/fzf.vim'
 
 Plug 'nathanaelkane/vim-indent-guides'
