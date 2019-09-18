@@ -1103,6 +1103,9 @@ let g:rainbow_active = 0 "set to 0 if you want to enable it later via :RainbowTo
 nnoremap <leader>rb :RainbowToggle<cr>
 
 nnoremap <leader>uu :UndotreeToggle<cr>
+nnoremap <leader>uf :UndotreeFocus<cr>
+nnoremap <leader>us :UndotreeShow<cr>
+nnoremap <leader>uh :UndotreeHide<cr>
 let g:undotree_WindowLayout = 3
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_HelpLine = 0
