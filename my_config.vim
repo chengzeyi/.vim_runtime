@@ -223,7 +223,9 @@ command! -nargs=* Ctags !ctags
             \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q -f .tags <args> > /dev/null
 
 nnoremap <leader>vv :vimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
+nnoremap <leader>vV :vimgrep // **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>vl :lvimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
+nnoremap <leader>vL :lvimgrep // **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>ss :%s//g<left><left>
 nnoremap <leader>sq :cdo s//g<left><left>
 nnoremap <leader>sl :ldo s//g<left><left>
