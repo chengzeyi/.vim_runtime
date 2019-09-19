@@ -31,7 +31,7 @@ Plug 'easymotion/vim-easymotion'
 
 Plug 'deris/vim-shot-f'
 
-Plug 'stefandtw/quickfix-reflector.vim'
+" Plug 'stefandtw/quickfix-reflector.vim'
 
 Plug 'ntpeters/vim-better-whitespace'
 
@@ -52,7 +52,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 " Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
-Plug 'tpope/vim-eunuch'
+" Plug 'tpope/vim-eunuch'
 
 Plug 'machakann/vim-sandwich'
 
@@ -191,9 +191,68 @@ if exists(':packadd')
     nnoremap <leader>d[ :Gdb<cr>
     nnoremap <leader>d] :Program<cr>
     nnoremap <leader>d\ :Source<cr>
+
+    nnoremap <leader>fq :packadd cfilter <bar> :Cfilter<space> 
+    nnoremap <leader>fvq :packadd cfilter <bar> :Cfilter!<space> 
+    nnoremap <leader>fl :packadd cfilter <bar> :Lfilter<space> 
+    nnoremap <leader>fvl :packadd cfilter <bar> :Lfilter!<space> 
 endif
 nnoremap <F9> :execute 'ptag ' . expand('<cword>')<cr>
 nnoremap <F10> :pclose<cr>
+
+augroup setQLEditable
+    au!
+    autocmd FileType qf nnoremap <buffer> dd :RemoveQFItem<cr>
+    autocmd FileType qf nnoremap <buffer> u :UndoQFRemove<cr>
+augroup END
+command! RemoveQFItem :call <SID>RemoveListItem()
+command! UndoQFRemove :call <SID>UndoListRemove()
+function! <SID>RemoveListItem()
+    if getwininfo(win_getid())[0]['loclist']
+        let abbr = 'loc'
+        let ch = 'l'
+    elseif getwininfo(win_getid())[0]['quickfix']
+        let abbr = 'qf'
+        let ch = 'c'
+    else
+        return
+    endif
+    let curidx = line('.') - 1
+    if curidx < 0
+        return
+    endif
+    execute 'let all = get' . abbr . 'list()'
+    if !exists('b:deletion_stack')
+        let b:deletion_stack = []
+    endif
+    let deleted = remove(all, curidx)
+    call add(b:deletion_stack, [curidx, deleted])
+    execute 'call set' . abbr . 'list(all, "r")'
+    execute curidx + 1
+    " execute curidx + 1 . ch . 'first'
+    " copen
+endfunction
+function! <SID>UndoListRemove()
+    if getwininfo(win_getid())[0]['loclist']
+        let abbr = 'loc'
+        let ch = 'l'
+    elseif getwininfo(win_getid())[0]['quickfix']
+        let abbr = 'qf'
+        let ch = 'c'
+    else
+        return
+    endif
+    if !exists('b:deletion_stack') || empty(b:deletion_stack)
+        return
+    endif
+    let [index, deleted] = remove(b:deletion_stack, -1)
+    execute 'let all = get' . abbr . 'list()'
+    call insert(all, deleted, index)
+    execute 'call set' . abbr . 'list(all, "r")'
+    execute index + 1
+    " execute index + 1 . ch . 'first'
+    " copen
+endfunction
 
 augroup compileAndRun
     au!
