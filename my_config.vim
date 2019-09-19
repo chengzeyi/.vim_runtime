@@ -257,8 +257,12 @@ command! -nargs=* Ctags !ctags
             \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q -f .tags <args> > /dev/null
 nnoremap <leader>cs :Cscope<cr>
 command! -nargs=0 Cscope !cscope -Rbqk
-nnoremap <C-\>a :cs add .<cr>
-nnoremap <C-\>A :cs add<space>
+nnoremap <C-\><C-\> :cs add .<cr>
+nnoremap <C-\>h :cs help<cr>
+nnoremap <C-\>r :cs reset<cr>
+nnoremap <C-\>k :cs kill -1<cr>
+nnoremap <C-\>S :cs show<cr>
+nnoremap <C-\>a :cs find a <C-R>=expand("<cword>")<CR><CR>
 nnoremap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
 nnoremap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
 nnoremap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
@@ -266,7 +270,7 @@ nnoremap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
 nnoremap <C-\>T :cs find t struct <C-R>=expand("<cword>")<CR> {<CR>
 nnoremap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
 nnoremap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-nnoremap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+nnoremap <C-\>i :cs find i <C-R>=expand("<cfile>")<CR><CR>
 nnoremap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 
 
