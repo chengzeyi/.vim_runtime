@@ -217,19 +217,25 @@ endfunction
 function! <SID>DeleteSurround()
     let sur = nr2char(getchar())
     if !<SID>CanPair(sur) | return | endif
-    execute 'normal! di' . sur . 'vhp'
+    let saved = @a
+    execute 'normal! "adi' . sur . 'vh"ap'
+    let @a = saved
 endfunction
 function! <SID>ChangeSurround()
     let from = nr2char(getchar())
     if !<SID>CanPair(from) | return | endif
     let to = nr2char(getchar())
     let [left, right] = <SID>ParsePair(to)
-    execute 'normal! di' . from . 'r' . right .'hr' . left . 'p'
+    let saved = @a
+    execute 'normal! "adi' . from . 'r' . right .'hr' . left . '"ap'
+    let @a = saved
 endfunction
 function! <SID>Surround()
     let sur = nr2char(getchar())
     let [left, right] = <SID>ParsePair(sur)
-    execute 'normal! gvxi' . left . right . "\<esc>hp"
+    let saved = @a
+    execute 'normal! gv"axi' . left . right . "\<esc>h\"ap"
+    let @a = saved
 endfunction
 
 nnoremap <leader>qq :QToggle<cr>
