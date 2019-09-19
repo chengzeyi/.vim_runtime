@@ -35,7 +35,7 @@ Plug 'deris/vim-shot-f'
 
 Plug 'ntpeters/vim-better-whitespace'
 
-Plug 'Valloric/ListToggle'
+" Plug 'Valloric/ListToggle'
 
 Plug 'mhinz/vim-startify'
 
@@ -200,6 +200,33 @@ endif
 nnoremap <F9> :execute 'ptag ' . expand('<cword>')<cr>
 nnoremap <F10> :pclose<cr>
 
+nnoremap <leader>qq :QToggle<cr>
+nnoremap <leader>ll :LToggle<cr>
+command!  QToggle call <SID>QListToggle(10)
+command!  LToggle call <SID>LListToggle(10)
+function! <SID>LListToggle(height) abort
+    let buffer_count_before = <SID>BufferCount()
+    " Location list can't be closed if there's cursor in it, so we need 
+    " to call lclose twice to move cursor to the main pane
+    silent! lclose
+    silent! lclose
+
+    if <SID>BufferCount() == buffer_count_before
+        execute "silent! lopen " . a:height
+    endif
+endfunction
+function! <SID>QListToggle(height) abort
+    let buffer_count_before = <SID>BufferCount()
+    silent! cclose
+
+    if <SID>BufferCount() == buffer_count_before
+        execute "silent! botright copen " . a:height
+    endif
+endfunction
+function! <SID>BufferCount() abort
+    return len(filter(range(1, bufnr('$')), 'bufwinnr(v:val) != -1'))
+endfunction
+
 augroup setQLEditable
     au!
     autocmd FileType qf nnoremap <buffer> dd :RemoveQFItem<cr>
@@ -255,37 +282,47 @@ endfunction
 nnoremap <leader>ct :Ctags<space>
 command! -nargs=* Ctags !ctags
             \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q -f .tags <args> > /dev/null
+
+set csverb
+set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
 nnoremap <leader>cs :Cscope<cr>
 command! -nargs=0 Cscope !cscope -Rbqk
 nnoremap <C-\><C-\> :cs add .<cr>
 nnoremap <C-\>h :cs help<cr>
+nnoremap <C-\>H :cs show<cr>
 nnoremap <C-\>r :cs reset<cr>
 nnoremap <C-\>k :cs kill -1<cr>
-nnoremap <C-\>S :cs show<cr>
-nnoremap <C-\>a :cs find a <C-R>=expand("<cword>")<CR><CR>
-nnoremap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
-nnoremap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-nnoremap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
-nnoremap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
-nnoremap <C-\>T :cs find t struct <C-R>=expand("<cword>")<CR> {<CR>
-nnoremap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
-nnoremap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-nnoremap <C-\>i :cs find i <C-R>=expand("<cfile>")<CR><CR>
-nnoremap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
-
+nnoremap <C-\>a :cs find a <C-R>=expand("<cword>")<CR> <bar> cw<CR>
+nnoremap <C-\>s :cs find s <C-R>=expand("<cword>")<CR> <bar> cw<CR>
+nnoremap <C-\>g :cs find g <C-R>=expand("<cword>")<CR> <bar> cw<CR>
+nnoremap <C-\>c :cs find c <C-R>=expand("<cword>")<CR> <bar> cw<CR>
+nnoremap <C-\>t :cs find t <C-R>=expand("<cword>")<CR> <bar> cw<CR>
+nnoremap <C-\>e :cs find e <C-R>=expand("<cword>")<CR> <bar> cw<CR>
+nnoremap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR> <bar> cw<CR>
+nnoremap <C-\>i :cs find i <C-R>=expand("<cfile>")<CR> <bar> cw<CR>
+nnoremap <C-\>d :cs find d <C-R>=expand("<cword>")<CR> <bar> cw<CR>
+nnoremap <C-\>A :cs find a  <bar> cw<left><left><left><left><left>
+nnoremap <C-\>S :cs find s  <bar> cw<left><left><left><left><left>
+nnoremap <C-\>G :cs find g  <bar> cw<left><left><left><left><left>
+nnoremap <C-\>: :cs find c  <bar> cw<left><left><left><left><left>
+nnoremap <C-\>T :cs find t  <bar> cw<left><left><left><left><left>
+nnoremap <C-\>E :cs find e  <bar> cw<left><left><left><left><left>
+nnoremap <C-\>F :cs find f  <bar> cw<left><left><left><left><left>
+nnoremap <C-\>I :cs find i  <bar> cw<left><left><left><left><left>
+nnoremap <C-\>D :cs find d  <bar> cw<left><left><left><left><left>
 
 nnoremap <leader>vv :vimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
 nnoremap <leader>vV :vimgrep // **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>vl :lvimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
 nnoremap <leader>vL :lvimgrep // **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>ss :%s//g<left><left>
-nnoremap <leader>sq :cdo s//g<left><left>
-nnoremap <leader>sl :ldo s//g<left><left>
-nnoremap <leader>sb :bufdo %s//g<left><left>
-nnoremap <leader>scs :%s//gc<left><left><left>
-nnoremap <leader>scq :cdo s//gc<left><left><left>
-nnoremap <leader>scl :ldo s//gc<left><left><left>
-nnoremap <leader>scb :bufdo %s//gc<left><left><left>
+nnoremap <leader>sc :%s//gc<left><left><left>
+nnoremap <leader>qs :cdo s//g<left><left>
+nnoremap <leader>qc :cdo s//gc<left><left><left>
+nnoremap <leader>ls :ldo s//g<left><left>
+nnoremap <leader>lc :ldo s//gc<left><left><left>
+nnoremap <leader>bs :bufdo %s//g<left><left>
+nnoremap <leader>bc :bufdo %s//gc<left><left><left>
 
 command! W w !sudo tee % > /dev/null
 
