@@ -279,9 +279,9 @@ function! SwitchSourceHeader()
     endif
 endfunction
 
-nnoremap <leader>ct :Ctags<space>
-command! -nargs=* Ctags !ctags
-            \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q -f .tags <args> > /dev/null
+nnoremap <leader>ct :Ctags<cr>
+command! -nargs=0 Ctags !ctags
+            \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q > /dev/null
 
 set csverb
 set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
@@ -331,7 +331,7 @@ nnoremap g<c-]> <c-]>
 xnoremap <c-]> g<c-]>
 xnoremap g<c-]> <c-]>
 
-set tags=./.tags;,./.TAGS;,./tags;,./TAGS
+" set tags=./.tags;,./.TAGS;,./tags;,./TAGS
 augroup setFtTags
     autocmd!
     autocmd FileType cpp setlocal tags^=~/.vim_runtime/tags/cpp_tags
@@ -401,9 +401,9 @@ set wildignorecase
 
 set wildignore=*.o,*~,*.pyc
 if has("win16") || has("win32")
-    set wildignore+=.git\*,.hg\*,.svn\*
+    set wildignore+=.git\*,.hg\*,.svn\*,.tags,.TAGS,cscope.*
 else
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store,.tags,.TAGS,cscope.*
 endif
 
 set ruler
