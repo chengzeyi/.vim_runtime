@@ -240,8 +240,8 @@ endfunction
 
 nnoremap <leader>qq :QToggle<cr>
 nnoremap <leader>ll :LToggle<cr>
-command!  QToggle call <SID>QListToggle(10)
-command!  LToggle call <SID>LListToggle(10)
+command! QToggle call <SID>QListToggle(10)
+command! LToggle call <SID>LListToggle(10)
 function! <SID>LListToggle(height) abort
     let buffer_count_before = <SID>BufferCount()
     " Location list can't be closed if there's cursor in it, so we need 
