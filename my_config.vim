@@ -229,7 +229,7 @@ function! <SID>Surround()
     let sur = nr2char(getchar())
     let [left, right] = <SID>ParsePair(sur)
     let saved = @a
-    execute 'normal! gv"axi' . left . right . "\<esc>h\"ap"
+    execute 'normal! gv"ac' . left . right . "\<esc>h\"ap"
     let @a = saved
 endfunction
 
