@@ -54,7 +54,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-sleuth'
 " Plug 'tpope/vim-eunuch'
 
-Plug 'machakann/vim-sandwich'
+" Plug 'machakann/vim-sandwich'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -122,7 +122,7 @@ Plug 'chriskempson/base16-vim'
 Plug 'cocopon/iceberg.vim'
 Plug 'sickill/vim-monokai'
 Plug 'joshdick/onedark.vim'
-Plug 'arcticicestudio/nord-vim'
+" Plug 'arcticicestudio/nord-vim'
 
 call plug#end()
 
@@ -195,10 +195,42 @@ if exists(':packadd')
     nnoremap <leader>qf :packadd cfilter <bar> Cfilter<space>
     nnoremap <leader>qv :packadd cfilter <bar> Cfilter!<space>
     nnoremap <leader>lf :packadd cfilter <bar> Lfilter<space>
-    nnoremap <leader>lv :packadd cfilter <bar> Lfilter!<space>
+    nnoremap <>lv :packadd cfilter <bar> Lfilter!<space>
 endif
 nnoremap <F9> :execute 'ptag ' . expand('<cword>')<cr>
 nnoremap <F10> :pclose<cr>
+
+
+nnoremap ds :call <SID>DeleteSurround()<cr>
+nnoremap cs :call <SID>ChangeSurround()<cr>
+xnoremap s :call <SID>Surround()<cr>
+function! <SID>CanPair(ch)
+    return stridx("()[]{}<>bB'\"`", a:ch) != -1
+endfunction
+function! <SID>ParsePair(ch)
+    let idx = stridx('()[]{}<>bB', a:ch)
+    if idx == -1 | return [a:ch, a:ch] | endif
+    let left = '(([[{{<<({'[idx]
+    let right = '))]]}}>>)}'[idx]
+    return [left, right]
+endfunction
+function! <SID>DeleteSurround()
+    let sur = nr2char(getchar())
+    if !<SID>CanPair(sur) | return | endif
+    execute 'normal! di' . sur . 'vhp'
+endfunction
+function! <SID>ChangeSurround()
+    let from = nr2char(getchar())
+    if !<SID>CanPair(from) | return | endif
+    let to = nr2char(getchar())
+    let [left, right] = <SID>ParsePair(to)
+    execute 'normal! di' . from . 'r' . right .'hr' . left . 'p'
+endfunction
+function! <SID>Surround()
+    let sur = nr2char(getchar())
+    let [left, right] = <SID>ParsePair(sur)
+    execute 'normal! gvxi' . left . right . "\<esc>hp"
+endfunction
 
 nnoremap <leader>qq :QToggle<cr>
 nnoremap <leader>ll :LToggle<cr>
@@ -284,23 +316,32 @@ command! -nargs=0 Ctags !ctags
             \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q > /dev/null
 
 set csverb
-set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
+" set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 nnoremap <leader>cs :Cscope<cr>
 command! -nargs=0 Cscope !cscope -Rbqk
 nnoremap <C-\><C-\> :cs add .<cr>
 nnoremap <C-\>h :cs help<cr>
-nnoremap <C-\>S :cs show<cr>
+nnoremap <C-\>H :cs show<cr>
 nnoremap <C-\>r :cs reset<cr>
 nnoremap <C-\>k :cs kill -1<cr>
-nnoremap <C-\>a :cs find a <C-R>=expand("<cword>")<CR><CR>:cw<cr>
-nnoremap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>:cw<cr>
-nnoremap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>:cw<cr>
-nnoremap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>:cw<cr>
-nnoremap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>:cw<cr>
-nnoremap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>:cw<cr>
-nnoremap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>:cw<cr>
-nnoremap <C-\>i :cs find i <C-R>=expand("<cfile>")<CR><CR>:cw<cr>
-nnoremap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>:cw<cr>
+nnoremap <C-\>a :cs find a <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+nnoremap <C-\>i :cs find i <C-R>=expand("<cfile>")<CR><CR>
+nnoremap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\>A :cs find a<space>
+nnoremap <C-\>S :cs find s<space>
+nnoremap <C-\>G :cs find g<space>
+nnoremap <C-\>C :cs find c<space>
+nnoremap <C-\>T :cs find t<space>
+nnoremap <C-\>E :cs find e<space>
+nnoremap <C-\>F :cs find f<space>
+nnoremap <C-\>I :cs find i<space>
+nnoremap <C-\>D :cs find d<space>
 
 nnoremap <leader>vv :vimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
 nnoremap <leader>vV :vimgrep // **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left>
