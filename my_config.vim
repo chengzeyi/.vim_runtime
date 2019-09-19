@@ -388,7 +388,7 @@ set display+=lastline
 
 set re=1
 
-set scrolloff=5
+set scrolloff=1
 
 let $LANG='en'
 set langmenu=en
