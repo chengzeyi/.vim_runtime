@@ -150,10 +150,6 @@ nnoremap <leader>? :nmap <lt>leader><cr>
 nnoremap <leader>/ :execute 'nmap <lt>leader>' . nr2char(getchar())<cr>
 nnoremap <leader>w :w!<cr>
 nnoremap <leader>cb :cbuffer<cr>
-nnoremap <F7> :cprev<cr>
-nnoremap <F8> :cnext<cr>
-nnoremap <F5> :lprev<cr>
-nnoremap <F6> :lnext<cr>
 nnoremap <leader>" :registers<CR>
 nnoremap <leader>' :marks<CR>
 nnoremap <leader>` :marks<CR>
@@ -200,7 +196,6 @@ endif
 nnoremap <F9> :execute 'ptag ' . expand('<cword>')<cr>
 nnoremap <F10> :pclose<cr>
 
-
 nnoremap ds :call <SID>DeleteSurround()<cr>
 nnoremap cs :call <SID>ChangeSurround()<cr>
 xnoremap s :call <SID>Surround()<cr>
@@ -240,11 +235,15 @@ endfunction
 
 nnoremap <leader>qq :QToggle<cr>
 nnoremap <leader>ll :LToggle<cr>
+nnoremap <leader>q[ :cprev<cr>
+nnoremap <leader>q] :cnext<cr>
+nnoremap <leader>l[ :lprev<cr>
+nnoremap <leader>l] :lnext<cr>
 command! QToggle call <SID>QListToggle(10)
 command! LToggle call <SID>LListToggle(10)
 function! <SID>LListToggle(height) abort
     let buffer_count_before = <SID>BufferCount()
-    " Location list can't be closed if there's cursor in it, so we need 
+    " Location list can't be closed if there's cursor in it, so we need
     " to call lclose twice to move cursor to the main pane
     silent! lclose
     silent! lclose
@@ -318,14 +317,16 @@ function! SwitchSourceHeader()
 endfunction
 
 nnoremap <leader>ct :Ctags<cr>
-command! -nargs=0 Ctags !ctags
-            \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q > /dev/null
+nnoremap <leader>cT :Ctags<space>
+command! -nargs=* Ctags !ctags
+            \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q <args>
 
 set csverb
 " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 nnoremap <leader>cs :Cscope<cr>
-command! -nargs=0 Cscope !cscope -Rbqk
-nnoremap <C-\><C-\> :cs add .<cr>
+nnoremap <leader>cS :Cscope<space>
+command! -nargs=* Cscope !cscope -Rbqk <args>
+nnoremap <C-\><cr> :cs add .<cr>
 nnoremap <C-\>h :cs help<cr>
 nnoremap <C-\>H :cs show<cr>
 nnoremap <C-\>r :cs reset<cr>
@@ -348,6 +349,24 @@ nnoremap <C-\>E :cs find e<space>
 nnoremap <C-\>F :cs find f<space>
 nnoremap <C-\>I :cs find i<space>
 nnoremap <C-\>D :cs find d<space>
+nnoremap <C-\><C-\>a :scs find a <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\><C-\>s :scs find s <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\><C-\>g :scs find g <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\><C-\>c :scs find c <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\><C-\>t :scs find t <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\><C-\>e :scs find e <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\><C-\>f :scs find f <C-R>=expand("<cfile>")<CR><CR>
+nnoremap <C-\><C-\>i :scs find i <C-R>=expand("<cfile>")<CR><CR>
+nnoremap <C-\><C-\>d :scs find d <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\><C-\>A :scs find a<space>
+nnoremap <C-\><C-\>S :scs find s<space>
+nnoremap <C-\><C-\>G :scs find g<space>
+nnoremap <C-\><C-\>C :scs find c<space>
+nnoremap <C-\><C-\>T :scs find t<space>
+nnoremap <C-\><C-\>E :scs find e<space>
+nnoremap <C-\><C-\>F :scs find f<space>
+nnoremap <C-\><C-\>I :scs find i<space>
+nnoremap <C-\><C-\>D :scs find d<space>
 
 nnoremap <leader>vv :vimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
 nnoremap <leader>vV :vimgrep // **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left>
@@ -378,7 +397,7 @@ nnoremap g<c-]> <c-]>
 xnoremap <c-]> g<c-]>
 xnoremap g<c-]> <c-]>
 
-" set tags=./.tags;,./.TAGS;,./tags;,./TAGS
+set tags=./tags;,./TAGS;
 augroup setFtTags
     autocmd!
     autocmd FileType cpp setlocal tags^=~/.vim_runtime/tags/cpp_tags
@@ -448,9 +467,9 @@ set wildignorecase
 
 set wildignore=*.o,*~,*.pyc
 if has("win16") || has("win32")
-    set wildignore+=.git\*,.hg\*,.svn\*,.tags,.TAGS,cscope.*
+    set wildignore+=.git\*,.hg\*,.svn\*,tags,TAGS,cscope.*
 else
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store,.tags,.TAGS,cscope.*
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store,tags,TAGS,cscope.*
 endif
 
 set ruler
@@ -511,7 +530,7 @@ augroup myColors
     autocmd!
     autocmd ColorScheme * hi LineNr     ctermbg=NONE guibg=NONE
     autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
-    autocmd ColorScheme * hi Comment    guifg=#5C6370 ctermfg=59 cterm=italic
+    autocmd ColorScheme * hi Comment    guifg=#5C6370 ctermfg=59
 augroup END
 
 try
@@ -523,7 +542,7 @@ endtry
 " hi Normal     ctermbg=NONE guibg=NONE
 hi LineNr     ctermbg=NONE guibg=NONE
 hi SignColumn ctermbg=NONE guibg=NONE
-hi Comment guifg=#5C6370 ctermfg=59 cterm=italic
+hi Comment    guifg=#5C6370 ctermfg=59
 
 if has("gui_running")
     if has("gui_gtk2")
