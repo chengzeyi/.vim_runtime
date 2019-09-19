@@ -284,7 +284,7 @@ command! -nargs=* Ctags !ctags
             \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q -f .tags <args> > /dev/null
 
 set csverb
-set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
+set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 nnoremap <leader>cs :Cscope<cr>
 command! -nargs=0 Cscope !cscope -Rbqk
 nnoremap <C-\><C-\> :cs add .<cr>
