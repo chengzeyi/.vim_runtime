@@ -192,10 +192,10 @@ if exists(':packadd')
     nnoremap <leader>d] :Program<cr>
     nnoremap <leader>d\ :Source<cr>
 
-    nnoremap <leader>fq :packadd cfilter <bar> Cfilter<space> 
-    nnoremap <leader>fvq :packadd cfilter <bar> Cfilter!<space> 
-    nnoremap <leader>fl :packadd cfilter <bar> Lfilter<space> 
-    nnoremap <leader>fvl :packadd cfilter <bar> Lfilter!<space> 
+    nnoremap <leader>qf :packadd cfilter <bar> Cfilter<space> 
+    nnoremap <leader>qv :packadd cfilter <bar> Cfilter!<space> 
+    nnoremap <leader>lf :packadd cfilter <bar> Lfilter<space> 
+    nnoremap <leader>lv :packadd cfilter <bar> Lfilter!<space> 
 endif
 nnoremap <F9> :execute 'ptag ' . expand('<cword>')<cr>
 nnoremap <F10> :pclose<cr>
