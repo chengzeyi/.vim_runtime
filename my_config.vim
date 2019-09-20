@@ -323,14 +323,14 @@ endfunction
 
 nnoremap <leader>ct :Ctags<cr>
 nnoremap <leader>cT :Ctags<space>
-command! -nargs=* Ctags !ctags
+command! -complete=file -nargs=* Ctags !ctags
             \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q <args>
 
 set csverb
 " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 nnoremap <leader>cs :Cscope<cr>
 nnoremap <leader>cS :Cscope<space>
-command! -nargs=* Cscope !cscope -Rbqk <args>
+command! -complete=file -nargs=* Cscope !cscope -Rbqk <args>
 nnoremap <C-\><cr> :cs add .<cr>
 nnoremap <C-\>h :cs help<cr>
 nnoremap <C-\>H :cs show<cr>
