@@ -842,13 +842,13 @@ augroup lspReg
                     \ })
         autocmd FileType python setlocal omnifunc=lsp#complete
     endif
-    if executable('clangd')
-        au User lsp_setup call lsp#register_server({
-                    \ 'name': 'clangd',
-                    \ 'cmd': {server_info->['clangd', '-background-index']},
-                    \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-                    \ })
-    endif
+    " if executable('clangd')
+    "     au User lsp_setup call lsp#register_server({
+    "                 \ 'name': 'clangd',
+    "                 \ 'cmd': {server_info->['clangd', '-background-index']},
+    "                 \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+    "                 \ })
+    " endif
     if executable('bash-language-server')
         au User lsp_setup call lsp#register_server({
                     \ 'name': 'bash-language-server',
