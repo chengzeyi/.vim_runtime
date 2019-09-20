@@ -954,6 +954,7 @@ if has('lua')
     if !exists('g:neocomplete#keyword_patterns')
         let g:neocomplete#keyword_patterns = {}
     endif
+    let g:neocomplete#sources#tags#cache_limit_size = 10 * 1024 * 1024
     let g:neocomplete#keyword_patterns['default'] = '\h\w*'
     let g:neocomplete#fallback_mappings =
                 \ ["\<C-x>\<C-o>", "\<C-x>\<C-n>"]
@@ -988,6 +989,7 @@ else
     let g:neocomplcache_enable_smart_case = 1
     let g:neocomplcache_enable_underbar_completion = 0
     let g:neocomplcache_min_syntax_length = 3
+    let g:neocomplcache_tags_caching_limit_file_size = 10 * 1024 * 1024
     let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
     " let g:neocomplcache_enable_auto_select = 1
     " let g:neocomplcache_disable_auto_complete = 1
@@ -1015,7 +1017,6 @@ else
     " inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
     inoremap <expr><C-j> neocomplcache#start_manual_complete()
     inoremap <expr><C-k> neocomplcache#cancel_popup()
-    inoremap <expr><C-l> neocomplcache#complete_common_string()
 
     " Enable heavy omni completion.
     if !exists('g:neocomplcache_force_omni_patterns')
