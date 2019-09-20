@@ -196,15 +196,21 @@ endif
 nnoremap <F9> :execute 'ptag ' . expand('<cword>')<cr>
 nnoremap <F10> :pclose<cr>
 
-nnoremap ds :call <SID>DeleteSurround()<cr>
-nnoremap cs :call <SID>ChangeSurround()<cr>
-xnoremap s :call <SID>Surround()<cr>
+nnoremap dS :call <SID>DeleteSurround()<cr>
+nnoremap cS :call <SID>ChangeSurround()<cr>
+nnoremap S :set operatorfunc=<SID>OperatorSurround<cr>g@
+vnoremap S :<c-u>call <SID>OperatorSurround(visualmode())<cr>
 function! <SID>CanPair(ch)
-    return stridx("()[]{}<>bBt'\"`", a:ch) != -1
+    return a:ch !=# "\<esc>" && a:ch !=# "\<c-c>" &&
+            \ stridx("()[]{}<>bBt'\"`", a:ch) != -1
+endfunction
+function! <SID>CanSurround(ch)
+    return a:ch !=# "\<esc>" && a:ch !=# "\<c-c>"
 endfunction
 function! <SID>ParsePair(ch)
     if a:ch ==# 't'
-        return ['<>', '</>']
+        let name = input('Enter tag name: ')
+        return ['<' . name . '>', '</' . name . '>']
     endif
     let idx = stridx('()[]{}<>bB', a:ch)
     if idx == -1 | return [a:ch, a:ch] | endif
@@ -223,19 +229,22 @@ function! <SID>ChangeSurround()
     let from = nr2char(getchar())
     if !<SID>CanPair(from) | return | endif
     let to = nr2char(getchar())
-    if !<SID>CanPair(to) | return | endif
+    if !<SID>CanSurround(to) | return | endif
     let [left, right] = <SID>ParsePair(to)
     let saved = @a
     execute 'normal! "adi' . from . '"_ca' . from . left . "\<c-r>a" . right . "\<esc>"
     let @a = saved
 endfunction
-function! <SID>Surround()
+function! <SID>OperatorSurround(motion_wise)
     let sur = nr2char(getchar())
-    if !<SID>CanPair(sur) | return | endif
+    if !<SID>CanSurround(sur) | return | endif
     let [left, right] = <SID>ParsePair(sur)
-    let saved = @a
-    execute 'normal! gv"ac' . left . "\<c-r>a" . right . "\<esc>"
-    let @a = saved
+	let bp = getpos("'[")
+	let ep = getpos("']")
+	call setpos('.', ep)
+    execute "normal! \"=right\<cr>p"
+	call setpos('.', bp)
+    execute "normal! \"=left\<cr>P"
 endfunction
 
 nnoremap <leader>qq :QToggle<cr>
