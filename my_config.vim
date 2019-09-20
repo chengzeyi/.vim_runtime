@@ -214,8 +214,9 @@ function! <SID>ParsePair(ch)
     endif
     let idx = stridx('()[]{}<>bB', a:ch)
     if idx == -1 | return [a:ch, a:ch] | endif
-    let left = '(([[{{<<({'[idx]
-    let right = '))]]}}>>)}'[idx]
+    let space = stridx('}])', a:ch) != -1 ? ' ' : ''
+    let left = '(([[{{<<({'[idx] . space
+    let right = space . '))]]}}>>)}'[idx]
     return [left, right]
 endfunction
 function! <SID>DeleteSurround()
