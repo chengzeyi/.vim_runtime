@@ -202,7 +202,7 @@ nnoremap S :set operatorfunc=<SID>OperatorSurround<cr>g@
 vnoremap S :<c-u>call <SID>OperatorSurround(visualmode())<cr>
 function! <SID>CanPair(ch)
     return a:ch !=# "\<esc>" && a:ch !=# "\<c-c>" &&
-            \ stridx("()[]{}<>bBt'\"`", a:ch) != -1
+                \ stridx("()[]{}<>bBt'\"`", a:ch) != -1
 endfunction
 function! <SID>CanSurround(ch)
     return a:ch !=# "\<esc>" && a:ch !=# "\<c-c>"
@@ -240,11 +240,11 @@ function! <SID>OperatorSurround(motion_wise)
     let sur = nr2char(getchar())
     if !<SID>CanSurround(sur) | return | endif
     let [left, right] = <SID>ParsePair(sur)
-	let bp = getpos("'[")
-	let ep = getpos("']")
-	call setpos('.', ep)
+    let bp = getpos("'[")
+    let ep = getpos("']")
+    call setpos('.', ep)
     execute "normal! \"=right\<cr>p"
-	call setpos('.', bp)
+    call setpos('.', bp)
     execute "normal! \"=left\<cr>P"
 endfunction
 
@@ -909,8 +909,14 @@ augroup END
 
 if has('lua')
     set completeopt=menuone,noselect
+    inoremap <c-j> <c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>"<cr>
+                \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>"<cr>
+    inoremap <c-k> <c-x><c-n>
 else
     set completeopt=menuone
+    inoremap <c-j> <c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>\<lt>c-p>"<cr>
+                \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>\<lt>c-p>"<cr>
+    inoremap <c-k> <c-x><c-n><c-p>
 endif
 if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
             \ has('textprop')
@@ -979,15 +985,11 @@ if has('lua')
     " <C-h>, <BS>: close popup and delete backword char.
     inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
     inoremap <expr><BS> neocomplete#smart_close_popup()."\<BS>"
-    inoremap <expr><C-j> neocomplete#start_manual_complete()
-    inoremap <expr><C-k> neocomplete#cancel_popup()
     " Enable heavy omni completion.
 
-    if exists('neocomplete#custom#source')
-        call neocomplete#custom#source('_', 'converters',
-                    \ ['converter_remove_overlap', 'converter_remove_last_paren',
-                    \  'converter_abbr'])
-    endif
+    call neocomplete#custom#source('_', 'converters',
+                \ ['converter_remove_overlap', 'converter_remove_last_paren',
+                \  'converter_abbr'])
 else
     let g:neocomplcache_enable_at_startup = 1
     let g:neocomplcache_enable_smart_case = 1
