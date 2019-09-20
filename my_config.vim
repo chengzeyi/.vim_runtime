@@ -933,7 +933,7 @@ let g:neocomplete#force_omni_input_patterns.xml = '<[^>]*'
 let g:neocomplete#force_omni_input_patterns.php = '[^. \t]->\h\w*\|\h\w*::\w*'
 " let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
 " let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.\w*'
+" let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.\w*'
 let g:neocomplete#force_omni_input_patterns.python = '[^. \t]\.\w*'
 let g:neocomplete#force_omni_input_patterns.java = '\%(\h\w*\|)\)\.\w*'
 
@@ -942,6 +942,7 @@ if !exists('g:neocomplete#sources#omni#input_patterns')
 endif
 let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
 let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+let g:neocomplete#sources#omni#input_patterns.go = '[^.[:digit:] *\t]\.\w*'
 
 if has('lua')
     let g:neocomplete#enable_auto_close_preview = 1
@@ -976,7 +977,7 @@ if has('lua')
     inoremap <expr><up> pumvisible() ? "\<C-p>" : "\<up>"
     " <C-h>, <BS>: close popup and delete backword char.
     inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplete#smart_close_popup()."\<BS>"
     inoremap <expr><C-j> neocomplete#start_manual_complete()
     inoremap <expr><C-k> neocomplete#cancel_popup()
     " Enable heavy omni completion.
@@ -1012,7 +1013,7 @@ else
     inoremap <expr><up> pumvisible() ? "\<C-p>" : "\<up>"
     " <C-h>, <BS>: close popup and delete backword char.
     inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<BS>"
     " inoremap <expr><C-y> neocomplcache#close_popup()
     " inoremap <expr><C-e> neocomplcache#cancel_popup()
     " Close popup by <Space>.
