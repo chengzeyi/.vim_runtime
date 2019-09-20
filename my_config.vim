@@ -200,9 +200,12 @@ nnoremap ds :call <SID>DeleteSurround()<cr>
 nnoremap cs :call <SID>ChangeSurround()<cr>
 xnoremap s :call <SID>Surround()<cr>
 function! <SID>CanPair(ch)
-    return stridx("()[]{}<>bB'\"`", a:ch) != -1
+    return stridx("()[]{}<>bBt'\"`", a:ch) != -1
 endfunction
 function! <SID>ParsePair(ch)
+    if a:ch ==# 't'
+        return ['<>', '</>']
+    endif
     let idx = stridx('()[]{}<>bB', a:ch)
     if idx == -1 | return [a:ch, a:ch] | endif
     let left = '(([[{{<<({'[idx]
@@ -213,23 +216,25 @@ function! <SID>DeleteSurround()
     let sur = nr2char(getchar())
     if !<SID>CanPair(sur) | return | endif
     let saved = @a
-    execute 'normal! "adi' . sur . 'vh"ap'
+    execute 'normal! "adi' . sur . '"_va' . sur . '"ap'
     let @a = saved
 endfunction
 function! <SID>ChangeSurround()
     let from = nr2char(getchar())
     if !<SID>CanPair(from) | return | endif
     let to = nr2char(getchar())
+    if !<SID>CanPair(to) | return | endif
     let [left, right] = <SID>ParsePair(to)
     let saved = @a
-    execute 'normal! "adi' . from . 'r' . right .'hr' . left . '"ap'
+    execute 'normal! "adi' . from . '"_ca' . from . left . "\<c-r>a" . right . "\<esc>"
     let @a = saved
 endfunction
 function! <SID>Surround()
     let sur = nr2char(getchar())
+    if !<SID>CanPair(sur) | return | endif
     let [left, right] = <SID>ParsePair(sur)
     let saved = @a
-    execute 'normal! gv"ac' . left . right . "\<esc>h\"ap"
+    execute 'normal! gv"ac' . left . "\<c-r>a" . right . "\<esc>"
     let @a = saved
 endfunction
 
@@ -940,6 +945,8 @@ if has('lua')
         let g:neocomplete#keyword_patterns = {}
     endif
     let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+    let g:neocomplete#fallback_mappings =
+    \ ["\<C-x>\<C-o>", "\<C-x>\<C-n>"]
     inoremap <expr><C-g> neocomplete#undo_completion()
     inoremap <expr><C-l> neocomplete#complete_common_string()
     " <CR>: close popup and save indent.
@@ -1024,8 +1031,8 @@ let NERDTreeWinPos = 'left'
 let g:NERDTreeWinSize = 30
 nnoremap <leader>nn :NERDTreeToggle<cr>
 nnoremap <leader>nb :NERDTreeFromBookmark<space>
-nnoremap <leader>nf :NERDTreeFind<cr>
-nnoremap <leader>nF :NERDTreeFocus<cr>
+nnoremap <leader>nf :NERDTreeFocus<cr>
+nnoremap <leader>nF :NERDTreeFind<cr>
 nnoremap <leader>nv :NERDTreeVCS<cr>
 nnoremap <leader>nc :NERDTreeCWD<cr>
 nnoremap <leader>nr :NERDTreeRefreshRoot<cr>
