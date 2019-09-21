@@ -997,8 +997,8 @@ if has('lua')
     let g:neocomplete#keyword_patterns['default'] = '\h\w*'
     let g:neocomplete#fallback_mappings =
                 \ ["\<C-x>\<C-o>", "\<C-x>\<C-n>"]
-    inoremap <expr><C-g> neocomplete#undo_completion()
-    inoremap <expr><C-l> neocomplete#complete_common_string()
+    inoremap <expr> <C-g> neocomplete#undo_completion()
+    inoremap <expr> <C-l> neocomplete#complete_common_string()
     " <CR>: close popup and save indent.
     inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
     function! s:my_cr_function()
@@ -1007,13 +1007,13 @@ if has('lua')
         return pumvisible() ? "\<C-y>" : "\<CR>"
     endfunction
     " <TAB>: completion.
-    inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-    inoremap <expr><down> pumvisible() ? "\<C-n>" : "\<down>"
-    inoremap <expr><up> pumvisible() ? "\<C-p>" : "\<up>"
+    inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+    inoremap <expr> <down> pumvisible() ? "\<C-n>" : "\<down>"
+    inoremap <expr> <up> pumvisible() ? "\<C-p>" : "\<up>"
     " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-    inoremap <expr><BS> neocomplete#smart_close_popup()."\<BS>"
+    inoremap <expr> <C-h> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr> <BS> neocomplete#smart_close_popup()."\<BS>"
     " Enable heavy omni completion.
 
     try
@@ -1033,8 +1033,8 @@ else
     " let g:neocomplcache_enable_auto_select = 1
     " let g:neocomplcache_disable_auto_complete = 1
 
-    inoremap <expr><C-g> neocomplcache#undo_completion()
-    inoremap <expr><C-l> neocomplcache#complete_common_string()
+    inoremap <expr> <C-g> neocomplcache#undo_completion()
+    inoremap <expr> <C-l> neocomplcache#complete_common_string()
     " <CR>: close popup and save indent.
     inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
     function! s:my_cr_function()
@@ -1043,19 +1043,19 @@ else
         return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
     endfunction
 
-    inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-    inoremap <expr><down> pumvisible() ? "\<C-n>" : "\<down>"
-    inoremap <expr><up> pumvisible() ? "\<C-p>" : "\<up>"
+    inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+    inoremap <expr> <down> pumvisible() ? "\<C-n>" : "\<down>"
+    inoremap <expr> <up> pumvisible() ? "\<C-p>" : "\<up>"
     " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<BS>"
-    " inoremap <expr><C-y> neocomplcache#close_popup()
-    " inoremap <expr><C-e> neocomplcache#cancel_popup()
+    inoremap <expr> <C-h> neocomplcache#smart_close_popup()."\<C-h>"
+    inoremap <expr> <BS> neocomplcache#smart_close_popup()."\<BS>"
+    " inoremap <expr> <C-y> neocomplcache#close_popup()
+    " inoremap <expr> <C-e> neocomplcache#cancel_popup()
     " Close popup by <Space>.
-    " inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
-    inoremap <expr><C-j> neocomplcache#start_manual_complete()
-    inoremap <expr><C-k> neocomplcache#cancel_popup()
+    " inoremap <expr> <Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
+    inoremap <expr> <C-j> neocomplcache#start_manual_complete()
+    inoremap <expr> <C-k> neocomplcache#cancel_popup()
 
     " Enable heavy omni completion.
     if !exists('g:neocomplcache_force_omni_patterns')
