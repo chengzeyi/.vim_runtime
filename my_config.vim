@@ -157,7 +157,7 @@ nnoremap <leader>` :marks<CR>
 nnoremap <leader>oy :set foldcolumn=<c-r>=&foldcolumn == 0 ? '1' : '0'<cr>
         \ invnumber invrelativenumber
         \ signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr>
-        \ mouse<c-r>=&mouse =~# 'a' ? '-' : '+'<cr>=a<cr>
+        \ mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
 nnoremap <leader>f0 :set foldlevel=0<cr>
 nnoremap <leader>f1 :set foldlevel=1<cr>
 nnoremap <leader>f2 :set foldlevel=2<cr>
@@ -172,7 +172,7 @@ nnoremap <leader>f- :set foldlevel-=1<cr>
 nnoremap <leader>f+ :set foldlevel+=1<cr>
 nnoremap <leader>f= :set foldlevel=99<cr>
 nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? '1' : '0'<cr><cr>
-vnoremap <expr> . expand('<cword>') =~# '[(){}\[\]]' ? 'a'.expand('<cword>') : ''
+xnoremap <expr> . expand('<cword>') =~# '[(){}\[\]]' ? 'a'.expand('<cword>') : ''
 if exists(':terminal')
     tnoremap <F1> <c-w>N
 endif
@@ -200,10 +200,16 @@ if exists(':packadd')
     nnoremap <leader>lf :packadd cfilter <bar> Lfilter<space>
     nnoremap <leader>lv :packadd cfilter <bar> Lfilter!<space>
 endif
-nnoremap <leader>\ :execute 'ptag ' . expand('<cword>')<cr>
-nnoremap <leader><bar> :pclose<cr>
-nnoremap <leader>[ :ptprevious<cr>
-nnoremap <leader>] :ptnext<cr>
+nnoremap [t :tprevious<cr>
+nnoremap ]t :tnext<cr>
+nnoremap [T :tfirst<cr>
+nnoremap ]T :tlast<cr>
+nnoremap <leader>] :execute 'ptag ' . expand('<cword>')<cr>
+nnoremap <leader>[ :pclose<cr>
+nnoremap [p :ptprevious<cr>
+nnoremap ]p :ptnext<cr>
+nnoremap [P :pfirst<cr>
+nnoremap ]P :plast<cr>
 augroup skipBuffer
     au!
     au Filetype qf set nobuflisted
@@ -212,7 +218,7 @@ augroup END
 nnoremap dS :call <SID>DeleteSurround()<cr>
 nnoremap cS :call <SID>ChangeSurround()<cr>
 nnoremap S :set operatorfunc=<SID>OperatorSurround<cr>g@
-vnoremap S :<c-u>call <SID>OperatorSurround(visualmode())<cr>
+xnoremap S :<c-u>call <SID>OperatorSurround(visualmode())<cr>
 function! <SID>CanPair(ch)
     return a:ch !=# "\<esc>" && a:ch !=# "\<c-c>" &&
                 \ stridx("()[]{}<>bBt'\"`", a:ch) != -1
@@ -263,14 +269,14 @@ endfunction
 
 nnoremap <leader>qq :QToggle<cr>
 nnoremap <leader>ll :LToggle<cr>
-nnoremap <leader>q[ :cprev<cr>
-nnoremap <leader>q] :cnext<cr>
-nnoremap <leader>q{ :cfirst<cr>
-nnoremap <leader>q} :clast<cr>
-nnoremap <leader>l[ :lprev<cr>
-nnoremap <leader>l] :lnext<cr>
-nnoremap <leader>l{ :lfirst<cr>
-nnoremap <leader>l} :llast<cr>
+nnoremap [q :cprev<cr>
+nnoremap ]q :cnext<cr>
+nnoremap [Q :cfirst<cr>
+nnoremap ]Q :clast<cr>
+nnoremap [l :lprev<cr>
+nnoremap ]l :lnext<cr>
+nnoremap [L :lfirst<cr>
+nnoremap ]L :llast<cr>
 command! QToggle call <SID>QListToggle(10)
 command! LToggle call <SID>LListToggle(10)
 function! <SID>LListToggle(height) abort
@@ -354,13 +360,17 @@ command! -complete=file -nargs=* Ctags !ctags
             \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q <args>
 
 set csverb
-" set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
+set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 nnoremap <leader>cs :Cscope<cr>
 nnoremap <leader>cS :Cscope<space>
 command! -complete=file -nargs=* Cscope !cscope -Rbqk <args>
-nnoremap <C-\><cr> :cs add .<cr>
+nnoremap <C-\>q :set cscopequickfix=<c-r>=&cscopequickfix == '' ? 's-,g-,d-,c-,t-,e-,f-,i-,a-' : ''<cr><cr>
+nnoremap <C-\><bs> :set invcst<cr>
+nnoremap <C-\><c-h> :set invcst<cr>
+nnoremap <C-\>\ :cs add .<cr>
+nnoremap <C-\><bar> :cs add<space>
+nnoremap <C-\><cr> :cs show<cr>
 nnoremap <C-\>h :cs help<cr>
-nnoremap <C-\>H :cs show<cr>
 nnoremap <C-\>r :cs reset<cr>
 nnoremap <C-\>k :cs kill -1<cr>
 nnoremap <C-\>a :cs find a <C-R>=expand("<cword>")<CR><CR>
@@ -406,8 +416,8 @@ nnoremap <leader>vl :lvimgrep // % <bar> cw<left><left><left><left><left><left><
 nnoremap <leader>vL :lvimgrep // **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>ss :%s//g<left><left>
 nnoremap <leader>sc :%s//gc<left><left><left>
-vnoremap <leader>ss :s//g<left><left>
-vnoremap <leader>sc :s//gc<left><left><left>
+xnoremap <leader>ss :s//g<left><left>
+xnoremap <leader>sc :s//gc<left><left><left>
 nnoremap <leader>qs :cdo s//g<left><left>
 nnoremap <leader>qc :cdo s//gc<left><left><left>
 nnoremap <leader>ls :ldo s//g<left><left>
@@ -846,12 +856,12 @@ nmap <leader><cr>t <Plug>(lsp-peek-type-definition)
 nmap <leader><cr>T <Plug>(lsp-type-definition)
 nmap <leader><cr>s <Plug>(lsp-document-symbol)
 nmap <leader><cr>S <Plug>(lsp-workspace-symbol)
-nmap <leader><cr>] <Plug>(lsp-next-error)
-nmap <leader><cr>} <Plug>(lsp-next-reference)
-nmap <leader><cr>[ <Plug>(lsp-previous-error)
-nmap <leader><cr>{ <Plug>(lsp-previous-reference)
-nmap <leader><cr>\ <Plug>(lsp-preview-focus)
-nmap <leader><cr><bar> <Plug>(lsp-preview-close)
+nmap ]e <Plug>(lsp-next-error)
+nmap ]r <Plug>(lsp-next-reference)
+nmap [e <Plug>(lsp-previous-error)
+nmap [r <Plug>(lsp-previous-reference)
+nmap <leader><cr>] <Plug>(lsp-preview-focus)
+nmap <leader><cr>[ <Plug>(lsp-preview-close)
 let g:lsp_diagnostics_echo_cursor = 1
 augroup lspReg
     au!
