@@ -442,6 +442,12 @@ augroup END
 set updatetime=1500
 
 set number
+if has('patch-7.3.787')
+    set relativenumber
+endif
+nnoremap <leader>or :set invrelativenumber<cr>
+nnoremap <leader>on :set invnumber<cr>
+
 set exrc
 set secure
 
@@ -549,7 +555,7 @@ syntax enable
 
 " set t_Co=256
 if has('termguicolors')
-    nnoremap <leader>tg :set invtermguicolors<cr>
+    nnoremap <leader>ot :set invtermguicolors<cr>
 endif
 
 " let g:space_vim_dark_background = 234
@@ -930,7 +936,8 @@ else
                 \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>\<lt>c-p>"<cr>
     inoremap <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n><c-p>
 endif
-if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
+if has('patch-8.1.1880') && has('textprop')
+" if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
             \ has('textprop')
     " set completeopt+=popup
     set previewpopup=height:10,width:60
