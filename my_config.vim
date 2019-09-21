@@ -961,6 +961,7 @@ endif
 " let g:neocomplete#sources#omni#input_patterns.python = '[^. \t]\.\w*'
 
 if has('lua')
+    let g:necosyntax#max_syntax_lines = 3000
     let g:neocomplete#enable_auto_close_preview = &completeopt =~# 'preview' ? 1 : 0
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
