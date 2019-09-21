@@ -193,8 +193,8 @@ if exists(':packadd')
     nnoremap <leader>lf :packadd cfilter <bar> Lfilter<space>
     nnoremap <>lv :packadd cfilter <bar> Lfilter!<space>
 endif
-nnoremap <F9> :execute 'ptag ' . expand('<cword>')<cr>
-nnoremap <F10> :pclose<cr>
+nnoremap <leader>] :execute 'ptag ' . expand('<cword>')<cr>
+nnoremap <leader>[ :pclose<cr>
 augroup skipBuffer
     au!
     au Filetype qf set nobuflisted
@@ -1134,8 +1134,10 @@ nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gi :Gist<cr>
 
 let g:yankstack_yank_keys = ['y', 'd']
-nmap <leader>[ <Plug>yankstack_substitute_older_paste
-nmap <leader>] <Plug>yankstack_substitute_newer_paste
+nmap <F9> <Plug>yankstack_substitute_older_paste
+nmap <F10> <Plug>yankstack_substitute_newer_paste
+imap <F9> <Plug>yankstack_substitute_older_paste
+imap <F10> <Plug>yankstack_substitute_newer_paste
 
 let g:tagbar_width = 30
 let g:tagbar_compact = 1
