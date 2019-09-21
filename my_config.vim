@@ -640,7 +640,6 @@ nnoremap <c-j> <C-w>p5<C-e><C-w>p
 " inoremap <c-k> <Esc><C-w>p5<C-y><C-w>pi
 " inoremap <c-j> <Esc><C-w>p5<C-e><C-w>pi
 
-" Disable highlight when <leader>\ is pressed
 nnoremap <leader><bs> :noh<cr>
 nnoremap <leader><c-h> :noh<cr>
 
