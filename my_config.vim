@@ -117,6 +117,8 @@ if exists(':terminal')
     Plug 'Lenovsky/nuake', {'on': 'Nuake'}
 endif
 
+Plug 'kana/vim-textobj-user'
+
 Plug 'liuchengxu/space-vim-dark'
 Plug 'chriskempson/base16-vim'
 Plug 'cocopon/iceberg.vim'
@@ -131,21 +133,20 @@ set pastetoggle=<F2>
 
 inoremap <c-a> <home>
 inoremap <c-e> <end>
+function <SID>MapMotion(from, ...)
+    let from = a:from
+    let to = a:0 == 0 ? a:from : a:1
+    exec 'noremap ' . from . ' g' . to
+    exec 'noremap g' . from . ' ' . to
+endfunction
+call <SID>MapMotion('j')
+call <SID>MapMotion('k')
+call <SID>MapMotion('0', '^')
+call <SID>MapMotion('^', '0')
+call <SID>MapMotion('$')
 nnoremap Q @q
 nnoremap M `m
 nnoremap Y y$
-nnoremap 0 ^
-nnoremap ^ 0
-xnoremap 0 ^
-xnoremap ^ 0
-nnoremap j gj
-nnoremap gj j
-nnoremap k gk
-nnoremap gk k
-xnoremap j gj
-xnoremap gj j
-xnoremap k gk
-xnoremap gk k
 nnoremap <leader>? :nmap <lt>leader><cr>
 nnoremap <leader>/ :execute 'nmap <lt>leader>' . nr2char(getchar())<cr>
 nnoremap <leader>w :w!<cr>
@@ -154,10 +155,6 @@ nnoremap <leader>" :registers<CR>
 nnoremap <leader>@ :registers<CR>
 nnoremap <leader>' :marks<CR>
 nnoremap <leader>` :marks<CR>
-nnoremap <leader>oy :set foldcolumn=<c-r>=&foldcolumn == 0 ? '1' : '0'<cr>
-            \ invnumber invrelativenumber
-            \ signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr>
-            \ mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
 nnoremap <leader>f0 :set foldlevel=0<cr>
 nnoremap <leader>f1 :set foldlevel=1<cr>
 nnoremap <leader>f2 :set foldlevel=2<cr>
@@ -172,6 +169,7 @@ nnoremap <leader>f- :set foldlevel-=1<cr>
 nnoremap <leader>f+ :set foldlevel+=1<cr>
 nnoremap <leader>f= :set foldlevel=99<cr>
 nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? '1' : '0'<cr><cr>
+nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr><cr>
 xnoremap <expr> . expand('<cword>') =~# '[(){}\[\]]' ? 'a'.expand('<cword>') : '.'
 if exists(':terminal')
     tnoremap <F1> <c-w>N
@@ -220,44 +218,44 @@ augroup END
 " Usage: source <thisfile> in pythonmode and
 " Press: vai, vii to select outer/inner python blocks by indetation.
 " Press: vii, yii, dii, cii to select/yank/delete/change an indented block.
-onoremap <silent>ai :<C-u>call IndTxtObj(0)<CR>
-onoremap <silent>ii :<C-u>call IndTxtObj(1)<CR>
-vnoremap <silent>ai <Esc>:call IndTxtObj(0)<CR><Esc>gv
-vnoremap <silent>ii <Esc>:call IndTxtObj(1)<CR><Esc>gv
+onoremap ai :<C-u>call IndTxtObj(0)<CR>
+onoremap ii :<C-u>call IndTxtObj(1)<CR>
+vnoremap ai <Esc>:call IndTxtObj(0)<CR><Esc>gv
+vnoremap ii <Esc>:call IndTxtObj(1)<CR><Esc>gv
 function! IndTxtObj(inner)
-  let curcol = col(".")
-  let curline = line(".")
-  let lastline = line("$")
-  let i = indent(line("."))
-  if getline(".") !~ "^\\s*$"
-      let p = line(".") - 1
-      let pp = line(".") - 2
-      let nextblank = getline(p) =~ "^\\s*$"
-      let nextnextblank = getline(pp) =~ "^\\s*$"
-      while p > 0 && ((i == 0 && (!nextblank || (pp > 0 && !nextnextblank))) ||
-                  \ (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
-          -
-          let p = line(".") - 1
-          let pp = line(".") - 2
-          let nextblank = getline(p) =~ "^\\s*$"
-          let nextnextblank = getline(pp) =~ "^\\s*$"
-      endwhile
-      normal! 0V
-      call cursor(curline, curcol)
-      let p = line(".") + 1
-      let pp = line(".") + 2
-      let nextblank = getline(p) =~ "^\\s*$"
-      let nextnextblank = getline(pp) =~ "^\\s*$"
-      while p <= lastline && ((i == 0 && (!nextblank || pp < lastline && !nextnextblank)) ||
-                  \ (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
-          +
-          let p = line(".") + 1
-          let pp = line(".") + 2
-          let nextblank = getline(p) =~ "^\\s*$"
-          let nextnextblank = getline(pp) =~ "^\\s*$"
-      endwhile
-      normal! $
-  endif
+    let curcol = col(".")
+    let curline = line(".")
+    let lastline = line("$")
+    let i = indent(line("."))
+    if getline(".") !~ "^\\s*$"
+        let p = line(".") - 1
+        let pp = line(".") - 2
+        let nextblank = getline(p) =~ "^\\s*$"
+        let nextnextblank = getline(pp) =~ "^\\s*$"
+        while p > 0 && ((i == 0 && (!nextblank || (pp > 0 && !nextnextblank))) ||
+                    \ (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
+            -
+            let p = line(".") - 1
+            let pp = line(".") - 2
+            let nextblank = getline(p) =~ "^\\s*$"
+            let nextnextblank = getline(pp) =~ "^\\s*$"
+        endwhile
+        normal! 0V
+        call cursor(curline, curcol)
+        let p = line(".") + 1
+        let pp = line(".") + 2
+        let nextblank = getline(p) =~ "^\\s*$"
+        let nextnextblank = getline(pp) =~ "^\\s*$"
+        while p <= lastline && ((i == 0 && (!nextblank || pp < lastline && !nextnextblank)) ||
+                    \ (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
+            +
+            let p = line(".") + 1
+            let pp = line(".") + 2
+            let nextblank = getline(p) =~ "^\\s*$"
+            let nextnextblank = getline(pp) =~ "^\\s*$"
+        endwhile
+        normal! $
+    endif
 endfunction
 
 nnoremap <leader>qq :QToggle<cr>
@@ -428,6 +426,7 @@ set ttimeoutlen=10
 " set shortmess=a
 
 set mouse=a
+nnoremap <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
 
 nnoremap <c-]> g<c-]>
 nnoremap g<c-]> <c-]>
@@ -458,9 +457,9 @@ augroup END
 set updatetime=1500
 
 set number
-if has('patch-7.3.787')
-    set relativenumber
-endif
+" if has('patch-7.3.787')
+"     set relativenumber
+" endif
 nnoremap <leader>or :set invrelativenumber<cr>
 nnoremap <leader>on :set invnumber<cr>
 
@@ -1360,4 +1359,74 @@ if exists(':terminal')
     nnoremap <c-n> :Nuake<CR>
     tnoremap <c-n> <C-w>:Nuake<CR>
 endif
+
+try
+    call textobj#user#plugin('datetime', {
+                \   'date': {
+                \     'pattern': '\<\d\d\d\d-\d\d-\d\d\>',
+                \     'select': ['ad', 'id'],
+                \   },
+                \ })
+    call textobj#user#plugin('line', {
+                \   'line-a': {
+                \     'pattern': '^.*$',
+                \     'select': 'al',
+                \     'scan': 'line',
+                \   },
+                \   'line-i': {
+                \     'pattern': '^\s*\zs.\{-}\ze\s*$',
+                \     'select': 'il',
+                \     'scan': 'line',
+                \   },
+                \ })
+    call textobj#user#plugin('underline', {
+                \   'underline-a': {
+                \     'pattern': '_[^_]*_',
+                \     'select': 'a_',
+                \     'scan': 'line',
+                \   },
+                \   'underline-i': {
+                \     'pattern': '_\zs[^_]*\ze_',
+                \     'select': 'i_',
+                \     'scan': 'line',
+                \   },
+                \ })
+    call textobj#user#plugin('sharp', {
+                \   'sharp-a': {
+                \     'pattern': '#[^#]*#',
+                \     'select': 'a#',
+                \     'scan': 'line',
+                \   },
+                \   'sharp-i': {
+                \     'pattern': '#\zs[^#]*\ze#',
+                \     'select': 'i#',
+                \     'scan': 'line',
+                \   },
+                \ })
+    call textobj#user#plugin('dollar', {
+                \   'dollar-a': {
+                \     'pattern': '\$[^$]*\$',
+                \     'select': 'a$',
+                \     'scan': 'line',
+                \   },
+                \   'dollar-i': {
+                \     'pattern': '\$\zs[^$]*\ze\$',
+                \     'select': 'i$',
+                \     'scan': 'line',
+                \   },
+                \ })
+    call textobj#user#plugin('camel', {
+                \   'camel-a': {
+                \     'pattern': '\([A-Z]\+[a-z]*\)\|[0-9]\+\|[a-z]\+',
+                \     'select': 'a~',
+                \     'scan': 'line',
+                \   },
+                \   'camel-i': {
+                \     'pattern': '\([A-Z][a-z]*\)\|[0-9]\+\|[a-z]\+',
+                \     'select': 'i~',
+                \     'scan': 'line',
+                \   },
+                \ })
+catch
+endtry
 
