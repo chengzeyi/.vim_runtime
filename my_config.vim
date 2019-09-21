@@ -172,8 +172,9 @@ nnoremap <leader>f- :set foldlevel-=1<cr>
 nnoremap <leader>f+ :set foldlevel+=1<cr>
 nnoremap <leader>f= :set foldlevel=99<cr>
 nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? '1' : '0'<cr><cr>
+vnoremap <expr> . expand('<cword>') =~# '[(){}\[\]]' ? 'a'.expand('<cword>') : ''
 if exists(':terminal')
-    tnoremap <c-n> <c-w>N
+    tnoremap <F1> <c-w>N
 endif
 if exists(':packadd')
     nnoremap <leader>dd :packadd termdebug <bar> Termdebug<space>
@@ -199,10 +200,10 @@ if exists(':packadd')
     nnoremap <leader>lf :packadd cfilter <bar> Lfilter<space>
     nnoremap <leader>lv :packadd cfilter <bar> Lfilter!<space>
 endif
-nnoremap <leader>] :execute 'ptag ' . expand('<cword>')<cr>
-nnoremap <leader>[ :pclose<cr>
-nnoremap <leader>{ :ptprevious<cr>
-nnoremap <leader>} :ptnext<cr>
+nnoremap <leader>\ :execute 'ptag ' . expand('<cword>')<cr>
+nnoremap <leader><bar> :pclose<cr>
+nnoremap <leader>[ :ptprevious<cr>
+nnoremap <leader>] :ptnext<cr>
 augroup skipBuffer
     au!
     au Filetype qf set nobuflisted
@@ -264,8 +265,12 @@ nnoremap <leader>qq :QToggle<cr>
 nnoremap <leader>ll :LToggle<cr>
 nnoremap <leader>q[ :cprev<cr>
 nnoremap <leader>q] :cnext<cr>
+nnoremap <leader>q{ :cfirst<cr>
+nnoremap <leader>q} :clast<cr>
 nnoremap <leader>l[ :lprev<cr>
 nnoremap <leader>l] :lnext<cr>
+nnoremap <leader>l{ :lfirst<cr>
+nnoremap <leader>l} :llast<cr>
 command! QToggle call <SID>QListToggle(10)
 command! LToggle call <SID>LListToggle(10)
 function! <SID>LListToggle(height) abort
@@ -1272,7 +1277,7 @@ let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status
 
 let g:goyo_width = '80%'
 let g:goyo_height = '95%'
-nnoremap <leader>\ :Goyo<cr>
+nnoremap <leader>go :Goyo<cr>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
@@ -1347,7 +1352,7 @@ let g:startify_custom_header = [
 nnoremap <leader>st :Startify<cr>
 
 if exists(':terminal')
-    nnoremap <F12> :Nuake<CR>
-    tnoremap <F12> <C-w>:Nuake<CR>
+    nnoremap <c-n> :Nuake<CR>
+    tnoremap <c-n> <C-w>:Nuake<CR>
 endif
 
