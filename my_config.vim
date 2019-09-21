@@ -155,9 +155,9 @@ nnoremap <leader>@ :registers<CR>
 nnoremap <leader>' :marks<CR>
 nnoremap <leader>` :marks<CR>
 nnoremap <leader>oy :set foldcolumn=<c-r>=&foldcolumn == 0 ? '1' : '0'<cr>
-        \ invnumber invrelativenumber
-        \ signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr>
-        \ mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
+            \ invnumber invrelativenumber
+            \ signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr>
+            \ mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
 nnoremap <leader>f0 :set foldlevel=0<cr>
 nnoremap <leader>f1 :set foldlevel=1<cr>
 nnoremap <leader>f2 :set foldlevel=2<cr>
@@ -960,8 +960,8 @@ else
     inoremap <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n><c-p>
 endif
 if has('patch-8.1.1880') && has('textprop')
-" if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
-            \ has('textprop')
+    " if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
+                \ has('textprop')
     " set completeopt+=popup
     set previewpopup=height:10,width:60
 endif
