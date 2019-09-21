@@ -84,7 +84,7 @@ endif
 
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
-" Plug 'Shougo/echodoc.vim'
+Plug 'Shougo/echodoc.vim'
 " Plug 'Shougo/deol.nvim'
 
 Plug 'majutsushi/tagbar', {'on': ['TagbarToggle', 'TagbarOpenAutoClose']}
@@ -195,6 +195,10 @@ if exists(':packadd')
 endif
 nnoremap <F9> :execute 'ptag ' . expand('<cword>')<cr>
 nnoremap <F10> :pclose<cr>
+augroup skipBuffer
+    au!
+    au Filetype qf set nobuflisted
+augroup END
 
 nnoremap dS :call <SID>DeleteSurround()<cr>
 nnoremap cS :call <SID>ChangeSurround()<cr>
@@ -477,7 +481,7 @@ source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
 set wildmenu
-" set wildmode=longest,full
+set wildmode=longest,full
 set wildignorecase
 
 set wildignore=*.o,*~,*.pyc
@@ -489,7 +493,7 @@ endif
 
 set ruler
 set cmdheight=1
-set showmode
+" set showmode
 set showcmd
 
 set hid
@@ -533,8 +537,15 @@ syntax enable
 " if $COLORTERM == 'gnome-terminal'
 " set t_Co=256
 " endif
+if has('cursorshape')
+    if &term =~ "xterm"
+        let &t_SI = "\<Esc>[6 q"
+        let &t_SR = "\<Esc>[4 q"
+        let &t_EI = "\<Esc>[2 q"
+    endif
+endif
 
-set t_Co=256
+" set t_Co=256
 if has('termguicolors')
     nnoremap <leader>tg :set invtermguicolors<cr>
 endif
@@ -575,7 +586,7 @@ endif
 
 " Set extra options when running in GUI mode
 if has("gui_running")
-    set t_Co=256
+    " set t_Co=256
     set guioptions-=e  "tab pages
     set guioptions-=m  "menu bar
     set guioptions-=r  "scrollbar
@@ -909,21 +920,19 @@ augroup END
 
 if has('lua')
     set completeopt=menuone,noselect
-    inoremap <c-j> <c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>"<cr>
+    inoremap <c-j> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>"<cr>
                 \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>"<cr>
-    inoremap <c-k> <c-x><c-n>
+    inoremap <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n>
 else
     set completeopt=menuone
-    inoremap <c-j> <c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>\<lt>c-p>"<cr>
+    inoremap <c-j> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>\<lt>c-p>"<cr>
                 \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>\<lt>c-p>"<cr>
-    inoremap <c-k> <c-x><c-n><c-p>
+    inoremap <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n><c-p>
 endif
 if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
             \ has('textprop')
-    set completeopt+=popup
+    " set completeopt+=popup
     set previewpopup=height:10,width:60
-else
-    set completeopt-=preview
 endif
 set pumheight=12
 
@@ -937,22 +946,22 @@ let g:neocomplete#force_omni_input_patterns.markdown = '<[^>]*'
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
 let g:neocomplete#force_omni_input_patterns.xml = '<[^>]*'
 let g:neocomplete#force_omni_input_patterns.php = '[^. \t]->\h\w*\|\h\w*::\w*'
-" let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-" let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-" let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.\w*'
-" let g:neocomplete#force_omni_input_patterns.python = '[^. \t]\.\w*'
+let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.\w*'
+let g:neocomplete#force_omni_input_patterns.python = '[^. \t]\.\w*'
 let g:neocomplete#force_omni_input_patterns.java = '\%(\h\w*\|)\)\.\w*'
 
 if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
 endif
-let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-let g:neocomplete#sources#omni#input_patterns.go = '[^.[:digit:] *\t]\.\w*'
-let g:neocomplete#sources#omni#input_patterns.python = '[^. \t]\.\w*'
+" let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+" let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+" let g:neocomplete#sources#omni#input_patterns.go = '[^.[:digit:] *\t]\.\w*'
+" let g:neocomplete#sources#omni#input_patterns.python = '[^. \t]\.\w*'
 
 if has('lua')
-    let g:neocomplete#enable_auto_close_preview = 1
+    let g:neocomplete#enable_auto_close_preview = &completeopt =~# 'preview' ? 1 : 0
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
     let g:neocomplete#sources#syntax#min_keyword_length = 3
@@ -987,10 +996,14 @@ if has('lua')
     inoremap <expr><BS> neocomplete#smart_close_popup()."\<BS>"
     " Enable heavy omni completion.
 
-    call neocomplete#custom#source('_', 'converters',
-                \ ['converter_remove_overlap', 'converter_remove_last_paren',
-                \  'converter_abbr'])
+    try
+        call neocomplete#custom#source('_', 'converters',
+                    \ ['converter_remove_overlap', 'converter_remove_last_paren',
+                    \  'converter_abbr'])
+    catch
+    endtry
 else
+    let g:neocomplcache_enable_auto_close_preview = &completeopt =~# 'preview' ? 1 : 0
     let g:neocomplcache_enable_at_startup = 1
     let g:neocomplcache_enable_smart_case = 1
     let g:neocomplcache_enable_underbar_completion = 0
@@ -1034,12 +1047,12 @@ else
     endif
 endif
 
-" let g:echodoc_enable_at_startup = 1
-" if has('nvim')
-"     let g:echodoc#type = 'virtual'
-" else
-"     set noshowmode
-" endif
+let g:echodoc_enable_at_startup = 1
+if has('nvim') && exists('*nvim_open_win')
+    let g:echodoc#type = 'floating'
+else
+    set noshowmode
+endif
 
 " autocmd vimenter * NERDTree
 let NERDTreeShowHidden = 1
