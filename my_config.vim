@@ -539,13 +539,13 @@ syntax enable
 " if $COLORTERM == 'gnome-terminal'
 " set t_Co=256
 " endif
-if has('cursorshape')
-    if &term =~ "xterm"
-        let &t_SI = "\<Esc>[6 q"
-        let &t_SR = "\<Esc>[4 q"
-        let &t_EI = "\<Esc>[2 q"
-    endif
-endif
+" if has('cursorshape')
+"     if &term =~ "xterm"
+"         let &t_SI = "\<Esc>[6 q"
+"         let &t_SR = "\<Esc>[4 q"
+"         let &t_EI = "\<Esc>[2 q"
+"     endif
+" endif
 
 " set t_Co=256
 if has('termguicolors')
