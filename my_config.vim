@@ -50,7 +50,7 @@ Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
 
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
-" Plug 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 " Plug 'tpope/vim-eunuch'
 
@@ -230,94 +230,34 @@ function! IndTxtObj(inner)
   let lastline = line("$")
   let i = indent(line("."))
   if getline(".") !~ "^\\s*$"
-    let p = line(".") - 1
-    let pp = line(".") - 2
-    let nextblank = getline(p) =~ "^\\s*$"
-    let nextnextblank = getline(pp) =~ "^\\s*$"
-    while p > 0 && ((i == 0 && (!nextblank || (pp > 0 && !nextnextblank))) ||
-                \ (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
-      -
       let p = line(".") - 1
       let pp = line(".") - 2
       let nextblank = getline(p) =~ "^\\s*$"
       let nextnextblank = getline(pp) =~ "^\\s*$"
-    endwhile
-    normal! 0V
-    call cursor(curline, curcol)
-    let p = line(".") + 1
-    let pp = line(".") + 2
-    let nextblank = getline(p) =~ "^\\s*$"
-    let nextnextblank = getline(pp) =~ "^\\s*$"
-    while p <= lastline && ((i == 0 && (!nextblank || pp < lastline && !nextnextblank)) ||
-                \ (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
-      +
+      while p > 0 && ((i == 0 && (!nextblank || (pp > 0 && !nextnextblank))) ||
+                  \ (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
+          -
+          let p = line(".") - 1
+          let pp = line(".") - 2
+          let nextblank = getline(p) =~ "^\\s*$"
+          let nextnextblank = getline(pp) =~ "^\\s*$"
+      endwhile
+      normal! 0V
+      call cursor(curline, curcol)
       let p = line(".") + 1
       let pp = line(".") + 2
       let nextblank = getline(p) =~ "^\\s*$"
       let nextnextblank = getline(pp) =~ "^\\s*$"
-    endwhile
-    normal! $
+      while p <= lastline && ((i == 0 && (!nextblank || pp < lastline && !nextnextblank)) ||
+                  \ (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
+          +
+          let p = line(".") + 1
+          let pp = line(".") + 2
+          let nextblank = getline(p) =~ "^\\s*$"
+          let nextnextblank = getline(pp) =~ "^\\s*$"
+      endwhile
+      normal! $
   endif
-endfunction
-
-nnoremap dS :call <SID>DeleteSurround()<cr>
-nnoremap cS :call <SID>ChangeSurround()<cr>
-nnoremap S :set operatorfunc=<SID>OperatorSurround<cr>g@
-xnoremap S :<c-u>call <SID>OperatorSurround(visualmode())<cr>
-function! <SID>CanPair(ch)
-    return a:ch !=# "\<esc>" && a:ch !=# "\<c-c>" &&
-                \ stridx("()[]{}<>bBt'\"`", a:ch) != -1
-endfunction
-function! <SID>CanSurround(ch)
-    return a:ch !=# "\<esc>" && a:ch !=# "\<c-c>"
-endfunction
-function! <SID>ParsePair(ch)
-    if a:ch ==# 't'
-        let name = input('Enter tag name: ')
-        return ['<' . name . '>', '</' . name . '>']
-    endif
-    let idx = stridx('()[]{}<>bB', a:ch)
-    if idx == -1 | return [a:ch, a:ch] | endif
-    let space = stridx('}])', a:ch) != -1 ? ' ' : ''
-    let left = '(([[{{<<({'[idx] . space
-    let right = space . '))]]}}>>)}'[idx]
-    return [left, right]
-endfunction
-function! <SID>DeleteSurround()
-    let sur = nr2char(getchar())
-    if !<SID>CanPair(sur) | return | endif
-    let saved = @a
-    if stridx("\"'`", sur) == -1
-        execute 'normal! "adi' . sur . '"_va' . sur . '"ap'
-    else
-        execute 'normal! "adi' . sur . '"_v2i' . sur . '"ap'
-    endif
-    let @a = saved
-endfunction
-function! <SID>ChangeSurround()
-    let from = nr2char(getchar())
-    if !<SID>CanPair(from) | return | endif
-    let to = nr2char(getchar())
-    if !<SID>CanSurround(to) | return | endif
-    let [left, right] = <SID>ParsePair(to)
-    let saved = @a
-    if stridx("\"'`", from) == -1
-        execute 'normal! "adi' . from . '"_ca' . from . left . "\<c-r>a" . right . "\<esc>"
-    else
-        execute 'normal! "adi' . from . '"_c2i' . from . left . "\<c-r>a" . right . "\<esc>"
-    endif
-    let @a = saved
-endfunction
-function! <SID>OperatorSurround(motion_wise)
-    let sur = nr2char(getchar())
-    if !<SID>CanSurround(sur) | return | endif
-    let [left, right] = <SID>ParsePair(sur)
-    let bp = getpos("'[")
-    let ep = getpos("']")
-    call setpos('.', ep)
-    execute "normal! \"=right\<cr>p"
-    call setpos('.', bp)
-    execute "normal! \"=left\<cr>P"
 endfunction
 
 nnoremap <leader>qq :QToggle<cr>
