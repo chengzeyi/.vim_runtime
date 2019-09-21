@@ -172,7 +172,7 @@ nnoremap <leader>f- :set foldlevel-=1<cr>
 nnoremap <leader>f+ :set foldlevel+=1<cr>
 nnoremap <leader>f= :set foldlevel=99<cr>
 nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? '1' : '0'<cr><cr>
-xnoremap <expr> . expand('<cword>') =~# '[(){}\[\]]' ? 'a'.expand('<cword>') : ''
+xnoremap <expr> . expand('<cword>') =~# '[(){}\[\]]' ? 'a'.expand('<cword>') : '.'
 if exists(':terminal')
     tnoremap <F1> <c-w>N
 endif
@@ -215,6 +215,51 @@ augroup skipBuffer
     au Filetype qf set nobuflisted
 augroup END
 
+" Changes to allow blank lines in blocks, and
+" Top level blocks (zero indent) separated by two or more blank lines.
+" Usage: source <thisfile> in pythonmode and
+" Press: vai, vii to select outer/inner python blocks by indetation.
+" Press: vii, yii, dii, cii to select/yank/delete/change an indented block.
+onoremap <silent>ai :<C-u>call IndTxtObj(0)<CR>
+onoremap <silent>ii :<C-u>call IndTxtObj(1)<CR>
+vnoremap <silent>ai <Esc>:call IndTxtObj(0)<CR><Esc>gv
+vnoremap <silent>ii <Esc>:call IndTxtObj(1)<CR><Esc>gv
+function! IndTxtObj(inner)
+  let curcol = col(".")
+  let curline = line(".")
+  let lastline = line("$")
+  let i = indent(line("."))
+  if getline(".") !~ "^\\s*$"
+    let p = line(".") - 1
+    let pp = line(".") - 2
+    let nextblank = getline(p) =~ "^\\s*$"
+    let nextnextblank = getline(pp) =~ "^\\s*$"
+    while p > 0 && ((i == 0 && (!nextblank || (pp > 0 && !nextnextblank))) ||
+                \ (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
+      -
+      let p = line(".") - 1
+      let pp = line(".") - 2
+      let nextblank = getline(p) =~ "^\\s*$"
+      let nextnextblank = getline(pp) =~ "^\\s*$"
+    endwhile
+    normal! 0V
+    call cursor(curline, curcol)
+    let p = line(".") + 1
+    let pp = line(".") + 2
+    let nextblank = getline(p) =~ "^\\s*$"
+    let nextnextblank = getline(pp) =~ "^\\s*$"
+    while p <= lastline && ((i == 0 && (!nextblank || pp < lastline && !nextnextblank)) ||
+                \ (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
+      +
+      let p = line(".") + 1
+      let pp = line(".") + 2
+      let nextblank = getline(p) =~ "^\\s*$"
+      let nextnextblank = getline(pp) =~ "^\\s*$"
+    endwhile
+    normal! $
+  endif
+endfunction
+
 nnoremap dS :call <SID>DeleteSurround()<cr>
 nnoremap cS :call <SID>ChangeSurround()<cr>
 nnoremap S :set operatorfunc=<SID>OperatorSurround<cr>g@
@@ -242,7 +287,11 @@ function! <SID>DeleteSurround()
     let sur = nr2char(getchar())
     if !<SID>CanPair(sur) | return | endif
     let saved = @a
-    execute 'normal! "adi' . sur . '"_v2i' . sur . '"ap'
+    if stridx("\"'`", sur) == -1
+        execute 'normal! "adi' . sur . '"_va' . sur . '"ap'
+    else
+        execute 'normal! "adi' . sur . '"_v2i' . sur . '"ap'
+    endif
     let @a = saved
 endfunction
 function! <SID>ChangeSurround()
@@ -252,7 +301,11 @@ function! <SID>ChangeSurround()
     if !<SID>CanSurround(to) | return | endif
     let [left, right] = <SID>ParsePair(to)
     let saved = @a
-    execute 'normal! "adi' . from . '"_c2i' . from . left . "\<c-r>a" . right . "\<esc>"
+    if stridx("\"'`", from) == -1
+        execute 'normal! "adi' . from . '"_ca' . from . left . "\<c-r>a" . right . "\<esc>"
+    else
+        execute 'normal! "adi' . from . '"_c2i' . from . left . "\<c-r>a" . right . "\<esc>"
+    endif
     let @a = saved
 endfunction
 function! <SID>OperatorSurround(motion_wise)
