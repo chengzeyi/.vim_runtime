@@ -151,8 +151,13 @@ nnoremap <leader>/ :execute 'nmap <lt>leader>' . nr2char(getchar())<cr>
 nnoremap <leader>w :w!<cr>
 nnoremap <leader>cb :cbuffer<cr>
 nnoremap <leader>" :registers<CR>
+nnoremap <leader>@ :registers<CR>
 nnoremap <leader>' :marks<CR>
 nnoremap <leader>` :marks<CR>
+nnoremap <leader>oy :set foldcolumn=<c-r>=&foldcolumn == 0 ? '1' : '0'<cr>
+        \ invnumber invrelativenumber
+        \ signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr>
+        \ mouse<c-r>=&mouse =~# 'a' ? '-' : '+'<cr>=a<cr>
 nnoremap <leader>f0 :set foldlevel=0<cr>
 nnoremap <leader>f1 :set foldlevel=1<cr>
 nnoremap <leader>f2 :set foldlevel=2<cr>
@@ -166,6 +171,7 @@ nnoremap <leader>f9 :set foldlevel=9<cr>
 nnoremap <leader>f- :set foldlevel-=1<cr>
 nnoremap <leader>f+ :set foldlevel+=1<cr>
 nnoremap <leader>f= :set foldlevel=99<cr>
+nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? '1' : '0'<cr><cr>
 if exists(':terminal')
     tnoremap <c-n> <c-w>N
 endif
@@ -191,7 +197,7 @@ if exists(':packadd')
     nnoremap <leader>qf :packadd cfilter <bar> Cfilter<space>
     nnoremap <leader>qv :packadd cfilter <bar> Cfilter!<space>
     nnoremap <leader>lf :packadd cfilter <bar> Lfilter<space>
-    nnoremap <>lv :packadd cfilter <bar> Lfilter!<space>
+    nnoremap <leader>lv :packadd cfilter <bar> Lfilter!<space>
 endif
 nnoremap <leader>] :execute 'ptag ' . expand('<cword>')<cr>
 nnoremap <leader>[ :pclose<cr>
@@ -229,7 +235,7 @@ function! <SID>DeleteSurround()
     let sur = nr2char(getchar())
     if !<SID>CanPair(sur) | return | endif
     let saved = @a
-    execute 'normal! "adi' . sur . '"_va' . sur . '"ap'
+    execute 'normal! "adi' . sur . '"_v2i' . sur . '"ap'
     let @a = saved
 endfunction
 function! <SID>ChangeSurround()
@@ -239,7 +245,7 @@ function! <SID>ChangeSurround()
     if !<SID>CanSurround(to) | return | endif
     let [left, right] = <SID>ParsePair(to)
     let saved = @a
-    execute 'normal! "adi' . from . '"_ca' . from . left . "\<c-r>a" . right . "\<esc>"
+    execute 'normal! "adi' . from . '"_c2i' . from . left . "\<c-r>a" . right . "\<esc>"
     let @a = saved
 endfunction
 function! <SID>OperatorSurround(motion_wise)
