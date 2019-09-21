@@ -195,6 +195,8 @@ if exists(':packadd')
 endif
 nnoremap <leader>] :execute 'ptag ' . expand('<cword>')<cr>
 nnoremap <leader>[ :pclose<cr>
+nnoremap <leader>{ :ptprevious<cr>
+nnoremap <leader>} :ptnext<cr>
 augroup skipBuffer
     au!
     au Filetype qf set nobuflisted
