@@ -406,6 +406,8 @@ nnoremap <leader>vl :lvimgrep // % <bar> cw<left><left><left><left><left><left><
 nnoremap <leader>vL :lvimgrep // **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>ss :%s//g<left><left>
 nnoremap <leader>sc :%s//gc<left><left><left>
+vnoremap <leader>ss :'<,'>s//g<left><left>
+vnoremap <leader>sc :'<,'>s//gc<left><left><left>
 nnoremap <leader>qs :cdo s//g<left><left>
 nnoremap <leader>qc :cdo s//gc<left><left><left>
 nnoremap <leader>ls :ldo s//g<left><left>
