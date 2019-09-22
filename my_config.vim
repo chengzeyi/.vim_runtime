@@ -1131,6 +1131,16 @@ endif
 " nnoremap <c-p> :CtrlPCommandPalette<cr>
 
 let g:gitgutter_enabled=1
+let g:gitgutter_map_keys = 0
+omap ih <Plug>(GitGutterTextObjectInnerPending)
+omap ah <Plug>(GitGutterTextObjectOuterPending)
+xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+nmap <leader>hs <Plug>(GitGutterStageHunk)
+nmap <leader>hu <Plug>(GitGutterUndoHunk)
+nmap <leader>hp <Plug>(GitGutterPreviewHunk)
 nnoremap <leader>hh :GitGutterToggle<cr>
 
 nnoremap <leader>gb :Gblame<cr>
@@ -1361,12 +1371,12 @@ if exists(':terminal')
 endif
 
 try
-    call textobj#user#plugin('datetime', {
-                \   'date': {
-                \     'pattern': '\<\d\d\d\d-\d\d-\d\d\>',
-                \     'select': ['ad', 'id'],
-                \   },
-                \ })
+    " call textobj#user#plugin('datetime', {
+    "             \   'date': {
+    "             \     'pattern': '\<\d\d\d\d-\d\d-\d\d\>',
+    "             \     'select': ['ad', 'id'],
+    "             \   },
+    "             \ })
     call textobj#user#plugin('line', {
                 \   'line-a': {
                 \     'pattern': '^.*$',
@@ -1379,52 +1389,88 @@ try
                 \     'scan': 'line',
                 \   },
                 \ })
-    call textobj#user#plugin('underline', {
-                \   'underline-a': {
+    call textobj#user#plugin('underscore', {
+                \   'underscore-a': {
                 \     'pattern': '_[^_]*_',
-                \     'select': 'a_',
-                \     'scan': 'line',
+                \     'select': ['a_', 'au'],
+                \     'scan': 'nearest',
                 \   },
-                \   'underline-i': {
+                \   'underscore-i': {
                 \     'pattern': '_\zs[^_]*\ze_',
-                \     'select': 'i_',
-                \     'scan': 'line',
+                \     'select': ['i_', 'iu'],
+                \     'scan': 'nearest',
                 \   },
                 \ })
     call textobj#user#plugin('sharp', {
                 \   'sharp-a': {
                 \     'pattern': '#[^#]*#',
                 \     'select': 'a#',
-                \     'scan': 'line',
+                \     'scan': 'nearest',
                 \   },
                 \   'sharp-i': {
                 \     'pattern': '#\zs[^#]*\ze#',
                 \     'select': 'i#',
-                \     'scan': 'line',
+                \     'scan': 'nearest',
                 \   },
                 \ })
     call textobj#user#plugin('dollar', {
                 \   'dollar-a': {
                 \     'pattern': '\$[^$]*\$',
                 \     'select': 'a$',
-                \     'scan': 'line',
+                \     'scan': 'nearest',
                 \   },
                 \   'dollar-i': {
                 \     'pattern': '\$\zs[^$]*\ze\$',
                 \     'select': 'i$',
-                \     'scan': 'line',
+                \     'scan': 'nearest',
+                \   },
+                \ })
+    call textobj#user#plugin('percent', {
+                \   'percent-a': {
+                \     'pattern': '%[^%]*%',
+                \     'select': 'a%',
+                \     'scan': 'nearest',
+                \   },
+                \   'percent-i': {
+                \     'pattern': '%\zs[^%]*\ze%',
+                \     'select': 'i%',
+                \     'scan': 'nearest',
+                \   },
+                \ })
+    call textobj#user#plugin('comma', {
+                \   'comma-a': {
+                \     'pattern': '\zs,[^,]*\ze,',
+                \     'select': 'a,',
+                \     'scan': 'cursor',
+                \   },
+                \   'comma-i': {
+                \     'pattern': ',\zs[^,]*\ze,',
+                \     'select': 'i,',
+                \     'scan': 'cursor',
+                \   },
+                \ })
+    call textobj#user#plugin('semicolon', {
+                \   'semicolon-a': {
+                \     'pattern': '\zs;[^;]*\ze;',
+                \     'select': 'a;',
+                \     'scan': 'cursor',
+                \   },
+                \   'semicolon-i': {
+                \     'pattern': ';\zs[^;]*\ze;',
+                \     'select': 'i;',
+                \     'scan': 'cursor',
                 \   },
                 \ })
     call textobj#user#plugin('camel', {
                 \   'camel-a': {
                 \     'pattern': '\([A-Z]\+[a-z]*\)\|[0-9]\+\|[a-z]\+',
-                \     'select': 'a~',
-                \     'scan': 'line',
+                \     'select': ['ac', 'a~'],
+                \     'scan': 'cursor',
                 \   },
                 \   'camel-i': {
                 \     'pattern': '\([A-Z][a-z]*\)\|[0-9]\+\|[a-z]\+',
-                \     'select': 'i~',
-                \     'scan': 'line',
+                \     'select': ['ic', 'i~'],
+                \     'scan': 'cursor',
                 \   },
                 \ })
 catch
