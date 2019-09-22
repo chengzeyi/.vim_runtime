@@ -516,7 +516,7 @@ endif
 
 set ruler
 set cmdheight=1
-" set showmode
+set showmode
 set showcmd
 
 set hid
@@ -1071,11 +1071,10 @@ else
     endif
 endif
 
-let g:echodoc_enable_at_startup = 1
+" let g:echodoc_enable_at_startup = 1
 if has('nvim') && exists('*nvim_open_win')
+    let g:echodoc_enable_at_startup = 1
     let g:echodoc#type = 'floating'
-else
-    set noshowmode
 endif
 
 " autocmd vimenter * NERDTree
