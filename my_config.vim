@@ -150,6 +150,7 @@ nnoremap Y y$
 nnoremap <leader>? :nmap <lt>leader><cr>
 nnoremap <leader>/ :execute 'nmap <lt>leader>' . nr2char(getchar())<cr>
 nnoremap <leader>w :w!<cr>
+nnoremap <leader>W :wa!<cr>
 nnoremap <leader>cb :cbuffer<cr>
 nnoremap <leader>" :registers<CR>
 nnoremap <leader>@ :registers<CR>
