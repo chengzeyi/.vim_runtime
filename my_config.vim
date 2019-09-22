@@ -1182,7 +1182,7 @@ nnoremap <leader>rs :AsyncStop<cr>
 " let g:asyncrun_bell = 1
 " map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
 let g:asyncrun_open = 10
-let g:asyncrun_save = 2
+" let g:asyncrun_save = 2
 let g:asyncrun_auto = "make"
 
 let g:fzf_command_prefix = 'FZF'
