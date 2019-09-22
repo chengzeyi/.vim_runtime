@@ -1223,6 +1223,9 @@ augroup commentStr
     autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 augroup END
 
+if !executable('ctags')
+    let g:gutentags_enabled = 0
+endif
 let g:gutentags_define_advanced_commands = 1
 let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+ialS', '--extra=+q']
 let g:gutentags_cache_dir = '~/.vim_gutentags'
