@@ -404,8 +404,8 @@ nnoremap <C-\><C-\>D :scs find d<space>
 
 nnoremap <leader>vv :vimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
 nnoremap <leader>vV :vimgrep // **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vl :lvimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
-nnoremap <leader>vL :lvimgrep // **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vl :lvimgrep // % <bar> lw<left><left><left><left><left><left><left><left>
+nnoremap <leader>vL :lvimgrep // **/* <bar> lw<left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>ss :%s//g<left><left>
 nnoremap <leader>sc :%s//gc<left><left><left>
 xnoremap <leader>ss :s//g<left><left>
