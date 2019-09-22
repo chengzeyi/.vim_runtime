@@ -1379,96 +1379,60 @@ try
     "             \ })
     call textobj#user#plugin('line', {
                 \   'line-a': {
-                \     'pattern': '^.*$',
+                \     'pattern': '\v^.*$',
                 \     'select': 'al',
                 \     'scan': 'line',
                 \   },
                 \   'line-i': {
-                \     'pattern': '^\s*\zs.\{-}\ze\s*$',
+                \     'pattern': '\v^\s*\zs.{-}\ze\s*$',
                 \     'select': 'il',
                 \     'scan': 'line',
                 \   },
                 \ })
     call textobj#user#plugin('underscore', {
                 \   'underscore-a': {
-                \     'pattern': '_[^_]*_',
+                \     'pattern': '\v_*[a-zA-Z0-9]*',
                 \     'select': ['a_', 'au'],
-                \     'scan': 'nearest',
+                \     'scan': 'line',
                 \   },
                 \   'underscore-i': {
-                \     'pattern': '_\zs[^_]*\ze_',
+                \     'pattern': '\v_*\zs[a-zA-Z0-9]*\ze',
                 \     'select': ['i_', 'iu'],
-                \     'scan': 'nearest',
-                \   },
-                \ })
-    call textobj#user#plugin('sharp', {
-                \   'sharp-a': {
-                \     'pattern': '#[^#]*#',
-                \     'select': 'a#',
-                \     'scan': 'nearest',
-                \   },
-                \   'sharp-i': {
-                \     'pattern': '#\zs[^#]*\ze#',
-                \     'select': 'i#',
-                \     'scan': 'nearest',
-                \   },
-                \ })
-    call textobj#user#plugin('dollar', {
-                \   'dollar-a': {
-                \     'pattern': '\$[^$]*\$',
-                \     'select': 'a$',
-                \     'scan': 'nearest',
-                \   },
-                \   'dollar-i': {
-                \     'pattern': '\$\zs[^$]*\ze\$',
-                \     'select': 'i$',
-                \     'scan': 'nearest',
-                \   },
-                \ })
-    call textobj#user#plugin('percent', {
-                \   'percent-a': {
-                \     'pattern': '%[^%]*%',
-                \     'select': 'a%',
-                \     'scan': 'nearest',
-                \   },
-                \   'percent-i': {
-                \     'pattern': '%\zs[^%]*\ze%',
-                \     'select': 'i%',
-                \     'scan': 'nearest',
+                \     'scan': 'line',
                 \   },
                 \ })
     call textobj#user#plugin('comma', {
                 \   'comma-a': {
-                \     'pattern': '\zs,[^,]*\ze,',
+                \     'pattern': '\v,[^,]*',
                 \     'select': 'a,',
-                \     'scan': 'cursor',
+                \     'scan': 'line',
                 \   },
                 \   'comma-i': {
-                \     'pattern': ',\zs[^,]*\ze,',
+                \     'pattern': '\v,\zs[^,]*\ze',
                 \     'select': 'i,',
-                \     'scan': 'cursor',
+                \     'scan': 'line',
                 \   },
                 \ })
     call textobj#user#plugin('semicolon', {
                 \   'semicolon-a': {
-                \     'pattern': '\zs;[^;]*\ze;',
+                \     'pattern': '\v(^\s*)=\zs[^;]*;\ze',
                 \     'select': 'a;',
                 \     'scan': 'cursor',
                 \   },
                 \   'semicolon-i': {
-                \     'pattern': ';\zs[^;]*\ze;',
+                \     'pattern': '\v(^\s*)=\zs[^;]*\ze;',
                 \     'select': 'i;',
                 \     'scan': 'cursor',
                 \   },
                 \ })
     call textobj#user#plugin('camel', {
                 \   'camel-a': {
-                \     'pattern': '\([A-Z]\+[a-z]*\)\|[0-9]\+\|[a-z]\+',
+                \     'pattern': '\v([A-Z]+[a-z]*)|[0-9]+|[a-z]+',
                 \     'select': ['ac', 'a~'],
                 \     'scan': 'cursor',
                 \   },
                 \   'camel-i': {
-                \     'pattern': '\([A-Z][a-z]*\)\|[0-9]\+\|[a-z]\+',
+                \     'pattern': '\v([A-Z][a-z]*)|[0-9]+|[a-z]+',
                 \     'select': ['ic', 'i~'],
                 \     'scan': 'cursor',
                 \   },
