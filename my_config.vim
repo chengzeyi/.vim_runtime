@@ -1297,7 +1297,7 @@ endtry
 
 let g:goyo_width = '80%'
 let g:goyo_height = '95%'
-nnoremap <leader>go :Goyo<cr>
+nnoremap <leader>\ :Goyo<cr>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
