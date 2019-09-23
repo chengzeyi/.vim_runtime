@@ -61,6 +61,8 @@ Plug 'vim-airline/vim-airline-themes'
 
 Plug 'airblade/vim-gitgutter'
 
+" Plug 'jacquesbh/vim-showmarks'
+
 Plug 'maxbrunsfeld/vim-yankstack'
 
 Plug 'Xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeToggle'}
@@ -202,6 +204,7 @@ nnoremap <leader>" :registers<CR>
 nnoremap <leader>@ :registers<CR>
 nnoremap <leader>' :marks<CR>
 nnoremap <leader>` :marks<CR>
+" nnoremap <leader>ms :match Folded /<bslash>v.*(%'a<bar>%'b<bar>%'c<bar>%'d).*/<cr>
 nnoremap <leader>f0 :set foldlevel=0<cr>
 nnoremap <leader>f1 :set foldlevel=1<cr>
 nnoremap <leader>f2 :set foldlevel=2<cr>
@@ -1246,6 +1249,10 @@ nnoremap <leader>gR :Gremove<cr>
 nnoremap <leader>ge :Gedit<cr>
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gi :Gist<cr>
+
+" nnoremap <leader>ms :DoShowMarks<cr>
+" nnoremap <leader>mS :NoShowMarks<cr>
+" nnoremap <leader>mp :PreviewMarks<cr>
 
 let g:yankstack_yank_keys = ['y', 'd']
 nmap <F9> <Plug>yankstack_substitute_older_paste
