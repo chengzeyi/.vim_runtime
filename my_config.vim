@@ -147,8 +147,30 @@ call <SID>MapMotion('$')
 nnoremap Q @q
 nnoremap M `m
 nnoremap Y y$
-nnoremap <leader>? :nmap <lt>leader><cr>
-nnoremap <leader>/ :execute 'nmap <lt>leader>' . getchar()<cr>
+nnoremap <leader>? :call <SID>LookUpMap(1, '', '')<cr>
+nnoremap <leader>/ :call <SID>LookUpMap(1, '', '<lt>leader>')<cr>
+function <SID>LookUpMap(count, mode, prefix)
+    let cmd = a:mode . 'map ' . a:prefix
+    let cnt = 0
+    while cnt < a:count
+        let cnt += 1
+        let ch = getchar()
+        if ch =~# '\v[0-9]+'
+            let rawkey = nr2char(ch)
+            if rawkey ==# ' '
+                let cmd .= '<space>'
+            elseif rawkey =~# '\v[0-9]'
+                let cmd .= rawkey
+            else
+                let cmd .= "\<c-v>" . rawkey
+            endif
+        else
+            let cmd .= ch
+        endif
+    endwhile
+    execute cmd
+endfunction
+
 nnoremap <leader>w :w!<cr>
 nnoremap <leader>W :wa!<cr>
 nnoremap <leader>cb :cbuffer<cr>
@@ -1313,7 +1335,7 @@ endtry
 
 let g:goyo_width = '80%'
 let g:goyo_height = '95%'
-nnoremap <leader>\ :Goyo<cr>
+nnoremap <leader><bslash> :Goyo<cr>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
