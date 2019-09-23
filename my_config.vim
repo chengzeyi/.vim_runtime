@@ -1462,12 +1462,12 @@ try
                 \ })
     call textobj#user#plugin('comma', {
                 \   'comma-a': {
-                \     'pattern': '\v(,[^,]+)|((\(|\[|\{)\zs[^,]*,\ze)|(\zs,[^,]{-}\ze(\)|\]|\}))',
+                \     'pattern': '\v(,[^,]+)|((\(|\[|\{)\zs[^,([{]*,\s*\ze)|(\zs,[^,]{-}\ze(\)|\]|\}))',
                 \     'select': 'a,',
                 \     'scan': 'line',
                 \   },
                 \   'comma-i': {
-                \     'pattern': '\v(,\zs[^,]*\ze)|((\(|\[\{)\zs[^,]*\ze,)|(,\zs[^,]{-}\ze(\)\]\}))',
+                \     'pattern': '\v(,\zs[^,)\]}]*\ze)|((\(|\[\{)\zs[^,([{]*\ze,)|(,\zs[^,]{-}\ze(\)\]\}))',
                 \     'select': 'i,',
                 \     'scan': 'line',
                 \   },
