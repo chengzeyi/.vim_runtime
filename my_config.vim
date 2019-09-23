@@ -512,6 +512,8 @@ highlight CursorLine cterm=none ctermbg=236
 
 set splitbelow
 set splitright
+nnoremap <leader><bslash> :vs<cr>
+nnoremap <leader><bar> :sp<cr>
 
 set history=500
 
@@ -1335,7 +1337,7 @@ endtry
 
 let g:goyo_width = '80%'
 let g:goyo_height = '95%'
-nnoremap <leader><bslash> :Goyo<cr>
+nnoremap <leader>go :Goyo<cr>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
