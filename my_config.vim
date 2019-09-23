@@ -147,6 +147,9 @@ call <SID>MapMotion('$')
 nnoremap Q @q
 nnoremap M `m
 nnoremap Y y$
+" nnoremap <leader>mm :match Question /<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<cr>
+" nnoremap <leader>mM :match<cr>
+nnoremap <leader>ff :let @/='<bslash><lt><c-r>=expand('<lt>cword>')<cr>'<cr>
 nnoremap <leader>? :call <SID>LookUpMap(1, '', '')<cr>
 nnoremap <leader>/ :call <SID>LookUpMap(1, '', '<lt>leader>')<cr>
 function <SID>LookUpMap(count, mode, prefix)
@@ -193,7 +196,7 @@ nnoremap <leader>f+ :set foldlevel+=1<cr>
 nnoremap <leader>f= :set foldlevel=99<cr>
 nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? '1' : '0'<cr><cr>
 nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr><cr>
-xnoremap <expr> . expand('<cword>') =~# '[(){}\[\]]' ? 'a'.expand('<cword>') : '.'
+xnoremap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : '.'
 if has('patch-8.1.1880') && has('textprop')
     " if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
                 \ has('textprop')
@@ -235,7 +238,7 @@ nnoremap [t :tprevious<cr>
 nnoremap ]t :tnext<cr>
 nnoremap [T :tfirst<cr>
 nnoremap ]T :tlast<cr>
-nnoremap <leader>] :execute 'ptag ' . expand('<cword>')<cr>
+nnoremap <leader>] :execute 'ptag ' . expand('<lt>cword>')<cr>
 nnoremap <leader>[ :pclose<cr>
 nnoremap [p :ptprevious<cr>
 nnoremap ]p :ptnext<cr>
@@ -507,9 +510,6 @@ set secure
 set cursorline
 " set cursorcolumn
 
-highlight CursorLine cterm=none ctermbg=236
-" highlight CursorColumn cterm=none ctermbg=236
-
 set splitbelow
 set splitright
 nnoremap <leader><bslash> :vs<cr>
@@ -531,7 +531,7 @@ set display+=lastline
 
 set re=1
 
-set scrolloff=1
+set scrolloff=5
 
 let $LANG='en'
 set langmenu=en
@@ -615,6 +615,7 @@ augroup myColors
     autocmd ColorScheme * hi LineNr     ctermbg=NONE guibg=NONE
     autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
     autocmd ColorScheme * hi Comment    guifg=#5C6370 ctermfg=59
+    autocmd ColorScheme * hi CursorLine cterm=none ctermbg=256
 augroup END
 
 try
@@ -627,6 +628,9 @@ endtry
 hi LineNr     ctermbg=NONE guibg=NONE
 hi SignColumn ctermbg=NONE guibg=NONE
 hi Comment    guifg=#5C6370 ctermfg=59
+hi CursorLine cterm=none ctermbg=256
+" hi CursorColumn cterm=none ctermbg=236
+
 
 if has("gui_running")
     if has("gui_gtk2")
@@ -1099,8 +1103,8 @@ else
     " inoremap <expr> <C-e> neocomplcache#cancel_popup()
     " Close popup by <Space>.
     " inoremap <expr> <Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
-    inoremap <expr> <C-j> neocomplcache#start_manual_complete()
-    inoremap <expr> <C-k> neocomplcache#cancel_popup()
+    " inoremap <expr> <C-j> neocomplcache#start_manual_complete()
+    " inoremap <expr> <C-k> neocomplcache#cancel_popup()
 
     " Enable heavy omni completion.
     if !exists('g:neocomplcache_force_omni_patterns')
@@ -1348,7 +1352,7 @@ if !exists('g:grepper')
 endif
 let g:grepper.prompt_mapping_tool = '<c-g>'
 
-nnoremap <leader>ff :FlyGrep<cr>
+nnoremap <leader>fg :FlyGrep<cr>
 
 " let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
