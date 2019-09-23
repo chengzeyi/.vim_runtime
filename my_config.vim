@@ -1362,6 +1362,7 @@ let g:indent_guides_start_level = 2
 let g:better_whitespace_ctermcolor = '63'
 let g:better_whitespace_guicolor = '#5f5fff'
 let g:better_whitespace_operator = 'gb'
+nnoremap <leader>bw :ToggleWhitespace<cr>
 
 nnoremap <leader>x :Sayonara<cr>
 nnoremap <leader>X :Sayonara!<cr>
