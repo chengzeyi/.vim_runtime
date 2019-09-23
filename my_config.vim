@@ -149,7 +149,7 @@ nnoremap M `m
 nnoremap Y y$
 " nnoremap <leader>mm :match Question /<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<cr>
 " nnoremap <leader>mM :match<cr>
-nnoremap <leader>ff :let @/='<bslash><lt><c-r>=expand('<lt>cword>')<cr>'<cr>
+nnoremap <leader>ff :let @/='<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>'<cr>
 nnoremap <leader>? :call <SID>LookUpMap(1, '', '')<cr>
 nnoremap <leader>/ :call <SID>LookUpMap(1, '', '<lt>leader>')<cr>
 function <SID>LookUpMap(count, mode, prefix)
