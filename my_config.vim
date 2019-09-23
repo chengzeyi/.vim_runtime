@@ -494,6 +494,7 @@ augroup END
 
 set updatetime=1500
 
+set signcolumn=number
 set number
 " if has('patch-7.3.787')
 "     set relativenumber
