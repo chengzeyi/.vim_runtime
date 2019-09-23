@@ -133,7 +133,7 @@ set pastetoggle=<F2>
 
 inoremap <c-a> <home>
 inoremap <c-e> <end>
-function <SID>MapMotion(from, ...)
+function! <SID>MapMotion(from, ...)
     let from = a:from
     let to = a:0 == 0 ? a:from : a:1
     exec 'noremap ' . from . ' g' . to
@@ -150,9 +150,30 @@ nnoremap Y y$
 " nnoremap <leader>mm :match Question /<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<cr>
 " nnoremap <leader>mM :match<cr>
 nnoremap <leader>ff :let @/='<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>' <bar> :set hls<cr>
+nnoremap <leader>jj :call <SID>GotoJump()<cr>
+nnoremap <leader>jt :call <SID>GotoTag()<cr>
+nnoremap <leader>jm :tselect<cr>
+function! <SID>GotoJump()
+    jumps
+    let j = input("Please select your jump ([count]j|k): ")
+    if j =~# '\v[0-9]+j'
+        execute "normal! " . j[0:-2] . "\<c-i>"
+    elseif j =~# '\v[0-9]+k'
+        execute "normal! " . j[0:-2] . "\<c-o>"
+    endif
+endfunction
+function! <SID>GotoTag()
+    tags
+    let j = input("Please select your tag ([count]j|k): ")
+    if j =~# '\v[0-9]+j'
+        execute j[0:-2] . "tag"
+    elseif j =~# '\v[0-9]+k'
+        execute j[0:-2] . "pop"
+    endif
+endfunction
 nnoremap <leader>? :call <SID>LookUpMap(1, '', '')<cr>
 nnoremap <leader>/ :call <SID>LookUpMap(1, '', '<lt>leader>')<cr>
-function <SID>LookUpMap(count, mode, prefix)
+function! <SID>LookUpMap(count, mode, prefix)
     let cmd = a:mode . 'map ' . a:prefix
     let cnt = 0
     while cnt < a:count
@@ -494,7 +515,10 @@ augroup END
 
 set updatetime=1500
 
-set signcolumn=number
+try
+    set signcolumn=number
+catch
+endtry
 set number
 " if has('patch-7.3.787')
 "     set relativenumber
@@ -566,6 +590,10 @@ set ignorecase
 set smartcase
 set hlsearch
 set incsearch
+
+if has('nvim')
+    set inccommand=nosplit
+endif
 
 set lazyredraw
 
