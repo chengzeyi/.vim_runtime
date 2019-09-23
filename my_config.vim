@@ -515,10 +515,9 @@ augroup END
 
 set updatetime=1500
 
-try
+if has('patch-8.1.1564')
     set signcolumn=number
-catch
-endtry
+endif
 set number
 " if has('patch-7.3.787')
 "     set relativenumber
