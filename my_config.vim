@@ -296,8 +296,8 @@ endfunction
 
 nnoremap <leader>qq :QToggle<cr>
 nnoremap <leader>ll :LToggle<cr>
-nnoremap <leader>qe :cexpr<cr>
-nnoremap <leader>le :lexpr<cr>
+nnoremap <leader>qe :cexpr [] <bar> :cclose<cr>
+nnoremap <leader>le :lexpr [] <bar> :lclose<cr>
 nnoremap [q :cprev<cr>
 nnoremap ]q :cnext<cr>
 nnoremap [Q :cfirst<cr>
@@ -389,7 +389,7 @@ command! -complete=file -nargs=* Ctags !ctags
             \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q <args>
 
 set csverb
-set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
+" set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 nnoremap <leader>cs :Cscope<cr>
 nnoremap <leader>cS :Cscope<space>
 command! -complete=file -nargs=* Cscope !cscope -Rbqk <args>
@@ -587,6 +587,10 @@ if has("gui_macvim")
     augroup END
 endif
 
+" set listchars=tab:>-,trail:~,extends:>,precedes:<
+" set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
+" set list
+
 " Add a bit extra margin to the left
 set foldcolumn=1
 
@@ -618,6 +622,8 @@ augroup myColors
     autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
     autocmd ColorScheme * hi Comment    guifg=#5C6370 ctermfg=59
     autocmd ColorScheme * hi CursorLine cterm=none ctermbg=256
+    autocmd ColorScheme * hi CursorColumn cterm=none ctermbg=0
+    autocmd ColorScheme * hi CursorLineNr cterm=none ctermbg=0
 augroup END
 
 try
@@ -630,9 +636,9 @@ endtry
 hi LineNr     ctermbg=NONE guibg=NONE
 hi SignColumn ctermbg=NONE guibg=NONE
 hi Comment    guifg=#5C6370 ctermfg=59
-hi CursorLine cterm=none ctermbg=256
-" hi CursorColumn cterm=none ctermbg=236
-
+hi CursorLine cterm=none ctermbg=0
+hi CursorColumn cterm=none ctermbg=0
+hi CursorLineNr cterm=none ctermbg=0
 
 if has("gui_running")
     if has("gui_gtk2")
@@ -1361,8 +1367,8 @@ let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
 " nnoremap <leader>i :IndentGuidesToggle<cr>
 
-let g:better_whitespace_ctermcolor = '63'
-let g:better_whitespace_guicolor = '#5f5fff'
+let g:better_whitespace_ctermcolor = '8'
+let g:better_whitespace_guicolor = '#808080'
 let g:better_whitespace_operator = 'gb'
 nnoremap <leader>bw :ToggleWhitespace<cr>
 
@@ -1391,7 +1397,7 @@ nnoremap <leader>aw :ArgWrap<cr>
 augroup setArgWrap
     au!
     au FileType go let b:argwrap_tail_comma = 1
-    au FileType vim let b:argwrap_line_prefix = '\ '
+    au FileType vim let b:argwrap_line_prefix = '\'
 augroup END
 
 nmap <c-right> <Plug>(cosco-commaOrSemiColon)
@@ -1456,12 +1462,12 @@ try
                 \ })
     call textobj#user#plugin('comma', {
                 \   'comma-a': {
-                \     'pattern': '\v,[^,]*',
+                \     'pattern': '\v(,[^,]+)|((\(|\[|\{)\zs[^,]*,\ze)|(\zs,[^,]{-}\ze(\)|\]|\}))',
                 \     'select': 'a,',
                 \     'scan': 'line',
                 \   },
                 \   'comma-i': {
-                \     'pattern': '\v,\zs[^,]*\ze',
+                \     'pattern': '\v(,\zs[^,]*\ze)|((\(|\[\{)\zs[^,]*\ze,)|(,\zs[^,]{-}\ze(\)\]\}))',
                 \     'select': 'i,',
                 \     'scan': 'line',
                 \   },
