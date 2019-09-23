@@ -220,7 +220,7 @@ nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr
 xnoremap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : '.'
 if has('patch-8.1.1880') && has('textprop')
     " if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
-                \ has('textprop')
+    "             \ has('textprop')
     " set completeopt+=popup
     set previewpopup=height:10,width:60
 endif
@@ -728,8 +728,8 @@ set wrap "Wrap lines
 
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
-xnoremap * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-xnoremap # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+vnoremap * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+vnoremap # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
 nnoremap <c-k> <C-w>p5<C-y><C-w>p
 nnoremap <c-j> <C-w>p5<C-e><C-w>p
