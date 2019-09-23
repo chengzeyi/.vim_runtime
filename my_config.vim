@@ -148,7 +148,7 @@ nnoremap Q @q
 nnoremap M `m
 nnoremap Y y$
 nnoremap <leader>? :nmap <lt>leader><cr>
-nnoremap <leader>/ :execute 'nmap <lt>leader>' . nr2char(getchar())<cr>
+nnoremap <leader>/ :execute 'nmap <lt>leader>' . getchar()<cr>
 nnoremap <leader>w :w!<cr>
 nnoremap <leader>W :wa!<cr>
 nnoremap <leader>cb :cbuffer<cr>
@@ -172,6 +172,16 @@ nnoremap <leader>f= :set foldlevel=99<cr>
 nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? '1' : '0'<cr><cr>
 nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr><cr>
 xnoremap <expr> . expand('<cword>') =~# '[(){}\[\]]' ? 'a'.expand('<cword>') : '.'
+if has('patch-8.1.1880') && has('textprop')
+    " if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
+                \ has('textprop')
+    " set completeopt+=popup
+    set previewpopup=height:10,width:60
+endif
+set previewheight=6
+nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? '0' : '1'<cr><cr>
+nnoremap <leader>p+ :set previewheight+=1<cr>
+nnoremap <leader>p= :set previewheight=6<cr>
 if exists(':terminal')
     tnoremap <F1> <c-w>N
 endif
@@ -746,6 +756,16 @@ nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 " Switch CWD to the directory of the open buffer
 nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
+nnoremap <leader>cD :call <SID>SetCwd()<cr>
+function! <SID>SetCwd()
+let cph = expand('%:p:h', 1)
+if cph =~ '^.\+://' | retu | en
+for mkr in ['.git/', '.hg/', '.svn/', '.bzr/', '_darcs/', '.vimprojects']
+  let wd = call('find'.(mkr =~ '/$' ? 'dir' : 'file'), [mkr, cph.';'])
+  if wd != '' | let &acd = 0 | brea | en
+endfo
+exe 'lc!' fnameescape(wd == '' ? cph : substitute(wd, mkr.'$', '.', ''))
+endfunction
 
 " Specify the behavior when switching between buffers
 try
@@ -837,11 +857,11 @@ nmap <leader><cr>f <Plug>(lsp-document-range-format)
 nmap <leader><cr>F <Plug>(lsp-document-format)
 nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
 nmap <leader><cr>1 <Plug>(lsp-peek-declaration)
-nmap <leader><cr>q <Plug>(lsp-declaration)
+nmap <leader><cr>4 <Plug>(lsp-declaration)
 nmap <leader><cr>2 <Plug>(lsp-peek-definition)
-nmap <leader><cr>w <Plug>(lsp-definition)
+nmap <leader><cr>5 <Plug>(lsp-definition)
 nmap <leader><cr>3 <Plug>(lsp-peek-implementation)
-nmap <leader><cr>e <Plug>(lsp-implementation)
+nmap <leader><cr>6 <Plug>(lsp-implementation)
 nmap <leader><cr>h <Plug>(lsp-hover)
 nmap <leader><cr>r <Plug>(lsp-references)
 nmap <leader><cr>R <Plug>(lsp-rename)
@@ -943,20 +963,16 @@ augroup END
 
 if has('lua')
     set completeopt=menuone,noselect
+    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview <bar> unlet b:neocomplete<cr>
     inoremap <c-j> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>"<cr>
                 \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>"<cr>
     inoremap <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n>
 else
     set completeopt=menuone
+    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview<cr>
     inoremap <c-j> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>\<lt>c-p>"<cr>
                 \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>\<lt>c-p>"<cr>
     inoremap <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n><c-p>
-endif
-if has('patch-8.1.1880') && has('textprop')
-    " if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
-                \ has('textprop')
-    " set completeopt+=popup
-    set previewpopup=height:10,width:60
 endif
 set pumheight=12
 
@@ -986,7 +1002,7 @@ endif
 
 if has('lua')
     let g:necosyntax#max_syntax_lines = 3000
-    let g:neocomplete#enable_auto_close_preview = &completeopt =~# 'preview' ? 1 : 0
+    let g:neocomplete#enable_auto_close_preview = 0
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
     let g:neocomplete#sources#syntax#min_keyword_length = 3
@@ -1028,7 +1044,7 @@ if has('lua')
     catch
     endtry
 else
-    let g:neocomplcache_enable_auto_close_preview = &completeopt =~# 'preview' ? 1 : 0
+    let g:neocomplcache_enable_auto_close_preview = 0
     let g:neocomplcache_enable_at_startup = 1
     let g:neocomplcache_enable_smart_case = 1
     let g:neocomplcache_enable_underbar_completion = 0
