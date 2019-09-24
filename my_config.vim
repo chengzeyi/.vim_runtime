@@ -534,7 +534,7 @@ augroup setCompiler
     autocmd FileType go compiler go
 augroup END
 
-set updatetime=1000
+set updatetime=1500
 
 if has('patch-8.1.1564')
     set signcolumn=number
