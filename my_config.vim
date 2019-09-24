@@ -62,6 +62,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 
 " Plug 'jacquesbh/vim-showmarks'
+" Plug 'jeetsukumaran/vim-markology'
 
 Plug 'maxbrunsfeld/vim-yankstack'
 
@@ -204,7 +205,20 @@ nnoremap <leader>" :registers<CR>
 nnoremap <leader>@ :registers<CR>
 nnoremap <leader>' :marks<CR>
 nnoremap <leader>` :marks<CR>
-" nnoremap <leader>ms :match Folded /<bslash>v.*(%'a<bar>%'b<bar>%'c<bar>%'d).*/<cr>
+" nnoremap <leader>ms :match Folded /<bslash>v^.*(%'a<bar>%'b<bar>%'c<bar>%'d).*/<cr>
+nnoremap <leader>ms :call <SID>MatchMarkLines()<cr>
+nnoremap <leader>mS :match<cr>
+nnoremap <leader>md :delmarks a-z<cr>
+nnoremap <leader>mD :delmarks a-zA-Z<cr>
+function! <SID>MatchMarkLines()
+    let cmd = 'match CursorlineNr /\v^.*('
+    echo range(char2nr('a'), char2nr('z'))
+    let marks = map(range(char2nr('a'), char2nr('z')) + range(char2nr('A'), char2nr('Z')), "'%''' . nr2char(v:val)")
+    let cmd .= join(marks, '|')
+    let cmd .= ').*$/'
+    execute cmd
+endfunction
+
 nnoremap <leader>f0 :set foldlevel=0<cr>
 nnoremap <leader>f1 :set foldlevel=1<cr>
 nnoremap <leader>f2 :set foldlevel=2<cr>
@@ -520,7 +534,7 @@ augroup setCompiler
     autocmd FileType go compiler go
 augroup END
 
-set updatetime=1500
+set updatetime=1000
 
 if has('patch-8.1.1564')
     set signcolumn=number
