@@ -67,6 +67,8 @@ Plug 'airblade/vim-gitgutter'
 
 Plug 'maxbrunsfeld/vim-yankstack'
 
+Plug 'machakann/vim-highlightedyank'
+
 Plug 'Xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeToggle'}
 
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
@@ -340,6 +342,11 @@ endfunction
 "     au!
 "     au FileType qf call <SID>AdjustWindowHeight(1, 10)
 " augroup END
+augroup autoOpenQuickfixWindow
+    autocmd!
+    autocmd QuickFixCmdPost [^l]* cwindow | exe max([min([line('$'), 10]), 1]) . 'wincmd _'
+    autocmd QuickFixCmdPost l*    lwindow | exe max([min([line('$'), 10]), 1]) . 'wincmd _'
+augroup END
 function! <SID>AdjustWindowHeight(minheight, maxheight)
     exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
 endfunction
@@ -365,10 +372,10 @@ function! <SID>LListToggle(height, ...) abort
     silent! lclose
 
     if <SID>BufferCount() == buffer_count_before
-      execute "silent! lopen " . a:height
-      if a:0 != 0 && a:1 && getwininfo(win_getid())[0]['loclist']
-        exe max([min([line("$"), a:height]), a:height]) . "wincmd _"
-      endif
+        execute "silent! lopen " . a:height
+        if a:0 != 0 && a:1 && getwininfo(win_getid())[0]['loclist']
+            exe max([min([line("$"), a:height]), 1]) . "wincmd _"
+        endif
     endif
 endfunction
 function! <SID>QListToggle(height, ...) abort
@@ -378,7 +385,7 @@ function! <SID>QListToggle(height, ...) abort
     if <SID>BufferCount() == buffer_count_before
         execute "silent! botright copen " . a:height
         if a:0 != 0 && a:1 && getwininfo(win_getid())[0]['quickfix']
-          exe max([min([line("$"), a:height]), a:height]) . "wincmd _"
+            exe max([min([line("$"), a:height]), 1]) . "wincmd _"
         endif
     endif
 endfunction
@@ -439,7 +446,7 @@ function! SwitchSourceHeader()
 endfunction
 
 if has('patch-8.1.0360') || has('nvim-0.3.2')
-  set diffopt=filler,internal,algorithm:histogram,indent-heuristic
+    set diffopt=filler,internal,algorithm:histogram,indent-heuristic
 endif
 
 nnoremap <leader>ct :Ctags<cr>
@@ -498,10 +505,10 @@ nnoremap <C-\><C-\>F :scs find f<space>
 nnoremap <C-\><C-\>I :scs find i<space>
 nnoremap <C-\><C-\>D :scs find d<space>
 
-nnoremap <leader>vv :vimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
-nnoremap <leader>vV :vimgrep // **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vl :lvimgrep // % <bar> lw<left><left><left><left><left><left><left><left>
-nnoremap <leader>vL :lvimgrep // **/* <bar> lw<left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vv :vimgrep //j %<left><left><left><left>
+nnoremap <leader>vV :vimgrep //j **/*<left><left><left><left><left><left><left>
+nnoremap <leader>vl :lvimgrep //j %<left><left><left><left>
+nnoremap <leader>vL :lvimgrep //j **/*<left><left><left><left><left><left><left>
 nnoremap <leader>ss :%s//g<left><left>
 nnoremap <leader>sc :%s//gc<left><left><left>
 xnoremap <leader>ss :s//g<left><left>
@@ -860,13 +867,13 @@ nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
 nnoremap <leader>cD :call <SID>SetCwd()<cr>
 function! <SID>SetCwd()
-let cph = expand('%:p:h', 1)
-if cph =~ '^.\+://' | retu | en
-for mkr in ['.git/', '.hg/', '.svn/', '.bzr/', '_darcs/', '.vimprojects']
-  let wd = call('find'.(mkr =~ '/$' ? 'dir' : 'file'), [mkr, cph.';'])
-  if wd != '' | let &acd = 0 | brea | en
-endfo
-exe 'lc!' fnameescape(wd == '' ? cph : substitute(wd, mkr.'$', '.', ''))
+    let cph = expand('%:p:h', 1)
+    if cph =~ '^.\+://' | retu | en
+    for mkr in ['.git/', '.hg/', '.svn/', '.bzr/', '_darcs/', '.vimprojects']
+        let wd = call('find'.(mkr =~ '/$' ? 'dir' : 'file'), [mkr, cph.';'])
+        if wd != '' | let &acd = 0 | brea | en
+    endfo
+    exe 'lc!' fnameescape(wd == '' ? cph : substitute(wd, mkr.'$', '.', ''))
 endfunction
 
 " Specify the behavior when switching between buffers
@@ -1045,11 +1052,11 @@ nmap <leader><cr>f <Plug>(lsp-document-range-format)
 nmap <leader><cr>F <Plug>(lsp-document-format)
 nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
 nmap <leader><cr>1 <Plug>(lsp-peek-declaration)
-nmap <leader><cr>4 <Plug>(lsp-declaration)
+nmap <leader><cr>! <Plug>(lsp-declaration)
 nmap <leader><cr>2 <Plug>(lsp-peek-definition)
-nmap <leader><cr>5 <Plug>(lsp-definition)
-nmap <leader><cr>3 <Plug>(lsp-peek-implementation)
-nmap <leader><cr>6 <Plug>(lsp-implementation)
+nmap <leader><cr>@ <Plug>(lsp-definition)
+nmap <leader><cr>i <Plug>(lsp-peek-implementation)
+nmap <leader><cr>I <Plug>(lsp-implementation)
 nmap <leader><cr>h <Plug>(lsp-hover)
 nmap <leader><cr>r <Plug>(lsp-references)
 nmap <leader><cr>R <Plug>(lsp-rename)
