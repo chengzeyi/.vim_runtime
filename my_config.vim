@@ -206,12 +206,12 @@ nnoremap <leader>@ :registers<CR>
 nnoremap <leader>' :marks<CR>
 nnoremap <leader>` :marks<CR>
 " nnoremap <leader>ms :match Folded /<bslash>v^.*(%'a<bar>%'b<bar>%'c<bar>%'d).*/<cr>
-nnoremap <leader>ms :call <SID>MatchMarkLines()<cr>
-nnoremap <leader>mS :match<cr>
+nnoremap <leader>mh :call <SID>MatchMarkLines()<cr>
+nnoremap <leader>mH :match<cr>
 nnoremap <leader>md :delmarks a-z<cr>
 nnoremap <leader>mD :delmarks a-zA-Z<cr>
-function! <SID>MatchMarkLines()
-    let cmd = 'match CursorlineNr /\v^.*('
+function! <SID>HighlightMarkLines()
+    let cmd = 'matc
     echo range(char2nr('a'), char2nr('z'))
     let marks = map(range(char2nr('a'), char2nr('z')) + range(char2nr('A'), char2nr('Z')), "'%''' . nr2char(v:val)")
     let cmd .= join(marks, '|')
