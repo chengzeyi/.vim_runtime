@@ -4,7 +4,7 @@ call plug#begin('~/.vim_runtime/plugged')
 
 Plug 'chengzeyi/vim-markify'
 " Plug 'chengzeyi/a.vim', {'on': 'A'}
-Plug 'chengzeyi/OmniCppComplete', {'for': ['cpp', 'c']}
+" Plug 'chengzeyi/OmniCppComplete', {'for': ['cpp', 'c']}
 
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
@@ -46,6 +46,7 @@ Plug 'wsdjeg/FlyGrep.vim', {'on': 'FlyGrep'}
 Plug 'jiangmiao/auto-pairs'
 
 Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
+Plug 'junegunn/limelight.vim', {'on': ['<plug>(Limelight)', 'Limelight']}
 Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
 
 Plug 'tpope/vim-fugitive'
@@ -121,6 +122,7 @@ if exists(':terminal')
 endif
 
 Plug 'kana/vim-textobj-user'
+Plug 'sgur/vim-textobj-parameter'
 
 Plug 'liuchengxu/space-vim-dark'
 Plug 'chriskempson/base16-vim'
@@ -241,10 +243,10 @@ if has('patch-8.1.1880') && has('textprop')
     " set completeopt+=popup
     set previewpopup=height:10,width:60
 endif
-set previewheight=6
+set previewheight=9
 nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? '0' : '1'<cr><cr>
 nnoremap <leader>p+ :set previewheight+=1<cr>
-nnoremap <leader>p= :set previewheight=6<cr>
+nnoremap <leader>p= :set previewheight=5<cr>
 if exists(':terminal')
     tnoremap <F1> <c-w>N
 endif
@@ -277,7 +279,9 @@ nnoremap ]t :tnext<cr>
 nnoremap [T :tfirst<cr>
 nnoremap ]T :tlast<cr>
 nnoremap <leader>] :execute 'ptag ' . expand('<lt>cword>')<cr>
+nnoremap <C-LeftMouse> :execute 'ptag ' . expand('<lt>cword>')<cr>
 nnoremap <leader>[ :pclose<cr>
+nnoremap <C-RightMouse> :pclose<cr>
 nnoremap [p :ptprevious<cr>
 nnoremap ]p :ptnext<cr>
 nnoremap [P :pfirst<cr>
@@ -332,6 +336,13 @@ function! IndTxtObj(inner)
     endif
 endfunction
 
+" augroup setQuickfixWindowHeight
+"     au!
+"     au FileType qf call <SID>AdjustWindowHeight(1, 10)
+" augroup END
+function! <SID>AdjustWindowHeight(minheight, maxheight)
+    exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
+endfunction
 nnoremap <leader>qq :QToggle<cr>
 nnoremap <leader>ll :LToggle<cr>
 nnoremap <leader>qe :cexpr [] <bar> :cclose<cr>
@@ -344,9 +355,9 @@ nnoremap [l :lprev<cr>
 nnoremap ]l :lnext<cr>
 nnoremap [L :lfirst<cr>
 nnoremap ]L :llast<cr>
-command! QToggle call <SID>QListToggle(10)
-command! LToggle call <SID>LListToggle(10)
-function! <SID>LListToggle(height) abort
+command! QToggle call <SID>QListToggle(10, 1)
+command! LToggle call <SID>LListToggle(10, 1)
+function! <SID>LListToggle(height, ...) abort
     let buffer_count_before = <SID>BufferCount()
     " Location list can't be closed if there's cursor in it, so we need
     " to call lclose twice to move cursor to the main pane
@@ -354,15 +365,21 @@ function! <SID>LListToggle(height) abort
     silent! lclose
 
     if <SID>BufferCount() == buffer_count_before
-        execute "silent! lopen " . a:height
+      execute "silent! lopen " . a:height
+      if a:0 != 0 && a:1 && getwininfo(win_getid())[0]['loclist']
+        exe max([min([line("$"), a:height]), a:height]) . "wincmd _"
+      endif
     endif
 endfunction
-function! <SID>QListToggle(height) abort
+function! <SID>QListToggle(height, ...) abort
     let buffer_count_before = <SID>BufferCount()
     silent! cclose
 
     if <SID>BufferCount() == buffer_count_before
         execute "silent! botright copen " . a:height
+        if a:0 != 0 && a:1 && getwininfo(win_getid())[0]['quickfix']
+          exe max([min([line("$"), a:height]), a:height]) . "wincmd _"
+        endif
     endif
 endfunction
 function! <SID>BufferCount() abort
@@ -663,7 +680,7 @@ if has('termguicolors')
     nnoremap <leader>ot :set invtermguicolors<cr>
 endif
 
-" let g:space_vim_dark_background = 234
+" let g:space_vim_dark_background = 235
 
 augroup myColors
     autocmd!
@@ -936,68 +953,6 @@ cnoremap <C-N> <Down>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-nmap <leader><cr><cr> <Plug>(lsp-status)
-nmap <leader><cr>a <Plug>(lsp-code-action)
-nmap <leader><cr>f <Plug>(lsp-document-range-format)
-nmap <leader><cr>F <Plug>(lsp-document-format)
-nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
-nmap <leader><cr>1 <Plug>(lsp-peek-declaration)
-nmap <leader><cr>4 <Plug>(lsp-declaration)
-nmap <leader><cr>2 <Plug>(lsp-peek-definition)
-nmap <leader><cr>5 <Plug>(lsp-definition)
-nmap <leader><cr>3 <Plug>(lsp-peek-implementation)
-nmap <leader><cr>6 <Plug>(lsp-implementation)
-nmap <leader><cr>h <Plug>(lsp-hover)
-nmap <leader><cr>r <Plug>(lsp-references)
-nmap <leader><cr>R <Plug>(lsp-rename)
-nmap <leader><cr>t <Plug>(lsp-peek-type-definition)
-nmap <leader><cr>T <Plug>(lsp-type-definition)
-nmap <leader><cr>s <Plug>(lsp-document-symbol)
-nmap <leader><cr>S <Plug>(lsp-workspace-symbol)
-nmap ]e <Plug>(lsp-next-error)
-nmap ]r <Plug>(lsp-next-reference)
-nmap [e <Plug>(lsp-previous-error)
-nmap [r <Plug>(lsp-previous-reference)
-nmap <leader><cr>] <Plug>(lsp-preview-focus)
-nmap <leader><cr>[ <Plug>(lsp-preview-close)
-let g:lsp_diagnostics_echo_cursor = 1
-augroup lspReg
-    au!
-    if executable('gopls')
-        au User lsp_setup call lsp#register_server({
-                    \ 'name': 'gopls',
-                    \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-                    \ 'whitelist': ['go'],
-                    \ })
-        " autocmd BufWritePre *.go LspDocumentFormatSync
-        autocmd FileType go setlocal omnifunc=lsp#complete
-    endif
-    if executable('pyls')
-        " pip install python-language-server
-        au User lsp_setup call lsp#register_server({
-                    \ 'name': 'pyls',
-                    \ 'cmd': {server_info->['pyls']},
-                    \ 'whitelist': ['python'],
-                    \ })
-        autocmd FileType python setlocal omnifunc=lsp#complete
-    endif
-    " if executable('clangd')
-    "     au User lsp_setup call lsp#register_server({
-    "                 \ 'name': 'clangd',
-    "                 \ 'cmd': {server_info->['clangd', '-background-index']},
-    "                 \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-    "                 \ })
-    " endif
-    if executable('bash-language-server')
-        au User lsp_setup call lsp#register_server({
-                    \ 'name': 'bash-language-server',
-                    \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
-                    \ 'whitelist': ['sh'],
-                    \ })
-        " autocmd FileType sh setlocal omnifunc=lsp#complete
-    endif
-augroup END
-
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
@@ -1023,14 +978,14 @@ let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
 
-let OmniCpp_NamespaceSearch = 1
-let OmniCpp_GlobalScopeSearch = 1
-let OmniCpp_ShowAccess = 1
-let OmniCpp_MayCompleteDot = 1
-let OmniCpp_MayCompleteArrow = 1
-let OmniCpp_MayCompleteScope = 1
-let OmniCpp_ShowPrototypeInAbbr = 1
-let OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
+" let OmniCpp_NamespaceSearch = 1
+" let OmniCpp_GlobalScopeSearch = 1
+" let OmniCpp_ShowAccess = 1
+" let OmniCpp_MayCompleteDot = 1
+" let OmniCpp_MayCompleteArrow = 1
+" let OmniCpp_MayCompleteScope = 1
+" let OmniCpp_ShowPrototypeInAbbr = 1
+" let OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
 
 imap <C-\> <Plug>(neosnippet_expand_or_jump)
 smap <C-\> <Plug>(neosnippet_expand_or_jump)
@@ -1071,11 +1026,10 @@ let g:neocomplete#force_omni_input_patterns.markdown = '<[^>]*'
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
 let g:neocomplete#force_omni_input_patterns.xml = '<[^>]*'
 let g:neocomplete#force_omni_input_patterns.php = '[^. \t]->\h\w*\|\h\w*::\w*'
-let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.\w*'
+" let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+" let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 let g:neocomplete#force_omni_input_patterns.python = '[^. \t]\.\w*'
-let g:neocomplete#force_omni_input_patterns.java = '\%(\h\w*\|)\)\.\w*'
+" let g:neocomplete#force_omni_input_patterns.java = '\%(\h\w*\|)\)\.\w*'
 
 if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
@@ -1084,6 +1038,69 @@ endif
 " let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 " let g:neocomplete#sources#omni#input_patterns.go = '[^.[:digit:] *\t]\.\w*'
 " let g:neocomplete#sources#omni#input_patterns.python = '[^. \t]\.\w*'
+
+nmap <leader><cr><cr> <Plug>(lsp-status)
+nmap <leader><cr>a <Plug>(lsp-code-action)
+nmap <leader><cr>f <Plug>(lsp-document-range-format)
+nmap <leader><cr>F <Plug>(lsp-document-format)
+nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
+nmap <leader><cr>1 <Plug>(lsp-peek-declaration)
+nmap <leader><cr>4 <Plug>(lsp-declaration)
+nmap <leader><cr>2 <Plug>(lsp-peek-definition)
+nmap <leader><cr>5 <Plug>(lsp-definition)
+nmap <leader><cr>3 <Plug>(lsp-peek-implementation)
+nmap <leader><cr>6 <Plug>(lsp-implementation)
+nmap <leader><cr>h <Plug>(lsp-hover)
+nmap <leader><cr>r <Plug>(lsp-references)
+nmap <leader><cr>R <Plug>(lsp-rename)
+nmap <leader><cr>t <Plug>(lsp-peek-type-definition)
+nmap <leader><cr>T <Plug>(lsp-type-definition)
+nmap <leader><cr>s <Plug>(lsp-document-symbol)
+nmap <leader><cr>S <Plug>(lsp-workspace-symbol)
+nmap ]e <Plug>(lsp-next-error)
+nmap ]r <Plug>(lsp-next-reference)
+nmap [e <Plug>(lsp-previous-error)
+nmap [r <Plug>(lsp-previous-reference)
+nmap <leader><cr>] <Plug>(lsp-preview-focus)
+nmap <leader><cr>[ <Plug>(lsp-preview-close)
+let g:lsp_diagnostics_echo_cursor = 1
+augroup lspReg
+    au!
+    if executable('gopls')
+        au User lsp_setup call lsp#register_server({
+                    \ 'name': 'gopls',
+                    \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+                    \ 'whitelist': ['go'],
+                    \ })
+        " autocmd BufWritePre *.go LspDocumentFormatSync
+        autocmd FileType go setlocal omnifunc=lsp#complete
+        let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.\w*'
+    endif
+    if executable('pyls')
+        " pip install python-language-server
+        au User lsp_setup call lsp#register_server({
+                    \ 'name': 'pyls',
+                    \ 'cmd': {server_info->['pyls']},
+                    \ 'whitelist': ['python'],
+                    \ })
+        autocmd FileType python setlocal omnifunc=lsp#complete
+    endif
+    " if executable('clangd')
+    "     au User lsp_setup call lsp#register_server({
+    "                 \ 'name': 'clangd',
+    "                 \ 'cmd': {server_info->['clangd', '-background-index']},
+    "                 \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+    "                 \ })
+    " endif
+    if executable('bash-language-server')
+        au User lsp_setup call lsp#register_server({
+                    \ 'name': 'bash-language-server',
+                    \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
+                    \ 'whitelist': ['sh'],
+                    \ })
+        " autocmd FileType sh setlocal omnifunc=lsp#complete
+    endif
+augroup END
 
 if has('lua')
     let g:necosyntax#max_syntax_lines = 3000
@@ -1340,6 +1357,8 @@ let g:gutentags_cache_dir = '~/.vim_gutentags'
 " let g:easytags_opts = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
 
 let g:airline_theme = 'dracula'
+" let g:airline#themes#dracula#palette.tabline = {}
+" let g:airline#themes#dracula#palette.tabline.airline_tabhid = ['#f8f8f2', '#f8f8f2', '15', '59', '']
 let g:airline_powerline_fonts = 1
 " let g:airline_symbols_ascii = 1
 " if !exists('g:airline_symbols')
@@ -1377,6 +1396,7 @@ let g:airline_powerline_fonts = 1
 " let g:airline_symbols.dirty='⚡'
 
 let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#show_buffers = 1
 " let g:airline#extensions#tabline#alt_sep = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#formatter = 'default'
@@ -1404,6 +1424,14 @@ let g:goyo_width = '80%'
 let g:goyo_height = '95%'
 nnoremap <leader>go :Goyo<cr>
 
+augroup changeLimelight
+    autocmd!
+    autocmd User GoyoEnter Limelight
+    autocmd User GoyoLeave Limelight!
+augroup END
+nmap <Leader>lm <Plug>(Limelight)
+xmap <Leader>lm <Plug>(Limelight)
+
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
@@ -1422,8 +1450,8 @@ let g:indent_guides_start_level = 2
 
 let g:better_whitespace_ctermcolor = '8'
 let g:better_whitespace_guicolor = '#808080'
-let g:better_whitespace_operator = 'gb'
-nnoremap <leader>bw :ToggleWhitespace<cr>
+let g:better_whitespace_operator = 'gs'
+nnoremap <leader>sp :ToggleWhitespace<cr>
 
 nnoremap <leader>x :Sayonara<cr>
 nnoremap <leader>X :Sayonara!<cr>
@@ -1513,18 +1541,18 @@ try
                 \     'scan': 'line',
                 \   },
                 \ })
-    call textobj#user#plugin('comma', {
-                \   'comma-a': {
-                \     'pattern': '\v(,[^,]+)|((\(|\[|\{)\zs[^,([{]*,\s*\ze)|(\zs,[^,]{-}\ze(\)|\]|\}))',
-                \     'select': 'a,',
-                \     'scan': 'line',
-                \   },
-                \   'comma-i': {
-                \     'pattern': '\v(,\zs[^,)\]}]*\ze)|((\(|\[\{)\zs[^,([{]*\ze,)|(,\zs[^,]{-}\ze(\)\]\}))',
-                \     'select': 'i,',
-                \     'scan': 'line',
-                \   },
-                \ })
+    " call textobj#user#plugin('comma', {
+    "             \   'comma-a': {
+    "             \     'pattern': '\v(,[^,]+)|((\(|\[|\{)\zs[^,([{]*,\s*\ze)|(\zs,[^,]{-}\ze(\)|\]|\}))',
+    "             \     'select': 'a,',
+    "             \     'scan': 'line',
+    "             \   },
+    "             \   'comma-i': {
+    "             \     'pattern': '\v(,\zs[^,)\]}]*\ze)|((\(|\[\{)\zs[^,([{]*\ze,)|(,\zs[^,]{-}\ze(\)\]\}))',
+    "             \     'select': 'i,',
+    "             \     'scan': 'line',
+    "             \   },
+    "             \ })
     call textobj#user#plugin('semicolon', {
                 \   'semicolon-a': {
                 \     'pattern': '\v(^\s*)=\zs[^;]*;\ze',
