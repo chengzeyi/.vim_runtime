@@ -694,7 +694,7 @@ augroup myColors
     autocmd ColorScheme * hi LineNr     ctermbg=NONE guibg=NONE
     autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
     autocmd ColorScheme * hi Comment    guifg=#5C6370 ctermfg=59
-    autocmd ColorScheme * hi CursorLine cterm=none ctermbg=256
+    autocmd ColorScheme * hi CursorLine cterm=none ctermbg=0
     autocmd ColorScheme * hi CursorColumn cterm=none ctermbg=0
     autocmd ColorScheme * hi CursorLineNr cterm=none ctermbg=0
 augroup END
