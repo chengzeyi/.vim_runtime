@@ -389,7 +389,7 @@ augroup autoOpenQuickfixWindow
         \ "try \n
         \ cwindow \n
         \ if getwininfo(win_getid())[0]['quickfix'] \n
-        \     exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n 
+        \     exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
         \ endif \n
         \ catch \n
         \ endtry"
@@ -397,7 +397,7 @@ augroup autoOpenQuickfixWindow
         \ "try \n
         \ lopen \n
         \ if getwininfo(win_getid())[0]['loclist'] \n
-        \     exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n 
+        \     exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
         \ endif \n
         \ catch \n
         \ endtry"
