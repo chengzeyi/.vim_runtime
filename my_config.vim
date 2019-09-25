@@ -161,6 +161,7 @@ nnoremap <leader>jj :call <SID>GotoJump()<cr>
 nnoremap <leader>jt :call <SID>GotoTag()<cr>
 nnoremap <leader>jm :tselect<cr>
 function! <SID>GotoJump()
+    redraw!
     jumps
     let j = input("Please select your jump ([count]j|k): ")
     if j =~# '\v[0-9]+j'
@@ -170,6 +171,7 @@ function! <SID>GotoJump()
     endif
 endfunction
 function! <SID>GotoTag()
+    redraw!
     tags
     let j = input("Please select your tag ([count]j|k): ")
     if j =~# '\v[0-9]+j'
@@ -207,8 +209,47 @@ nnoremap <leader>W :wa!<cr>
 nnoremap <leader>cb :cbuffer<cr>
 nnoremap <leader>" :registers<CR>
 nnoremap <leader>@ :registers<CR>
+inoremap <c-r> <c-r>="\<lt>c-r>" . <SID>BetterRegister()<cr>
+nnoremap <expr> " '"' . <SID>BetterRegister()
+nnoremap <expr> @ '@' . <SID>BetterRegister()
+function! <SID>BetterRegister()
+    let more = &more
+    set nomore
+    redraw!
+    registers
+    echon "\nPlease press the register name"
+    let &more = more
+    while 1
+        let ch = getchar()
+        if ch !~# '\v[0-9]+'
+            continue
+        else
+            redraw!
+            return nr2char(ch)
+        endif
+    endwhile
+endfunction
 nnoremap <leader>' :marks<CR>
 nnoremap <leader>` :marks<CR>
+nnoremap <expr> ' "'" . <SID>BetterMark()
+nnoremap <expr> ` '`' . <SID>BetterMark()
+function! <SID>BetterMark()
+    let more = &more
+    set nomore
+    redraw!
+    marks
+    echon "\nPlease press the mark name"
+    let &more = more
+    while 1
+        let ch = getchar()
+        if ch !~# '\v[0-9]+'
+            continue
+        else
+            redraw!
+            return nr2char(ch)
+        endif
+    endwhile
+endfunction
 " nnoremap <leader>ms :match Folded /<bslash>v^.*(%'a<bar>%'b<bar>%'c<bar>%'d).*/<cr>
 nnoremap <leader>mh :call <SID>MatchMarkLines()<cr>
 nnoremap <leader>mH :match<cr>
@@ -235,10 +276,10 @@ nnoremap <leader>f8 :set foldlevel=8<cr>
 nnoremap <leader>f9 :set foldlevel=9<cr>
 nnoremap <leader>f- :set foldlevel-=1<cr>
 nnoremap <leader>f+ :set foldlevel+=1<cr>
-nnoremap <leader>f= :set foldlevel=99<cr>
+nnoremap <leader>f= :set invfoldenable foldcolumn=<c-r>=&foldenable ? '0' : '1'<cr><cr>
 nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? '1' : '0'<cr><cr>
 nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr><cr>
-xnoremap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : '.'
+vnoremap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : '.'
 if has('patch-8.1.1880') && has('textprop')
     " if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
     "             \ has('textprop')
@@ -344,8 +385,22 @@ endfunction
 " augroup END
 augroup autoOpenQuickfixWindow
     autocmd!
-    autocmd QuickFixCmdPost [^l]* cwindow | exe max([min([line('$'), 10]), 1]) . 'wincmd _'
-    autocmd QuickFixCmdPost l*    lwindow | exe max([min([line('$'), 10]), 1]) . 'wincmd _'
+    autocmd QuickFixCmdPost vimgrep,grep,cscope,make exe
+        \ "try \n
+        \ cwindow \n
+        \ if getwininfo(win_getid())[0]['quickfix'] \n
+        \     exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n 
+        \ endif \n
+        \ catch \n
+        \ endtry"
+    autocmd QuickFixCmdPost lvimgrep,lgrep,lcscope,lmake exe
+        \ "try \n
+        \ lopen \n
+        \ if getwininfo(win_getid())[0]['loclist'] \n
+        \     exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n 
+        \ endif \n
+        \ catch \n
+        \ endtry"
 augroup END
 function! <SID>AdjustWindowHeight(minheight, maxheight)
     exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
@@ -399,21 +454,25 @@ augroup setQLEditable
 augroup END
 command! RemoveQFItem :call <SID>RemoveQFItem()
 function! <SID>RemoveQFItem()
-    if getwininfo(win_getid())[0]['loclist']
+    let winid = win_getid()
+    if getwininfo(winid)[0]['loclist']
         let abbr = 'loc' | let ch = 'l'
-    elseif getwininfo(win_getid())[0]['quickfix']
+        let all = getloclist(win_getid())
+    elseif getwininfo(winid)[0]['quickfix']
         let abbr = 'qf' | let ch = 'c'
+        let all = getqflist()
     else
         return
     endif
-    execute 'let all = get' . abbr . 'list()'
     let curidx = line('.') - 1
     if curidx < 0 || curidx >= len(all) | return | endif
     call remove(all, curidx)
-    execute 'call set' . abbr . 'list(all, "r")'
+    if getwininfo(winid)[0]['loclist']
+        call setloclist(winid, all, 'r')
+    else
+        call setqflist(all, 'r')
+    endif
     execute curidx + 1
-    " execute curidx + 1 . ch . 'first'
-    " copen
 endfunction
 
 augroup compileAndRun
@@ -596,13 +655,13 @@ set autoread
 set foldmethod=indent
 set foldlevelstart=99
 set foldnestmax=3
-" set nofoldenable
+set nofoldenable
 
 set display+=lastline
 
 set re=1
 
-set scrolloff=5
+set scrolloff=3
 
 let $LANG='en'
 set langmenu=en
@@ -665,7 +724,7 @@ endif
 " set list
 
 " Add a bit extra margin to the left
-set foldcolumn=1
+" set foldcolumn=1
 
 " Enable syntax highlighting
 syntax enable
@@ -682,7 +741,7 @@ syntax enable
 "     endif
 " endif
 
-" set t_Co=256
+set t_Co=256
 if has('termguicolors')
     nnoremap <leader>ot :set invtermguicolors<cr>
 endif
@@ -1311,7 +1370,7 @@ nnoremap <leader>rr :AsyncRun<space>
 nnoremap <leader>rs :AsyncStop<cr>
 " let g:asyncrun_bell = 1
 " map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
-let g:asyncrun_open = 10
+" let g:asyncrun_open = 10
 " let g:asyncrun_save = 2
 let g:asyncrun_auto = "make"
 
