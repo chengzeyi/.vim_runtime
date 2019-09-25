@@ -209,7 +209,8 @@ nnoremap <leader>W :wa!<cr>
 nnoremap <leader>cb :cbuffer<cr>
 nnoremap <leader>" :registers<CR>
 nnoremap <leader>@ :registers<CR>
-inoremap <c-r> <c-r>="\<lt>c-r>" . <SID>BetterRegister()<cr>
+inoremap <c-r> <c-r>="<bslash><lt>c-r>" . <SID>BetterRegister()<cr>
+tnoremap <expr> <c-w>" "\<lt>c-w>\"" . <SID>BetterRegister()
 nnoremap <expr> " '"' . <SID>BetterRegister()
 nnoremap <expr> @ '@' . <SID>BetterRegister()
 vnoremap <expr> " '"' . <SID>BetterRegister()
