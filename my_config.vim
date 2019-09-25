@@ -217,7 +217,7 @@ function! <SID>BetterRegister()
     set nomore
     redraw!
     registers
-    echon "\nPlease press the register name"
+    echohl Question | echon "\nPlease press the register name" | echohl None
     let &more = more
     while 1
         let ch = getchar()
@@ -238,7 +238,7 @@ function! <SID>BetterMark()
     set nomore
     redraw!
     marks
-    echon "\nPlease press the mark name"
+    echohl Question | echon "\nPlease press the mark name" | echohl None
     let &more = more
     while 1
         let ch = getchar()
