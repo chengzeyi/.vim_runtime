@@ -212,6 +212,8 @@ nnoremap <leader>@ :registers<CR>
 inoremap <c-r> <c-r>="\<lt>c-r>" . <SID>BetterRegister()<cr>
 nnoremap <expr> " '"' . <SID>BetterRegister()
 nnoremap <expr> @ '@' . <SID>BetterRegister()
+vnoremap <expr> " '"' . <SID>BetterRegister()
+vnoremap <expr> @ '@' . <SID>BetterRegister()
 function! <SID>BetterRegister()
     let more = &more
     set nomore
@@ -233,6 +235,8 @@ nnoremap <leader>' :marks<CR>
 nnoremap <leader>` :marks<CR>
 nnoremap <expr> ' "'" . <SID>BetterMark()
 nnoremap <expr> ` '`' . <SID>BetterMark()
+vnoremap <expr> ' "'" . <SID>BetterMark()
+vnoremap <expr> ` '`' . <SID>BetterMark()
 function! <SID>BetterMark()
     let more = &more
     set nomore
@@ -1547,10 +1551,8 @@ augroup setArgWrap
     au FileType vim let b:argwrap_line_prefix = '\'
 augroup END
 
-nmap <c-right> <Plug>(cosco-commaOrSemiColon)
-imap <c-right> <esc><Plug>(cosco-commaOrSemiColon)
-nmap <c-down> <Plug>(cosco-commaOrSemiColon)o
-imap <c-down> <esc><Plug>(cosco-commaOrSemiColon)o
+imap <c-s> <c-o><Plug>(cosco-commaOrSemiColon)
+nmap <c-s> <Plug>(cosco-commaOrSemiColon)
 " nmap <c-space> <Plug>(cosco-commaOrSemiColon)o
 " imap <c-space> <esc><Plug>(cosco-commaOrSemiColon)o
 
