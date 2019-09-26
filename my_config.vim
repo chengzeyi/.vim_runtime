@@ -678,6 +678,11 @@ source $VIMRUNTIME/menu.vim
 set wildmenu
 set wildmode=longest,full
 set wildignorecase
+if has('menu')
+    source $VIMRUNTIME/menu.vim
+    set wcm=<c-z>
+    map <F12> :emenu <c-z>
+endif
 
 set wildignore=*.o,*~,*.pyc
 if has("win16") || has("win32")
