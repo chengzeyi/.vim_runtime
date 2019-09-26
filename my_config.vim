@@ -291,10 +291,10 @@ if has('patch-8.1.1880') && has('textprop')
     " set completeopt+=popup
     set previewpopup=height:20,width:60
 endif
-set previewheight=9
+set previewheight=6
 nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? '0' : '1'<cr><cr>
 nnoremap <leader>p+ :set previewheight+=1<cr>
-nnoremap <leader>p= :set previewheight=5<cr>
+nnoremap <leader>p= :set previewheight=6<cr>
 if exists(':terminal')
     tnoremap <F1> <c-w>N
 endif
