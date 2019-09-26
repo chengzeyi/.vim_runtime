@@ -501,20 +501,20 @@ endfunction
 augroup compileAndRun
     au!
     if executable('python3')
-        au filetype python nnoremap <leader>cr :w <bar> exec '!python3 '.shellescape('%')<CR>
-        au filetype python nnoremap <leader>cR :w <bar> exec '!python3 '.shellescape('%') . ' '<left>
+        au filetype python nnoremap <leader>cr :w <bar> !python3 %<cr>
+        au filetype python nnoremap <leader>cR :w <bar> !python3 %<space>
     else
-        au filetype python nnoremap <leader>cr :w <bar> exec '!python '.shellescape('%')<CR>
-        au filetype python nnoremap <leader>cR :w <bar> exec '!python '.shellescape('%') . ' '<left>
+        au filetype python nnoremap <leader>cr :w <bar> !python %<cr>
+        au filetype python nnoremap <leader>cR :w <bar> !python %<space>
     endif
     au filetype c nnoremap <leader>cr :w <bar>
-                \ exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+                \ !gcc % -o %:r && ./%:r<cr>
     au filetype c nnoremap <leader>cR :w <bar>
-                \ exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r') . ' '<left>
+                \ !gcc % -o %:r && ./%:r<space>
     au filetype cpp nnoremap <leader>cr :w <bar>
-                \ exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+                \ !g++ % -o %:r && ./%:r<space>
     au filetype cpp nnoremap <leader>cR :w <bar>
-                \ exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r') . ' '<left>
+                \ !g++ % -o %:r && ./%:r<space>
 augroup END
 
 nnoremap <leader>aa :call SwitchSourceHeader()<cr>
