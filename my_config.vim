@@ -87,6 +87,7 @@ if has('lua')
 else
     Plug 'Shougo/neocomplcache.vim'
 endif
+Plug 'ujihisa/neco-look'
 
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
