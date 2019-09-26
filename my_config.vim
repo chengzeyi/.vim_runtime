@@ -1286,7 +1286,7 @@ augroup closeNERDTreeBuffer
 augroup END
 
 let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_map = '<c-f>'
+" let g:ctrlp_map = '<c-p>'
 nnoremap <leader>pp :CtrlP<cr>
 nnoremap <leader>pw :CtrlPCurFile<cr>
 nnoremap <leader>pW :CtrlPCurWD<cr>
@@ -1314,7 +1314,7 @@ let g:ctrlp_funky_multi_buffers = 1
 
 if has('python') || has('python3')
     nnoremap <leader>pc :CtrlPCmdPalette<cr>
-    nnoremap <c-p> :CtrlPCmdPalette<cr>
+    nnoremap <c-n> :CtrlPCmdPalette<cr>
 endif
 " nnoremap <leader>pc :CtrlPCommandPalette<cr>
 " nnoremap <c-p> :CtrlPCommandPalette<cr>
