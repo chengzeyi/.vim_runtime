@@ -210,7 +210,9 @@ nnoremap <leader>cb :cbuffer<cr>
 nnoremap <leader>" :registers<CR>
 nnoremap <leader>@ :registers<CR>
 inoremap <c-r> <c-r>="\<lt>c-r>" . <SID>BetterRegister()<cr>
-tnoremap <expr> <c-w>" "\<lt>c-w>\"" . <SID>BetterRegister()
+if exists(':terminal')
+    tnoremap <expr> <c-w>" "\<lt>c-w>\"" . <SID>BetterRegister()
+endif
 nnoremap <expr> " '"' . <SID>BetterRegister()
 nnoremap <expr> @ '@' . <SID>BetterRegister()
 vnoremap <expr> " '"' . <SID>BetterRegister()
