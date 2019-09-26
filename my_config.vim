@@ -512,7 +512,7 @@ augroup compileAndRun
     au filetype c nnoremap <leader>cR :w <bar>
                 \ !gcc % -o %:r && ./%:r<space>
     au filetype cpp nnoremap <leader>cr :w <bar>
-                \ !g++ % -o %:r && ./%:r<space>
+                \ !g++ % -o %:r && ./%:r<cr>
     au filetype cpp nnoremap <leader>cR :w <bar>
                 \ !g++ % -o %:r && ./%:r<space>
 augroup END
@@ -618,6 +618,11 @@ set ttimeoutlen=10
 " set shortmess=a
 
 set mouse=a
+if has("mouse_sgr")
+    set ttymouse=sgr
+else
+    set ttymouse=xterm2
+end
 set mousemodel=popup
 nnoremap <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
 
