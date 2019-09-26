@@ -4,7 +4,7 @@ call plug#begin('~/.vim_runtime/plugged')
 
 Plug 'chengzeyi/vim-markify'
 " Plug 'chengzeyi/a.vim', {'on': 'A'}
-" Plug 'chengzeyi/OmniCppComplete', {'for': ['cpp', 'c']}
+Plug 'chengzeyi/OmniCppComplete', {'for': ['cpp', 'c']}
 
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
@@ -1105,8 +1105,8 @@ let g:neocomplete#force_omni_input_patterns.python = '[^. \t]\.\w*'
 if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
 endif
-" let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-" let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 " let g:neocomplete#sources#omni#input_patterns.go = '[^.[:digit:] *\t]\.\w*'
 " let g:neocomplete#sources#omni#input_patterns.python = '[^. \t]\.\w*'
 
