@@ -156,7 +156,7 @@ nnoremap M `m
 nnoremap Y y$
 " nnoremap <leader>mm :match Question /<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<cr>
 " nnoremap <leader>mM :match<cr>
-nnoremap <leader>ff :let @/='\<lt><c-r>=expand('<lt>cword>')<cr>\>'<cr>
+nnoremap <leader>ff :let @/='\<lt><c-r>=expand('<lt>cword>')<cr>\>' <bar> set hls<cr>
 nnoremap <leader>jj :call <SID>GotoJump()<cr>
 nnoremap <leader>jt :call <SID>GotoTag()<cr>
 nnoremap <leader>jm :tselect<cr>
@@ -618,11 +618,13 @@ set ttimeoutlen=10
 " set shortmess=a
 
 set mouse=a
-if has("mouse_sgr")
-    set ttymouse=sgr
-else
-    set ttymouse=xterm2
-end
+if exists('+ttymouse')
+    if has('mouse_sgr')
+        set ttymouse=sgr
+    else
+        set ttymouse=xterm2
+    endif
+endif
 set mousemodel=popup
 nnoremap <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
 
@@ -701,7 +703,7 @@ set display+=lastline
 set re=1
 
 set scrolloff=1
-nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump ? '0' : '5'<cr><cr>
+nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? '5' : '1'<cr><cr>
 
 let $LANG='en'
 set langmenu=en
@@ -885,8 +887,8 @@ nnoremap <c-j> <C-w>p5<C-e><C-w>p
 " inoremap <c-k> <Esc><C-w>p5<C-y><C-w>pi
 " inoremap <c-j> <Esc><C-w>p5<C-e><C-w>pi
 
-nnoremap <leader><bs> :noh<cr>
-nnoremap <leader><c-h> :noh<cr>
+nnoremap <leader><bs> :nohls<cr>
+nnoremap <leader><c-h> :nohls<cr>
 
 " Smart way to move between windows
 nnoremap <s-j> <c-w>j
@@ -1474,7 +1476,7 @@ let g:gutentags_cache_dir = '~/.vim_gutentags'
 " let g:easytags_async = 1
 " let g:easytags_opts = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
 
-let g:airline_theme = 'dracula'
+let g:airline_theme = 'kolor'
 " let g:airline#themes#dracula#palette.tabline = {}
 " let g:airline#themes#dracula#palette.tabline.airline_tabhid = ['#f8f8f2', '#f8f8f2', '15', '59', '']
 let g:airline_powerline_fonts = 1
