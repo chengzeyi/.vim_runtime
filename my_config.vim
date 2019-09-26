@@ -667,6 +667,7 @@ set display+=lastline
 set re=1
 
 set scrolloff=1
+nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump ? '0' : '5'<cr><cr>
 
 let $LANG='en'
 set langmenu=en
