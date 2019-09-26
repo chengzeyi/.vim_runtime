@@ -393,7 +393,7 @@ endfunction
 augroup autoOpenQuickfixWindow
     autocmd!
     autocmd QuickFixCmdPost vimgrep,grep,cscope exe
-        \ "try \n
+        \ try \n
         \ cwindow \n
         \ if getwininfo(win_getid())[0]['quickfix'] \n
         \     exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
@@ -401,7 +401,7 @@ augroup autoOpenQuickfixWindow
         \ catch \n
         \ endtry"
     autocmd QuickFixCmdPost lvimgrep,lgrep,lcscope exe
-        \ "try \n
+        \ try \n
         \ lwindow \n
         \ if getwininfo(win_getid())[0]['loclist'] \n
         \     exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
@@ -409,7 +409,7 @@ augroup autoOpenQuickfixWindow
         \ catch \n
         \ endtry"
     autocmd QuickFixCmdPost make exe
-        \ "try \n
+        \ try \n
         \ copen \n
         \ if getwininfo(win_getid())[0]['quickfix'] \n
         \     exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
@@ -417,7 +417,7 @@ augroup autoOpenQuickfixWindow
         \ catch \n
         \ endtry"
     autocmd QuickFixCmdPost lmake exe
-        \ "try \n
+        \ try \n
         \ lopen \n
         \ if getwininfo(win_getid())[0]['loclist'] \n
         \     exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
