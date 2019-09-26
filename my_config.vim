@@ -1257,6 +1257,7 @@ if has('lua')
         call neocomplete#custom#source('_', 'converters',
                     \ ['converter_remove_overlap', 'converter_remove_last_paren',
                     \  'converter_abbr'])
+        call neocomplete#custom#source('buffer', 'rank', 100)
     catch
     endtry
 else
@@ -1451,6 +1452,11 @@ nnoremap <leader>zw :FZFWindows<cr>
 nnoremap <leader>zh :FZFHistory<cr>
 nnoremap <leader>zH :FZFHelptags<cr>
 nnoremap <leader>zs :FZFSnippets<cr>
+nnoremap <leader>zg :FZFGGrep<cr>
+command! -bang -nargs=* FZFGGrep
+  \ call fzf#vim#grep(
+  \   'git grep --line-number '.shellescape(<q-args>), 0,
+  \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
 
 nmap <c-_> <Plug>CommentaryLine
 vmap <c-_> <Plug>Commentary
