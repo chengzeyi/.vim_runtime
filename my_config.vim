@@ -1603,8 +1603,9 @@ augroup setArgWrap
     au FileType vim let b:argwrap_line_prefix = '\'
 augroup END
 
-imap <c-s> <c-o><Plug>(cosco-commaOrSemiColon)
-nmap <c-s> <Plug>(cosco-commaOrSemiColon)
+" ctrl-b is unused in insert mode
+imap <c-b> <c-o><Plug>(cosco-commaOrSemiColon)
+nmap <c-b> <Plug>(cosco-commaOrSemiColon)
 " nmap <c-space> <Plug>(cosco-commaOrSemiColon)o
 " imap <c-space> <esc><Plug>(cosco-commaOrSemiColon)o
 
