@@ -392,7 +392,7 @@ endfunction
 " augroup END
 augroup autoOpenQuickfixWindow
     autocmd!
-    autocmd QuickFixCmdPost vimgrep,grep,cscope,make exe
+    autocmd QuickFixCmdPost vimgrep,grep,cscope exe
         \ "try \n
         \ cwindow \n
         \ if getwininfo(win_getid())[0]['quickfix'] \n
@@ -400,7 +400,23 @@ augroup autoOpenQuickfixWindow
         \ endif \n
         \ catch \n
         \ endtry"
-    autocmd QuickFixCmdPost lvimgrep,lgrep,lcscope,lmake exe
+    autocmd QuickFixCmdPost lvimgrep,lgrep,lcscope exe
+        \ "try \n
+        \ lwindow \n
+        \ if getwininfo(win_getid())[0]['loclist'] \n
+        \     exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
+        \ endif \n
+        \ catch \n
+        \ endtry"
+    autocmd QuickFixCmdPost make exe
+        \ "try \n
+        \ copen \n
+        \ if getwininfo(win_getid())[0]['quickfix'] \n
+        \     exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
+        \ endif \n
+        \ catch \n
+        \ endtry"
+    autocmd QuickFixCmdPost lmake exe
         \ "try \n
         \ lopen \n
         \ if getwininfo(win_getid())[0]['loclist'] \n
@@ -486,13 +502,19 @@ augroup compileAndRun
     au!
     if executable('python3')
         au filetype python nnoremap <leader>cr :w <bar> exec '!python3 '.shellescape('%')<CR>
+        au filetype python nnoremap <leader>cR :w <bar> exec '!python3 '.shellescape('%') . ' '<left>
     else
         au filetype python nnoremap <leader>cr :w <bar> exec '!python '.shellescape('%')<CR>
+        au filetype python nnoremap <leader>cR :w <bar> exec '!python '.shellescape('%') . ' '<left>
     endif
     au filetype c nnoremap <leader>cr :w <bar>
                 \ exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+    au filetype c nnoremap <leader>cR :w <bar>
+                \ exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r') . ' '<left>
     au filetype cpp nnoremap <leader>cr :w <bar>
                 \ exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+    au filetype cpp nnoremap <leader>cR :w <bar>
+                \ exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r') . ' '<left>
 augroup END
 
 nnoremap <leader>aa :call SwitchSourceHeader()<cr>
@@ -603,6 +625,10 @@ nnoremap <c-]> g<c-]>
 nnoremap g<c-]> <c-]>
 xnoremap <c-]> g<c-]>
 xnoremap g<c-]> <c-]>
+nnoremap <c-w><c-]> <c-w>g<c-]>
+nnoremap <c-w>g<c-]> <c-w><c-]>
+xnoremap <c-w><c-]> <c-w>g<c-]>
+xnoremap <c-w>g<c-]> <c-w><c-]>
 
 set tags=./tags;,./TAGS;
 augroup setFtTags
@@ -1425,8 +1451,14 @@ augroup commentStr
     autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 augroup END
 
-if !executable('ctags')
-    let g:gutentags_enabled = 0
+let g:gutentags_modules = []
+if executable('ctags')
+    call add(g:gutentags_modules, 'ctags')
+endif
+if executable('gtags-cscope')
+    call add(g:gutentags_modules, 'gtags_cscope')
+elseif executable('cscope')
+    call add(g:gutentags_modules, 'cscope')
 endif
 let g:gutentags_define_advanced_commands = 1
 let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+ialS', '--extra=+q']
