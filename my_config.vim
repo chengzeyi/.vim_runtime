@@ -289,7 +289,7 @@ if has('patch-8.1.1880') && has('textprop')
     " if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
     "             \ has('textprop')
     " set completeopt+=popup
-    set previewpopup=height:10,width:60
+    set previewpopup=height:20,width:60
 endif
 set previewheight=9
 nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? '0' : '1'<cr><cr>
@@ -594,6 +594,7 @@ set ttimeoutlen=10
 " set shortmess=a
 
 set mouse=a
+set mousemodel=popup
 nnoremap <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
 
 nnoremap <c-]> g<c-]>
