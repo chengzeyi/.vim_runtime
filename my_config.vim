@@ -1315,7 +1315,7 @@ let g:ctrlp_funky_multi_buffers = 1
 
 if has('python') || has('python3')
     nnoremap <leader>pc :CtrlPCmdPalette<cr>
-    nnoremap <c-n> :CtrlPCmdPalette<cr>
+    " nnoremap <c-n> :CtrlPCmdPalette<cr>
 endif
 " nnoremap <leader>pc :CtrlPCommandPalette<cr>
 " nnoremap <c-p> :CtrlPCommandPalette<cr>
