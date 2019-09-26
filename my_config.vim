@@ -713,11 +713,11 @@ source $VIMRUNTIME/menu.vim
 set wildmenu
 set wildmode=longest,full
 set wildignorecase
-if has('menu')
-    source $VIMRUNTIME/menu.vim
-    set wcm=<c-z>
-    map <F12> :emenu <c-z>
-endif
+" if has('menu')
+"     source $VIMRUNTIME/menu.vim
+"     set wcm=<c-z>
+"     map <F12> :emenu <c-z>
+" endif
 
 set wildignore=*.o,*~,*.pyc
 if has("win16") || has("win32")
@@ -1542,15 +1542,17 @@ endtry
 
 let g:goyo_width = '80%'
 let g:goyo_height = '95%'
-nnoremap <leader>go :Goyo<cr>
+nnoremap <F12> :Goyo<cr>
 
-augroup changeLimelight
-    autocmd!
-    autocmd User GoyoEnter Limelight
-    autocmd User GoyoLeave Limelight!
-augroup END
+" augroup changeLimelight
+"     autocmd!
+"     autocmd User GoyoEnter Limelight
+"     autocmd User GoyoLeave Limelight!
+" augroup END
 nmap <Leader>lm <Plug>(Limelight)
 xmap <Leader>lm <Plug>(Limelight)
+nnoremap <leader><F9> :Limelight<cr>
+nnoremap <leader><F10> :Limelight!<cr>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
