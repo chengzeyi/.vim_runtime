@@ -395,36 +395,36 @@ endfunction
 " augroup END
 augroup autoOpenQuickfixWindow
     autocmd!
-    autocmd QuickFixCmdPost vimgrep,grep,cscope exe
+    autocmd QuickFixCmdPost vimgrep,grep,cscope exe "
         \ try \n
-        \ cwindow \n
-        \ if getwininfo(win_getid())[0]['quickfix'] \n
-        \     exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
-        \ endif \n
+        \     botright cwindow \n
+        \     if getwininfo(win_getid())[0]['quickfix'] \n
+        \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
+        \     endif \n
         \ catch \n
         \ endtry"
-    autocmd QuickFixCmdPost lvimgrep,lgrep,lcscope exe
+    autocmd QuickFixCmdPost lvimgrep,lgrep,lcscope exe "
         \ try \n
-        \ lwindow \n
-        \ if getwininfo(win_getid())[0]['loclist'] \n
-        \     exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
-        \ endif \n
+        \     lwindow \n
+        \     if getwininfo(win_getid())[0]['loclist'] \n
+        \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
+        \     endif \n
         \ catch \n
         \ endtry"
-    autocmd QuickFixCmdPost make exe
+    autocmd QuickFixCmdPost make exe "
         \ try \n
-        \ copen \n
-        \ if getwininfo(win_getid())[0]['quickfix'] \n
-        \     exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
-        \ endif \n
+        \     botright cwindow \n
+        \     if getwininfo(win_getid())[0]['quickfix'] \n
+        \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
+        \     endif \n
         \ catch \n
         \ endtry"
-    autocmd QuickFixCmdPost lmake exe
+    autocmd QuickFixCmdPost lmake exe "
         \ try \n
-        \ lopen \n
-        \ if getwininfo(win_getid())[0]['loclist'] \n
-        \     exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
-        \ endif \n
+        \     lwindow \n
+        \     if getwininfo(win_getid())[0]['loclist'] \n
+        \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
+        \     endif \n
         \ catch \n
         \ endtry"
 augroup END
@@ -453,7 +453,7 @@ function! LListToggle(height, ...) abort
     silent! lclose
 
     if BufferCount() == buffer_count_before
-        execute "silent! lopen " . a:height
+        execute "silent! lwindow " . a:height
         if a:0 != 0 && a:1 && getwininfo(win_getid())[0]['loclist']
             exe max([min([line("$"), a:height]), 1]) . "wincmd _"
         endif
@@ -464,7 +464,7 @@ function! QListToggle(height, ...) abort
     silent! cclose
 
     if BufferCount() == buffer_count_before
-        execute "silent! botright copen " . a:height
+        execute "silent! botright cwindow " . a:height
         if a:0 != 0 && a:1 && getwininfo(win_getid())[0]['quickfix']
             exe max([min([line("$"), a:height]), 1]) . "wincmd _"
         endif
@@ -476,9 +476,11 @@ endfunction
 
 augroup setQLEditable
     au!
-    autocmd FileType qf nnoremap <buffer> dd :RemoveQFItem<cr>
+    autocmd FileType qf nnoremap <buffer> <tab> :RemoveQFItem<cr>
+    autocmd FileType qf nnoremap <buffer> <s-tab> :UndoQFRemove<cr>
 augroup END
 command! RemoveQFItem :call RemoveQFItem()
+command! UndoQFRemove :call UndoQFRemove()
 function! RemoveQFItem()
     let winid = win_getid()
     if getwininfo(winid)[0]['loclist']
@@ -492,7 +494,9 @@ function! RemoveQFItem()
     endif
     let curidx = line('.') - 1
     if curidx < 0 || curidx >= len(all) | return | endif
-    call remove(all, curidx)
+    let item = remove(all, curidx)
+    if !exists('b:undostack') | let b:undostack = [] | endif
+    call add(b:undostack, [item, curidx])
     if getwininfo(winid)[0]['loclist']
         call setloclist(winid, all, 'r')
     else
@@ -500,6 +504,29 @@ function! RemoveQFItem()
     endif
     execute curidx + 1
 endfunction
+function! UndoQFRemove()
+    if !exists('b:undostack') || len(b:undostack) == 0 | return | endif
+    let [item, curidx] = remove(b:undostack, -1)
+    let winid = win_getid()
+    if getwininfo(winid)[0]['loclist']
+        let abbr = 'loc' | let ch = 'l'
+        let all = getloclist(win_getid())
+    elseif getwininfo(winid)[0]['quickfix']
+        let abbr = 'qf' | let ch = 'c'
+        let all = getqflist()
+    else
+        return
+    endif
+    if curidx > len(all) | let curidx = 0 | endif
+    call insert(all, item, curidx)
+    if getwininfo(winid)[0]['loclist']
+        call setloclist(winid, all, 'r')
+    else
+        call setqflist(all, 'r')
+    endif
+    execute curidx + 1
+endfunction
+
 
 augroup compileAndRun
     au!
@@ -789,13 +816,13 @@ syntax enable
 " if $COLORTERM == 'gnome-terminal'
 " set t_Co=256
 " endif
-if has('cursorshape')
-    if &term =~? "xterm"
-        let &t_SI = "\<Esc>[6 q"
-        let &t_SR = "\<Esc>[4 q"
-        let &t_EI = "\<Esc>[2 q"
-    endif
-endif
+" if has('cursorshape')
+"     if &term =~? "xterm"
+"         let &t_SI = "\<Esc>[6 q"
+"         let &t_SR = "\<Esc>[4 q"
+"         let &t_EI = "\<Esc>[2 q"
+"     endif
+" endif
 
 set t_Co=256
 if has('termguicolors')
