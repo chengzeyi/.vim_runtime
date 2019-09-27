@@ -806,27 +806,29 @@ endif
 
 augroup myColors
     autocmd!
-    autocmd ColorScheme * hi LineNr     ctermbg=NONE guibg=NONE
-    autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
-    autocmd ColorScheme * hi Comment    guifg=#5C6370 ctermfg=59
-    autocmd ColorScheme * hi CursorLine cterm=none ctermbg=0
-    autocmd ColorScheme * hi CursorColumn cterm=none ctermbg=0
-    autocmd ColorScheme * hi CursorLineNr cterm=none ctermbg=0
+    autocmd ColorScheme space-vim-dark hi LineNr     ctermbg=NONE guibg=NONE
+    autocmd ColorScheme space-vim-dark hi SignColumn ctermbg=NONE guibg=NONE
+    autocmd ColorScheme space-vim-dark hi Comment    ctermfg=59 guifg=#5C6370
+    autocmd ColorScheme space-vim-dark hi CursorLine ctermbg=0 guibg=#000000
+    autocmd ColorScheme space-vim-dark hi CursorColumn ctermbg=0 guibg=#000000
+    autocmd ColorScheme space-vim-dark hi CursorLineNr ctermbg=0 guibg=#000000
+    autocmd ColorScheme space-vim-dark hi EndOfBuffer ctermfg=235 ctermbg=235 guifg=#262626 guibg=#262626
 augroup END
 
 try
     colorscheme space-vim-dark
+
+    " hi Comment cterm=italic
+    " hi Normal     ctermbg=NONE guibg=NONE
+    hi LineNr     ctermbg=NONE guibg=NONE
+    hi SignColumn ctermbg=NONE guibg=NONE
+    hi Comment    ctermfg=59 guifg=#5C6370
+    hi CursorLine ctermbg=0 guibg=#000000
+    hi CursorColumn ctermbg=0 guibg=#000000
+    hi CursorLineNr ctermbg=0 guibg=#000000
+    hi EndOfBuffer ctermfg=235 ctermbg=235 guifg=#262626 guibg=#262626
 catch
 endtry
-
-" hi Comment cterm=italic
-" hi Normal     ctermbg=NONE guibg=NONE
-hi LineNr     ctermbg=NONE guibg=NONE
-hi SignColumn ctermbg=NONE guibg=NONE
-hi Comment    guifg=#5C6370 ctermfg=59
-hi CursorLine cterm=none ctermbg=0
-hi CursorColumn cterm=none ctermbg=0
-hi CursorLineNr cterm=none ctermbg=0
 
 if has("gui_running")
     if has("gui_gtk2")
