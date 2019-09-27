@@ -1099,7 +1099,7 @@ let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
 
-let g:OmniCpp_AddParen = 1
+let g:OmniCpp_AddLeftParen = 1
 let g:OmniCpp_NamespaceSearch = 1
 let g:OmniCpp_GlobalScopeSearch = 1
 let g:OmniCpp_ShowAccess = 1
