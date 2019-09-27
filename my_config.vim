@@ -322,6 +322,11 @@ set previewheight=6
 nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? '0' : '1'<cr><cr>
 nnoremap <leader>p+ :set previewheight+=1<cr>
 nnoremap <leader>p= :set previewheight=6<cr>
+if executable('zsh')
+    set shell=zsh
+elseif executable('fish')
+    set shell=fish
+endif
 if exists(':terminal')
     if has('nvim')
         tnoremap <F1> <c-\><c-n>
@@ -422,37 +427,37 @@ endfunction
 augroup autoOpenQuickfixWindow
     autocmd!
     autocmd QuickFixCmdPost vimgrep,grep,cscope exe "
-        \ try \n
-        \     botright cwindow \n
-        \     if getwininfo(win_getid())[0]['quickfix'] \n
-        \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
-        \     endif \n
-        \ catch \n
-        \ endtry"
+                \ try \n
+                \     botright cwindow \n
+                \     if getwininfo(win_getid())[0]['quickfix'] \n
+                \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
+                \     endif \n
+                \ catch \n
+                \ endtry"
     autocmd QuickFixCmdPost lvimgrep,lgrep,lcscope exe "
-        \ try \n
-        \     lwindow \n
-        \     if getwininfo(win_getid())[0]['loclist'] \n
-        \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
-        \     endif \n
-        \ catch \n
-        \ endtry"
+                \ try \n
+                \     lwindow \n
+                \     if getwininfo(win_getid())[0]['loclist'] \n
+                \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
+                \     endif \n
+                \ catch \n
+                \ endtry"
     autocmd QuickFixCmdPost make exe "
-        \ try \n
-        \     botright cwindow \n
-        \     if getwininfo(win_getid())[0]['quickfix'] \n
-        \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
-        \     endif \n
-        \ catch \n
-        \ endtry"
+                \ try \n
+                \     botright cwindow \n
+                \     if getwininfo(win_getid())[0]['quickfix'] \n
+                \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
+                \     endif \n
+                \ catch \n
+                \ endtry"
     autocmd QuickFixCmdPost lmake exe "
-        \ try \n
-        \     lwindow \n
-        \     if getwininfo(win_getid())[0]['loclist'] \n
-        \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
-        \     endif \n
-        \ catch \n
-        \ endtry"
+                \ try \n
+                \     lwindow \n
+                \     if getwininfo(win_getid())[0]['loclist'] \n
+                \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
+                \     endif \n
+                \ catch \n
+                \ endtry"
 augroup END
 function! AdjustWindowHeight(minheight, maxheight)
     exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
@@ -1503,13 +1508,12 @@ let g:fzf_command_prefix = 'FZF'
 " omap <c-b> <plug>(fzf-maps-o)
 " nnoremap <c-c> :FzfCommand<cr>
 " [Commands] --expect expression for directly executing the command
-let g:fzf_commands_expect = 'alt-enter'
+let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 " nnoremap <c-n> :FZFCommands<cr>
 nnoremap <leader>zz :FZFFiles<cr>
-nnoremap <leader>zg :FZFGFiles<cr>
-nnoremap <leader>zG :FZFGFiles?<cr>
-nnoremap <leader>zf :FZFFiles<cr>
-nnoremap <leader>zF :FZFFiletypes<cr>
+nnoremap <leader>zZ :FZFFiletypes<cr>
+nnoremap <leader>zf :FZFGFiles<cr>
+nnoremap <leader>zF :FZFGFiles?<cr>
 nnoremap <leader>zb :FZFBuffers<cr>
 nnoremap <leader>zc :FZFCommands<cr>
 nnoremap <leader>zC :FZFColors<cr>
@@ -1526,10 +1530,38 @@ nnoremap <leader>zh :FZFHistory<cr>
 nnoremap <leader>zH :FZFHelptags<cr>
 nnoremap <leader>zs :FZFSnippets<cr>
 nnoremap <leader>zg :FZFGGrep<cr>
+nnoremap <leader>zG :FZFGrep<cr>
 command! -bang -nargs=* FZFGGrep
-  \ call fzf#vim#grep(
-  \   'git grep --line-number '.shellescape(<q-args>), 0,
-  \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
+            \ call fzf#vim#grep(
+            \ 'git grep --line-number '.shellescape(<q-args>),
+            \ { 'dir': systemlist('git rev-parse --show-toplevel')[0] },
+            \ <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \ <bang>0)
+command! -bang -nargs=* FZFGrep
+            \ call fzf#vim#grep(
+            \ 'grep --line-number -r '.shellescape(<q-args>).' .',
+            \ 0,
+            \ <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \ <bang>0)
+command! -bang -nargs=* FZFFiles
+            \ call fzf#vim#files(
+            \ <q-args>,
+            \ <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \ <bang>0)
+command! -bang FZFColors
+            \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 5%,0'}, <bang>0)
+command! -bang -nargs=* FZFAg
+            \ call fzf#vim#ag(<q-args>,
+            \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+            \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \                 <bang>0)
+command! -bang -nargs=* FZFRg
+            \ call fzf#vim#grep(
+            \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+            \   <bang>0 ? fzf#vim#with_preview('up:60%')
+            \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \   <bang>0
+            \)
 
 nmap <c-_> <Plug>CommentaryLine
 vmap <c-_> <Plug>Commentary
