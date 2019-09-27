@@ -15,7 +15,7 @@ Plug 'lfilho/cosco.vim', {'on': '<plug>(cosco-commaOrSemiColon)'}
 
 Plug 'vim-utils/vim-man'
 
-Plug 'mattn/gist-vim'
+Plug 'mattn/gist-vim', {'on': 'Gist'}
 
 Plug 'FooSoft/vim-argwrap', {'on': 'ArgWrap'}
 
@@ -49,7 +49,7 @@ Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
 " Plug 'junegunn/limelight.vim', {'on': ['<plug>(Limelight)', 'Limelight']}
 Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
 
-Plug 'rbong/vim-flog'
+Plug 'rbong/vim-flog', {'on': ['Flog', 'Flogsplit']}
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -119,7 +119,7 @@ Plug 'majutsushi/tagbar', {'on': ['TagbarToggle', 'TagbarOpenAutoClose']}
 Plug 'sbdchd/neoformat', {'on': 'Neoformat'}
 
 " Plug 'skywind3000/vim-preview'
-Plug 'skywind3000/asyncrun.vim'
+Plug 'skywind3000/asyncrun.vim', {'on': ['AsyncRun', 'AsyncStop']}
 
 " Plug 'xuhdev/SingleCompile'
 
