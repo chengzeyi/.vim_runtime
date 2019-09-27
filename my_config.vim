@@ -1552,15 +1552,6 @@ command! -bang -nargs=* FZFGrep
             \ 0,
             \ <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
             \ <bang>0)
-command! -bang -nargs=* FZFFiles
-            \ call fzf#vim#files(
-            \ <q-args>,
-            \ <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
-            \ <bang>0)
-command! -bang FZFFiletypes
-            \ call fzf#vim#filetypes({'left': '15%', 'options': '--reverse --margin 5%,0'}, <bang>0)
-command! -bang FZFColors
-            \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 5%,0'}, <bang>0)
 command! -bang -nargs=* FZFAg
             \ call fzf#vim#ag(<q-args>,
             \                 <bang>0 ? fzf#vim#with_preview('up:60%')
@@ -1573,6 +1564,30 @@ command! -bang -nargs=* FZFRg
             \           : fzf#vim#with_preview('right:50%:hidden', '?'),
             \   <bang>0
             \)
+command! -bang -nargs=0 FZFFiletypes
+            \ call fzf#vim#filetypes({'left': '15%', 'options': '--reverse --margin 5%,0'}, <bang>0)
+command! -bang -nargs=0 FZFColors
+            \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 5%,0'}, <bang>0)
+command! -nargs=* FZFBTags
+			\ call fzf#vim#buffer_tags(<q-args>, {
+			\     'down': '40%',
+			\     'options': '--preview-window="50%"
+			\                 --preview "
+			\                     tail -n +\$(echo {3} | tr -d \";\\\"\") {2} |
+			\                     head -n 16"
+            \                 --bind "?:toggle-preview"
+            \                 -m'
+			\ })
+command! -bang -nargs=? -complete=dir FZFTags
+            \ call fzf#vim#tags(<q-args>, {
+			\     'down': '40%',
+			\     'options': '--preview-window="40%"
+			\                 --preview "
+			\                     tail -n +\$(echo {3} | tr -d \";\\\"\") {2} |
+			\                     head -n 16"
+            \                 --bind "?:toggle-preview"
+            \                 -m'
+			\ }, <bang>0)
 
 nmap <c-_> <Plug>CommentaryLine
 vmap <c-_> <Plug>Commentary
