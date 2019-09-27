@@ -1539,19 +1539,19 @@ nnoremap <leader>zg :FZFGGrep<cr>
 nnoremap <leader>zG :FZFGrep<cr>
 command! -bang -nargs=* FZFGGrep
             \ call fzf#vim#grep(
-            \ 'git grep --line-number '.shellescape(<q-args>),
-            \ 0,
-            \ <bang>0 ? fzf#vim#with_preview(
-            \           { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, 'up:60%') :
-            \       fzf#vim#with_preview(
-            \           { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, 'right:50%:hidden', '?'),
-            \ <bang>0)
+            \    'git grep --line-number '.shellescape(<q-args>),
+            \     0,
+            \     <bang>0 ? fzf#vim#with_preview(
+            \             { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, 'up:60%') :
+            \         fzf#vim#with_preview(
+            \             { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, 'right:50%:hidden', '?'),
+            \     <bang>0)
 command! -bang -nargs=* FZFGrep
             \ call fzf#vim#grep(
-            \ 'grep --line-number -r '.shellescape(<q-args>).' .',
-            \ 0,
-            \ <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
-            \ <bang>0)
+            \    'grep --line-number -r '.shellescape(<q-args>).' .',
+            \     0,
+            \     <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \     <bang>0)
 command! -bang -nargs=* FZFAg
             \ call fzf#vim#ag(<q-args>,
             \                 <bang>0 ? fzf#vim#with_preview('up:60%')
@@ -1559,20 +1559,20 @@ command! -bang -nargs=* FZFAg
             \                 <bang>0)
 command! -bang -nargs=* FZFRg
             \ call fzf#vim#grep(
-            \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-            \   <bang>0 ? fzf#vim#with_preview('up:60%')
-            \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-            \   <bang>0
+            \    'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+            \     <bang>0 ? fzf#vim#with_preview('up:60%')
+            \            : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \     <bang>0
             \)
 command! -bang -nargs=0 FZFFiles
             \ call fzf#vim#files(<q-args>,
-            \ <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
-            \ <bang>0)
+            \     <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \     <bang>0)
 command! -bang -nargs=0 FZFFiletypes
             \ call fzf#vim#filetypes({'left': '15%', 'options': '--reverse --margin 5%,0'}, <bang>0)
 command! -bang -nargs=0 FZFColors
             \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 5%,0'}, <bang>0)
-command! -nargs=* FZFBTags
+command! -bang -nargs=* FZFBTags
 			\ call fzf#vim#buffer_tags(<q-args>, {
 			\     'down': '40%',
 			\     'options': '--preview-window="50%"
@@ -1581,8 +1581,8 @@ command! -nargs=* FZFBTags
 			\                     head -n 16"
             \                 --bind "?:toggle-preview"
             \                 -m'
-			\ })
-command! -bang -nargs=? -complete=dir FZFTags
+			\ }, <bang>0)
+command! -bang -nargs=* FZFTags
             \ call fzf#vim#tags(<q-args>, {
 			\     'down': '40%',
 			\     'options': '--preview-window="40%"
