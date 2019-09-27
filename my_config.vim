@@ -1564,6 +1564,10 @@ command! -bang -nargs=* FZFRg
             \           : fzf#vim#with_preview('right:50%:hidden', '?'),
             \   <bang>0
             \)
+command! -bang -nargs=0 FZFFiles
+            \ call fzf#vim#files(<q-args>,
+            \ <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \ <bang>0)
 command! -bang -nargs=0 FZFFiletypes
             \ call fzf#vim#filetypes({'left': '15%', 'options': '--reverse --margin 5%,0'}, <bang>0)
 command! -bang -nargs=0 FZFColors
