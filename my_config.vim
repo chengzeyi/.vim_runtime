@@ -49,6 +49,7 @@ Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
 " Plug 'junegunn/limelight.vim', {'on': ['<plug>(Limelight)', 'Limelight']}
 Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
 
+Plug 'rbong/vim-flog'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -87,6 +88,7 @@ if has('lua')
 else
     Plug 'Shougo/neocomplcache.vim'
 endif
+Plug 'Shougo/neopairs.vim'
 Plug 'ujihisa/neco-look'
 
 Plug 'Shougo/neosnippet.vim'
@@ -141,27 +143,27 @@ set pastetoggle=<F2>
 
 inoremap <c-a> <home>
 inoremap <c-e> <end>
-function! <SID>MapMotion(from, ...)
+function! MapMotion(from, ...)
     let from = a:from
     let to = a:0 == 0 ? a:from : a:1
     exec 'noremap ' . from . ' g' . to
     exec 'noremap g' . from . ' ' . to
 endfunction
-call <SID>MapMotion('j')
-call <SID>MapMotion('k')
-call <SID>MapMotion('0', '^')
-call <SID>MapMotion('^', '0')
-call <SID>MapMotion('$')
+call MapMotion('j')
+call MapMotion('k')
+call MapMotion('0', '^')
+call MapMotion('^', '0')
+call MapMotion('$')
 nnoremap Q @q
 nnoremap M `m
 nnoremap Y y$
 " nnoremap <leader>mm :match Question /<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<cr>
 " nnoremap <leader>mM :match<cr>
 nnoremap <leader>ff :let @/='\<lt><c-r>=expand('<lt>cword>')<cr>\>' <bar> set hls<cr>
-nnoremap <leader>jj :call <SID>GotoJump()<cr>
-nnoremap <leader>jt :call <SID>GotoTag()<cr>
+nnoremap <leader>jj :call GotoJump()<cr>
+nnoremap <leader>jt :call GotoTag()<cr>
 nnoremap <leader>jm :tselect<cr>
-function! <SID>GotoJump()
+function! GotoJump()
     redraw!
     jumps
     let j = input("Please select your jump ([count]j|k): ")
@@ -171,7 +173,7 @@ function! <SID>GotoJump()
         execute "normal! " . j[0:-2] . "\<c-o>"
     endif
 endfunction
-function! <SID>GotoTag()
+function! GotoTag()
     redraw!
     tags
     let j = input("Please select your tag ([count]j|k): ")
@@ -181,9 +183,9 @@ function! <SID>GotoTag()
         execute j[0:-2] . "pop"
     endif
 endfunction
-nnoremap <leader>? :call <SID>LookUpMap(1, '', '')<cr>
-nnoremap <leader>/ :call <SID>LookUpMap(1, '', '<lt>leader>')<cr>
-function! <SID>LookUpMap(count, mode, prefix)
+nnoremap <leader>? :call LookUpMap(1, '', '')<cr>
+nnoremap <leader>/ :call LookUpMap(1, '', '<lt>leader>')<cr>
+function! LookUpMap(count, mode, prefix)
     let cmd = a:mode . 'map ' . a:prefix
     let cnt = 0
     while cnt < a:count
@@ -210,15 +212,15 @@ nnoremap <leader>W :wa!<cr>
 nnoremap <leader>cb :cbuffer<cr>
 nnoremap <leader>" :registers<CR>
 nnoremap <leader>@ :registers<CR>
-inoremap <c-r> <c-r>="\<lt>c-r>" . <SID>BetterRegister()<cr>
+inoremap <c-r> <c-r>="\<lt>c-r>" . BetterRegister()<cr>
 if exists(':terminal')
-    tnoremap <expr> <c-w>" "\<lt>c-w>\"" . <SID>BetterRegister()
+    tnoremap <expr> <c-w>" "\<lt>c-w>\"" . BetterRegister()
 endif
-nnoremap <expr> " '"' . <SID>BetterRegister()
-nnoremap <expr> @ '@' . <SID>BetterRegister()
-vnoremap <expr> " '"' . <SID>BetterRegister()
-vnoremap <expr> @ '@' . <SID>BetterRegister()
-function! <SID>BetterRegister()
+nnoremap <expr> " '"' . BetterRegister()
+nnoremap <expr> @ '@' . BetterRegister()
+vnoremap <expr> " '"' . BetterRegister()
+vnoremap <expr> @ '@' . BetterRegister()
+function! BetterRegister()
     let more = &more
     set nomore
     redraw!
@@ -237,11 +239,11 @@ function! <SID>BetterRegister()
 endfunction
 nnoremap <leader>' :marks<CR>
 nnoremap <leader>` :marks<CR>
-nnoremap <expr> ' "'" . <SID>BetterMark()
-nnoremap <expr> ` '`' . <SID>BetterMark()
-vnoremap <expr> ' "'" . <SID>BetterMark()
-vnoremap <expr> ` '`' . <SID>BetterMark()
-function! <SID>BetterMark()
+nnoremap <expr> ' "'" . BetterMark()
+nnoremap <expr> ` '`' . BetterMark()
+vnoremap <expr> ' "'" . BetterMark()
+vnoremap <expr> ` '`' . BetterMark()
+function! BetterMark()
     let more = &more
     set nomore
     redraw!
@@ -259,11 +261,11 @@ function! <SID>BetterMark()
     endwhile
 endfunction
 " nnoremap <leader>ms :match Folded /<bslash>v^.*(%'a<bar>%'b<bar>%'c<bar>%'d).*/<cr>
-nnoremap <leader>mh :call <SID>MatchMarkLines()<cr>
+nnoremap <leader>mh :call MatchMarkLines()<cr>
 nnoremap <leader>mH :match<cr>
 nnoremap <leader>md :delmarks a-z<cr>
 nnoremap <leader>mD :delmarks a-zA-Z<cr>
-function! <SID>HighlightMarkLines()
+function! HighlightMarkLines()
     let cmd = 'matc
     echo range(char2nr('a'), char2nr('z'))
     let marks = map(range(char2nr('a'), char2nr('z')) + range(char2nr('A'), char2nr('Z')), "'%''' . nr2char(v:val)")
@@ -389,7 +391,7 @@ endfunction
 
 " augroup setQuickfixWindowHeight
 "     au!
-"     au FileType qf call <SID>AdjustWindowHeight(1, 10)
+"     au FileType qf call AdjustWindowHeight(1, 10)
 " augroup END
 augroup autoOpenQuickfixWindow
     autocmd!
@@ -426,7 +428,7 @@ augroup autoOpenQuickfixWindow
         \ catch \n
         \ endtry"
 augroup END
-function! <SID>AdjustWindowHeight(minheight, maxheight)
+function! AdjustWindowHeight(minheight, maxheight)
     exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
 endfunction
 nnoremap <leader>qq :QToggle<cr>
@@ -441,34 +443,34 @@ nnoremap [l :lprev<cr>
 nnoremap ]l :lnext<cr>
 nnoremap [L :lfirst<cr>
 nnoremap ]L :llast<cr>
-command! QToggle call <SID>QListToggle(10, 1)
-command! LToggle call <SID>LListToggle(10, 1)
-function! <SID>LListToggle(height, ...) abort
-    let buffer_count_before = <SID>BufferCount()
+command! QToggle call QListToggle(10, 1)
+command! LToggle call LListToggle(10, 1)
+function! LListToggle(height, ...) abort
+    let buffer_count_before = BufferCount()
     " Location list can't be closed if there's cursor in it, so we need
     " to call lclose twice to move cursor to the main pane
     silent! lclose
     silent! lclose
 
-    if <SID>BufferCount() == buffer_count_before
+    if BufferCount() == buffer_count_before
         execute "silent! lopen " . a:height
         if a:0 != 0 && a:1 && getwininfo(win_getid())[0]['loclist']
             exe max([min([line("$"), a:height]), 1]) . "wincmd _"
         endif
     endif
 endfunction
-function! <SID>QListToggle(height, ...) abort
-    let buffer_count_before = <SID>BufferCount()
+function! QListToggle(height, ...) abort
+    let buffer_count_before = BufferCount()
     silent! cclose
 
-    if <SID>BufferCount() == buffer_count_before
+    if BufferCount() == buffer_count_before
         execute "silent! botright copen " . a:height
         if a:0 != 0 && a:1 && getwininfo(win_getid())[0]['quickfix']
             exe max([min([line("$"), a:height]), 1]) . "wincmd _"
         endif
     endif
 endfunction
-function! <SID>BufferCount() abort
+function! BufferCount() abort
     return len(filter(range(1, bufnr('$')), 'bufwinnr(v:val) != -1'))
 endfunction
 
@@ -476,8 +478,8 @@ augroup setQLEditable
     au!
     autocmd FileType qf nnoremap <buffer> dd :RemoveQFItem<cr>
 augroup END
-command! RemoveQFItem :call <SID>RemoveQFItem()
-function! <SID>RemoveQFItem()
+command! RemoveQFItem :call RemoveQFItem()
+function! RemoveQFItem()
     let winid = win_getid()
     if getwininfo(winid)[0]['loclist']
         let abbr = 'loc' | let ch = 'l'
@@ -518,19 +520,25 @@ augroup compileAndRun
                 \ !g++ % -o %:r && ./%:r<space>
 augroup END
 
-nnoremap <leader>aa :call SwitchSourceHeader()<cr>
-function! SwitchSourceHeader()
-    let suffix = expand("%:e")
-    if suffix ==# "cpp"
+nnoremap <leader>aa :call AlternateFile()<cr>
+function! AlternateFile()
+    let suffix = expand('%:e')
+    if suffix ==# 'cpp'
         silent! find %:t:r.h
         silent! find %:t:r.hpp
-    elseif suffix ==# "c"
+    elseif suffix ==# 'c'
         silent! find %:t:r.h
-    elseif suffix ==# "hpp"
+    elseif suffix ==# 'hpp'
         silent! find %:t:r.cpp
-    elseif suffix ==# "h"
+    elseif suffix ==# 'h'
         silent! find %:t:r.c
         silent! find %:t:r.cpp
+    elseif suffix ==# 'go'
+        if expand('%:t:r') =~# '_test$'
+            silent! find %:t:r:s?\V_test\$??.go
+        else
+            silent! find %:t:r_test.go
+        endif
     endif
 endfunction
 
@@ -910,8 +918,8 @@ nnoremap <F4> :tabn<cr>
 " map <leader>bc :Bclose<cr>:tabclose<cr>gT
 nnoremap <leader>bb :Bclose<cr>
 " Don't close window, when deleting a buffer
-command! Bclose call <SID>BufcloseCloseIt()
-function! <SID>BufcloseCloseIt()
+command! Bclose call s:BufcloseCloseIt()
+function! s:BufcloseCloseIt()
     let l:currentBufNum = bufnr("%")
     let l:alternateBufNum = bufnr("#")
 
@@ -932,9 +940,8 @@ endfunction
 
 " Close all the buffers
 nnoremap <leader>bd :bufdo bd<cr>
-nnoremap <leader>bh :CloseHiddenBuffers<cr>
-command! CloseHiddenBuffers call s:CloseHiddenBuffers()
-function! s:CloseHiddenBuffers()
+nnoremap <leader>bh :call CloseHiddenBuffers()<cr>
+function! CloseHiddenBuffers()
     let open_buffers = []
 
     for i in range(tabpagenr('$'))
@@ -972,8 +979,8 @@ nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 " Switch CWD to the directory of the open buffer
 nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
-nnoremap <leader>cD :call <SID>SetCwd()<cr>
-function! <SID>SetCwd()
+nnoremap <leader>cD :call SetCwd()<cr>
+function! SetCwd()
     let cph = expand('%:p:h', 1)
     if cph =~ '^.\+://' | retu | en
     for mkr in ['.git/', '.hg/', '.svn/', '.bzr/', '_darcs/', '.vimprojects']
@@ -1238,7 +1245,7 @@ if has('lua')
     inoremap <expr> <C-g> neocomplete#undo_completion()
     inoremap <expr> <C-l> neocomplete#complete_common_string()
     " <CR>: close popup and save indent.
-    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    inoremap <silent> <CR> <C-r>=my_cr_function()<CR>
     function! s:my_cr_function()
         " return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
         " For no inserting <CR> key.
@@ -1275,7 +1282,7 @@ else
     inoremap <expr> <C-g> neocomplcache#undo_completion()
     inoremap <expr> <C-l> neocomplcache#complete_common_string()
     " <CR>: close popup and save indent.
-    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    inoremap <silent> <CR> <C-r>=my_cr_function()<CR>
     function! s:my_cr_function()
         " return neocomplcache#smart_close_popup() . "\<CR>"
         " For no inserting <CR> key.
@@ -1376,6 +1383,9 @@ nmap <leader>hs <Plug>(GitGutterStageHunk)
 nmap <leader>hu <Plug>(GitGutterUndoHunk)
 nmap <leader>hp <Plug>(GitGutterPreviewHunk)
 nnoremap <leader>hh :GitGutterToggle<cr>
+
+nnoremap <leader>fl :Flog<cr>
+nnoremap <leader>fL :Flog<space>
 
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gB :Gbrowse<cr>
