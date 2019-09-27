@@ -46,7 +46,7 @@ Plug 'wsdjeg/FlyGrep.vim', {'on': 'FlyGrep'}
 Plug 'jiangmiao/auto-pairs'
 
 Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
-Plug 'junegunn/limelight.vim', {'on': ['<plug>(Limelight)', 'Limelight']}
+" Plug 'junegunn/limelight.vim', {'on': ['<plug>(Limelight)', 'Limelight']}
 Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
 
 Plug 'tpope/vim-fugitive'
@@ -1556,10 +1556,10 @@ nnoremap <F12> :Goyo<cr>
 "     autocmd User GoyoEnter Limelight
 "     autocmd User GoyoLeave Limelight!
 " augroup END
-nmap <Leader>lm <Plug>(Limelight)
-xmap <Leader>lm <Plug>(Limelight)
-nnoremap <leader><F9> :Limelight<cr>
-nnoremap <leader><F10> :Limelight!<cr>
+" nmap <Leader>lm <Plug>(Limelight)
+" xmap <Leader>lm <Plug>(Limelight)
+" nnoremap <leader><F9> :Limelight<cr>
+" nnoremap <leader><F10> :Limelight!<cr>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
