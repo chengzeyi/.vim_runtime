@@ -88,7 +88,7 @@ if has('lua')
 else
     Plug 'Shougo/neocomplcache.vim'
 endif
-Plug 'Shougo/neopairs.vim'
+" Plug 'Shougo/neopairs.vim'
 Plug 'ujihisa/neco-look'
 
 Plug 'Shougo/neosnippet.vim'
@@ -1099,7 +1099,7 @@ let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
 
-let g:OmniCpp_AddLeftParen = 1
+let g:OmniCpp_AddLeftParen = 0
 let g:OmniCpp_NamespaceSearch = 1
 let g:OmniCpp_GlobalScopeSearch = 1
 let g:OmniCpp_ShowAccess = 1
@@ -1246,7 +1246,7 @@ if has('lua')
     inoremap <expr> <C-g> neocomplete#undo_completion()
     inoremap <expr> <C-l> neocomplete#complete_common_string()
     " <CR>: close popup and save indent.
-    inoremap <silent> <CR> <C-r>=my_cr_function()<CR>
+    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
     function! s:my_cr_function()
         " return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
         " For no inserting <CR> key.
@@ -1266,6 +1266,9 @@ if has('lua')
         call neocomplete#custom#source('_', 'converters',
                     \ ['converter_remove_overlap', 'converter_remove_last_paren',
                     \  'converter_abbr'])
+        " call neocomplete#custom#source('_', 'converters',
+        "             \ ['converter_remove_overlap', 'converter_add_paren',
+        "             \  'converter_abbr'])
         call neocomplete#custom#source('buffer', 'rank', 100)
     catch
     endtry
@@ -1283,7 +1286,7 @@ else
     inoremap <expr> <C-g> neocomplcache#undo_completion()
     inoremap <expr> <C-l> neocomplcache#complete_common_string()
     " <CR>: close popup and save indent.
-    inoremap <silent> <CR> <C-r>=my_cr_function()<CR>
+    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
     function! s:my_cr_function()
         " return neocomplcache#smart_close_popup() . "\<CR>"
         " For no inserting <CR> key.
