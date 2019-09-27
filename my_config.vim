@@ -214,7 +214,11 @@ nnoremap <leader>" :registers<CR>
 nnoremap <leader>@ :registers<CR>
 inoremap <c-r> <c-r>="\<lt>c-r>" . BetterRegister()<cr>
 if exists(':terminal')
-    tnoremap <expr> <c-w>" "\<lt>c-w>\"" . BetterRegister()
+    if has('nvim')
+        tnoremap <expr> <c-r> "\<lt>c-\>\<lt>c-n>\"" . BetterRegister() . 'pi'
+    else
+        tnoremap <expr> <c-w>" "\<lt>c-w>\"" . BetterRegister()
+    endif
 endif
 nnoremap <expr> " '"' . BetterRegister()
 nnoremap <expr> @ '@' . BetterRegister()
@@ -301,7 +305,11 @@ nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? '0' : '1'<cr
 nnoremap <leader>p+ :set previewheight+=1<cr>
 nnoremap <leader>p= :set previewheight=6<cr>
 if exists(':terminal')
-    tnoremap <F1> <c-w>N
+    if has('nvim')
+        tnoremap <F1> <c-\><c-n>
+    else
+        tnoremap <F1> <c-w>N
+    endif
 endif
 if exists(':packadd')
     nnoremap <leader>dd :packadd termdebug <bar> Termdebug<space>
@@ -1682,8 +1690,12 @@ let g:startify_custom_header = [
 nnoremap <leader>st :Startify<cr>
 
 if exists(':terminal')
-    nnoremap <c-n> :Nuake<CR>
-    tnoremap <c-n> <C-w>:Nuake<CR>
+    nnoremap <c-n> :Nuake<cr>
+    if has('nvim')
+        tnoremap <c-n> <c-\><c-n>:Nuake<cr>
+    else
+        tnoremap <c-n> <c-w>:Nuake<cr>
+    endif
 endif
 
 try

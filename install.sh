@@ -14,4 +14,4 @@ source ~/.vim_runtime/my_config.vim
 mkdir -p ~/.config/nvim
 cat ~/.vimrc > ~/.config/nvim/init.vim
 
-echo "Installed the Ultimate Vim configuration successfully! Enjoy :-)"
+echo "Installed the Ultimate Vim configuration successfully!"
