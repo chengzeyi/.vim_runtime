@@ -70,9 +70,27 @@ Plug 'maxbrunsfeld/vim-yankstack'
 
 Plug 'machakann/vim-highlightedyank'
 
-Plug 'Xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeToggle'}
+Plug 'Xuyuanp/nerdtree-git-plugin', {'on': [
+            \ 'NERDTreeToggle',
+            \ 'NERDTreeFromBookmark',
+            \ 'NERDTreeFocus',
+            \ 'NERDTreeFind',
+            \ 'NERDTreeVCS',
+            \ 'NERDTreeCWD',
+            \ 'NERDTreeRefreshRoot',
+            \ 'NERDTreeMirror',
+            \ ]}
 
-Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+Plug 'scrooloose/nerdtree', {'on': [
+            \ 'NERDTreeToggle',
+            \ 'NERDTreeFromBookmark',
+            \ 'NERDTreeFocus',
+            \ 'NERDTreeFind',
+            \ 'NERDTreeVCS',
+            \ 'NERDTreeCWD',
+            \ 'NERDTreeRefreshRoot',
+            \ 'NERDTreeMirror',
+            \ ]}
 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tacahiroy/ctrlp-funky', {'on': 'CtrlPFunky'}
@@ -810,6 +828,7 @@ if has("gui_macvim")
     augroup END
 endif
 
+set showbreak=↪\
 " set listchars=tab:>-,trail:~,extends:>,precedes:<
 " set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
 " set list
