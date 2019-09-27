@@ -812,7 +812,7 @@ augroup myColors
     autocmd ColorScheme space-vim-dark hi CursorLine ctermbg=0 guibg=#000000
     autocmd ColorScheme space-vim-dark hi CursorColumn ctermbg=0 guibg=#000000
     autocmd ColorScheme space-vim-dark hi CursorLineNr ctermbg=0 guibg=#000000
-    autocmd ColorScheme space-vim-dark hi EndOfBuffer ctermfg=bg ctermbg=bg guifg=bg guibg=NONE
+    autocmd ColorScheme space-vim-dark hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
 augroup END
 
 try
@@ -826,7 +826,7 @@ try
     hi CursorLine ctermbg=0 guibg=#000000
     hi CursorColumn ctermbg=0 guibg=#000000
     hi CursorLineNr ctermbg=0 guibg=#000000
-    hi EndOfBuffer ctermfg=bg ctermbg=bg guifg=bg guibg=NONE
+    hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
 catch
 endtry
 
