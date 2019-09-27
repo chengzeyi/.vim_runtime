@@ -49,7 +49,8 @@ Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
 " Plug 'junegunn/limelight.vim', {'on': ['<plug>(Limelight)', 'Limelight']}
 Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
 
-Plug 'rbong/vim-flog', {'on': ['Flog', 'Flogsplit']}
+" Plug 'rbong/vim-flog', {'on': ['Flog', 'Flogsplit']}
+Plug 'junegunn/gv.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -1451,8 +1452,13 @@ nmap <leader>hu <Plug>(GitGutterUndoHunk)
 nmap <leader>hp <Plug>(GitGutterPreviewHunk)
 nnoremap <leader>hh :GitGutterToggle<cr>
 
-nnoremap <leader>fl :Flog<cr>
-nnoremap <leader>fL :Flog<space>
+" nnoremap <leader>fl :Flog<cr>
+" nnoremap <leader>fL :Flog<space>
+
+nnoremap <leader>gv :GV<cr>
+nnoremap <leader>gV :GV!<cr>
+vnoremap <leader>gv :GV<cr>
+vnoremap <leader>gV :GV?<cr>
 
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gB :Gbrowse<cr>
