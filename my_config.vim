@@ -1540,8 +1540,9 @@ nnoremap <leader>zG :FZFGrep<cr>
 command! -bang -nargs=* FZFGGrep
             \ call fzf#vim#grep(
             \ 'git grep --line-number '.shellescape(<q-args>),
-            \ { 'dir': systemlist('git rev-parse --show-toplevel')[0] },
-            \ <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \ 0,
+            \ { 'dir': systemlist('git rev-parse --show-toplevel')[0],
+            \ 'preview': <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?')},
             \ <bang>0)
 command! -bang -nargs=* FZFGrep
             \ call fzf#vim#grep(
