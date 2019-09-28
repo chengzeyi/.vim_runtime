@@ -234,8 +234,8 @@ function! LookUpMap(count, mode, prefix)
     execute cmd
 endfunction
 
-nnoremap <leader>w :w!<cr>
-nnoremap <leader>W :wa!<cr>
+nnoremap <leader>w :w<cr>
+nnoremap <leader>W :wa<cr>
 nnoremap <leader>cb :cbuffer<cr>
 nnoremap <leader>" :registers<CR>
 nnoremap <leader>@ :registers<CR>
@@ -317,9 +317,16 @@ nnoremap <leader>f8 :set foldlevel=8<cr>
 nnoremap <leader>f9 :set foldlevel=9<cr>
 nnoremap <leader>f- :set foldlevel-=1<cr>
 nnoremap <leader>f+ :set foldlevel+=1<cr>
-nnoremap <leader>f= :set invfoldenable foldcolumn=<c-r>=&foldenable ? '0' : '1'<cr><cr>
+nnoremap <leader>f= :set foldlevel=<c-r>=&foldlevel ? '0' : '99'<cr><cr>
+nnoremap <leader>fs :setlocal foldexpr=getline(v:lnum)=~@/?0:1 foldmethod=
+    \<c-r>=&foldmethod == 'expr' ? 'indent' : 'expr'<cr> foldlevel=
+    \<c-r>=&foldmethod == 'expr' ? '99' : '0'<cr><cr>
 nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? '1' : '0'<cr><cr>
-nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr><cr>
+if has('patch-8.1.1564')
+    nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'number' : 'no'<cr><cr>
+else
+    nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr><cr>
+endif
 vnoremap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : '.'
 if has('patch-8.1.1880') && has('textprop')
     " if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
@@ -789,7 +796,8 @@ set autoread
 set foldmethod=indent
 set foldlevelstart=99
 set foldnestmax=3
-set nofoldenable
+" set nofoldenable
+set foldcolumn=0
 
 set display+=lastline
 
@@ -863,9 +871,6 @@ set showbreak=↪\
 " set listchars=tab:>-,trail:~,extends:>,precedes:<
 " set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
 " set list
-
-" Add a bit extra margin to the left
-" set foldcolumn=1
 
 " Enable syntax highlighting
 syntax enable
@@ -1756,10 +1761,10 @@ nnoremap <leader>go :Goyo<cr>
 "     autocmd User GoyoEnter Limelight
 "     autocmd User GoyoLeave Limelight!
 " augroup END
-nmap <Leader>lM <Plug>(Limelight)
-xmap <Leader>lM <Plug>(Limelight)
+" nmap <Leader>lM <Plug>(Limelight)
+" xmap <Leader>lM <Plug>(Limelight)
 nnoremap <leader>lm :Limelight<cr>
-nnoremap <leader>lm :Limelight!<cr>
+nnoremap <leader>lM :Limelight!<cr>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
@@ -1920,11 +1925,11 @@ endtry
 
 let g:vtm_default_mapping = 0
 let g:vtm_default_engines = ['ciba', 'google']
-nmap <Leader>ts <Plug>Translate
-vmap <Leader>ts <Plug>TranslateV
-nmap <Leader>tw <Plug>TranslateW
-vmap <Leader>tw <Plug>TranslateWV
-nmap <Leader>tS :Translate<space>
-nmap <Leader>tW :TranslateW<space>
+nmap gT <plug>translate
+vmap gT <plug>translatev
+nmap gt <Plug>TranslateW
+vmap gt <Plug>TranslateWV
+nmap <Leader>ts :Translate -w<space>
+nmap <Leader>tw :TranslateW -w<space>
 nmap <Leader>th :TranslateH<cr>
 
