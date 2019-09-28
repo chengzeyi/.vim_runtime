@@ -1919,7 +1919,7 @@ catch
 endtry
 
 let g:vtm_default_mapping = 0
-let g:vtm_default_engines = ['bing', 'youdao', 'google']
+let g:vtm_default_engines = ['bing', 'youdao']
 nmap <Leader>ts <Plug>Translate
 vmap <Leader>ts <Plug>TranslateV
 nmap <Leader>tw <Plug>TranslateW
