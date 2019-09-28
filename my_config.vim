@@ -55,6 +55,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-dadbod'
 " Plug 'tpope/vim-eunuch'
 
 " Plug 'machakann/vim-sandwich'
@@ -144,6 +145,8 @@ Plug 'sheerun/vim-polyglot'
 if exists(':terminal')
     Plug 'Lenovsky/nuake', {'on': 'Nuake'}
 endif
+
+Plug 'metakirby5/codi.vim'
 
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
@@ -343,21 +346,21 @@ endif
 if exists(':packadd')
     nnoremap <leader>dd :packadd termdebug <bar> Termdebug<space>
     nnoremap <leader>dD :packadd termdebug <bar> TermdebugCommand<space>
-    nnoremap <leader>dr :Run<cr>
-    nnoremap <leader>dR :Run<space>
-    nnoremap <leader>da :Arguments<space>
-    nnoremap <leader>de :Evaluate<cr>
-    nnoremap <leader>dE :Evaluate<space>
-    nnoremap <leader>db :Break<cr>
-    nnoremap <leader>ds :Step<cr>
-    nnoremap <leader>dS :Stop<cr>
-    nnoremap <leader>do :Over<cr>
-    nnoremap <leader>df :Finish<cr>
-    nnoremap <leader>dc :Continue<cr>
-    nnoremap <leader>dC :Clear<cr>
-    nnoremap <leader>d[ :Gdb<cr>
-    nnoremap <leader>d] :Program<cr>
-    nnoremap <leader>d\ :Source<cr>
+    " nnoremap <leader>dr :Run<cr>
+    " nnoremap <leader>dR :Run<space>
+    " nnoremap <leader>da :Arguments<space>
+    " nnoremap <leader>de :Evaluate<cr>
+    " nnoremap <leader>dE :Evaluate<space>
+    " nnoremap <leader>db :Break<cr>
+    " nnoremap <leader>ds :Step<cr>
+    " nnoremap <leader>dS :Stop<cr>
+    " nnoremap <leader>do :Over<cr>
+    " nnoremap <leader>df :Finish<cr>
+    " nnoremap <leader>dc :Continue<cr>
+    " nnoremap <leader>dC :Clear<cr>
+    " nnoremap <leader>d[ :Gdb<cr>
+    " nnoremap <leader>d] :Program<cr>
+    " nnoremap <leader>d\ :Source<cr>
 
     nnoremap <leader>qf :packadd cfilter <bar> Cfilter<space>
     nnoremap <leader>qv :packadd cfilter <bar> Cfilter!<space>
@@ -683,18 +686,19 @@ nnoremap <leader>bc :bufdo %s//gc<left><left><left>
 
 augroup readNonTextFile
     au!
+    autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent %!pandoc "%" -t markdown -o /dev/stdout
     " Read-only .doc through antiword
-    autocmd BufReadPre *.doc silent set ro
-    autocmd BufReadPost *.doc silent %!antiword "%"
+    " autocmd BufReadPre *.doc silent set ro
+    " autocmd BufReadPost *.doc silent %!antiword "%"
     " Read-only odt/odp through odt2txt
-    autocmd BufReadPre *.odt,*.odp silent set ro
-    autocmd BufReadPost *.odt,*.odp silent %!odt2txt "%"
+    " autocmd BufReadPre *.odt,*.odp silent set ro
+    " autocmd BufReadPost *.odt,*.odp silent %!odt2txt "%"
     " Read-only pdf through pdftotext
     autocmd BufReadPre *.pdf silent set ro
     autocmd BufReadPost *.pdf silent %!pdftotext -nopgbrk -layout -q -eol unix "%" - | fmt -w78
     " Read-only rtf through unrtf
-    autocmd BufReadPre *.rtf silent set ro
-    autocmd BufReadPost *.rtf silent %!unrtf --text"
+    " autocmd BufReadPre *.rtf silent set ro
+    " autocmd BufReadPost *.rtf silent %!unrtf --text"
 augroup END
 
 command! W w !sudo tee % > /dev/null
@@ -1658,6 +1662,10 @@ augroup commentStr
     autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 augroup END
 
+nnoremap <leader>db :DB<space>
+nnoremap <leader>dB :%DB<space>
+vnoremap <leader>db :DB<space>
+
 let g:gutentags_modules = []
 if executable('ctags')
     call add(g:gutentags_modules, 'ctags')
@@ -1836,6 +1844,9 @@ if exists(':terminal')
         tnoremap <c-n> <c-w>:Nuake<cr>
     endif
 endif
+
+nnoremap <leader>co :Codi!!<cr>
+nnoremap <leader>cO :Codi!!<space>
 
 try
     " call textobj#user#plugin('datetime', {
