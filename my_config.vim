@@ -1600,32 +1600,32 @@ command! -bar -bang -nargs=0 FZFFiletypes
 command! -bar -bang -nargs=0 FZFColors
             \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 5%,0'}, <bang>0)
 command! -bang -nargs=* FZFBTags
-			\ call fzf#vim#buffer_tags(<q-args>, {
-			\     'down': '40%',
-			\     'options': '--preview-window=' . (<bang>0 ? 'right:50%' : '60%:hidden') .
-			\                ' --preview "
-			\                     tail -n +0\$(echo {3} | sed -nr \"s/([0-9]+);\\\"/\1/p\") {2} |
-			\                     head -n ' . (<bang>0 ? '48"' : '16"') .
+            \ call fzf#vim#buffer_tags(<q-args>, {
+            \     'down': '40%',
+            \     'options': '--preview-window=' . (<bang>0 ? 'right:50%' : '60%:hidden') .
+            \                ' --preview "
+            \                     tail -n +0\$(echo {3} | sed -nr \"s/([0-9]+);\\\"/\1/p\") {2} |
+            \                     head -n ' . (<bang>0 ? '48"' : '16"') .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m'
-			\ }, <bang>0)
+            \ }, <bang>0)
 command! -bang -nargs=* FZFTags
             \ call fzf#vim#tags(<q-args>, {
-			\     'down': '40%',
-			\     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
-			\                ' --preview "
-			\                     tail -n +0\$(echo {3} | sed -nr \"s/([0-9]+);\\\"/\1/p\") {2} |
-			\                     head -n ' . (<bang>0 ? '48"' : '16"') .
+            \     'down': '40%',
+            \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
+            \                ' --preview "
+            \                     tail -n +0\$(echo {3} | sed -nr \"s/([0-9]+);\\\"/\1/p\") {2} |
+            \                     head -n ' . (<bang>0 ? '48"' : '16"') .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m'
-			\ }, <bang>0)
+            \ }, <bang>0)
 command! -bang -nargs=* FZFBLines
             \ call fzf#vim#buffer_lines(<q-args>, {
-			\     'down': '40%',
-			\     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
-			\                ' --preview "
-			\                     tail -n +{1} ' . expand('%') . ' |
-			\                     head -n ' . (<bang>0 ? '48"' : '16"') .
+            \     'down': '40%',
+            \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
+            \                ' --preview "
+            \                     tail -n +{1} ' . expand('%') . ' |
+            \                     head -n ' . (<bang>0 ? '48"' : '16"') .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m'
             \ }, <bang>0)
