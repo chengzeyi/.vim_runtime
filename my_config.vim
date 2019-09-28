@@ -68,7 +68,7 @@ Plug 'airblade/vim-gitgutter'
 " Plug 'jacquesbh/vim-showmarks'
 " Plug 'jeetsukumaran/vim-markology'
 
-Plug 'maxbrunsfeld/vim-yankstack'
+" Plug 'maxbrunsfeld/vim-yankstack'
 
 Plug 'machakann/vim-highlightedyank'
 
@@ -1518,7 +1518,7 @@ nnoremap <leader>gi :Gist<cr>
 " nnoremap <leader>mS :NoShowMarks<cr>
 " nnoremap <leader>mp :PreviewMarks<cr>
 
-let g:yankstack_yank_keys = ['y', 'd']
+" let g:yankstack_yank_keys = ['y', 'd']
 nmap <F9> <Plug>yankstack_substitute_older_paste
 nmap <F10> <Plug>yankstack_substitute_newer_paste
 imap <F9> <Plug>yankstack_substitute_older_paste
@@ -1923,13 +1923,15 @@ try
 catch
 endtry
 
-let g:vtm_default_mapping = 0
-let g:vtm_default_engines = ['ciba', 'google']
-nmap gT <plug>translate
-vmap gT <plug>translatev
-nmap gt <Plug>TranslateW
-vmap gt <Plug>TranslateWV
-nmap <Leader>ts :Translate -w<space>
-nmap <Leader>tw :TranslateW -w<space>
-nmap <Leader>th :TranslateH<cr>
+if has('python') || has('python3')
+    let g:vtm_default_mapping = 0
+    let g:vtm_default_engines = ['ciba', 'google']
+    nmap gT <plug>Translate
+    vmap gT <plug>TranslateV
+    nmap gt <Plug>TranslateW
+    vmap gt <Plug>TranslateWV
+    nmap <Leader>ts :Translate -w<space>
+    nmap <Leader>tw :TranslateW -w<space>
+    nmap <Leader>th :TranslateH<cr>
+endif
 
