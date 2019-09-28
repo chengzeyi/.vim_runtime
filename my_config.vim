@@ -46,7 +46,7 @@ Plug 'wsdjeg/FlyGrep.vim', {'on': 'FlyGrep'}
 Plug 'jiangmiao/auto-pairs'
 
 Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
-" Plug 'junegunn/limelight.vim', {'on': ['<plug>(Limelight)', 'Limelight']}
+Plug 'junegunn/limelight.vim', {'on': ['<plug>(Limelight)', 'Limelight']}
 Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
 
 " Plug 'rbong/vim-flog', {'on': ['Flog', 'Flogsplit']}
@@ -1749,17 +1749,17 @@ endtry
 
 let g:goyo_width = '80%'
 let g:goyo_height = '95%'
-nnoremap <F12> :Goyo<cr>
+nnoremap <leader>go :Goyo<cr>
 
 " augroup changeLimelight
 "     autocmd!
 "     autocmd User GoyoEnter Limelight
 "     autocmd User GoyoLeave Limelight!
 " augroup END
-" nmap <Leader>lm <Plug>(Limelight)
-" xmap <Leader>lm <Plug>(Limelight)
-" nnoremap <leader><F9> :Limelight<cr>
-" nnoremap <leader><F10> :Limelight!<cr>
+nmap <Leader>lM <Plug>(Limelight)
+xmap <Leader>lM <Plug>(Limelight)
+nnoremap <leader>lm :Limelight<cr>
+nnoremap <leader>lm :Limelight!<cr>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
@@ -1919,7 +1919,7 @@ catch
 endtry
 
 let g:vtm_default_mapping = 0
-let g:vtm_default_engines = ['bing', 'youdao']
+let g:vtm_default_engines = ['ciba', 'google']
 nmap <Leader>ts <Plug>Translate
 vmap <Leader>ts <Plug>TranslateV
 nmap <Leader>tw <Plug>TranslateW
