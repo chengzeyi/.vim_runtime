@@ -1587,7 +1587,11 @@ command! -bang -nargs=* FZFRg
             \            : fzf#vim#with_preview('right:50%:hidden', '?'),
             \     <bang>0
             \)
-command! -bang -nargs=0 FZFFiles
+command! -bang -nargs=* FZFHistory
+            \ call fzf#vim#history(
+            \     <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \     <bang>0)
+command! -bang -nargs=? -complete=dir FZFFiles
             \ call fzf#vim#files(<q-args>,
             \     <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
             \     <bang>0)
