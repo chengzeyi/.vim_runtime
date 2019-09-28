@@ -693,6 +693,7 @@ nnoremap <leader>bc :bufdo %s//gc<left><left><left>
 
 augroup readNonTextFile
     au!
+    autocmd BufReadPre *.docx,*.rtf,*.odp,*.odt silent set ro
     autocmd BufReadPost *.docx,*.rtf,*.odp,*.odt silent %!pandoc "%" -t markdown -o /dev/stdout
     " Read-only .doc through antiword
     " autocmd BufReadPre *.doc silent set ro
