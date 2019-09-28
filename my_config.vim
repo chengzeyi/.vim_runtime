@@ -1537,6 +1537,29 @@ nnoremap <leader>zH :FZFHelptags<cr>
 nnoremap <leader>zs :FZFSnippets<cr>
 nnoremap <leader>zg :FZFGGrep<cr>
 nnoremap <leader>zG :FZFGrep<cr>
+
+nnoremap <leader>Zz :FZFFiles!<cr>
+nnoremap <leader>ZZ :FZFFiletypes!<cr>
+nnoremap <leader>Zf :FZFGFiles!<cr>
+nnoremap <leader>ZF :FZFGFiles!?<cr>
+nnoremap <leader>Zb :FZFBuffers!<cr>
+nnoremap <leader>Zc :FZFCommands!<cr>
+nnoremap <leader>ZC :FZFColors!<cr>
+nnoremap <leader>ZC :FZFColors!<cr>
+nnoremap <leader>Za :FZFAg!<cr>
+nnoremap <leader>Zr :FZFRg!<cr>
+nnoremap <leader>Zl :FZFLines!<cr>
+nnoremap <leader>ZL :FZFBLines!<cr>
+nnoremap <leader>Zt :FZFTags!<cr>
+nnoremap <leader>ZT :FZFBTags!<cr>
+nnoremap <leader>Zm :FZFMarks!<cr>
+nnoremap <leader>Zw :FZFWindows!<cr>
+nnoremap <leader>Zh :FZFHistory!<cr>
+nnoremap <leader>ZH :FZFHelptags!<cr>
+nnoremap <leader>Zs :FZFSnippets!<cr>
+nnoremap <leader>Zg :FZFGGrep!<cr>
+nnoremap <leader>ZG :FZFGrep!<cr>
+
 command! -bang -nargs=* FZFGGrep
             \ call fzf#vim#grep(
             \    'git grep --line-number '.shellescape(<q-args>),
@@ -1568,29 +1591,29 @@ command! -bang -nargs=0 FZFFiles
             \ call fzf#vim#files(<q-args>,
             \     <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
             \     <bang>0)
-command! -bang -nargs=0 FZFFiletypes
+command! -bar -bang -nargs=0 FZFFiletypes
             \ call fzf#vim#filetypes({'left': '15%', 'options': '--reverse --margin 5%,0'}, <bang>0)
-command! -bang -nargs=0 FZFColors
+command! -bar -bang -nargs=0 FZFColors
             \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 5%,0'}, <bang>0)
 command! -bang -nargs=* FZFBTags
 			\ call fzf#vim#buffer_tags(<q-args>, {
 			\     'down': '40%',
-			\     'options': '--preview-window="50%"
-			\                 --preview "
-			\                     tail -n +\$(echo {3} | tr -d \";\\\"\") {2} |
-			\                     head -n 16"
-            \                 --bind "?:toggle-preview"
-            \                 -m'
+			\     'options': '--preview-window=' . (<bang>0 ? 'right:50%' : '60%:hidden') .
+			\                ' --preview "
+			\                     tail -n +\$(echo {3} | tr -d \";\\\"\" | tr -d -c \"0-9\") {2} |
+			\                     head -n ' . (<bang>0 ? '48"' : '16"') .
+            \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
+            \                 ' -m'
 			\ }, <bang>0)
 command! -bang -nargs=* FZFTags
             \ call fzf#vim#tags(<q-args>, {
 			\     'down': '40%',
-			\     'options': '--preview-window="40%"
-			\                 --preview "
-			\                     tail -n +\$(echo {3} | tr -d \";\\\"\") {2} |
-			\                     head -n 16"
-            \                 --bind "?:toggle-preview"
-            \                 -m'
+			\     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
+			\                ' --preview "
+			\                     tail -n +0\$(echo {3} | tr -d \";\\\"\" | tr -d -c \"0-9\") {2} |
+			\                     head -n ' . (<bang>0 ? '48"' : '16"') .
+            \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
+            \                 ' -m'
 			\ }, <bang>0)
 
 nmap <c-_> <Plug>CommentaryLine
