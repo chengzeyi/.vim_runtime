@@ -148,6 +148,10 @@ endif
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
 
+if has('python') || has('python3')
+    Plug 'voldikss/vim-translate-me'
+endif
+
 Plug 'liuchengxu/space-vim-dark'
 Plug 'chriskempson/base16-vim'
 Plug 'cocopon/iceberg.vim'
@@ -158,6 +162,7 @@ Plug 'joshdick/onedark.vim'
 call plug#end()
 
 let mapleader = ' '
+let maplocalleader = '\'
 set pastetoggle=<F2>
 
 inoremap <c-a> <home>
@@ -563,19 +568,19 @@ endfunction
 augroup compileAndRun
     au!
     if executable('python3')
-        au filetype python nnoremap <leader>cr :w <bar> !python3 %<cr>
-        au filetype python nnoremap <leader>cR :w <bar> !python3 %<space>
+        au filetype python nnoremap <buffer> <localleader>r :w <bar> !python3 %<cr>
+        au filetype python nnoremap <buffer> <localleader>R :w <bar> !python3 %<space>
     else
-        au filetype python nnoremap <leader>cr :w <bar> !python %<cr>
-        au filetype python nnoremap <leader>cR :w <bar> !python %<space>
+        au filetype python nnoremap <buffer> <localleader>r :w <bar> !python %<cr>
+        au filetype python nnoremap <buffer> <localleader>R :w <bar> !python %<space>
     endif
-    au filetype c nnoremap <leader>cr :w <bar>
+    au filetype c nnoremap <buffer> <localleader>r :w <bar>
                 \ !gcc % -o %:r && ./%:r<cr>
-    au filetype c nnoremap <leader>cR :w <bar>
+    au filetype c nnoremap <buffer> <localleader>R :w <bar>
                 \ !gcc % -o %:r && ./%:r<space>
-    au filetype cpp nnoremap <leader>cr :w <bar>
+    au filetype cpp nnoremap <buffer> <localleader>r :w <bar>
                 \ !g++ % -o %:r && ./%:r<cr>
-    au filetype cpp nnoremap <leader>cR :w <bar>
+    au filetype cpp nnoremap <buffer> <localleader>R :w <bar>
                 \ !g++ % -o %:r && ./%:r<space>
 augroup END
 
@@ -1885,4 +1890,14 @@ try
                 \ })
 catch
 endtry
+
+let g:vtm_default_mapping = 0
+let g:vtm_default_engines = ['bing', 'youdao', 'google']
+nmap <Leader>ts <Plug>Translate
+vmap <Leader>ts <Plug>TranslateV
+nmap <Leader>tw <Plug>TranslateW
+vmap <Leader>tw <Plug>TranslateWV
+nmap <Leader>tS :Translate<space>
+nmap <Leader>tW :TranslateW<space>
+nmap <Leader>th :TranslateH<cr>
 
