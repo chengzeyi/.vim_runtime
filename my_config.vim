@@ -342,7 +342,7 @@ set previewheight=6
 command! -nargs=+ P call P(<q-args>)
 function! P(cmd)
     let cmd = substitute(a:cmd, '\v\s', '\\ ', 'g')
-    silent exe 'noautocmd pedit +set\ buftype=nofile\ |\ %d\ |\ read\ !' . cmd . ' TMP'
+    silent exe 'noautocmd pedit +set\ buftype=nofile\ |\ %d\ |\ read\ !' . cmd . ' [P]'
 endfunction
 
 nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? '0' : '1'<cr><cr>
