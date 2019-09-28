@@ -608,7 +608,7 @@ endif
 nnoremap <leader>ct :Ctags<cr>
 nnoremap <leader>cT :Ctags<space>
 command! -complete=file -nargs=* Ctags !ctags
-            \ -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q <args>
+            \ -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q <args>
 
 set csverb
 " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
@@ -1643,7 +1643,7 @@ elseif executable('cscope')
     call add(g:gutentags_modules, 'cscope')
 endif
 let g:gutentags_define_advanced_commands = 1
-let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+ialS', '--extra=+q']
+let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+mnialS', '--extra=+q']
 let g:gutentags_cache_dir = '~/.vim_gutentags'
 
 " let g:easytags_include_members = 1
