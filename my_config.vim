@@ -332,9 +332,19 @@ if has('patch-8.1.1880') && has('textprop')
     " if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
     "             \ has('textprop')
     " set completeopt+=popup
-    set previewpopup=height:20,width:60
+    set previewpopup=height:20,width:80
 endif
 set previewheight=6
+" augroup setPreviewBufferNotHidden
+"     autocmd!
+"     autocmd bufenter * if &previewwindow | set bufhidden=delete | endif
+" augroup END
+command! -nargs=+ P call P(<q-args>)
+function! P(cmd)
+    let cmd = substitute(a:cmd, '\v\s', '\\ ', 'g')
+    silent exe 'noautocmd pedit +set\ buftype=nofile\ |\ %d\ |\ read\ !' . cmd . ' TMP'
+endfunction
+
 nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? '0' : '1'<cr><cr>
 nnoremap <leader>p+ :set previewheight+=1<cr>
 nnoremap <leader>p= :set previewheight=6<cr>
@@ -526,8 +536,8 @@ augroup setQLEditable
     autocmd FileType qf nnoremap <buffer> <tab> :RemoveQFItem<cr>
     autocmd FileType qf nnoremap <buffer> <s-tab> :UndoQFRemove<cr>
 augroup END
-command! RemoveQFItem :call RemoveQFItem()
-command! UndoQFRemove :call UndoQFRemove()
+command! RemoveQFItem call RemoveQFItem()
+command! UndoQFRemove call UndoQFRemove()
 function! RemoveQFItem()
     let winid = win_getid()
     if getwininfo(winid)[0]['loclist']
