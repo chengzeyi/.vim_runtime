@@ -375,7 +375,7 @@ function! P(cmd)
     let cmd = substitute(a:cmd, '\v[ \t]', '\\ ', 'g')
     let cmd = substitute(cmd, '\v\n', ';\\ ', 'g')
     let cmd = substitute(cmd, '\v\|', '\\|', 'g')
-    silent exe 'noautocmd pedit +set\ bufhidden=wipe\ buftype=nofile\ |\ %d\ |\ read\ !' . cmd . ' [P]'
+    silent exe 'noautocmd pedit +set\ bufhidden=wipe\ buftype=nofile\ |\ %d\ |\ read\ !' . cmd . ' [Preview Cmd]'
 endfunction
 
 nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? '0' : '1'<cr><cr>
