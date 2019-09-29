@@ -652,7 +652,8 @@ augroup compileAndRun
     au filetype cpp nnoremap <buffer> <localleader>R :w <bar>
                 \ !g++ % -o %:r && ./%:r<space>
     au filetype html nnoremap <buffer> <localleader>r :w <bar>
-                \ enew <bar> set buftype=nofile ft=markdown <bar> read !pandoc "#" -t markdown_strict -o /dev/stdout<cr>
+                \ enew <bar> set buftype=nofile ft=markdown <bar>
+                \ read !pandoc "#" -t markdown_strict -o /dev/stdout<cr>
 augroup END
 
 nnoremap <leader>aa :call AlternateFile()<cr>
