@@ -168,28 +168,28 @@ let mapleader = ' '
 let maplocalleader = '\'
 set pastetoggle=<F2>
 
-inoremap <silent> <c-a> <home>
-inoremap <silent> <c-e> <end>
+inoremap <c-a> <home>
+inoremap <c-e> <end>
 function! MapMotion(from, ...)
     let from = a:from
     let to = a:0 == 0 ? a:from : a:1
-    exec 'noremap <silent> ' . from . ' g' . to
-    exec 'noremap <silent> g' . from . ' ' . to
+    exec 'noremap ' . from . ' g' . to
+    exec 'noremap g' . from . ' ' . to
 endfunction
 call MapMotion('j')
 call MapMotion('k')
 call MapMotion('0', '^')
 call MapMotion('^', '0')
 call MapMotion('$')
-nnoremap <silent> Q @q
-nnoremap <silent> M `m
-nnoremap <silent> Y y$
-" nnoremap <silent> <leader>mm :match Question /<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<cr>
-" nnoremap <silent> <leader>mM :match<cr>
-nnoremap <silent> <leader>ff :let @/='\<lt><c-r>=expand('<lt>cword>')<cr>\>' <bar> set hls<cr>
-nnoremap <silent> <leader>jj :call GotoJump()<cr>
-nnoremap <silent> <leader>jt :call GotoTag()<cr>
-nnoremap <silent> <leader>jm :tselect<cr>
+nnoremap Q @q
+nnoremap M `m
+nnoremap Y y$
+" nnoremap <leader>mm :match Question /<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<cr>
+" nnoremap <leader>mM :match<cr>
+nnoremap <leader>ff :let @/='\<lt><c-r>=expand('<lt>cword>')<cr>\>' <bar> set hls<cr>
+nnoremap <leader>jj :call GotoJump()<cr>
+nnoremap <leader>jt :call GotoTag()<cr>
+nnoremap <leader>jm :tselect<cr>
 function! GotoJump()
     redraw!
     jumps
@@ -210,8 +210,8 @@ function! GotoTag()
         execute j[0:-2] . "pop"
     endif
 endfunction
-nnoremap <silent> <leader>? :call LookUpMap(1, '', '')<cr>
-nnoremap <silent> <leader>/ :call LookUpMap(1, '', '<lt>leader>')<cr>
+nnoremap <leader>? :call LookUpMap(1, '', '')<cr>
+nnoremap <leader>/ :call LookUpMap(1, '', '<lt>leader>')<cr>
 function! LookUpMap(count, mode, prefix)
     let cmd = a:mode . 'map ' . a:prefix
     let cnt = 0
@@ -234,23 +234,23 @@ function! LookUpMap(count, mode, prefix)
     execute cmd
 endfunction
 
-nnoremap <silent> <leader>w :w<cr>
-nnoremap <silent> <leader>W :wa<cr>
-nnoremap <silent> <leader>cb :cbuffer<cr>
-nnoremap <silent> <leader>" :registers<CR>
-nnoremap <silent> <leader>@ :registers<CR>
-inoremap <silent> <c-r> <c-r>="\<lt>c-r>" . BetterRegister()<cr>
+nnoremap <leader>w :w<cr>
+nnoremap <leader>W :wa<cr>
+nnoremap <leader>cb :cbuffer<cr>
+nnoremap <leader>" :registers<CR>
+nnoremap <leader>@ :registers<CR>
+inoremap <c-r> <c-r>="\<lt>c-r>" . BetterRegister()<cr>
 if exists(':terminal')
     if has('nvim')
-        tnoremap <silent> <expr> <c-r> "\<lt>c-\>\<lt>c-n>\"" . BetterRegister() . 'pi'
+        tnoremap <expr> <c-r> "\<lt>c-\>\<lt>c-n>\"" . BetterRegister() . 'pi'
     else
-        tnoremap <silent> <expr> <c-w>" "\<lt>c-w>\"" . BetterRegister()
+        tnoremap <expr> <c-w>" "\<lt>c-w>\"" . BetterRegister()
     endif
 endif
-nnoremap <silent> <expr> " '"' . BetterRegister()
-nnoremap <silent> <expr> @ '@' . BetterRegister()
-vnoremap <silent> <expr> " '"' . BetterRegister()
-vnoremap <silent> <expr> @ '@' . BetterRegister()
+nnoremap <expr> " '"' . BetterRegister()
+nnoremap <expr> @ '@' . BetterRegister()
+vnoremap <expr> " '"' . BetterRegister()
+vnoremap <expr> @ '@' . BetterRegister()
 function! BetterRegister()
     let more = &more
     set nomore
@@ -268,12 +268,12 @@ function! BetterRegister()
         endif
     endwhile
 endfunction
-nnoremap <silent> <leader>' :marks<CR>
-nnoremap <silent> <leader>` :marks<CR>
-nnoremap <silent> <expr> ' "'" . BetterMark()
-nnoremap <silent> <expr> ` '`' . BetterMark()
-vnoremap <silent> <expr> ' "'" . BetterMark()
-vnoremap <silent> <expr> ` '`' . BetterMark()
+nnoremap <leader>' :marks<CR>
+nnoremap <leader>` :marks<CR>
+nnoremap <expr> ' "'" . BetterMark()
+nnoremap <expr> ` '`' . BetterMark()
+vnoremap <expr> ' "'" . BetterMark()
+vnoremap <expr> ` '`' . BetterMark()
 function! BetterMark()
     let more = &more
     set nomore
@@ -291,11 +291,11 @@ function! BetterMark()
         endif
     endwhile
 endfunction
-" nnoremap <silent> <leader>ms :match Folded /<bslash>v^.*(%'a<bar>%'b<bar>%'c<bar>%'d).*/<cr>
-nnoremap <silent> <leader>mh :call MatchMarkLines()<cr>
-nnoremap <silent> <leader>mH :match<cr>
-nnoremap <silent> <leader>md :delmarks a-z<cr>
-nnoremap <silent> <leader>mD :delmarks a-zA-Z<cr>
+" nnoremap <leader>ms :match Folded /<bslash>v^.*(%'a<bar>%'b<bar>%'c<bar>%'d).*/<cr>
+nnoremap <leader>mh :call MatchMarkLines()<cr>
+nnoremap <leader>mH :match<cr>
+nnoremap <leader>md :delmarks a-z<cr>
+nnoremap <leader>mD :delmarks a-zA-Z<cr>
 function! HighlightMarkLines()
     let cmd = 'matc
     echo range(char2nr('a'), char2nr('z'))
@@ -305,29 +305,29 @@ function! HighlightMarkLines()
     execute cmd
 endfunction
 
-nnoremap <silent> <leader>f0 :set foldlevel=0<cr>
-nnoremap <silent> <leader>f1 :set foldlevel=1<cr>
-nnoremap <silent> <leader>f2 :set foldlevel=2<cr>
-nnoremap <silent> <leader>f3 :set foldlevel=3<cr>
-nnoremap <silent> <leader>f4 :set foldlevel=4<cr>
-nnoremap <silent> <leader>f5 :set foldlevel=5<cr>
-nnoremap <silent> <leader>f6 :set foldlevel=6<cr>
-nnoremap <silent> <leader>f7 :set foldlevel=7<cr>
-nnoremap <silent> <leader>f8 :set foldlevel=8<cr>
-nnoremap <silent> <leader>f9 :set foldlevel=9<cr>
-nnoremap <silent> <leader>f- :set foldlevel-=1<cr>
-nnoremap <silent> <leader>f+ :set foldlevel+=1<cr>
-nnoremap <silent> <leader>f= :set foldlevel=<c-r>=&foldlevel ? '0' : '99'<cr><cr>
-nnoremap <silent> <leader>fs :setlocal foldexpr=getline(v:lnum)=~@/?0:1 foldmethod=
+nnoremap <leader>f0 :set foldlevel=0<cr>
+nnoremap <leader>f1 :set foldlevel=1<cr>
+nnoremap <leader>f2 :set foldlevel=2<cr>
+nnoremap <leader>f3 :set foldlevel=3<cr>
+nnoremap <leader>f4 :set foldlevel=4<cr>
+nnoremap <leader>f5 :set foldlevel=5<cr>
+nnoremap <leader>f6 :set foldlevel=6<cr>
+nnoremap <leader>f7 :set foldlevel=7<cr>
+nnoremap <leader>f8 :set foldlevel=8<cr>
+nnoremap <leader>f9 :set foldlevel=9<cr>
+nnoremap <leader>f- :set foldlevel-=1<cr>
+nnoremap <leader>f+ :set foldlevel+=1<cr>
+nnoremap <leader>f= :set foldlevel=<c-r>=&foldlevel ? '0' : '99'<cr><cr>
+nnoremap <leader>fs :setlocal foldexpr=getline(v:lnum)=~@/?0:1 foldmethod=
     \<c-r>=&foldmethod == 'expr' ? 'indent' : 'expr'<cr> foldlevel=
     \<c-r>=&foldmethod == 'expr' ? '99' : '0'<cr><cr>
-nnoremap <silent> <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? '1' : '0'<cr><cr>
+nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? '1' : '0'<cr><cr>
 if has('patch-8.1.1564')
-    nnoremap <silent> <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'number' : 'no'<cr><cr>
+    nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'number' : 'no'<cr><cr>
 else
-    nnoremap <silent> <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr><cr>
+    nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr><cr>
 endif
-vnoremap <silent> <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : '.'
+vnoremap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : '.'
 if has('patch-8.1.1880') && has('textprop')
     " if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
     "             \ has('textprop')
@@ -370,15 +370,16 @@ function! Fanyi(type, ...)
     endif
 endfunction
 
-command! -nargs=+ -complete=file P call P(<q-args>)
+command! -nargs=+ P call P(<q-args>)
 function! P(cmd)
-    let cmd = substitute(a:cmd, '\v\s', '\\ ', 'g')
+    let cmd = substitute(a:cmd, '\v[ \t\n]', '\\ ', 'g')
+    let cmd = substitute(cmd, '\v\|', '\\|', 'g')
     silent exe 'noautocmd pedit +set\ bufhidden=wipe\ buftype=nofile\ |\ %d\ |\ read\ !' . cmd . ' [P]'
 endfunction
 
-nnoremap <silent> <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? '0' : '1'<cr><cr>
-nnoremap <silent> <leader>p+ :set previewheight+=1<cr>
-nnoremap <silent> <leader>p= :set previewheight=6<cr>
+nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? '0' : '1'<cr><cr>
+nnoremap <leader>p+ :set previewheight+=1<cr>
+nnoremap <leader>p= :set previewheight=6<cr>
 if executable('zsh')
     set shell=zsh
 elseif executable('fish')
@@ -386,47 +387,47 @@ elseif executable('fish')
 endif
 if exists(':terminal')
     if has('nvim')
-        tnoremap <silent> <F1> <c-\><c-n>
+        tnoremap <F1> <c-\><c-n>
     else
-        tnoremap <silent> <F1> <c-w>N
+        tnoremap <F1> <c-w>N
     endif
 endif
 if exists(':packadd')
-    nnoremap <silent> <leader>dd :packadd termdebug <bar> Termdebug<space>
-    nnoremap <silent> <leader>dD :packadd termdebug <bar> TermdebugCommand<space>
-    " nnoremap <silent> <leader>dr :Run<cr>
-    " nnoremap <silent> <leader>dR :Run<space>
-    " nnoremap <silent> <leader>da :Arguments<space>
-    " nnoremap <silent> <leader>de :Evaluate<cr>
-    " nnoremap <silent> <leader>dE :Evaluate<space>
-    " nnoremap <silent> <leader>db :Break<cr>
-    " nnoremap <silent> <leader>ds :Step<cr>
-    " nnoremap <silent> <leader>dS :Stop<cr>
-    " nnoremap <silent> <leader>do :Over<cr>
-    " nnoremap <silent> <leader>df :Finish<cr>
-    " nnoremap <silent> <leader>dc :Continue<cr>
-    " nnoremap <silent> <leader>dC :Clear<cr>
-    " nnoremap <silent> <leader>d[ :Gdb<cr>
-    " nnoremap <silent> <leader>d] :Program<cr>
-    " nnoremap <silent> <leader>d\ :Source<cr>
+    nnoremap <leader>dd :packadd termdebug <bar> Termdebug<space>
+    nnoremap <leader>dD :packadd termdebug <bar> TermdebugCommand<space>
+    " nnoremap <leader>dr :Run<cr>
+    " nnoremap <leader>dR :Run<space>
+    " nnoremap <leader>da :Arguments<space>
+    " nnoremap <leader>de :Evaluate<cr>
+    " nnoremap <leader>dE :Evaluate<space>
+    " nnoremap <leader>db :Break<cr>
+    " nnoremap <leader>ds :Step<cr>
+    " nnoremap <leader>dS :Stop<cr>
+    " nnoremap <leader>do :Over<cr>
+    " nnoremap <leader>df :Finish<cr>
+    " nnoremap <leader>dc :Continue<cr>
+    " nnoremap <leader>dC :Clear<cr>
+    " nnoremap <leader>d[ :Gdb<cr>
+    " nnoremap <leader>d] :Program<cr>
+    " nnoremap <leader>d\ :Source<cr>
 
-    nnoremap <silent> <leader>qf :packadd cfilter <bar> Cfilter<space>
-    nnoremap <silent> <leader>qv :packadd cfilter <bar> Cfilter!<space>
-    nnoremap <silent> <leader>lf :packadd cfilter <bar> Lfilter<space>
-    nnoremap <silent> <leader>lv :packadd cfilter <bar> Lfilter!<space>
+    nnoremap <leader>qf :packadd cfilter <bar> Cfilter<space>
+    nnoremap <leader>qv :packadd cfilter <bar> Cfilter!<space>
+    nnoremap <leader>lf :packadd cfilter <bar> Lfilter<space>
+    nnoremap <leader>lv :packadd cfilter <bar> Lfilter!<space>
 endif
-nnoremap <silent> [t :tprevious<cr>
-nnoremap <silent> ]t :tnext<cr>
-nnoremap <silent> [T :tfirst<cr>
-nnoremap <silent> ]T :tlast<cr>
-nnoremap <silent> <leader>] :execute 'ptag ' . expand('<lt>cword>')<cr>
-nnoremap <silent> <C-LeftMouse> :execute 'ptag ' . expand('<lt>cword>')<cr>
-nnoremap <silent> <leader>[ :pclose<cr>
-nnoremap <silent> <C-RightMouse> :pclose<cr>
-nnoremap <silent> [p :ptprevious<cr>
-nnoremap <silent> ]p :ptnext<cr>
-nnoremap <silent> [P :pfirst<cr>
-nnoremap <silent> ]P :plast<cr>
+nnoremap [t :tprevious<cr>
+nnoremap ]t :tnext<cr>
+nnoremap [T :tfirst<cr>
+nnoremap ]T :tlast<cr>
+nnoremap <leader>] :execute 'ptag ' . expand('<lt>cword>')<cr>
+nnoremap <C-LeftMouse> :execute 'ptag ' . expand('<lt>cword>')<cr>
+nnoremap <leader>[ :pclose<cr>
+nnoremap <C-RightMouse> :pclose<cr>
+nnoremap [p :ptprevious<cr>
+nnoremap ]p :ptnext<cr>
+nnoremap [P :pfirst<cr>
+nnoremap ]P :plast<cr>
 augroup skipBuffer
     au!
     au Filetype qf set nobuflisted
@@ -437,10 +438,10 @@ augroup END
 " Usage: source <thisfile> in pythonmode and
 " Press: vai, vii to select outer/inner python blocks by indetation.
 " Press: vii, yii, dii, cii to select/yank/delete/change an indented block.
-onoremap <silent> ai :<C-u>call IndTxtObj(0)<CR>
-onoremap <silent> ii :<C-u>call IndTxtObj(1)<CR>
-vnoremap <silent> ai <Esc>:call IndTxtObj(0)<CR><Esc>gv
-vnoremap <silent> ii <Esc>:call IndTxtObj(1)<CR><Esc>gv
+onoremap ai :<C-u>call IndTxtObj(0)<CR>
+onoremap ii :<C-u>call IndTxtObj(1)<CR>
+vnoremap ai <Esc>:call IndTxtObj(0)<CR><Esc>gv
+vnoremap ii <Esc>:call IndTxtObj(1)<CR><Esc>gv
 function! IndTxtObj(inner)
     let curcol = col(".")
     let curline = line(".")
@@ -519,18 +520,18 @@ augroup END
 function! AdjustWindowHeight(minheight, maxheight)
     exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
 endfunction
-nnoremap <silent> <leader>qq :QToggle<cr>
-nnoremap <silent> <leader>ll :LToggle<cr>
-nnoremap <silent> <leader>qe :cexpr [] <bar> :cclose<cr>
-nnoremap <silent> <leader>le :lexpr [] <bar> :lclose<cr>
-nnoremap <silent> [q :cprev<cr>
-nnoremap <silent> ]q :cnext<cr>
-nnoremap <silent> [Q :cfirst<cr>
-nnoremap <silent> ]Q :clast<cr>
-nnoremap <silent> [l :lprev<cr>
-nnoremap <silent> ]l :lnext<cr>
-nnoremap <silent> [L :lfirst<cr>
-nnoremap <silent> ]L :llast<cr>
+nnoremap <leader>qq :QToggle<cr>
+nnoremap <leader>ll :LToggle<cr>
+nnoremap <leader>qe :cexpr [] <bar> :cclose<cr>
+nnoremap <leader>le :lexpr [] <bar> :lclose<cr>
+nnoremap [q :cprev<cr>
+nnoremap ]q :cnext<cr>
+nnoremap [Q :cfirst<cr>
+nnoremap ]Q :clast<cr>
+nnoremap [l :lprev<cr>
+nnoremap ]l :lnext<cr>
+nnoremap [L :lfirst<cr>
+nnoremap ]L :llast<cr>
 command! QToggle call QListToggle(10, 1)
 command! LToggle call LListToggle(10, 1)
 function! LListToggle(height, ...) abort
@@ -564,8 +565,8 @@ endfunction
 
 augroup setQLEditable
     au!
-    autocmd FileType qf nnoremap <silent> <buffer> <tab> :RemoveQFItem<cr>
-    autocmd FileType qf nnoremap <silent> <buffer> <s-tab> :UndoQFRemove<cr>
+    autocmd FileType qf nnoremap <buffer> <tab> :RemoveQFItem<cr>
+    autocmd FileType qf nnoremap <buffer> <s-tab> :UndoQFRemove<cr>
 augroup END
 command! RemoveQFItem call RemoveQFItem()
 command! UndoQFRemove call UndoQFRemove()
@@ -619,23 +620,23 @@ endfunction
 augroup compileAndRun
     au!
     if executable('python3')
-        au filetype python nnoremap <silent> <buffer> <localleader>r :w <bar> !python3 %<cr>
-        au filetype python nnoremap <silent> <buffer> <localleader>R :w <bar> !python3 %<space>
+        au filetype python nnoremap <buffer> <localleader>r :w <bar> !python3 %<cr>
+        au filetype python nnoremap <buffer> <localleader>R :w <bar> !python3 %<space>
     else
-        au filetype python nnoremap <silent> <buffer> <localleader>r :w <bar> !python %<cr>
-        au filetype python nnoremap <silent> <buffer> <localleader>R :w <bar> !python %<space>
+        au filetype python nnoremap <buffer> <localleader>r :w <bar> !python %<cr>
+        au filetype python nnoremap <buffer> <localleader>R :w <bar> !python %<space>
     endif
-    au filetype c nnoremap <silent> <buffer> <localleader>r :w <bar>
+    au filetype c nnoremap <buffer> <localleader>r :w <bar>
                 \ !gcc % -o %:r && ./%:r<cr>
-    au filetype c nnoremap <silent> <buffer> <localleader>R :w <bar>
+    au filetype c nnoremap <buffer> <localleader>R :w <bar>
                 \ !gcc % -o %:r && ./%:r<space>
-    au filetype cpp nnoremap <silent> <buffer> <localleader>r :w <bar>
+    au filetype cpp nnoremap <buffer> <localleader>r :w <bar>
                 \ !g++ % -o %:r && ./%:r<cr>
-    au filetype cpp nnoremap <silent> <buffer> <localleader>R :w <bar>
+    au filetype cpp nnoremap <buffer> <localleader>R :w <bar>
                 \ !g++ % -o %:r && ./%:r<space>
 augroup END
 
-nnoremap <silent> <leader>aa :call AlternateFile()<cr>
+nnoremap <leader>aa :call AlternateFile()<cr>
 function! AlternateFile()
     let suffix = expand('%:e')
     if suffix ==# 'cpp'
@@ -661,76 +662,76 @@ if has('patch-8.1.0360') || has('nvim-0.3.2')
     set diffopt=filler,internal,algorithm:histogram,indent-heuristic
 endif
 
-nnoremap <silent> <leader>ct :Ctags<cr>
-nnoremap <silent> <leader>cT :Ctags<space>
+nnoremap <leader>ct :Ctags<cr>
+nnoremap <leader>cT :Ctags<space>
 command! -complete=file -nargs=* Ctags !ctags
             \ -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q <args>
 
 set csverb
 " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
-nnoremap <silent> <leader>cs :Cscope<cr>
-nnoremap <silent> <leader>cS :Cscope<space>
+nnoremap <leader>cs :Cscope<cr>
+nnoremap <leader>cS :Cscope<space>
 command! -complete=file -nargs=* Cscope !cscope -Rbqk <args>
-nnoremap <silent> <C-\>q :set cscopequickfix=<c-r>=&cscopequickfix == '' ? 's-,g-,d-,c-,t-,e-,f-,i-,a-' : ''<cr><cr>
-nnoremap <silent> <C-\><bs> :set invcst<cr>
-nnoremap <silent> <C-\><c-h> :set invcst<cr>
-nnoremap <silent> <C-\>\ :cs add .<cr>
-nnoremap <silent> <C-\><bar> :cs add<space>
-nnoremap <silent> <C-\><cr> :cs show<cr>
-nnoremap <silent> <C-\>h :cs help<cr>
-nnoremap <silent> <C-\>r :cs reset<cr>
-nnoremap <silent> <C-\>k :cs kill -1<cr>
-nnoremap <silent> <C-\>a :cs find a <C-R>=expand("<cword>")<CR><CR>
-nnoremap <silent> <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
-nnoremap <silent> <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-nnoremap <silent> <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
-nnoremap <silent> <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
-nnoremap <silent> <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
-nnoremap <silent> <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-nnoremap <silent> <C-\>i :cs find i <C-R>=expand("<cfile>")<CR><CR>
-nnoremap <silent> <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
-nnoremap <silent> <C-\>A :cs find a<space>
-nnoremap <silent> <C-\>S :cs find s<space>
-nnoremap <silent> <C-\>G :cs find g<space>
-nnoremap <silent> <C-\>C :cs find c<space>
-nnoremap <silent> <C-\>T :cs find t<space>
-nnoremap <silent> <C-\>E :cs find e<space>
-nnoremap <silent> <C-\>F :cs find f<space>
-nnoremap <silent> <C-\>I :cs find i<space>
-nnoremap <silent> <C-\>D :cs find d<space>
-nnoremap <silent> <C-\><C-\>a :scs find a <C-R>=expand("<cword>")<CR><CR>
-nnoremap <silent> <C-\><C-\>s :scs find s <C-R>=expand("<cword>")<CR><CR>
-nnoremap <silent> <C-\><C-\>g :scs find g <C-R>=expand("<cword>")<CR><CR>
-nnoremap <silent> <C-\><C-\>c :scs find c <C-R>=expand("<cword>")<CR><CR>
-nnoremap <silent> <C-\><C-\>t :scs find t <C-R>=expand("<cword>")<CR><CR>
-nnoremap <silent> <C-\><C-\>e :scs find e <C-R>=expand("<cword>")<CR><CR>
-nnoremap <silent> <C-\><C-\>f :scs find f <C-R>=expand("<cfile>")<CR><CR>
-nnoremap <silent> <C-\><C-\>i :scs find i <C-R>=expand("<cfile>")<CR><CR>
-nnoremap <silent> <C-\><C-\>d :scs find d <C-R>=expand("<cword>")<CR><CR>
-nnoremap <silent> <C-\><C-\>A :scs find a<space>
-nnoremap <silent> <C-\><C-\>S :scs find s<space>
-nnoremap <silent> <C-\><C-\>G :scs find g<space>
-nnoremap <silent> <C-\><C-\>C :scs find c<space>
-nnoremap <silent> <C-\><C-\>T :scs find t<space>
-nnoremap <silent> <C-\><C-\>E :scs find e<space>
-nnoremap <silent> <C-\><C-\>F :scs find f<space>
-nnoremap <silent> <C-\><C-\>I :scs find i<space>
-nnoremap <silent> <C-\><C-\>D :scs find d<space>
+nnoremap <C-\>q :set cscopequickfix=<c-r>=&cscopequickfix == '' ? 's-,g-,d-,c-,t-,e-,f-,i-,a-' : ''<cr><cr>
+nnoremap <C-\><bs> :set invcst<cr>
+nnoremap <C-\><c-h> :set invcst<cr>
+nnoremap <C-\>\ :cs add .<cr>
+nnoremap <C-\><bar> :cs add<space>
+nnoremap <C-\><cr> :cs show<cr>
+nnoremap <C-\>h :cs help<cr>
+nnoremap <C-\>r :cs reset<cr>
+nnoremap <C-\>k :cs kill -1<cr>
+nnoremap <C-\>a :cs find a <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+nnoremap <C-\>i :cs find i <C-R>=expand("<cfile>")<CR><CR>
+nnoremap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\>A :cs find a<space>
+nnoremap <C-\>S :cs find s<space>
+nnoremap <C-\>G :cs find g<space>
+nnoremap <C-\>C :cs find c<space>
+nnoremap <C-\>T :cs find t<space>
+nnoremap <C-\>E :cs find e<space>
+nnoremap <C-\>F :cs find f<space>
+nnoremap <C-\>I :cs find i<space>
+nnoremap <C-\>D :cs find d<space>
+nnoremap <C-\><C-\>a :scs find a <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\><C-\>s :scs find s <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\><C-\>g :scs find g <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\><C-\>c :scs find c <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\><C-\>t :scs find t <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\><C-\>e :scs find e <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\><C-\>f :scs find f <C-R>=expand("<cfile>")<CR><CR>
+nnoremap <C-\><C-\>i :scs find i <C-R>=expand("<cfile>")<CR><CR>
+nnoremap <C-\><C-\>d :scs find d <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\><C-\>A :scs find a<space>
+nnoremap <C-\><C-\>S :scs find s<space>
+nnoremap <C-\><C-\>G :scs find g<space>
+nnoremap <C-\><C-\>C :scs find c<space>
+nnoremap <C-\><C-\>T :scs find t<space>
+nnoremap <C-\><C-\>E :scs find e<space>
+nnoremap <C-\><C-\>F :scs find f<space>
+nnoremap <C-\><C-\>I :scs find i<space>
+nnoremap <C-\><C-\>D :scs find d<space>
 
-nnoremap <silent> <leader>vv :vimgrep //j %<left><left><left><left>
-nnoremap <silent> <leader>vV :vimgrep //j **/*<left><left><left><left><left><left><left>
-nnoremap <silent> <leader>vl :lvimgrep //j %<left><left><left><left>
-nnoremap <silent> <leader>vL :lvimgrep //j **/*<left><left><left><left><left><left><left>
-nnoremap <silent> <leader>ss :%s//g<left><left>
-nnoremap <silent> <leader>sc :%s//gc<left><left><left>
-xnoremap <silent> <leader>ss :s//g<left><left>
-xnoremap <silent> <leader>sc :s//gc<left><left><left>
-nnoremap <silent> <leader>qs :cdo s//g<left><left>
-nnoremap <silent> <leader>qc :cdo s//gc<left><left><left>
-nnoremap <silent> <leader>ls :ldo s//g<left><left>
-nnoremap <silent> <leader>lc :ldo s//gc<left><left><left>
-nnoremap <silent> <leader>bs :bufdo %s//g<left><left>
-nnoremap <silent> <leader>bc :bufdo %s//gc<left><left><left>
+nnoremap <leader>vv :vimgrep //j %<left><left><left><left>
+nnoremap <leader>vV :vimgrep //j **/*<left><left><left><left><left><left><left>
+nnoremap <leader>vl :lvimgrep //j %<left><left><left><left>
+nnoremap <leader>vL :lvimgrep //j **/*<left><left><left><left><left><left><left>
+nnoremap <leader>ss :%s//g<left><left>
+nnoremap <leader>sc :%s//gc<left><left><left>
+xnoremap <leader>ss :s//g<left><left>
+xnoremap <leader>sc :s//gc<left><left><left>
+nnoremap <leader>qs :cdo s//g<left><left>
+nnoremap <leader>qc :cdo s//gc<left><left><left>
+nnoremap <leader>ls :ldo s//g<left><left>
+nnoremap <leader>lc :ldo s//gc<left><left><left>
+nnoremap <leader>bs :bufdo %s//g<left><left>
+nnoremap <leader>bc :bufdo %s//gc<left><left><left>
 
 augroup readNonTextFile
     au!
@@ -768,16 +769,16 @@ if exists('+ttymouse')
     endif
 endif
 set mousemodel=popup
-nnoremap <silent> <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
+nnoremap <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
 
-nnoremap <silent> <c-]> g<c-]>
-nnoremap <silent> g<c-]> <c-]>
-xnoremap <silent> <c-]> g<c-]>
-xnoremap <silent> g<c-]> <c-]>
-nnoremap <silent> <c-w><c-]> <c-w>g<c-]>
-nnoremap <silent> <c-w>g<c-]> <c-w><c-]>
-xnoremap <silent> <c-w><c-]> <c-w>g<c-]>
-xnoremap <silent> <c-w>g<c-]> <c-w><c-]>
+nnoremap <c-]> g<c-]>
+nnoremap g<c-]> <c-]>
+xnoremap <c-]> g<c-]>
+xnoremap g<c-]> <c-]>
+nnoremap <c-w><c-]> <c-w>g<c-]>
+nnoremap <c-w>g<c-]> <c-w><c-]>
+xnoremap <c-w><c-]> <c-w>g<c-]>
+xnoremap <c-w>g<c-]> <c-w><c-]>
 
 set tags=./tags;,./TAGS;
 augroup setFtTags
@@ -809,8 +810,8 @@ set number
 " if has('patch-7.3.787')
 "     set relativenumber
 " endif
-nnoremap <silent> <leader>or :set invrelativenumber<cr>
-nnoremap <silent> <leader>on :set invnumber<cr>
+nnoremap <leader>or :set invrelativenumber<cr>
+nnoremap <leader>on :set invnumber<cr>
 
 set exrc
 set secure
@@ -825,8 +826,8 @@ set cursorline
 
 set splitbelow
 set splitright
-nnoremap <silent> <leader><bslash> :vs<cr>
-nnoremap <silent> <leader><bar> :sp<cr>
+nnoremap <leader><bslash> :vs<cr>
+nnoremap <leader><bar> :sp<cr>
 
 set history=500
 
@@ -846,7 +847,7 @@ set display+=lastline
 set re=1
 
 set scrolloff=1
-nnoremap <silent> <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? '5' : '1'<cr><cr>
+nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? '5' : '1'<cr><cr>
 
 let $LANG='en'
 set langmenu=en
@@ -859,7 +860,7 @@ set wildignorecase
 " if has('menu')
 "     source $VIMRUNTIME/menu.vim
 "     set wcm=<c-z>
-"     map <silent> <F12> :emenu <c-z>
+"     map <F12> :emenu <c-z>
 " endif
 
 set wildignore=*.o,*~,*.pyc
@@ -931,7 +932,7 @@ syntax enable
 
 set t_Co=256
 if has('termguicolors')
-    nnoremap <silent> <leader>ot :set invtermguicolors<cr>
+    nnoremap <leader>ot :set invtermguicolors<cr>
 endif
 
 " let g:space_vim_dark_background = 235
@@ -1024,35 +1025,35 @@ set wrap "Wrap lines
 
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
-vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+vnoremap * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+vnoremap # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
-nnoremap <silent> <c-k> <C-w>p5<C-y><C-w>p
-nnoremap <silent> <c-j> <C-w>p5<C-e><C-w>p
-" inoremap <silent> <c-k> <Esc><C-w>p5<C-y><C-w>pi
-" inoremap <silent> <c-j> <Esc><C-w>p5<C-e><C-w>pi
+nnoremap <c-k> <C-w>p5<C-y><C-w>p
+nnoremap <c-j> <C-w>p5<C-e><C-w>p
+" inoremap <c-k> <Esc><C-w>p5<C-y><C-w>pi
+" inoremap <c-j> <Esc><C-w>p5<C-e><C-w>pi
 
-nnoremap <silent> <leader><bs> :nohls<cr>
-nnoremap <silent> <leader><c-h> :nohls<cr>
+nnoremap <leader><bs> :nohls<cr>
+nnoremap <leader><c-h> :nohls<cr>
 
 " Smart way to move between windows
-nnoremap <silent> <s-j> <c-w>j
-nnoremap <silent> <s-k> <c-w>k
-nnoremap <silent> <s-h> <c-w>h
-nnoremap <silent> <s-l> <c-w>l
+nnoremap <s-j> <c-w>j
+nnoremap <s-k> <c-w>k
+nnoremap <s-h> <c-w>h
+nnoremap <s-l> <c-w>l
 
-nnoremap <silent> <leader>= <c-w>=
-nnoremap <silent> <leader>+ :exe "resize +5"<cr>
-nnoremap <silent> <leader>- :exe "resize -5"<cr>
+nnoremap <leader>= <c-w>=
+nnoremap <leader>+ :exe "resize +5"<cr>
+nnoremap <leader>- :exe "resize -5"<cr>
 
-" nnoremap <silent> <c-h> :bprevious<cr>
-" nnoremap <silent> <c-l> :bnext<cr>
-nnoremap <silent> <F3> :tabp<cr>
-nnoremap <silent> <F4> :tabn<cr>
+" nnoremap <c-h> :bprevious<cr>
+" nnoremap <c-l> :bnext<cr>
+nnoremap <F3> :tabp<cr>
+nnoremap <F4> :tabn<cr>
 
 " Close the current buffer
-" map <silent> <leader>bc :Bclose<cr>:tabclose<cr>gT
-nnoremap <silent> <leader>bb :Bclose<cr>
+" map <leader>bc :Bclose<cr>:tabclose<cr>gT
+nnoremap <leader>bb :Bclose<cr>
 " Don't close window, when deleting a buffer
 command! Bclose call s:BufcloseCloseIt()
 function! s:BufcloseCloseIt()
@@ -1075,8 +1076,8 @@ function! s:BufcloseCloseIt()
 endfunction
 
 " Close all the buffers
-nnoremap <silent> <leader>bd :bufdo bd<cr>
-nnoremap <silent> <leader>bh :call CloseHiddenBuffers()<cr>
+nnoremap <leader>bd :bufdo bd<cr>
+nnoremap <leader>bh :call CloseHiddenBuffers()<cr>
 function! CloseHiddenBuffers()
     let open_buffers = []
 
@@ -1091,19 +1092,19 @@ function! CloseHiddenBuffers()
     endfor
 endfunction
 
-nnoremap <silent> <leader><tab> :bnext<cr>
-nnoremap <silent> <leader><s-tab> :bprevious<cr>
+nnoremap <leader><tab> :bnext<cr>
+nnoremap <leader><s-tab> :bprevious<cr>
 
 " Useful mappings for managing tabs
-nnoremap <silent> <leader>tn :tabnew<cr>
-nnoremap <silent> <leader>to :tabonly<cr>
-nnoremap <silent> <leader>tc :tabclose<cr>
-nnoremap <silent> <leader>tm :tabmove<cr>
-nnoremap <silent> <leader>t<leader> :tabnext<cr>
+nnoremap <leader>tn :tabnew<cr>
+nnoremap <leader>to :tabonly<cr>
+nnoremap <leader>tc :tabclose<cr>
+nnoremap <leader>tm :tabmove<cr>
+nnoremap <leader>t<leader> :tabnext<cr>
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
-nnoremap <silent> <leader>tl :exe "tabn ".g:lasttab<cr>
+nnoremap <leader>tl :exe "tabn ".g:lasttab<cr>
 augroup tabLeave
     au!
     au TabLeave * let g:lasttab = tabpagenr()
@@ -1111,11 +1112,11 @@ augroup END
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
-nnoremap <silent> <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 " Switch CWD to the directory of the open buffer
-nnoremap <silent> <leader>cd :cd %:p:h<cr>:pwd<cr>
-nnoremap <silent> <leader>cD :call SetCwd()<cr>
+nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
+nnoremap <leader>cD :call SetCwd()<cr>
 function! SetCwd()
     let cph = expand('%:p:h', 1)
     if cph =~ '^.\+://' | retu | en
@@ -1147,13 +1148,13 @@ set laststatus=2
 " set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
 " Pressing ,ss will toggle and untoggle spell checking
-" nnoremap <silent> <leader>ss :setlocal spell!<cr>
+" nnoremap <leader>ss :setlocal spell!<cr>
 
 " Shortcuts using <leader>
-" nnoremap <silent> <leader>sn ]s
-" nnoremap <silent> <leader>sp [s
-" nnoremap <silent> <leader>sa zg
-" nnoremap <silent> <leader>s? z=
+" nnoremap <leader>sn ]s
+" nnoremap <leader>sp [s
+" nnoremap <leader>sa zg
+" nnoremap <leader>s? z=
 
 function! CmdLine(str)
     call feedkeys(":" . a:str)
@@ -1179,7 +1180,7 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fast editing and reloading of vimrc configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <silent> <leader>e :e! ~/.vim_runtime/my_config.vim<cr>
+nnoremap <leader>e :e! ~/.vim_runtime/my_config.vim<cr>
 augroup vimConfig
     autocmd!
     autocmd bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
@@ -1196,12 +1197,12 @@ catch
 endtry
 
 " Bash like keys for the command line
-cnoremap <silent> <C-A> <Home>
-cnoremap <silent> <C-E> <End>
-cnoremap <silent> <C-K> <C-U>
+cnoremap <C-A> <Home>
+cnoremap <C-E> <End>
+cnoremap <C-K> <C-U>
 
-cnoremap <silent> <C-P> <Up>
-cnoremap <silent> <C-N> <Down>
+cnoremap <C-P> <Up>
+cnoremap <C-N> <Down>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General abbreviations
@@ -1245,9 +1246,9 @@ let g:OmniCpp_MayCompleteScope = 1
 let g:OmniCpp_ShowPrototypeInAbbr = 1
 let g:OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
 
-imap <silent> <C-\> <Plug>(neosnippet_expand_or_jump)
-smap <silent> <C-\> <Plug>(neosnippet_expand_or_jump)
-xmap <silent> <C-\> <Plug>(neosnippet_expand_target)
+imap <C-\> <Plug>(neosnippet_expand_or_jump)
+smap <C-\> <Plug>(neosnippet_expand_or_jump)
+xmap <C-\> <Plug>(neosnippet_expand_target)
 " For conceal markers.
 " if has('conceal')
 "     set conceallevel=2 concealcursor=niv
@@ -1261,17 +1262,17 @@ augroup END
 
 if has('lua')
     set completeopt=menuone,noselect
-    nnoremap <silent> <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview <bar>
+    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview <bar>
                 \ if exists('b:neocomplete') <bar> unlet b:neocomplete <bar> endif <cr>
-    inoremap <silent> <c-j> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>"<cr>
+    inoremap <c-j> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>"<cr>
                 \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>"<cr>
-    inoremap <silent> <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n>
+    inoremap <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n>
 else
     set completeopt=menuone
-    nnoremap <silent> <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview<cr>
-    inoremap <silent> <c-j> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>\<lt>c-p>"<cr>
+    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview<cr>
+    inoremap <c-j> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>\<lt>c-p>"<cr>
                 \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>\<lt>c-p>"<cr>
-    inoremap <silent> <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n><c-p>
+    inoremap <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n><c-p>
 endif
 set pumheight=12
 
@@ -1298,30 +1299,30 @@ let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\
 " let g:neocomplete#sources#omni#input_patterns.go = '[^.[:digit:] *\t]\.\w*'
 " let g:neocomplete#sources#omni#input_patterns.python = '[^. \t]\.\w*'
 
-nmap <silent> <leader><cr><cr> <Plug>(lsp-status)
-nmap <silent> <leader><cr>a <Plug>(lsp-code-action)
-nmap <silent> <leader><cr>f <Plug>(lsp-document-range-format)
-nmap <silent> <leader><cr>F <Plug>(lsp-document-format)
-nmap <silent> <leader><cr>d <Plug>(lsp-document-diagnostics)
-nmap <silent> <leader><cr>1 <Plug>(lsp-peek-declaration)
-nmap <silent> <leader><cr>3 <Plug>(lsp-declaration)
-nmap <silent> <leader><cr>2 <Plug>(lsp-peek-definition)
-nmap <silent> <leader><cr>4 <Plug>(lsp-definition)
-nmap <silent> <leader><cr>i <Plug>(lsp-peek-implementation)
-nmap <silent> <leader><cr>L <Plug>(lsp-implementation)
-nmap <silent> <leader><cr>h <Plug>(lsp-hover)
-nmap <silent> <leader><cr>r <Plug>(lsp-references)
-nmap <silent> <leader><cr>R <Plug>(lsp-rename)
-nmap <silent> <leader><cr>t <Plug>(lsp-peek-type-definition)
-nmap <silent> <leader><cr>T <Plug>(lsp-type-definition)
-nmap <silent> <leader><cr>s <Plug>(lsp-document-symbol)
-nmap <silent> <leader><cr>S <Plug>(lsp-workspace-symbol)
-nmap <silent> ]e <Plug>(lsp-next-error)
-nmap <silent> ]r <Plug>(lsp-next-reference)
-nmap <silent> [e <Plug>(lsp-previous-error)
-nmap <silent> [r <Plug>(lsp-previous-reference)
-nmap <silent> <leader><cr>] <Plug>(lsp-preview-focus)
-nmap <silent> <leader><cr>[ <Plug>(lsp-preview-close)
+nmap <leader><cr><cr> <Plug>(lsp-status)
+nmap <leader><cr>a <Plug>(lsp-code-action)
+nmap <leader><cr>f <Plug>(lsp-document-range-format)
+nmap <leader><cr>F <Plug>(lsp-document-format)
+nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
+nmap <leader><cr>1 <Plug>(lsp-peek-declaration)
+nmap <leader><cr>3 <Plug>(lsp-declaration)
+nmap <leader><cr>2 <Plug>(lsp-peek-definition)
+nmap <leader><cr>4 <Plug>(lsp-definition)
+nmap <leader><cr>i <Plug>(lsp-peek-implementation)
+nmap <leader><cr>L <Plug>(lsp-implementation)
+nmap <leader><cr>h <Plug>(lsp-hover)
+nmap <leader><cr>r <Plug>(lsp-references)
+nmap <leader><cr>R <Plug>(lsp-rename)
+nmap <leader><cr>t <Plug>(lsp-peek-type-definition)
+nmap <leader><cr>T <Plug>(lsp-type-definition)
+nmap <leader><cr>s <Plug>(lsp-document-symbol)
+nmap <leader><cr>S <Plug>(lsp-workspace-symbol)
+nmap ]e <Plug>(lsp-next-error)
+nmap ]r <Plug>(lsp-next-reference)
+nmap [e <Plug>(lsp-previous-error)
+nmap [r <Plug>(lsp-previous-reference)
+nmap <leader><cr>] <Plug>(lsp-preview-focus)
+nmap <leader><cr>[ <Plug>(lsp-preview-close)
 let g:lsp_diagnostics_echo_cursor = 1
 augroup lspReg
     au!
@@ -1379,8 +1380,8 @@ if has('lua')
     let g:neocomplete#keyword_patterns['default'] = '\h\w*'
     let g:neocomplete#fallback_mappings =
                 \ ["\<C-x>\<C-o>", "\<C-x>\<C-n>"]
-    inoremap <silent> <expr> <C-g> neocomplete#undo_completion()
-    inoremap <silent> <expr> <C-l> neocomplete#complete_common_string()
+    inoremap <expr> <C-g> neocomplete#undo_completion()
+    inoremap <expr> <C-l> neocomplete#complete_common_string()
     " <CR>: close popup and save indent.
     inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
     function! s:my_cr_function()
@@ -1389,13 +1390,13 @@ if has('lua')
         return pumvisible() ? "\<C-y>" : "\<CR>"
     endfunction
     " <TAB>: completion.
-    inoremap <silent> <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-    inoremap <silent> <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-    inoremap <silent> <expr> <down> pumvisible() ? "\<C-n>" : "\<down>"
-    inoremap <silent> <expr> <up> pumvisible() ? "\<C-p>" : "\<up>"
+    inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+    inoremap <expr> <down> pumvisible() ? "\<C-n>" : "\<down>"
+    inoremap <expr> <up> pumvisible() ? "\<C-p>" : "\<up>"
     " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <silent> <expr> <C-h> neocomplete#smart_close_popup()."\<C-h>"
-    inoremap <silent> <expr> <BS> neocomplete#smart_close_popup()."\<BS>"
+    inoremap <expr> <C-h> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr> <BS> neocomplete#smart_close_popup()."\<BS>"
     " Enable heavy omni completion.
 
     try
@@ -1419,8 +1420,8 @@ else
     " let g:neocomplcache_enable_auto_select = 1
     " let g:neocomplcache_disable_auto_complete = 1
 
-    inoremap <silent> <expr> <C-g> neocomplcache#undo_completion()
-    inoremap <silent> <expr> <C-l> neocomplcache#complete_common_string()
+    inoremap <expr> <C-g> neocomplcache#undo_completion()
+    inoremap <expr> <C-l> neocomplcache#complete_common_string()
     " <CR>: close popup and save indent.
     inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
     function! s:my_cr_function()
@@ -1429,19 +1430,19 @@ else
         return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
     endfunction
 
-    inoremap <silent> <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-    inoremap <silent> <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-    inoremap <silent> <expr> <down> pumvisible() ? "\<C-n>" : "\<down>"
-    inoremap <silent> <expr> <up> pumvisible() ? "\<C-p>" : "\<up>"
+    inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+    inoremap <expr> <down> pumvisible() ? "\<C-n>" : "\<down>"
+    inoremap <expr> <up> pumvisible() ? "\<C-p>" : "\<up>"
     " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <silent> <expr> <C-h> neocomplcache#smart_close_popup()."\<C-h>"
-    inoremap <silent> <expr> <BS> neocomplcache#smart_close_popup()."\<BS>"
-    " inoremap <silent> <expr> <C-y> neocomplcache#close_popup()
-    " inoremap <silent> <expr> <C-e> neocomplcache#cancel_popup()
+    inoremap <expr> <C-h> neocomplcache#smart_close_popup()."\<C-h>"
+    inoremap <expr> <BS> neocomplcache#smart_close_popup()."\<BS>"
+    " inoremap <expr> <C-y> neocomplcache#close_popup()
+    " inoremap <expr> <C-e> neocomplcache#cancel_popup()
     " Close popup by <Space>.
-    " inoremap <silent> <expr> <Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
-    " inoremap <silent> <expr> <C-j> neocomplcache#start_manual_complete()
-    " inoremap <silent> <expr> <C-k> neocomplcache#cancel_popup()
+    " inoremap <expr> <Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
+    " inoremap <expr> <C-j> neocomplcache#start_manual_complete()
+    " inoremap <expr> <C-k> neocomplcache#cancel_popup()
 
     " Enable heavy omni completion.
     if !exists('g:neocomplcache_force_omni_patterns')
@@ -1464,14 +1465,14 @@ let NERDTreeShowHidden = 1
 let NERDTreeMinimalUI = 1
 let NERDTreeWinPos = 'left'
 let g:NERDTreeWinSize = 30
-nnoremap <silent> <leader>nn :NERDTreeToggle<cr>
-nnoremap <silent> <leader>nb :NERDTreeFromBookmark<space>
-nnoremap <silent> <leader>nf :NERDTreeFocus<cr>
-nnoremap <silent> <leader>nF :NERDTreeFind<cr>
-nnoremap <silent> <leader>nv :NERDTreeVCS<cr>
-nnoremap <silent> <leader>nc :NERDTreeCWD<cr>
-nnoremap <silent> <leader>nr :NERDTreeRefreshRoot<cr>
-nnoremap <silent> <leader>nm :NERDTreeMirror<cr>
+nnoremap <leader>nn :NERDTreeToggle<cr>
+nnoremap <leader>nb :NERDTreeFromBookmark<space>
+nnoremap <leader>nf :NERDTreeFocus<cr>
+nnoremap <leader>nF :NERDTreeFind<cr>
+nnoremap <leader>nv :NERDTreeVCS<cr>
+nnoremap <leader>nc :NERDTreeCWD<cr>
+nnoremap <leader>nr :NERDTreeRefreshRoot<cr>
+nnoremap <leader>nm :NERDTreeMirror<cr>
 augroup closeNERDTreeBuffer
     autocmd!
     autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
@@ -1479,158 +1480,158 @@ augroup END
 
 let g:ctrlp_working_path_mode = 'ra'
 " let g:ctrlp_map = '<c-p>'
-nnoremap <silent> <leader>pp :CtrlP<cr>
-nnoremap <silent> <leader>pw :CtrlPCurFile<cr>
-nnoremap <silent> <leader>pW :CtrlPCurWD<cr>
-nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
-nnoremap <silent> <leader>pt :CtrlPTag<cr>
-nnoremap <silent> <leader>pl :CtrlPLine<cr>
-nnoremap <silent> <leader>pL :CtrlPLastMode<cr>
-nnoremap <silent> <leader>pq :CtrlPQuickfix<cr>
-nnoremap <silent> <leader>pr :CtrlPRTS<cr>
-nnoremap <silent> <leader>pm :CtrlPMRU<cr>
-nnoremap <silent> <leader>pM :CtrlPMixed<cr>
-nnoremap <silent> <leader>pu :CtrlPUndo<cr>
-nnoremap <silent> <leader>pC :CtrlPChange<cr>
-nnoremap <silent> <leader>pd :CtrlPDir<cr>
+nnoremap <leader>pp :CtrlP<cr>
+nnoremap <leader>pw :CtrlPCurFile<cr>
+nnoremap <leader>pW :CtrlPCurWD<cr>
+nnoremap <leader>pb :CtrlPBuffer<cr>
+nnoremap <leader>pt :CtrlPTag<cr>
+nnoremap <leader>pl :CtrlPLine<cr>
+nnoremap <leader>pL :CtrlPLastMode<cr>
+nnoremap <leader>pq :CtrlPQuickfix<cr>
+nnoremap <leader>pr :CtrlPRTS<cr>
+nnoremap <leader>pm :CtrlPMRU<cr>
+nnoremap <leader>pM :CtrlPMixed<cr>
+nnoremap <leader>pu :CtrlPUndo<cr>
+nnoremap <leader>pC :CtrlPChange<cr>
+nnoremap <leader>pd :CtrlPDir<cr>
 
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 
-nnoremap <silent> <leader>pf :CtrlPFunky<Cr>
+nnoremap <leader>pf :CtrlPFunky<Cr>
 " narrow the list down with a word under cursor
-nnoremap <silent> <leader>pF :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+nnoremap <leader>pF :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_multi_buffers = 1
 
 if has('python') || has('python3')
-    nnoremap <silent> <leader>pc :CtrlPCmdPalette<cr>
-    " nnoremap <silent> <c-n> :CtrlPCmdPalette<cr>
+    nnoremap <leader>pc :CtrlPCmdPalette<cr>
+    " nnoremap <c-n> :CtrlPCmdPalette<cr>
 endif
-" nnoremap <silent> <leader>pc :CtrlPCommandPalette<cr>
-" nnoremap <silent> <c-p> :CtrlPCommandPalette<cr>
+" nnoremap <leader>pc :CtrlPCommandPalette<cr>
+" nnoremap <c-p> :CtrlPCommandPalette<cr>
 
 let g:gitgutter_enabled=1
 let g:gitgutter_map_keys = 0
-omap <silent> ih <Plug>(GitGutterTextObjectInnerPending)
-omap <silent> ah <Plug>(GitGutterTextObjectOuterPending)
-xmap <silent> ih <Plug>(GitGutterTextObjectInnerVisual)
-xmap <silent> ah <Plug>(GitGutterTextObjectOuterVisual)
-nmap <silent> ]h <Plug>(GitGutterNextHunk)
-nmap <silent> [h <Plug>(GitGutterPrevHunk)
-nmap <silent> <leader>hs <Plug>(GitGutterStageHunk)
-nmap <silent> <leader>hu <Plug>(GitGutterUndoHunk)
-nmap <silent> <leader>hp <Plug>(GitGutterPreviewHunk)
-nnoremap <silent> <leader>hh :GitGutterToggle<cr>
+omap ih <Plug>(GitGutterTextObjectInnerPending)
+omap ah <Plug>(GitGutterTextObjectOuterPending)
+xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+nmap <leader>hs <Plug>(GitGutterStageHunk)
+nmap <leader>hu <Plug>(GitGutterUndoHunk)
+nmap <leader>hp <Plug>(GitGutterPreviewHunk)
+nnoremap <leader>hh :GitGutterToggle<cr>
 
-" nnoremap <silent> <leader>fl :Flog<cr>
-" nnoremap <silent> <leader>fL :Flog<space>
+" nnoremap <leader>fl :Flog<cr>
+" nnoremap <leader>fL :Flog<space>
 
-nnoremap <silent> <leader>gv :GV<cr>
-nnoremap <silent> <leader>gV :GV!<cr>
-vnoremap <silent> <leader>gv :GV<cr>
-vnoremap <silent> <leader>gV :GV?<cr>
+nnoremap <leader>gv :GV<cr>
+nnoremap <leader>gV :GV!<cr>
+vnoremap <leader>gv :GV<cr>
+vnoremap <leader>gV :GV?<cr>
 
-nnoremap <silent> <leader>gb :Gblame<cr>
-nnoremap <silent> <leader>gB :Gbrowse<cr>
-nnoremap <silent> <leader>gc :Gcommit<cr>
-nnoremap <silent> <leader>gC :Git checkout<space>
-nnoremap <silent> <leader>gd :Gdiff<cr>
-nnoremap <silent> <leader>gD :Gdelete<cr>
-nnoremap <silent> <leader>gg :Ggrep<space>
-nnoremap <silent> <leader>gm :Gmerge<space>
-nnoremap <silent> <leader>gM :Gmove<space>
-nnoremap <silent> <leader>gl :Glog<cr>
-nnoremap <silent> <leader>gL :Glog!<cr>
-nnoremap <silent> <leader>gh :0Glog<cr>
-nnoremap <silent> <leader>gH :0Glog!<cr>
-nnoremap <silent> <leader>gf :Gfetch<cr>
-nnoremap <silent> <leader>gp :Gpush<cr>
-nnoremap <silent> <leader>gP :Gpull<cr>
-nnoremap <silent> <leader>gs :Gstatus<cr>
-nnoremap <silent> <leader>gS :Git stash<cr>
-nnoremap <silent> <leader>gr :Gread<cr>
-nnoremap <silent> <leader>gR :Gremove<cr>
-nnoremap <silent> <leader>ge :Gedit<cr>
-nnoremap <silent> <leader>gw :Gwrite<cr>
-nnoremap <silent> <leader>gi :Gist<cr>
+nnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>gB :Gbrowse<cr>
+nnoremap <leader>gc :Gcommit<cr>
+nnoremap <leader>gC :Git checkout<space>
+nnoremap <leader>gd :Gdiff<cr>
+nnoremap <leader>gD :Gdelete<cr>
+nnoremap <leader>gg :Ggrep<space>
+nnoremap <leader>gm :Gmerge<space>
+nnoremap <leader>gM :Gmove<space>
+nnoremap <leader>gl :Glog<cr>
+nnoremap <leader>gL :Glog!<cr>
+nnoremap <leader>gh :0Glog<cr>
+nnoremap <leader>gH :0Glog!<cr>
+nnoremap <leader>gf :Gfetch<cr>
+nnoremap <leader>gp :Gpush<cr>
+nnoremap <leader>gP :Gpull<cr>
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gS :Git stash<cr>
+nnoremap <leader>gr :Gread<cr>
+nnoremap <leader>gR :Gremove<cr>
+nnoremap <leader>ge :Gedit<cr>
+nnoremap <leader>gw :Gwrite<cr>
+nnoremap <leader>gi :Gist<cr>
 
-" nnoremap <silent> <leader>ms :DoShowMarks<cr>
-" nnoremap <silent> <leader>mS :NoShowMarks<cr>
-" nnoremap <silent> <leader>mp :PreviewMarks<cr>
+" nnoremap <leader>ms :DoShowMarks<cr>
+" nnoremap <leader>mS :NoShowMarks<cr>
+" nnoremap <leader>mp :PreviewMarks<cr>
 
 " let g:yankstack_yank_keys = ['y', 'd']
-nmap <silent> <F9> <Plug>yankstack_substitute_older_paste
-nmap <silent> <F10> <Plug>yankstack_substitute_newer_paste
-imap <silent> <F9> <Plug>yankstack_substitute_older_paste
-imap <silent> <F10> <Plug>yankstack_substitute_newer_paste
+nmap <F9> <Plug>yankstack_substitute_older_paste
+nmap <F10> <Plug>yankstack_substitute_newer_paste
+imap <F9> <Plug>yankstack_substitute_older_paste
+imap <F10> <Plug>yankstack_substitute_newer_paste
 
 let g:tagbar_width = 30
 let g:tagbar_compact = 1
-nnoremap <silent> <leader>tt :TagbarToggle<cr>
-nnoremap <silent> <leader>ta :TagbarOpenAutoClose<cr>
+nnoremap <leader>tt :TagbarToggle<cr>
+nnoremap <leader>ta :TagbarOpenAutoClose<cr>
 
-nnoremap <silent> <leader>rr :AsyncRun<space>
-nnoremap <silent> <leader>rs :AsyncStop<cr>
+nnoremap <leader>rr :AsyncRun<space>
+nnoremap <leader>rs :AsyncStop<cr>
 " let g:asyncrun_bell = 1
-" map <silent> <leader>q :call asyncrun#quickfix_toggle(8)<cr>
+" map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
 " let g:asyncrun_open = 10
 " let g:asyncrun_save = 2
 let g:asyncrun_auto = "make"
 
 let g:fzf_command_prefix = 'FZF'
 " Mapping selecting mappings
-" nmap <silent> <c-b> <plug>(fzf-maps-n)
-" xmap <silent> <c-b> <plug>(fzf-maps-x)
-" omap <silent> <c-b> <plug>(fzf-maps-o)
-" nnoremap <silent> <c-c> :FzfCommand<cr>
+" nmap <c-b> <plug>(fzf-maps-n)
+" xmap <c-b> <plug>(fzf-maps-x)
+" omap <c-b> <plug>(fzf-maps-o)
+" nnoremap <c-c> :FzfCommand<cr>
 " [Commands] --expect expression for directly executing the command
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
-" nnoremap <silent> <c-n> :FZFCommands<cr>
-nnoremap <silent> <leader>zz :FZFFiles<cr>
-nnoremap <silent> <leader>zZ :FZFFiletypes<cr>
-nnoremap <silent> <leader>zf :FZFGFiles<cr>
-nnoremap <silent> <leader>zF :FZFGFiles?<cr>
-nnoremap <silent> <leader>zb :FZFBuffers<cr>
-nnoremap <silent> <leader>zc :FZFCommands<cr>
-nnoremap <silent> <leader>zC :FZFColors<cr>
-nnoremap <silent> <leader>zC :FZFColors<cr>
-nnoremap <silent> <leader>za :FZFAg<cr>
-nnoremap <silent> <leader>zr :FZFRg<cr>
-nnoremap <silent> <leader>zl :FZFLines<cr>
-nnoremap <silent> <leader>zL :FZFBLines<cr>
-nnoremap <silent> <leader>zt :FZFTags<cr>
-nnoremap <silent> <leader>zT :FZFBTags<cr>
-nnoremap <silent> <leader>zm :FZFMarks<cr>
-nnoremap <silent> <leader>zw :FZFWindows<cr>
-nnoremap <silent> <leader>zh :FZFHistory<cr>
-nnoremap <silent> <leader>zH :FZFHelptags<cr>
-nnoremap <silent> <leader>zs :FZFSnippets<cr>
-nnoremap <silent> <leader>zg :FZFGGrep<cr>
-nnoremap <silent> <leader>zG :FZFGrep<cr>
+" nnoremap <c-n> :FZFCommands<cr>
+nnoremap <leader>zz :FZFFiles<cr>
+nnoremap <leader>zZ :FZFFiletypes<cr>
+nnoremap <leader>zf :FZFGFiles<cr>
+nnoremap <leader>zF :FZFGFiles?<cr>
+nnoremap <leader>zb :FZFBuffers<cr>
+nnoremap <leader>zc :FZFCommands<cr>
+nnoremap <leader>zC :FZFColors<cr>
+nnoremap <leader>zC :FZFColors<cr>
+nnoremap <leader>za :FZFAg<cr>
+nnoremap <leader>zr :FZFRg<cr>
+nnoremap <leader>zl :FZFLines<cr>
+nnoremap <leader>zL :FZFBLines<cr>
+nnoremap <leader>zt :FZFTags<cr>
+nnoremap <leader>zT :FZFBTags<cr>
+nnoremap <leader>zm :FZFMarks<cr>
+nnoremap <leader>zw :FZFWindows<cr>
+nnoremap <leader>zh :FZFHistory<cr>
+nnoremap <leader>zH :FZFHelptags<cr>
+nnoremap <leader>zs :FZFSnippets<cr>
+nnoremap <leader>zg :FZFGGrep<cr>
+nnoremap <leader>zG :FZFGrep<cr>
 
-nnoremap <silent> <leader>Zz :FZFFiles!<cr>
-nnoremap <silent> <leader>ZZ :FZFFiletypes!<cr>
-nnoremap <silent> <leader>Zf :FZFGFiles!<cr>
-nnoremap <silent> <leader>ZF :FZFGFiles!?<cr>
-nnoremap <silent> <leader>Zb :FZFBuffers!<cr>
-nnoremap <silent> <leader>Zc :FZFCommands!<cr>
-nnoremap <silent> <leader>ZC :FZFColors!<cr>
-nnoremap <silent> <leader>ZC :FZFColors!<cr>
-nnoremap <silent> <leader>Za :FZFAg!<cr>
-nnoremap <silent> <leader>Zr :FZFRg!<cr>
-nnoremap <silent> <leader>Zl :FZFLines!<cr>
-nnoremap <silent> <leader>ZL :FZFBLines!<cr>
-nnoremap <silent> <leader>Zt :FZFTags!<cr>
-nnoremap <silent> <leader>ZT :FZFBTags!<cr>
-nnoremap <silent> <leader>Zm :FZFMarks!<cr>
-nnoremap <silent> <leader>Zw :FZFWindows!<cr>
-nnoremap <silent> <leader>Zh :FZFHistory!<cr>
-nnoremap <silent> <leader>ZH :FZFHelptags!<cr>
-nnoremap <silent> <leader>Zs :FZFSnippets!<cr>
-nnoremap <silent> <leader>Zg :FZFGGrep!<cr>
-nnoremap <silent> <leader>ZG :FZFGrep!<cr>
+nnoremap <leader>Zz :FZFFiles!<cr>
+nnoremap <leader>ZZ :FZFFiletypes!<cr>
+nnoremap <leader>Zf :FZFGFiles!<cr>
+nnoremap <leader>ZF :FZFGFiles!?<cr>
+nnoremap <leader>Zb :FZFBuffers!<cr>
+nnoremap <leader>Zc :FZFCommands!<cr>
+nnoremap <leader>ZC :FZFColors!<cr>
+nnoremap <leader>ZC :FZFColors!<cr>
+nnoremap <leader>Za :FZFAg!<cr>
+nnoremap <leader>Zr :FZFRg!<cr>
+nnoremap <leader>Zl :FZFLines!<cr>
+nnoremap <leader>ZL :FZFBLines!<cr>
+nnoremap <leader>Zt :FZFTags!<cr>
+nnoremap <leader>ZT :FZFBTags!<cr>
+nnoremap <leader>Zm :FZFMarks!<cr>
+nnoremap <leader>Zw :FZFWindows!<cr>
+nnoremap <leader>Zh :FZFHistory!<cr>
+nnoremap <leader>ZH :FZFHelptags!<cr>
+nnoremap <leader>Zs :FZFSnippets!<cr>
+nnoremap <leader>Zg :FZFGGrep!<cr>
+nnoremap <leader>ZG :FZFGrep!<cr>
 
 command! -bang -nargs=* FZFGGrep
             \ call fzf#vim#grep(
@@ -1702,16 +1703,16 @@ command! -bang -nargs=* FZFBLines
             \                 ' -m'
             \ }, <bang>0)
 
-nmap <silent> <c-_> <Plug>CommentaryLine
-vmap <silent> <c-_> <Plug>Commentary
+nmap <c-_> <Plug>CommentaryLine
+vmap <c-_> <Plug>Commentary
 augroup commentStr
     autocmd!
     autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 augroup END
 
-nnoremap <silent> <leader>db :DB<space>
-nnoremap <silent> <leader>dB :%DB<space>
-vnoremap <silent> <leader>db :DB<space>
+nnoremap <leader>db :DB<space>
+nnoremap <leader>dB :%DB<space>
+vnoremap <leader>db :DB<space>
 
 let g:gutentags_modules = []
 if executable('ctags')
@@ -1778,15 +1779,15 @@ let g:airline#extensions#tabline#formatter = 'default'
 " let g:airline#extensions#tabline#left_alt_sep = ''
 " let g:airline#extensions#tabline#right_sep = ''
 " let g:airline#extensions#tabline#right_alt_sep = ''
-nmap <silent> <leader>1 <Plug>AirlineSelectTab1
-nmap <silent> <leader>2 <Plug>AirlineSelectTab2
-nmap <silent> <leader>3 <Plug>AirlineSelectTab3
-nmap <silent> <leader>4 <Plug>AirlineSelectTab4
-nmap <silent> <leader>5 <Plug>AirlineSelectTab5
-nmap <silent> <leader>6 <Plug>AirlineSelectTab6
-nmap <silent> <leader>7 <Plug>AirlineSelectTab7
-nmap <silent> <leader>8 <Plug>AirlineSelectTab8
-nmap <silent> <leader>9 <Plug>AirlineSelectTab9
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
 
 let g:asyncrun_status = ''
 try
@@ -1796,61 +1797,61 @@ endtry
 
 let g:goyo_width = '80%'
 let g:goyo_height = '95%'
-nnoremap <silent> <leader>go :Goyo<cr>
+nnoremap <leader>go :Goyo<cr>
 
 " augroup changeLimelight
 "     autocmd!
 "     autocmd User GoyoEnter Limelight
 "     autocmd User GoyoLeave Limelight!
 " augroup END
-" nmap <silent> <Leader>lM <Plug>(Limelight)
-" xmap <silent> <Leader>lM <Plug>(Limelight)
-nnoremap <silent> <leader>lm :Limelight<cr>
-nnoremap <silent> <leader>lM :Limelight!<cr>
+" nmap <Leader>lM <Plug>(Limelight)
+" xmap <Leader>lM <Plug>(Limelight)
+nnoremap <leader>lm :Limelight<cr>
+nnoremap <leader>lM :Limelight!<cr>
 
-xmap <silent> ga <Plug>(EasyAlign)
-nmap <silent> ga <Plug>(EasyAlign)
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
 
-nnoremap <silent> <c-g> :Grepper<cr>
+nnoremap <c-g> :Grepper<cr>
 if !exists('g:grepper')
     let g:grepper = {}
 endif
 let g:grepper.prompt_mapping_tool = '<c-g>'
 
-nnoremap <silent> <leader>fg :FlyGrep<cr>
+nnoremap <leader>fg :FlyGrep<cr>
 
 " let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
-" nnoremap <silent> <leader>i :IndentGuidesToggle<cr>
+" nnoremap <leader>i :IndentGuidesToggle<cr>
 
 let g:better_whitespace_ctermcolor = '8'
 let g:better_whitespace_guicolor = '#808080'
 let g:better_whitespace_operator = 'gs'
-nnoremap <silent> <leader>sp :ToggleWhitespace<cr>
+nnoremap <leader>sp :ToggleWhitespace<cr>
 
-nnoremap <silent> <leader>x :Sayonara<cr>
-nnoremap <silent> <leader>X :Sayonara!<cr>
+nnoremap <leader>x :Sayonara<cr>
+nnoremap <leader>X :Sayonara!<cr>
 
 let g:EasyMotion_do_mapping = 1
 
 let g:rainbow_active = 0 "set to 0 if you want to enable it later via :RainbowToggle
-nnoremap <silent> <leader>rb :RainbowToggle<cr>
+nnoremap <leader>rb :RainbowToggle<cr>
 
-nnoremap <silent> <leader>uu :UndotreeToggle<cr>
-nnoremap <silent> <leader>uf :UndotreeFocus<cr>
-nnoremap <silent> <leader>us :UndotreeShow<cr>
-nnoremap <silent> <leader>uh :UndotreeHide<cr>
+nnoremap <leader>uu :UndotreeToggle<cr>
+nnoremap <leader>uf :UndotreeFocus<cr>
+nnoremap <leader>us :UndotreeShow<cr>
+nnoremap <leader>uh :UndotreeHide<cr>
 let g:undotree_WindowLayout = 3
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_HelpLine = 0
 
-nnoremap <silent> <leader>mm :MarkifyToggle<cr>
-nnoremap <silent> <leader>mk :Markify<cr>
-nnoremap <silent> <leader>mc :MarkifyClear<cr>
+nnoremap <leader>mm :MarkifyToggle<cr>
+nnoremap <leader>mk :Markify<cr>
+nnoremap <leader>mc :MarkifyClear<cr>
 " let g:markify_echo_current_message = 1
 
-nnoremap <silent> <leader>aw :ArgWrap<cr>
+nnoremap <leader>aw :ArgWrap<cr>
 augroup setArgWrap
     au!
     au FileType go let b:argwrap_tail_comma = 1
@@ -1858,18 +1859,18 @@ augroup setArgWrap
 augroup END
 
 " ctrl-b is unused in insert mode
-imap <silent> <c-b> <c-o><Plug>(cosco-commaOrSemiColon)
-nmap <silent> <c-b> <Plug>(cosco-commaOrSemiColon)
-" nmap <silent> <c-space> <Plug>(cosco-commaOrSemiColon)o
-" imap <silent> <c-space> <esc><Plug>(cosco-commaOrSemiColon)o
+imap <c-b> <c-o><Plug>(cosco-commaOrSemiColon)
+nmap <c-b> <Plug>(cosco-commaOrSemiColon)
+" nmap <c-space> <Plug>(cosco-commaOrSemiColon)o
+" imap <c-space> <esc><Plug>(cosco-commaOrSemiColon)o
 
 let g:neoformat_basic_format_align = 1
 let g:neoformat_basic_format_retab = 1
 let g:neoformat_basic_format_trim = 1
-nnoremap <silent> <leader>fm :Neoformat<cr>
-vnoremap <silent> <leader>fm :Neoformat<cr>
-nnoremap <silent> <leader>fM :Neoformat<space>
-vnoremap <silent> <leader>fM :Neoformat<space>
+nnoremap <leader>fm :Neoformat<cr>
+vnoremap <leader>fm :Neoformat<cr>
+nnoremap <leader>fM :Neoformat<space>
+vnoremap <leader>fM :Neoformat<space>
 
 let g:startify_change_to_vcs_root = 1
 let g:startify_custom_indices = map(range(0,99), 'printf("%02d", v:val)')
@@ -1881,19 +1882,19 @@ let g:startify_custom_header = [
             \ '    \ \___/  \ \_\ \_\ \_\ \_\',
             \ '     \/__/    \/_/\/_/\/_/\/_/',
             \ ]
-nnoremap <silent> <leader>st :Startify<cr>
+nnoremap <leader>st :Startify<cr>
 
 if exists(':terminal')
-    nnoremap <silent> <c-n> :Nuake<cr>
+    nnoremap <c-n> :Nuake<cr>
     if has('nvim')
-        tnoremap <silent> <c-n> <c-\><c-n>:Nuake<cr>
+        tnoremap <c-n> <c-\><c-n>:Nuake<cr>
     else
-        tnoremap <silent> <c-n> <c-w>:Nuake<cr>
+        tnoremap <c-n> <c-w>:Nuake<cr>
     endif
 endif
 
-nnoremap <silent> <leader>co :Codi!!<cr>
-nnoremap <silent> <leader>cO :Codi!!<space>
+nnoremap <leader>co :Codi!!<cr>
+nnoremap <leader>cO :Codi!!<space>
 
 try
     " call textobj#user#plugin('datetime', {
@@ -1968,12 +1969,13 @@ endtry
 if has('python') || has('python3')
     let g:vtm_default_mapping = 0
     let g:vtm_default_engines = ['ciba', 'google']
-    nmap <silent> <leader>ts <plug>Translate
-    vmap <silent> <leader>tS <plug>TranslateV
-    nmap <silent> <leader>tw <Plug>TranslateW
-    vmap <silent> <leader>tW <Plug>TranslateWV
-    " nmap <silent> <Leader>ts :Translate -w<space>
-    " nmap <silent> <Leader>tw :TranslateW -w<space>
-    nmap <silent> <Leader>th :TranslateH<cr>
+    nmap <leader>ts <plug>Translate
+    vmap <leader>tS <plug>TranslateV
+    nmap <leader>tw <Plug>TranslateW
+    vmap <leader>tW <Plug>TranslateWV
+    " nmap <Leader>ts :Translate -w<space>
+    " nmap <Leader>tw :TranslateW -w<space>
+    " nmap <Leader>th :TranslateH<cr>
 endif
+
 
