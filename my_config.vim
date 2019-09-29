@@ -6,8 +6,8 @@ Plug 'chengzeyi/vim-markify'
 " Plug 'chengzeyi/a.vim', {'on': 'A'}
 Plug 'chengzeyi/OmniCppComplete', {'for': ['cpp', 'c']}
 
-Plug 'prabirshrestha/async.vim', {'for': ['go', 'python', 'sh']}
-Plug 'prabirshrestha/vim-lsp', {'for': ['go', 'python', 'sh']}
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
 " Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['cpp', 'c']}
 " Plug 'fatih/vim-go', {'for': 'go', 'on': ['GoUpdateBinaries', 'GoInstallBinaries']}
 
