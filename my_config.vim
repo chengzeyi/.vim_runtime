@@ -187,6 +187,7 @@ nnoremap Y y$
 " nnoremap <leader>mm :match Question /<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<cr>
 " nnoremap <leader>mM :match<cr>
 nnoremap <leader>ff :let @/='\<lt><c-r>=expand('<lt>cword>')<cr>\>' <bar> set hls<cr>
+nnoremap <leader>fF :let @/='\<lt><c-r>=expand('<lt>cWORD>')<cr>\>' <bar> set hls<cr>
 nnoremap <leader>jj :call GotoJump()<cr>
 nnoremap <leader>jt :call GotoTag()<cr>
 nnoremap <leader>jm :tselect<cr>
