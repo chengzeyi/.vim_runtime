@@ -6,8 +6,8 @@ Plug 'chengzeyi/vim-markify'
 " Plug 'chengzeyi/a.vim', {'on': 'A'}
 Plug 'chengzeyi/OmniCppComplete', {'for': ['cpp', 'c']}
 
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/async.vim', {'for': ['go', 'python', 'sh']}
+Plug 'prabirshrestha/vim-lsp', {'for': ['go', 'python', 'sh']}
 " Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['cpp', 'c']}
 " Plug 'fatih/vim-go', {'for': 'go', 'on': ['GoUpdateBinaries', 'GoInstallBinaries']}
 
@@ -50,7 +50,7 @@ Plug 'junegunn/limelight.vim', {'on': ['<plug>(Limelight)', 'Limelight']}
 Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
 
 " Plug 'rbong/vim-flog', {'on': ['Flog', 'Flogsplit']}
-Plug 'junegunn/gv.vim'
+Plug 'junegunn/gv.vim', {'on': 'GV'}
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -146,14 +146,14 @@ if exists(':terminal')
     Plug 'Lenovsky/nuake', {'on': 'Nuake'}
 endif
 
-Plug 'metakirby5/codi.vim'
+Plug 'metakirby5/codi.vim', {'on': 'Codi'}
 
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
 
-if has('python') || has('python3')
-    Plug 'voldikss/vim-translate-me'
-endif
+" if has('python') || has('python3')
+"     Plug 'voldikss/vim-translate-me'
+" endif
 
 Plug 'liuchengxu/space-vim-dark'
 Plug 'chriskempson/base16-vim'
@@ -1996,15 +1996,15 @@ try
 catch
 endtry
 
-if has('python') || has('python3')
-    let g:vtm_default_mapping = 0
-    let g:vtm_default_engines = ['ciba', 'google']
-    nmap <leader>ts <plug>Translate
-    vmap <leader>tS <plug>TranslateV
-    nmap <leader>tw <Plug>TranslateW
-    vmap <leader>tW <Plug>TranslateWV
+" if has('python') || has('python3')
+"     let g:vtm_default_mapping = 0
+"     let g:vtm_default_engines = ['ciba', 'google']
+"     nmap <leader>ts <plug>Translate
+"     vmap <leader>tS <plug>TranslateV
+"     nmap <leader>tw <Plug>TranslateW
+"     vmap <leader>tW <Plug>TranslateWV
     " nmap <Leader>ts :Translate -w<space>
     " nmap <Leader>tw :TranslateW -w<space>
     " nmap <Leader>th :TranslateH<cr>
-endif
+" endif
 
