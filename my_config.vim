@@ -355,12 +355,19 @@ function! Fanyi(type, ...)
         silent exe "normal! `[v`]y"
     endif
 
-    let cmd = 'fanyi --nocolor ' . @@ . ' | head -n 16'
+    if executable('fanyi')
+        let cmd = 'fanyi --nocolor ' . @@ . ' | head -n 16'
+    else
+        let cmd = ''
+        echoerr 'No dict program installed'
+    endif
 
     let &selection = sel_save
     let @@ = reg_save
 
-    call P(cmd)
+    if cmd != ''
+        call P(cmd)
+    endif
 endfunction
 
 command! -nargs=+ -complete=file P call P(<q-args>)
