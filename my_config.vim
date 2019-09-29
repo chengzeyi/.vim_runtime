@@ -771,7 +771,7 @@ augroup readNonTextFile
     " Read-only pdf through pdftotext
     if executable('pdftotext')
         autocmd BufReadPre *.pdf silent set ro
-        autocmd BufReadPost *.pdf silent %!pdftotext -nopgbrk -layout -q -eol unix /dev/stdin - | fmt -w78
+        autocmd BufReadPost *.pdf silent %!pdftotext -nopgbrk -layout -q -eol unix /dev/stdin - | fmt -w80
     endif
     " Read-only rtf through unrtf
     " autocmd BufReadPre *.rtf silent set ro
