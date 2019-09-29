@@ -333,7 +333,7 @@ if has('patch-8.1.1880') && has('textprop')
     " if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
     "             \ has('textprop')
     " set completeopt+=popup
-    set previewpopup=height:20,width:80
+    set previewpopup=height:15,width:60
 endif
 set previewheight=6
 " augroup setPreviewBufferNotHidden
@@ -357,7 +357,7 @@ function! Fanyi(type, ...)
     endif
 
     if executable('fanyi')
-        let cmd = 'fanyi --nocolor ' . @@ . ' | head -n 16'
+        let cmd = 'fanyi --nocolor ' . @@
     else
         let cmd = ''
         echoerr 'No dict program installed'
@@ -373,10 +373,22 @@ endfunction
 
 command! -nargs=+ P call P(<q-args>)
 function! P(cmd)
-    let cmd = substitute(a:cmd, '\v[ \t]', '\\ ', 'g')
-    let cmd = substitute(cmd, '\v\n', ';\\ ', 'g')
-    let cmd = substitute(cmd, '\v\|', '\\|', 'g')
-    silent exe 'noautocmd pedit +set\ bufhidden=wipe\ buftype=nofile\ |\ %d\ |\ read\ !' . cmd . ' [Preview Cmd]'
+    if exists('*popup_atcursor')
+        let out = system(a:cmd)
+        let out = split(out, "\n")
+        call popup_atcursor(out, #{
+            \ pos: 'botright',
+            \ maxheight: 15,
+            \ maxwidth: 60,
+            \ padding: [0, 1, 0, 1],
+            \ highlight: 'CursorColumn',
+            \ })
+    else
+        let cmd = substitute(a:cmd, '\v[ \t]', '\\ ', 'g')
+        let cmd = substitute(cmd, '\v\n', ';\\ ', 'g')
+        let cmd = substitute(cmd, '\v\|', '\\|', 'g')
+        exe 'noautocmd pedit +exe\ "set\ bufhidden=wipe\ buftype=nofile\\n%d\\nread\ !' . cmd . '\\n1" [Popup Cmd]'
+    endif
 endfunction
 
 nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? '0' : '1'<cr><cr>
