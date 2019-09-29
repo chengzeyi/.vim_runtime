@@ -652,8 +652,11 @@ augroup compileAndRun
     au filetype cpp nnoremap <buffer> <localleader>R :w <bar>
                 \ !g++ % -o %:r && ./%:r<space>
     au filetype html nnoremap <buffer> <localleader>r :w <bar>
-                \ enew <bar> set buftype=nofile ft=markdown <bar>
-                \ read !pandoc "#" -t markdown_strict -o /dev/stdout<cr>
+                \ enew <bar> read # <bar> set buftype=nofile ft=markdown <bar>
+                \ %!pandoc -t markdown_strict -o /dev/stdout<cr>
+    au filetype html nnoremap <buffer> <localleader>R :w <bar>
+                \ set buftype=nofile ft=markdown <bar>
+                \ %!pandoc -t markdown_strict -o /dev/stdout<cr>
 augroup END
 
 nnoremap <leader>aa :call AlternateFile()<cr>
@@ -757,7 +760,7 @@ augroup readNonTextFile
     au!
     if executable('pandoc')
         autocmd BufReadPre *.docx,*.rtf,*.odp,*.odt silent set ro
-        autocmd BufReadPost *.docx,*.rtf,*.odp,*.odt silent %!pandoc "%" -t markdown_strict -o /dev/stdout
+        autocmd BufReadPost *.docx,*.rtf,*.odp,*.odt silent %!pandoc -t markdown_strict -o /dev/stdout
     endif
     " Read-only .doc through antiword
     " autocmd BufReadPre *.doc silent set ro
@@ -768,7 +771,7 @@ augroup readNonTextFile
     " Read-only pdf through pdftotext
     if executable('pdftotext')
         autocmd BufReadPre *.pdf silent set ro
-        autocmd BufReadPost *.pdf silent %!pdftotext -nopgbrk -layout -q -eol unix "%" - | fmt -w78
+        autocmd BufReadPost *.pdf silent %!pdftotext -nopgbrk -layout -q -eol unix /dev/stdin - | fmt -w78
     endif
     " Read-only rtf through unrtf
     " autocmd BufReadPre *.rtf silent set ro
