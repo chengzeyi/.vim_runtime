@@ -372,7 +372,8 @@ endfunction
 
 command! -nargs=+ P call P(<q-args>)
 function! P(cmd)
-    let cmd = substitute(a:cmd, '\v[ \t\n]', '\\ ', 'g')
+    let cmd = substitute(a:cmd, '\v[ \t]', '\\ ', 'g')
+    let cmd = substitute(cmd, '\v\n', ';\\ ', 'g')
     let cmd = substitute(cmd, '\v\|', '\\|', 'g')
     silent exe 'noautocmd pedit +set\ bufhidden=wipe\ buftype=nofile\ |\ %d\ |\ read\ !' . cmd . ' [P]'
 endfunction
