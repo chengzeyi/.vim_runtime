@@ -160,6 +160,7 @@ Plug 'chriskempson/base16-vim'
 Plug 'cocopon/iceberg.vim'
 Plug 'sickill/vim-monokai'
 Plug 'joshdick/onedark.vim'
+Plug 'morhetz/gruvbox'
 " Plug 'arcticicestudio/nord-vim'
 
 call plug#end()
@@ -358,6 +359,8 @@ function! Fanyi(type, ...)
 
     if executable('fanyi')
         let cmd = 'fanyi --nocolor ' . @@
+    elseif executable('yd')
+        let cmd = 'yd ' . @@
     else
         let cmd = ''
         echoerr 'No dict program installed'
@@ -951,18 +954,6 @@ endif
 
 " let g:space_vim_dark_background = 235
 
-augroup myColors
-    autocmd!
-    autocmd ColorScheme space-vim-dark hi LineNr     ctermbg=NONE guibg=NONE
-    autocmd ColorScheme space-vim-dark hi SignColumn ctermbg=NONE guibg=NONE
-    " autocmd ColorScheme space-vim-dark hi link SignColumn LineNr
-    autocmd ColorScheme space-vim-dark hi Comment    ctermfg=59 guifg=#5C6370
-    " autocmd ColorScheme space-vim-dark hi CursorLine ctermbg=0 guibg=#000000
-    " autocmd ColorScheme space-vim-dark hi CursorColumn ctermbg=0 guibg=#000000
-    " autocmd ColorScheme space-vim-dark hi CursorLineNr ctermbg=0 guibg=#000000
-    autocmd ColorScheme space-vim-dark hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
-augroup END
-
 try
     colorscheme space-vim-dark
 
@@ -976,6 +967,18 @@ try
     " hi CursorColumn ctermbg=0 guibg=#000000
     " hi CursorLineNr ctermbg=0 guibg=#000000
     hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
+
+    augroup myColors
+        autocmd!
+        autocmd ColorScheme space-vim-dark hi LineNr     ctermbg=NONE guibg=NONE
+        autocmd ColorScheme space-vim-dark hi SignColumn ctermbg=NONE guibg=NONE
+        " autocmd ColorScheme space-vim-dark hi link SignColumn LineNr
+        autocmd ColorScheme space-vim-dark hi Comment    ctermfg=59 guifg=#5C6370
+        " autocmd ColorScheme space-vim-dark hi CursorLine ctermbg=0 guibg=#000000
+        " autocmd ColorScheme space-vim-dark hi CursorColumn ctermbg=0 guibg=#000000
+        " autocmd ColorScheme space-vim-dark hi CursorLineNr ctermbg=0 guibg=#000000
+        autocmd ColorScheme space-vim-dark hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
+    augroup END
 catch
 endtry
 
@@ -1042,8 +1045,8 @@ set wrap "Wrap lines
 vnoremap * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
-nnoremap <c-k> <C-w>p5<C-y><C-w>p
-nnoremap <c-j> <C-w>p5<C-e><C-w>p
+nnoremap <c-k> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>
+nnoremap <c-j> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>
 " inoremap <c-k> <Esc><C-w>p5<C-y><C-w>pi
 " inoremap <c-j> <Esc><C-w>p5<C-e><C-w>pi
 
@@ -1057,8 +1060,10 @@ nnoremap <s-h> <c-w>h
 nnoremap <s-l> <c-w>l
 
 nnoremap <leader>= <c-w>=
-nnoremap <leader>+ :exe "resize +5"<cr>
-nnoremap <leader>- :exe "resize -5"<cr>
+nnoremap <leader>+ :resize +5<cr>
+nnoremap <leader>- :resize -5<cr>
+nnoremap <leader>> :vertical resize +5<cr>
+nnoremap <leader><lt> :vertical resize -5<cr>
 
 " nnoremap <c-h> :bprevious<cr>
 " nnoremap <c-l> :bnext<cr>
@@ -1399,9 +1404,9 @@ if has('lua')
     " <CR>: close popup and save indent.
     inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
     function! s:my_cr_function()
-        " return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+        return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
         " For no inserting <CR> key.
-        return pumvisible() ? "\<C-y>" : "\<CR>"
+        " return pumvisible() ? "\<C-y>" : "\<CR>"
     endfunction
     " <TAB>: completion.
     inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -1439,9 +1444,9 @@ else
     " <CR>: close popup and save indent.
     inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
     function! s:my_cr_function()
-        " return neocomplcache#smart_close_popup() . "\<CR>"
+        return neocomplcache#smart_close_popup() . "\<CR>"
         " For no inserting <CR> key.
-        return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+        " return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
     endfunction
 
     inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -1745,7 +1750,7 @@ let g:gutentags_cache_dir = '~/.vim_gutentags'
 " let g:easytags_async = 1
 " let g:easytags_opts = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
 
-let g:airline_theme = 'violet'
+let g:airline_theme = 'zenburn'
 " let g:airline#themes#dracula#palette.tabline = {}
 " let g:airline#themes#dracula#palette.tabline.airline_tabhid = ['#f8f8f2', '#f8f8f2', '15', '59', '']
 let g:airline_powerline_fonts = 1
