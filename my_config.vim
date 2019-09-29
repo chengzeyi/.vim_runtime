@@ -1664,6 +1664,11 @@ nnoremap <leader>Zs :FZFSnippets!<cr>
 nnoremap <leader>Zg :FZFGGrep!<cr>
 nnoremap <leader>ZG :FZFGrep!<cr>
 
+command! -bang -nargs=? -complete=dir FZF FZFFiles <args>
+command! -bang -nargs=? -complete=dir FZFFiles
+            \ call fzf#vim#files(<q-args>,
+            \     <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \     <bang>0)
 command! -bang -nargs=* FZFGGrep
             \ call fzf#vim#grep(
             \    'git grep --line-number '.shellescape(<q-args>),
@@ -1693,10 +1698,6 @@ command! -bang -nargs=* FZFRg
             \)
 command! -bang -nargs=* FZFHistory
             \ call fzf#vim#history(
-            \     <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
-            \     <bang>0)
-command! -bang -nargs=? -complete=dir FZFFiles
-            \ call fzf#vim#files(<q-args>,
             \     <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
             \     <bang>0)
 command! -bar -bang -nargs=0 FZFFiletypes
