@@ -651,6 +651,8 @@ augroup compileAndRun
                 \ !g++ % -o %:r && ./%:r<cr>
     au filetype cpp nnoremap <buffer> <localleader>R :w <bar>
                 \ !g++ % -o %:r && ./%:r<space>
+    au filetype html nnoremap <buffer> <localleader>r :w <bar>
+                \ enew <bar> set buftype=nofile ft=markdown <bar> read !pandoc "#" -t markdown_strict -o /dev/stdout<cr>
 augroup END
 
 nnoremap <leader>aa :call AlternateFile()<cr>
@@ -752,8 +754,10 @@ nnoremap <leader>bc :bufdo %s//gc<left><left><left>
 
 augroup readNonTextFile
     au!
-    autocmd BufReadPre *.docx,*.rtf,*.odp,*.odt silent set ro
-    autocmd BufReadPost *.docx,*.rtf,*.odp,*.odt silent %!pandoc "%" -t markdown -o /dev/stdout
+    if executable('pandoc')
+        autocmd BufReadPre *.docx,*.rtf,*.odp,*.odt silent set ro
+        autocmd BufReadPost *.docx,*.rtf,*.odp,*.odt silent %!pandoc "%" -t markdown_strict -o /dev/stdout
+    endif
     " Read-only .doc through antiword
     " autocmd BufReadPre *.doc silent set ro
     " autocmd BufReadPost *.doc silent %!antiword "%"
@@ -761,8 +765,10 @@ augroup readNonTextFile
     " autocmd BufReadPre *.odt,*.odp silent set ro
     " autocmd BufReadPost *.odt,*.odp silent %!odt2txt "%"
     " Read-only pdf through pdftotext
-    autocmd BufReadPre *.pdf silent set ro
-    autocmd BufReadPost *.pdf silent %!pdftotext -nopgbrk -layout -q -eol unix "%" - | fmt -w78
+    if executable('pdftotext')
+        autocmd BufReadPre *.pdf silent set ro
+        autocmd BufReadPost *.pdf silent %!pdftotext -nopgbrk -layout -q -eol unix "%" - | fmt -w78
+    endif
     " Read-only rtf through unrtf
     " autocmd BufReadPre *.rtf silent set ro
     " autocmd BufReadPost *.rtf silent %!unrtf --text"
@@ -1377,7 +1383,8 @@ augroup lspReg
                     \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
                     \ 'whitelist': ['sh'],
                     \ })
-        " autocmd FileType sh setlocal omnifunc=lsp#complete
+        autocmd FileType sh setlocal omnifunc=lsp#complete
+        " let g:neocomplete#sources#omni#input_patterns.sh = '\h\w*'
     endif
 augroup END
 
