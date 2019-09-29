@@ -937,7 +937,8 @@ if has("gui_macvim")
     augroup END
 endif
 
-set showbreak=↪\
+let &showbreak = "\u21aa\\"
+" set showbreak=↪\
 " set listchars=tab:>-,trail:~,extends:>,precedes:<
 " set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
 " set list
