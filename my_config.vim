@@ -1323,7 +1323,6 @@ let g:neocomplete#force_omni_input_patterns.xml = '<[^>]*'
 let g:neocomplete#force_omni_input_patterns.php = '[^. \t]->\h\w*\|\h\w*::\w*'
 " let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
 " let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-let g:neocomplete#force_omni_input_patterns.python = '[^. \t]\.\w*'
 " let g:neocomplete#force_omni_input_patterns.java = '\%(\h\w*\|)\)\.\w*'
 
 if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -1359,6 +1358,8 @@ nmap [r <Plug>(lsp-previous-reference)
 nmap <leader><cr>] <Plug>(lsp-preview-focus)
 nmap <leader><cr>[ <Plug>(lsp-preview-close)
 let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_preview_autoclose = 0
+let g:neocomplete#auto_complete_delay = 0
 augroup lspReg
     au!
     if executable('gopls')
@@ -1379,6 +1380,9 @@ augroup lspReg
                     \ 'whitelist': ['python'],
                     \ })
         autocmd FileType python setlocal omnifunc=lsp#complete
+        let g:neocomplete#sources#omni#input_patterns.python = '[^. \t]\.\w*'
+    else
+        let g:neocomplete#force_omni_input_patterns.python = '[^. \t]\.\w*'
     endif
     " if executable('clangd')
     "     au User lsp_setup call lsp#register_server({
