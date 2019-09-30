@@ -695,12 +695,17 @@ function! AlternateFile()
     if suffix ==# 'cpp'
         silent! find %:t:r.h
         silent! find %:t:r.hpp
+    elseif suffix ==# 'cc'
+        silent! find %:t:r.h
+        silent! find %:t:r.hpp
     elseif suffix ==# 'c'
         silent! find %:t:r.h
     elseif suffix ==# 'hpp'
+        silent! find %:t:r.cc
         silent! find %:t:r.cpp
     elseif suffix ==# 'h'
         silent! find %:t:r.c
+        silent! find %:t:r.cc
         silent! find %:t:r.cpp
     elseif suffix ==# 'go'
         if expand('%:t:r') =~# '_test$'
