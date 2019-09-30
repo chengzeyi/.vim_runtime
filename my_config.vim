@@ -414,25 +414,50 @@ if exists(':terminal')
         tnoremap <F1> <c-w>N
     endif
 endif
-if exists(':packadd')
-    nnoremap <leader>dd :packadd termdebug <bar> Termdebug<space>
-    nnoremap <leader>dD :packadd termdebug <bar> TermdebugCommand<space>
-    " nnoremap <leader>dr :Run<cr>
-    " nnoremap <leader>dR :Run<space>
-    " nnoremap <leader>da :Arguments<space>
-    " nnoremap <leader>de :Evaluate<cr>
-    " nnoremap <leader>dE :Evaluate<space>
-    " nnoremap <leader>db :Break<cr>
-    " nnoremap <leader>ds :Step<cr>
-    " nnoremap <leader>dS :Stop<cr>
-    " nnoremap <leader>do :Over<cr>
-    " nnoremap <leader>df :Finish<cr>
-    " nnoremap <leader>dc :Continue<cr>
-    " nnoremap <leader>dC :Clear<cr>
-    " nnoremap <leader>d[ :Gdb<cr>
-    " nnoremap <leader>d] :Program<cr>
-    " nnoremap <leader>d\ :Source<cr>
 
+augroup setDebugger
+    if exists(':packadd')
+        au Filetype c,cpp nnoremap <buffer> <localleader>d :packadd termdebug <bar> Termdebug<space>
+        au Filetype c,cpp nnoremap <buffer> <localleader>D :packadd termdebug <bar> TermdebugCommand<space>
+    endif
+    if exists(':terminal')
+        if has('nvim')
+            if has('python3')
+                au Filetype python nnoremap <buffer> <localleader>d :vert terminal pudb3 %<cr>
+                au Filetype python nnoremap <buffer> <localleader>D :vert terminal pudb3<space>
+            else
+                au Filetype python nnoremap <buffer> <localleader>d :vert terminal pudb %<cr>
+                au Filetype python nnoremap <buffer> <localleader>D :vert terminal pudb<space>
+            endif
+        else
+            if has('python3')
+                au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb3 %<cr>
+                au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb3<space>
+            else
+                au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb %<cr>
+                au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb<space>
+            endif
+        endif
+    endif
+augroup END
+
+" nnoremap <leader>dr :Run<cr>
+" nnoremap <leader>dR :Run<space>
+" nnoremap <leader>da :Arguments<space>
+" nnoremap <leader>de :Evaluate<cr>
+" nnoremap <leader>dE :Evaluate<space>
+" nnoremap <leader>db :Break<cr>
+" nnoremap <leader>ds :Step<cr>
+" nnoremap <leader>dS :Stop<cr>
+" nnoremap <leader>do :Over<cr>
+" nnoremap <leader>df :Finish<cr>
+" nnoremap <leader>dc :Continue<cr>
+" nnoremap <leader>dC :Clear<cr>
+" nnoremap <leader>d[ :Gdb<cr>
+" nnoremap <leader>d] :Program<cr>
+" nnoremap <leader>d\ :Source<cr>
+
+if exists(':packadd')
     nnoremap <leader>qf :packadd cfilter <bar> Cfilter<space>
     nnoremap <leader>qv :packadd cfilter <bar> Cfilter!<space>
     nnoremap <leader>lf :packadd cfilter <bar> Lfilter<space>
@@ -1084,9 +1109,6 @@ nnoremap <leader>> :vertical resize +5<cr>
 nnoremap <leader><lt> :vertical resize -5<cr>
 
 " nnoremap <c-h> :bprevious<cr>
-" nnoremap <c-l> :bnext<cr>
-nnoremap <F3> :tabp<cr>
-nnoremap <F4> :tabn<cr>
 
 " Close the current buffer
 " map <leader>bc :Bclose<cr>:tabclose<cr>gT
@@ -1138,6 +1160,7 @@ nnoremap <leader>to :tabonly<cr>
 nnoremap <leader>tc :tabclose<cr>
 nnoremap <leader>tm :tabmove<cr>
 nnoremap <leader>t<leader> :tabnext<cr>
+nnoremap <leader>T<leader> :tabprevious<cr>
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
@@ -2008,16 +2031,3 @@ try
                 \ })
 catch
 endtry
-
-" if has('python') || has('python3')
-"     let g:vtm_default_mapping = 0
-"     let g:vtm_default_engines = ['ciba', 'google']
-"     nmap <leader>ts <plug>Translate
-"     vmap <leader>tS <plug>TranslateV
-"     nmap <leader>tw <Plug>TranslateW
-"     vmap <leader>tW <Plug>TranslateWV
-    " nmap <Leader>ts :Translate -w<space>
-    " nmap <Leader>tw :TranslateW -w<space>
-    " nmap <Leader>th :TranslateH<cr>
-" endif
-
