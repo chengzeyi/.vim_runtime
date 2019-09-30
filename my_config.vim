@@ -506,7 +506,7 @@ endfunction
 " augroup END
 augroup autoOpenQuickfixWindow
     autocmd!
-    autocmd QuickFixCmdPost vimgrep,grep,cscope exe "
+    autocmd QuickFixCmdPost [^l]* exe "
                 \ try \n
                 \     botright cwindow \n
                 \     if getwininfo(win_getid())[0]['quickfix'] \n
@@ -514,7 +514,7 @@ augroup autoOpenQuickfixWindow
                 \     endif \n
                 \ catch \n
                 \ endtry"
-    autocmd QuickFixCmdPost lvimgrep,lgrep,lcscope exe "
+    autocmd QuickFixCmdPost l* exe "
                 \ try \n
                 \     lwindow \n
                 \     if getwininfo(win_getid())[0]['loclist'] \n
