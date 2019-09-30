@@ -827,10 +827,12 @@ augroup END
 
 augroup setCompiler
     autocmd!
-    autocmd FileType python compiler pylint
-    autocmd FileType c compiler gcc
-    autocmd FileType cpp compiler gcc
-    autocmd FileType go compiler go
+    if has('python3') || has('python')
+        autocmd Filetype python compiler! pylint
+    endif
+    autocmd FileType c compiler! gcc
+    autocmd FileType cpp compiler! gcc
+    autocmd FileType go compiler! go
 augroup END
 
 set updatetime=1500
