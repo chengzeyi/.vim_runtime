@@ -1658,6 +1658,7 @@ let g:fzf_command_prefix = 'FZF'
 " nnoremap <c-c> :FzfCommand<cr>
 " [Commands] --expect expression for directly executing the command
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
+" let g:fzf_layout = {'down': '40%'}
 " nnoremap <c-n> :FZFCommands<cr>
 nnoremap <leader>zz :FZFFiles<cr>
 nnoremap <leader>zZ :FZFFiletypes<cr>
@@ -1740,9 +1741,9 @@ command! -bang -nargs=* FZFHistory
             \     <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
             \     <bang>0)
 command! -bar -bang -nargs=0 FZFFiletypes
-            \ call fzf#vim#filetypes({'left': '15%', 'options': '--reverse --margin 5%,0'}, <bang>0)
+            \ call fzf#vim#filetypes({'left': '20%', 'options': '--reverse --margin 5%,0'}, <bang>0)
 command! -bar -bang -nargs=0 FZFColors
-            \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 5%,0'}, <bang>0)
+            \ call fzf#vim#colors({'left': '20%', 'options': '--reverse --margin 5%,0'}, <bang>0)
 command! -bang -nargs=* FZFBTags
             \ call fzf#vim#buffer_tags(<q-args>, {
             \     'down': '40%',
