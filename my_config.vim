@@ -344,6 +344,7 @@ set previewheight=6
 
 nmap <silent> gt :set opfunc=Fanyi<CR>g@
 vmap <silent> gt :<C-U>call Fanyi(visualmode(), 1)<CR>
+command! -nargs=* -complete=tag Fanyi call DoFanyi(<q-args>)
 function! Fanyi(type, ...)
     let sel_save = &selection
     let &selection = "inclusive"
@@ -357,25 +358,29 @@ function! Fanyi(type, ...)
         silent exe "normal! `[v`]y"
     endif
 
+    let &selection = sel_save
+    let text = @@
+    let @@ = reg_save
+    call DoFanyi(text)
+endfunction
+function! DoFanyi(text)
+    let text = empty(a:text) ? expand('<cword>') : a:text
     if executable('fanyi')
-        let cmd = 'fanyi --nocolor ' . @@
+        let cmd = 'fanyi --nocolor ' . text
     elseif executable('yd')
-        let cmd = 'yd ' . @@
+        let cmd = 'yd ' . text
     else
         let cmd = ''
         echoerr 'No dict program installed'
     endif
 
-    let &selection = sel_save
-    let @@ = reg_save
-
     if cmd != ''
-        call P(cmd)
+        call PV(cmd)
     endif
 endfunction
 
-command! -nargs=+ P call P(<q-args>)
-function! P(cmd)
+command! -nargs=+ -complete=shellcmd PV call PV(<q-args>)
+function! PV(cmd)
     if exists('*popup_atcursor')
         let out = system(a:cmd)
         let out = split(out, "\n")
