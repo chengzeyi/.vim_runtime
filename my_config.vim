@@ -1757,8 +1757,8 @@ if executable('ctags')
 endif
 if executable('gtags-cscope')
     call add(g:gutentags_modules, 'gtags_cscope')
-elseif executable('cscope')
-    call add(g:gutentags_modules, 'cscope')
+" elseif executable('cscope')
+"     call add(g:gutentags_modules, 'cscope')
 endif
 let g:gutentags_define_advanced_commands = 1
 let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+mnialS', '--extra=+q']
