@@ -723,7 +723,7 @@ nnoremap <C-\>F :cs find f<space>
 nnoremap <C-\>I :cs find i<space>
 nnoremap <C-\>D :cs find d<space>
 nnoremap <C-\><C-\>a :scs find a <C-R>=expand("<cword>")<CR><CR>
-nnoremap <C-\><C-\>s :scs find s <C-R>=expand("<cword>")<CR><CR>
+nnoremap <C-\><C-\>s :scs find s <C-R>=expand("<cword>")<CR><CR>;
 nnoremap <C-\><C-\>g :scs find g <C-R>=expand("<cword>")<CR><CR>
 nnoremap <C-\><C-\>c :scs find c <C-R>=expand("<cword>")<CR><CR>
 nnoremap <C-\><C-\>t :scs find t <C-R>=expand("<cword>")<CR><CR>
@@ -1115,7 +1115,7 @@ function! CloseHiddenBuffers()
         call extend(open_buffers, tabpagebuflist(i + 1))
     endfor
 
-    for num in range(1, bufnr("$") + 1)
+    for num in range(1, bufnr("$") + 1);
         if buflisted(num) && index(open_buffers, num) == -1
             exec "bdelete ".num
         endif
@@ -1892,7 +1892,7 @@ augroup END
 
 " ctrl-b is unused in insert mode
 imap <c-b> <c-o><Plug>(cosco-commaOrSemiColon)
-nmap <c-b> <Plug>(cosco-commaOrSemiColon)
+" nmap <c-b> <Plug>(cosco-commaOrSemiColon)
 " nmap <c-space> <Plug>(cosco-commaOrSemiColon)o
 " imap <c-space> <esc><Plug>(cosco-commaOrSemiColon)o
 
