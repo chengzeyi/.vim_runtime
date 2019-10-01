@@ -1705,9 +1705,10 @@ nnoremap <leader>zm :FZFMarks<cr>
 nnoremap <leader>zM :FZFMaps<cr>
 nnoremap <leader>zw :FZFWindows<cr>
 nnoremap <leader>zh :FZFHistory<cr>
+nnoremap <leader>z/ :FZFHistory/<cr>
+nnoremap <leader>z: :FZFHistory:<cr>
 nnoremap <leader>zH :FZFHelptags<cr>
-nnoremap <leader>zs :FZFHistory/<cr>
-nnoremap <leader>zS :FZFSnippets<cr>
+nnoremap <leader>zs :FZFSnippets<cr>
 nnoremap <leader>zg :FZFGGrep<cr>
 nnoremap <leader>zG :FZFGrep<cr>
 
@@ -1728,8 +1729,9 @@ nnoremap <leader>Zm :FZFMarks!<cr>
 nnoremap <leader>ZM :FZFMaps!<cr>
 nnoremap <leader>Zw :FZFWindows!<cr>
 nnoremap <leader>Zh :FZFHistory!<cr>
+nnoremap <leader>Z/ :FZFHistory/!<cr>
+nnoremap <leader>Z: :FZFHistory:!<cr>
 nnoremap <leader>ZH :FZFHelptags!<cr>
-nnoremap <leader>Zs :FZFHistory/!<cr>
 nnoremap <leader>Zs :FZFSnippets!<cr>
 nnoremap <leader>Zg :FZFGGrep!<cr>
 nnoremap <leader>ZG :FZFGrep!<cr>
@@ -1793,7 +1795,7 @@ command! -bang -nargs=* FZFBLines
             \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
             \                ' --preview "
             \                     tail -n +{1} ' . expand('%') . ' |
-            \                     head -n ' . (<bang>0 ? '48"' : '16"') .
+            \                     head -n 64"' .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m --layout=default'
             \ }, <bang>0)
@@ -1802,7 +1804,7 @@ command! -bang -nargs=* FZFBTags
             \     'options': '--preview-window=' . (<bang>0 ? 'right:50%' : '60%:hidden') .
             \                ' --preview "
             \                     tail -n +0\$(echo {3} | sed -nr \"s/([0-9]+);\\\"/\1/p\") {2} |
-            \                     head -n ' . (<bang>0 ? '48"' : '16"') .
+            \                     head -n 64"' .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m --layout=default'
             \ }, <bang>0)
@@ -1811,7 +1813,7 @@ command! -bang -nargs=* FZFTags
             \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
             \                ' --preview "
             \                     tail -n +0\$(echo {3} | sed -nr \"s/([0-9]+);\\\"/\1/p\") {2} |
-            \                     head -n ' . (<bang>0 ? '48"' : '16"') .
+            \                     head -n 64"' .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m --layout=default'
             \ }, <bang>0)
