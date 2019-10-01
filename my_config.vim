@@ -1009,23 +1009,27 @@ try
     " hi Comment cterm=italic
     " hi Normal ctermbg=NONE guibg=NONE
     hi LineNr ctermbg=NONE guibg=NONE
-    hi SignColumn ctermbg=NONE guibg=NONE
+    hi link SignColumn LineNr
+    " hi SignColumn ctermbg=NONE guibg=NONE
     " hi link SignColumn LineNr
     hi Comment ctermfg=59 guifg=#5C6370
     " hi CursorLine ctermbg=0 guibg=#000000
     " hi CursorColumn ctermbg=0 guibg=#000000
     " hi CursorLineNr ctermbg=0 guibg=#000000
+    hi link CursorLineNr CursorLine
     hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
 
     augroup myColors
         autocmd!
         autocmd ColorScheme space-vim-dark hi LineNr ctermbg=NONE guibg=NONE
-        autocmd ColorScheme space-vim-dark hi SignColumn ctermbg=NONE guibg=NONE
+        autocmd ColorScheme space-vim-dark hi link SignColumn LineNr
+        " autocmd ColorScheme space-vim-dark hi SignColumn ctermbg=NONE guibg=NONE
         " autocmd ColorScheme space-vim-dark hi link SignColumn LineNr
         autocmd ColorScheme space-vim-dark hi Comment ctermfg=59 guifg=#5C6370
         " autocmd ColorScheme space-vim-dark hi CursorLine ctermbg=0 guibg=#000000
         " autocmd ColorScheme space-vim-dark hi CursorColumn ctermbg=0 guibg=#000000
         " autocmd ColorScheme space-vim-dark hi CursorLineNr ctermbg=0 guibg=#000000
+        autocmd ColorScheme space-vim-dark hi link CursorLineNr CursorLine
         autocmd ColorScheme space-vim-dark hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
     augroup END
 catch
@@ -1537,6 +1541,8 @@ let g:NERDTreeHijackNetrw = 0
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeWinPos = 'left'
 let g:NERDTreeWinSize = 30
+" let NERDTreeDirArrowExpandable=">"
+" let NERDTreeDirArrowCollapsible="v"
 nnoremap <leader>nn :NERDTreeToggle<cr>
 nnoremap <leader>nb :NERDTreeFromBookmark<space>
 nnoremap <leader>nf :NERDTreeFocus<cr>
@@ -1660,10 +1666,25 @@ let g:fzf_command_prefix = 'FZF'
 " nnoremap <c-c> :FzfCommand<cr>
 " [Commands] --expect expression for directly executing the command
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
-" let g:fzf_prefer_tmux = 1
+let g:fzf_tags_command = 'ctags -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q'
+let g:fzf_prefer_tmux = 1
 " let g:fzf_statusline = 0
 " let g:fzf_nvim_statusline = 0
-let g:fzf_layout = {'window': 'bot'.float2nr(0.4 * &lines).'new'}
+" let g:fzf_layout = {'window': 'bot'.float2nr(0.4 * &lines).'new'}
+" let g:fzf_colors = {
+"             \ 'fg':      ['fg', 'Normal'],
+"             \ 'bg':      ['bg', 'Normal'],
+"             \ 'hl':      ['fg', 'Comment'],
+"             \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+"             \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+"             \ 'hl+':     ['fg', 'Statement'],
+"             \ 'info':    ['fg', 'PreProc'],
+"             \ 'border':  ['fg', 'Ignore'],
+"             \ 'prompt':  ['fg', 'Conditional'],
+"             \ 'pointer': ['fg', 'Exception'],
+"             \ 'marker':  ['fg', 'Keyword'],
+"             \ 'spinner': ['fg', 'Label'],
+"             \ 'header':  ['fg', 'Comment'] }
 " let g:fzf_layout = {'down': '40%'}
 " nnoremap <c-n> :FZFCommands<cr>
 nnoremap <leader>zz :FZFFiles<cr>
