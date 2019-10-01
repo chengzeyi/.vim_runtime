@@ -1532,9 +1532,10 @@ if has('nvim') && exists('*nvim_open_win')
 endif
 
 " autocmd vimenter * NERDTree
-let NERDTreeShowHidden = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeWinPos = 'left'
+let g:NERDTreeShowHidden = 1
+let g:NERDTreeHijackNetrw = 0
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeWinPos = 'left'
 let g:NERDTreeWinSize = 30
 nnoremap <leader>nn :NERDTreeToggle<cr>
 nnoremap <leader>nb :NERDTreeFromBookmark<space>
