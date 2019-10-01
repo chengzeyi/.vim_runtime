@@ -974,6 +974,7 @@ if has("gui_macvim")
     augroup END
 endif
 
+set fillchars=vert:\│
 let &showbreak = "\u21aa\\"
 " set showbreak=↪\
 " set listchars=tab:>-,trail:~,extends:>,precedes:<
