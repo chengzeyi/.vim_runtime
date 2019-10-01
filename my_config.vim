@@ -1652,6 +1652,7 @@ nnoremap <leader>tt :TagbarToggle<cr>
 nnoremap <leader>ta :TagbarOpenAutoClose<cr>
 
 nnoremap <leader>rr :AsyncRun<space>
+nnoremap <leader>rR :AsyncRun -save=2<space>
 nnoremap <leader>rs :AsyncStop<cr>
 " let g:asyncrun_bell = 1
 " map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
