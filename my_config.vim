@@ -1658,7 +1658,10 @@ let g:fzf_command_prefix = 'FZF'
 " nnoremap <c-c> :FzfCommand<cr>
 " [Commands] --expect expression for directly executing the command
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
-let g:fzf_prefer_tmux = 1
+" let g:fzf_prefer_tmux = 1
+" let g:fzf_statusline = 0
+" let g:fzf_nvim_statusline = 0
+let g:fzf_layout = {'window': 'bot'.float2nr(0.4 * &lines).'new'}
 " let g:fzf_layout = {'down': '40%'}
 " nnoremap <c-n> :FZFCommands<cr>
 nnoremap <leader>zz :FZFFiles<cr>
@@ -1745,9 +1748,21 @@ command! -bang -nargs=* FZFHistory
 "             \ call fzf#vim#filetypes({'left': '20%', 'options': '--reverse --margin 5%,0'}, <bang>0)
 " command! -bar -bang -nargs=0 FZFColors
 "             \ call fzf#vim#colors({'left': '20%', 'options': '--reverse --margin 5%,0'}, <bang>0)
+command! -bang -nargs=* FZFLines
+            \ call fzf#vim#lines(<q-args>, {
+            \   'options': '-m --layout=default'
+            \ }, <bang>0)
+command! -bang -nargs=* FZFBLines
+            \ call fzf#vim#buffer_lines(<q-args>, {
+            \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
+            \                ' --preview "
+            \                     tail -n +{1} ' . expand('%') . ' |
+            \                     head -n ' . (<bang>0 ? '48"' : '16"') .
+            \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
+            \                 ' -m --layout=default'
+            \ }, <bang>0)
 command! -bang -nargs=* FZFBTags
             \ call fzf#vim#buffer_tags(<q-args>, {
-            \     'down': '40%',
             \     'options': '--preview-window=' . (<bang>0 ? 'right:50%' : '60%:hidden') .
             \                ' --preview "
             \                     tail -n +0\$(echo {3} | sed -nr \"s/([0-9]+);\\\"/\1/p\") {2} |
@@ -1757,25 +1772,9 @@ command! -bang -nargs=* FZFBTags
             \ }, <bang>0)
 command! -bang -nargs=* FZFTags
             \ call fzf#vim#tags(<q-args>, {
-            \     'down': '40%',
             \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
             \                ' --preview "
             \                     tail -n +0\$(echo {3} | sed -nr \"s/([0-9]+);\\\"/\1/p\") {2} |
-            \                     head -n ' . (<bang>0 ? '48"' : '16"') .
-            \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
-            \                 ' -m --layout=default'
-            \ }, <bang>0)
-command! -bang -nargs=* FZFLines
-            \ call fzf#vim#lines(<q-args>, {
-            \   'down': '40%',
-            \   'options': '-m --layout=default'
-            \ }, <bang>0)
-command! -bang -nargs=* FZFBLines
-            \ call fzf#vim#buffer_lines(<q-args>, {
-            \     'down': '40%',
-            \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
-            \                ' --preview "
-            \                     tail -n +{1} ' . expand('%') . ' |
             \                     head -n ' . (<bang>0 ? '48"' : '16"') .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m --layout=default'
