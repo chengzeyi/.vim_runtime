@@ -1006,11 +1006,11 @@ try
     colorscheme space-vim-dark
 
     " hi Comment cterm=italic
-    " hi Normal     ctermbg=NONE guibg=NONE
-    hi LineNr     ctermbg=NONE guibg=NONE
+    " hi Normal ctermbg=NONE guibg=NONE
+    hi LineNr ctermbg=NONE guibg=NONE
     hi SignColumn ctermbg=NONE guibg=NONE
     " hi link SignColumn LineNr
-    hi Comment    ctermfg=59 guifg=#5C6370
+    hi Comment ctermfg=59 guifg=#5C6370
     " hi CursorLine ctermbg=0 guibg=#000000
     " hi CursorColumn ctermbg=0 guibg=#000000
     " hi CursorLineNr ctermbg=0 guibg=#000000
@@ -1018,10 +1018,10 @@ try
 
     augroup myColors
         autocmd!
-        autocmd ColorScheme space-vim-dark hi LineNr     ctermbg=NONE guibg=NONE
+        autocmd ColorScheme space-vim-dark hi LineNr ctermbg=NONE guibg=NONE
         autocmd ColorScheme space-vim-dark hi SignColumn ctermbg=NONE guibg=NONE
         " autocmd ColorScheme space-vim-dark hi link SignColumn LineNr
-        autocmd ColorScheme space-vim-dark hi Comment    ctermfg=59 guifg=#5C6370
+        autocmd ColorScheme space-vim-dark hi Comment ctermfg=59 guifg=#5C6370
         " autocmd ColorScheme space-vim-dark hi CursorLine ctermbg=0 guibg=#000000
         " autocmd ColorScheme space-vim-dark hi CursorColumn ctermbg=0 guibg=#000000
         " autocmd ColorScheme space-vim-dark hi CursorLineNr ctermbg=0 guibg=#000000
