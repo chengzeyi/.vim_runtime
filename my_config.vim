@@ -1125,8 +1125,8 @@ nnoremap <leader><lt> :vertical resize -5<cr>
 " map <leader>bc :Bclose<cr>:tabclose<cr>gT
 nnoremap <leader>bb :Bclose<cr>
 " Don't close window, when deleting a buffer
-command! Bclose call s:BufcloseCloseIt()
-function! s:BufcloseCloseIt()
+command! Bclose call BufcloseCloseIt()
+function! BufcloseCloseIt()
     let l:currentBufNum = bufnr("%")
     let l:alternateBufNum = bufnr("#")
 
@@ -1695,7 +1695,6 @@ nnoremap <leader>zF :FZFGFiles?<cr>
 nnoremap <leader>zb :FZFBuffers<cr>
 nnoremap <leader>zc :FZFCommands<cr>
 nnoremap <leader>zC :FZFColors<cr>
-nnoremap <leader>zC :FZFColors<cr>
 nnoremap <leader>za :FZFAg<cr>
 nnoremap <leader>zr :FZFRg<cr>
 nnoremap <leader>zl :FZFLines<cr>
@@ -1703,10 +1702,12 @@ nnoremap <leader>zL :FZFBLines<cr>
 nnoremap <leader>zt :FZFTags<cr>
 nnoremap <leader>zT :FZFBTags<cr>
 nnoremap <leader>zm :FZFMarks<cr>
+nnoremap <leader>zM :FZFMaps<cr>
 nnoremap <leader>zw :FZFWindows<cr>
 nnoremap <leader>zh :FZFHistory<cr>
 nnoremap <leader>zH :FZFHelptags<cr>
-nnoremap <leader>zs :FZFSnippets<cr>
+nnoremap <leader>zs :FZFHistory/<cr>
+nnoremap <leader>zS :FZFSnippets<cr>
 nnoremap <leader>zg :FZFGGrep<cr>
 nnoremap <leader>zG :FZFGrep<cr>
 
@@ -1717,7 +1718,6 @@ nnoremap <leader>ZF :FZFGFiles!?<cr>
 nnoremap <leader>Zb :FZFBuffers!<cr>
 nnoremap <leader>Zc :FZFCommands!<cr>
 nnoremap <leader>ZC :FZFColors!<cr>
-nnoremap <leader>ZC :FZFColors!<cr>
 nnoremap <leader>Za :FZFAg!<cr>
 nnoremap <leader>Zr :FZFRg!<cr>
 nnoremap <leader>Zl :FZFLines!<cr>
@@ -1725,9 +1725,11 @@ nnoremap <leader>ZL :FZFBLines!<cr>
 nnoremap <leader>Zt :FZFTags!<cr>
 nnoremap <leader>ZT :FZFBTags!<cr>
 nnoremap <leader>Zm :FZFMarks!<cr>
+nnoremap <leader>ZM :FZFMaps!<cr>
 nnoremap <leader>Zw :FZFWindows!<cr>
 nnoremap <leader>Zh :FZFHistory!<cr>
 nnoremap <leader>ZH :FZFHelptags!<cr>
+nnoremap <leader>Zs :FZFHistory/!<cr>
 nnoremap <leader>Zs :FZFSnippets!<cr>
 nnoremap <leader>Zg :FZFGGrep!<cr>
 nnoremap <leader>ZG :FZFGrep!<cr>
@@ -1765,9 +1767,19 @@ command! -bang -nargs=* FZFRg
             \     <bang>0
             \)
 command! -bang -nargs=* FZFHistory
-            \ call fzf#vim#history(
+            \ call FZFHistory(<q-args>,
             \     <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
             \     <bang>0)
+function! FZFHistory(arg, options, bang)
+  let bang = a:bang || a:arg[len(a:arg)-1] == '!'
+  if a:arg[0] == ':'
+    call fzf#vim#command_history(a:options, bang)
+  elseif a:arg[0] == '/'
+    call fzf#vim#search_history(a:options, bang)
+  else
+    call fzf#vim#history(a:options, bang)
+  endif
+endfunction
 " command! -bar -bang -nargs=0 FZFFiletypes
 "             \ call fzf#vim#filetypes({'left': '20%', 'options': '--reverse --margin 5%,0'}, <bang>0)
 " command! -bar -bang -nargs=0 FZFColors
