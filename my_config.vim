@@ -1810,7 +1810,7 @@ let g:gutentags_cache_dir = '~/.vim_gutentags'
 " let g:easytags_async = 1
 " let g:easytags_opts = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
 
-let g:airline_theme = 'violet'
+let g:airline_theme = 'tomorrow'
 " let g:airline#themes#dracula#palette.tabline = {}
 " let g:airline#themes#dracula#palette.tabline.airline_tabhid = ['#f8f8f2', '#f8f8f2', '15', '59', '']
 let g:airline_powerline_fonts = 1
