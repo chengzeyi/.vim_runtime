@@ -999,7 +999,7 @@ syntax enable
 
 set t_Co=256
 if has('termguicolors')
-    set termguicolors
+    " set termguicolors
     nnoremap <leader>ot :set invtermguicolors<cr>
 endif
 
