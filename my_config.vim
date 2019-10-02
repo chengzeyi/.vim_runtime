@@ -1827,7 +1827,7 @@ command! -bar -bang FZFMarks
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m --layout=default'
             \ }, <bang>0)
-command! -bar -bang -nargs=* FZFWindows
+command! -bar -bang FZFWindows
             \ call fzf#vim#windows({
             \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
             \                ' --preview "
