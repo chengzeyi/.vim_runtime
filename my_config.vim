@@ -1803,6 +1803,17 @@ command! -bang -nargs=* FZFTags
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m --layout=default'
             \ }, <bang>0)
+command! -bar -bang FZFMarks
+            \ call fzf#vim#marks({
+            \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
+            \                ' --preview "
+            \                     tail -n +{2} {4} |
+            \                     head -n ' . (<bang>0 ? '48"' : '16"') .
+            \                     '; tail -n +{2} ' . expand('%') . ' |
+            \                     head -n ' . (<bang>0 ? '48"' : '16"') .
+            \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
+            \                 ' -m --layout=default'
+            \ }, <bang>0)
 
 nmap <c-_> <Plug>CommentaryLine
 vmap <c-_> <Plug>Commentary
