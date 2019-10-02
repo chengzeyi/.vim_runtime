@@ -1822,10 +1822,16 @@ command! -bar -bang FZFMarks
             \ call fzf#vim#marks({
             \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
             \                ' --preview "
-            \                     tail -n +{2} {4} |
-            \                     head -n ' . (<bang>0 ? '48"' : '16"') .
-            \                     '; tail -n +{2} ' . expand('%') . ' |
-            \                     head -n ' . (<bang>0 ? '48"' : '16"') .
+            \                     tail -n +{2} {4} ' . expand('%') . ' 2>/dev/null |
+            \                     head -n 64"' .
+            \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
+            \                 ' -m --layout=default'
+            \ }, <bang>0)
+command! -bar -bang -nargs=* FZFWindows
+            \ call fzf#vim#windows({
+            \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
+            \                ' --preview "
+            \                     head -n 64 {3} {4} 2>/dev/null"' .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m --layout=default'
             \ }, <bang>0)
