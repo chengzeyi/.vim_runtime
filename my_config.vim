@@ -102,6 +102,7 @@ endif
 " Plug 'dbeecham/ctrlp-commandpalette.vim', {'on': 'CtrlPCommandPalette'}
 
 if has('lua')
+    Plug 'Shougo/vimproc.vim', {'dir': '~/.vimproc'}
     Plug 'Shougo/neocomplete'
     Plug 'Shougo/neco-vim'
     Plug 'Shougo/neco-syntax'
@@ -321,8 +322,8 @@ nnoremap <leader>f- :set foldlevel-=1<cr>
 nnoremap <leader>f+ :set foldlevel+=1<cr>
 nnoremap <leader>f= :set foldlevel=<c-r>=&foldlevel ? '0' : '99'<cr><cr>
 nnoremap <leader>fs :setlocal foldexpr=getline(v:lnum)=~@/?0:1 foldmethod=
-    \<c-r>=&foldmethod == 'expr' ? 'indent' : 'expr'<cr> foldlevel=
-    \<c-r>=&foldmethod == 'expr' ? '99' : '0'<cr><cr>
+            \<c-r>=&foldmethod == 'expr' ? 'indent' : 'expr'<cr> foldlevel=
+            \<c-r>=&foldmethod == 'expr' ? '99' : '0'<cr><cr>
 nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? '1' : '0'<cr><cr>
 if has('patch-8.1.1564')
     nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'number' : 'no'<cr><cr>
@@ -385,12 +386,12 @@ function! PV(cmd)
         let out = system(a:cmd)
         let out = split(out, "\n")
         call popup_atcursor(out, #{
-            \ pos: 'botright',
-            \ maxheight: 15,
-            \ maxwidth: 60,
-            \ padding: [0, 1, 0, 1],
-            \ highlight: 'CursorColumn',
-            \ })
+                    \ pos: 'botright',
+                    \ maxheight: 15,
+                    \ maxwidth: 60,
+                    \ padding: [0, 1, 0, 1],
+                    \ highlight: 'CursorColumn',
+                    \ })
     else
         let cmd = substitute(a:cmd, '\v[ \t]', '\\ ', 'g')
         let cmd = substitute(cmd, '\v\n', ';\\ ', 'g')
@@ -1331,43 +1332,25 @@ augroup disableCmdwinMappings
     au CmdwinEnter [:>] nunmap <buffer> <Tab>
 augroup END
 
-if has('lua')
-    set completeopt=menuone,noselect
-    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview <bar>
-                \ if exists('b:neocomplete') <bar> unlet b:neocomplete <bar> endif <cr>
-    inoremap <c-j> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>"<cr>
-                \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>"<cr>
-    inoremap <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n>
-else
-    set completeopt=menuone
-    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview<cr>
-    inoremap <c-j> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>\<lt>c-p>"<cr>
-                \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>\<lt>c-p>"<cr>
-    inoremap <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n><c-p>
-endif
 set pumheight=12
+" <TAB>: completion.
+inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <expr> <down> pumvisible() ? "\<C-n>" : "\<down>"
+inoremap <expr> <up> pumvisible() ? "\<C-p>" : "\<up>"
 
-if !exists('g:neocomplete#force_omni_input_patterns')
-    let g:neocomplete#force_omni_input_patterns = {}
-endif
-let g:neocomplete#force_omni_input_patterns.css = '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]'
-let g:neocomplete#force_omni_input_patterns.html = '<[^>]*'
-let g:neocomplete#force_omni_input_patterns.xml = '<[^>]*'
-let g:neocomplete#force_omni_input_patterns.markdown = '<[^>]*'
-let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
-let g:neocomplete#force_omni_input_patterns.xml = '<[^>]*'
-let g:neocomplete#force_omni_input_patterns.php = '[^. \t]->\h\w*\|\h\w*::\w*'
-" let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-" let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-" let g:neocomplete#force_omni_input_patterns.java = '\%(\h\w*\|)\)\.\w*'
+let g:force_omni_patterns = {
+            \ 'css': '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]',
+            \ 'html': '<[^>]*',
+            \ 'xml': '<[^>]*',
+            \ 'markdown': '<[^>]*',
+            \ 'javascript': '[^. \t]\.\%(\h\w*\)\?',
+            \ 'php': '[^. \t]->\h\w*\|\h\w*::\w*',
+            \ 'java': '\%(\h\w*\|)\)\.\w*'}
 
-if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-" let g:neocomplete#sources#omni#input_patterns.go = '[^.[:digit:] *\t]\.\w*'
-" let g:neocomplete#sources#omni#input_patterns.python = '[^. \t]\.\w*'
+let g:omni_patterns = {
+            \ 'c': '[^.[:digit:] *\t]\%(\.\|->\)\w*',
+            \ 'cpp': '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'}
 
 nmap <leader><cr><cr> <Plug>(lsp-status)
 nmap <leader><cr>a <Plug>(lsp-code-action)
@@ -1406,7 +1389,7 @@ augroup lspReg
                     \ })
         " autocmd BufWritePre *.go LspDocumentFormatSync
         autocmd FileType go setlocal omnifunc=lsp#complete
-        let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.\w*'
+        let g:force_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
     endif
     if executable('pyls')
         " pip install python-language-server
@@ -1416,9 +1399,9 @@ augroup lspReg
                     \ 'whitelist': ['python'],
                     \ })
         autocmd FileType python setlocal omnifunc=lsp#complete
-        let g:neocomplete#sources#omni#input_patterns.python = '[^. \t]\.\w*'
+        let g:omni_patterns.python = '[^. \t]\.\w*'
     else
-        let g:neocomplete#force_omni_input_patterns.python = '[^. \t]\.\w*'
+        let g:force_omni_patterns.python = '[^. \t]\.\w*'
     endif
     " if executable('clangd')
     "     au User lsp_setup call lsp#register_server({
@@ -1434,11 +1417,17 @@ augroup lspReg
                     \ 'whitelist': ['sh'],
                     \ })
         autocmd FileType sh setlocal omnifunc=lsp#complete
-        " let g:neocomplete#sources#omni#input_patterns.sh = '\h\w*'
+        " let g:omni_patterns.sh = '\h\w*'
     endif
 augroup END
 
 if has('lua')
+    set completeopt=menuone,noselect
+    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview <bar>
+                \ if exists('b:neocomplete') <bar> unlet b:neocomplete <bar> endif <cr>
+    inoremap <c-j> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>"<cr>
+                \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>"<cr>
+    inoremap <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n>
     let g:necosyntax#max_syntax_lines = 3000
     let g:neocomplete#enable_auto_close_preview = 0
     let g:neocomplete#enable_at_startup = 1
@@ -1465,16 +1454,16 @@ if has('lua')
         " For no inserting <CR> key.
         " return pumvisible() ? "\<C-y>" : "\<CR>"
     endfunction
-    " <TAB>: completion.
-    inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-    inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-    inoremap <expr> <down> pumvisible() ? "\<C-n>" : "\<down>"
-    inoremap <expr> <up> pumvisible() ? "\<C-p>" : "\<up>"
     " <C-h>, <BS>: close popup and delete backword char.
     inoremap <expr> <C-h> neocomplete#smart_close_popup()."\<C-h>"
     inoremap <expr> <BS> neocomplete#smart_close_popup()."\<BS>"
     " Enable heavy omni completion.
-
+    if !exists('g:neocomplete#force_omni_input_patterns')
+        let g:neocomplete#force_omni_input_patterns = g:force_omni_patterns
+    endif
+    if !exists('g:neocomplete#sources#omni#input_patterns')
+        let g:neocomplete#sources#omni#input_patterns = g:omni_patterns
+    endif
     try
         call neocomplete#custom#source('_', 'converters',
                     \ ['converter_remove_overlap', 'converter_remove_last_paren',
@@ -1486,6 +1475,11 @@ if has('lua')
     catch
     endtry
 else
+    set completeopt=menuone
+    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview<cr>
+    inoremap <c-j> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>\<lt>c-p>"<cr>
+                \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>\<lt>c-p>"<cr>
+    inoremap <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n><c-p>
     let g:neocomplcache_enable_auto_close_preview = 0
     let g:neocomplcache_enable_at_startup = 1
     let g:neocomplcache_enable_smart_case = 1
@@ -1505,11 +1499,6 @@ else
         " For no inserting <CR> key.
         " return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
     endfunction
-
-    inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-    inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-    inoremap <expr> <down> pumvisible() ? "\<C-n>" : "\<down>"
-    inoremap <expr> <up> pumvisible() ? "\<C-p>" : "\<up>"
     " <C-h>, <BS>: close popup and delete backword char.
     inoremap <expr> <C-h> neocomplcache#smart_close_popup()."\<C-h>"
     inoremap <expr> <BS> neocomplcache#smart_close_popup()."\<BS>"
@@ -1522,11 +1511,11 @@ else
 
     " Enable heavy omni completion.
     if !exists('g:neocomplcache_force_omni_patterns')
-        let g:neocomplcache_force_omni_patterns = g:neocomplete#force_omni_input_patterns
+        let g:neocomplcache_force_omni_patterns = g:force_omni_patterns
     endif
 
     if !exists('g:neocomplcache_omni_patterns')
-        let g:neocomplcache_omni_patterns = g:neocomplete#sources#omni#input_patterns
+        let g:neocomplcache_omni_patterns = g:omni_patterns
     endif
 endif
 
@@ -1774,14 +1763,14 @@ command! -bang -nargs=* FZFHistory
             \     <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
             \     <bang>0)
 function! FZFHistory(arg, options, bang)
-  let bang = a:bang || a:arg[len(a:arg)-1] == '!'
-  if a:arg[0] == ':'
-    call fzf#vim#command_history(a:options, bang)
-  elseif a:arg[0] == '/'
-    call fzf#vim#search_history(a:options, bang)
-  else
-    call fzf#vim#history(a:options, bang)
-  endif
+    let bang = a:bang || a:arg[len(a:arg)-1] == '!'
+    if a:arg[0] == ':'
+        call fzf#vim#command_history(a:options, bang)
+    elseif a:arg[0] == '/'
+        call fzf#vim#search_history(a:options, bang)
+    else
+        call fzf#vim#history(a:options, bang)
+    endif
 endfunction
 " command! -bar -bang -nargs=0 FZFFiletypes
 "             \ call fzf#vim#filetypes({'left': '20%', 'options': '--reverse --margin 5%,0'}, <bang>0)
@@ -1853,8 +1842,8 @@ if executable('ctags')
 endif
 if executable('gtags-cscope')
     call add(g:gutentags_modules, 'gtags_cscope')
-" elseif executable('cscope')
-"     call add(g:gutentags_modules, 'cscope')
+    " elseif executable('cscope')
+    "     call add(g:gutentags_modules, 'cscope')
 endif
 let g:gutentags_define_advanced_commands = 1
 let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+mnialS', '--extra=+q']
