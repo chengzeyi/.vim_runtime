@@ -331,10 +331,7 @@ else
     nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr><cr>
 endif
 vnoremap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : '.'
-if has('patch-8.1.1880') && has('textprop')
-    " if (v:version > 801 || (v:version == 801 && has('patch1880'))) &&
-    "             \ has('textprop')
-    " set completeopt+=popup
+if has('patch-8.1.1714') && has('textprop')
     set previewpopup=height:15,width:60
 endif
 set previewheight=6
@@ -390,7 +387,7 @@ function! PV(cmd)
                     \ maxheight: 15,
                     \ maxwidth: 60,
                     \ padding: [0, 1, 0, 1],
-                    \ highlight: 'CursorColumn',
+                    \ highlight: 'InfoPopup',
                     \ })
     else
         let cmd = substitute(a:cmd, '\v[ \t]', '\\ ', 'g')
@@ -976,8 +973,8 @@ if has("gui_macvim")
 endif
 
 set fillchars=vert:\│
-let &showbreak = "\u21aa\\"
-" set showbreak=↪\
+" let &showbreak = "\u21aa "
+let &showbreak = '↪ '
 " set listchars=tab:>-,trail:~,extends:>,precedes:<
 " set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
 " set list
@@ -989,21 +986,29 @@ syntax enable
 " if $COLORTERM == 'gnome-terminal'
 " set t_Co=256
 " endif
-" if has('cursorshape')
-"     if &term =~? "xterm"
-"         let &t_SI = "\<Esc>[6 q"
-"         let &t_SR = "\<Esc>[4 q"
-"         let &t_EI = "\<Esc>[2 q"
-"     endif
-" endif
+if !has('nvim') && has('cursorshape') && &term =~? 'xterm'
+    augroup setCursorShape
+        au!
+        au VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"'
+        au InsertEnter,InsertChange *
+                    \ if v:insertmode == 'i' |
+                    \   silent execute '!echo -ne "\e[6 q"' |
+                    \ elseif v:insertmode == 'r' |
+                    \   silent execute '!echo -ne "\e[4 q"' |
+                    \ endif
+        au VimLeave * silent execute '!echo -ne "\e[ q"'
+    augroup END
+endif
 
 set t_Co=256
 if has('termguicolors')
-    " set termguicolors
+    set termguicolors
     nnoremap <leader>ot :set invtermguicolors<cr>
 endif
 
 " let g:space_vim_dark_background = 235
+
+hi link InfoPopup Pmenu
 
 try
     colorscheme space-vim-dark
@@ -1326,19 +1331,6 @@ xmap <C-\> <Plug>(neosnippet_expand_target)
 "     set conceallevel=2 concealcursor=niv
 " endif
 
-augroup disableCmdwinMappings
-    au!
-    au CmdwinEnter [:>] iunmap <buffer> <Tab>
-    au CmdwinEnter [:>] nunmap <buffer> <Tab>
-augroup END
-
-set pumheight=12
-" <TAB>: completion.
-inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-inoremap <expr> <down> pumvisible() ? "\<C-n>" : "\<down>"
-inoremap <expr> <up> pumvisible() ? "\<C-p>" : "\<up>"
-
 let g:force_omni_patterns = {
             \ 'css': '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]',
             \ 'html': '<[^>]*',
@@ -1378,7 +1370,6 @@ nmap <leader><cr>] <Plug>(lsp-preview-focus)
 nmap <leader><cr>[ <Plug>(lsp-preview-close)
 let g:lsp_diagnostics_echo_cursor = 1
 let g:lsp_preview_autoclose = 0
-let g:neocomplete#auto_complete_delay = 0
 augroup lspReg
     au!
     if executable('gopls')
@@ -1421,13 +1412,38 @@ augroup lspReg
     endif
 augroup END
 
+augroup disableCmdwinMappings
+    au!
+    au CmdwinEnter [:>] iunmap <buffer> <Tab>
+    au CmdwinEnter [:>] nunmap <buffer> <Tab>
+augroup END
+
+set completeopt+=menuone
+set completeopt-=preview
+if has('patch-8.1.1882') && has('textprop')
+    set completepopup=highlight:InfoPopup,border:off,align:menu
+endif
+set pumheight=12
+
+" <TAB>: completion.
+inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <expr> <down> pumvisible() ? "\<C-n>" : "\<down>"
+inoremap <expr> <up> pumvisible() ? "\<C-p>" : "\<up>"
+
 if has('lua')
-    set completeopt=menuone,noselect
-    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview <bar>
-                \ if exists('b:neocomplete') <bar> unlet b:neocomplete <bar> endif <cr>
+    set completeopt+=noselect
+    if has('patch-8.1.1880') && has('textprop')
+        nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview,popup <bar>
+                    \ if exists('b:neocomplete') <bar> unlet b:neocomplete <bar> endif <cr>
+    else
+        nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview <bar>
+                    \ if exists('b:neocomplete') <bar> unlet b:neocomplete <bar> endif <cr>
+    endif
     inoremap <c-j> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>"<cr>
                 \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>"<cr>
     inoremap <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n>
+    let g:neocomplete#auto_complete_delay = 0
     let g:necosyntax#max_syntax_lines = 3000
     let g:neocomplete#enable_auto_close_preview = 0
     let g:neocomplete#enable_at_startup = 1
@@ -1475,8 +1491,11 @@ if has('lua')
     catch
     endtry
 else
-    set completeopt=menuone
-    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview<cr>
+    if has('patch-8.1.1880') && has('textprop')
+        nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview,popup<cr>
+    else
+        nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview<cr>
+    endif
     inoremap <c-j> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>\<lt>c-p>"<cr>
                 \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>\<lt>c-p>"<cr>
     inoremap <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n><c-p>
@@ -1893,6 +1912,8 @@ let g:airline_powerline_fonts = 1
 " let g:airline_symbols.dirty='⚡'
 
 let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#left_alt_sep = '│'
+" let g:airline#extensions#tabline#right_alt_sep = '│'
 " let g:airline#extensions#tabline#show_buffers = 1
 " let g:airline#extensions#tabline#alt_sep = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
