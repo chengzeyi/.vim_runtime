@@ -3,29 +3,29 @@ set nocompatible
 call plug#begin('~/.vim_runtime/plugged')
 
 Plug 'chengzeyi/vim-markify'
-" Plug 'chengzeyi/a.vim', {'on': 'A'}
-Plug 'chengzeyi/OmniCppComplete', {'for': ['cpp', 'c']}
+" Plug 'chengzeyi/a.vim'
+Plug 'chengzeyi/OmniCppComplete'
 
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
-" Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['cpp', 'c']}
-" Plug 'fatih/vim-go', {'for': 'go', 'on': ['GoUpdateBinaries', 'GoInstallBinaries']}
+" Plug 'octol/vim-cpp-enhanced-highlight'
+" Plug 'fatih/vim-go'
 
-Plug 'lfilho/cosco.vim', {'on': '<plug>(cosco-commaOrSemiColon)'}
+Plug 'lfilho/cosco.vim'
 
 Plug 'vim-utils/vim-man'
 
-Plug 'mattn/gist-vim', {'on': 'Gist'}
+Plug 'mattn/gist-vim'
 
-Plug 'FooSoft/vim-argwrap', {'on': 'ArgWrap'}
+Plug 'FooSoft/vim-argwrap'
 
-Plug 'mhinz/vim-sayonara', {'on': 'Sayonara'}
+Plug 'mhinz/vim-sayonara'
 
 " Plug 'terryma/vim-expand-region'
 
-Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
+Plug 'mbbill/undotree'
 
-Plug 'luochen1990/rainbow', {'on': 'RainbowToggle'}
+Plug 'luochen1990/rainbow'
 
 Plug 'easymotion/vim-easymotion'
 
@@ -39,18 +39,18 @@ Plug 'ntpeters/vim-better-whitespace'
 
 Plug 'mhinz/vim-startify'
 
-Plug 'mhinz/vim-grepper', {'on': ['Grepper', '<plug>(GrepperOperator)']}
+Plug 'mhinz/vim-grepper'
 
-Plug 'wsdjeg/FlyGrep.vim', {'on': 'FlyGrep'}
+Plug 'wsdjeg/FlyGrep.vim'
 
 Plug 'jiangmiao/auto-pairs'
 
-Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
-Plug 'junegunn/limelight.vim', {'on': ['<plug>(Limelight)', 'Limelight']}
-Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
+Plug 'junegunn/vim-easy-align'
 
-" Plug 'rbong/vim-flog', {'on': ['Flog', 'Flogsplit']}
-Plug 'junegunn/gv.vim', {'on': 'GV'}
+" Plug 'rbong/vim-flog'
+Plug 'junegunn/gv.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -72,34 +72,15 @@ Plug 'airblade/vim-gitgutter'
 
 Plug 'machakann/vim-highlightedyank'
 
-Plug 'Xuyuanp/nerdtree-git-plugin', {'on': [
-            \ 'NERDTreeToggle',
-            \ 'NERDTreeFromBookmark',
-            \ 'NERDTreeFocus',
-            \ 'NERDTreeFind',
-            \ 'NERDTreeVCS',
-            \ 'NERDTreeCWD',
-            \ 'NERDTreeRefreshRoot',
-            \ 'NERDTreeMirror',
-            \ ]}
-
-Plug 'scrooloose/nerdtree', {'on': [
-            \ 'NERDTreeToggle',
-            \ 'NERDTreeFromBookmark',
-            \ 'NERDTreeFocus',
-            \ 'NERDTreeFind',
-            \ 'NERDTreeVCS',
-            \ 'NERDTreeCWD',
-            \ 'NERDTreeRefreshRoot',
-            \ 'NERDTreeMirror',
-            \ ]}
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'scrooloose/nerdtree'
 
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tacahiroy/ctrlp-funky', {'on': 'CtrlPFunky'}
+Plug 'tacahiroy/ctrlp-funky'
 if has('python') || has('python3')
-    Plug 'fisadev/vim-ctrlp-cmdpalette', {'on': 'CtrlPCmdPalette'}
+    Plug 'fisadev/vim-ctrlp-cmdpalette'
 endif
-" Plug 'dbeecham/ctrlp-commandpalette.vim', {'on': 'CtrlPCommandPalette'}
+" Plug 'dbeecham/ctrlp-commandpalette.vim'
 
 if has('lua')
     Plug 'Shougo/vimproc.vim', {'dir': '~/.vimproc'}
@@ -117,12 +98,12 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/echodoc.vim'
 " Plug 'Shougo/deol.nvim'
 
-Plug 'majutsushi/tagbar', {'on': ['TagbarToggle', 'TagbarOpenAutoClose']}
+Plug 'majutsushi/tagbar'
 
-Plug 'sbdchd/neoformat', {'on': 'Neoformat'}
+Plug 'sbdchd/neoformat'
 
 " Plug 'skywind3000/vim-preview'
-Plug 'skywind3000/asyncrun.vim', {'on': ['AsyncRun', 'AsyncStop']}
+Plug 'skywind3000/asyncrun.vim'
 
 " Plug 'xuhdev/SingleCompile'
 
@@ -144,10 +125,10 @@ Plug 'sheerun/vim-polyglot'
 " Plug 'dense-analysis/ale'
 
 if exists(':terminal')
-    Plug 'Lenovsky/nuake', {'on': 'Nuake'}
+    Plug 'Lenovsky/nuake'
 endif
 
-Plug 'metakirby5/codi.vim', {'on': 'Codi'}
+Plug 'metakirby5/codi.vim'
 
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
