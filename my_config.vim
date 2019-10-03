@@ -427,6 +427,7 @@ augroup setDebugger
                 au Filetype python nnoremap <buffer> <localleader>d :vert terminal pudb %<cr>
                 au Filetype python nnoremap <buffer> <localleader>D :vert terminal pudb<space>
             endif
+            au Filetype go nnoremap <buffer> <localleader>d :vert terminal dlv<space>
         else
             if has('python3')
                 au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb3 %<cr>
@@ -435,6 +436,7 @@ augroup setDebugger
                 au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb %<cr>
                 au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb<space>
             endif
+            au Filetype go nnoremap <buffer> <localleader>d :vert terminal ++close dlv<space>
         endif
     endif
 augroup END
@@ -679,6 +681,10 @@ augroup compileAndRun
                 \ !g++ % -o %:r && ./%:r<cr>
     au filetype cpp nnoremap <buffer> <localleader>R :w <bar>
                 \ !g++ % -o %:r && ./%:r<space>
+    au filetype go nnoremap <buffer> <localleader>r :w <bar>
+                \ !go build % -o %:r && ./%:r<cr>
+    au filetype go nnoremap <buffer> <localleader>R :w <bar>
+                \ !go build % -o %:r && ./%:r<space>
     au filetype html nnoremap <buffer> <localleader>r :w <bar>
                 \ enew <bar> read # <bar> set buftype=nofile ft=markdown <bar>
                 \ %!pandoc -t markdown_strict -o /dev/stdout<cr>
@@ -690,26 +696,19 @@ augroup END
 nnoremap <leader>aa :call AlternateFile()<cr>
 function! AlternateFile()
     let suffix = expand('%:e')
-    if suffix ==# 'cpp'
-        silent! find %:t:r.h
-        silent! find %:t:r.hpp
-    elseif suffix ==# 'cc'
-        silent! find %:t:r.h
-        silent! find %:t:r.hpp
+    if suffix ==# 'cpp' || suffix ==# 'cc'
+        try | find %:t:r.hpp | catch | try | find %:t:r.h | catch | endtry | endtry
     elseif suffix ==# 'c'
-        silent! find %:t:r.h
+        try | find %:t:r.h | catch | endtry
     elseif suffix ==# 'hpp'
-        silent! find %:t:r.cc
-        silent! find %:t:r.cpp
+        try | find %:t:r.cpp | catch | try | find %:t:r.cc | catch | endtry | endtry
     elseif suffix ==# 'h'
-        silent! find %:t:r.c
-        silent! find %:t:r.cc
-        silent! find %:t:r.cpp
+        try | find %:t:r.cpp | catch | try | find %:t:r.cc | catch | try | find %:t:r.c | catch | endtry | endtry | endtry
     elseif suffix ==# 'go'
         if expand('%:t:r') =~# '_test$'
-            silent! find %:t:r:s?\V_test\$??.go
+            try | find %:t:r:s?\V_test\$??.go | catch | endtry
         else
-            silent! find %:t:r_test.go
+            try | find %:t:r_test.go | catch | endtry
         endif
     endif
 endfunction
@@ -1656,6 +1655,33 @@ imap <F10> <Plug>yankstack_substitute_newer_paste
 
 let g:tagbar_width = 30
 let g:tagbar_compact = 1
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+    \ }
 nnoremap <leader>tt :TagbarToggle<cr>
 nnoremap <leader>ta :TagbarOpenAutoClose<cr>
 
@@ -1940,7 +1966,7 @@ endtry
 
 let g:goyo_width = '80%'
 let g:goyo_height = '95%'
-nnoremap <leader>go :Goyo<cr>
+nnoremap <F9> :Goyo<cr>
 
 " augroup changeLimelight
 "     autocmd!
@@ -1949,8 +1975,7 @@ nnoremap <leader>go :Goyo<cr>
 " augroup END
 " nmap <Leader>lM <Plug>(Limelight)
 " xmap <Leader>lM <Plug>(Limelight)
-nnoremap <leader>lm :Limelight<cr>
-nnoremap <leader>lM :Limelight!<cr>
+nnoremap <F10> :Limelight!!<cr>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
