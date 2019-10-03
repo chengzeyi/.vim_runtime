@@ -4,28 +4,28 @@ call plug#begin('~/.vim_runtime/plugged')
 
 Plug 'chengzeyi/vim-markify'
 " Plug 'chengzeyi/a.vim', {'on': 'A'}
-Plug 'chengzeyi/OmniCppComplete'
+Plug 'chengzeyi/OmniCppComplete', {'for': ['cpp', 'c']}
 
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 " Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['cpp', 'c']}
 " Plug 'fatih/vim-go', {'for': 'go', 'on': ['GoUpdateBinaries', 'GoInstallBinaries']}
 
-Plug 'lfilho/cosco.vim'
+Plug 'lfilho/cosco.vim', {'on': '<plug>(cosco-commaOrSemiColon)'}
 
 Plug 'vim-utils/vim-man'
 
-Plug 'mattn/gist-vim'
+Plug 'mattn/gist-vim', {'on': 'Gist'}
 
-Plug 'FooSoft/vim-argwrap'
+Plug 'FooSoft/vim-argwrap', {'on': 'ArgWrap'}
 
-Plug 'mhinz/vim-sayonara'
+Plug 'mhinz/vim-sayonara', {'on': 'Sayonara'}
 
 " Plug 'terryma/vim-expand-region'
 
-Plug 'mbbill/undotree'
+Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 
-Plug 'luochen1990/rainbow'
+Plug 'luochen1990/rainbow', {'on': 'RainbowToggle'}
 
 Plug 'easymotion/vim-easymotion'
 
@@ -39,18 +39,18 @@ Plug 'ntpeters/vim-better-whitespace'
 
 Plug 'mhinz/vim-startify'
 
-Plug 'mhinz/vim-grepper'
+Plug 'mhinz/vim-grepper', {'on': ['Grepper', '<plug>(GrepperOperator)']}
 
-Plug 'wsdjeg/FlyGrep.vim'
+Plug 'wsdjeg/FlyGrep.vim', {'on': 'FlyGrep'}
 
 Plug 'jiangmiao/auto-pairs'
 
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
-Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
+Plug 'junegunn/limelight.vim', {'on': ['<plug>(Limelight)', 'Limelight']}
+Plug 'junegunn/vim-easy-align', {'on': '<plug>(EasyAlign)'}
 
 " Plug 'rbong/vim-flog', {'on': ['Flog', 'Flogsplit']}
-Plug 'junegunn/gv.vim'
+Plug 'junegunn/gv.vim', {'on': 'GV'}
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -72,13 +72,32 @@ Plug 'airblade/vim-gitgutter'
 
 Plug 'machakann/vim-highlightedyank'
 
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin', {'on': [
+            \ 'NERDTreeToggle',
+            \ 'NERDTreeFromBookmark',
+            \ 'NERDTreeFocus',
+            \ 'NERDTreeFind',
+            \ 'NERDTreeVCS',
+            \ 'NERDTreeCWD',
+            \ 'NERDTreeRefreshRoot',
+            \ 'NERDTreeMirror',
+            \ ]}
+
+Plug 'scrooloose/nerdtree', {'on': [
+            \ 'NERDTreeToggle',
+            \ 'NERDTreeFromBookmark',
+            \ 'NERDTreeFocus',
+            \ 'NERDTreeFind',
+            \ 'NERDTreeVCS',
+            \ 'NERDTreeCWD',
+            \ 'NERDTreeRefreshRoot',
+            \ 'NERDTreeMirror',
+            \ ]}
 
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tacahiroy/ctrlp-funky'
+Plug 'tacahiroy/ctrlp-funky', {'on': 'CtrlPFunky'}
 if has('python') || has('python3')
-    Plug 'fisadev/vim-ctrlp-cmdpalette'
+    Plug 'fisadev/vim-ctrlp-cmdpalette', {'on': 'CtrlPCmdPalette'}
 endif
 " Plug 'dbeecham/ctrlp-commandpalette.vim', {'on': 'CtrlPCommandPalette'}
 
@@ -98,12 +117,12 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/echodoc.vim'
 " Plug 'Shougo/deol.nvim'
 
-Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar', {'on': ['TagbarToggle', 'TagbarOpenAutoClose']}
 
-Plug 'sbdchd/neoformat'
+Plug 'sbdchd/neoformat', {'on': 'Neoformat'}
 
 " Plug 'skywind3000/vim-preview'
-Plug 'skywind3000/asyncrun.vim'
+Plug 'skywind3000/asyncrun.vim', {'on': ['AsyncRun', 'AsyncStop']}
 
 " Plug 'xuhdev/SingleCompile'
 
@@ -125,10 +144,10 @@ Plug 'sheerun/vim-polyglot'
 " Plug 'dense-analysis/ale'
 
 if exists(':terminal')
-    Plug 'Lenovsky/nuake'
+    Plug 'Lenovsky/nuake', {'on': 'Nuake'}
 endif
 
-Plug 'metakirby5/codi.vim'
+Plug 'metakirby5/codi.vim', {'on': 'Codi'}
 
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
@@ -980,7 +999,7 @@ syntax enable
 
 set t_Co=256
 if has('termguicolors')
-    set termguicolors
+    " set termguicolors
     nnoremap <leader>ot :set invtermguicolors<cr>
 endif
 
@@ -1766,7 +1785,7 @@ command! -bang -nargs=* FZFBLines
             \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
             \                ' --preview "
             \                     tail -n +{1} ' . expand('%') . ' |
-            \                     head -n 64"' .
+            \                     head -n $(tput lines)"' .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m --layout=default'
             \ }, <bang>0)
@@ -1775,7 +1794,7 @@ command! -bang -nargs=* FZFBTags
             \     'options': '--preview-window=' . (<bang>0 ? 'right:50%' : '60%:hidden') .
             \                ' --preview "
             \                     tail -n +0\$(echo {3} | sed -nr \"s/([0-9]+);\\\"/\1/p\") {2} |
-            \                     head -n 64"' .
+            \                     head -n $(tput lines)"' .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m --layout=default'
             \ }, <bang>0)
@@ -1784,7 +1803,7 @@ command! -bang -nargs=* FZFTags
             \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
             \                ' --preview "
             \                     tail -n +0\$(echo {3} | sed -nr \"s/([0-9]+);\\\"/\1/p\") {2} |
-            \                     head -n 64"' .
+            \                     head -n $(tput lines)"' .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m --layout=default'
             \ }, <bang>0)
@@ -1792,8 +1811,8 @@ command! -bar -bang FZFMarks
             \ call fzf#vim#marks({
             \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
             \                ' --preview "
-            \                     tail -n +{2} {4} ' . expand('%') . ' 2>/dev/null |
-            \                     head -n 64"' .
+            \                     tail -n +{2} {4} ' . expand('%') . ' |
+            \                     head -n $(tput lines)"' .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m --layout=default'
             \ }, <bang>0)
@@ -1801,7 +1820,7 @@ command! -bar -bang FZFWindows
             \ call fzf#vim#windows({
             \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
             \                ' --preview "
-            \                     head -n 64 {3} {4} 2>/dev/null"' .
+            \                     head -n $(tput lines) {3} {4}"' .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m --layout=default'
             \ }, <bang>0)
@@ -1834,7 +1853,7 @@ let g:gutentags_cache_dir = '~/.vim_gutentags'
 " let g:easytags_async = 1
 " let g:easytags_opts = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
 
-let g:airline_theme = 'dracula'
+let g:airline_theme = 'tomorrow'
 " let g:airline#themes#dracula#palette.tabline = {}
 " let g:airline#themes#dracula#palette.tabline.airline_tabhid = ['#f8f8f2', '#f8f8f2', '15', '59', '']
 let g:airline_powerline_fonts = 1
