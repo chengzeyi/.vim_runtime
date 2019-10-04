@@ -899,6 +899,7 @@ set re=1
 
 set scrolloff=1
 nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? '5' : '1'<cr><cr>
+nnoremap <leader>ot :set ttyscroll=<c-r>=&ttyscroll == 999 ? '5' : '999'<cr><cr>
 
 let $LANG='en'
 set langmenu=en
@@ -988,7 +989,7 @@ syntax enable
 set t_Co=256
 if has('termguicolors')
     " set termguicolors
-    nnoremap <leader>ot :set invtermguicolors<cr>
+    nnoremap <leader>og :set invtermguicolors<cr>
 endif
 
 set background=dark
