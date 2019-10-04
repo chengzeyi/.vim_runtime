@@ -86,7 +86,9 @@ endif
 " Plug 'dbeecham/ctrlp-commandpalette.vim'
 
 if has('lua')
-    Plug 'Shougo/vimproc.vim', {'dir': '~/.vimproc'}
+    if !has('windows')
+        Plug 'Shougo/vimproc.vim', {'dir': '~/.vimproc'}
+    endif
     Plug 'Shougo/neocomplete'
     Plug 'Shougo/neco-vim'
     Plug 'Shougo/neco-syntax'
@@ -995,7 +997,7 @@ set background=dark
 
 hi link InfoPopup Pmenu
 
-" try
+try
     colorscheme space-vim-dark
 
     " hi Comment cterm=italic
@@ -1024,24 +1026,23 @@ hi link InfoPopup Pmenu
         autocmd ColorScheme space-vim-dark hi! link SpecialKey NonText
         autocmd ColorScheme space-vim-dark hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
     augroup END
-" catch
-" endtry
+catch
+endtry
 
 if has("gui_running")
-    if has("gui_gtk2")
-        set guifont=Inconsolata\ 13
-    elseif has("gui_gtk3")
-        set guifont=Inconsolata\ 15
-    elseif has("gui_macvim")
-        set guifont=Menlo\ Regular:h14
-    elseif has("gui_win32")
-        set guifont=Consolas\ 14
-    endif
-endif
+    try
+        if has("gui_gtk2")
+            set guifont=Inconsolata\ 13
+        elseif has("gui_gtk3")
+            set guifont=Inconsolata\ 15
+        elseif has("gui_macvim")
+            set guifont=Menlo\ Regular:h14
+        elseif has("gui_win32")
+            set guifont=Inconsolata:h12,Consolas:h12
+        endif
+    catch
+    endtry
 
-" Set extra options when running in GUI mode
-if has("gui_running")
-    " set t_Co=256
     set guioptions-=e  "tab pages
     set guioptions-=m  "menu bar
     set guioptions-=r  "scrollbar
