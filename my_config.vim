@@ -1979,8 +1979,8 @@ let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
 " nnoremap <leader>i :IndentGuidesToggle<cr>
 
-let g:better_whitespace_ctermcolor = '8'
-let g:better_whitespace_guicolor = '#808080'
+let g:better_whitespace_ctermcolor = '239'
+let g:better_whitespace_guicolor = '#4e4e4e'
 let g:better_whitespace_operator = 'gs'
 nnoremap <leader>sp :ToggleWhitespace<cr>
 
