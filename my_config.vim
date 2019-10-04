@@ -289,6 +289,10 @@ function! HighlightMarkLines()
     execute cmd
 endfunction
 
+vnoremap if :<C-U>silent! normal! [zjV]zk<CR>
+onoremap if :normal Vif<CR>
+vnoremap af :<C-U>silent! normal! [zV]z<CR>
+onoremap af :normal Vaf<CR>
 nnoremap <leader>f0 :set foldlevel=0<cr>
 nnoremap <leader>f1 :set foldlevel=1<cr>
 nnoremap <leader>f2 :set foldlevel=2<cr>
@@ -882,7 +886,7 @@ set foldmethod=indent
 set foldlevelstart=99
 set foldnestmax=3
 " set nofoldenable
-set foldcolumn=0
+set foldcolumn=1
 
 set display+=lastline
 
@@ -935,9 +939,9 @@ set lazyredraw
 
 set magic
 
-set showmatch
+" set showmatch
 " How many tenths of a second to blink when matching brackets
-set mat=2
+" set mat=2
 
 set noerrorbells
 set novisualbell
@@ -952,7 +956,7 @@ if has("gui_macvim")
     augroup END
 endif
 
-set fillchars=vert:\│
+set fillchars=vert:│
 " let &showbreak = "\u21aa "
 let &showbreak = '↪ '
 " set listchars=tab:>-,trail:~,extends:>,precedes:<
@@ -966,19 +970,11 @@ syntax enable
 " if $COLORTERM == 'gnome-terminal'
 " set t_Co=256
 " endif
-if !has('nvim') && has('cursorshape') && &term =~? 'xterm'
-    augroup setCursorShape
-        au!
-        au VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"'
-        au InsertEnter,InsertChange *
-                    \ if v:insertmode == 'i' |
-                    \   silent execute '!echo -ne "\e[6 q"' |
-                    \ elseif v:insertmode == 'r' |
-                    \   silent execute '!echo -ne "\e[4 q"' |
-                    \ endif
-        au VimLeave * silent execute '!echo -ne "\e[ q"'
-    augroup END
-endif
+" if !has('nvim') && has('cursorshape') && &term =~? 'xterm'
+"     let &t_SI = "\<Esc>]6 q"
+"     let &t_SR = "\<Esc>]4 q"
+"     let &t_EI = "\<Esc>]2 q"
+" endif
 
 set t_Co=256
 if has('termguicolors')
@@ -1102,8 +1098,8 @@ nnoremap <s-l> <c-w>l
 nnoremap <leader>= <c-w>=
 nnoremap <leader>+ :resize +5<cr>
 nnoremap <leader>- :resize -5<cr>
-nnoremap <leader>> :vertical resize +5<cr>
-nnoremap <leader><lt> :vertical resize -5<cr>
+nnoremap <leader>> :vertical resize +10<cr>
+nnoremap <leader><lt> :vertical resize -10<cr>
 
 " nnoremap <c-h> :bprevious<cr>
 
@@ -1154,8 +1150,10 @@ nnoremap <leader><s-tab> :bprevious<cr>
 " Useful mappings for managing tabs
 nnoremap <leader>tn :tabnew<cr>
 nnoremap <leader>to :tabonly<cr>
-nnoremap <leader>tc :tabclose<cr>
+nnoremap <leader>tx :tabclose<cr>
 nnoremap <leader>tm :tabmove<cr>
+nnoremap <leader>tc :tcd %:p:h<cr>:pwd<cr>
+nnoremap <expr> <leader>tC ':tcd ' . GetVcsRoot() . "\<lt>cr>"
 nnoremap <leader>t<leader> :tabnext<cr>
 nnoremap <leader>T<leader> :tabprevious<cr>
 
@@ -1173,15 +1171,15 @@ nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 " Switch CWD to the directory of the open buffer
 nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
-nnoremap <leader>cD :call SetCwd()<cr>
-function! SetCwd()
+nnoremap <expr> <leader>cD ':cd ' . GetVcsRoot() . "\<lt>cr>"
+function! GetVcsRoot()
     let cph = expand('%:p:h', 1)
     if cph =~ '^.\+://' | retu | en
     for mkr in ['.git/', '.hg/', '.svn/', '.bzr/', '_darcs/', '.vimprojects']
         let wd = call('find'.(mkr =~ '/$' ? 'dir' : 'file'), [mkr, cph.';'])
         if wd != '' | let &acd = 0 | brea | en
     endfo
-    exe 'lc!' fnameescape(wd == '' ? cph : substitute(wd, mkr.'$', '.', ''))
+    return fnameescape(wd == '' ? cph : substitute(wd, mkr.'$', '.', ''))
 endfunction
 
 " Specify the behavior when switching between buffers
