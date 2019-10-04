@@ -86,7 +86,7 @@ endif
 " Plug 'dbeecham/ctrlp-commandpalette.vim'
 
 if has('lua')
-    if !has('windows')
+    if !has('win32')
         Plug 'Shougo/vimproc.vim', {'dir': '~/.vimproc'}
     endif
     Plug 'Shougo/neocomplete'
@@ -1237,19 +1237,13 @@ function! VisualSelection(direction, extra_filter) range
     let @" = l:saved_reg
 endfunction
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Fast editing and reloading of vimrc configs
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <leader>e :e! ~/.vim_runtime/my_config.vim<cr>
+nnoremap <leader>en :enew<cr>
+nnoremap <leader>ec :e ~/.vim_runtime/my_config.vim<cr>
 augroup vimConfig
     autocmd!
     autocmd bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
 augroup END
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Turn persistent undo on
-"    means that you can undo even when you close a buffer/VIM
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 try
     set undodir=~/.vim_runtime/temp_dirs/undodir
     set undofile
