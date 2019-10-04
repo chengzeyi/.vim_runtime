@@ -56,6 +56,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-dadbod'
+Plug 'tpope/vim-repeat'
 " Plug 'tpope/vim-eunuch'
 
 " Plug 'machakann/vim-sandwich'
@@ -959,9 +960,13 @@ endif
 set fillchars=vert:│
 " let &showbreak = "\u21aa "
 let &showbreak = '↪ '
+set listchars=tab:→\ ,nbsp:·,extends:⟩,precedes:⟨
+" if has('patch-7.4.710')
+"     set listchars+=space:·
+" endif
 " set listchars=tab:>-,trail:~,extends:>,precedes:<
 " set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
-" set list
+set list
 
 " Enable syntax highlighting
 syntax enable
@@ -986,7 +991,7 @@ endif
 
 hi link InfoPopup Pmenu
 
-try
+" try
     colorscheme space-vim-dark
 
     " hi Comment cterm=italic
@@ -999,7 +1004,7 @@ try
     " hi CursorLine ctermbg=0 guibg=#000000
     " hi CursorColumn ctermbg=0 guibg=#000000
     " hi CursorLineNr ctermbg=0 guibg=#000000
-    hi link CursorLineNr CursorLine
+    hi! link SpecialKey NonText
     hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
 
     augroup myColors
@@ -1012,11 +1017,11 @@ try
         " autocmd ColorScheme space-vim-dark hi CursorLine ctermbg=0 guibg=#000000
         " autocmd ColorScheme space-vim-dark hi CursorColumn ctermbg=0 guibg=#000000
         " autocmd ColorScheme space-vim-dark hi CursorLineNr ctermbg=0 guibg=#000000
-        autocmd ColorScheme space-vim-dark hi link CursorLineNr CursorLine
+        autocmd ColorScheme space-vim-dark hi! link SpecialKey NonText
         autocmd ColorScheme space-vim-dark hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
     augroup END
-catch
-endtry
+" catch
+" endtry
 
 if has("gui_running")
     if has("gui_gtk2")
@@ -1860,7 +1865,9 @@ nnoremap <leader>db :DB<space>
 nnoremap <leader>dB :%DB<space>
 vnoremap <leader>db :DB<space>
 
-let g:gutentags_modules = []
+if !exists('g:gutentags_modules')
+    let g:gutentags_modules = []
+endif
 if executable('ctags')
     call add(g:gutentags_modules, 'ctags')
 endif
