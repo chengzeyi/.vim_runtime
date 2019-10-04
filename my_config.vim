@@ -1237,8 +1237,7 @@ function! VisualSelection(direction, extra_filter) range
     let @" = l:saved_reg
 endfunction
 
-nnoremap <leader>en :enew<cr>
-nnoremap <leader>ec :e ~/.vim_runtime/my_config.vim<cr>
+nnoremap <leader>e :e ~/.vim_runtime/my_config.vim<cr>
 augroup vimConfig
     autocmd!
     autocmd bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
