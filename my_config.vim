@@ -1762,7 +1762,7 @@ command! -bang -nargs=? -complete=dir FZFFiles
             \     <bang>0)
 command! -bang -nargs=* FZFGGrep
             \ call fzf#vim#grep(
-            \    'git grep --line-number '.shellescape(<q-args>),
+            \    'git grep --line-number --color=always '.shellescape(<q-args>),
             \     0,
             \     <bang>0 ? fzf#vim#with_preview(
             \             { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, 'up:60%') :
@@ -1771,7 +1771,7 @@ command! -bang -nargs=* FZFGGrep
             \     <bang>0)
 command! -bang -nargs=* FZFGrep
             \ call fzf#vim#grep(
-            \    'grep --line-number -r '.shellescape(<q-args>).' .',
+            \    'grep --line-number --color=always -r '.shellescape(<q-args>).' .',
             \     0,
             \     <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
             \     <bang>0)
