@@ -1,5 +1,7 @@
 set nocompatible
 
+set encoding=utf8
+
 call plug#begin('~/.vim_runtime/plugged')
 
 Plug 'chengzeyi/vim-markify'
@@ -987,6 +989,8 @@ if has('termguicolors')
     nnoremap <leader>ot :set invtermguicolors<cr>
 endif
 
+set background=dark
+
 " let g:space_vim_dark_background = 235
 
 hi link InfoPopup Pmenu
@@ -1035,8 +1039,6 @@ if has("gui_running")
     endif
 endif
 
-" set background=dark
-
 " Set extra options when running in GUI mode
 if has("gui_running")
     " set t_Co=256
@@ -1051,9 +1053,6 @@ if has("gui_running")
     " set guioptions-=l  "scrollbar
     set guitablabel=%M\ %t
 endif
-
-" Set utf8 as standard encoding and en_US as the standard language
-set encoding=utf8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
