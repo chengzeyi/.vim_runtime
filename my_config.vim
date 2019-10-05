@@ -970,7 +970,7 @@ if has("gui_macvim")
     augroup END
 endif
 
-set fillchars=vert:│
+set fillchars=vert:│,fold:-
 " let &showbreak = "\u21aa "
 let &showbreak = '↪ '
 set listchars=tab:→\ ,nbsp:·,extends:⟩,precedes:⟨
