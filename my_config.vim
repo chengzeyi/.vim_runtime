@@ -1041,9 +1041,9 @@ endtry
 if has("gui_running")
     try
         if has("gui_gtk2")
-            set guifont=Dejavu\ Sans\ Mono\ 13
+            set guifont=Inconsolata\ 15,Hack\ 13
         elseif has("gui_gtk3")
-            set guifont=Dejavu\ Sans\ Mono\ 13
+            set guifont=Inconsolata\ 15,Hack\ 13
         elseif has("gui_macvim")
             set guifont=Menlo\ Regular:h14
         elseif has("gui_win32")
