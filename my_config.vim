@@ -829,7 +829,7 @@ nnoremap <c-w>g<c-]> <c-w><c-]>
 xnoremap <c-w><c-]> <c-w>g<c-]>
 xnoremap <c-w>g<c-]> <c-w><c-]>
 
-set tags=./tags;,./TAGS;
+set tags+=./tags;,./TAGS;
 augroup setFtTags
     autocmd!
     autocmd FileType cpp setlocal tags^=~/.vim_runtime/tags/cpp_tags
@@ -1979,6 +1979,7 @@ nnoremap <leader>fg :FlyGrep<cr>
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
 " nnoremap <leader>i :IndentGuidesToggle<cr>
+
 
 let g:better_whitespace_ctermcolor = '239'
 let g:better_whitespace_guicolor = '#4e4e4e'
