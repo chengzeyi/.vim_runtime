@@ -148,6 +148,7 @@ Plug 'cocopon/iceberg.vim'
 Plug 'sickill/vim-monokai'
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
+Plug 'logico-software/typewriter'
 " Plug 'arcticicestudio/nord-vim'
 
 call plug#end()
@@ -906,6 +907,7 @@ set display+=lastline
 set re=1
 
 set scrolloff=1
+nnoremap <leader>oo :set scrolloff=<c-r>=&scrolloff == 1 ? 999 : 1<cr><cr>
 nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
 nnoremap <leader>ot :set ttyscroll=<c-r>=&ttyscroll == 999 ? 5 : 999<cr><cr>
 
@@ -1024,16 +1026,16 @@ try
 
     augroup myColors
         autocmd!
-        autocmd ColorScheme space-vim-dark hi LineNr ctermbg=NONE guibg=NONE
-        autocmd ColorScheme space-vim-dark hi link SignColumn LineNr
-        " autocmd ColorScheme space-vim-dark hi SignColumn ctermbg=NONE guibg=NONE
-        " autocmd ColorScheme space-vim-dark hi link SignColumn LineNr
-        autocmd ColorScheme space-vim-dark hi Comment ctermfg=59 guifg=#5C6370
-        " autocmd ColorScheme space-vim-dark hi CursorLine ctermbg=0 guibg=#000000
-        " autocmd ColorScheme space-vim-dark hi CursorColumn ctermbg=0 guibg=#000000
-        " autocmd ColorScheme space-vim-dark hi CursorLineNr ctermbg=0 guibg=#000000
-        autocmd ColorScheme space-vim-dark hi! link SpecialKey NonText
-        autocmd ColorScheme space-vim-dark hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
+        autocmd ColorScheme * hi LineNr ctermbg=NONE guibg=NONE
+        autocmd ColorScheme * hi link SignColumn LineNr
+        " autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
+        " autocmd ColorScheme * hi link SignColumn LineNr
+        autocmd ColorScheme * hi Comment ctermfg=59 guifg=#5C6370
+        " autocmd ColorScheme * hi CursorLine ctermbg=0 guibg=#000000
+        " autocmd ColorScheme * hi CursorColumn ctermbg=0 guibg=#000000
+        " autocmd ColorScheme * hi CursorLineNr ctermbg=0 guibg=#000000
+        autocmd ColorScheme * hi! link SpecialKey NonText
+        autocmd ColorScheme * hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
     augroup END
 catch
 endtry
