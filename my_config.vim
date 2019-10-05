@@ -1638,10 +1638,10 @@ nnoremap <leader>gi :Gist<cr>
 " nnoremap <leader>mp :PreviewMarks<cr>
 
 " let g:yankstack_yank_keys = ['y', 'd']
-nmap <F9> <Plug>yankstack_substitute_older_paste
-nmap <F10> <Plug>yankstack_substitute_newer_paste
-imap <F9> <Plug>yankstack_substitute_older_paste
-imap <F10> <Plug>yankstack_substitute_newer_paste
+" nmap <F9> <Plug>yankstack_substitute_older_paste
+" nmap <F10> <Plug>yankstack_substitute_newer_paste
+" imap <F9> <Plug>yankstack_substitute_older_paste
+" imap <F10> <Plug>yankstack_substitute_newer_paste
 
 let g:tagbar_width = 30
 let g:tagbar_compact = 1
