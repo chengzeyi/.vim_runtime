@@ -1870,10 +1870,10 @@ if executable('gtags-cscope')
 elseif executable('cscope')
     call add(g:gutentags_modules, 'cscope')
 endif
-" let g:gutentags_enabled = 0
+let g:gutentags_enabled = 0
 let g:gutentags_generate_on_missing = 0
 let g:gutentags_generate_on_new = 0
-let g:gutentags_generate_on_write = 0
+let g:gutentags_generate_on_write = 1
 let g:gutentags_define_advanced_commands = 1
 let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+mnialS', '--extra=+q']
 let g:gutentags_cache_dir = '~/.vim_gutentags'
