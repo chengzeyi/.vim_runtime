@@ -86,7 +86,7 @@ endif
 " Plug 'dbeecham/ctrlp-commandpalette.vim'
 
 if has('lua')
-    if !has('win32')
+    if has('unix')
         Plug 'Shougo/vimproc.vim', {'dir': '~/.vimproc'}
     endif
     Plug 'Shougo/neocomplete'
@@ -96,7 +96,9 @@ else
     Plug 'Shougo/neocomplcache.vim'
 endif
 " Plug 'Shougo/neopairs.vim'
-Plug 'ujihisa/neco-look'
+if has('unix')
+    Plug 'ujihisa/neco-look'
+endif
 
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
