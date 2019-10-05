@@ -1859,20 +1859,24 @@ nnoremap <leader>db :DB<space>
 nnoremap <leader>dB :%DB<space>
 vnoremap <leader>db :DB<space>
 
+let g:gutentags_enabled = 0
 if !exists('g:gutentags_modules')
     let g:gutentags_modules = []
 endif
 if executable('ctags')
     call add(g:gutentags_modules, 'ctags')
 endif
-" if executable('gtags-cscope')
-"     call add(g:gutentags_modules, 'gtags_cscope')
-" elseif executable('cscope')
-"     call add(g:gutentags_modules, 'cscope')
-" endif
+if executable('gtags-cscope')
+    call add(g:gutentags_modules, 'gtags_cscope')
+elseif executable('cscope')
+    call add(g:gutentags_modules, 'cscope')
+endif
 let g:gutentags_define_advanced_commands = 1
 let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+mnialS', '--extra=+q']
-let g:gutentags_cache_dir = '~/.vim_gutentags'
+" let g:gutentags_cache_dir = '~/.vim_gutentags'
+nnoremap <leader>yy :GutentagsToggleEnabled<cr>
+nnoremap <leader>yu :GutentagsUpdate<cr>
+nnoremap <leader>yU :GutentagsUpdate!<cr>
 
 " let g:easytags_include_members = 1
 " let g:easytags_async = 1
