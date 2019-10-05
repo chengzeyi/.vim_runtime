@@ -831,12 +831,14 @@ nnoremap <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
 
 nnoremap <c-]> g<c-]>
 nnoremap g<c-]> <c-]>
-xnoremap <c-]> g<c-]>
-xnoremap g<c-]> <c-]>
+vnoremap <c-]> g<c-]>
+vnoremap g<c-]> <c-]>
 nnoremap <c-w><c-]> <c-w>g<c-]>
 nnoremap <c-w>g<c-]> <c-w><c-]>
-xnoremap <c-w><c-]> <c-w>g<c-]>
-xnoremap <c-w>g<c-]> <c-w><c-]>
+vnoremap <c-w><c-]> <c-w>g<c-]>
+vnoremap <c-w>g<c-]> <c-w><c-]>
+nnoremap g<LeftMouse> g<c-]>
+nnoremap <C-LeftMouse> g<c-]>
 
 set tags+=./tags;,./TAGS;
 augroup setFtTags
