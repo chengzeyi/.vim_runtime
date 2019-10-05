@@ -310,11 +310,11 @@ nnoremap <leader>f8 :set foldlevel=8<cr>
 nnoremap <leader>f9 :set foldlevel=9<cr>
 nnoremap <leader>f- :set foldlevel-=1<cr>
 nnoremap <leader>f+ :set foldlevel+=1<cr>
-nnoremap <leader>f= :set foldlevel=<c-r>=&foldlevel ? '0' : '99'<cr><cr>
-nnoremap <leader>fs :setlocal foldexpr=getline(v:lnum)=~@/?0:1 foldmethod=
+nnoremap <leader>f= :set foldlevel=<c-r>=&foldlevel ? 0 : 99<cr><cr>
+nnoremap <leader>fs :setlocal foldexpr=getline(v:lnum)=~@/ ? 0 : 1 foldmethod=
             \<c-r>=&foldmethod == 'expr' ? 'indent' : 'expr'<cr> foldlevel=
-            \<c-r>=&foldmethod == 'expr' ? '99' : '0'<cr><cr>
-nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? '1' : '0'<cr><cr>
+            \<c-r>=&foldmethod == 'expr' ? 99 : 0<cr><cr>
+nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? 1 : 0<cr><cr>
 if has('patch-8.1.1564')
     nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'number' : 'no'<cr><cr>
 else
@@ -387,7 +387,7 @@ function! PV(cmd)
     endif
 endfunction
 
-nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? '0' : '1'<cr><cr>
+nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? 0 : 1<cr><cr>
 nnoremap <leader>p+ :set previewheight+=1<cr>
 nnoremap <leader>p= :set previewheight=6<cr>
 if executable('zsh')
@@ -906,8 +906,8 @@ set display+=lastline
 set re=1
 
 set scrolloff=1
-nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? '5' : '1'<cr><cr>
-nnoremap <leader>ot :set ttyscroll=<c-r>=&ttyscroll == 999 ? '5' : '999'<cr><cr>
+nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
+nnoremap <leader>ot :set ttyscroll=<c-r>=&ttyscroll == 999 ? 5 : 999<cr><cr>
 
 let $LANG='en'
 set langmenu=en
