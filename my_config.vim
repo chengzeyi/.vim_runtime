@@ -716,7 +716,7 @@ set csverb
 " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 nnoremap <leader>cs :Cscope<cr>
 nnoremap <leader>cS :Cscope<space>
-command! -complete=file -nargs=* Cscope !cscope -Rbqk <args>
+command! -complete=file -nargs=* Cscope !cscope -RUbq <args>
 nnoremap <C-\>q :set cscopequickfix=<c-r>=&cscopequickfix == '' ? 's-,g-,d-,c-,t-,e-,f-,i-,a-' : ''<cr><cr>
 nnoremap <C-\><bs> :set invcst<cr>
 nnoremap <C-\><c-h> :set invcst<cr>
@@ -1865,11 +1865,11 @@ endif
 if executable('ctags')
     call add(g:gutentags_modules, 'ctags')
 endif
-if executable('gtags-cscope')
-    call add(g:gutentags_modules, 'gtags_cscope')
-    " elseif executable('cscope')
-    "     call add(g:gutentags_modules, 'cscope')
-endif
+" if executable('gtags-cscope')
+"     call add(g:gutentags_modules, 'gtags_cscope')
+" elseif executable('cscope')
+"     call add(g:gutentags_modules, 'cscope')
+" endif
 let g:gutentags_define_advanced_commands = 1
 let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+mnialS', '--extra=+q']
 let g:gutentags_cache_dir = '~/.vim_gutentags'
