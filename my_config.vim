@@ -410,19 +410,19 @@ augroup setDebugger
     endif
     if exists(':terminal')
         if has('nvim')
-            if has('python3')
+            if executable('pudb3')
                 au Filetype python nnoremap <buffer> <localleader>d :vert terminal pudb3 %<cr>
                 au Filetype python nnoremap <buffer> <localleader>D :vert terminal pudb3<space>
-            else
+            elseif executable('pudb')
                 au Filetype python nnoremap <buffer> <localleader>d :vert terminal pudb %<cr>
                 au Filetype python nnoremap <buffer> <localleader>D :vert terminal pudb<space>
             endif
             au Filetype go nnoremap <buffer> <localleader>d :vert terminal dlv<space>
         else
-            if has('python3')
+            if executable('pudb3')
                 au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb3 %<cr>
                 au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb3<space>
-            else
+            elseif executable('pudb')
                 au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb %<cr>
                 au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb<space>
             endif
@@ -659,28 +659,36 @@ augroup compileAndRun
     if executable('python3')
         au filetype python nnoremap <buffer> <localleader>r :w <bar> !python3 %<cr>
         au filetype python nnoremap <buffer> <localleader>R :w <bar> !python3 %<space>
-    else
+    elseif executable('python')
         au filetype python nnoremap <buffer> <localleader>r :w <bar> !python %<cr>
         au filetype python nnoremap <buffer> <localleader>R :w <bar> !python %<space>
     endif
-    au filetype c nnoremap <buffer> <localleader>r :w <bar>
-                \ !gcc % -o %:r && ./%:r<cr>
-    au filetype c nnoremap <buffer> <localleader>R :w <bar>
-                \ !gcc % -o %:r && ./%:r<space>
-    au filetype cpp nnoremap <buffer> <localleader>r :w <bar>
-                \ !g++ % -o %:r && ./%:r<cr>
-    au filetype cpp nnoremap <buffer> <localleader>R :w <bar>
-                \ !g++ % -o %:r && ./%:r<space>
-    au filetype go nnoremap <buffer> <localleader>r :w <bar>
-                \ !go build % -o %:r && ./%:r<cr>
-    au filetype go nnoremap <buffer> <localleader>R :w <bar>
-                \ !go build % -o %:r && ./%:r<space>
-    au filetype html nnoremap <buffer> <localleader>r :w <bar>
-                \ enew <bar> read # <bar> set buftype=nofile ft=markdown <bar>
-                \ %!pandoc -t markdown_strict -o /dev/stdout<cr>
-    au filetype html nnoremap <buffer> <localleader>R :w <bar>
-                \ set buftype=nofile ft=markdown <bar>
-                \ %!pandoc -t markdown_strict -o /dev/stdout<cr>
+    if executable('gcc')
+        au filetype c nnoremap <buffer> <localleader>r :w <bar>
+                    \ !gcc % -o %:r && ./%:r<cr>
+        au filetype c nnoremap <buffer> <localleader>R :w <bar>
+                    \ !gcc % -o %:r && ./%:r<space>
+    endif
+    if executable('g++')
+        au filetype cpp nnoremap <buffer> <localleader>r :w <bar>
+                    \ !g++ % -o %:r && ./%:r<cr>
+        au filetype cpp nnoremap <buffer> <localleader>R :w <bar>
+                    \ !g++ % -o %:r && ./%:r<space>
+    endif
+    if executable('go')
+        au filetype go nnoremap <buffer> <localleader>r :w <bar>
+                    \ !go build % -o %:r && ./%:r<cr>
+        au filetype go nnoremap <buffer> <localleader>R :w <bar>
+                    \ !go build % -o %:r && ./%:r<space>
+    endif
+    if executable('pandoc')
+        au filetype html nnoremap <buffer> <localleader>r :w <bar>
+                    \ enew <bar> read # <bar> set buftype=nofile ft=markdown <bar>
+                    \ %!pandoc -t markdown_strict<cr>
+        au filetype html nnoremap <buffer> <localleader>R :w <bar>
+                    \ set buftype=nofile ft=markdown <bar>
+                    \ %!pandoc -t markdown_strict<cr>
+    endif
 augroup END
 
 nnoremap <leader>aa :call AlternateFile()<cr>
@@ -782,7 +790,7 @@ augroup readNonTextFile
     au!
     if executable('pandoc')
         autocmd BufReadPre *.docx,*.rtf,*.odp,*.odt silent set ro
-        autocmd BufReadPost *.docx,*.rtf,*.odp,*.odt silent %!pandoc -t markdown_strict -o /dev/stdout
+        autocmd BufReadPost *.docx,*.rtf,*.odp,*.odt silent %!pandoc -t markdown_strict
     endif
     " Read-only .doc through antiword
     " autocmd BufReadPre *.doc silent set ro
