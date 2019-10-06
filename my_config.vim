@@ -241,8 +241,8 @@ if exists(':terminal')
 endif
 nnoremap <expr> " '"' . BetterRegister()
 nnoremap <expr> @ '@' . BetterRegister()
-vnoremap <expr> " '"' . BetterRegister()
-vnoremap <expr> @ '@' . BetterRegister()
+xnoremap <expr> " '"' . BetterRegister()
+xnoremap <expr> @ '@' . BetterRegister()
 function! BetterRegister()
     let more = &more
     set nomore
@@ -264,8 +264,8 @@ nnoremap <leader>' :marks<CR>
 nnoremap <leader>` :marks<CR>
 nnoremap <expr> ' "'" . BetterMark()
 nnoremap <expr> ` '`' . BetterMark()
-vnoremap <expr> ' "'" . BetterMark()
-vnoremap <expr> ` '`' . BetterMark()
+xnoremap <expr> ' "'" . BetterMark()
+xnoremap <expr> ` '`' . BetterMark()
 function! BetterMark()
     let more = &more
     set nomore
@@ -297,9 +297,9 @@ function! HighlightMarkLines()
     execute cmd
 endfunction
 
-vnoremap if :<C-U>silent! normal! [zjV]zk<CR>
+xnoremap if :<C-U>silent! normal! [zjV]zk<CR>
 onoremap if :normal Vif<CR>
-vnoremap af :<C-U>silent! normal! [zV]z<CR>
+xnoremap af :<C-U>silent! normal! [zV]z<CR>
 onoremap af :normal Vaf<CR>
 nnoremap <leader>f0 :set foldlevel=0<cr>
 nnoremap <leader>f1 :set foldlevel=1<cr>
@@ -323,7 +323,7 @@ if has('patch-8.1.1564')
 else
     nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr><cr>
 endif
-vnoremap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : '.'
+xnoremap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : '.'
 if has('patch-8.1.1714') && has('textprop')
     set previewpopup=height:15,width:60
 endif
@@ -480,8 +480,8 @@ augroup END
 " Press: vii, yii, dii, cii to select/yank/delete/change an indented block.
 onoremap ai :<C-u>call IndTxtObj(0)<CR>
 onoremap ii :<C-u>call IndTxtObj(1)<CR>
-vnoremap ai <Esc>:call IndTxtObj(0)<CR><Esc>gv
-vnoremap ii <Esc>:call IndTxtObj(1)<CR><Esc>gv
+xnoremap ai <Esc>:call IndTxtObj(0)<CR><Esc>gv
+xnoremap ii <Esc>:call IndTxtObj(1)<CR><Esc>gv
 function! IndTxtObj(inner)
     let curcol = col(".")
     let curline = line(".")
@@ -833,12 +833,12 @@ nnoremap <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
 
 nnoremap <c-]> g<c-]>
 nnoremap g<c-]> <c-]>
-vnoremap <c-]> g<c-]>
-vnoremap g<c-]> <c-]>
+xnoremap <c-]> g<c-]>
+xnoremap g<c-]> <c-]>
 nnoremap <c-w><c-]> <c-w>g<c-]>
 nnoremap <c-w>g<c-]> <c-w><c-]>
-vnoremap <c-w><c-]> <c-w>g<c-]>
-vnoremap <c-w>g<c-]> <c-w><c-]>
+xnoremap <c-w><c-]> <c-w>g<c-]>
+xnoremap <c-w>g<c-]> <c-w><c-]>
 nnoremap g<LeftMouse> g<c-]>
 nnoremap <C-LeftMouse> g<c-]>
 
@@ -1100,8 +1100,8 @@ set wrap "Wrap lines
 
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
-vnoremap * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-vnoremap # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+xnoremap * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+xnoremap # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
 nnoremap <c-k> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>
 nnoremap <c-j> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>
@@ -1610,8 +1610,8 @@ nnoremap <leader>hh :GitGutterToggle<cr>
 
 nnoremap <leader>gv :GV<cr>
 nnoremap <leader>gV :GV!<cr>
-vnoremap <leader>gv :GV<cr>
-vnoremap <leader>gV :GV?<cr>
+xnoremap <leader>gv :GV<cr>
+xnoremap <leader>gV :GV?<cr>
 
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gB :Gbrowse<cr>
@@ -1873,7 +1873,7 @@ augroup END
 
 nnoremap <leader>db :DB<space>
 nnoremap <leader>dB :%DB<space>
-vnoremap <leader>db :DB<space>
+xnoremap <leader>db :DB<space>
 
 if !exists('g:gutentags_modules')
     let g:gutentags_modules = []
@@ -2040,9 +2040,9 @@ let g:neoformat_basic_format_align = 1
 let g:neoformat_basic_format_retab = 1
 let g:neoformat_basic_format_trim = 1
 nnoremap <leader>fm :Neoformat<cr>
-vnoremap <leader>fm :Neoformat<cr>
+xnoremap <leader>fm :Neoformat<cr>
 nnoremap <leader>fM :Neoformat<space>
-vnoremap <leader>fM :Neoformat<space>
+xnoremap <leader>fM :Neoformat<space>
 
 let g:startify_change_to_vcs_root = 1
 let g:startify_custom_indices = map(range(0,99), 'printf("%02d", v:val)')
