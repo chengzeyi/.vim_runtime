@@ -1619,7 +1619,7 @@ nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gC :Git checkout<space>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gD :Gdelete<cr>
-nnoremap <leader>gg :Ggrep<space>
+nnoremap <leader>gG :Ggrep<space>
 nnoremap <leader>gm :Gmerge<space>
 nnoremap <leader>gM :Gmove<space>
 nnoremap <leader>gl :Glog<cr>
@@ -1893,9 +1893,9 @@ let g:gutentags_generate_on_write = 1
 let g:gutentags_define_advanced_commands = 1
 let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+mnialS', '--extra=+q']
 let g:gutentags_cache_dir = '~/.vim_gutentags'
-nnoremap <leader>yy :GutentagsToggleEnabled<cr>
-nnoremap <leader>yu :GutentagsUpdate<cr>
-nnoremap <leader>yU :GutentagsUpdate!<cr>
+nnoremap <leader>gg :GutentagsToggleEnabled<cr>
+nnoremap <leader>gu :GutentagsUpdate<cr>
+nnoremap <leader>gU :GutentagsUpdate!<cr>
 
 " let g:easytags_include_members = 1
 " let g:easytags_async = 1
