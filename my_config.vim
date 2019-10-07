@@ -393,11 +393,11 @@ endfunction
 nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? 0 : 1<cr><cr>
 nnoremap <leader>p+ :set previewheight+=1<cr>
 nnoremap <leader>p= :set previewheight=6<cr>
-if executable('zsh')
-    set shell=zsh
-elseif executable('fish')
-    set shell=fish
-endif
+" if executable('zsh')
+"     set shell=zsh
+" elseif executable('fish')
+"     set shell=fish
+" endif
 if exists(':terminal')
     if has('nvim')
         tnoremap <F1> <c-\><c-n>
