@@ -1138,16 +1138,16 @@ function! BufcloseCloseIt()
     if buflisted(l:alternateBufNum)
         buffer #
     else
-        bnext
+        try
+            bnext
+        catch
+        endtry
     endif
 
     if bufnr("%") == l:currentBufNum
         new
     endif
-
-    if buflisted(l:currentBufNum)
-        execute("bdelete! ".l:currentBufNum)
-    endif
+    execute("bdelete! ".l:currentBufNum)
 endfunction
 
 " Close all the buffers
