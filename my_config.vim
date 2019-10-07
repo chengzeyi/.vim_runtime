@@ -393,8 +393,9 @@ endfunction
 nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? 0 : 1<cr><cr>
 nnoremap <leader>p+ :set previewheight+=1<cr>
 nnoremap <leader>p= :set previewheight=6<cr>
-" if executable('zsh')
-"     set shell=zsh
+if executable('zsh')
+    set shell=zsh
+endif
 " elseif executable('fish')
 "     set shell=fish
 " endif
