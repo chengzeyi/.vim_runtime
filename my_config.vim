@@ -356,6 +356,7 @@ function! Fanyi(type, ...)
 endfunction
 function! DoFanyi(text)
     let text = empty(a:text) ? expand('<cword>') : a:text
+    let text = substitute(text, '\v\n', ' ', 'g')
     if executable('fanyi')
         let cmd = 'fanyi --nocolor ' . text
     elseif executable('yd')
