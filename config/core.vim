@@ -259,6 +259,7 @@ nnoremap <leader><bslash> :vs<cr>
 nnoremap <leader><bar> :sp<cr>
 
 nnoremap <leader>ee :Explore<cr>
+nnoremap <leader>en :enew<cr>
 
 nnoremap <leader>oo :set scrolloff=<c-r>=&scrolloff == 1 ? 999 : 1<cr><cr>
 nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
