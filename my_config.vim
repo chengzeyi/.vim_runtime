@@ -394,11 +394,12 @@ endfunction
 nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? 0 : 1<cr><cr>
 nnoremap <leader>p+ :set previewheight+=1<cr>
 nnoremap <leader>p= :set previewheight=6<cr>
-if executable('zsh')
-    set shell=zsh
-elseif executable('fish')
-    set shell=fish
-endif
+" if executable('zsh')
+"     set shell=zsh
+" endif
+" elseif executable('fish')
+"     set shell=fish
+" endif
 if exists(':terminal')
     if has('nvim')
         tnoremap <F1> <c-\><c-n>
@@ -1138,16 +1139,16 @@ function! BufcloseCloseIt()
     if buflisted(l:alternateBufNum)
         buffer #
     else
-        bnext
+        try
+            bnext
+        catch
+        endtry
     endif
 
     if bufnr("%") == l:currentBufNum
         new
     endif
-
-    if buflisted(l:currentBufNum)
-        execute("bdelete! ".l:currentBufNum)
-    endif
+    execute("bdelete! ".l:currentBufNum)
 endfunction
 
 " Close all the buffers
@@ -2061,8 +2062,14 @@ if exists(':terminal')
     nnoremap <c-b> :Nuake<cr>
     if has('nvim')
         tnoremap <c-b> <c-\><c-n>:Nuake<cr>
+        nnoremap <leader>ts :split +terminal<cr>
+        nnoremap <leader>tv :vert terminal<cr>
     else
         tnoremap <c-b> <c-w>:Nuake<cr>
+        nnoremap <leader>ts :terminal<cr>
+        nnoremap <leader>tS :terminal ++close<space>
+        nnoremap <leader>tv :vert terminal<cr>
+        nnoremap <leader>tV :vert terminal ++close<space>
     endif
 endif
 
