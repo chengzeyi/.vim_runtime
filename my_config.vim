@@ -228,7 +228,6 @@ endfunction
 
 nnoremap <leader>w :w<cr>
 nnoremap <leader>W :wa<cr>
-nnoremap <leader>cb :cbuffer<cr>
 nnoremap <leader>" :registers<CR>
 nnoremap <leader>@ :registers<CR>
 inoremap <c-r> <c-r>="\<lt>c-r>" . BetterRegister()<cr>
@@ -566,6 +565,8 @@ nnoremap <leader>qq :QToggle<cr>
 nnoremap <leader>ll :LToggle<cr>
 nnoremap <leader>qe :cexpr [] <bar> :cclose<cr>
 nnoremap <leader>le :lexpr [] <bar> :lclose<cr>
+nnoremap <leader>cb :cbuffer<cr>
+nnoremap <leader>lb :lbuffer<cr>
 nnoremap [q :cprev<cr>
 nnoremap ]q :cnext<cr>
 nnoremap [Q :cfirst<cr>
