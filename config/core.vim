@@ -969,7 +969,7 @@ command! Bclose call BufcloseCloseIt()
 function! BufcloseCloseIt()
     let l:currentBufNum = bufnr('%')
     let l:alternateBufNum = bufnr('#')
-    let l:doDelete = &bufhidden ==# 'hide'
+    let l:doDelete = (empty(&bufhidden) && &hidden) || &bufhidden ==# 'hide'
 
     if buflisted(l:alternateBufNum)
         buffer #
