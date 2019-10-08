@@ -140,7 +140,7 @@ Plug 'sgur/vim-textobj-parameter'
 "     Plug 'voldikss/vim-translate-me'
 " endif
 
-Plug 'liuchengxu/space-vim-theme'
+Plug 'liuchengxu/space-vim-dark'
 Plug 'chriskempson/base16-vim'
 Plug 'cocopon/iceberg.vim'
 Plug 'sickill/vim-monokai'
@@ -159,8 +159,7 @@ augroup END
 
 " let g:space_vim_dark_background = 235
 try
-    set background=dark
-    colorscheme space_vim_theme
+    colorscheme space-vim-dark
 
     " hi Comment cterm=italic
     " hi Normal ctermbg=NONE guibg=NONE
