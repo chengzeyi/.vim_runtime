@@ -1,5 +1,8 @@
 set encoding=utf8
 
+filetype plugin on
+filetype indent on
+
 set notimeout
 " set timeoutlen=2000
 set ttimeout
@@ -65,9 +68,6 @@ set splitbelow
 set splitright
 
 set history=500
-
-filetype plugin on
-filetype indent on
 
 set autoread
 
@@ -162,8 +162,6 @@ syntax enable
 
 set t_Co=256
 
-hi! link InfoPopup Pmenu
-
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 
@@ -210,7 +208,7 @@ endtry
 set completeopt+=menuone
 set completeopt-=preview
 if has('patch-8.1.1882') && has('textprop')
-    set completepopup=highlight:InfoPopup,border:off,align:menu
+    set completepopup=highlight:Pmenu,border:off,align:menu
 endif
 set pumheight=12
 
@@ -219,14 +217,18 @@ if has('patch-8.1.1714') && has('textprop')
 endif
 set previewheight=6
 
+set csverb
+" set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
+
+set pastetoggle=<F2>
+
 let mapleader = ' '
 let maplocalleader = '\'
-set pastetoggle=<F2>
 
 nnoremap <leader>ec :e ~/.vim_runtime/config/core.vim<cr>
 augroup configCore
     autocmd!
-    autocmd bufwritepost ~/.vim_runtime/config/core.vim source ~/.vim_runtime/config/core.vim
+    autocmd BufWritePost ~/.vim_runtime/config/core.vim source ~/.vim_runtime/config/core.vim
 augroup END
 
 inoremap <c-a> <home>
@@ -407,7 +409,7 @@ endfunction
 nnoremap <leader>mh :call MatchMarkLines()<cr>
 nnoremap <leader>mH :match<cr>
 nnoremap <leader>md :delmarks a-z<cr>
-noremap <leader>mD :delmarks a-zA-Z<cr>
+nnoremap <leader>mD :delmarks a-zA-Z<cr>
 function! HighlightMarkLines()
     let cmd = 'matc
     echo range(char2nr('a'), char2nr('z'))
@@ -527,12 +529,12 @@ function! PV(cmd)
     if exists('*popup_atcursor')
         let out = system(a:cmd)
         let out = split(out, "\n")
-        call popup_atcursor(out, #{
-                    \ pos: 'botright',
-                    \ maxheight: 15,
-                    \ maxwidth: 60,
-                    \ padding: [0, 1, 0, 1],
-                    \ highlight: 'InfoPopup',
+        call popup_atcursor(out, {
+                    \ 'pos': 'botright',
+                    \ 'maxheight': 15,
+                    \ 'maxwidth': 60,
+                    \ 'padding': [0, 1, 0, 1],
+                    \ 'highlight': 'Pmenu',
                     \ })
     else
         let cmd = substitute(a:cmd, '\v[ \t]', '\\ ', 'g')
@@ -852,8 +854,6 @@ nnoremap <leader>cT :Ctags<space>
 command! -complete=file -nargs=* Ctags !ctags
             \ -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q <args>
 
-set csverb
-" set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 nnoremap <leader>cs :Cscope<cr>
 nnoremap <leader>cS :Cscope<space>
 command! -complete=file -nargs=* Cscope !cscope -RUbq <args>
