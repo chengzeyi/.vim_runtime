@@ -6,16 +6,6 @@ let mapleader = ' '
 let maplocalleader = '\'
 set pastetoggle=<F2>
 
-nnoremap <leader>ec :e ~/.vim_runtime/config/core.vim<cr>
-nnoremap <leader>eg :e ~/.vim_runtime/config/gui.vim<cr>
-nnoremap <leader>ep :e ~/.vim_runtime/config/plug.vim<cr>
-augroup vimConfig
-    autocmd!
-    autocmd bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
-    autocmd bufwritepost ~/.vim_runtime/gui.vim source ~/.vim_runtime/gui.vim
-    autocmd bufwritepost ~/.vim_runtime/plug.vim source ~/.vim_runtime/plug.vim
-augroup END
-
 inoremap <c-a> <home>
 inoremap <c-e> <end>
 
@@ -49,6 +39,16 @@ if exists(':terminal')
         tnoremap <F1> <c-w>N
     endif
 endif
+
+nnoremap <leader>ec :e ~/.vim_runtime/config/core.vim<cr>
+nnoremap <leader>eg :e ~/.vim_runtime/config/gui.vim<cr>
+nnoremap <leader>ep :e ~/.vim_runtime/config/plug.vim<cr>
+augroup vimConfig
+    autocmd!
+    autocmd bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
+    autocmd bufwritepost ~/.vim_runtime/gui.vim source ~/.vim_runtime/gui.vim
+    autocmd bufwritepost ~/.vim_runtime/plug.vim source ~/.vim_runtime/plug.vim
+augroup END
 
 " nnoremap <leader>mm :match Question /<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<cr>
 " nnoremap <leader>mM :match<cr>
