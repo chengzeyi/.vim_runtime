@@ -1133,8 +1133,9 @@ nnoremap <leader>bb :Bclose<cr>
 " Don't close window, when deleting a buffer
 command! Bclose call BufcloseCloseIt()
 function! BufcloseCloseIt()
-    let l:currentBufNum = bufnr("%")
-    let l:alternateBufNum = bufnr("#")
+    let l:currentBufNum = bufnr('%')
+    let l:alternateBufNum = bufnr('#')
+    let l:doDelete = &bufhidden ==# 'hide'
 
     if buflisted(l:alternateBufNum)
         buffer #
@@ -1142,10 +1143,12 @@ function! BufcloseCloseIt()
         try | bnext | catch | endtry
     endif
 
-    if bufnr("%") == l:currentBufNum
+    if bufnr('%') == l:currentBufNum
         new
     endif
-    try | execute "bdelete! ".l:currentBufNum | catch | endtry
+    if l:doDelete
+        execute 'bdelete '.l:currentBufNum
+    endif
 endfunction
 
 " Close all the buffers
@@ -1158,9 +1161,9 @@ function! CloseHiddenBuffers()
         call extend(open_buffers, tabpagebuflist(i + 1))
     endfor
 
-    for num in range(1, bufnr("$") + 1);
+    for num in range(1, bufnr('$') + 1)
         if buflisted(num) && index(open_buffers, num) == -1
-            exec "bdelete ".num
+            exec 'bdelete '.num
         endif
     endfor
 endfunction
