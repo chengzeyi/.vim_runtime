@@ -154,7 +154,7 @@ call plug#end()
 nnoremap <leader>ep :e ~/.vim_runtime/config/plug.vim<cr>
 augroup configPlug
     autocmd!
-    autocmd bufwritepost ~/.vim_runtime/config/plug.vim source ~/.vim_runtime/config/plug.vim
+    autocmd BufWritePost ~/.vim_runtime/config/plug.vim source ~/.vim_runtime/config/plug.vim
 augroup END
 
 " let g:space_vim_dark_background = 235

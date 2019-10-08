@@ -1,7 +1,7 @@
 nnoremap <leader>ea :e ~/.vim_runtime/config/addition.vim<cr>
 augroup configAddition
     autocmd!
-    autocmd bufwritepost ~/.vim_runtime/config/addition.vim source ~/.vim_runtime/config/addition.vim
+    autocmd BufWritePost ~/.vim_runtime/config/addition.vim source ~/.vim_runtime/config/addition.vim
 augroup END
 
 set background=dark

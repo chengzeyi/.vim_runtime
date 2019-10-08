@@ -148,7 +148,9 @@ set listchars=tab:→\ ,nbsp:·,extends:⟩,precedes:⟨
 set list
 
 " Enable syntax highlighting
-syntax enable
+if !exists('g:syntax_on')
+    syntax enable
+endif
 
 " Enable 256 colors palette in Gnome Terminal
 " if $COLORTERM == 'gnome-terminal'
