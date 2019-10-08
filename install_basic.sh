@@ -1,7 +1,6 @@
-#!/bin/sh
-set -e
+#!/bin/bash
 
-cd ~/.vim_runtime
+set -e
 
 echo '
 

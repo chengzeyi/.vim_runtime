@@ -1,7 +1,6 @@
-#!/bin/sh
-set -e
+#!/bin/bash
 
-cd ~/.vim_runtime
+set -e
 
 echo '
 
@@ -21,4 +20,4 @@ source ~/.vim_runtime/config/gui.vim
 
 ' > ~/.gvimrc
 
-echo "Installed the Basic Vim configuration successfully!"
+echo "Installed the Ultimate Vim configuration successfully!"
