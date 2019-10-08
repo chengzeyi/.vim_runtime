@@ -2,9 +2,238 @@ set nocompatible
 
 set encoding=utf8
 
+set notimeout
+" set timeoutlen=2000
+set ttimeout
+set ttimeoutlen=10
+
+" set shortmess=a
+
+set mouse=a
+if exists('+ttymouse')
+    if has('mouse_sgr')
+        set ttymouse=sgr
+    else
+        set ttymouse=xterm2
+    endif
+endif
+set mousemodel=popup
+
+set tags+=./tags;,./TAGS;
+augroup setFtTags
+    autocmd!
+    autocmd FileType cpp setlocal tags^=~/.vim_runtime/tags/cpp_tags
+augroup END
+" set tags+=./.tags
+" set tags+=../.tags
+" set tags+=../../.tags
+" set tags+=../../../.tags
+" set tags+=../../../../.tags
+" set tags+=~/.vimtags
+" set tags+=~/.vim_runtime/tags/cpp_tags
+
+augroup setCompiler
+    autocmd!
+    if has('python3') || has('python')
+        autocmd Filetype python compiler pylint
+    endif
+    autocmd FileType c compiler gcc
+    autocmd FileType cpp compiler gcc
+    autocmd FileType go compiler go
+augroup END
+
+set updatetime=1500
+
+if has('patch-8.1.1564')
+    set signcolumn=number
+endif
+set number
+" if has('patch-7.3.787')
+"     set relativenumber
+" endif
+
+set exrc
+set secure
+
+" set tabstop=4
+" set softtabstop=4
+" set shiftwidth=4
+" set noexpandtab
+
+set cursorline
+" set cursorcolumn
+
+set splitbelow
+set splitright
+nnoremap <leader><bslash> :vs<cr>
+nnoremap <leader><bar> :sp<cr>
+
+set history=500
+
+filetype plugin on
+filetype indent on
+
+set autoread
+
+set foldmethod=indent
+set foldlevelstart=99
+set foldnestmax=3
+" set nofoldenable
+set foldcolumn=1
+
+set display+=lastline
+
+set re=1
+
+set scrolloff=1
+
+let $LANG='en'
+set langmenu=en
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+
+set wildmenu
+set wildmode=longest,full
+set wildignorecase
+" if has('menu')
+"     source $VIMRUNTIME/menu.vim
+"     set wcm=<c-z>
+"     map <F12> :emenu <c-z>
+" endif
+
+set wildignore=*.o,*~,*.pyc
+if has("win16") || has("win32")
+    set wildignore+=.git\*,.hg\*,.svn\*,tags,TAGS,cscope.*
+else
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store,tags,TAGS,cscope.*
+endif
+
+set ruler
+set cmdheight=1
+set showmode
+set showcmd
+
+set hid
+
+set backspace=eol,start,indent
+set whichwrap+=<,>,[,]
+
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+
+if has('nvim')
+    set inccommand=nosplit
+endif
+
+set lazyredraw
+
+set magic
+
+" set showmatch
+" How many tenths of a second to blink when matching brackets
+" set mat=2
+
+set noerrorbells
+set novisualbell
+set t_vb=
+" set tm=500
+
+set fillchars=vert:│,fold:-
+" let &showbreak = "\u21aa "
+let &showbreak = '↪ '
+set listchars=tab:→\ ,nbsp:·,extends:⟩,precedes:⟨
+" if has('patch-7.4.710')
+"     set listchars+=space:·
+" endif
+" set listchars=tab:>-,trail:~,extends:>,precedes:<
+" set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
+set list
+
+" Enable syntax highlighting
+syntax enable
+
+" Enable 256 colors palette in Gnome Terminal
+" if $COLORTERM == 'gnome-terminal'
+" set t_Co=256
+" endif
+" if !has('nvim') && has('cursorshape') && &term =~? 'xterm'
+"     let &t_SI = "\<Esc>]6 q"
+"     let &t_SR = "\<Esc>]4 q"
+"     let &t_EI = "\<Esc>]2 q"
+" endif
+
+set t_Co=256
+
+set background=dark
+
+hi! link InfoPopup Pmenu
+
+" Use Unix as the standard file type
+set ffs=unix,dos,mac
+
+" Turn backup off, since most stuff is in SVN, git et.c anyway...
+set nobackup
+set nowb
+set noswapfile
+
+" Use spaces instead of tabs
+set expandtab
+
+" Be smart when using tabs ;)
+set smarttab
+
+" 1 tab == 4 spaces
+set shiftwidth=4
+set tabstop=4
+
+" Linebreak on 500 characters
+set lbr
+set tw=500
+
+set ai "Auto indent
+set si "Smart indent
+set wrap "Wrap lines
+
+" Specify the behavior when switching between buffers
+try
+    " set switchbuf=useopen,usetab,newtab
+    set switchbuf=useopen
+    set stal=2
+catch
+endtry
+
+" Always show the status line
+set laststatus=2
+
+try
+    set undodir=~/.vim_runtime/temp_dirs/undodir
+    set undofile
+catch
+endtry
+
+set completeopt+=menuone
+set completeopt-=preview
+if has('patch-8.1.1882') && has('textprop')
+    set completepopup=highlight:InfoPopup,border:off,align:menu
+endif
+set pumheight=12
+
+if has('patch-8.1.1714') && has('textprop')
+    set previewpopup=height:15,width:60
+endif
+set previewheight=6
+
 let mapleader = ' '
 let maplocalleader = '\'
 set pastetoggle=<F2>
+
+nnoremap <leader>ec :e ~/.vim_runtime/config/core.vim<cr>
+augroup configCore
+    autocmd!
+    autocmd bufwritepost ~/.vim_runtime/config/core.vim source ~/.vim_runtime/config/core.vim
+augroup END
 
 inoremap <c-a> <home>
 inoremap <c-e> <end>
@@ -32,6 +261,35 @@ nnoremap Q @q
 nnoremap M `m
 nnoremap Y y$
 
+nnoremap <leader>ee :Explore<cr>
+
+nnoremap <leader>oo :set scrolloff=<c-r>=&scrolloff == 1 ? 999 : 1<cr><cr>
+nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
+nnoremap <leader>ot :set ttyscroll=<c-r>=&ttyscroll == 999 ? 5 : 999<cr><cr>
+nnoremap <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
+nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? 1 : 0<cr><cr>
+if has('patch-8.1.1564')
+    nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'number' : 'no'<cr><cr>
+else
+    nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr><cr>
+endif
+nnoremap <leader>or :set invrelativenumber<cr>
+nnoremap <leader>on :set invnumber<cr>
+if has('termguicolors')
+    nnoremap <leader>og :set invtermguicolors<cr>
+endif
+
+nnoremap <c-]> g<c-]>
+nnoremap g<c-]> <c-]>
+xnoremap <c-]> g<c-]>
+xnoremap g<c-]> <c-]>
+nnoremap <c-w><c-]> <c-w>g<c-]>
+nnoremap <c-w>g<c-]> <c-w><c-]>
+xnoremap <c-w><c-]> <c-w>g<c-]>
+xnoremap <c-w>g<c-]> <c-w><c-]>
+nnoremap g<LeftMouse> g<c-]>
+nnoremap <C-LeftMouse> g<c-]>
+
 if exists(':terminal')
     if has('nvim')
         tnoremap <F1> <c-\><c-n>
@@ -39,16 +297,6 @@ if exists(':terminal')
         tnoremap <F1> <c-w>N
     endif
 endif
-
-nnoremap <leader>ec :e ~/.vim_runtime/config/core.vim<cr>
-nnoremap <leader>eg :e ~/.vim_runtime/config/gui.vim<cr>
-nnoremap <leader>ep :e ~/.vim_runtime/config/plug.vim<cr>
-augroup vimConfig
-    autocmd!
-    autocmd bufwritepost ~/.vim_runtime/my_config.vim source ~/.vim_runtime/my_config.vim
-    autocmd bufwritepost ~/.vim_runtime/gui.vim source ~/.vim_runtime/gui.vim
-    autocmd bufwritepost ~/.vim_runtime/plug.vim source ~/.vim_runtime/plug.vim
-augroup END
 
 " nnoremap <leader>mm :match Question /<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<cr>
 " nnoremap <leader>mM :match<cr>
@@ -191,12 +439,6 @@ nnoremap <leader>f= :set foldlevel=<c-r>=&foldlevel ? 0 : 99<cr><cr>
 nnoremap <leader>fs :setlocal foldexpr=getline(v:lnum)=~@/ ? 0 : 1 foldmethod=
             \<c-r>=&foldmethod == 'expr' ? 'indent' : 'expr'<cr> foldlevel=
             \<c-r>=&foldmethod == 'expr' ? 99 : 0<cr><cr>
-nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? 1 : 0<cr><cr>
-if has('patch-8.1.1564')
-    nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'number' : 'no'<cr><cr>
-else
-    nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr><cr>
-endif
 xnoremap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : '.'
 
 " Changes to allow blank lines in blocks, and
@@ -311,6 +553,27 @@ nnoremap <leader>p= :set previewheight=6<cr>
 " elseif executable('fish')
 "     set shell=fish
 " endif
+
+function! CmdLine(str)
+    call feedkeys(":" . a:str)
+endfunction
+
+function! VisualSelection(direction, extra_filter) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", "\\/.*'$^~[]")
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'gv'
+        call CmdLine("Ack '" . l:pattern . "' " )
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
 
 augroup compileAndRun
     au!
@@ -659,222 +922,11 @@ nnoremap <leader>bc :bufdo %s//gc<left><left><left>
 
 command! W w !sudo tee % > /dev/null
 
-set notimeout
-" set timeoutlen=2000
-set ttimeout
-set ttimeoutlen=10
-
-" set shortmess=a
-
-set mouse=a
-if exists('+ttymouse')
-    if has('mouse_sgr')
-        set ttymouse=sgr
-    else
-        set ttymouse=xterm2
-    endif
-endif
-set mousemodel=popup
-nnoremap <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
-
-nnoremap <c-]> g<c-]>
-nnoremap g<c-]> <c-]>
-xnoremap <c-]> g<c-]>
-xnoremap g<c-]> <c-]>
-nnoremap <c-w><c-]> <c-w>g<c-]>
-nnoremap <c-w>g<c-]> <c-w><c-]>
-xnoremap <c-w><c-]> <c-w>g<c-]>
-xnoremap <c-w>g<c-]> <c-w><c-]>
-nnoremap g<LeftMouse> g<c-]>
-nnoremap <C-LeftMouse> g<c-]>
-
-set tags+=./tags;,./TAGS;
-augroup setFtTags
-    autocmd!
-    autocmd FileType cpp setlocal tags^=~/.vim_runtime/tags/cpp_tags
-augroup END
-" set tags+=./.tags
-" set tags+=../.tags
-" set tags+=../../.tags
-" set tags+=../../../.tags
-" set tags+=../../../../.tags
-" set tags+=~/.vimtags
-" set tags+=~/.vim_runtime/tags/cpp_tags
-
-augroup setCompiler
-    autocmd!
-    if has('python3') || has('python')
-        autocmd Filetype python compiler pylint
-    endif
-    autocmd FileType c compiler gcc
-    autocmd FileType cpp compiler gcc
-    autocmd FileType go compiler go
-augroup END
-
-set updatetime=1500
-
-if has('patch-8.1.1564')
-    set signcolumn=number
-endif
-set number
-" if has('patch-7.3.787')
-"     set relativenumber
-" endif
-nnoremap <leader>or :set invrelativenumber<cr>
-nnoremap <leader>on :set invnumber<cr>
-
-set exrc
-set secure
-
-" set tabstop=4
-" set softtabstop=4
-" set shiftwidth=4
-" set noexpandtab
-
-set cursorline
-" set cursorcolumn
-
-set splitbelow
-set splitright
-nnoremap <leader><bslash> :vs<cr>
-nnoremap <leader><bar> :sp<cr>
-
-set history=500
-
-filetype plugin on
-filetype indent on
-
-set autoread
-
-set foldmethod=indent
-set foldlevelstart=99
-set foldnestmax=3
-" set nofoldenable
-set foldcolumn=1
-
-set display+=lastline
-
-set re=1
-
-set scrolloff=1
-nnoremap <leader>oo :set scrolloff=<c-r>=&scrolloff == 1 ? 999 : 1<cr><cr>
-nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
-nnoremap <leader>ot :set ttyscroll=<c-r>=&ttyscroll == 999 ? 5 : 999<cr><cr>
-
-let $LANG='en'
-set langmenu=en
-source $VIMRUNTIME/delmenu.vim
-source $VIMRUNTIME/menu.vim
-
-set wildmenu
-set wildmode=longest,full
-set wildignorecase
-" if has('menu')
-"     source $VIMRUNTIME/menu.vim
-"     set wcm=<c-z>
-"     map <F12> :emenu <c-z>
-" endif
-
-set wildignore=*.o,*~,*.pyc
-if has("win16") || has("win32")
-    set wildignore+=.git\*,.hg\*,.svn\*,tags,TAGS,cscope.*
-else
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store,tags,TAGS,cscope.*
-endif
-
-set ruler
-set cmdheight=1
-set showmode
-set showcmd
-
-set hid
-
-set backspace=eol,start,indent
-set whichwrap+=<,>,[,]
-
-set ignorecase
-set smartcase
-set hlsearch
-set incsearch
-
-if has('nvim')
-    set inccommand=nosplit
-endif
-
-set lazyredraw
-
-set magic
-
-" set showmatch
-" How many tenths of a second to blink when matching brackets
-" set mat=2
-
-set noerrorbells
-set novisualbell
-set t_vb=
-" set tm=500
-
-set fillchars=vert:│,fold:-
-" let &showbreak = "\u21aa "
-let &showbreak = '↪ '
-set listchars=tab:→\ ,nbsp:·,extends:⟩,precedes:⟨
-" if has('patch-7.4.710')
-"     set listchars+=space:·
-" endif
-" set listchars=tab:>-,trail:~,extends:>,precedes:<
-" set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
-set list
-
-" Enable syntax highlighting
-syntax enable
-
-" Enable 256 colors palette in Gnome Terminal
-" if $COLORTERM == 'gnome-terminal'
-" set t_Co=256
-" endif
-" if !has('nvim') && has('cursorshape') && &term =~? 'xterm'
-"     let &t_SI = "\<Esc>]6 q"
-"     let &t_SR = "\<Esc>]4 q"
-"     let &t_EI = "\<Esc>]2 q"
-" endif
-
-set t_Co=256
-if has('termguicolors')
-    " set termguicolors
-    nnoremap <leader>og :set invtermguicolors<cr>
-endif
-
-set background=dark
-
-try | colorscheme murphy | catch | endtry
-
-hi! link InfoPopup Pmenu
-
-" Use Unix as the standard file type
-set ffs=unix,dos,mac
-
-" Turn backup off, since most stuff is in SVN, git et.c anyway...
-set nobackup
-set nowb
-set noswapfile
-
-" Use spaces instead of tabs
-set expandtab
-
-" Be smart when using tabs ;)
-set smarttab
-
-" 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
-
-" Linebreak on 500 characters
-set lbr
-set tw=500
-
-set ai "Auto indent
-set si "Smart indent
-set wrap "Wrap lines
+" <TAB>: completion.
+inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <expr> <down> pumvisible() ? "\<C-n>" : "\<down>"
+inoremap <expr> <up> pumvisible() ? "\<C-p>" : "\<up>"
 
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
@@ -903,6 +955,12 @@ nnoremap <leader><lt> :vertical resize -10<cr>
 
 " nnoremap <c-h> :bprevious<cr>
 
+augroup bufReadPost
+    au!
+    " Return to last edit position when opening files (You want this!)
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+augroup END
+
 " Close the current buffer
 " map <leader>bc :Bclose<cr>:tabclose<cr>gT
 nnoremap <leader>bb :Bclose<cr>
@@ -920,7 +978,7 @@ function! BufcloseCloseIt()
     endif
 
     if bufnr('%') == l:currentBufNum
-        new
+        enew
     endif
     if l:doDelete
         execute 'bdelete '.l:currentBufNum
@@ -981,87 +1039,3 @@ function! GetVcsRoot()
     endfo
     return fnameescape(wd == '' ? cph : substitute(wd, mkr.'$', '.', ''))
 endfunction
-
-" Specify the behavior when switching between buffers
-try
-    " set switchbuf=useopen,usetab,newtab
-    set switchbuf=useopen
-    set stal=2
-catch
-endtry
-
-augroup bufReadPost
-    au!
-    " Return to last edit position when opening files (You want this!)
-    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-augroup END
-
-" Always show the status line
-set laststatus=2
-
-" Format the status line
-" set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
-
-" Pressing ,ss will toggle and untoggle spell checking
-" nnoremap <leader>ss :setlocal spell!<cr>
-
-" Shortcuts using <leader>
-" nnoremap <leader>sn ]s
-" nnoremap <leader>sp [s
-" nnoremap <leader>sa zg
-" nnoremap <leader>s? z=
-
-function! CmdLine(str)
-    call feedkeys(":" . a:str)
-endfunction
-
-function! VisualSelection(direction, extra_filter) range
-    let l:saved_reg = @"
-    execute "normal! vgvy"
-
-    let l:pattern = escape(@", "\\/.*'$^~[]")
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-    if a:direction == 'gv'
-        call CmdLine("Ack '" . l:pattern . "' " )
-    elseif a:direction == 'replace'
-        call CmdLine("%s" . '/'. l:pattern . '/')
-    endif
-
-    let @/ = l:pattern
-    let @" = l:saved_reg
-endfunction
-
-try
-    set undodir=~/.vim_runtime/temp_dirs/undodir
-    set undofile
-catch
-endtry
-
-set completeopt+=menuone
-set completeopt-=preview
-if has('patch-8.1.1882') && has('textprop')
-    set completepopup=highlight:InfoPopup,border:off,align:menu
-endif
-set pumheight=12
-
-if has('patch-8.1.1880') && has('textprop')
-    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview,popup<cr>
-else
-    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview<cr>
-endif
-
-" <TAB>: completion.
-inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-inoremap <expr> <down> pumvisible() ? "\<C-n>" : "\<down>"
-inoremap <expr> <up> pumvisible() ? "\<C-p>" : "\<up>"
-
-if has('patch-8.1.1714') && has('textprop')
-    set previewpopup=height:15,width:60
-endif
-set previewheight=6
-" augroup setPreviewBufferNotHidden
-"     autocmd!
-"     autocmd bufenter * if &previewwindow | set bufhidden=delete | endif
-" augroup END

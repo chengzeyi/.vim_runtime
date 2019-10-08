@@ -1,3 +1,9 @@
+nnoremap <leader>eg :e ~/.vim_runtime/config/gui.vim<cr>
+augroup configGui
+    autocmd!
+    autocmd bufwritepost ~/.vim_runtime/config/gui.vim source ~/.vim_runtime/config/gui.vim
+augroup END
+
 " Properly disable sound on errors on MacVim
 if has("gui_macvim")
     augroup macBell

@@ -140,7 +140,7 @@ Plug 'sgur/vim-textobj-parameter'
 "     Plug 'voldikss/vim-translate-me'
 " endif
 
-Plug 'liuchengxu/space-vim-dark'
+Plug 'liuchengxu/space-vim-theme'
 Plug 'chriskempson/base16-vim'
 Plug 'cocopon/iceberg.vim'
 Plug 'sickill/vim-monokai'
@@ -151,9 +151,15 @@ Plug 'logico-software/typewriter'
 
 call plug#end()
 
+nnoremap <leader>ep :e ~/.vim_runtime/config/plug.vim<cr>
+augroup configPlug
+    autocmd!
+    autocmd bufwritepost ~/.vim_runtime/config/plug.vim source ~/.vim_runtime/config/plug.vim
+augroup END
+
 " let g:space_vim_dark_background = 235
 try
-    colorscheme space-vim-dark
+    colorscheme space_vim_theme
 
     " hi Comment cterm=italic
     " hi Normal ctermbg=NONE guibg=NONE
@@ -183,7 +189,6 @@ try
     augroup END
 catch
 endtry
-
 
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
@@ -317,7 +322,6 @@ augroup END
 
 if has('lua')
     set completeopt+=noselect
-    nunmap <leader>op
     if has('patch-8.1.1880') && has('textprop')
         nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview,popup <bar>
                     \ if exists('b:neocomplete') <bar> unlet b:neocomplete <bar> endif <cr>
@@ -376,6 +380,11 @@ if has('lua')
     catch
     endtry
 else
+    if has('patch-8.1.1880') && has('textprop')
+    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview,popup<cr>
+    else
+        nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview<cr>
+    endif
     " inoremap <c-j> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>\<lt>c-p>"<cr>
     "             \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>\<lt>c-p>"<cr>
     " inoremap <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n><c-p>
