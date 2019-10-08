@@ -33,16 +33,6 @@ augroup END
 " set tags+=~/.vimtags
 " set tags+=~/.vim_runtime/tags/cpp_tags
 
-augroup setCompiler
-    autocmd!
-    if has('python3') || has('python')
-        autocmd Filetype python compiler pylint
-    endif
-    autocmd FileType c compiler gcc
-    autocmd FileType cpp compiler gcc
-    autocmd FileType go compiler go
-augroup END
-
 set updatetime=1500
 
 if has('patch-8.1.1564')
@@ -221,6 +211,16 @@ set previewheight=6
 
 set csverb
 " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
+
+augroup setCompiler
+    autocmd!
+    if has('python3') || has('python')
+        autocmd Filetype python compiler pylint
+    endif
+    autocmd FileType c compiler gcc
+    autocmd FileType cpp compiler gcc
+    autocmd FileType go compiler go
+augroup END
 
 set pastetoggle=<F2>
 
