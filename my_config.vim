@@ -659,7 +659,6 @@ function! UndoQFRemove()
     execute curidx + 1
 endfunction
 
-
 augroup compileAndRun
     au!
     if executable('python3')
