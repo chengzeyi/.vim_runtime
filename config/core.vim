@@ -1,5 +1,3 @@
-set nocompatible
-
 set encoding=utf8
 
 set notimeout
@@ -65,8 +63,6 @@ set cursorline
 
 set splitbelow
 set splitright
-nnoremap <leader><bslash> :vs<cr>
-nnoremap <leader><bar> :sp<cr>
 
 set history=500
 
@@ -166,8 +162,6 @@ syntax enable
 
 set t_Co=256
 
-set background=dark
-
 hi! link InfoPopup Pmenu
 
 " Use Unix as the standard file type
@@ -260,6 +254,9 @@ call MapMotion('$')
 nnoremap Q @q
 nnoremap M `m
 nnoremap Y y$
+
+nnoremap <leader><bslash> :vs<cr>
+nnoremap <leader><bar> :sp<cr>
 
 nnoremap <leader>ee :Explore<cr>
 
