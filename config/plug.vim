@@ -455,7 +455,7 @@ augroup closeNERDTreeBuffer
 augroup END
 
 let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_map = '<c-f>'
+" let g:ctrlp_map = '<c-p>'
 nnoremap <leader>pp :CtrlP<cr>
 nnoremap <leader>pw :CtrlPCurFile<cr>
 nnoremap <leader>pW :CtrlPCurWD<cr>
@@ -949,13 +949,13 @@ let g:startify_custom_header = [
 nnoremap <leader>st :Startify<cr>
 
 if exists(':terminal')
-    nnoremap <c-b> :Nuake<cr>
+    nnoremap <c-n> :Nuake<cr>
     if has('nvim')
-        tnoremap <c-b> <c-\><c-n>:Nuake<cr>
+        tnoremap <c-n> <c-\><c-n>:Nuake<cr>
         nnoremap <leader>ts :split +terminal<cr>
         nnoremap <leader>tv :vert terminal<cr>
     else
-        tnoremap <c-b> <c-w>:Nuake<cr>
+        tnoremap <c-n> <c-w>:Nuake<cr>
         nnoremap <leader>ts :terminal<cr>
         nnoremap <leader>tS :terminal ++close<space>
         nnoremap <leader>tv :vert terminal<cr>
