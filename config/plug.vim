@@ -763,10 +763,6 @@ command! -bar -bang FZFWindows
 
 nmap <c-_> <Plug>CommentaryLine
 vmap <c-_> <Plug>Commentary
-augroup commentStr
-    autocmd!
-    autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
-augroup END
 
 nnoremap <leader>db :DB<space>
 nnoremap <leader>dB :%DB<space>
