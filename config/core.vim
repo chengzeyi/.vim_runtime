@@ -867,7 +867,8 @@ command! -complete=file -nargs=* Ctags !ctags
 
 nnoremap <leader>cs :Cscope<cr>
 nnoremap <leader>cS :Cscope<space>
-command! -complete=file -nargs=* Cscope !cscope -RUbq <args>
+command! -complete=file -nargs=* Cscope !cscope
+            \ -RUbq <args>
 nnoremap <C-\>q :set cscopequickfix=<c-r>=&cscopequickfix == '' ? 's-,g-,d-,c-,t-,e-,f-,i-,a-' : ''<cr><cr>
 nnoremap <C-\><bs> :set invcst<cr>
 nnoremap <C-\><c-h> :set invcst<cr>
