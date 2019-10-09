@@ -6,7 +6,6 @@ Plug 'chengzeyi/OmniCppComplete'
 
 " Plug 'octol/vim-cpp-enhanced-highlight'
 " Plug 'fatih/vim-go'
-Plug 'arp242/gopher.vim'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 
