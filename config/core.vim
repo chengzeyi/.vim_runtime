@@ -214,6 +214,11 @@ set previewheight=6
 set csverb
 " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 
+augroup commentStr
+    autocmd!
+    autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
+augroup END
+
 augroup setCompiler
     autocmd!
     if has('python3') || has('python')
