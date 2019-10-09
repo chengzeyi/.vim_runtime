@@ -259,9 +259,11 @@ function! MapMotion(from, ...)
 endfunction
 call MapMotion('j')
 call MapMotion('k')
-call MapMotion('0', '^')
-call MapMotion('^', '0')
-call MapMotion('$')
+" call MapMotion('0', '^')
+" call MapMotion('^', '0')
+" call MapMotion('$')
+noremap 0 ^
+noremap ^ 0
 nnoremap Q @q
 nnoremap M `m
 nnoremap Y y$
