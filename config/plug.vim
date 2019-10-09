@@ -4,10 +4,11 @@ Plug 'chengzeyi/vim-markify'
 " Plug 'chengzeyi/a.vim'
 Plug 'chengzeyi/OmniCppComplete'
 
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
 " Plug 'octol/vim-cpp-enhanced-highlight'
 " Plug 'fatih/vim-go'
+Plug 'arp242/gopher.vim'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
 
 Plug 'lfilho/cosco.vim'
 
@@ -141,12 +142,12 @@ Plug 'sgur/vim-textobj-parameter'
 " endif
 
 Plug 'liuchengxu/space-vim-dark'
-Plug 'chriskempson/base16-vim'
 Plug 'cocopon/iceberg.vim'
 Plug 'sickill/vim-monokai'
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
 Plug 'logico-software/typewriter'
+Plug 'chriskempson/base16-vim'
 " Plug 'arcticicestudio/nord-vim'
 
 call plug#end()

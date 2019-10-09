@@ -46,11 +46,6 @@ set number
 set exrc
 set secure
 
-" set tabstop=4
-" set softtabstop=4
-" set shiftwidth=4
-" set noexpandtab
-
 set cursorline
 " set cursorcolumn
 
@@ -164,6 +159,13 @@ set noswapfile
 
 " Use spaces instead of tabs
 set expandtab
+augroup expandTabException
+    au!
+    au FileType go setlocal noexpandtab
+augroup END
+" set tabstop=4
+" set softtabstop=4
+" set shiftwidth=4
 
 " Be smart when using tabs ;)
 set smarttab
