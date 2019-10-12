@@ -34,6 +34,5 @@ if has("gui_running")
     " set guioptions-=b  "scrollbar
     " set guioptions-=R  "scrollbar
     " set guioptions-=l  "scrollbar
-    set guioptions+=!
     set guitablabel=%M\ %t
 endif
