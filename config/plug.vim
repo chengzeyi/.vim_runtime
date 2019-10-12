@@ -349,7 +349,7 @@ if has('lua')
     let g:neocomplete#sources#tags#cache_limit_size = 10 * 1024 * 1024
     let g:neocomplete#keyword_patterns['default'] = '\h\w*'
     let g:neocomplete#fallback_mappings =
-                \ ["\<C-x>\<C-o>", "\<C-n>"]
+                \ ["\<C-x>\<C-o>", "\<C-x>\<C-n>"]
     inoremap <expr> <C-g> neocomplete#undo_completion()
     inoremap <expr> <C-l> neocomplete#complete_common_string()
     " <CR>: close popup and save indent.
