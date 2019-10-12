@@ -251,7 +251,7 @@ cnoremap <C-K> <C-U>
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
 
-function! MapMotion(from, ...)
+function! MapMotion(from, ...) abort
     let from = a:from
     let to = a:0 == 0 ? a:from : a:1
     exec 'noremap ' . from . ' g' . to
@@ -316,7 +316,7 @@ nnoremap <leader>fF :let @/='\<lt><c-r>=expand('<lt>cWORD>')<cr>\>' <bar> set hl
 nnoremap <leader>jj :call GotoJump()<cr>
 nnoremap <leader>jt :call GotoTag()<cr>
 nnoremap <leader>jm :tselect<cr>
-function! GotoJump()
+function! GotoJump() abort
     redraw!
     jumps
     let j = input("Please select your jump ([count]j|k): ")
@@ -326,7 +326,7 @@ function! GotoJump()
         execute "normal! " . j[0:-2] . "\<c-o>"
     endif
 endfunction
-function! GotoTag()
+function! GotoTag() abort
     redraw!
     tags
     let j = input("Please select your tag ([count]j|k): ")
@@ -338,7 +338,7 @@ function! GotoTag()
 endfunction
 nnoremap <leader>? :call LookUpMap(1, '', '')<cr>
 nnoremap <leader>/ :call LookUpMap(1, '', '<lt>leader>')<cr>
-function! LookUpMap(count, mode, prefix)
+function! LookUpMap(count, mode, prefix) abort
     let cmd = a:mode . 'map ' . a:prefix
     let cnt = 0
     while cnt < a:count
@@ -376,7 +376,7 @@ nnoremap <expr> " '"' . BetterRegister()
 nnoremap <expr> @ '@' . BetterRegister()
 xnoremap <expr> " '"' . BetterRegister()
 xnoremap <expr> @ '@' . BetterRegister()
-function! BetterRegister()
+function! BetterRegister() abort
     let more = &more
     set nomore
     redraw!
@@ -399,7 +399,7 @@ nnoremap <expr> ' "'" . BetterMark()
 nnoremap <expr> ` '`' . BetterMark()
 xnoremap <expr> ' "'" . BetterMark()
 xnoremap <expr> ` '`' . BetterMark()
-function! BetterMark()
+function! BetterMark() abort
     let more = &more
     set nomore
     redraw!
@@ -421,7 +421,7 @@ nnoremap <leader>mh :call MatchMarkLines()<cr>
 nnoremap <leader>mH :match<cr>
 nnoremap <leader>md :delmarks a-z<cr>
 nnoremap <leader>mD :delmarks a-zA-Z<cr>
-function! HighlightMarkLines()
+function! HighlightMarkLines() abort
     let cmd = 'matc
     echo range(char2nr('a'), char2nr('z'))
     let marks = map(range(char2nr('a'), char2nr('z')) + range(char2nr('A'), char2nr('Z')), "'%''' . nr2char(v:val)")
@@ -461,7 +461,7 @@ onoremap ai :<C-u>call IndTxtObj(0)<CR>
 onoremap ii :<C-u>call IndTxtObj(1)<CR>
 xnoremap ai <Esc>:call IndTxtObj(0)<CR><Esc>gv
 xnoremap ii <Esc>:call IndTxtObj(1)<CR><Esc>gv
-function! IndTxtObj(inner)
+function! IndTxtObj(inner) abort
     let curcol = col(".")
     let curline = line(".")
     let lastline = line("$")
@@ -500,7 +500,7 @@ endfunction
 nmap <silent> gt :set opfunc=Fanyi<CR>g@
 vmap <silent> gt :<C-U>call Fanyi(visualmode(), 1)<CR>
 command! -nargs=* -complete=tag Fanyi call DoFanyi(<q-args>)
-function! Fanyi(type, ...)
+function! Fanyi(type, ...) abort
     let sel_save = &selection
     let &selection = "inclusive"
     let reg_save = @@
@@ -518,7 +518,7 @@ function! Fanyi(type, ...)
     let @@ = reg_save
     call DoFanyi(text)
 endfunction
-function! DoFanyi(text)
+function! DoFanyi(text) abort
     let text = empty(a:text) ? expand('<cword>') : a:text
     let text = substitute(text, '\v\n', ' ', 'g')
     if executable('fanyi')
@@ -536,7 +536,7 @@ function! DoFanyi(text)
 endfunction
 
 command! -nargs=+ -complete=shellcmd PV call PV(<q-args>)
-function! PV(cmd)
+function! PV(cmd) abort
     if exists('*popup_atcursor')
         let out = system(a:cmd)
         let out = split(out, "\n")
@@ -565,11 +565,11 @@ nnoremap <leader>p= :set previewheight=6<cr>
 "     set shell=fish
 " endif
 
-function! CmdLine(str)
+function! CmdLine(str) abort
     call feedkeys(":" . a:str)
 endfunction
 
-function! VisualSelection(direction, extra_filter) range
+function! VisualSelection(direction, extra_filter) range abort
     let l:saved_reg = @"
     execute "normal! vgvy"
 
@@ -696,10 +696,6 @@ augroup skipBuffer
     au Filetype qf set nobuflisted
 augroup END
 
-" augroup setQuickfixWindowHeight
-"     au!
-"     au FileType qf call AdjustWindowHeight(1, 10)
-" augroup END
 augroup autoOpenQuickfixWindow
     autocmd!
     autocmd QuickFixCmdPost [^l]* exe "
@@ -735,9 +731,6 @@ augroup autoOpenQuickfixWindow
     "             \ catch \n
     "             \ endtry"
 augroup END
-function! AdjustWindowHeight(minheight, maxheight)
-    exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
-endfunction
 nnoremap <leader>qq :QToggle<cr>
 nnoremap <leader>ll :LToggle<cr>
 nnoremap <leader>qe :cexpr [] <bar> :cclose<cr>
