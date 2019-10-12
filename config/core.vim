@@ -200,7 +200,6 @@ set previewheight=6
 " endif
 
 set t_Co=256
-set termguicolors
 
 set mouse=a
 if exists('+ttymouse')
