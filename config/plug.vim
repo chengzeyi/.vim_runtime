@@ -796,7 +796,7 @@ nnoremap <leader>gU :GutentagsUpdate!<cr>
 let g:airline_theme = 'dracula'
 " let g:airline#themes#dracula#palette.tabline = {}
 " let g:airline#themes#dracula#palette.tabline.airline_tabhid = ['#f8f8f2', '#f8f8f2', '15', '59', '']
-" let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 1
 " let g:airline_symbols_ascii = 1
 " if !exists('g:airline_symbols')
 "     let g:airline_symbols = {}
@@ -833,10 +833,10 @@ let g:airline_theme = 'dracula'
 " let g:airline_symbols.dirty='⚡'
 
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = ' '
-let g:airline#extensions#tabline#right_sep = ' '
-let g:airline#extensions#tabline#right_alt_sep = ' '
+" let g:airline#extensions#tabline#left_sep = ' '
+" let g:airline#extensions#tabline#left_alt_sep = ' '
+" let g:airline#extensions#tabline#right_sep = ' '
+" let g:airline#extensions#tabline#right_alt_sep = ' '
 " let g:airline#extensions#tabline#show_buffers = 1
 " let g:airline#extensions#tabline#alt_sep = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
