@@ -10,16 +10,6 @@ set ttimeoutlen=10
 
 " set shortmess=a
 
-set mouse=a
-if exists('+ttymouse')
-    if has('mouse_sgr')
-        set ttymouse=sgr
-    else
-        set ttymouse=xterm2
-    endif
-endif
-set mousemodel=popup
-
 set tags+=./tags;,./TAGS;
 augroup setFtTags
     autocmd!
@@ -137,18 +127,6 @@ if !exists('g:syntax_on')
     syntax enable
 endif
 
-" Enable 256 colors palette in Gnome Terminal
-" if $COLORTERM == 'gnome-terminal'
-" set t_Co=256
-" endif
-" if !has('nvim') && has('cursorshape') && &term =~? 'xterm'
-"     let &t_SI = "\<Esc>]6 q"
-"     let &t_SR = "\<Esc>]4 q"
-"     let &t_EI = "\<Esc>]2 q"
-" endif
-
-set t_Co=256
-
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 
@@ -210,6 +188,29 @@ if has('patch-8.1.1714') && has('textprop')
     set previewpopup=height:15,width:60
 endif
 set previewheight=6
+
+" Enable 256 colors palette in Gnome Terminal
+" if $COLORTERM == 'gnome-terminal'
+" set t_Co=256
+" endif
+" if !has('nvim') && has('cursorshape') && &term =~? 'xterm'
+"     let &t_SI = "\<Esc>]6 q"
+"     let &t_SR = "\<Esc>]4 q"
+"     let &t_EI = "\<Esc>]2 q"
+" endif
+
+set t_Co=256
+set termguicolors
+
+set mouse=a
+if exists('+ttymouse')
+    if has('mouse_sgr')
+        set ttymouse=sgr
+    else
+        set ttymouse=xterm2
+    endif
+endif
+set mousemodel=popup
 
 set csverb
 " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
