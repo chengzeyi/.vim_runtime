@@ -718,22 +718,22 @@ augroup autoOpenQuickfixWindow
                 \     endif \n
                 \ catch \n
                 \ endtry"
-    autocmd QuickFixCmdPost make exe "
-                \ try \n
-                \     botright cwindow \n
-                \     if getwininfo(win_getid())[0]['quickfix'] \n
-                \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
-                \     endif \n
-                \ catch \n
-                \ endtry"
-    autocmd QuickFixCmdPost lmake exe "
-                \ try \n
-                \     lwindow \n
-                \     if getwininfo(win_getid())[0]['loclist'] \n
-                \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
-                \     endif \n
-                \ catch \n
-                \ endtry"
+    " autocmd QuickFixCmdPost make exe "
+    "             \ try \n
+    "             \     botright cwindow \n
+    "             \     if getwininfo(win_getid())[0]['quickfix'] \n
+    "             \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
+    "             \     endif \n
+    "             \ catch \n
+    "             \ endtry"
+    " autocmd QuickFixCmdPost lmake exe "
+    "             \ try \n
+    "             \     lwindow \n
+    "             \     if getwininfo(win_getid())[0]['loclist'] \n
+    "             \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
+    "             \     endif \n
+    "             \ catch \n
+    "             \ endtry"
 augroup END
 function! AdjustWindowHeight(minheight, maxheight)
     exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
