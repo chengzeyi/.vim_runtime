@@ -1,4 +1,4 @@
-set encoding=utf8
+set encoding=utf-8
 
 filetype plugin on
 filetype indent on
