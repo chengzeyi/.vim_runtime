@@ -1,4 +1,4 @@
-set encoding=utf-8
+set encoding=utf8
 
 filetype plugin on
 filetype indent on
@@ -9,6 +9,16 @@ set ttimeout
 set ttimeoutlen=10
 
 " set shortmess=a
+
+set mouse=a
+if exists('+ttymouse')
+    if has('mouse_sgr')
+        set ttymouse=sgr
+    else
+        set ttymouse=xterm2
+    endif
+endif
+set mousemodel=popup
 
 set tags+=./tags;,./TAGS;
 augroup setFtTags
@@ -127,6 +137,18 @@ if !exists('g:syntax_on')
     syntax enable
 endif
 
+" Enable 256 colors palette in Gnome Terminal
+" if $COLORTERM == 'gnome-terminal'
+" set t_Co=256
+" endif
+" if !has('nvim') && has('cursorshape') && &term =~? 'xterm'
+"     let &t_SI = "\<Esc>]6 q"
+"     let &t_SR = "\<Esc>]4 q"
+"     let &t_EI = "\<Esc>]2 q"
+" endif
+
+set t_Co=256
+
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 
@@ -189,28 +211,6 @@ if has('patch-8.1.1714') && has('textprop')
 endif
 set previewheight=6
 
-" Enable 256 colors palette in Gnome Terminal
-" if $COLORTERM == 'gnome-terminal'
-" set t_Co=256
-" endif
-" if !has('nvim') && has('cursorshape') && &term =~? 'xterm'
-"     let &t_SI = "\<Esc>]6 q"
-"     let &t_SR = "\<Esc>]4 q"
-"     let &t_EI = "\<Esc>]2 q"
-" endif
-
-set t_Co=256
-
-set mouse=a
-if exists('+ttymouse')
-    if has('mouse_sgr')
-        set ttymouse=sgr
-    else
-        set ttymouse=xterm2
-    endif
-endif
-set mousemodel=popup
-
 set csverb
 " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 
@@ -251,7 +251,7 @@ cnoremap <C-K> <C-U>
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
 
-function! MapMotion(from, ...) abort
+function! MapMotion(from, ...)
     let from = a:from
     let to = a:0 == 0 ? a:from : a:1
     exec 'noremap ' . from . ' g' . to
@@ -316,7 +316,7 @@ nnoremap <leader>fF :let @/='\<lt><c-r>=expand('<lt>cWORD>')<cr>\>' <bar> set hl
 nnoremap <leader>jj :call GotoJump()<cr>
 nnoremap <leader>jt :call GotoTag()<cr>
 nnoremap <leader>jm :tselect<cr>
-function! GotoJump() abort
+function! GotoJump()
     redraw!
     jumps
     let j = input("Please select your jump ([count]j|k): ")
@@ -326,7 +326,7 @@ function! GotoJump() abort
         execute "normal! " . j[0:-2] . "\<c-o>"
     endif
 endfunction
-function! GotoTag() abort
+function! GotoTag()
     redraw!
     tags
     let j = input("Please select your tag ([count]j|k): ")
@@ -338,7 +338,7 @@ function! GotoTag() abort
 endfunction
 nnoremap <leader>? :call LookUpMap(1, '', '')<cr>
 nnoremap <leader>/ :call LookUpMap(1, '', '<lt>leader>')<cr>
-function! LookUpMap(count, mode, prefix) abort
+function! LookUpMap(count, mode, prefix)
     let cmd = a:mode . 'map ' . a:prefix
     let cnt = 0
     while cnt < a:count
@@ -376,7 +376,7 @@ nnoremap <expr> " '"' . BetterRegister()
 nnoremap <expr> @ '@' . BetterRegister()
 xnoremap <expr> " '"' . BetterRegister()
 xnoremap <expr> @ '@' . BetterRegister()
-function! BetterRegister() abort
+function! BetterRegister()
     let more = &more
     set nomore
     redraw!
@@ -399,7 +399,7 @@ nnoremap <expr> ' "'" . BetterMark()
 nnoremap <expr> ` '`' . BetterMark()
 xnoremap <expr> ' "'" . BetterMark()
 xnoremap <expr> ` '`' . BetterMark()
-function! BetterMark() abort
+function! BetterMark()
     let more = &more
     set nomore
     redraw!
@@ -421,7 +421,7 @@ nnoremap <leader>mh :call MatchMarkLines()<cr>
 nnoremap <leader>mH :match<cr>
 nnoremap <leader>md :delmarks a-z<cr>
 nnoremap <leader>mD :delmarks a-zA-Z<cr>
-function! HighlightMarkLines() abort
+function! HighlightMarkLines()
     let cmd = 'matc
     echo range(char2nr('a'), char2nr('z'))
     let marks = map(range(char2nr('a'), char2nr('z')) + range(char2nr('A'), char2nr('Z')), "'%''' . nr2char(v:val)")
@@ -446,7 +446,7 @@ nnoremap <leader>f8 :set foldlevel=8<cr>
 nnoremap <leader>f9 :set foldlevel=9<cr>
 nnoremap <leader>f- :set foldlevel-=1<cr>
 nnoremap <leader>f+ :set foldlevel+=1<cr>
-nnoremap <leader>f= :set foldlevel=99<cr>
+nnoremap <leader>f= :set foldlevel=<c-r>=&foldlevel ? 0 : 99<cr><cr>
 nnoremap <leader>fs :setlocal foldexpr=getline(v:lnum)=~@/ ? 0 : 1 foldmethod=
             \<c-r>=&foldmethod == 'expr' ? 'indent' : 'expr'<cr> foldlevel=
             \<c-r>=&foldmethod == 'expr' ? 99 : 0<cr><cr>
@@ -461,7 +461,7 @@ onoremap ai :<C-u>call IndTxtObj(0)<CR>
 onoremap ii :<C-u>call IndTxtObj(1)<CR>
 xnoremap ai <Esc>:call IndTxtObj(0)<CR><Esc>gv
 xnoremap ii <Esc>:call IndTxtObj(1)<CR><Esc>gv
-function! IndTxtObj(inner) abort
+function! IndTxtObj(inner)
     let curcol = col(".")
     let curline = line(".")
     let lastline = line("$")
@@ -500,7 +500,7 @@ endfunction
 nmap <silent> gt :set opfunc=Fanyi<CR>g@
 vmap <silent> gt :<C-U>call Fanyi(visualmode(), 1)<CR>
 command! -nargs=* -complete=tag Fanyi call DoFanyi(<q-args>)
-function! Fanyi(type, ...) abort
+function! Fanyi(type, ...)
     let sel_save = &selection
     let &selection = "inclusive"
     let reg_save = @@
@@ -518,7 +518,7 @@ function! Fanyi(type, ...) abort
     let @@ = reg_save
     call DoFanyi(text)
 endfunction
-function! DoFanyi(text) abort
+function! DoFanyi(text)
     let text = empty(a:text) ? expand('<cword>') : a:text
     let text = substitute(text, '\v\n', ' ', 'g')
     if executable('fanyi')
@@ -536,7 +536,7 @@ function! DoFanyi(text) abort
 endfunction
 
 command! -nargs=+ -complete=shellcmd PV call PV(<q-args>)
-function! PV(cmd) abort
+function! PV(cmd)
     if exists('*popup_atcursor')
         let out = system(a:cmd)
         let out = split(out, "\n")
@@ -565,11 +565,11 @@ nnoremap <leader>p= :set previewheight=6<cr>
 "     set shell=fish
 " endif
 
-function! CmdLine(str) abort
+function! CmdLine(str)
     call feedkeys(":" . a:str)
 endfunction
 
-function! VisualSelection(direction, extra_filter) range abort
+function! VisualSelection(direction, extra_filter) range
     let l:saved_reg = @"
     execute "normal! vgvy"
 
@@ -651,6 +651,12 @@ augroup setDebugger
     endif
 augroup END
 
+augroup golangTools
+    if executable('goimports')
+        au Filetype go nnoremap <buffer> <localleader>i :%!goimports<cr>
+    endif
+augroup END
+
 augroup readNonTextFile
     au!
     if executable('pandoc')
@@ -696,6 +702,10 @@ augroup skipBuffer
     au Filetype qf set nobuflisted
 augroup END
 
+" augroup setQuickfixWindowHeight
+"     au!
+"     au FileType qf call AdjustWindowHeight(1, 10)
+" augroup END
 augroup autoOpenQuickfixWindow
     autocmd!
     autocmd QuickFixCmdPost [^l]* exe "
@@ -714,23 +724,26 @@ augroup autoOpenQuickfixWindow
                 \     endif \n
                 \ catch \n
                 \ endtry"
-    " autocmd QuickFixCmdPost make exe "
-    "             \ try \n
-    "             \     botright cwindow \n
-    "             \     if getwininfo(win_getid())[0]['quickfix'] \n
-    "             \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
-    "             \     endif \n
-    "             \ catch \n
-    "             \ endtry"
-    " autocmd QuickFixCmdPost lmake exe "
-    "             \ try \n
-    "             \     lwindow \n
-    "             \     if getwininfo(win_getid())[0]['loclist'] \n
-    "             \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
-    "             \     endif \n
-    "             \ catch \n
-    "             \ endtry"
+    autocmd QuickFixCmdPost make exe "
+                \ try \n
+                \     botright cwindow \n
+                \     if getwininfo(win_getid())[0]['quickfix'] \n
+                \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
+                \     endif \n
+                \ catch \n
+                \ endtry"
+    autocmd QuickFixCmdPost lmake exe "
+                \ try \n
+                \     lwindow \n
+                \     if getwininfo(win_getid())[0]['loclist'] \n
+                \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
+                \     endif \n
+                \ catch \n
+                \ endtry"
 augroup END
+function! AdjustWindowHeight(minheight, maxheight)
+    exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
+endfunction
 nnoremap <leader>qq :QToggle<cr>
 nnoremap <leader>ll :LToggle<cr>
 nnoremap <leader>qe :cexpr [] <bar> :cclose<cr>
