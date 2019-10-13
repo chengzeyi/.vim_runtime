@@ -797,7 +797,7 @@ let g:airline_theme = 'dracula'
 " let g:airline#themes#dracula#palette.tabline = {}
 " let g:airline#themes#dracula#palette.tabline.airline_tabhid = ['#f8f8f2', '#f8f8f2', '15', '59', '']
 let g:airline_powerline_fonts = 1
-let g:airline_symbols_ascii = 1
+" let g:airline_symbols_ascii = 1
 " if !exists('g:airline_symbols')
 "     let g:airline_symbols = {}
 " endif
