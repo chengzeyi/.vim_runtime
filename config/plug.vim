@@ -148,6 +148,9 @@ Plug 'morhetz/gruvbox'
 Plug 'logico-software/typewriter'
 Plug 'chriskempson/base16-vim'
 " Plug 'arcticicestudio/nord-vim'
+if executable('npm')
+    Plug 'suan/vim-instant-markdown'
+endif
 
 call plug#end()
 
@@ -1037,3 +1040,12 @@ try
                 \ })
 catch
 endtry
+
+if executable('npm')
+    command! -nargs=0 MarkdownPreviewInstall !sudo npm -g install instant-markdown-d
+    augroup markdownPreview
+        au!
+        au FileType markdown nnoremap <buffer> <localleader>p :InstantMarkdownPreview<cr>
+        au FileType markdown nnoremap <buffer> <localleader>P :InstantMarkdownStop<cr>
+    augroup END
+endif
