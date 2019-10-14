@@ -12,15 +12,15 @@ endif
 if has("gui_running")
     try
         if has("gui_gtk2")
-            set guifont=Inconsolata\ 12,Hack\ 11
+            set guifont=Inconsolata\ 12,Hack\ Regular\ 11
         elseif has("gui_gtk3")
-            set guifont=Inconsolata\ 15,Hack\ 13
+            set guifont=Inconsolata\ 14,Hack\ Regular\ 13
         elseif has("gui_athena")
-            set guifont=Inconsolata\ 15,Hack\ 13
+            set guifont=Inconsolata\ 14,Hack\ Regular\ 13
         elseif has("gui_macvim")
             set guifont=Menlo\ Regular:h14
         elseif has("gui_win32")
-            set guifont=Consolas:h12
+            set guifont=Hack\ Regular:h12,Consolas:h12
         endif
     catch
     endtry
