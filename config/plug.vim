@@ -1043,6 +1043,7 @@ endtry
 
 if executable('npm')
     command! -nargs=0 MarkdownPreviewInstall !sudo npm -g install instant-markdown-d
+    command! -nargs=0 MarkdownPreviewInstallWithoutSudo !npm -g install instant-markdown-d
     augroup markdownPreview
         au!
         au FileType markdown nnoremap <buffer> <localleader>p :InstantMarkdownPreview<cr>
