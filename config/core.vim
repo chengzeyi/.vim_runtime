@@ -1,41 +1,5 @@
 set encoding=utf8
 
-" Properly disable sound on errors on MacVim
-if has("gui_macvim")
-    set vb t_vb=
-endif
-
-" if has("gui_running")
-if has("gui")
-    try
-        if has("gui_gtk2")
-            set guifont=Hack\ Regular\ 11
-        elseif has("gui_gtk3")
-            set guifont=Hack\ Regular\ 13
-        elseif has("gui_athena")
-            set guifont=Hack\ Regular\ 13
-        elseif has("gui_macvim")
-            set guifont=Menlo\ Regular:h14
-        elseif has("gui_win32")
-            set guifont=Hack\ Regular:h12,Consolas:h12
-        else
-            set guifont=Hack\ Regular:h12
-        endif
-    catch
-    endtry
-
-    set guioptions-=e  "tab pages
-    set guioptions-=m  "menu bar
-    set guioptions-=r  "scrollbar
-    set guioptions-=L  "scrollbar
-    set guioptions-=T  "toolbar
-    set guioptions-=c  "dialogs
-    " set guioptions-=b  "scrollbar
-    " set guioptions-=R  "scrollbar
-    " set guioptions-=l  "scrollbar
-    set guitablabel=%M\ %t
-endif
-
 filetype plugin on
 filetype indent on
 
