@@ -748,7 +748,7 @@ nnoremap <leader>qq :QToggle<cr>
 nnoremap <leader>ll :LToggle<cr>
 nnoremap <leader>qe :cexpr [] <bar> :cclose<cr>
 nnoremap <leader>le :lexpr [] <bar> :lclose<cr>
-nnoremap <leader>cb :cbuffer<cr>
+nnoremap <leader>qb :cbuffer<cr>
 nnoremap <leader>lb :lbuffer<cr>
 nnoremap [q :cprev<cr>
 nnoremap ]q :cnext<cr>
