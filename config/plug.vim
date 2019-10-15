@@ -242,8 +242,8 @@ let g:force_omni_patterns = {
             \ 'xml': '<[^>]*',
             \ 'markdown': '<[^>]*',
             \ 'javascript': '[^. \t]\.\%(\h\w*\)\?',
-            \ 'php': '[^. \t]->\h\w*\|\h\w*::\w*',
-            \ 'java': '\%(\h\w*\|)\)\.\w*'}
+            \ 'php': '[^. \t]->\h\w*\|\h\w*::\w*'}
+            " \ 'java': '\%(\h\w*\|)\)\.\w*'}
 
 let g:omni_patterns = {
             \ 'c': '[^.[:digit:] *\t]\%(\.\|->\)\w*'}
