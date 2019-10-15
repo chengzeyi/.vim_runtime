@@ -10,6 +10,8 @@ set ttimeoutlen=10
 
 " set shortmess=a
 
+set belloff=all
+
 set mouse=a
 if exists('+ttymouse')
     if has('mouse_sgr')
@@ -271,7 +273,6 @@ nnoremap Y y$
 nnoremap <leader><bslash> :vs<cr>
 nnoremap <leader><bar> :sp<cr>
 
-nnoremap <leader>ee :Explore<cr>
 nnoremap <leader>en :enew<cr>
 
 nnoremap <leader>oo :set scrolloff=<c-r>=&scrolloff == 1 ? 999 : 1<cr><cr>

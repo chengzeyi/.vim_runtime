@@ -5,9 +5,9 @@ augroup configGui
 augroup END
 
 " Properly disable sound on errors on MacVim
-if has("gui_macvim")
-    set vb t_vb=
-endif
+" if has("gui_macvim")
+"     set vb t_vb=
+" endif
 
 if has("gui_running")
     try

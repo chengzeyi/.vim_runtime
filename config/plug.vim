@@ -2,7 +2,9 @@ call plug#begin('~/.vim_runtime/plugged')
 
 Plug 'chengzeyi/vim-markify'
 " Plug 'chengzeyi/a.vim'
-" Plug 'chengzeyi/OmniCppComplete'
+if !executable('clangd')
+    Plug 'chengzeyi/OmniCppComplete'
+endif
 
 " Plug 'octol/vim-cpp-enhanced-highlight'
 " Plug 'fatih/vim-go'
@@ -148,9 +150,6 @@ Plug 'morhetz/gruvbox'
 Plug 'logico-software/typewriter'
 Plug 'chriskempson/base16-vim'
 " Plug 'arcticicestudio/nord-vim'
-if executable('npm')
-    Plug 'suan/vim-instant-markdown'
-endif
 
 call plug#end()
 
@@ -218,15 +217,17 @@ let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
 
-let g:OmniCpp_AddLeftParen = 0
-let g:OmniCpp_NamespaceSearch = 1
-let g:OmniCpp_GlobalScopeSearch = 1
-let g:OmniCpp_ShowAccess = 1
-let g:OmniCpp_MayCompleteDot = 1
-let g:OmniCpp_MayCompleteArrow = 1
-let g:OmniCpp_MayCompleteScope = 1
-let g:OmniCpp_ShowPrototypeInAbbr = 1
-let g:OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
+if !executable('clangd')
+    let g:OmniCpp_AddLeftParen = 0
+    let g:OmniCpp_NamespaceSearch = 1
+    let g:OmniCpp_GlobalScopeSearch = 1
+    let g:OmniCpp_ShowAccess = 1
+    let g:OmniCpp_MayCompleteDot = 1
+    let g:OmniCpp_MayCompleteArrow = 1
+    let g:OmniCpp_MayCompleteScope = 1
+    let g:OmniCpp_ShowPrototypeInAbbr = 1
+    let g:OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
+endif
 
 imap <C-\> <Plug>(neosnippet_expand_or_jump)
 smap <C-\> <Plug>(neosnippet_expand_or_jump)
@@ -242,8 +243,7 @@ let g:force_omni_patterns = {
             \ 'xml': '<[^>]*',
             \ 'markdown': '<[^>]*',
             \ 'javascript': '[^. \t]\.\%(\h\w*\)\?',
-            \ 'php': '[^. \t]->\h\w*\|\h\w*::\w*',
-            \ 'c': '[^.[:digit:] *\t]\%(\.\|->\)\w*'}
+            \ 'php': '[^. \t]->\h\w*\|\h\w*::\w*'}
             " \ 'java': '\%(\h\w*\|)\)\.\w*'}
 
 let g:omni_patterns = {}
@@ -305,9 +305,13 @@ augroup lspReg
                     \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
                     \ })
         autocmd FileType c,cpp,objc,objcpp setlocal omnifunc=lsp#complete
+        let g:force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
         let g:force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
         let g:force_omni_patterns.objc = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
         let g:force_omni_patterns.objcpp = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
+    else
+        let g:omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+        let g:omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
     endif
     if executable('bash-language-server')
         au User lsp_setup call lsp#register_server({
@@ -1043,23 +1047,3 @@ try
                 \ })
 catch
 endtry
-
-if executable('npm')
-    command! -nargs=0 MarkdownPreviewInstall !sudo npm -g install instant-markdown-d
-    command! -nargs=0 MarkdownPreviewInstallWithoutSudo !npm -g install instant-markdown-d
-    augroup markdownPreview
-        au!
-        au FileType markdown nnoremap <buffer> <localleader>p :InstantMarkdownPreview<cr>
-        au FileType markdown nnoremap <buffer> <localleader>P :InstantMarkdownStop<cr>
-    augroup END
-    "let g:instant_markdown_slow = 1
-    let g:instant_markdown_autostart = 0
-    "let g:instant_markdown_open_to_the_world = 1
-    "let g:instant_markdown_allow_unsafe_content = 1
-    "let g:instant_markdown_allow_external_content = 0
-    "let g:instant_markdown_mathjax = 1
-    "let g:instant_markdown_logfile = '/tmp/instant_markdown.log'
-    "let g:instant_markdown_autoscroll = 0
-    "let g:instant_markdown_port = 8888
-    "let g:instant_markdown_python = 1
-endif
