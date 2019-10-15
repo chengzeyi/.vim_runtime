@@ -216,6 +216,8 @@ set previewheight=6
 set csverb
 " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 
+let g:markdown_folding = 1
+
 augroup commentStr
     autocmd!
     autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
