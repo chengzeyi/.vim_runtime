@@ -1091,3 +1091,5 @@ function! GetVcsRoot()
     endfo
     return fnameescape(wd == '' ? cph : substitute(wd, mkr.'$', '.', ''))
 endfunction
+
+nnoremap <leader>sp :set invspell<cr>
