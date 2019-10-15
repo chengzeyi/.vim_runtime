@@ -242,11 +242,11 @@ let g:force_omni_patterns = {
             \ 'xml': '<[^>]*',
             \ 'markdown': '<[^>]*',
             \ 'javascript': '[^. \t]\.\%(\h\w*\)\?',
-            \ 'php': '[^. \t]->\h\w*\|\h\w*::\w*'}
+            \ 'php': '[^. \t]->\h\w*\|\h\w*::\w*',
+            \ 'c': '[^.[:digit:] *\t]\%(\.\|->\)\w*'}
             " \ 'java': '\%(\h\w*\|)\)\.\w*'}
 
-let g:omni_patterns = {
-            \ 'c': '[^.[:digit:] *\t]\%(\.\|->\)\w*'}
+let g:omni_patterns = {}
 
 nmap <leader><cr><cr> <Plug>(lsp-status)
 nmap <leader><cr>a <Plug>(lsp-code-action)
@@ -305,9 +305,9 @@ augroup lspReg
                     \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
                     \ })
         autocmd FileType c,cpp,objc,objcpp setlocal omnifunc=lsp#complete
-        let g:omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-        let g:omni_patterns.objc = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
-        let g:omni_patterns.objcpp = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
+        let g:force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+        let g:force_omni_patterns.objc = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
+        let g:force_omni_patterns.objcpp = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
     endif
     if executable('bash-language-server')
         au User lsp_setup call lsp#register_server({
