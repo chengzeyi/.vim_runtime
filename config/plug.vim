@@ -2,7 +2,7 @@ call plug#begin('~/.vim_runtime/plugged')
 
 Plug 'chengzeyi/vim-markify'
 " Plug 'chengzeyi/a.vim'
-Plug 'chengzeyi/OmniCppComplete'
+" Plug 'chengzeyi/OmniCppComplete'
 
 " Plug 'octol/vim-cpp-enhanced-highlight'
 " Plug 'fatih/vim-go'
@@ -246,8 +246,7 @@ let g:force_omni_patterns = {
             \ 'java': '\%(\h\w*\|)\)\.\w*'}
 
 let g:omni_patterns = {
-            \ 'c': '[^.[:digit:] *\t]\%(\.\|->\)\w*',
-            \ 'cpp': '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'}
+            \ 'c': '[^.[:digit:] *\t]\%(\.\|->\)\w*'}
 
 nmap <leader><cr><cr> <Plug>(lsp-status)
 nmap <leader><cr>a <Plug>(lsp-code-action)
@@ -299,13 +298,17 @@ augroup lspReg
     else
         let g:force_omni_patterns.python = '[^. \t]\.\w*'
     endif
-    " if executable('clangd')
-    "     au User lsp_setup call lsp#register_server({
-    "                 \ 'name': 'clangd',
-    "                 \ 'cmd': {server_info->['clangd', '-background-index']},
-    "                 \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-    "                 \ })
-    " endif
+    if executable('clangd')
+        au User lsp_setup call lsp#register_server({
+                    \ 'name': 'clangd',
+                    \ 'cmd': {server_info->['clangd', '-background-index']},
+                    \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+                    \ })
+        autocmd FileType c,cpp,objc,objcpp setlocal omnifunc=lsp#complete
+        let g:omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+        let g:omni_patterns.objc = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
+        let g:omni_patterns.objcpp = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
+    endif
     if executable('bash-language-server')
         au User lsp_setup call lsp#register_server({
                     \ 'name': 'bash-language-server',
@@ -349,7 +352,7 @@ if has('lua')
     if !exists('g:neocomplete#keyword_patterns')
         let g:neocomplete#keyword_patterns = {}
     endif
-    let g:neocomplete#sources#tags#cache_limit_size = 10 * 1024 * 1024
+    " let g:neocomplete#sources#tags#cache_limit_size = 10 * 1024 * 1024
     let g:neocomplete#keyword_patterns['default'] = '\h\w*'
     let g:neocomplete#fallback_mappings =
                 \ ["\<C-x>\<C-o>", "\<C-x>\<C-n>"]
@@ -396,7 +399,7 @@ else
     let g:neocomplcache_enable_smart_case = 1
     let g:neocomplcache_enable_underbar_completion = 0
     let g:neocomplcache_min_syntax_length = 3
-    let g:neocomplcache_tags_caching_limit_file_size = 10 * 1024 * 1024
+    " let g:neocomplcache_tags_caching_limit_file_size = 10 * 1024 * 1024
     let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
     " let g:neocomplcache_enable_auto_select = 1
     " let g:neocomplcache_disable_auto_complete = 1
