@@ -445,7 +445,7 @@ endif
 
 " autocmd vimenter * NERDTree
 let g:NERDTreeShowHidden = 1
-let g:NERDTreeHijackNetrw = 0
+" let g:NERDTreeHijackNetrw = 0
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeWinPos = 'left'
 let g:NERDTreeWinSize = 30
