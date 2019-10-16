@@ -23,10 +23,6 @@ endif
 set mousemodel=popup
 
 set tags+=./tags;,./TAGS;
-augroup setFtTags
-    autocmd!
-    autocmd FileType cpp setlocal tags^=~/.vim_runtime/tags/cpp_tags
-augroup END
 " set tags+=./.tags
 " set tags+=../.tags
 " set tags+=../../.tags
