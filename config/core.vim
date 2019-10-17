@@ -288,7 +288,7 @@ nnoremap <leader>on :set invnumber<cr>
 if has('termguicolors')
     nnoremap <leader>og :set invtermguicolors<cr>
 endif
-nnoremap <leader>ow :set textwidth=<c-r>=&textwidth == 0 ? 80 : 0<cr><cr>
+nnoremap <leader>ow :set textwidth=<c-r>=&textwidth == 0 ? 79 : 0<cr><cr>
 
 nnoremap <c-]> g<c-]>
 nnoremap g<c-]> <c-]>
