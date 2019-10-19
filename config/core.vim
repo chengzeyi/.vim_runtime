@@ -31,7 +31,7 @@ set tags+=./tags;,./TAGS;
 " set tags+=~/.vimtags
 " set tags+=~/.vim_runtime/tags/cpp_tags
 
-set updatetime=1500
+set updatetime=500
 
 if has('patch-8.1.1564')
     set signcolumn=number
