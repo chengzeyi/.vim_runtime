@@ -98,10 +98,15 @@ if has('unix')
     Plug 'ujihisa/neco-look'
 endif
 
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/echodoc.vim'
 " Plug 'Shougo/deol.nvim'
+" Plug 'Shougo/neosnippet.vim'
+" Plug 'Shougo/neosnippet-snippets'
+
+if has('python') || has('python3')
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
+endif
 
 Plug 'majutsushi/tagbar'
 
@@ -228,14 +233,6 @@ if !executable('clangd')
     let g:OmniCpp_ShowPrototypeInAbbr = 1
     let g:OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
 endif
-
-imap <C-\> <Plug>(neosnippet_expand_or_jump)
-smap <C-\> <Plug>(neosnippet_expand_or_jump)
-xmap <C-\> <Plug>(neosnippet_expand_target)
-" For conceal markers.
-" if has('conceal')
-"     set conceallevel=2 concealcursor=niv
-" endif
 
 let g:force_omni_patterns = {
             \ 'css': '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]',
@@ -444,6 +441,20 @@ if has('nvim') && exists('*nvim_open_win')
     let g:echodoc#type = 'floating'
 endif
 
+" imap <C-\> <Plug>(neosnippet_expand_or_jump)
+" smap <C-\> <Plug>(neosnippet_expand_or_jump)
+" xmap <C-\> <Plug>(neosnippet_expand_target)
+" For conceal markers.
+" if has('conceal')
+"     set conceallevel=2 concealcursor=niv
+" endif
+
+if has('python') || has('python3')
+    let g:UltiSnipsExpandTrigger = "<c-j>"
+    let g:UltiSnipsJumpForwardTrigger = "<c-j>"
+    let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
+endif
+
 " autocmd vimenter * NERDTree
 let g:NERDTreeShowHidden = 1
 " let g:NERDTreeHijackNetrw = 0
@@ -644,7 +655,9 @@ nnoremap <leader>zh :FZFHistory<cr>
 nnoremap <leader>z/ :FZFHistory/<cr>
 nnoremap <leader>z: :FZFHistory:<cr>
 nnoremap <leader>zH :FZFHelptags<cr>
-nnoremap <leader>zs :FZFSnippets<cr>
+if has('python') || has('python3')
+    inoremap <c-\> <c-o>:FZFSnippets<cr>
+endif
 nnoremap <leader>zg :FZFGGrep<cr>
 nnoremap <leader>zG :FZFGrep<cr>
 
