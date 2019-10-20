@@ -100,13 +100,13 @@ endif
 
 Plug 'Shougo/echodoc.vim'
 " Plug 'Shougo/deol.nvim'
-" Plug 'Shougo/neosnippet.vim'
-" Plug 'Shougo/neosnippet-snippets'
+Plug 'Shougo/neosnippet.vim'
+Plug 'chengzeyi/neosnippet-snippets'
 
-if has('python') || has('python3')
-    Plug 'SirVer/ultisnips'
-    Plug 'honza/vim-snippets'
-endif
+" if has('python') || has('python3')
+"     Plug 'SirVer/ultisnips'
+"     Plug 'honza/vim-snippets'
+" endif
 
 Plug 'majutsushi/tagbar'
 
@@ -441,19 +441,19 @@ if has('nvim') && exists('*nvim_open_win')
     let g:echodoc#type = 'floating'
 endif
 
-" imap <C-\> <Plug>(neosnippet_expand_or_jump)
-" smap <C-\> <Plug>(neosnippet_expand_or_jump)
-" xmap <C-\> <Plug>(neosnippet_expand_target)
-" For conceal markers.
-" if has('conceal')
-"     set conceallevel=2 concealcursor=niv
-" endif
-
-if has('python') || has('python3')
-    let g:UltiSnipsExpandTrigger = "<c-j>"
-    let g:UltiSnipsJumpForwardTrigger = "<c-j>"
-    let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
+imap <C-\> <Plug>(neosnippet_expand_or_jump)
+smap <C-\> <Plug>(neosnippet_expand_or_jump)
+xmap <C-\> <Plug>(neosnippet_expand_target)
+if has('conceal')
+    set conceallevel=2 concealcursor=niv
 endif
+let g:neosnippet#snippets_directory = '~/.vim_neosnippet'
+
+" if has('python') || has('python3')
+"     let g:UltiSnipsExpandTrigger = "<c-j>"
+"     let g:UltiSnipsJumpForwardTrigger = "<c-j>"
+"     let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
+" endif
 
 " autocmd vimenter * NERDTree
 let g:NERDTreeShowHidden = 1
@@ -655,9 +655,9 @@ nnoremap <leader>zh :FZFHistory<cr>
 nnoremap <leader>z/ :FZFHistory/<cr>
 nnoremap <leader>z: :FZFHistory:<cr>
 nnoremap <leader>zH :FZFHelptags<cr>
-if has('python') || has('python3')
-    inoremap <c-\> <c-o>:FZFSnippets<cr>
-endif
+" if has('python') || has('python3')
+"     inoremap <c-\> <c-o>:FZFSnippets<cr>
+" endif
 nnoremap <leader>zg :FZFGGrep<cr>
 nnoremap <leader>zG :FZFGrep<cr>
 
@@ -913,7 +913,6 @@ nnoremap <leader>fg :FlyGrep<cr>
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
 " nnoremap <leader>i :IndentGuidesToggle<cr>
-
 
 let g:better_whitespace_ctermcolor = '239'
 let g:better_whitespace_guicolor = '#4e4e4e'
