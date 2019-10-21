@@ -710,6 +710,7 @@ augroup autoOpenQuickfixWindow
                 \     botright cwindow \n
                 \     if getwininfo(win_getid())[0]['quickfix'] \n
                 \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
+                \         set nowrap \n
                 \     endif \n
                 \ catch \n
                 \ endtry"
@@ -718,22 +719,7 @@ augroup autoOpenQuickfixWindow
                 \     lwindow \n
                 \     if getwininfo(win_getid())[0]['loclist'] \n
                 \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
-                \     endif \n
-                \ catch \n
-                \ endtry"
-    autocmd QuickFixCmdPost make exe "
-                \ try \n
-                \     botright cwindow \n
-                \     if getwininfo(win_getid())[0]['quickfix'] \n
-                \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
-                \     endif \n
-                \ catch \n
-                \ endtry"
-    autocmd QuickFixCmdPost lmake exe "
-                \ try \n
-                \     lwindow \n
-                \     if getwininfo(win_getid())[0]['loclist'] \n
-                \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
+                \         set nowrap \n
                 \     endif \n
                 \ catch \n
                 \ endtry"
@@ -768,6 +754,7 @@ function! LListToggle(height, ...) abort
         execute "silent! lwindow " . a:height
         if a:0 != 0 && a:1 && getwininfo(win_getid())[0]['loclist']
             exe max([min([line("$"), a:height]), 1]) . "wincmd _"
+            set nowrap
         endif
     endif
 endfunction
@@ -779,6 +766,7 @@ function! QListToggle(height, ...) abort
         execute "silent! botright cwindow " . a:height
         if a:0 != 0 && a:1 && getwininfo(win_getid())[0]['quickfix']
             exe max([min([line("$"), a:height]), 1]) . "wincmd _"
+            set nowrap
         endif
     endif
 endfunction
