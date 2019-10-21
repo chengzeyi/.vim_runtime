@@ -537,7 +537,7 @@ nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gC :Git checkout<space>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gD :Gdelete<cr>
-nnoremap <leader>gG :Ggrep<space>
+nnoremap <leader>gG :Ggrep!<space>
 nnoremap <leader>gm :Gmerge<space>
 nnoremap <leader>gM :Gmove<space>
 nnoremap <leader>gl :Glog<cr>
@@ -658,8 +658,8 @@ nnoremap <leader>zH :FZFHelptags<cr>
 " if has('python') || has('python3')
 "     inoremap <c-\> <c-o>:FZFSnippets<cr>
 " endif
-nnoremap <leader>zg :FZFGGrep<cr>
-nnoremap <leader>zG :FZFGrep<cr>
+nnoremap <leader>zg :FZFGrep<cr>
+nnoremap <leader>zG :FZFGGrep<cr>
 
 nnoremap <leader>Zz :FZFFiles!<cr>
 nnoremap <leader>ZZ :FZFFiletypes!<cr>
