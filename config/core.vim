@@ -606,9 +606,9 @@ augroup compileAndRun
     endif
     if executable('go')
         au filetype go nnoremap <buffer> <localleader>r :w <bar>
-                    \ !go build % -o %:r && ./%:r<cr>
+                    \ !go run %<cr>
         au filetype go nnoremap <buffer> <localleader>R :w <bar>
-                    \ !go build % -o %:r && ./%:r<space>
+                    \ !go run %<space>
     endif
     if executable('pandoc')
         au filetype html nnoremap <buffer> <localleader>r :w <bar>
