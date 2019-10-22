@@ -161,7 +161,7 @@ set noswapfile
 set expandtab
 augroup expandTabException
     au!
-    au FileType go setlocal noexpandtab
+    au FileType go set noexpandtab
 augroup END
 " set tabstop=4
 " set softtabstop=4

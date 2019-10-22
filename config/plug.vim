@@ -510,7 +510,7 @@ endif
 " nnoremap <leader>pc :CtrlPCommandPalette<cr>
 " nnoremap <c-p> :CtrlPCommandPalette<cr>
 
-let g:gitgutter_enabled=1
+let g:gitgutter_enabled = 1
 let g:gitgutter_map_keys = 0
 omap ih <Plug>(GitGutterTextObjectInnerPending)
 omap ah <Plug>(GitGutterTextObjectOuterPending)
@@ -533,7 +533,7 @@ xnoremap <leader>gV :GV?<cr>
 
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gB :Gbrowse<cr>
-nnoremap <leader>gc :Gcommit<cr>
+nnoremap <leader>gc :Gcommit -v<cr>
 nnoremap <leader>gC :Git checkout<space>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gD :Gdelete<cr>
