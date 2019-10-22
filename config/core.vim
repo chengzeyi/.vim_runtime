@@ -22,7 +22,9 @@ if exists('+ttymouse')
 endif
 set mousemodel=popup
 
-set tags+=./tags;,./TAGS;
+if has('path_extra')
+    set tags+=./tags; tags+=./TAGS;
+endif
 " set tags+=./.tags
 " set tags+=../.tags
 " set tags+=../../.tags
