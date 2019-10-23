@@ -624,8 +624,8 @@ augroup END
 
 augroup setDebugger
     if exists(':packadd')
-        au Filetype c,cpp nnoremap <buffer> <localleader>d :packadd termdebug <bar> Termdebug<space>
-        au Filetype c,cpp nnoremap <buffer> <localleader>D :packadd termdebug <bar> TermdebugCommand<space>
+        au Filetype c,cpp nnoremap <buffer> <localleader>d :packadd termdebug<cr>Termdebug<space>
+        au Filetype c,cpp nnoremap <buffer> <localleader>D :packadd termdebug<cr>TermdebugCommand<space>
     endif
     if exists(':terminal')
         if has('nvim')
@@ -679,10 +679,10 @@ augroup readNonTextFile
 augroup END
 
 if exists(':packadd')
-    nnoremap <leader>qf :packadd cfilter <bar> Cfilter<space>
-    nnoremap <leader>qv :packadd cfilter <bar> Cfilter!<space>
-    nnoremap <leader>lf :packadd cfilter <bar> Lfilter<space>
-    nnoremap <leader>lv :packadd cfilter <bar> Lfilter!<space>
+    nnoremap <leader>qf :packadd cfilter<cr>Cfilter<space>
+    nnoremap <leader>qv :packadd cfilter<cr>Cfilter!<space>
+    nnoremap <leader>lf :packadd cfilter<cr>Lfilter<space>
+    nnoremap <leader>lv :packadd cfilter<cr>Lfilter!<space>
 endif
 nnoremap [t :tprevious<cr>
 nnoremap ]t :tnext<cr>
