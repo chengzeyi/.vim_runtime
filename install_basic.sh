@@ -15,7 +15,7 @@ augroup configDot
     autocmd BufWritePost ~/.vimrc source ~/.vimrc
 augroup END
 
-# local configuration below
+" local configuration below
 
 ' > ~/.vimrc
 
