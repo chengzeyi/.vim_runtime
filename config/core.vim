@@ -477,7 +477,7 @@ nnoremap <leader>f8 :set foldlevel=8<cr>
 nnoremap <leader>f9 :set foldlevel=9<cr>
 nnoremap <leader>f- :set foldlevel-=1<cr>
 nnoremap <leader>f+ :set foldlevel+=1<cr>
-nnoremap <leader>f= :set foldlevel=<c-r>=&foldlevel ? 0 : 99<cr><cr>
+nnoremap <leader>f= :set foldlevel=<c-r>=&foldlevel == 99 ? 0 : 99<cr><cr>
 nnoremap <leader>fs :setlocal foldexpr=getline(v:lnum)=~@/ ? 0 : 1 foldmethod=
             \<c-r>=&foldmethod == 'expr' ? 'indent' : 'expr'<cr> foldlevel=
             \<c-r>=&foldmethod == 'expr' ? 99 : 0<cr><cr>
