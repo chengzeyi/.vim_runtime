@@ -915,6 +915,7 @@ nnoremap <leader>mc :MarkifyClear<cr>
 " let g:markify_echo_current_message = 1
 
 nnoremap <leader>aw :ArgWrap<cr>
+let g:argwrap_tail_indent_braces = 1
 augroup setArgWrap
     au!
     au FileType go let b:argwrap_tail_comma = 1
