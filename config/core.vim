@@ -333,11 +333,7 @@ nnoremap g<LeftMouse> g<c-]>
 nnoremap <C-LeftMouse> g<c-]>
 
 if exists(':terminal')
-    if has('nvim')
-        tnoremap <F1> <c-\><c-n>
-    else
-        tnoremap <F1> <c-w>N
-    endif
+    tnoremap <F1> <c-\><c-n>
 endif
 
 " nnoremap <leader>mm :match Question /<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<cr>
@@ -655,11 +651,9 @@ augroup compileAndRun
 augroup END
 
 augroup setDebugger
-    if exists(':packadd')
-        au Filetype c,cpp nnoremap <buffer> <localleader>d :packadd termdebug<cr>:Termdebug<space>
-        au Filetype c,cpp nnoremap <buffer> <localleader>D :packadd termdebug<cr>:TermdebugCommand<space>
-    endif
     if exists(':terminal')
+        au FileType c,cpp,python,go nnoremap <buffer> <localleader>b :let @" = 'b ' . expand('%:p') . ':' . line('.')<cr>
+        au FileType c,cpp,python,go nnoremap <buffer> <localleader>c :let @" = 'clear ' . expand('%:p') . ':' . line('.')<cr>
         if has('nvim')
             if executable('pudb3')
                 au Filetype python nnoremap <buffer> <localleader>d :vert terminal pudb3 %<cr>
@@ -668,7 +662,10 @@ augroup setDebugger
                 au Filetype python nnoremap <buffer> <localleader>d :vert terminal pudb %<cr>
                 au Filetype python nnoremap <buffer> <localleader>D :vert terminal pudb<space>
             endif
-            au Filetype go nnoremap <buffer> <localleader>d :vert terminal dlv<space>
+            au Filetype c,cpp nnoremap <buffer> <localleader>d :vert terminal gdb --tui<cr>
+            au Filetype c,cpp nnoremap <buffer> <localleader>D :vert terminal gdb --tui<space>
+            au Filetype go nnoremap <buffer> <localleader>d :vert terminal dlv debug<cr>
+            au Filetype go nnoremap <buffer> <localleader>D :vert terminal dlv debug<space>
         else
             if executable('pudb3')
                 au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb3 %<cr>
@@ -677,7 +674,10 @@ augroup setDebugger
                 au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb %<cr>
                 au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb<space>
             endif
-            au Filetype go nnoremap <buffer> <localleader>d :vert terminal ++close dlv<space>
+            au Filetype c,cpp nnoremap <buffer> <localleader>d :vert terminal ++close gdb --tui<cr>
+            au Filetype c,cpp nnoremap <buffer> <localleader>D :vert terminal ++close gdb --tui<space>
+            au Filetype go nnoremap <buffer> <localleader>d :vert terminal ++close dlv debug<cr>
+            au Filetype go nnoremap <buffer> <localleader>D :vert terminal ++close dlv debug<space>
         endif
     endif
 augroup END
