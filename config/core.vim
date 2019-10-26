@@ -712,8 +712,8 @@ if !has('nvim') && has('terminal')
     nnoremap <F12> :GdbSend print <c-r>=expand('<lt>cword>')<cr><cr>
     nnoremap <leader>dd :GdbSend<space>
     nnoremap <leader>dD :GdbSend!<space>
-    command! -bang -nargs=* -complete=file GdbSend call GdbSend(<q-args>, <bang>0)
-    function! GdbSend(cmd, bang) abort
+    command! -bang -nargs=* -complete=file GdbSend call GdbSend(<bang>0, <q-args>)
+    function! GdbSend(bang, cmd) abort
         if !exists('s:last_gdb_term')
             return
         endif
