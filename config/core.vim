@@ -702,7 +702,7 @@ if !has('nvim') && has('terminal')
     nnoremap <F6> :GdbSend continue<cr>
     nnoremap <F7> :GdbSend info breakpoints<cr>
     nnoremap <S-F7> :GdbSend clear<cr>
-    nnoremap <F8> :GdbSend tbreak  <c-r>=expand('%:p')<cr>:<c-r>=line('.')<cr><cr>
+    nnoremap <F8> :GdbSend tbreak <c-r>=expand('%:p')<cr>:<c-r>=line('.')<cr><cr>
     nnoremap <S-F8> :GdbSend watch <c-r>=expand('<lt>cword>')<cr><cr>
     nnoremap <F9> :GdbSend break <c-r>=expand('%:p')<cr>:<c-r>=line('.')<cr><cr>
     nnoremap <S-F9> :GdbSend clear <c-r>=expand('%:p')<cr>:<c-r>=line('.')<cr><cr>
