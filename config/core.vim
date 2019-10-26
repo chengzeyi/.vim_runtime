@@ -672,15 +672,18 @@ augroup setDebugger
             au Filetype go nnoremap <buffer> <localleader>d :vert terminal dlv debug<cr>
             au Filetype go nnoremap <buffer> <localleader>D :vert terminal dlv debug<space>
         else
-            au FileType c,cpp,python,go nnoremap <buffer> <F5> :call term_sendkeys(g:latest_term, 'run<cr>')<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <S-F5> :call term_sendkeys(g:latest_term, 'kill<cr>')<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <F6> :call term_sendkeys(g:latest_term, 'continue<cr>')<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <F9> :call term_sendkeys(g:latest_term, 'break ' . expand('%:p') . ':' . line('.') . '<cr>')<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <S-F9> :call term_sendkeys(g:latest_term, 'clear ' . expand('%:p') . ':' . line('.') . '<cr>')<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <F10> :call term_sendkeys(g:latest_term, 'next<cr>')<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <F11> :call term_sendkeys(g:latest_term, 'step<cr>')<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <F11> :call term_sendkeys(g:latest_term, 'finish<cr>')<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <F12> :call term_sendkeys(g:latest_term, 'print ' . expand('<lt>cword>') . '<cr>')<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <F5> :call term_sendkeys(g:last_term, "run\n")<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <S-F5> :call term_sendkeys(g:last_term, "kill\n")<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <F6> :call term_sendkeys(g:last_term, "continue\n")<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <S-F6> :call term_sendkeys(g:last_term, "quit\n")<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <F7> :call term_sendkeys(g:last_term, "y\n")<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <F8> :call term_sendkeys(g:last_term, "n\n")<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <F9> :call term_sendkeys(g:last_term, "break ' . expand('%:p') . ':' . line('.') . '\n")<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <S-F9> :call term_sendkeys(g:last_term, "clear ' . expand('%:p') . ':' . line('.') . '\n")<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <F10> :call term_sendkeys(g:last_term, "next\n")<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <F11> :call term_sendkeys(g:last_term, "step\n")<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <S-F11> :call term_sendkeys(g:last_term, "finish\n")<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <F12> :call term_sendkeys(g:last_term, "print ' . expand('<lt>cword>') . '\n")<cr>
             if executable('pudb3')
                 au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb3 %<cr>
                 au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb3<space>
