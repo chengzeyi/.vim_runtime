@@ -443,6 +443,8 @@ endif
 
 imap <C-\> <Plug>(neosnippet_expand_or_jump)
 smap <C-\> <Plug>(neosnippet_expand_or_jump)
+imap <C-]> <Plug>(neosnippet_jump_or_expand)
+smap <C-]> <Plug>(neosnippet_jump_or_expand)
 xmap <C-\> <Plug>(neosnippet_expand_target)
 " if has('conceal')
 "     set conceallevel=2 concealcursor=niv
