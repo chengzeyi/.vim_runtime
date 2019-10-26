@@ -655,6 +655,7 @@ augroup setDebugger
     if exists(':terminal')
         au FileType c,cpp,python,go nnoremap <buffer> <localleader>b :let @" = 'b ' . expand('%:p') . ':' . line('.')<cr>
         au FileType c,cpp,python,go nnoremap <buffer> <localleader>c :let @" = 'clear ' . expand('%:p') . ':' . line('.')<cr>
+        au FileType c,cpp,python,go nnoremap <buffer> <localleader>p :let @" = 'p ' . expand('<lt>cword>')<cr>
         if has('nvim')
             if executable('pudb3')
                 au Filetype python nnoremap <buffer> <localleader>d :vert terminal pudb3 %<cr>
