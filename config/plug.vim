@@ -863,7 +863,7 @@ endtry
 
 let g:goyo_width = '80%'
 let g:goyo_height = '95%'
-nnoremap <F9> :Goyo<cr>
+nnoremap <go> :Goyo<cr>
 
 " augroup changeLimelight
 "     autocmd!
@@ -872,7 +872,7 @@ nnoremap <F9> :Goyo<cr>
 " augroup END
 " nmap <Leader>lM <Plug>(Limelight)
 " xmap <Leader>lM <Plug>(Limelight)
-nnoremap <F10> :Limelight!!<cr>
+nnoremap <lm> :Limelight!!<cr>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
