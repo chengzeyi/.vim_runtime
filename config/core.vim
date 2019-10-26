@@ -700,6 +700,7 @@ if !has('nvim') && has('terminal')
     nnoremap <F5> :GdbSend run<cr>
     nnoremap <S-F5> :GdbSend kill<cr>
     nnoremap <F6> :GdbSend continue<cr>
+    nnoremap <S-F6> :GdbSend file<cr>
     nnoremap <F7> :GdbSend info breakpoints<cr>
     nnoremap <S-F7> :GdbSend clear<cr>
     nnoremap <F8> :GdbSend tbreak <c-r>=expand('%:p')<cr>:<c-r>=line('.')<cr><cr>
