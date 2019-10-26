@@ -657,47 +657,54 @@ augroup compileAndRun
     endif
 augroup END
 
-augroup setDebugger
-    if exists(':terminal')
-        if has('nvim')
-            if executable('pudb3')
-                au Filetype python nnoremap <buffer> <localleader>d :vert terminal pudb3 %<cr>
-                au Filetype python nnoremap <buffer> <localleader>D :vert terminal pudb3<space>
-            elseif executable('pudb')
-                au Filetype python nnoremap <buffer> <localleader>d :vert terminal pudb %<cr>
-                au Filetype python nnoremap <buffer> <localleader>D :vert terminal pudb<space>
-            endif
-            au Filetype c,cpp nnoremap <buffer> <localleader>d :vert terminal gdb --tui<cr>
-            au Filetype c,cpp nnoremap <buffer> <localleader>D :vert terminal gdb --tui<space>
-            au Filetype go nnoremap <buffer> <localleader>d :vert terminal dlv debug<cr>
-            au Filetype go nnoremap <buffer> <localleader>D :vert terminal dlv debug<space>
-        else
-            au FileType c,cpp,python,go nnoremap <buffer> <F5> :call term_sendkeys(g:last_term, "run\n")<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <S-F5> :call term_sendkeys(g:last_term, "kill\n")<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <F6> :call term_sendkeys(g:last_term, "continue\n")<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <S-F6> :call term_sendkeys(g:last_term, "quit\n")<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <F7> :call term_sendkeys(g:last_term, "y\n")<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <F8> :call term_sendkeys(g:last_term, "n\n")<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <F9> :call term_sendkeys(g:last_term, "break ' . expand('%:p') . ':' . line('.') . '\n")<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <S-F9> :call term_sendkeys(g:last_term, "clear ' . expand('%:p') . ':' . line('.') . '\n")<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <F10> :call term_sendkeys(g:last_term, "next\n")<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <F11> :call term_sendkeys(g:last_term, "step\n")<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <S-F11> :call term_sendkeys(g:last_term, "finish\n")<cr>
-            au FileType c,cpp,python,go nnoremap <buffer> <F12> :call term_sendkeys(g:last_term, "print ' . expand('<lt>cword>') . '\n")<cr>
-            if executable('pudb3')
-                au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb3 %<cr>
-                au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb3<space>
-            elseif executable('pudb')
-                au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb %<cr>
-                au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb<space>
-            endif
-            au Filetype c,cpp nnoremap <buffer> <localleader>d :vert terminal ++close gdb --tui<cr>
-            au Filetype c,cpp nnoremap <buffer> <localleader>D :vert terminal ++close gdb --tui<space>
-            au Filetype go nnoremap <buffer> <localleader>d :vert terminal ++close dlv debug<cr>
-            au Filetype go nnoremap <buffer> <localleader>D :vert terminal ++close dlv debug<space>
+if exists(':terminal')
+    augroup setDebugger
+        if executable('pudb3')
+            au Filetype python nnoremap <buffer> <localleader>d :Debug pudb3 %<cr>
+            au Filetype python nnoremap <buffer> <localleader>D :Debug pudb3<space>
+        elseif executable('pudb')
+            au Filetype python nnoremap <buffer> <localleader>d :Debug pudb %<cr>
+            au Filetype python nnoremap <buffer> <localleader>D :Debug pudb<space>
         endif
+        au Filetype c,cpp nnoremap <buffer> <localleader>d :Debug gdb --tui<cr>
+        au Filetype c,cpp nnoremap <buffer> <localleader>D :Debug gdb --tui<space>
+        au Filetype go nnoremap <buffer> <localleader>d :Debug dlv debug<cr>
+        au Filetype go nnoremap <buffer> <localleader>D :Debug dlv debug<space>
+    augroup END
+    command! -nargs=+ -complete=shellcmd Debug call Debug(<q-args>)
+    function! Debug(cmd) abort
+        if has('nvim')
+            exec 'vert terminal ' . a:cmd
+        else
+            exec 'vert terminal ++close ' . a:cmd
+            let g:last_debug_term = bufnr('%')
+        endif
+    endfunction
+    if !has('nvim')
+        nnoremap <F3> :call SendDebug('info breakpoints')<cr>
+        nnoremap <F5> :call SendDebug('run')<cr>
+        nnoremap <S-F5> :call SendDebug('kill')<cr>
+        nnoremap <F6> :call SendDebug('continue')<cr>
+        nnoremap <S-F6> :call SendDebug('quit')<cr>
+        nnoremap <F7> :call SendDebug('y')<cr>
+        nnoremap <S-F7> :call SendDebug('n')<cr>
+        nnoremap <F8> :call SendDebug('watch ' . expand('<lt>cword>'))<cr>
+        nnoremap <F9> :call SendDebug('break ' . expand('%:p') . ':' . line('.'))<cr>
+        nnoremap <S-F9> :call SendDebug('clear ' . expand('%:p') . ':' . line('.'))<cr>
+        nnoremap <F10> :call SendDebug('next')<cr>
+        nnoremap <F11> :call SendDebug('step')<cr>
+        nnoremap <S-F11> :call SendDebug('finish')<cr>
+        nnoremap <F12> :call SendDebug('print ' . expand('<lt>cword>'))<cr>
+        nnoremap <leader>dd :SendDebug<space>
+        command! -nargs=+ -complete=file SendDebug call SendDebug(<q-args>)
+        function! SendDebug(cmd) abort
+            if !exists('g:last_debug_term')
+                return
+            endif
+            call term_sendkeys(g:last_debug_term, a:cmd . "\<cr>")
+        endfunction
     endif
-augroup END
+endif
 
 augroup golangTools
     if executable('goimports')
