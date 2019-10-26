@@ -657,7 +657,7 @@ augroup compileAndRun
     endif
 augroup END
 
-if !has('nvim') && exists(':terminal')
+if !has('nvim') && has('terminal')
     augroup setDebugger
         if executable('pudb3')
             au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb3 %<cr>
@@ -677,10 +677,20 @@ if !has('nvim') && exists(':terminal')
             au Filetype c,cpp,go nnoremap <buffer> <localleader>D :GdbStart<cr>
         endif
     augroup END
-    command! -bang -nargs=* -complete=file GdbStart call GdbStart(<q-args>, <bang>0)
-    function! GdbStart(cmd, bang) abort
-        exec 'vert terminal ++close gdb --tui -ex set\ confirm\ off -ex set\ pagination\ off ' . a:cmd
-        let g:last_gdb_term = bufnr('%')
+    command! -bang -nargs=* -complete=file GdbStart call GdbStart(<bang>0, <f-args>)
+    function! GdbStart(bang, ...) abort
+        let s:last_gdb_term = term_start([
+            \ 'gdb',
+            \ '--tui',
+            \ '-ex',
+            \ 'set confirm off',
+            \ '-ex',
+            \ 'set pagination off'
+            \ ] + a:000, {
+                \ 'vertical': 1,
+                \ 'term_finish': 'close',
+                \ 'exit_cb': { -> execute('unlet s:last_gdb_term') }
+            \ })
         if !a:bang
             exec "normal! \<c-w>p"
         endif
@@ -704,13 +714,13 @@ if !has('nvim') && exists(':terminal')
     nnoremap <leader>dD :GdbSend!<space>
     command! -bang -nargs=* -complete=file GdbSend call GdbSend(<q-args>, <bang>0)
     function! GdbSend(cmd, bang) abort
-        if !exists('g:last_gdb_term')
+        if !exists('s:last_gdb_term')
             return
         endif
         if a:bang
-            call term_sendkeys(g:last_gdb_term, a:cmd)
+            call term_sendkeys(s:last_gdb_term, a:cmd)
         else
-            call term_sendkeys(g:last_gdb_term, a:cmd . "\<cr>")
+            call term_sendkeys(s:last_gdb_term, a:cmd . "\<cr>")
         endif
     endfunction
 endif
