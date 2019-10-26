@@ -244,6 +244,7 @@ set csverb
 " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 
 let g:markdown_folding = 1
+let g:markdown_syntax_conceal = 0
 
 augroup commentStr
     autocmd!
