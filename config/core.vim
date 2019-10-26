@@ -335,6 +335,12 @@ nnoremap <C-LeftMouse> g<c-]>
 
 if exists(':terminal')
     tnoremap <F1> <c-\><c-n>
+    if !has('nvim')
+        augroup Terminal
+            au!
+            au TerminalOpen * let g:last_term = bufnr('%')
+        augroup END
+    endif
 endif
 
 " nnoremap <leader>mm :match Question /<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<cr>
@@ -653,9 +659,6 @@ augroup END
 
 augroup setDebugger
     if exists(':terminal')
-        au FileType c,cpp,python,go nnoremap <buffer> <localleader>b :let @" = 'b ' . expand('%:p') . ':' . line('.')<cr>
-        au FileType c,cpp,python,go nnoremap <buffer> <localleader>c :let @" = 'clear ' . expand('%:p') . ':' . line('.')<cr>
-        au FileType c,cpp,python,go nnoremap <buffer> <localleader>p :let @" = 'p ' . expand('<lt>cword>')<cr>
         if has('nvim')
             if executable('pudb3')
                 au Filetype python nnoremap <buffer> <localleader>d :vert terminal pudb3 %<cr>
@@ -669,6 +672,15 @@ augroup setDebugger
             au Filetype go nnoremap <buffer> <localleader>d :vert terminal dlv debug<cr>
             au Filetype go nnoremap <buffer> <localleader>D :vert terminal dlv debug<space>
         else
+            au FileType c,cpp,python,go nnoremap <buffer> <F5> :call term_sendkeys(g:latest_term, 'run<cr>')<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <S-F5> :call term_sendkeys(g:latest_term, 'kill<cr>')<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <F6> :call term_sendkeys(g:latest_term, 'continue<cr>')<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <F9> :call term_sendkeys(g:latest_term, 'break ' . expand('%:p') . ':' . line('.') . '<cr>')<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <S-F9> :call term_sendkeys(g:latest_term, 'clear ' . expand('%:p') . ':' . line('.') . '<cr>')<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <F10> :call term_sendkeys(g:latest_term, 'next<cr>')<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <F11> :call term_sendkeys(g:latest_term, 'step<cr>')<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <F11> :call term_sendkeys(g:latest_term, 'finish<cr>')<cr>
+            au FileType c,cpp,python,go nnoremap <buffer> <F12> :call term_sendkeys(g:latest_term, 'print ' . expand('<lt>cword>') . '<cr>')<cr>
             if executable('pudb3')
                 au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb3 %<cr>
                 au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb3<space>
