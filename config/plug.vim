@@ -83,10 +83,11 @@ if has('python') || has('python3')
 endif
 " Plug 'dbeecham/ctrlp-commandpalette.vim'
 
+if has('unix')
+    Plug 'idanarye/vim-vebugger'
+    Plug 'Shougo/vimproc.vim', {'dir': '~/.vimproc'}
+endif
 if has('lua')
-    if has('unix')
-        Plug 'Shougo/vimproc.vim', {'dir': '~/.vimproc'}
-    endif
     Plug 'Shougo/neocomplete'
     Plug 'Shougo/neco-vim'
     Plug 'Shougo/neco-syntax'
@@ -1037,3 +1038,27 @@ try
                 \ })
 catch
 endtry
+
+if has('unix')
+    augroup setDebugger
+        au!
+        au Filetype python nnoremap <buffer> <localleader>d :VBGstartPDB<space>
+        au Filetype c,cpp,go nnoremap <buffer> <localleader>d :VBGstartGDB<space>
+        au Filetype c,cpp,go nnoremap <buffer> <localleader>D :VBGattachGDB<space>
+    augroup END
+    nnoremap <F5> :VBGcontinue<cr>
+    nnoremap <S-F5> :VBGkill<cr>
+    nnoremap <F9> :VBGtoggleBreakpointThisLine<cr>
+    nnoremap <S-F9> :VBGclearBreakpoints<cr>
+    nnoremap <F10> :VBGstepOver<cr>
+    nnoremap <F11> :VBGstepIn<cr>
+    nnoremap <S-F11> :VBGstepOut<cr>
+    nnoremap <F12> :VBGevalWordUnderCursor<cr>
+    xnoremap <F12> :VBGevalSelectedText<cr>
+    nnoremap <S-F12> :VBGeval<space>
+    nnoremap <leader>dd :VBGrawWrite<space>
+    xnoremap <leader>dd :VBGrawWriteSelectedText<cr>
+    nnoremap <leader>dt :VBGtoggleTerminalBuffer<cr>
+    nnoremap <leader>de :VBGexecute<space>
+    xnoremap <leader>de :VBGexecuteSelectedText<cr>
+endif
