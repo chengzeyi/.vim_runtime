@@ -335,12 +335,6 @@ nnoremap <C-LeftMouse> g<c-]>
 
 if exists(':terminal')
     tnoremap <F1> <c-\><c-n>
-    if !has('nvim')
-        augroup Terminal
-            au!
-            au TerminalOpen * let g:last_term = bufnr('%')
-        augroup END
-    endif
 endif
 
 " nnoremap <leader>mm :match Question /<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<cr>
