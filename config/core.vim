@@ -663,14 +663,14 @@ if !has('nvim') && exists(':terminal')
             au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb3 %<cr>
             au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb3<space>
         elseif executable('pdb3')
-            au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pdb3 %<cr>
-            au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pdb3<space>
+            au Filetype python nnoremap <buffer> <localleader>d :terminal ++close pdb3 %<cr>
+            au Filetype python nnoremap <buffer> <localleader>D :terminal ++close pdb3<space>
         elseif executable('pudb')
             au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb %<cr>
             au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb<space>
         elseif executable('pdb')
-            au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pdb %<cr>
-            au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pdb<space>
+            au Filetype python nnoremap <buffer> <localleader>d :terminal ++close pdb %<cr>
+            au Filetype python nnoremap <buffer> <localleader>D :terminal ++close pdb<space>
         endif
         if executable('gdb')
             au Filetype c,cpp,go nnoremap <buffer> <localleader>d :GdbStart<space>
