@@ -657,53 +657,66 @@ augroup compileAndRun
     endif
 augroup END
 
-if exists(':terminal')
+if !has('nvim') && exists(':terminal')
     augroup setDebugger
         if executable('pudb3')
             au Filetype python nnoremap <buffer> <localleader>d :Debug pudb3 %<cr>
             au Filetype python nnoremap <buffer> <localleader>D :Debug pudb3<space>
+        elseif executable('pdb3')
+            au Filetype python nnoremap <buffer> <localleader>d :Debug pdb3 %<cr>
+            au Filetype python nnoremap <buffer> <localleader>D :Debug pdb3<space>
         elseif executable('pudb')
             au Filetype python nnoremap <buffer> <localleader>d :Debug pudb %<cr>
             au Filetype python nnoremap <buffer> <localleader>D :Debug pudb<space>
+        elseif executable('pdb')
+            au Filetype python nnoremap <buffer> <localleader>d :Debug pdb %<cr>
+            au Filetype python nnoremap <buffer> <localleader>D :Debug pdb<space>
         endif
-        au Filetype c,cpp nnoremap <buffer> <localleader>d :Debug gdb --tui<cr>
-        au Filetype c,cpp nnoremap <buffer> <localleader>D :Debug gdb --tui<space>
-        au Filetype go nnoremap <buffer> <localleader>d :Debug dlv debug<cr>
-        au Filetype go nnoremap <buffer> <localleader>D :Debug dlv debug<space>
+        if executable('gdb')
+            au Filetype c,cpp nnoremap <buffer> <localleader>d :Debug! gdb --tui -ex set\ confirm\ off<space>
+            au Filetype c,cpp nnoremap <buffer> <localleader>D :Debug! gdb --tui -ex set\ confirm\ off<cr>
+        endif
+        if executable('dlv')
+            au Filetype go nnoremap <buffer> <localleader>d :Debug dlv debug<cr>
+            au Filetype go nnoremap <buffer> <localleader>D :Debug dlv debug<space>
+        elseif executable('gdb')
+            au Filetype go nnoremap <buffer> <localleader>d :Debug! gdb --tui -ex set\ confirm\ off<space>
+            au Filetype go nnoremap <buffer> <localleader>D :Debug! gdb --tui -ex set\ confirm\ off<cr>
+        endif
     augroup END
-    command! -nargs=+ -complete=shellcmd Debug call Debug(<q-args>)
-    function! Debug(cmd) abort
-        if has('nvim')
-            exec 'vert terminal ' . a:cmd
-        else
-            exec 'vert terminal ++close ' . a:cmd
-            let g:last_debug_term = bufnr('%')
+    command! -bang -nargs=+ -complete=shellcmd Debug call Debug(<q-args>, <bang>0)
+    function! Debug(cmd, bang) abort
+        exec 'vert terminal ++close ' . a:cmd
+        let g:last_debug_term = bufnr('%')
+        if a:bang
+            exec "normal! \<c-w>p"
         endif
     endfunction
-    if !has('nvim')
-        nnoremap <F3> :call SendDebug('info breakpoints')<cr>
-        nnoremap <F5> :call SendDebug('run')<cr>
-        nnoremap <S-F5> :call SendDebug('kill')<cr>
-        nnoremap <F6> :call SendDebug('continue')<cr>
-        nnoremap <S-F6> :call SendDebug('quit')<cr>
-        nnoremap <F7> :call SendDebug('y')<cr>
-        nnoremap <S-F7> :call SendDebug('n')<cr>
-        nnoremap <F8> :call SendDebug('watch ' . expand('<lt>cword>'))<cr>
-        nnoremap <F9> :call SendDebug('break ' . expand('%:p') . ':' . line('.'))<cr>
-        nnoremap <S-F9> :call SendDebug('clear ' . expand('%:p') . ':' . line('.'))<cr>
-        nnoremap <F10> :call SendDebug('next')<cr>
-        nnoremap <F11> :call SendDebug('step')<cr>
-        nnoremap <S-F11> :call SendDebug('finish')<cr>
-        nnoremap <F12> :call SendDebug('print ' . expand('<lt>cword>'))<cr>
-        nnoremap <leader>dd :SendDebug<space>
-        command! -nargs=+ -complete=file SendDebug call SendDebug(<q-args>)
-        function! SendDebug(cmd) abort
-            if !exists('g:last_debug_term')
-                return
-            endif
+    nnoremap <F5> :SendDebug run<cr>
+    nnoremap <S-F5> :SendDebug kill<cr>
+    nnoremap <F6> :SendDebug continue<cr>
+    nnoremap <F7> :SendDebug quit<cr>
+    nnoremap <F8> :SendDebug tbreak  <c-r>=expand('%:p')<cr>:<c-r>=line('.')<cr><cr>
+    nnoremap <S-F8> :SendDebug watch <c-r>=expand('<lt>cword>')<cr><cr>
+    nnoremap <F9> :SendDebug break <c-r>=expand('%:p')<cr>:<c-r>=line('.')<cr><cr>
+    nnoremap <S-F9> :SendDebug clear <c-r>=expand('%:p')<cr>:<c-r>=line('.')<cr><cr>
+    nnoremap <F10> :SendDebug next<cr>
+    nnoremap <F11> :SendDebug step<cr>
+    nnoremap <S-F11> :SendDebug finish<cr>
+    nnoremap <F12> :SendDebug print <c-r>=expand('<lt>cword>')<cr><cr>
+    nnoremap <leader>dd :SendDebug<space>
+    nnoremap <leader>dD :SendDebug!<space>
+    command! -bang -nargs=+ -complete=file SendDebug call SendDebug(<q-args>, <bang>0)
+    function! SendDebug(cmd, bang) abort
+        if !exists('g:last_debug_term')
+            return
+        endif
+        if a:bang
+            call term_sendkeys(g:last_debug_term, a:cmd)
+        else
             call term_sendkeys(g:last_debug_term, a:cmd . "\<cr>")
-        endfunction
-    endif
+        endif
+    endfunction
 endif
 
 augroup golangTools
