@@ -1079,13 +1079,18 @@ if !has('nvim') && has('terminal')
             \ ] + a:000)
     endfunction
     function! LaunchDebugger(switch, type, cmd) abort
+        if exists('s:last_debug_buf')
+            echoerr 'Debugger already running!'
+            return
+        endif
         let s:last_debug_buf = term_start(a:cmd, {
                 \ 'vertical': 1,
                 \ 'term_finish': 'close',
-                \ 'exit_cb': { -> execute('unlet s:last_debug_buf') }
+                \ 'exit_cb': { job, status -> execute('unlet s:last_debug_buf') }
             \ })
         if s:last_debug_buf == 0
-            echoerr 'Opening window failed'
+            echoerr 'Opening window failed!'
+            return
         endif
         let s:last_debug_type = a:type
         if a:switch
