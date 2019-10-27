@@ -1073,21 +1073,21 @@ if has('unix')
         au Filetype d nnoremap <buffer> <localleader>d :VBGstartGDBForD<space>
         au Filetype c,cpp,go nnoremap <buffer> <localleader>d :VBGstartGDB<space>
         au Filetype c,cpp,go nnoremap <buffer> <localleader>D :VBGattachGDB<space>
-        nnoremap <buffer> <F5> :VBGcontinue<cr>
-        nnoremap <buffer> <S-F5> :VBGkill<cr>
-        nnoremap <buffer> <F7> :VBGclearBreakpoints<cr>
-        nnoremap <buffer> <F8> :VBGtoggleBreakpointThisLine<cr>
-        nnoremap <buffer> <F9> :VBGstepIn<cr>
-        nnoremap <buffer> <S-F9> :VBGstepOut<cr>
-        nnoremap <buffer> <F10> :VBGstepOver<cr>
-        nnoremap <buffer> <F12> :VBGevalWordUnderCursor<cr>
-        xnoremap <buffer> <F12> :VBGevalSelectedText<cr>
-        nnoremap <buffer> <S-F12> :VBGeval<space>
-        nnoremap <buffer> <leader>dd :VBGrawWrite<space>
-        xnoremap <buffer> <leader>dd :VBGrawWriteSelectedText<cr>
-        nnoremap <buffer> <leader>dt :VBGtoggleTerminalBuffer<cr>
-        nnoremap <buffer> <leader>de :VBGexecute<space>
-        xnoremap <buffer> <leader>de :VBGexecuteSelectedText<cr>
+        nnoremap <F5> :VBGcontinue<cr>
+        nnoremap <S-F5> :VBGkill<cr>
+        nnoremap <F7> :VBGclearBreakpoints<cr>
+        nnoremap <F8> :VBGtoggleBreakpointThisLine<cr>
+        nnoremap <F9> :VBGstepIn<cr>
+        nnoremap <S-F9> :VBGstepOut<cr>
+        nnoremap <F10> :VBGstepOver<cr>
+        nnoremap <F12> :VBGevalWordUnderCursor<cr>
+        xnoremap <F12> :VBGevalSelectedText<cr>
+        nnoremap <S-F12> :VBGeval<space>
+        nnoremap <leader>dd :VBGrawWrite<space>
+        xnoremap <leader>dd :VBGrawWriteSelectedText<cr>
+        nnoremap <leader>dt :VBGtoggleTerminalBuffer<cr>
+        nnoremap <leader>de :VBGexecute<space>
+        xnoremap <leader>de :VBGexecuteSelectedText<cr>
     augroup END
     " augroup setVimDelve
     "     au!
