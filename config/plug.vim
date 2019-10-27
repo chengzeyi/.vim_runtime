@@ -84,8 +84,8 @@ endif
 " Plug 'dbeecham/ctrlp-commandpalette.vim'
 
 if has('unix')
-    Plug 'idanarye/vim-vebugger'
     Plug 'Shougo/vimproc.vim', {'dir': '~/.vimproc'}
+    Plug 'Shougo/vimshell.vim'
 endif
 if has('lua')
     Plug 'Shougo/neocomplete'
@@ -147,6 +147,11 @@ Plug 'sgur/vim-textobj-parameter'
 " if has('python') || has('python3')
 "     Plug 'voldikss/vim-translate-me'
 " endif
+
+if has('unix')
+    Plug 'idanarye/vim-vebugger'
+    Plug 'sebdah/vim-delve'
+endif
 
 Plug 'liuchengxu/space-vim-dark'
 Plug 'cocopon/iceberg.vim'
@@ -627,6 +632,9 @@ nnoremap <leader>zt :FZFTags<cr>
 nnoremap <leader>zT :FZFBTags<cr>
 nnoremap <leader>zm :FZFMarks<cr>
 nnoremap <leader>zM :FZFMaps<cr>
+nmap <F1> <plug>(fzf-maps-n)
+xmap <F1> <plug>(fzf-maps-x)
+omap <F1> <plug>(fzf-maps-o)
 nnoremap <leader>zw :FZFWindows<cr>
 nnoremap <leader>zh :FZFHistory<cr>
 nnoremap <leader>z/ :FZFHistory/<cr>
@@ -1040,25 +1048,53 @@ catch
 endtry
 
 if has('unix')
-    augroup setDebugger
+    let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+> '
+    nnoremap <leader>vs :VimShell<cr>
+    nnoremap <leader>vS :VimShell<space>
+    nnoremap <leader>vc :VimShellCreate<cr>
+    nnoremap <leader>vC :VimShellCreate<space>
+    nnoremap <leader>vx :VimShellClose<cr>
+    nnoremap <leader>vX :VimShellClose<space>
+    nnoremap <leader>vt :VimShellTab<cr>
+    nnoremap <leader>vT :VimShellTab<space>
+    nnoremap <leader>vp :VimShellPop<cr>
+    nnoremap <leader>vP :VimShellPop<space>
+    nnoremap <leader>vi :VimShellInteractive<cr>
+    nnoremap <leader>vI :VimShellInteractive<space>
+    nnoremap <leader>vp :VimShellSendString<cr>
+    nnoremap <leader>vP :VimShellSendString<space>
+    xnoremap <leader>vp :VimShellSendString<cr>
+    augroup setVebugger
         au!
         au Filetype python nnoremap <buffer> <localleader>d :VBGstartPDB<space>
-        au Filetype c,cpp,go nnoremap <buffer> <localleader>d :VBGstartGDB<space>
-        au Filetype c,cpp,go nnoremap <buffer> <localleader>D :VBGattachGDB<space>
+        au Filetype c,cpp nnoremap <buffer> <localleader>d :VBGstartGDB<space>
+        au Filetype c,cpp nnoremap <buffer> <localleader>D :VBGattachGDB<space>
+        au Filetype python,c,cpp nnoremap <buffer> <F5> :VBGcontinue<cr>
+        au Filetype python,c,cpp nnoremap <buffer> <S-F5> :VBGkill<cr>
+        au Filetype python,c,cpp nnoremap <buffer> <F7> :VBGclearBreakpoints<cr>
+        au Filetype python,c,cpp nnoremap <buffer> <F8> :VBGtoggleBreakpointThisLine<cr>
+        au Filetype python,c,cpp nnoremap <buffer> <F9> :VBGstepIn<cr>
+        au Filetype python,c,cpp nnoremap <buffer> <S-F9> :VBGstepOut<cr>
+        au Filetype python,c,cpp nnoremap <buffer> <F10> :VBGstepOver<cr>
+        au Filetype python,c,cpp nnoremap <buffer> <F12> :VBGevalWordUnderCursor<cr>
+        au Filetype python,c,cpp xnoremap <buffer> <F12> :VBGevalSelectedText<cr>
+        au Filetype python,c,cpp nnoremap <buffer> <S-F12> :VBGeval<space>
+        au Filetype python,c,cpp nnoremap <buffer> <leader>dd :VBGrawWrite<space>
+        au Filetype python,c,cpp xnoremap <buffer> <leader>dd :VBGrawWriteSelectedText<cr>
+        au Filetype python,c,cpp nnoremap <buffer> <leader>dt :VBGtoggleTerminalBuffer<cr>
+        au Filetype python,c,cpp nnoremap <buffer> <leader>de :VBGexecute<space>
+        au Filetype python,c,cpp xnoremap <buffer> <leader>de :VBGexecuteSelectedText<cr>
     augroup END
-    nnoremap <F5> :VBGcontinue<cr>
-    nnoremap <S-F5> :VBGkill<cr>
-    nnoremap <F9> :VBGtoggleBreakpointThisLine<cr>
-    nnoremap <S-F9> :VBGclearBreakpoints<cr>
-    nnoremap <F10> :VBGstepOver<cr>
-    nnoremap <F11> :VBGstepIn<cr>
-    nnoremap <S-F11> :VBGstepOut<cr>
-    nnoremap <F12> :VBGevalWordUnderCursor<cr>
-    xnoremap <F12> :VBGevalSelectedText<cr>
-    nnoremap <S-F12> :VBGeval<space>
-    nnoremap <leader>dd :VBGrawWrite<space>
-    xnoremap <leader>dd :VBGrawWriteSelectedText<cr>
-    nnoremap <leader>dt :VBGtoggleTerminalBuffer<cr>
-    nnoremap <leader>de :VBGexecute<space>
-    xnoremap <leader>de :VBGexecuteSelectedText<cr>
+    augroup setVimDelve
+        au!
+        au FileType go nnoremap <buffer> <localleader>d :DlvDebug<cr>
+        au FileType go nnoremap <buffer> <localleader>D :DlvExec<space>
+        au FileType go nnoremap <buffer> <F3> :DlvAttach<space>
+        au FileType go nnoremap <buffer> <F4> :DlvCore<space>
+        au FileType go nnoremap <buffer> <F5> :DlvConnect<space>
+        au FileType go nnoremap <buffer> <F6> :DlvTest<cr>
+        au FileType go nnoremap <buffer> <F7> :DlvClearAll<cr>
+        au FileType go nnoremap <buffer> <F8> :DlvToggleBreakpoint<cr>
+        au FileType go nnoremap <buffer> <S-F8> :DlvToggleTracepoint<cr>
+    augroup END
 endif

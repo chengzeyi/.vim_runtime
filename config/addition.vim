@@ -68,19 +68,17 @@ if !has('nvim') && has('terminal')
     endfunction
     nnoremap <F3> :GdbSend refresh<cr>
     nnoremap <F4> :GdbSend quit<cr>
-    nnoremap <F5> :GdbSend run<cr>
+    nnoremap <F5> :GdbSend continue<cr>
     nnoremap <S-F5> :GdbSend kill<cr>
-    nnoremap <F6> :GdbSend continue<cr>
+    nnoremap <F6> :GdbSend run<cr>
     nnoremap <S-F6> :GdbSend file<cr>
-    nnoremap <F7> :GdbSend info breakpoints<cr>
-    nnoremap <S-F7> :GdbSend clear<cr>
-    nnoremap <F8> :GdbSend tbreak <c-r>=expand('%:p')<cr>:<c-r>=line('.')<cr><cr>
-    nnoremap <S-F8> :GdbSend watch <c-r>=expand('<lt>cword>')<cr><cr>
-    nnoremap <F9> :GdbSend break <c-r>=expand('%:p')<cr>:<c-r>=line('.')<cr><cr>
-    nnoremap <S-F9> :GdbSend clear <c-r>=expand('%:p')<cr>:<c-r>=line('.')<cr><cr>
+    nnoremap <F7> :GdbSend clear<cr>
+    nnoremap <S-F7> :GdbSend tbreak <c-r>=expand('%:p')<cr>:<c-r>=line('.')<cr><cr>
+    nnoremap <F8> :GdbSend break <c-r>=expand('%:p')<cr>:<c-r>=line('.')<cr><cr>
+    nnoremap <S-F8> :GdbSend clear <c-r>=expand('%:p')<cr>:<c-r>=line('.')<cr><cr>
+    nnoremap <F9> :GdbSend step<cr>
+    nnoremap <S-F9> :GdbSend finish<cr>
     nnoremap <F10> :GdbSend next<cr>
-    nnoremap <F11> :GdbSend step<cr>
-    nnoremap <S-F11> :GdbSend finish<cr>
     nnoremap <F12> :GdbSend print <c-r>=expand('<lt>cword>')<cr><cr>
     nnoremap <leader>dd :GdbSend<space>
     nnoremap <leader>dD :GdbSend!<space>
