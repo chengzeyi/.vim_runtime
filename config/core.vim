@@ -555,7 +555,7 @@ function! DoFanyi(text)
         let cmd = 'yd ' . text
     else
         let cmd = ''
-        echoerr 'No dict program installed'
+        echohl ErrorMsg | echo 'No dict program installed' | echohl None
     endif
 
     if cmd != ''
@@ -1080,7 +1080,7 @@ if !has('nvim') && has('terminal')
     endfunction
     function! LaunchDebugger(switch, type, cmd) abort
         if exists('s:last_debug_buf')
-            echoerr 'Debugger already running!'
+            echohl ErrorMsg | echo 'Debugger already running' | echohl None
             return
         endif
         let s:last_debug_buf = term_start(a:cmd, {
@@ -1089,7 +1089,7 @@ if !has('nvim') && has('terminal')
                 \ 'exit_cb': { job, status -> execute('unlet s:last_debug_buf') }
             \ })
         if s:last_debug_buf == 0
-            echoerr 'Opening window failed!'
+            echohl ErrorMsg | echo 'Opening window failed' | echohl None
             return
         endif
         let s:last_debug_type = a:type
@@ -1167,6 +1167,7 @@ if !has('nvim') && has('terminal')
     endfunction
     function! SendCmd(cr, cmd) abort
         if !exists('s:last_debug_buf')
+            echohl ErrorMsg | echo 'No debug buffer' | echohl None
             return
         endif
         if a:cr
