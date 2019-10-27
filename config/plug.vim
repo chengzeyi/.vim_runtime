@@ -1048,6 +1048,8 @@ catch
 endtry
 
 if has('unix')
+    let g:vimshell_prompt_expr =
+                \ 'escape(fnamemodify(getcwd(), ":~").">", "\\[]()?! ")." "'
     let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+> '
     nnoremap <leader>vs :VimShell<cr>
     nnoremap <leader>vS :VimShell<space>
