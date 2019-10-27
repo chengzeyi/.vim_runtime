@@ -1061,9 +1061,9 @@ if has('unix')
     nnoremap <leader>vP :VimShellPop<space>
     nnoremap <leader>vi :VimShellInteractive<cr>
     nnoremap <leader>vI :VimShellInteractive<space>
-    nnoremap <leader>vp :VimShellSendString<cr>
-    nnoremap <leader>vP :VimShellSendString<space>
-    xnoremap <leader>vp :VimShellSendString<cr>
+    nnoremap <leader>vd :VimShellSendString<cr>
+    nnoremap <leader>vD :VimShellSendString<space>
+    xnoremap <leader>vd :VimShellSendString<cr>
     augroup setVebugger
         au!
         au Filetype python nnoremap <buffer> <localleader>d :VBGstartPDB<space>
