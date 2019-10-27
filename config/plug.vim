@@ -150,7 +150,7 @@ Plug 'sgur/vim-textobj-parameter'
 
 if has('unix')
     Plug 'idanarye/vim-vebugger'
-    Plug 'sebdah/vim-delve'
+    " Plug 'sebdah/vim-delve'
 endif
 
 Plug 'liuchengxu/space-vim-dark'
@@ -1069,34 +1069,36 @@ if has('unix')
     augroup setVebugger
         au!
         au Filetype python nnoremap <buffer> <localleader>d :VBGstartPDB<space>
-        au Filetype c,cpp nnoremap <buffer> <localleader>d :VBGstartGDB<space>
-        au Filetype c,cpp nnoremap <buffer> <localleader>D :VBGattachGDB<space>
-        au Filetype python,c,cpp nnoremap <buffer> <F5> :VBGcontinue<cr>
-        au Filetype python,c,cpp nnoremap <buffer> <S-F5> :VBGkill<cr>
-        au Filetype python,c,cpp nnoremap <buffer> <F7> :VBGclearBreakpoints<cr>
-        au Filetype python,c,cpp nnoremap <buffer> <F8> :VBGtoggleBreakpointThisLine<cr>
-        au Filetype python,c,cpp nnoremap <buffer> <F9> :VBGstepIn<cr>
-        au Filetype python,c,cpp nnoremap <buffer> <S-F9> :VBGstepOut<cr>
-        au Filetype python,c,cpp nnoremap <buffer> <F10> :VBGstepOver<cr>
-        au Filetype python,c,cpp nnoremap <buffer> <F12> :VBGevalWordUnderCursor<cr>
-        au Filetype python,c,cpp xnoremap <buffer> <F12> :VBGevalSelectedText<cr>
-        au Filetype python,c,cpp nnoremap <buffer> <S-F12> :VBGeval<space>
-        au Filetype python,c,cpp nnoremap <buffer> <leader>dd :VBGrawWrite<space>
-        au Filetype python,c,cpp xnoremap <buffer> <leader>dd :VBGrawWriteSelectedText<cr>
-        au Filetype python,c,cpp nnoremap <buffer> <leader>dt :VBGtoggleTerminalBuffer<cr>
-        au Filetype python,c,cpp nnoremap <buffer> <leader>de :VBGexecute<space>
-        au Filetype python,c,cpp xnoremap <buffer> <leader>de :VBGexecuteSelectedText<cr>
+        au Filetype ruby nnoremap <buffer> <localleader>d :VBGstartRDebug<space>
+        au Filetype d nnoremap <buffer> <localleader>d :VBGstartGDBForD<space>
+        au Filetype c,cpp,go nnoremap <buffer> <localleader>d :VBGstartGDB<space>
+        au Filetype c,cpp,go nnoremap <buffer> <localleader>D :VBGattachGDB<space>
+        nnoremap <buffer> <F5> :VBGcontinue<cr>
+        nnoremap <buffer> <S-F5> :VBGkill<cr>
+        nnoremap <buffer> <F7> :VBGclearBreakpoints<cr>
+        nnoremap <buffer> <F8> :VBGtoggleBreakpointThisLine<cr>
+        nnoremap <buffer> <F9> :VBGstepIn<cr>
+        nnoremap <buffer> <S-F9> :VBGstepOut<cr>
+        nnoremap <buffer> <F10> :VBGstepOver<cr>
+        nnoremap <buffer> <F12> :VBGevalWordUnderCursor<cr>
+        xnoremap <buffer> <F12> :VBGevalSelectedText<cr>
+        nnoremap <buffer> <S-F12> :VBGeval<space>
+        nnoremap <buffer> <leader>dd :VBGrawWrite<space>
+        xnoremap <buffer> <leader>dd :VBGrawWriteSelectedText<cr>
+        nnoremap <buffer> <leader>dt :VBGtoggleTerminalBuffer<cr>
+        nnoremap <buffer> <leader>de :VBGexecute<space>
+        xnoremap <buffer> <leader>de :VBGexecuteSelectedText<cr>
     augroup END
-    augroup setVimDelve
-        au!
-        au FileType go nnoremap <buffer> <localleader>d :DlvDebug<cr>
-        au FileType go nnoremap <buffer> <localleader>D :DlvExec<space>
-        au FileType go nnoremap <buffer> <F3> :DlvAttach<space>
-        au FileType go nnoremap <buffer> <F4> :DlvCore<space>
-        au FileType go nnoremap <buffer> <F5> :DlvConnect<space>
-        au FileType go nnoremap <buffer> <F6> :DlvTest<cr>
-        au FileType go nnoremap <buffer> <F7> :DlvClearAll<cr>
-        au FileType go nnoremap <buffer> <F8> :DlvToggleBreakpoint<cr>
-        au FileType go nnoremap <buffer> <S-F8> :DlvToggleTracepoint<cr>
-    augroup END
+    " augroup setVimDelve
+    "     au!
+    "     au FileType go nnoremap <buffer> <localleader>d :DlvDebug<cr>
+    "     au FileType go nnoremap <buffer> <localleader>D :DlvExec<space>
+    "     au FileType go nnoremap <buffer> <F3> :DlvAttach<space>
+    "     au FileType go nnoremap <buffer> <F4> :DlvCore<space>
+    "     au FileType go nnoremap <buffer> <F5> :DlvConnect<space>
+    "     au FileType go nnoremap <buffer> <F6> :DlvTest<cr>
+    "     au FileType go nnoremap <buffer> <F7> :DlvClearAll<cr>
+    "     au FileType go nnoremap <buffer> <F8> :DlvToggleBreakpoint<cr>
+    "     au FileType go nnoremap <buffer> <S-F8> :DlvToggleTracepoint<cr>
+    " augroup END
 endif
