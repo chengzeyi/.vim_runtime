@@ -83,8 +83,6 @@ if has('python') || has('python3')
 endif
 " Plug 'dbeecham/ctrlp-commandpalette.vim'
 
-Plug 'Shougo/vimproc.vim', {'dir': '~/.vimproc'}
-Plug 'Shougo/vimshell.vim'
 if has('lua')
     Plug 'Shougo/neocomplete'
     Plug 'Shougo/neco-vim'
@@ -1039,22 +1037,3 @@ try
                 \ })
 catch
 endtry
-
-let g:vimshell_prompt_expr =
-            \ 'escape(fnamemodify(getcwd(), ":~").">", "\\[]()?! ")." "'
-let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+> '
-nnoremap <leader>vs :VimShell<cr>
-nnoremap <leader>vS :VimShell<space>
-nnoremap <leader>vc :VimShellCreate<cr>
-nnoremap <leader>vC :VimShellCreate<space>
-nnoremap <leader>vx :VimShellClose<cr>
-nnoremap <leader>vX :VimShellClose<space>
-nnoremap <leader>vt :VimShellTab<cr>
-nnoremap <leader>vT :VimShellTab<space>
-nnoremap <leader>vp :VimShellPop<cr>
-nnoremap <leader>vP :VimShellPop<space>
-nnoremap <leader>vi :VimShellInteractive<cr>
-nnoremap <leader>vI :VimShellInteractive<space>
-nnoremap <leader>vd :VimShellSendString<cr>
-nnoremap <leader>vD :VimShellSendString<space>
-xnoremap <leader>vd :VimShellSendString<cr>
