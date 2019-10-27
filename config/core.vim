@@ -1045,3 +1045,129 @@ function! GetVcsRoot()
 endfunction
 
 nnoremap <leader>sl :set invspell<cr>
+
+if !has('nvim') && has('terminal')
+    augroup setDebugger
+        au!
+        if executable('pudb3')
+            au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb3 %<cr>
+            au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb3<space>
+        elseif executable('pdb3')
+            au Filetype python nnoremap <buffer> <localleader>d :terminal ++close pdb3 %<cr>
+            au Filetype python nnoremap <buffer> <localleader>D :terminal ++close pdb3<space>
+        elseif executable('pudb')
+            au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb %<cr>
+            au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb<space>
+        elseif executable('pdb')
+            au Filetype python nnoremap <buffer> <localleader>d :terminal ++close pdb %<cr>
+            au Filetype python nnoremap <buffer> <localleader>D :terminal ++close pdb<space>
+        endif
+        if executable('gdb')
+            au Filetype c,cpp,go nnoremap <buffer> <localleader>d :LaunchGdbtui<space>
+            au Filetype c,cpp,go nnoremap <buffer> <localleader>D :LaunchGdbtui<cr>
+        endif
+    augroup END
+    command! -bang -nargs=* -complete=file LaunchGdbtui call LaunchGdbtui(<bang>1, <f-args>)
+    function! LaunchGdbtui(switch, ...) abort
+        call LaunchDebugger(a:switch, 'gdb', [
+            \ 'gdb',
+            \ '--tui',
+            \ '-ex',
+            \ 'set confirm off',
+            \ '-ex',
+            \ 'set pagination off'
+            \ ] + a:000)
+    endfunction
+    function! LaunchDebugger(switch, type, cmd) abort
+        let s:last_debug_buf = term_start(a:cmd, {
+                \ 'vertical': 1,
+                \ 'term_finish': 'close',
+                \ 'exit_cb': { -> execute('unlet s:last_debug_buf') }
+            \ })
+        if s:last_debug_buf == 0
+            echoerr 'Opening window failed'
+        endif
+        let s:last_debug_type = a:type
+        if a:switch
+            exec "normal! \<c-w>p"
+        endif
+    endfunction
+    nnoremap <F3> :SendRefresh<cr>
+    nnoremap <F4> :SendQuit<cr>
+    nnoremap <F5> :SendContinue<cr>
+    nnoremap <S-F5> :SendKill<cr>
+    nnoremap <F6> :SendRun<cr>
+    nnoremap <F7> :SendClear<cr>
+    nnoremap <S-F7> :SendClearAll<cr>
+    nnoremap <F8> :SendBreak<cr>
+    nnoremap <S-F8> :SendUntil<cr>
+    nnoremap <F9> :SendStepInto<cr>
+    nnoremap <S-F9> :SendStepOut<cr>
+    nnoremap <F10> :SendStepOver<cr>
+    nnoremap <F12> :SendEval<cr>
+    nnoremap <leader>dd :SendCmd<space>
+    nnoremap <leader>dD :SendCmd!<space>
+    command! -nargs=0 SendRefresh call SendRefresh()
+    command! -nargs=0 SendQuit call SendQuit()
+    command! -nargs=0 SendContinue call SendContinue()
+    command! -nargs=0 SendKill call SendKill()
+    command! -nargs=0 SendRun call SendRun()
+    command! -nargs=0 SendClear call SendClear()
+    command! -nargs=0 SendClearAll call SendClearAll()
+    command! -nargs=0 SendBreak call SendBreak()
+    command! -nargs=0 SendUntil call SendUntil()
+    command! -nargs=0 SendStepInto call SendStepInto()
+    command! -nargs=0 SendStepOut call SendStepOut()
+    command! -nargs=0 SendStepOver call SendStepOver()
+    command! -nargs=0 SendEval call SendEval()
+    command! -bang -nargs=* -complete=file SendCmd call SendCmd(<bang>1, <q-args>)
+    function! SendRefresh() abort
+        call SendCmd(1, 'refresh')
+    endfunction
+    function! SendQuit() abort
+        call SendCmd(1, 'quit')
+    endfunction
+    function! SendContinue() abort
+        call SendCmd(1, 'continue')
+    endfunction
+    function! SendKill() abort
+        call SendCmd(1, 'kill')
+    endfunction
+    function! SendRun() abort
+        call SendCmd(1, 'run')
+    endfunction
+    function! SendClear() abort
+        call SendCmd(1, 'clear ' . expand('%:p') . ':' . expand('.'))
+    endfunction
+    function! SendClearAll() abort
+        call SendCmd(1, 'clear')
+    endfunction
+    function! SendBreak() abort
+        call SendCmd(1, 'break ' . expand('%:p') . ':' . expand('.'))
+    endfunction
+    function! SendUntil() abort
+        call SendCmd(1, 'tbreak ' . expand('%:p') . ':' . expand('.'))
+    endfunction
+    function! SendStepInto() abort
+        call SendCmd(1, 'step')
+    endfunction
+    function! SendStepOut() abort
+        call SendCmd(1, 'finish')
+    endfunction
+    function! SendStepOver() abort
+        call SendCmd(1, 'next')
+    endfunction
+    function! SendEval() abort
+        call SendCmd(1, 'print ' . expand('<cword>'))
+    endfunction
+    function! SendCmd(cr, cmd) abort
+        if !exists('s:last_debug_buf')
+            return
+        endif
+        if a:cr
+            call term_sendkeys(s:last_debug_buf, a:cmd . "\<cr>")
+        else
+            call term_sendkeys(s:last_debug_buf, a:cmd)
+        endif
+    endfunction
+endif
