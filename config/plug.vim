@@ -516,7 +516,6 @@ endif
 " nnoremap <leader>pc :CtrlPCommandPalette<cr>
 " nnoremap <c-p> :CtrlPCommandPalette<cr>
 
-let g:gitgutter_enabled = 1
 let g:gitgutter_map_keys = 0
 omap ih <Plug>(GitGutterTextObjectInnerPending)
 omap ah <Plug>(GitGutterTextObjectOuterPending)
