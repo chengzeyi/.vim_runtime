@@ -2,20 +2,20 @@ call plug#begin('~/.vim_runtime/plugged')
 
 Plug 'chengzeyi/vim-markify'
 " Plug 'chengzeyi/a.vim'
-if !executable('clangd')
+if !(v:version >= 800 || has('nvim')) || !executable('clangd')
     Plug 'chengzeyi/OmniCppComplete'
 endif
 
 " Plug 'octol/vim-cpp-enhanced-highlight'
 " Plug 'fatih/vim-go'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
+if v:version >= 800 || has('nvim')
+    Plug 'prabirshrestha/async.vim'
+    Plug 'prabirshrestha/vim-lsp'
+endif
 
 Plug 'lfilho/cosco.vim'
 
 Plug 'vim-utils/vim-man'
-
-Plug 'mattn/gist-vim'
 
 Plug 'FooSoft/vim-argwrap'
 
@@ -135,7 +135,9 @@ if exists(':terminal')
     Plug 'Lenovsky/nuake'
 endif
 
-Plug 'metakirby5/codi.vim'
+if has('nvim') || has('job') || has('channel')
+    Plug 'metakirby5/codi.vim'
+endif
 
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
@@ -150,7 +152,6 @@ Plug 'sickill/vim-monokai'
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
 Plug 'logico-software/typewriter'
-Plug 'chriskempson/base16-vim'
 " Plug 'arcticicestudio/nord-vim'
 
 call plug#end()
@@ -219,7 +220,7 @@ let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
 
-if !executable('clangd')
+if !(v:version >= 800 || has('nvim')) || !executable('clangd')
     let g:OmniCpp_AddLeftParen = 0
     let g:OmniCpp_NamespaceSearch = 1
     let g:OmniCpp_GlobalScopeSearch = 1
@@ -242,82 +243,88 @@ let g:force_omni_patterns = {
 
 let g:omni_patterns = {}
 
-nmap <leader><cr><cr> <Plug>(lsp-status)
-nmap <leader><cr>a <Plug>(lsp-code-action)
-nmap <leader><cr>f <Plug>(lsp-document-range-format)
-nmap <leader><cr>F <Plug>(lsp-document-format)
-nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
-nmap <leader><cr>P <Plug>(lsp-peek-declaration)
-nmap <leader><cr>G <Plug>(lsp-declaration)
-nmap <leader><cr>p <Plug>(lsp-peek-definition)
-nmap <leader><cr>g <Plug>(lsp-definition)
-nmap <leader><cr>i <Plug>(lsp-peek-implementation)
-nmap <leader><cr>L <Plug>(lsp-implementation)
-nmap <leader><cr>h <Plug>(lsp-hover)
-nmap <leader><cr>r <Plug>(lsp-references)
-nmap <leader><cr>R <Plug>(lsp-rename)
-nmap <leader><cr>t <Plug>(lsp-peek-type-definition)
-nmap <leader><cr>T <Plug>(lsp-type-definition)
-nmap <leader><cr>s <Plug>(lsp-document-symbol)
-nmap <leader><cr>S <Plug>(lsp-workspace-symbol)
-nmap ]e <Plug>(lsp-next-error)
-nmap ]r <Plug>(lsp-next-reference)
-nmap [e <Plug>(lsp-previous-error)
-nmap [r <Plug>(lsp-previous-reference)
-nmap <leader><cr>] <Plug>(lsp-preview-focus)
-nmap <leader><cr>[ <Plug>(lsp-preview-close)
-let g:lsp_diagnostics_echo_cursor = 1
-let g:lsp_preview_autoclose = 0
-let g:lsp_text_edit_enabled = 0
-augroup lspReg
-    au!
-    if executable('gopls')
-        au User lsp_setup call lsp#register_server({
-                    \ 'name': 'gopls',
-                    \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-                    \ 'whitelist': ['go'],
-                    \ })
-        " autocmd BufWritePre *.go LspDocumentFormatSync
-        autocmd FileType go setlocal omnifunc=lsp#complete
-        let g:force_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
-    endif
-    if executable('pyls')
-        " pip install python-language-server
-        au User lsp_setup call lsp#register_server({
-                    \ 'name': 'pyls',
-                    \ 'cmd': {server_info->['pyls']},
-                    \ 'whitelist': ['python'],
-                    \ })
-        autocmd FileType python setlocal omnifunc=lsp#complete
-        let g:omni_patterns.python = '[^. \t]\.\w*'
-    else
-        let g:force_omni_patterns.python = '[^. \t]\.\w*'
-    endif
-    if executable('clangd')
-        au User lsp_setup call lsp#register_server({
-                    \ 'name': 'clangd',
-                    \ 'cmd': {server_info->['clangd', '-background-index']},
-                    \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-                    \ })
-        autocmd FileType c,cpp,objc,objcpp setlocal omnifunc=lsp#complete
-        let g:force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-        let g:force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-        let g:force_omni_patterns.objc = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
-        let g:force_omni_patterns.objcpp = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
-    else
-        let g:omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-        let g:omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-    endif
-    if executable('bash-language-server')
-        au User lsp_setup call lsp#register_server({
-                    \ 'name': 'bash-language-server',
-                    \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
-                    \ 'whitelist': ['sh'],
-                    \ })
-        autocmd FileType sh setlocal omnifunc=lsp#complete
-        " let g:omni_patterns.sh = '\h\w*'
-    endif
-augroup END
+if v:version >= 800 || has('nvim')
+    nmap <leader><cr><cr> <Plug>(lsp-status)
+    nmap <leader><cr>a <Plug>(lsp-code-action)
+    nmap <leader><cr>f <Plug>(lsp-document-range-format)
+    nmap <leader><cr>F <Plug>(lsp-document-format)
+    nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
+    nmap <leader><cr>P <Plug>(lsp-peek-declaration)
+    nmap <leader><cr>G <Plug>(lsp-declaration)
+    nmap <leader><cr>p <Plug>(lsp-peek-definition)
+    nmap <leader><cr>g <Plug>(lsp-definition)
+    nmap <leader><cr>i <Plug>(lsp-peek-implementation)
+    nmap <leader><cr>L <Plug>(lsp-implementation)
+    nmap <leader><cr>h <Plug>(lsp-hover)
+    nmap <leader><cr>r <Plug>(lsp-references)
+    nmap <leader><cr>R <Plug>(lsp-rename)
+    nmap <leader><cr>t <Plug>(lsp-peek-type-definition)
+    nmap <leader><cr>T <Plug>(lsp-type-definition)
+    nmap <leader><cr>s <Plug>(lsp-document-symbol)
+    nmap <leader><cr>S <Plug>(lsp-workspace-symbol)
+    nmap ]e <Plug>(lsp-next-error)
+    nmap ]r <Plug>(lsp-next-reference)
+    nmap [e <Plug>(lsp-previous-error)
+    nmap [r <Plug>(lsp-previous-reference)
+    nmap <leader><cr>] <Plug>(lsp-preview-focus)
+    nmap <leader><cr>[ <Plug>(lsp-preview-close)
+    let g:lsp_diagnostics_echo_cursor = 1
+    let g:lsp_preview_autoclose = 0
+    let g:lsp_text_edit_enabled = 0
+    augroup lspReg
+        au!
+        if executable('gopls')
+            au User lsp_setup call lsp#register_server({
+                        \ 'name': 'gopls',
+                        \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+                        \ 'whitelist': ['go'],
+                        \ })
+            " autocmd BufWritePre *.go LspDocumentFormatSync
+            autocmd FileType go setlocal omnifunc=lsp#complete
+            let g:force_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
+        endif
+        if executable('pyls')
+            " pip install python-language-server
+            au User lsp_setup call lsp#register_server({
+                        \ 'name': 'pyls',
+                        \ 'cmd': {server_info->['pyls']},
+                        \ 'whitelist': ['python'],
+                        \ })
+            autocmd FileType python setlocal omnifunc=lsp#complete
+            let g:omni_patterns.python = '[^. \t]\.\w*'
+        else
+            let g:force_omni_patterns.python = '[^. \t]\.\w*'
+        endif
+        if executable('clangd')
+            au User lsp_setup call lsp#register_server({
+                        \ 'name': 'clangd',
+                        \ 'cmd': {server_info->['clangd', '-background-index']},
+                        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+                        \ })
+            autocmd FileType c,cpp,objc,objcpp setlocal omnifunc=lsp#complete
+            let g:force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+            let g:force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+            let g:force_omni_patterns.objc = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
+            let g:force_omni_patterns.objcpp = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
+        else
+            let g:omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+            let g:omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+        endif
+        if executable('bash-language-server')
+            au User lsp_setup call lsp#register_server({
+                        \ 'name': 'bash-language-server',
+                        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
+                        \ 'whitelist': ['sh'],
+                        \ })
+            autocmd FileType sh setlocal omnifunc=lsp#complete
+            " let g:omni_patterns.sh = '\h\w*'
+        endif
+    augroup END
+else
+    let g:force_omni_patterns.python = '[^. \t]\.\w*'
+    let g:omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+    let g:omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+endif
 
 augroup disableCmdwinMappings
     au!
@@ -552,7 +559,6 @@ nnoremap <leader>gr :Gread<cr>
 nnoremap <leader>gR :Gremove<cr>
 nnoremap <leader>ge :Gedit<cr>
 nnoremap <leader>gw :Gwrite<cr>
-nnoremap <leader>gi :Gist<cr>
 
 " nnoremap <leader>ms :DoShowMarks<cr>
 " nnoremap <leader>mS :NoShowMarks<cr>
@@ -965,8 +971,10 @@ if exists(':terminal')
     endif
 endif
 
-nnoremap <leader>co :Codi!!<cr>
-nnoremap <leader>cO :Codi!!<space>
+if has('nvim') || has('job') || has('channel')
+    nnoremap <leader>co :Codi!!<cr>
+    nnoremap <leader>cO :Codi!!<space>
+endif
 
 try
     " call textobj#user#plugin('datetime', {
