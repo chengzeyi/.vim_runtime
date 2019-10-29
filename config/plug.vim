@@ -450,9 +450,9 @@ smap <C-\> <Plug>(neosnippet_expand_or_jump)
 imap <C-]> <Plug>(neosnippet_jump_or_expand)
 smap <C-]> <Plug>(neosnippet_jump_or_expand)
 xmap <C-\> <Plug>(neosnippet_expand_target)
-if has('conceal')
-    set conceallevel=2 concealcursor=niv
-endif
+" if has('conceal')
+"     set conceallevel=2 concealcursor=niv
+" endif
 let g:neosnippet#snippets_directory = '~/.vim_neosnippet'
 
 " if has('python') || has('python3')
