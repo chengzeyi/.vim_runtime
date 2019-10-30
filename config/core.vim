@@ -272,6 +272,8 @@ augroup configCore
     autocmd BufWritePost ~/.vim_runtime/config/core.vim source ~/.vim_runtime/config/core.vim
 augroup END
 
+nnoremap <leader>et :e ~/.tmp<cr>
+
 inoremap <c-a> <home>
 inoremap <c-e> <end>
 
