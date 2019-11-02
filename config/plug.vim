@@ -232,6 +232,9 @@ if !(v:version >= 800 || has('nvim')) || !executable('clangd')
     let g:OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
 endif
 
+let g:keyword_patterns = {
+            \ 'tex': '\h\w*'}
+
 let g:force_omni_patterns = {
             \ 'css': '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]',
             \ 'html': '<[^>]*',
@@ -356,11 +359,8 @@ if has('lua')
                 \ 'vimshell' : $HOME.'/.vimshell_hist',
                 \ 'scheme' : $HOME.'/.gosh_completions'
                 \ }
-    if !exists('g:neocomplete#keyword_patterns')
-        let g:neocomplete#keyword_patterns = {}
-    endif
+
     " let g:neocomplete#sources#tags#cache_limit_size = 10 * 1024 * 1024
-    let g:neocomplete#keyword_patterns['default'] = '\h\w*'
     let g:neocomplete#fallback_mappings =
                 \ ["\<C-x>\<C-o>", "\<C-x>\<C-n>"]
     inoremap <expr> <C-g> neocomplete#undo_completion()
@@ -375,6 +375,9 @@ if has('lua')
     " <C-h>, <BS>: close popup and delete backword char.
     inoremap <expr> <C-h> neocomplete#smart_close_popup()."\<C-h>"
     inoremap <expr> <BS> neocomplete#smart_close_popup()."\<BS>"
+    if !exists('g:neocomplete#keyword_patterns')
+        let g:neocomplete#keyword_patterns = g:keyword_patterns
+    endif
     " Enable heavy omni completion.
     if !exists('g:neocomplete#force_omni_input_patterns')
         let g:neocomplete#force_omni_input_patterns = g:force_omni_patterns
@@ -430,6 +433,9 @@ else
     " inoremap <expr> <C-j> neocomplcache#start_manual_complete()
     " inoremap <expr> <C-k> neocomplcache#cancel_popup()
 
+    if !exists('g:neocomplcache_keyword_patterns')
+        let g:neocomplcache_keyword_patterns = g:keyword_patterns
+    endif
     " Enable heavy omni completion.
     if !exists('g:neocomplcache_force_omni_patterns')
         let g:neocomplcache_force_omni_patterns = g:force_omni_patterns
