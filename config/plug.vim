@@ -242,7 +242,7 @@ let g:force_omni_patterns = {
 " \ 'java': '\%(\h\w*\|)\)\.\w*'}
 
 let g:omni_patterns = {
-            \ 'tex': '[\\\$][(\[]\?w*{\?'}
+            \ 'tex': '[\\$][([]\?\w*{\?'}
 
 if v:version >= 800 || has('nvim')
     nmap <leader><cr><cr> <Plug>(lsp-status)
