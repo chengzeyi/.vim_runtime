@@ -64,7 +64,7 @@ set foldcolumn=1
 
 set display+=lastline
 
-set re=1
+" set re=1
 
 set scrolloff=1
 
