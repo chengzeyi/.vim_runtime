@@ -246,6 +246,8 @@ set csverb
 let g:markdown_folding = 1
 let g:markdown_syntax_conceal = 0
 
+let g:tex_flavor = 'latex'
+
 augroup commentStr
     autocmd!
     autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
@@ -366,6 +368,8 @@ function! GotoTag()
 endfunction
 nnoremap <leader>? :call LookUpMap(1, '', '')<cr>
 nnoremap <leader>/ :call LookUpMap(1, '', '<lt>leader>')<cr>
+nnoremap <localleader>? :map <lt>localleader><cr>
+nnoremap <localleader>/ :call LookUpMap(1, '', '<lt>localleader>')<cr>
 function! LookUpMap(count, mode, prefix)
     let cmd = a:mode . 'map ' . a:prefix
     let cnt = 0
