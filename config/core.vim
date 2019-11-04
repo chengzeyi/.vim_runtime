@@ -112,9 +112,9 @@ set lazyredraw
 
 set magic
 
-" set showmatch
+set showmatch
 " How many tenths of a second to blink when matching brackets
-" set mat=2
+set mat=2
 
 set noerrorbells
 set novisualbell
@@ -1020,6 +1020,13 @@ function! GetVcsRoot()
 endfunction
 
 nnoremap <leader>sl :set invspell<cr>
+
+inoremap <c-_>( )<left>(
+inoremap <c-_>[ ]<left>[
+inoremap <c-_>{ }<left>{
+inoremap <c-_>' '<left>'
+inoremap <c-_>" "<left>"
+inoremap <c-_>` `<left>"
 
 if !has('nvim') && has('terminal')
     augroup setDebugger
