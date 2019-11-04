@@ -6,6 +6,8 @@ if !(v:version >= 800 || has('nvim')) || !executable('clangd')
     Plug 'chengzeyi/OmniCppComplete'
 endif
 
+Plug 'lervag/vimtex'
+
 " Plug 'octol/vim-cpp-enhanced-highlight'
 " Plug 'fatih/vim-go'
 if v:version >= 800 || has('nvim')
@@ -195,8 +197,37 @@ try
 catch
 endtry
 
-let g:LatexBox_show_warnings = 0
-let g:LatexBox_split_side = 'belowright'
+let g:keyword_patterns = {
+            \ 'tex': '\h\w*'}
+
+let g:force_omni_patterns = {
+            \ 'css': '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]',
+            \ 'html': '<[^>]*',
+            \ 'xml': '<[^>]*',
+            \ 'markdown': '<[^>]*',
+            \ 'javascript': '[^. \t]\.\%(\h\w*\)\?',
+            \ 'php': '[^. \t]->\h\w*\|\h\w*::\w*'}
+" \ 'java': '\%(\h\w*\|)\)\.\w*'}
+
+let g:omni_patterns = {}
+
+let g:polyglot_disabled = ['latex']
+
+try
+    let g:omni_patterns.tex = g:vimtex#re#neocomplete
+catch
+endtry
+augroup vimtexFZF
+    au!
+    au FileType tex nnoremap <leader>zx :call vimtex#fzf#run()<cr>
+augroup END
+if !exists('g:vimtex_toc_config')
+    let g:vimtex_toc_config = {}
+endif
+let g:vimtex_toc_config.split_pos = 'vert rightbelow'
+
+" let g:LatexBox_show_warnings = 0
+" let g:LatexBox_split_side = 'belowright'
 
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
@@ -234,21 +265,6 @@ if !(v:version >= 800 || has('nvim')) || !executable('clangd')
     let g:OmniCpp_ShowPrototypeInAbbr = 1
     let g:OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
 endif
-
-let g:keyword_patterns = {
-            \ 'tex': '\h\w*'}
-
-let g:force_omni_patterns = {
-            \ 'css': '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]',
-            \ 'html': '<[^>]*',
-            \ 'xml': '<[^>]*',
-            \ 'markdown': '<[^>]*',
-            \ 'javascript': '[^. \t]\.\%(\h\w*\)\?',
-            \ 'php': '[^. \t]->\h\w*\|\h\w*::\w*'}
-" \ 'java': '\%(\h\w*\|)\)\.\w*'}
-
-let g:omni_patterns = {
-            \ 'tex': '[\\$][([]\?\w*{\?'}
 
 if v:version >= 800 || has('nvim')
     nmap <leader><cr><cr> <Plug>(lsp-status)
@@ -590,7 +606,7 @@ nnoremap <leader>rs :AsyncStop<cr>
 nnoremap <leader>rS :AsyncStop!<cr>
 " let g:asyncrun_bell = 1
 " map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
-" let g:asyncrun_open = 10
+let g:asyncrun_open = 10
 " let g:asyncrun_save = 2
 let g:asyncrun_auto = "make"
 

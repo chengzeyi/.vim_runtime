@@ -706,30 +706,9 @@ augroup skipBuffer
     au Filetype qf set nobuflisted
 augroup END
 
-" augroup setQuickfixWindowHeight
-"     au!
-"     au FileType qf call AdjustWindowHeight(1, 10)
-" augroup END
-augroup autoOpenQuickfixWindow
-    autocmd!
-    autocmd QuickFixCmdPost [^l]* exe "
-                \ try \n
-                \     botright cwindow \n
-                \     if getwininfo(win_getid())[0]['quickfix'] \n
-                \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
-                \         set nowrap \n
-                \     endif \n
-                \ catch \n
-                \ endtry"
-    autocmd QuickFixCmdPost l* exe "
-                \ try \n
-                \     lwindow \n
-                \     if getwininfo(win_getid())[0]['loclist'] \n
-                \         exe max([min([line('$'), 10]), 1]) . 'wincmd _' \n
-                \         set nowrap \n
-                \     endif \n
-                \ catch \n
-                \ endtry"
+augroup setQuickfixWindowHeight
+    au!
+    au FileType qf call AdjustWindowHeight(1, 10)
 augroup END
 function! AdjustWindowHeight(minheight, maxheight)
     exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
@@ -748,9 +727,9 @@ nnoremap [l :lprev<cr>
 nnoremap ]l :lnext<cr>
 nnoremap [L :lfirst<cr>
 nnoremap ]L :llast<cr>
-command! QToggle call QListToggle(10, 1)
-command! LToggle call LListToggle(10, 1)
-function! LListToggle(height, ...) abort
+command! QToggle call QListToggle(10)
+command! LToggle call LListToggle(10)
+function! LListToggle(height) abort
     let buffer_count_before = BufferCount()
     " Location list can't be closed if there's cursor in it, so we need
     " to call lclose twice to move cursor to the main pane
@@ -759,22 +738,14 @@ function! LListToggle(height, ...) abort
 
     if BufferCount() == buffer_count_before
         execute "silent! lwindow " . a:height
-        if a:0 != 0 && a:1 && getwininfo(win_getid())[0]['loclist']
-            exe max([min([line("$"), a:height]), 1]) . "wincmd _"
-            set nowrap
-        endif
     endif
 endfunction
-function! QListToggle(height, ...) abort
+function! QListToggle(height) abort
     let buffer_count_before = BufferCount()
     silent! cclose
 
     if BufferCount() == buffer_count_before
         execute "silent! botright cwindow " . a:height
-        if a:0 != 0 && a:1 && getwininfo(win_getid())[0]['quickfix']
-            exe max([min([line("$"), a:height]), 1]) . "wincmd _"
-            set nowrap
-        endif
     endif
 endfunction
 function! BufferCount() abort
@@ -913,10 +884,10 @@ nnoremap <C-\><C-\>F :scs find f<space>
 nnoremap <C-\><C-\>I :scs find i<space>
 nnoremap <C-\><C-\>D :scs find d<space>
 
-nnoremap <leader>vv :vimgrep //j %<left><left><left><left>
-nnoremap <leader>vV :vimgrep //j **/*<left><left><left><left><left><left><left>
-nnoremap <leader>vl :lvimgrep //j %<left><left><left><left>
-nnoremap <leader>vL :lvimgrep //j **/*<left><left><left><left><left><left><left>
+nnoremap <leader>vv :vimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
+nnoremap <leader>vV :vimgrep // **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vl :lvimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
+nnoremap <leader>vL :lvimgrep // **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>ss :%s//g<left><left>
 nnoremap <leader>sc :%s//gc<left><left><left>
 xnoremap <leader>ss :s//g<left><left>
