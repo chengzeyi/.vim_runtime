@@ -211,8 +211,6 @@ let g:force_omni_patterns = {
 
 let g:omni_patterns = {}
 
-let g:polyglot_disabled = ['latex']
-
 try
     let g:omni_patterns.tex = g:vimtex#re#neocomplete
 catch
@@ -225,6 +223,9 @@ if !exists('g:vimtex_toc_config')
     let g:vimtex_toc_config = {}
 endif
 let g:vimtex_toc_config.split_pos = 'vert rightbelow'
+let g:vimtex_imaps_enabled = 0
+
+let g:polyglot_disabled = ['latex']
 
 " let g:LatexBox_show_warnings = 0
 " let g:LatexBox_split_side = 'belowright'
