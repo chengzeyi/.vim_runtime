@@ -884,10 +884,10 @@ nnoremap <C-\><C-\>F :scs find f<space>
 nnoremap <C-\><C-\>I :scs find i<space>
 nnoremap <C-\><C-\>D :scs find d<space>
 
-nnoremap <leader>vv :vimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
-nnoremap <leader>vV :vimgrep // **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vl :lvimgrep // % <bar> cw<left><left><left><left><left><left><left><left>
-nnoremap <leader>vL :lvimgrep // **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vv :vimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vV :vimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vl :lvimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vL :lvimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>ss :%s//g<left><left>
 nnoremap <leader>sc :%s//gc<left><left><left>
 xnoremap <leader>ss :s//g<left><left>

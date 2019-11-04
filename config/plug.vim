@@ -45,7 +45,7 @@ Plug 'mhinz/vim-grepper'
 
 Plug 'wsdjeg/FlyGrep.vim'
 
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
 
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
