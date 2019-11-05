@@ -91,7 +91,7 @@ else
     Plug 'Shougo/neocomplcache.vim'
 endif
 " Plug 'Shougo/neopairs.vim'
-if has('unix')
+if executable('look')
     Plug 'ujihisa/neco-look'
 endif
 

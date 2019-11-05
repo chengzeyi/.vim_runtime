@@ -1031,10 +1031,10 @@ inoremap <c-x>` `<c-g>U<left>"
 inoremap <expr> <c-b> CloseParen()
 function! CloseParen()
     let closepairs = {'(' : ')',
-                \  '[' : ']',
-                \  '{' : '}',
-                \  '"' : '"',
-                \  "'" : "'",
+                \ '[' : ']',
+                \ '{' : '}',
+                \ '"' : '"',
+                \ "'" : "'",
                 \ }
 
     if synIDattr(synID(line("."), col(".")-1, 0), "name") =~? "string"
