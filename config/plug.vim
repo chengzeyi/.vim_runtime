@@ -130,11 +130,11 @@ Plug 'sheerun/vim-polyglot'
 
 " Plug 'dense-analysis/ale'
 
-if exists(':terminal')
+if exists(':terminal') && (has('patch-8.0.1593') || has('nvim'))
     Plug 'Lenovsky/nuake'
 endif
 
-if has('nvim') || has('job') || has('channel')
+if (has('job') && has('channel')) || has('nvim')
     Plug 'metakirby5/codi.vim'
 endif
 
