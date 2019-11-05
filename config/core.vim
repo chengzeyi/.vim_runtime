@@ -1021,12 +1021,12 @@ endfunction
 
 nnoremap <leader>sl :set invspell<cr>
 
-inoremap <c-_>( )<c-g>U<left>(
-inoremap <c-_>[ ]<c-g>U<left>[
-inoremap <c-_>{ }<c-g>U<left>{
-inoremap <c-_>' '<c-g>U<left>'
-inoremap <c-_>" "<c-g>U<left>"
-inoremap <c-_>` `<c-g>U<left>"
+inoremap <c-x>( )<c-g>U<left>(
+inoremap <c-x>[ ]<c-g>U<left>[
+inoremap <c-x>{ }<c-g>U<left>{
+inoremap <c-x>' '<c-g>U<left>'
+inoremap <c-x>" "<c-g>U<left>"
+inoremap <c-x>` `<c-g>U<left>"
 
 inoremap <expr> <c-b> CloseParen()
 function! CloseParen()

@@ -43,8 +43,6 @@ Plug 'mhinz/vim-startify'
 
 Plug 'mhinz/vim-grepper'
 
-Plug 'wsdjeg/FlyGrep.vim'
-
 " Plug 'jiangmiao/auto-pairs'
 
 Plug 'junegunn/goyo.vim'
@@ -98,7 +96,6 @@ if has('unix')
 endif
 
 Plug 'Shougo/echodoc.vim'
-" Plug 'Shougo/deol.nvim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'chengzeyi/neosnippet-snippets'
 
@@ -338,9 +335,9 @@ if v:version >= 800 || has('nvim')
             au User lsp_setup call lsp#register_server({
                         \ 'name': 'bash-language-server',
                         \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
-                        \ 'whitelist': ['sh'],
+                        \ 'whitelist': ['sh', 'bash'],
                         \ })
-            autocmd FileType sh setlocal omnifunc=lsp#complete
+            autocmd FileType sh,bash setlocal omnifunc=lsp#complete
             " let g:omni_patterns.sh = '\h\w*'
         endif
     augroup END
@@ -910,8 +907,6 @@ if !exists('g:grepper')
     let g:grepper = {}
 endif
 let g:grepper.prompt_mapping_tool = '<c-g>'
-
-nnoremap <leader>fg :FlyGrep<cr>
 
 " let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
