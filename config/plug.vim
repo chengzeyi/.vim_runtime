@@ -15,7 +15,7 @@ if v:version >= 800 || has('nvim')
     Plug 'prabirshrestha/vim-lsp'
 endif
 
-Plug 'lfilho/cosco.vim'
+" Plug 'lfilho/cosco.vim'
 
 Plug 'vim-utils/vim-man'
 
@@ -953,7 +953,7 @@ augroup setArgWrap
 augroup END
 
 " ctrl-b is unused in insert mode
-imap <c-b> <c-o><Plug>(cosco-commaOrSemiColon)
+" imap <c-b> <c-o><Plug>(cosco-commaOrSemiColon)
 " nmap <c-b> <Plug>(cosco-commaOrSemiColon)
 " nmap <c-space> <Plug>(cosco-commaOrSemiColon)o
 " imap <c-space> <esc><Plug>(cosco-commaOrSemiColon)o

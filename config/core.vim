@@ -1021,12 +1021,35 @@ endfunction
 
 nnoremap <leader>sl :set invspell<cr>
 
-inoremap <c-_>( )<left>(
-inoremap <c-_>[ ]<left>[
-inoremap <c-_>{ }<left>{
-inoremap <c-_>' '<left>'
-inoremap <c-_>" "<left>"
-inoremap <c-_>` `<left>"
+inoremap <c-_>( )<c-g>U<left>(
+inoremap <c-_>[ ]<c-g>U<left>[
+inoremap <c-_>{ }<c-g>U<left>{
+inoremap <c-_>' '<c-g>U<left>'
+inoremap <c-_>" "<c-g>U<left>"
+inoremap <c-_>` `<c-g>U<left>"
+
+inoremap <expr> <c-b> CloseParen()
+function! CloseParen()
+    let closepairs = {'(' : ')',
+                \  '[' : ']',
+                \  '{' : '}',
+                \  '"' : '"',
+                \  "'" : "'",
+                \ }
+
+    if synIDattr(synID(line("."), col(".")-1, 0), "name") =~? "string"
+        let [m_lnum, m_col] = searchpairpos("[\"']", '', "[\"']", 'nbW')
+    else
+        let [m_lnum, m_col] = searchpairpos('[[({]', '', '[\])}]', 'nbW',
+                    \ 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string"')
+    endif
+
+    if (m_lnum != 0) && (m_col != 0)
+        let c = getline(m_lnum)[m_col - 1]
+        return closepairs[c]
+    endif
+    return ''
+endfun
 
 if !has('nvim') && has('terminal')
     augroup setDebugger
