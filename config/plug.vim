@@ -221,6 +221,7 @@ if !exists('g:vimtex_toc_config')
 endif
 let g:vimtex_toc_config.split_pos = 'vert rightbelow'
 let g:vimtex_imaps_enabled = 0
+let g:vimtex_quickfix_open_on_warning = 0
 
 let g:polyglot_disabled = ['latex']
 
@@ -390,8 +391,8 @@ if has('lua')
         " return pumvisible() ? "\<C-y>" : "\<CR>"
     endfunction
     " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <expr> <C-h> neocomplete#smart_close_popup()."\<C-h>"
-    inoremap <expr> <BS> neocomplete#smart_close_popup()."\<BS>"
+    " inoremap <expr> <C-h> neocomplete#smart_close_popup()."\<C-h>"
+    " inoremap <expr> <BS> neocomplete#smart_close_popup()."\<BS>"
     if !exists('g:neocomplete#keyword_patterns')
         let g:neocomplete#keyword_patterns = g:keyword_patterns
     endif
@@ -441,8 +442,8 @@ else
         " return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
     endfunction
     " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <expr> <C-h> neocomplcache#smart_close_popup()."\<C-h>"
-    inoremap <expr> <BS> neocomplcache#smart_close_popup()."\<BS>"
+    " inoremap <expr> <C-h> neocomplcache#smart_close_popup()."\<C-h>"
+    " inoremap <expr> <BS> neocomplcache#smart_close_popup()."\<BS>"
     " inoremap <expr> <C-y> neocomplcache#close_popup()
     " inoremap <expr> <C-e> neocomplcache#cancel_popup()
     " Close popup by <Space>.
