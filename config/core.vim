@@ -912,6 +912,10 @@ inoremap <expr> <up> pumvisible() ? "\<C-p>" : "\<up>"
 xnoremap * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 xnoremap # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
+nnoremap gh H
+nnoremap gm M
+nnoremap gl L
+
 nnoremap <c-k> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>
 nnoremap <c-j> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>
 " inoremap <c-k> <Esc><C-w>p5<C-y><C-w>pi
