@@ -162,37 +162,38 @@ augroup configPlug
 augroup END
 
 " let g:space_vim_dark_background = 235
+colorscheme one
 try
-    colorscheme one
-
-    " hi Comment cterm=italic
-    " hi Normal ctermbg=NONE guibg=NONE
-    hi LineNr ctermbg=NONE guibg=NONE
-    hi! link SignColumn LineNr
-    " hi SignColumn ctermbg=NONE guibg=NONE
-    " hi link SignColumn LineNr
-    hi Comment ctermfg=59 guifg=#5C6370
-    " hi CursorLine ctermbg=0 guibg=#000000
-    " hi CursorColumn ctermbg=0 guibg=#000000
-    " hi CursorLineNr ctermbg=0 guibg=#000000
-    hi! link SpecialKey NonText
-    hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
-
-    augroup myColors
-        autocmd!
-        autocmd ColorScheme * hi LineNr ctermbg=NONE guibg=NONE
-        autocmd ColorScheme * hi link SignColumn LineNr
-        " autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
-        " autocmd ColorScheme * hi link SignColumn LineNr
-        autocmd ColorScheme * hi! Comment ctermfg=59 guifg=#5C6370
-        " autocmd ColorScheme * hi CursorLine ctermbg=0 guibg=#000000
-        " autocmd ColorScheme * hi CursorColumn ctermbg=0 guibg=#000000
-        " autocmd ColorScheme * hi CursorLineNr ctermbg=0 guibg=#000000
-        autocmd ColorScheme * hi! link SpecialKey NonText
-        autocmd ColorScheme * hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
-    augroup END
+    set background=dark
 catch
 endtry
+
+" hi Comment cterm=italic
+" hi Normal ctermbg=NONE guibg=NONE
+hi LineNr ctermbg=NONE guibg=NONE
+hi! link SignColumn LineNr
+" hi SignColumn ctermbg=NONE guibg=NONE
+" hi link SignColumn LineNr
+" hi Comment ctermfg=59 guifg=#5C6370
+" hi CursorLine ctermbg=0 guibg=#000000
+" hi CursorColumn ctermbg=0 guibg=#000000
+" hi CursorLineNr ctermbg=0 guibg=#000000
+hi! link SpecialKey NonText
+hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
+
+augroup myColors
+    autocmd!
+    autocmd ColorScheme * hi LineNr ctermbg=NONE guibg=NONE
+    autocmd ColorScheme * hi link SignColumn LineNr
+    " autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
+    " autocmd ColorScheme * hi link SignColumn LineNr
+    " autocmd ColorScheme * hi! Comment ctermfg=59 guifg=#5C6370
+    " autocmd ColorScheme * hi CursorLine ctermbg=0 guibg=#000000
+    " autocmd ColorScheme * hi CursorColumn ctermbg=0 guibg=#000000
+    " autocmd ColorScheme * hi CursorLineNr ctermbg=0 guibg=#000000
+    autocmd ColorScheme * hi! link SpecialKey NonText
+    autocmd ColorScheme * hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
+augroup END
 
 let g:keyword_patterns = {
             \ 'tex': '\h\w*'}
