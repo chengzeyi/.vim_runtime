@@ -162,9 +162,9 @@ augroup configPlug
 augroup END
 
 " let g:space_vim_dark_background = 235
-colorscheme one
+set background=dark
 try
-    set background=dark
+    colorscheme one
 catch
 endtry
 
