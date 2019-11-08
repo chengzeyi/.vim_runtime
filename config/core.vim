@@ -208,6 +208,7 @@ if has('patch-8.1.1714') && has('textprop')
 endif
 set previewheight=6
 
+set balloondelay=300
 if has('balloon_eval_term')
     set balloonevalterm
 endif
@@ -221,7 +222,12 @@ if has('balloon_eval')
             " We're not in a fold.
             " If 'spell' is on and the word pointed to is incorrectly spelled,
             " the tool tip will contain a few suggestions.
-            let lines = spellsuggest(spellbadword(v:beval_text)[0], 5, 0)
+            let suggestions = spellsuggest(spellbadword(v:beval_text)[0], 5, 0)
+            if empty(suggestions)
+                let lines = [v:beval_lnum . ', ' . v:beval_col . ': ' . v:beval_text]
+            else
+                let lines = suggestions
+            endif
         else
             let numLines = foldEnd - foldStart + 1
             " Up to 31 lines get shown okay; beyond that, only 30 lines are shown with
@@ -235,7 +241,7 @@ if has('balloon_eval')
                 let lines = getline(foldStart, foldEnd)
             endif
         endif
-        return join(lines, has("balloon_multiline") ? "\n" : " ")
+        return join(lines, has('balloon_multiline') ? "\n" : ' ')
     endfunction
     set balloonexpr=BalloonExpr()
 endif
