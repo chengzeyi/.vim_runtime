@@ -148,7 +148,7 @@ Plug 'sgur/vim-textobj-parameter'
 Plug 'liuchengxu/space-vim-dark'
 Plug 'cocopon/iceberg.vim'
 Plug 'sickill/vim-monokai'
-Plug 'joshdick/onedark.vim'
+Plug 'rakr/vim-one'
 Plug 'morhetz/gruvbox'
 Plug 'logico-software/typewriter'
 " Plug 'arcticicestudio/nord-vim'
@@ -163,7 +163,7 @@ augroup END
 
 " let g:space_vim_dark_background = 235
 try
-    colorscheme space-vim-dark
+    colorscheme one
 
     " hi Comment cterm=italic
     " hi Normal ctermbg=NONE guibg=NONE
