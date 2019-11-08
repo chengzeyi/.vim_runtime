@@ -4,7 +4,6 @@ augroup configAddition
     autocmd BufWritePost ~/.vim_runtime/config/addition.vim source ~/.vim_runtime/config/addition.vim
 augroup END
 
-set background=dark
 set completeopt+=noselect
 
 try | colorscheme murphy | catch | endtry

@@ -35,6 +35,8 @@ endif
 
 set updatetime=500
 
+set background=dark
+
 if has('patch-8.1.1564')
     set signcolumn=number
 endif
@@ -1045,10 +1047,12 @@ function! CloseParen()
                 \ '{' : '}',
                 \ '"' : '"',
                 \ "'" : "'",
+                \ "`" : "`",
                 \ }
 
-    if synIDattr(synID(line("."), col(".")-1, 0), "name") =~? "string"
-        let [m_lnum, m_col] = searchpairpos("[\"']", '', "[\"']", 'nbW')
+    let attr = synIDattr(synID(line('.'), col('.')-1, 0), 'name')
+    if attr =~? 'string' || attr =~? 'include'
+        let [m_lnum, m_col] = searchpairpos("[\"'`]", '', "[\"'`]", 'nbW')
     else
         let [m_lnum, m_col] = searchpairpos('[[({]', '', '[\])}]', 'nbW',
                     \ 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string"')

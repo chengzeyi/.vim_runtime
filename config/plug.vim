@@ -145,12 +145,12 @@ Plug 'sgur/vim-textobj-parameter'
 "     Plug 'voldikss/vim-translate-me'
 " endif
 
-Plug 'liuchengxu/space-vim-dark'
-Plug 'cocopon/iceberg.vim'
-Plug 'sickill/vim-monokai'
-Plug 'rakr/vim-one'
-Plug 'morhetz/gruvbox'
-Plug 'logico-software/typewriter'
+Plug 'rafi/awesome-vim-colorschemes'
+" Plug 'liuchengxu/space-vim-dark'
+" Plug 'cocopon/iceberg.vim'
+" Plug 'sickill/vim-monokai'
+" Plug 'rakr/vim-one'
+" Plug 'morhetz/gruvbox'
 " Plug 'arcticicestudio/nord-vim'
 
 call plug#end()
@@ -161,10 +161,9 @@ augroup configPlug
     autocmd BufWritePost ~/.vim_runtime/config/plug.vim source ~/.vim_runtime/config/plug.vim
 augroup END
 
-" let g:space_vim_dark_background = 235
-set background=dark
+let g:space_vim_dark_background = 234
 try
-    colorscheme one
+    colorscheme space-vim-dark
 catch
 endtry
 
@@ -174,12 +173,12 @@ hi LineNr ctermbg=NONE guibg=NONE
 hi! link SignColumn LineNr
 " hi SignColumn ctermbg=NONE guibg=NONE
 " hi link SignColumn LineNr
-" hi Comment ctermfg=59 guifg=#5C6370
+hi Comment ctermfg=59 guifg=#5C6370
 " hi CursorLine ctermbg=0 guibg=#000000
 " hi CursorColumn ctermbg=0 guibg=#000000
 " hi CursorLineNr ctermbg=0 guibg=#000000
 hi! link SpecialKey NonText
-hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
+silent! hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
 
 augroup myColors
     autocmd!
@@ -187,12 +186,12 @@ augroup myColors
     autocmd ColorScheme * hi link SignColumn LineNr
     " autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
     " autocmd ColorScheme * hi link SignColumn LineNr
-    " autocmd ColorScheme * hi! Comment ctermfg=59 guifg=#5C6370
+    autocmd ColorScheme * hi Comment ctermfg=59 guifg=#5C6370
     " autocmd ColorScheme * hi CursorLine ctermbg=0 guibg=#000000
     " autocmd ColorScheme * hi CursorColumn ctermbg=0 guibg=#000000
     " autocmd ColorScheme * hi CursorLineNr ctermbg=0 guibg=#000000
     autocmd ColorScheme * hi! link SpecialKey NonText
-    autocmd ColorScheme * hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
+    autocmd ColorScheme * silent! hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
 augroup END
 
 let g:keyword_patterns = {
