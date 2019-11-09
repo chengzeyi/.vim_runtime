@@ -226,7 +226,7 @@ if has('balloon_eval')
             " the tool tip will contain a few suggestions.
             let suggestions = spellsuggest(spellbadword(v:beval_text)[0], 5, 0)
             if empty(suggestions)
-                let lines = [v:beval_lnum . ', ' . v:beval_col . ': ' . v:beval_text]
+                let lines = ['[' . v:beval_lnum . ', ' . v:beval_col . '] ' . synIDattr(synID(v:beval_lnum, v:beval_col, 0), 'name')]
             else
                 let lines = suggestions
             endif
