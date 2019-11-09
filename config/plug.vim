@@ -163,7 +163,7 @@ augroup END
 
 let g:space_vim_dark_background = 234
 try
-    colorscheme one
+    colorscheme space-vim-dark
 catch
 endtry
 
