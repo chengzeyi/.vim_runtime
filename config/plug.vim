@@ -640,9 +640,9 @@ nnoremap <leader>ta :TagbarOpenAutoClose<cr>
 " let g:asyncrun_auto = "make"
 
 nnoremap <leader>rr :Neomake<cr>
-nnoremap <leader>rR :Neomake!<cr>
-nnoremap <leader>rm :Neomake<space>
-nnoremap <leader>rM :Neomake!<space>
+nnoremap <leader>rR :Neomake<space>
+nnoremap <leader>rp :Neomake!<cr>
+nnoremap <leader>rP :Neomake!<space>
 nnoremap <leader>rs :NeomakeCancelJobs<cr>
 nnoremap <leader>rS :NeomakeCancelJob<space>
 nnoremap <leader>rc :NeomakeClean<cr>
