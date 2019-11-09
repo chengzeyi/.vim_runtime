@@ -8,6 +8,8 @@ endif
 
 Plug 'lervag/vimtex'
 
+Plug 'artur-shaik/vim-javacomplete2'
+
 " Plug 'octol/vim-cpp-enhanced-highlight'
 " Plug 'fatih/vim-go'
 if v:version >= 800 || has('nvim')
@@ -109,7 +111,9 @@ Plug 'majutsushi/tagbar'
 Plug 'sbdchd/neoformat'
 
 " Plug 'skywind3000/vim-preview'
-Plug 'skywind3000/asyncrun.vim'
+" Plug 'skywind3000/asyncrun.vim'
+
+Plug 'neomake/neomake'
 
 " Plug 'xuhdev/SingleCompile'
 
@@ -222,6 +226,32 @@ endif
 let g:vimtex_toc_config.split_pos = 'vert rightbelow'
 let g:vimtex_imaps_enabled = 0
 let g:vimtex_quickfix_open_on_warning = 0
+
+augroup javaOmniComplete
+    au!
+    au FileType java setlocal omnifunc=javacomplete#Complete
+augroup END
+let g:JavaComplete_EnableDefaultMappings = 0
+nmap <localleader>ii <Plug>(JavaComplete-Imports-AddSmart)
+nmap <localleader>ia <Plug>(JavaComplete-Imports-Add)
+nmap <localleader>im <Plug>(JavaComplete-Imports-AddMissing)
+nmap <localleader>ir <Plug>(JavaComplete-Imports-RemoveUnused)
+
+nmap <localleader>gm <Plug>(JavaComplete-Generate-AbstractMethods)
+nmap <localleader>ga <Plug>(JavaComplete-Generate-Accessors)
+nmap <localleader>gs <Plug>(JavaComplete-Generate-AccessorSetter)
+nmap <localleader>gg <Plug>(JavaComplete-Generate-AccessorGetter)
+nmap <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+nmap <localleader>gt <Plug>(JavaComplete-Generate-ToString)
+nmap <localleader>ge <Plug>(JavaComplete-Generate-EqualAndHashCode)
+nmap <localleader>gc <Plug>(JavaComplete-Generate-Constructor)
+nmap <localleader>gC <Plug>(JavaComplete-Generate-DefaultConstructor)
+nmap <localleader>gn <Plug>(JavaComplete-Generate-NewClass)
+nmap <localleader>gN <Plug>(JavaComplete-Generate-ClassInFile)
+vmap <localleader>gs <Plug>(JavaComplete-Generate-AccessorSetter)
+vmap <localleader>gg <Plug>(JavaComplete-Generate-AccessorGetter)
+vmap <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+
 
 let g:polyglot_disabled = ['latex']
 
@@ -599,15 +629,37 @@ let g:tagbar_compact = 1
 nnoremap <leader>tt :TagbarToggle<cr>
 nnoremap <leader>ta :TagbarOpenAutoClose<cr>
 
-nnoremap <leader>rr :AsyncRun<space>
-nnoremap <leader>rR :AsyncRun -save=2<space>
-nnoremap <leader>rs :AsyncStop<cr>
-nnoremap <leader>rS :AsyncStop!<cr>
+" nnoremap <leader>rr :AsyncRun<space>
+" nnoremap <leader>rR :AsyncRun -save=2<space>
+" nnoremap <leader>rs :AsyncStop<cr>
+" nnoremap <leader>rS :AsyncStop!<cr>
 " let g:asyncrun_bell = 1
 " map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
 " let g:asyncrun_open = 10
 " let g:asyncrun_save = 2
-let g:asyncrun_auto = "make"
+" let g:asyncrun_auto = "make"
+
+nnoremap <leader>rr :Neomake<cr>
+nnoremap <leader>rR :Neomake!<cr>
+nnoremap <leader>rm :Neomake<space>
+nnoremap <leader>rM :Neomake!<space>
+nnoremap <leader>rs :NeomakeCancelJobs<cr>
+nnoremap <leader>rS :NeomakeCancelJob<space>
+nnoremap <leader>rc :NeomakeClean<cr>
+nnoremap <leader>rC :NeomakeClean!<cr>
+nnoremap <leader>ri :NeomakeStatus<cr>
+nnoremap <leader>rI :NeomakeInfo<cr>
+nnoremap <leader>rl :NeomakeListJobs<cr>
+nnoremap <leader>rs :NeomakeSh<space>
+nnoremap <leader>rS :NeomakeSh!<space>
+nnoremap <leader>rt :NeomakeToggle<cr>
+nnoremap <leader>rT :NeomakeToggleBuffer<cr>
+nnoremap <leader>rd :NeomakeDisable<cr>
+nnoremap <leader>rD :NeomakeDisableBuffer<cr>
+nnoremap <leader>re :NeomakeEnable<cr>
+nnoremap <leader>rE :NeomakeEnableBuffer<cr>
+nnoremap <leader>ra :call neomake#configure#automake('w')<cr>
+nnoremap <leader>rA :call neomake#configure#reset_automake()<cr>
 
 let g:fzf_command_prefix = 'FZF'
 " Mapping selecting mappings
@@ -881,11 +933,11 @@ nmap <leader>7 <Plug>AirlineSelectTab7
 nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
 
-let g:asyncrun_status = ''
-try
-    let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
-catch
-endtry
+" let g:asyncrun_status = ''
+" try
+"     let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
+" catch
+" endtry
 
 let g:goyo_width = '80%'
 let g:goyo_height = '95%'
