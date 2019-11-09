@@ -953,11 +953,10 @@ augroup bufReadPost
 augroup END
 
 " Close the current buffer
-" map <leader>bc :Bclose<cr>:tabclose<cr>gT
-nnoremap <leader>bb :Bclose<cr>
+nnoremap <leader>bb :call BufClose(0)<cr>
+nnoremap <leader>bB :call BufClose(1)<cr>
 " Don't close window, when deleting a buffer
-command! Bclose call BufcloseCloseIt()
-function! BufcloseCloseIt()
+function! BufClose(force)
     let l:currentBufNum = bufnr('%')
     let l:alternateBufNum = bufnr('#')
     let l:doDelete = (empty(&bufhidden) && &hidden) || &bufhidden ==# 'hide'
@@ -972,14 +971,16 @@ function! BufcloseCloseIt()
         enew
     endif
     if l:doDelete
-        execute 'bdelete '.l:currentBufNum
+        exe 'bdelete' . (a:force ? '! ' : ' ') . l:currentBufNum
     endif
 endfunction
 
-" Close all the buffers
 nnoremap <leader>bd :bufdo bd<cr>
-nnoremap <leader>bh :call CloseHiddenBuffers()<cr>
-function! CloseHiddenBuffers()
+nnoremap <leader>bD :bufdo bd!<cr>
+" Close all the buffers
+nnoremap <leader>bh :call CloseHiddenBuffers(0)<cr>
+nnoremap <leader>bH :call CloseHiddenBuffers(1)<cr>
+function! CloseHiddenBuffers(force)
     let open_buffers = []
 
     for i in range(tabpagenr('$'))
@@ -988,7 +989,7 @@ function! CloseHiddenBuffers()
 
     for num in range(1, bufnr('$') + 1)
         if buflisted(num) && index(open_buffers, num) == -1
-            exec 'bdelete '.num
+            exec 'bdelete' . (a:force ? '! ' : ' ') . num
         endif
     endfor
 endfunction
@@ -1050,12 +1051,13 @@ function! CloseParen()
                 \ "`" : "`",
                 \ }
 
-    let attr = synIDattr(synID(line('.'), col('.')-1, 0), 'name')
-    if attr =~? 'string' || attr =~? 'include'
+    let attr = synIDattr(synID(line('.'), col('.') - 1, 0), 'name')
+    let last = getline(line('.'))[col('.') - 2]
+    if attr =~? 'string\|include' && last !~# "[\"'`]"
         let [m_lnum, m_col] = searchpairpos("[\"'`]", '', "[\"'`]", 'nbW')
     else
         let [m_lnum, m_col] = searchpairpos('[[({]', '', '[\])}]', 'nbW',
-                    \ 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string"')
+                    \ 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string\\|include"')
     endif
 
     if (m_lnum != 0) && (m_col != 0)
