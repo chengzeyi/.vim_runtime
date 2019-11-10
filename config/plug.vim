@@ -155,13 +155,15 @@ Plug 'glts/vim-textobj-comment'
 "     Plug 'voldikss/vim-translate-me'
 " endif
 
-Plug 'rafi/awesome-vim-colorschemes'
-" Plug 'liuchengxu/space-vim-dark'
-" Plug 'cocopon/iceberg.vim'
-" Plug 'sickill/vim-monokai'
-" Plug 'rakr/vim-one'
-" Plug 'morhetz/gruvbox'
-" Plug 'arcticicestudio/nord-vim'
+Plug 'cocopon/iceberg.vim'
+Plug 'sickill/vim-monokai'
+Plug 'rakr/vim-one'
+Plug 'morhetz/gruvbox'
+Plug 'arcticicestudio/nord-vim'
+Plug 'chengzeyi/hydrangea-vim'
+Plug 'Badacadabra/vim-archery'
+Plug 'logico-ar/typewriter-vim'
+
 
 call plug#end()
 
@@ -171,17 +173,16 @@ augroup configPlug
     autocmd BufWritePost ~/.vim_runtime/config/plug.vim source ~/.vim_runtime/config/plug.vim
 augroup END
 
-let g:space_vim_dark_background = 234
 try
-    colorscheme space-vim-dark
+    colorscheme hydrangea
 catch
 endtry
 
 " hi Normal ctermbg=NONE guibg=NONE
-hi LineNr ctermbg=NONE guibg=NONE
-hi! link SignColumn LineNr
+" hi LineNr ctermbg=NONE guibg=NONE
+" hi! link SignColumn LineNr
 " hi SignColumn ctermbg=NONE guibg=NONE
-hi Comment ctermfg=59 guifg=#5C6370
+" hi Comment ctermfg=59 guifg=#5C6370
 " hi CursorLine ctermbg=0 guibg=#000000
 " hi CursorColumn ctermbg=0 guibg=#000000
 " hi CursorLineNr ctermbg=0 guibg=#000000
@@ -191,10 +192,10 @@ silent! hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
 augroup myColors
     autocmd!
     " autocmd ColorScheme * hi Normal ctermbg=NONE guibg=NONE
-    autocmd ColorScheme * hi LineNr ctermbg=NONE guibg=NONE
-    autocmd ColorScheme * hi! link SignColumn LineNr
+    " autocmd ColorScheme * hi LineNr ctermbg=NONE guibg=NONE
+    " autocmd ColorScheme * hi! link SignColumn LineNr
     " autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
-    autocmd ColorScheme * hi Comment ctermfg=59 guifg=#5C6370
+    " autocmd ColorScheme * hi Comment ctermfg=59 guifg=#5C6370
     " autocmd ColorScheme * hi CursorLine ctermbg=0 guibg=#000000
     " autocmd ColorScheme * hi CursorColumn ctermbg=0 guibg=#000000
     " autocmd ColorScheme * hi CursorLineNr ctermbg=0 guibg=#000000
@@ -243,6 +244,9 @@ let g:polyglot_disabled = ['latex']
 
 " let g:LatexBox_show_warnings = 0
 " let g:LatexBox_split_side = 'belowright'
+
+" let g:vim_markdown_conceal = 0
+" let g:vim_markdown_conceal_code_blocks = 0
 
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
@@ -297,7 +301,7 @@ if has('timers')
         nmap <leader><cr>[ <Plug>(lsp-preview-close)
         let g:lsp_diagnostics_echo_cursor = 1
         " let g:lsp_preview_autoclose = 0
-        " let g:lsp_text_edit_enabled = 0
+        let g:lsp_text_edit_enabled = 0
         augroup lspReg
             au!
             if executable('gopls')
@@ -819,7 +823,7 @@ nnoremap <leader>gU :GutentagsUpdate!<cr>
 " let g:easytags_async = 1
 " let g:easytags_opts = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
 
-let g:airline_theme = 'dracula'
+let g:airline_theme = 'lucius'
 " let g:airline#themes#dracula#palette.tabline = {}
 " let g:airline#themes#dracula#palette.tabline.airline_tabhid = ['#f8f8f2', '#f8f8f2', '15', '59', '']
 " let g:airline_powerline_fonts = 1

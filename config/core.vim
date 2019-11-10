@@ -151,6 +151,10 @@ endif
 
 set t_Co=256
 
+if has('termguicolors')
+    set termguicolors
+endif
+
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 
@@ -253,7 +257,7 @@ set csverb
 " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 
 let g:markdown_folding = 1
-let g:markdown_syntax_conceal = 0
+" let g:markdown_syntax_conceal = 0
 
 let g:tex_flavor = 'latex'
 
