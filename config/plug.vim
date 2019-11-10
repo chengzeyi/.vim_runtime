@@ -519,6 +519,9 @@ endif
 " nnoremap <leader>pc :CtrlPCommandPalette<cr>
 " nnoremap <c-p> :CtrlPCommandPalette<cr>
 
+hi GitGutterAdd ctermfg=44 ctermbg=236 cterm=bold guifg=#169ec4 guibg=#2a303b gui=bold
+hi GitGutterChange ctermfg=162 ctermbg=236 cterm=bold guifg=#e242ac guibg=#2a303b gui=bold
+hi GitGutterDelete ctermfg=162 ctermbg=236 cterm=bold guifg=#e242ac guibg=#2a303b gui=bold
 let g:gitgutter_map_keys = 0
 omap ih <Plug>(GitGutterTextObjectInnerPending)
 omap ah <Plug>(GitGutterTextObjectOuterPending)
@@ -823,7 +826,7 @@ nnoremap <leader>gU :GutentagsUpdate!<cr>
 " let g:easytags_async = 1
 " let g:easytags_opts = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
 
-let g:airline_theme = 'lucius'
+let g:airline_theme = 'nord'
 " let g:airline#themes#dracula#palette.tabline = {}
 " let g:airline#themes#dracula#palette.tabline.airline_tabhid = ['#f8f8f2', '#f8f8f2', '15', '59', '']
 " let g:airline_powerline_fonts = 1
