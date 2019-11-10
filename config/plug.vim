@@ -2,9 +2,6 @@ call plug#begin('~/.vim_runtime/plugged')
 
 Plug 'chengzeyi/vim-markify'
 " Plug 'chengzeyi/a.vim'
-if !(v:version >= 800 || has('nvim')) || !executable('clangd')
-    Plug 'chengzeyi/OmniCppComplete'
-endif
 
 Plug 'lervag/vimtex'
 
@@ -12,9 +9,29 @@ Plug 'artur-shaik/vim-javacomplete2'
 
 " Plug 'octol/vim-cpp-enhanced-highlight'
 " Plug 'fatih/vim-go'
-if v:version >= 800 || has('nvim')
+if has('timers')
     Plug 'prabirshrestha/async.vim'
-    Plug 'prabirshrestha/vim-lsp'
+    if has('lambda')
+        Plug 'prabirshrestha/vim-lsp'
+        Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    endif
+
+    Plug 'prabirshrestha/asyncomplete.vim'
+    Plug 'yami-beta/asyncomplete-omni.vim'
+    Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    Plug 'prabirshrestha/asyncomplete-file.vim'
+    Plug 'prabirshrestha/asyncomplete-tags.vim'
+    if executable('look')
+        Plug 'gonzoooooo/asyncomplete-look.vim'
+    endif
+
+    Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
+
+    Plug 'Shougo/neco-syntax'
+    Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
+
+    Plug 'Shougo/neco-vim'
+    Plug 'prabirshrestha/asyncomplete-necovim.vim'
 endif
 
 " Plug 'lfilho/cosco.vim'
@@ -85,18 +102,6 @@ if has('python') || has('python3')
 endif
 " Plug 'dbeecham/ctrlp-commandpalette.vim'
 
-if has('lua')
-    Plug 'Shougo/neocomplete'
-    Plug 'Shougo/neco-vim'
-    Plug 'Shougo/neco-syntax'
-else
-    Plug 'Shougo/neocomplcache.vim'
-endif
-" Plug 'Shougo/neopairs.vim'
-if executable('look')
-    Plug 'ujihisa/neco-look'
-endif
-
 Plug 'Shougo/echodoc.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'chengzeyi/neosnippet-snippets'
@@ -144,6 +149,7 @@ endif
 
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
+Plug 'glts/vim-textobj-comment'
 
 " if has('python') || has('python3')
 "     Plug 'voldikss/vim-translate-me'
@@ -196,24 +202,6 @@ augroup myColors
     autocmd ColorScheme * silent! hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
 augroup END
 
-let g:keyword_patterns = {
-            \ 'tex': '\h\w*'}
-
-let g:force_omni_patterns = {
-            \ 'css': '^\s\+\w\+\|\w\+[):;]\?\s\+\w*\|[@!]',
-            \ 'html': '<[^>]*',
-            \ 'xml': '<[^>]*',
-            \ 'markdown': '<[^>]*',
-            \ 'javascript': '[^. \t]\.\%(\h\w*\)\?',
-            \ 'php': '[^. \t]->\h\w*\|\h\w*::\w*'}
-" \ 'java': '\%(\h\w*\|)\)\.\w*'}
-
-let g:omni_patterns = {}
-
-try
-    let g:omni_patterns.tex = g:vimtex#re#neocomplete
-catch
-endtry
 augroup vimtexFZF
     au!
     au FileType tex nnoremap <leader>zx :call vimtex#fzf#run()<cr>
@@ -281,215 +269,173 @@ let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
 
-if !(v:version >= 800 || has('nvim')) || !executable('clangd')
-    let g:OmniCpp_AddLeftParen = 0
-    let g:OmniCpp_NamespaceSearch = 1
-    let g:OmniCpp_GlobalScopeSearch = 1
-    let g:OmniCpp_ShowAccess = 1
-    let g:OmniCpp_MayCompleteDot = 1
-    let g:OmniCpp_MayCompleteArrow = 1
-    let g:OmniCpp_MayCompleteScope = 1
-    let g:OmniCpp_ShowPrototypeInAbbr = 1
-    let g:OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
-endif
+if has('timers')
+    if has('lambda')
+        nmap <leader><cr><cr> <Plug>(lsp-status)
+        nmap <leader><cr>a <Plug>(lsp-code-action)
+        nmap <leader><cr>f <Plug>(lsp-document-range-format)
+        nmap <leader><cr>F <Plug>(lsp-document-format)
+        nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
+        nmap <leader><cr>P <Plug>(lsp-peek-declaration)
+        nmap <leader><cr>G <Plug>(lsp-declaration)
+        nmap <leader><cr>p <Plug>(lsp-peek-definition)
+        nmap <leader><cr>g <Plug>(lsp-definition)
+        nmap <leader><cr>i <Plug>(lsp-peek-implementation)
+        nmap <leader><cr>L <Plug>(lsp-implementation)
+        nmap <leader><cr>h <Plug>(lsp-hover)
+        nmap <leader><cr>r <Plug>(lsp-references)
+        nmap <leader><cr>R <Plug>(lsp-rename)
+        nmap <leader><cr>t <Plug>(lsp-peek-type-definition)
+        nmap <leader><cr>T <Plug>(lsp-type-definition)
+        nmap <leader><cr>s <Plug>(lsp-document-symbol)
+        nmap <leader><cr>S <Plug>(lsp-workspace-symbol)
+        nmap ]e <Plug>(lsp-next-error)
+        nmap ]r <Plug>(lsp-next-reference)
+        nmap [e <Plug>(lsp-previous-error)
+        nmap [r <Plug>(lsp-previous-reference)
+        nmap <leader><cr>] <Plug>(lsp-preview-focus)
+        nmap <leader><cr>[ <Plug>(lsp-preview-close)
+        let g:lsp_diagnostics_echo_cursor = 1
+        " let g:lsp_preview_autoclose = 0
+        " let g:lsp_text_edit_enabled = 0
+        augroup lspReg
+            au!
+            if executable('gopls')
+                au User lsp_setup call lsp#register_server({
+                            \ 'name': 'gopls',
+                            \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+                            \ 'whitelist': ['go'],
+                            \ })
+                " autocmd BufWritePre *.go LspDocumentFormatSync
+            endif
+            if executable('pyls')
+                " pip install python-language-server
+                au User lsp_setup call lsp#register_server({
+                            \ 'name': 'pyls',
+                            \ 'cmd': {server_info->['pyls']},
+                            \ 'whitelist': ['python'],
+                            \ })
+            endif
+            if executable('clangd')
+                au User lsp_setup call lsp#register_server({
+                            \ 'name': 'clangd',
+                            \ 'cmd': {server_info->['clangd', '-background-index']},
+                            \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+                            \ })
+            endif
+            if executable('bash-language-server')
+                au User lsp_setup call lsp#register_server({
+                            \ 'name': 'bash-language-server',
+                            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
+                            \ 'whitelist': ['sh', 'bash'],
+                            \ })
+            endif
+        augroup END
+    endif
 
-if v:version >= 800 || has('nvim')
-    nmap <leader><cr><cr> <Plug>(lsp-status)
-    nmap <leader><cr>a <Plug>(lsp-code-action)
-    nmap <leader><cr>f <Plug>(lsp-document-range-format)
-    nmap <leader><cr>F <Plug>(lsp-document-format)
-    nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
-    nmap <leader><cr>P <Plug>(lsp-peek-declaration)
-    nmap <leader><cr>G <Plug>(lsp-declaration)
-    nmap <leader><cr>p <Plug>(lsp-peek-definition)
-    nmap <leader><cr>g <Plug>(lsp-definition)
-    nmap <leader><cr>i <Plug>(lsp-peek-implementation)
-    nmap <leader><cr>L <Plug>(lsp-implementation)
-    nmap <leader><cr>h <Plug>(lsp-hover)
-    nmap <leader><cr>r <Plug>(lsp-references)
-    nmap <leader><cr>R <Plug>(lsp-rename)
-    nmap <leader><cr>t <Plug>(lsp-peek-type-definition)
-    nmap <leader><cr>T <Plug>(lsp-type-definition)
-    nmap <leader><cr>s <Plug>(lsp-document-symbol)
-    nmap <leader><cr>S <Plug>(lsp-workspace-symbol)
-    nmap ]e <Plug>(lsp-next-error)
-    nmap ]r <Plug>(lsp-next-reference)
-    nmap [e <Plug>(lsp-previous-error)
-    nmap [r <Plug>(lsp-previous-reference)
-    nmap <leader><cr>] <Plug>(lsp-preview-focus)
-    nmap <leader><cr>[ <Plug>(lsp-preview-close)
-    let g:lsp_diagnostics_echo_cursor = 1
-    let g:lsp_preview_autoclose = 0
-    let g:lsp_text_edit_enabled = 0
-    augroup lspReg
+    augroup disableCmdwinMappings
         au!
-        if executable('gopls')
-            au User lsp_setup call lsp#register_server({
-                        \ 'name': 'gopls',
-                        \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-                        \ 'whitelist': ['go'],
-                        \ })
-            " autocmd BufWritePre *.go LspDocumentFormatSync
-            autocmd FileType go setlocal omnifunc=lsp#complete
-            let g:force_omni_patterns.go = '[^.[:digit:] *\t]\.\w*'
-        endif
-        if executable('pyls')
-            " pip install python-language-server
-            au User lsp_setup call lsp#register_server({
-                        \ 'name': 'pyls',
-                        \ 'cmd': {server_info->['pyls']},
-                        \ 'whitelist': ['python'],
-                        \ })
-            autocmd FileType python setlocal omnifunc=lsp#complete
-            let g:omni_patterns.python = '[^. \t]\.\w*'
-        else
-            let g:force_omni_patterns.python = '[^. \t]\.\w*'
-        endif
-        if executable('clangd')
-            au User lsp_setup call lsp#register_server({
-                        \ 'name': 'clangd',
-                        \ 'cmd': {server_info->['clangd', '-background-index']},
-                        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-                        \ })
-            autocmd FileType c,cpp,objc,objcpp setlocal omnifunc=lsp#complete
-            let g:force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-            let g:force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-            let g:force_omni_patterns.objc = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
-            let g:force_omni_patterns.objcpp = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
-        else
-            let g:omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-            let g:omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-        endif
-        if executable('bash-language-server')
-            au User lsp_setup call lsp#register_server({
-                        \ 'name': 'bash-language-server',
-                        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
-                        \ 'whitelist': ['sh', 'bash'],
-                        \ })
-            autocmd FileType sh,bash setlocal omnifunc=lsp#complete
-            " let g:omni_patterns.sh = '\h\w*'
-        endif
+        au CmdwinEnter [:>] iunmap <buffer> <Tab>
+        au CmdwinEnter [:>] nunmap <buffer> <Tab>
     augroup END
-else
-    let g:force_omni_patterns.python = '[^. \t]\.\w*'
-    let g:omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-    let g:omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-endif
 
-augroup disableCmdwinMappings
-    au!
-    au CmdwinEnter [:>] iunmap <buffer> <Tab>
-    au CmdwinEnter [:>] nunmap <buffer> <Tab>
-augroup END
+    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+    imap <c-l> <Plug>(asyncomplete_force_refresh)
+    function! s:sort_by_priority_preprocessor(options, matches) abort
+        let l:items = []
+        let l:startcols = []
+        for [l:source_name, l:matches] in items(a:matches)
+            let l:startcol = l:matches['startcol']
+            let l:base = a:options['typed'][l:startcol - 1:]
+            for l:item in l:matches['items']
+                if stridx(l:item['word'], l:base) == 0
+                    let l:startcols += [l:startcol]
+                    let l:item['priority'] =
+                                \ get(asyncomplete#get_source_info(l:source_name), 'priority', 0)
+                    call add(l:items, l:item)
+                endif
+            endfor
+        endfor
 
-if has('lua')
-    set completeopt+=noselect
-    if has('patch-8.1.1880') && has('textprop')
-        nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview,popup <bar>
-                    \ if exists('b:neocomplete') <bar> unlet b:neocomplete <bar> endif <cr>
-    else
-        nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview <bar>
-                    \ if exists('b:neocomplete') <bar> unlet b:neocomplete <bar> endif <cr>
-    endif
-    " inoremap <c-j> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>"<cr>
-    "             \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>"<cr>
-    " inoremap <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n>
-    let g:neocomplete#auto_complete_delay = 0
-    let g:necosyntax#max_syntax_lines = 3000
-    let g:neocomplete#enable_auto_close_preview = 0
-    let g:neocomplete#enable_at_startup = 1
-    let g:neocomplete#enable_smart_case = 1
-    let g:neocomplete#sources#syntax#min_keyword_length = 3
-    let g:neocomplete#sources#dictionary#dictionaries = {
-                \ 'default' : '',
-                \ 'vimshell' : $HOME.'/.vimshell_hist',
-                \ 'scheme' : $HOME.'/.gosh_completions'
-                \ }
+        let a:options['startcol'] = min(l:startcols)
+        let l:items = sort(l:items, {a, b -> b['priority'] - a['priority']})
 
-    " let g:neocomplete#sources#tags#cache_limit_size = 10 * 1024 * 1024
-    let g:neocomplete#fallback_mappings =
-                \ ["\<C-x>\<C-o>", "\<C-x>\<C-n>"]
-    inoremap <expr> <C-g> neocomplete#undo_completion()
-    inoremap <expr> <C-l> neocomplete#complete_common_string()
-    " <CR>: close popup and save indent.
-    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-    function! s:my_cr_function()
-        return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-        " For no inserting <CR> key.
-        " return pumvisible() ? "\<C-y>" : "\<CR>"
+        call asyncomplete#preprocess_complete(a:options, l:items)
     endfunction
-    " <C-h>, <BS>: close popup and delete backword char.
-    " inoremap <expr> <C-h> neocomplete#smart_close_popup()."\<C-h>"
-    " inoremap <expr> <BS> neocomplete#smart_close_popup()."\<BS>"
-    if !exists('g:neocomplete#keyword_patterns')
-        let g:neocomplete#keyword_patterns = g:keyword_patterns
+    let g:asyncomplete_preprocessor = [function('s:sort_by_priority_preprocessor')]
+    if !exists('g:asyncomplete_triggers')
+        let g:asyncomplete_triggers = {}
     endif
-    " Enable heavy omni completion.
-    if !exists('g:neocomplete#force_omni_input_patterns')
-        let g:neocomplete#force_omni_input_patterns = g:force_omni_patterns
-    endif
-    if !exists('g:neocomplete#sources#omni#input_patterns')
-        let g:neocomplete#sources#omni#input_patterns = g:omni_patterns
-    endif
+    let g:asyncomplete_triggers.c = ['.', '->']
+    let g:asyncomplete_triggers.cpp = ['.', '->', '::']
+    let g:asyncomplete_triggers.go = ['.']
+    let g:asyncomplete_triggers.java = ['.']
+    let g:asyncomplete_triggers.python = ['.']
+    let g:asyncomplete_triggers.vim = ['.', '#', ':']
+    let g:asyncomplete_triggers.tex = ['\']
+    let g:asyncomplete_triggers.php = ['->', '::']
+    let g:asyncomplete_triggers.javascript = ['.']
+    let g:asyncomplete_triggers.css = [':']
+    let g:asyncomplete_triggers.html = ['<']
+    let g:asyncomplete_triggers.xml = ['<']
+    let g:asyncomplete_triggers.markdown = ['<']
+
     try
-        call neocomplete#custom#source('_', 'converters',
-                    \ ['converter_remove_overlap', 'converter_remove_last_paren',
-                    \  'converter_abbr'])
-        " call neocomplete#custom#source('_', 'converters',
-        "             \ ['converter_remove_overlap', 'converter_add_paren',
-        "             \  'converter_abbr'])
-        call neocomplete#custom#source('buffer', 'rank', 100)
+        call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+                    \ 'name': 'omni',
+                    \ 'whitelist': ['*'],
+                    \ 'blacklist': ['c', 'cpp', 'html', 'python'],
+                    \ 'priority' : 20,
+                    \ 'completor': function('asyncomplete#sources#omni#completor')
+                    \  }))
+        call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+                    \ 'name': 'buffer',
+                    \ 'whitelist': ['*'],
+                    \ 'blacklist': ['go'],
+                    \ 'completor': function('asyncomplete#sources#buffer#completor'),
+                    \ 'config': {
+                    \    'max_buffer_size': 5000000,
+                    \  },
+                    \ }))
+        call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+                    \ 'name': 'file',
+                    \ 'whitelist': ['*'],
+                    \ 'priority': 10,
+                    \ 'completor': function('asyncomplete#sources#file#completor')
+                    \ }))
+        call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
+                    \ 'name': 'tags',
+                    \ 'whitelist': ['c'],
+                    \ 'completor': function('asyncomplete#sources#tags#completor'),
+                    \ 'config': {
+                    \    'max_file_size': 50000000,
+                    \  },
+                    \ }))
+        call asyncomplete#register_source(asyncomplete#sources#look#get_source_options({
+                    \ 'name': 'look',
+                    \ 'whitelist': ['markdown', 'tex'],
+                    \ 'completor': function('asyncomplete#sources#look#completor'),
+                    \ }))
+        call asyncomplete#register_source(asyncomplete#sources#necosyntax#get_source_options({
+                    \ 'name': 'necosyntax',
+                    \ 'whitelist': ['*'],
+                    \ 'completor': function('asyncomplete#sources#necosyntax#completor'),
+                    \ }))
+        call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
+                    \ 'name': 'necovim',
+                    \ 'whitelist': ['vim'],
+                    \ 'completor': function('asyncomplete#sources#necovim#completor'),
+                    \ }))
+        call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
+                    \ 'name': 'neosnippet',
+                    \ 'priority' : -10,
+                    \ 'whitelist': ['*'],
+                    \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
+                    \ }))
     catch
     endtry
-else
-    if has('patch-8.1.1880') && has('textprop')
-        nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview,popup<cr>
-    else
-        nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview<cr>
-    endif
-    " inoremap <c-j> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-r>=&omnifunc == '' ? '' : "\<lt>c-x>\<lt>c-o>\<lt>c-p>"<cr>
-    "             \<c-r>=pumvisible() <bar><bar> empty(tagfiles()) ? '' : "\<lt>c-x>\<lt>c-]>\<lt>c-p>"<cr>
-    " inoremap <c-k> <c-r>=pumvisible() ? "\<lt>c-e>" : ''<cr><c-x><c-n><c-p>
-    let g:neocomplcache_enable_auto_close_preview = 0
-    let g:neocomplcache_enable_at_startup = 1
-    let g:neocomplcache_enable_smart_case = 1
-    let g:neocomplcache_enable_underbar_completion = 0
-    let g:neocomplcache_min_syntax_length = 3
-    " let g:neocomplcache_tags_caching_limit_file_size = 10 * 1024 * 1024
-    let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-    " let g:neocomplcache_enable_auto_select = 1
-    " let g:neocomplcache_disable_auto_complete = 1
-
-    inoremap <expr> <C-g> neocomplcache#undo_completion()
-    inoremap <expr> <C-l> neocomplcache#complete_common_string()
-    " <CR>: close popup and save indent.
-    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-    function! s:my_cr_function()
-        return neocomplcache#smart_close_popup() . "\<CR>"
-        " For no inserting <CR> key.
-        " return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
-    endfunction
-    " <C-h>, <BS>: close popup and delete backword char.
-    " inoremap <expr> <C-h> neocomplcache#smart_close_popup()."\<C-h>"
-    " inoremap <expr> <BS> neocomplcache#smart_close_popup()."\<BS>"
-    " inoremap <expr> <C-y> neocomplcache#close_popup()
-    " inoremap <expr> <C-e> neocomplcache#cancel_popup()
-    " Close popup by <Space>.
-    " inoremap <expr> <Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
-    " inoremap <expr> <C-j> neocomplcache#start_manual_complete()
-    " inoremap <expr> <C-k> neocomplcache#cancel_popup()
-
-    if !exists('g:neocomplcache_keyword_patterns')
-        let g:neocomplcache_keyword_patterns = g:keyword_patterns
-    endif
-    " Enable heavy omni completion.
-    if !exists('g:neocomplcache_force_omni_patterns')
-        let g:neocomplcache_force_omni_patterns = g:force_omni_patterns
-    endif
-
-    if !exists('g:neocomplcache_omni_patterns')
-        let g:neocomplcache_omni_patterns = g:omni_patterns
-    endif
 endif
 
 " let g:echodoc_enable_at_startup = 1
@@ -1066,12 +1012,12 @@ try
     call textobj#user#plugin('underscore', {
                 \   'underscore-a': {
                 \     'pattern': '\v_*[a-zA-Z0-9]*',
-                \     'select': ['a_', 'au'],
+                \     'select': ['a_'],
                 \     'scan': 'line',
                 \   },
                 \   'underscore-i': {
                 \     'pattern': '\v_*\zs[a-zA-Z0-9]*\ze',
-                \     'select': ['i_', 'iu'],
+                \     'select': ['i_'],
                 \     'scan': 'line',
                 \   },
                 \ })
@@ -1102,12 +1048,12 @@ try
     call textobj#user#plugin('camel', {
                 \   'camel-a': {
                 \     'pattern': '\v([A-Z]+[a-z]*)|[0-9]+|[a-z]+',
-                \     'select': ['ac', 'a~'],
+                \     'select': ['a~'],
                 \     'scan': 'cursor',
                 \   },
                 \   'camel-i': {
                 \     'pattern': '\v([A-Z][a-z]*)|[0-9]+|[a-z]+',
-                \     'select': ['ic', 'i~'],
+                \     'select': ['i~'],
                 \     'scan': 'cursor',
                 \   },
                 \ })

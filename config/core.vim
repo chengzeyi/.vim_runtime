@@ -198,8 +198,7 @@ try
 catch
 endtry
 
-set completeopt+=menuone
-set completeopt-=preview
+set completeopt=menuone,noinsert,noselect
 if has('patch-8.1.1882') && has('textprop')
     set completepopup=highlight:Pmenu,border:off,align:menu
 endif
@@ -210,7 +209,9 @@ if has('patch-8.1.1714') && has('textprop')
 endif
 set previewheight=6
 
-set balloondelay=300
+if has('balloondelay')
+    set balloondelay=300
+endif
 if has('balloon_eval_term')
     set balloonevalterm
 endif
@@ -595,6 +596,11 @@ function! PV(cmd)
     endif
 endfunction
 
+if has('patch-8.1.1880') && has('textprop')
+    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview,popup<cr>
+else
+    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview<cr>
+endif
 nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? 0 : 1<cr><cr>
 nnoremap <leader>p+ :set previewheight+=1<cr>
 nnoremap <leader>p= :set previewheight=6<cr>
