@@ -5,33 +5,20 @@ Plug 'chengzeyi/vim-markify'
 
 Plug 'lervag/vimtex'
 
-Plug 'artur-shaik/vim-javacomplete2'
-
 " Plug 'octol/vim-cpp-enhanced-highlight'
 " Plug 'fatih/vim-go'
-if has('timers')
-    Plug 'prabirshrestha/async.vim'
-    if has('lambda')
-        Plug 'prabirshrestha/vim-lsp'
-        Plug 'prabirshrestha/asyncomplete-lsp.vim'
-    endif
+" if has('timers')
+"     Plug 'prabirshrestha/async.vim'
+"     if has('lambda')
+"         Plug 'prabirshrestha/vim-lsp'
+"     endif
+" endif
 
-    Plug 'prabirshrestha/asyncomplete.vim'
-    Plug 'yami-beta/asyncomplete-omni.vim'
-    Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    Plug 'prabirshrestha/asyncomplete-file.vim'
-    Plug 'prabirshrestha/asyncomplete-tags.vim'
-    if executable('look')
-        Plug 'gonzoooooo/asyncomplete-look.vim'
-    endif
-
-    Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
-
-    Plug 'Shougo/neco-syntax'
-    Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
+if v:version >= 800 || has('nvim')
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     Plug 'Shougo/neco-vim'
-    Plug 'prabirshrestha/asyncomplete-necovim.vim'
+    Plug 'neoclide/coc-neco'
 endif
 
 " Plug 'lfilho/cosco.vim'
@@ -102,7 +89,6 @@ if has('python') || has('python3')
 endif
 " Plug 'dbeecham/ctrlp-commandpalette.vim'
 
-Plug 'Shougo/echodoc.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'chengzeyi/neosnippet-snippets'
 
@@ -213,32 +199,6 @@ let g:vimtex_toc_config.split_pos = 'vert rightbelow'
 let g:vimtex_imaps_enabled = 0
 let g:vimtex_quickfix_open_on_warning = 0
 
-augroup javaOmniComplete
-    au!
-    au FileType java setlocal omnifunc=javacomplete#Complete
-augroup END
-let g:JavaComplete_EnableDefaultMappings = 0
-nmap <localleader>ii <Plug>(JavaComplete-Imports-AddSmart)
-nmap <localleader>ia <Plug>(JavaComplete-Imports-Add)
-nmap <localleader>im <Plug>(JavaComplete-Imports-AddMissing)
-nmap <localleader>ir <Plug>(JavaComplete-Imports-RemoveUnused)
-
-nmap <localleader>gm <Plug>(JavaComplete-Generate-AbstractMethods)
-nmap <localleader>ga <Plug>(JavaComplete-Generate-Accessors)
-nmap <localleader>gs <Plug>(JavaComplete-Generate-AccessorSetter)
-nmap <localleader>gg <Plug>(JavaComplete-Generate-AccessorGetter)
-nmap <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
-nmap <localleader>gt <Plug>(JavaComplete-Generate-ToString)
-nmap <localleader>ge <Plug>(JavaComplete-Generate-EqualAndHashCode)
-nmap <localleader>gc <Plug>(JavaComplete-Generate-Constructor)
-nmap <localleader>gC <Plug>(JavaComplete-Generate-DefaultConstructor)
-nmap <localleader>gn <Plug>(JavaComplete-Generate-NewClass)
-nmap <localleader>gN <Plug>(JavaComplete-Generate-ClassInFile)
-vmap <localleader>gs <Plug>(JavaComplete-Generate-AccessorSetter)
-vmap <localleader>gg <Plug>(JavaComplete-Generate-AccessorGetter)
-vmap <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
-
-
 let g:polyglot_disabled = ['latex']
 
 " let g:LatexBox_show_warnings = 0
@@ -269,179 +229,66 @@ let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
 
-if has('timers')
-    if has('lambda')
-        nmap <leader><cr><cr> <Plug>(lsp-status)
-        nmap <leader><cr>a <Plug>(lsp-code-action)
-        nmap <leader><cr>f <Plug>(lsp-document-range-format)
-        nmap <leader><cr>F <Plug>(lsp-document-format)
-        nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
-        nmap <leader><cr>P <Plug>(lsp-peek-declaration)
-        nmap <leader><cr>G <Plug>(lsp-declaration)
-        nmap <leader><cr>p <Plug>(lsp-peek-definition)
-        nmap <leader><cr>g <Plug>(lsp-definition)
-        nmap <leader><cr>i <Plug>(lsp-peek-implementation)
-        nmap <leader><cr>L <Plug>(lsp-implementation)
-        nmap <leader><cr>h <Plug>(lsp-hover)
-        nmap <leader><cr>r <Plug>(lsp-references)
-        nmap <leader><cr>R <Plug>(lsp-rename)
-        nmap <leader><cr>t <Plug>(lsp-peek-type-definition)
-        nmap <leader><cr>T <Plug>(lsp-type-definition)
-        nmap <leader><cr>s <Plug>(lsp-document-symbol)
-        nmap <leader><cr>S <Plug>(lsp-workspace-symbol)
-        nmap ]e <Plug>(lsp-next-error)
-        nmap ]r <Plug>(lsp-next-reference)
-        nmap [e <Plug>(lsp-previous-error)
-        nmap [r <Plug>(lsp-previous-reference)
-        nmap <leader><cr>] <Plug>(lsp-preview-focus)
-        nmap <leader><cr>[ <Plug>(lsp-preview-close)
-        let g:lsp_diagnostics_echo_cursor = 1
-        " let g:lsp_preview_autoclose = 0
-        " let g:lsp_text_edit_enabled = 0
-        augroup lspReg
-            au!
-            if executable('gopls')
-                au User lsp_setup call lsp#register_server({
-                            \ 'name': 'gopls',
-                            \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-                            \ 'whitelist': ['go'],
-                            \ })
-                " autocmd BufWritePre *.go LspDocumentFormatSync
-            endif
-            if executable('pyls')
-                " pip install python-language-server
-                au User lsp_setup call lsp#register_server({
-                            \ 'name': 'pyls',
-                            \ 'cmd': {server_info->['pyls']},
-                            \ 'whitelist': ['python'],
-                            \ })
-            endif
-            if executable('clangd')
-                au User lsp_setup call lsp#register_server({
-                            \ 'name': 'clangd',
-                            \ 'cmd': {server_info->['clangd', '-background-index']},
-                            \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-                            \ })
-            endif
-            if executable('bash-language-server')
-                au User lsp_setup call lsp#register_server({
-                            \ 'name': 'bash-language-server',
-                            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
-                            \ 'whitelist': ['sh', 'bash'],
-                            \ })
-            endif
-        augroup END
-    endif
+if v:version >= 800 || has('nvim')
+    inoremap <expr> <TAB>
+                \ pumvisible() ? "\<C-n>" :
+                \ <SID>check_back_space() ? "\<TAB>" :
+                \ coc#refresh()
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-    augroup disableCmdwinMappings
-        au!
-        au CmdwinEnter [:>] iunmap <buffer> <Tab>
-        au CmdwinEnter [:>] nunmap <buffer> <Tab>
-    augroup END
-
-    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
-    imap <c-l> <Plug>(asyncomplete_force_refresh)
-    function! s:sort_by_priority_preprocessor(options, matches) abort
-        let l:items = []
-        let l:startcols = []
-        for [l:source_name, l:matches] in items(a:matches)
-            let l:startcol = l:matches['startcol']
-            let l:base = a:options['typed'][l:startcol - 1:]
-            for l:item in l:matches['items']
-                if stridx(l:item['word'], l:base) == 0
-                    let l:startcols += [l:startcol]
-                    let l:item['priority'] =
-                                \ get(asyncomplete#get_source_info(l:source_name), 'priority', 0)
-                    call add(l:items, l:item)
-                endif
-            endfor
-        endfor
-
-        let a:options['startcol'] = min(l:startcols)
-        let l:items = sort(l:items, {a, b -> b['priority'] - a['priority']})
-
-        call asyncomplete#preprocess_complete(a:options, l:items)
+    function! s:check_back_space() abort
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~# '\s'
     endfunction
-    let g:asyncomplete_preprocessor = [function('s:sort_by_priority_preprocessor')]
-    if !exists('g:asyncomplete_triggers')
-        let g:asyncomplete_triggers = {}
-    endif
-    let g:asyncomplete_triggers.c = ['.', '->']
-    let g:asyncomplete_triggers.cpp = ['.', '->', '::']
-    let g:asyncomplete_triggers.go = ['.']
-    let g:asyncomplete_triggers.java = ['.']
-    let g:asyncomplete_triggers.python = ['.']
-    let g:asyncomplete_triggers.vim = ['.', '#', ':']
-    let g:asyncomplete_triggers.tex = ['\']
-    let g:asyncomplete_triggers.php = ['->', '::']
-    let g:asyncomplete_triggers.javascript = ['.']
-    let g:asyncomplete_triggers.css = [':']
-    let g:asyncomplete_triggers.html = ['<']
-    let g:asyncomplete_triggers.xml = ['<']
-    let g:asyncomplete_triggers.markdown = ['<']
 
-    try
-        call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-                    \ 'name': 'omni',
-                    \ 'whitelist': ['*'],
-                    \ 'blacklist': ['c', 'cpp', 'html', 'python'],
-                    \ 'priority' : 20,
-                    \ 'completor': function('asyncomplete#sources#omni#completor')
-                    \  }))
-        call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-                    \ 'name': 'buffer',
-                    \ 'whitelist': ['*'],
-                    \ 'blacklist': ['go'],
-                    \ 'completor': function('asyncomplete#sources#buffer#completor'),
-                    \ 'config': {
-                    \    'max_buffer_size': 5000000,
-                    \  },
-                    \ }))
-        call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-                    \ 'name': 'file',
-                    \ 'whitelist': ['*'],
-                    \ 'priority': 10,
-                    \ 'completor': function('asyncomplete#sources#file#completor')
-                    \ }))
-        call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
-                    \ 'name': 'tags',
-                    \ 'whitelist': ['c'],
-                    \ 'completor': function('asyncomplete#sources#tags#completor'),
-                    \ 'config': {
-                    \    'max_file_size': 50000000,
-                    \  },
-                    \ }))
-        call asyncomplete#register_source(asyncomplete#sources#look#get_source_options({
-                    \ 'name': 'look',
-                    \ 'whitelist': ['markdown', 'tex'],
-                    \ 'completor': function('asyncomplete#sources#look#completor'),
-                    \ }))
-        call asyncomplete#register_source(asyncomplete#sources#necosyntax#get_source_options({
-                    \ 'name': 'necosyntax',
-                    \ 'whitelist': ['*'],
-                    \ 'completor': function('asyncomplete#sources#necosyntax#completor'),
-                    \ }))
-        call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
-                    \ 'name': 'necovim',
-                    \ 'whitelist': ['vim'],
-                    \ 'completor': function('asyncomplete#sources#necovim#completor'),
-                    \ }))
-        call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
-                    \ 'name': 'neosnippet',
-                    \ 'priority' : -10,
-                    \ 'whitelist': ['*'],
-                    \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
-                    \ }))
-    catch
-    endtry
-endif
+    inoremap <expr> <C-j> coc#refresh()
+    inoremap <expr> <cr> (pumvisible() ? "\<C-y>" : '') . "\<C-g>u\<CR>"
+    nmap [g <Plug>(coc-diagnostic-prev)
+    nmap ]g <Plug>(coc-diagnostic-next)
+    nmap gd <Plug>(coc-definition)
+    nmap gy <Plug>(coc-type-definition)
+    nmap gi <Plug>(coc-implementation)
+    nmap gr <Plug>(coc-references)
+    nnoremap <leader><cr>p :call <SID>show_documentation()<CR>
+    nmap <leader><cr>r <Plug>(coc-rename)
+    xmap <leader><cr>f <Plug>(coc-format-selected)
+    nmap <leader><cr>f <Plug>(coc-format-selected)
+    xmap <leader><cr>a <Plug>(coc-codeaction-selected)
+    nmap <leader><cr>a <Plug>(coc-codeaction-selected)
+    nmap <leader><cr>A <Plug>(coc-codeaction)
+    nmap <leader><cr>F <Plug>(coc-fix-current)
+    xmap if <Plug>(coc-funcobj-i)
+    xmap af <Plug>(coc-funcobj-a)
+    omap if <Plug>(coc-funcobj-i)
+    omap af <Plug>(coc-funcobj-a)
+    nmap <leader><cr>s <Plug>(coc-range-select)
+    xmap <leader><cr>s <Plug>(coc-range-select)
+    command! -nargs=0 CocFormat :call CocAction('format')
+    command! -nargs=? CocFold :call CocAction('fold', <f-args>)
+    command! -nargs=0 CocOrganize :call CocAction('runCommand', 'editor.action.organizeImport')
+    nnoremap <leader><cr>d :<C-u>CocList diagnostics<cr>
+    nnoremap <leader><cr>e :<C-u>CocList extensions<cr>
+    nnoremap <leader><cr>c :<C-u>CocList commands<cr>
+    nnoremap <leader><cr>o :<C-u>CocList outline<cr>
+    nnoremap <leader><cr>S :<C-u>CocList -I symbols<cr>
+    nnoremap <leader><cr>j :<C-u>CocNext<CR>
+    nnoremap <leader><cr>k :<C-u>CocPrev<CR>
+    nnoremap <leader><cr>R :<C-u>CocListResume<CR>
+    
+    function! s:show_documentation()
+        if (index(['vim','help'], &filetype) >= 0)
+            execute 'h '.expand('<cword>')
+        else
+            call CocAction('doHover')
+        endif
+    endfunction
 
-" let g:echodoc_enable_at_startup = 1
-if has('nvim') && exists('*nvim_open_win')
-    let g:echodoc_enable_at_startup = 1
-    let g:echodoc#type = 'floating'
+    augroup coc
+        autocmd!
+        autocmd CursorHold * silent! call CocActionAsync('highlight')
+        autocmd FileType typescript,json silent! setl formatexpr=CocAction('formatSelected')
+        autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    augroup END
 endif
 
 imap <C-\> <Plug>(neosnippet_expand_or_jump)

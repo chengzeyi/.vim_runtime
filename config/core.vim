@@ -198,7 +198,11 @@ try
 catch
 endtry
 
-set completeopt=menuone,noinsert,noselect
+if has('patch-7.4.775')
+    set completeopt=menuone,noinsert,noselect
+else
+    set completeopt=menuone,noinsert
+endif
 if has('patch-8.1.1882') && has('textprop')
     set completepopup=highlight:Pmenu,border:off,align:menu
 endif
@@ -471,10 +475,6 @@ function! HighlightMarkLines()
     execute cmd
 endfunction
 
-xnoremap if :<C-U>silent! normal! [zjV]zk<CR>
-onoremap if :normal Vif<CR>
-xnoremap af :<C-U>silent! normal! [zV]z<CR>
-onoremap af :normal Vaf<CR>
 nnoremap <leader>f0 :set foldlevel=0<cr>
 nnoremap <leader>f1 :set foldlevel=1<cr>
 nnoremap <leader>f2 :set foldlevel=2<cr>
