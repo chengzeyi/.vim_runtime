@@ -889,7 +889,7 @@ nmap <leader>9 <Plug>AirlineSelectTab9
 
 let g:goyo_width = '80%'
 let g:goyo_height = '95%'
-nnoremap <go> :Goyo<cr>
+nnoremap <leader>go :Goyo<cr>
 
 " augroup changeLimelight
 "     autocmd!
@@ -898,7 +898,7 @@ nnoremap <go> :Goyo<cr>
 " augroup END
 " nmap <Leader>lM <Plug>(Limelight)
 " xmap <Leader>lM <Plug>(Limelight)
-nnoremap <lm> :Limelight!!<cr>
+nnoremap <leader>lm :Limelight!!<cr>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
