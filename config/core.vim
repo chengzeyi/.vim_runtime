@@ -719,14 +719,12 @@ nnoremap [p :ptprevious<cr>
 nnoremap ]p :ptnext<cr>
 nnoremap [P :pfirst<cr>
 nnoremap ]P :plast<cr>
-augroup skipBuffer
+
+augroup setQuickfix
     au!
     au Filetype qf set nobuflisted
-augroup END
-
-augroup setQuickfixWindowHeight
-    au!
     au FileType qf call AdjustWindowHeight(1, 10)
+    au FileType qf set foldcolumn=0
 augroup END
 function! AdjustWindowHeight(minheight, maxheight)
     exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
