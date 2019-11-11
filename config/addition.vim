@@ -6,11 +6,6 @@ augroup END
 
 try | colorscheme murphy | catch | endtry
 
-xnoremap if :<C-U>silent! normal! [zjV]zk<CR>
-onoremap if :normal Vif<CR>
-xnoremap af :<C-U>silent! normal! [zV]z<CR>
-onoremap af :normal Vaf<CR>
-
 nnoremap <leader>x :q<cr>
 inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "<tab>"
 inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"

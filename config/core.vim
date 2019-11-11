@@ -356,6 +356,10 @@ if exists(':terminal')
     tnoremap <F1> <c-\><c-n>
 endif
 
+xnoremap if :<C-U>silent! normal! [zjV]zk<CR>
+onoremap if :normal Vif<CR>
+xnoremap af :<C-U>silent! normal! [zV]z<CR>
+onoremap af :normal Vaf<CR>
 " nnoremap <leader>mm :match Question /<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<cr>
 " nnoremap <leader>mM :match<cr>
 nnoremap <leader>ff :let @/='\<lt><c-r>=expand('<lt>cword>')<cr>\>' <bar> set hls<cr>
