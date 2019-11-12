@@ -1175,16 +1175,16 @@ if !has('nvim') && has('terminal')
         call SendCmd(1, 'run')
     endfunction
     function! SendClear() abort
-        call SendCmd(1, 'clear ' . expand('%:p') . ':' . linenr('.'))
+        call SendCmd(1, 'clear ' . expand('%:p') . ':' . line('.'))
     endfunction
     function! SendClearAll() abort
         call SendCmd(1, 'clear')
     endfunction
     function! SendBreak() abort
-        call SendCmd(1, 'break ' . expand('%:p') . ':' . linenr('.'))
+        call SendCmd(1, 'break ' . expand('%:p') . ':' . line('.'))
     endfunction
     function! SendUntil() abort
-        call SendCmd(1, 'tbreak ' . expand('%:p') . ':' . linenr('.'))
+        call SendCmd(1, 'tbreak ' . expand('%:p') . ':' . line('.'))
     endfunction
     function! SendStepInto() abort
         call SendCmd(1, 'step')
