@@ -346,6 +346,7 @@ endif
 let g:vimtex_toc_config.split_pos = 'vert rightbelow'
 let g:vimtex_imaps_enabled = 0
 let g:vimtex_quickfix_open_on_warning = 0
+let g:vimtex_format_enabled = 1
 
 augroup javaOmniComplete
     au!
@@ -435,6 +436,7 @@ if has('timers')
         let g:lsp_diagnostics_echo_cursor = 1
         " let g:lsp_preview_autoclose = 0
         let g:lsp_text_edit_enabled = 0
+        let g:lsp_highlight_references_enabled = 1
         augroup lspReg
             au!
             if executable('gopls')
