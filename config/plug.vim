@@ -882,7 +882,7 @@ command! -bang -nargs=* FZFBLines
             \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
             \                ' --preview "
             \                     tail -n +{1} ' . expand('%') . ' |
-            \                     head -n 500"' .
+            \                     head -n 200"' .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m --layout=default'
             \ }, <bang>0)
@@ -891,7 +891,7 @@ command! -bang -nargs=* FZFBTags
             \     'options': '--preview-window=' . (<bang>0 ? 'right:50%' : '60%:hidden') .
             \                ' --preview "
             \                     tail -n +0\$(echo {3} | sed -nr \"s/([0-9]+);\\\"/\1/p\") {2} |
-            \                     head -n 500"' .
+            \                     head -n 200"' .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m --layout=default'
             \ }, <bang>0)
@@ -900,7 +900,7 @@ command! -bang -nargs=* FZFTags
             \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
             \                ' --preview "
             \                     tail -n +0\$(echo {3} | sed -nr \"s/([0-9]+);\\\"/\1/p\") {2} |
-            \                     head -n 500"' .
+            \                     head -n 200"' .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m --layout=default'
             \ }, <bang>0)
@@ -909,7 +909,7 @@ command! -bar -bang FZFMarks
             \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
             \                ' --preview "
             \                     tail -n +{2} {4} ' . expand('%') . ' |
-            \                     head -n 500"' .
+            \                     head -n 200"' .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m --layout=default'
             \ }, <bang>0)
@@ -917,7 +917,7 @@ command! -bar -bang FZFWindows
             \ call fzf#vim#windows({
             \     'options': '--preview-window=' . (<bang>0 ? 'up:60%' : '50%:hidden') .
             \                ' --preview "
-            \                     head -n 500 {3} {4}"' .
+            \                     head -n 200 {3} {4}"' .
             \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
             \                 ' -m --layout=default'
             \ }, <bang>0)
