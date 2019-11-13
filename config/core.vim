@@ -1099,5 +1099,9 @@ if !has('nvim') && has('terminal')
             au Filetype c,cpp,go nnoremap <buffer> <localleader>d :vert terminal ++close gdb<space>
             au Filetype c,cpp,go nnoremap <buffer> <localleader>D :vert terminal ++close gdb<cr>
         endif
+        nnoremap <localleader>b :let @" = 'break ' . expand('%:p') . ':' . line('.')<cr>
+        nnoremap <localleader>B :let @" = 'tbreak ' . expand('%:p') . ':' . line('.')<cr>
+        nnoremap <localleader>c :let @" = 'clear ' . expand('%:p') . ':' . line('.')<cr>
+        nnoremap <localleader>C :let @" = 'clear'<cr>
     augroup END
 endif
