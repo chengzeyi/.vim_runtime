@@ -2402,7 +2402,7 @@ if has('timers')
                     \ }))
         call asyncomplete#register_source(asyncomplete#sources#look#get_source_options({
                     \ 'name': 'look',
-                    \ 'whitelist': ['markdown', 'tex'],
+                    \ 'whitelist': ['text', 'markdown', 'tex'],
                     \ 'completor': function('asyncomplete#sources#look#completor'),
                     \ }))
         call asyncomplete#register_source(asyncomplete#sources#necosyntax#get_source_options({
