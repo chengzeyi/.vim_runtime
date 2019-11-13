@@ -2337,7 +2337,7 @@ if has('timers')
             let l:startcol = l:matches['startcol']
             let l:base = a:options['typed'][l:startcol - 1:]
             for l:item in l:matches['items']
-                if stridx(l:item['word'], l:base) == 0
+                if type(l:item) == v:t_dict && stridx(l:item['word'], l:base) == 0
                     let l:startcols += [l:startcol]
                     let l:item['priority'] =
                                 \ get(asyncomplete#get_source_info(l:source_name), 'priority', 0)
