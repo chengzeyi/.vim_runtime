@@ -1083,17 +1083,17 @@ if !has('nvim') && has('terminal')
     augroup setDebugger
         au!
         if executable('pudb3')
-            au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb3 %<cr>
-            au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb3<space>
+            au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb3<space>
+            au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb3 %<cr>
         elseif executable('pdb3')
-            au Filetype python nnoremap <buffer> <localleader>d :terminal ++close pdb3 %<cr>
-            au Filetype python nnoremap <buffer> <localleader>D :terminal ++close pdb3<space>
+            au Filetype python nnoremap <buffer> <localleader>d :terminal ++close pdb3<space>
+            au Filetype python nnoremap <buffer> <localleader>D :terminal ++close pdb3 %<cr>
         elseif executable('pudb')
-            au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb %<cr>
-            au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb<space>
+            au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb<space>
+            au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb %<cr>
         elseif executable('pdb')
-            au Filetype python nnoremap <buffer> <localleader>d :terminal ++close pdb %<cr>
-            au Filetype python nnoremap <buffer> <localleader>D :terminal ++close pdb<space>
+            au Filetype python nnoremap <buffer> <localleader>d :terminal ++close pdb<space>
+            au Filetype python nnoremap <buffer> <localleader>D :terminal ++close pdb %<cr>
         endif
         if executable('gdb')
             au Filetype c,cpp,go nnoremap <buffer> <localleader>d :vert terminal ++close gdb<space>
