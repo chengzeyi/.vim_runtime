@@ -839,7 +839,7 @@ function! AlternateFile()
 endfunction
 
 if has('patch-8.1.0360') || has('nvim-0.3.2')
-    set diffopt=filler,internal,algorithm:histogram,indent-heuristic
+    set diffopt=filler,internal,indent-heuristic,algorithm:histogram
 endif
 
 nnoremap <leader>ct :Ctags<cr>
