@@ -72,12 +72,12 @@ set scrolloff=1
 
 let $LANG='en'
 set langmenu=en
-source $VIMRUNTIME/delmenu.vim
-source $VIMRUNTIME/menu.vim
 
 set wildmenu
 set wildmode=longest,full
 set wildignorecase
+" source $VIMRUNTIME/delmenu.vim
+" source $VIMRUNTIME/menu.vim
 " if has('menu')
 "     source $VIMRUNTIME/menu.vim
 "     set wcm=<c-z>
