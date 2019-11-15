@@ -260,11 +260,6 @@ augroup myCore
     set csverb
     " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 
-    let g:markdown_folding = 1
-    " let g:markdown_syntax_conceal = 1
-
-    let g:tex_flavor = 'latex'
-
     autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 
     if has('python3') || has('python')
@@ -278,6 +273,14 @@ augroup myCore
 
     let mapleader = ' '
     let maplocalleader = '\'
+
+    " let g:vimsyn_embed = 'lmpPrt'
+    " let g:vimsyn_folding = 'aflmpPrt'
+
+    let g:markdown_folding = 1
+    " let g:markdown_syntax_conceal = 1
+
+    let g:tex_flavor = 'latex'
 
     nnoremap <leader>ec :e ~/.vim_runtime/config/core.vim<cr>
     autocmd BufWritePost ~/.vim_runtime/config/core.vim source ~/.vim_runtime/config/core.vim
