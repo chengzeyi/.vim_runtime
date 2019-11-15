@@ -261,7 +261,7 @@ set csverb
 " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 
 let g:markdown_folding = 1
-" let g:markdown_syntax_conceal = 0
+" let g:markdown_syntax_conceal = 1
 
 let g:tex_flavor = 'latex'
 
@@ -674,12 +674,6 @@ augroup compileAndRun
         au filetype html nnoremap <buffer> <localleader>R :w <bar>
                     \ set buftype=nofile ft=markdown <bar>
                     \ %!pandoc -t markdown_strict<cr>
-    endif
-augroup END
-
-augroup golangTools
-    if executable('goimports')
-        au Filetype go nnoremap <buffer> <localleader>i :%!goimports<cr>
     endif
 augroup END
 
