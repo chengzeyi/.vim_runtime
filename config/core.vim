@@ -1070,7 +1070,6 @@ augroup myCore
         nnoremap <localleader>b :let @" = 'break ' . expand('%:p') . ':' . line('.')<cr>
         nnoremap <localleader>B :let @" = 'tbreak ' . expand('%:p') . ':' . line('.')<cr>
         nnoremap <localleader>c :let @" = 'clear ' . expand('%:p') . ':' . line('.')<cr>
-        nnoremap <localleader>C :let @" = 'clear'<cr>
         if executable('gdb')
             au FileType c,cpp,go nnoremap <buffer> <localleader>e :e .gdbinit<cr>
         endif
