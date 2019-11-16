@@ -211,27 +211,27 @@ augroup myPlug
     let g:vimtex_imaps_enabled = 0
     let g:vimtex_quickfix_open_on_warning = 0
 
-    au FileType java setlocal omnifunc=javacomplete#Complete
     let g:JavaComplete_EnableDefaultMappings = 0
-    nmap <localleader>ii <Plug>(JavaComplete-Imports-AddSmart)
-    nmap <localleader>ia <Plug>(JavaComplete-Imports-Add)
-    nmap <localleader>im <Plug>(JavaComplete-Imports-AddMissing)
-    nmap <localleader>ir <Plug>(JavaComplete-Imports-RemoveUnused)
+    au FileType java setlocal omnifunc=javacomplete#Complete
+    au FileType java nmap <buffer> <localleader>ii <Plug>(JavaComplete-Imports-AddSmart)
+    au FileType java nmap <buffer> <localleader>ia <Plug>(JavaComplete-Imports-Add)
+    au FileType java nmap <buffer> <localleader>im <Plug>(JavaComplete-Imports-AddMissing)
+    au FileType java nmap <buffer> <localleader>ir <Plug>(JavaComplete-Imports-RemoveUnused)
 
-    nmap <localleader>gm <Plug>(JavaComplete-Generate-AbstractMethods)
-    nmap <localleader>ga <Plug>(JavaComplete-Generate-Accessors)
-    nmap <localleader>gs <Plug>(JavaComplete-Generate-AccessorSetter)
-    nmap <localleader>gg <Plug>(JavaComplete-Generate-AccessorGetter)
-    nmap <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
-    nmap <localleader>gt <Plug>(JavaComplete-Generate-ToString)
-    nmap <localleader>ge <Plug>(JavaComplete-Generate-EqualAndHashCode)
-    nmap <localleader>gc <Plug>(JavaComplete-Generate-Constructor)
-    nmap <localleader>gC <Plug>(JavaComplete-Generate-DefaultConstructor)
-    nmap <localleader>gn <Plug>(JavaComplete-Generate-NewClass)
-    nmap <localleader>gN <Plug>(JavaComplete-Generate-ClassInFile)
-    vmap <localleader>gs <Plug>(JavaComplete-Generate-AccessorSetter)
-    vmap <localleader>gg <Plug>(JavaComplete-Generate-AccessorGetter)
-    vmap <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+    au FileType java nmap <buffer> <localleader>gm <Plug>(JavaComplete-Generate-AbstractMethods)
+    au FileType java nmap <buffer> <localleader>ga <Plug>(JavaComplete-Generate-Accessors)
+    au FileType java nmap <buffer> <localleader>gs <Plug>(JavaComplete-Generate-AccessorSetter)
+    au FileType java nmap <buffer> <localleader>gg <Plug>(JavaComplete-Generate-AccessorGetter)
+    au FileType java nmap <buffer> <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+    au FileType java nmap <buffer> <localleader>gt <Plug>(JavaComplete-Generate-ToString)
+    au FileType java nmap <buffer> <localleader>ge <Plug>(JavaComplete-Generate-EqualAndHashCode)
+    au FileType java nmap <buffer> <localleader>gc <Plug>(JavaComplete-Generate-Constructor)
+    au FileType java nmap <buffer> <localleader>gC <Plug>(JavaComplete-Generate-DefaultConstructor)
+    au FileType java nmap <buffer> <localleader>gn <Plug>(JavaComplete-Generate-NewClass)
+    au FileType java nmap <buffer> <localleader>gN <Plug>(JavaComplete-Generate-ClassInFile)
+    au FileType java vmap <buffer> <localleader>gs <Plug>(JavaComplete-Generate-AccessorSetter)
+    au FileType java vmap <buffer> <localleader>gg <Plug>(JavaComplete-Generate-AccessorGetter)
+    au FileType java vmap <buffer> <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
 
     if has('timers')
         if has('lambda')
