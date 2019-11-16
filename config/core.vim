@@ -61,7 +61,35 @@ augroup myCore
 
     set autoread
 
-    set foldmethod=indent
+    set foldmethod=expr
+    set foldexpr=MyTSIndentFoldExpr()
+    set foldtext=MyFoldText()
+    function! MyTSIndentFoldExpr()
+        let ind = indent(v:lnum)
+        let indNext = indent(v:lnum + 1)
+        if ind == -1 || indNext == -1
+            return -1
+        endif
+        let tabstop = &tabstop
+        if ind < indNext
+            return '>' . (indNext / tabstop)
+        else
+            return ind / tabstop
+        endif
+    endfunction
+    function! MyFoldText()
+        let line = getline(v:foldstart)
+        if empty(line)
+            let line = getline((v:foldstart + 1))
+        endif
+        " Foldtext ignores tabstop and shows tabs as one space,
+        " so convert tabs to 'tabstop' spaces so text lines up
+        let ts = repeat(' ', &tabstop)
+        let line = substitute(line, '\t', ts, 'g')
+        let numLines = v:foldend - v:foldstart + 1
+        return line . ' [' . numLines . ' lines]'
+    endfunction
+
     set foldlevelstart=99
     set foldnestmax=3
     " set nofoldenable
