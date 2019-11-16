@@ -218,7 +218,7 @@ augroup myCore
     set previewheight=6
 
     if has('balloondelay')
-        set balloondelay=300
+        set balloondelay=200
     endif
     if has('balloon_eval_term')
         set balloonevalterm
