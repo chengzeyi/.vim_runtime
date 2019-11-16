@@ -423,6 +423,7 @@ augroup myPlug
         set conceallevel=2 concealcursor=niv
     endif
     let g:neosnippet#snippets_directory = '~/.vim_neosnippet'
+    let g:neosnippet#expand_word_boundary = 1
 
     " if has('python3')
     "     let g:UltiSnipsExpandTrigger = "<c-j>"
