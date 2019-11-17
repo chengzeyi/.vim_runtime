@@ -13,6 +13,7 @@ augroup myPlug
     Plug 'bfrg/vim-cpp-modern'
     Plug 'arp242/gopher.vim'
     " Plug 'fatih/vim-go'
+    Plug 'vim-python/python-syntax'
 
     if has('timers')
         Plug 'prabirshrestha/async.vim'
@@ -232,6 +233,8 @@ augroup myPlug
     au FileType java vmap <buffer> <localleader>gs <Plug>(JavaComplete-Generate-AccessorSetter)
     au FileType java vmap <buffer> <localleader>gg <Plug>(JavaComplete-Generate-AccessorGetter)
     au FileType java vmap <buffer> <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+
+    let python_highlight_all = 1
 
     if has('timers')
         if has('lambda')
@@ -613,6 +616,7 @@ augroup myPlug
     nnoremap <leader>zf :FZFGFiles<cr>
     nnoremap <leader>zF :FZFGFiles?<cr>
     nnoremap <leader>zb :FZFBuffers<cr>
+    nnoremap <leader>zB :FZFBCommits<cr>
     nnoremap <leader>zc :FZFCommands<cr>
     nnoremap <leader>zC :FZFColors<cr>
     nnoremap <leader>za :FZFAg<cr>
@@ -642,6 +646,7 @@ augroup myPlug
     nnoremap <leader>Zf :FZFGFiles!<cr>
     nnoremap <leader>ZF :FZFGFiles!?<cr>
     nnoremap <leader>Zb :FZFBuffers!<cr>
+    nnoremap <leader>ZB :FZFBCommits!<cr>
     nnoremap <leader>Zc :FZFCommands!<cr>
     nnoremap <leader>ZC :FZFColors!<cr>
     nnoremap <leader>Za :FZFAg!<cr>
