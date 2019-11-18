@@ -267,6 +267,9 @@ augroup myPlug
             " let g:lsp_preview_autoclose = 0
             let g:lsp_text_edit_enabled = 0
             let g:lsp_highlight_references_enabled = 1
+            if !has('nvim')
+                let g:lsp_preview_float = 0
+            endif
             if executable('gopls')
                 au User lsp_setup call lsp#register_server({
                             \ 'name': 'gopls',
@@ -617,7 +620,8 @@ augroup myPlug
     nnoremap <leader>zf :FZFGFiles<cr>
     nnoremap <leader>zF :FZFGFiles?<cr>
     nnoremap <leader>zb :FZFBuffers<cr>
-    nnoremap <leader>zB :FZFBCommits<cr>
+    nnoremap <leader>zo :FZFCommits<cr>
+    nnoremap <leader>zO :FZFBCommits<cr>
     nnoremap <leader>zc :FZFCommands<cr>
     nnoremap <leader>zC :FZFColors<cr>
     nnoremap <leader>za :FZFAg<cr>
@@ -647,7 +651,8 @@ augroup myPlug
     nnoremap <leader>Zf :FZFGFiles!<cr>
     nnoremap <leader>ZF :FZFGFiles!?<cr>
     nnoremap <leader>Zb :FZFBuffers!<cr>
-    nnoremap <leader>ZB :FZFBCommits!<cr>
+    nnoremap <leader>Zo :FZFCommits!<cr>
+    nnoremap <leader>ZO :FZFBCommits!<cr>
     nnoremap <leader>Zc :FZFCommands!<cr>
     nnoremap <leader>ZC :FZFColors!<cr>
     nnoremap <leader>Za :FZFAg!<cr>
