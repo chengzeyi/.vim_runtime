@@ -242,6 +242,7 @@ augroup myPlug
             nmap <leader><cr>a <Plug>(lsp-code-action)
             nmap <leader><cr>f <Plug>(lsp-document-format)
             nmap <leader><cr>F <Plug>(lsp-document-range-format)
+            xmap <leader><cr>F <Plug>(lsp-document-range-format)
             nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
             nmap <leader><cr>P <Plug>(lsp-peek-declaration)
             nmap <leader><cr>G <Plug>(lsp-declaration)
