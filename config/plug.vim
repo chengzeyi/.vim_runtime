@@ -267,9 +267,6 @@ augroup myPlug
             " let g:lsp_preview_autoclose = 0
             let g:lsp_text_edit_enabled = 0
             let g:lsp_highlight_references_enabled = 1
-            if !has('nvim')
-                let g:lsp_preview_float = 0
-            endif
             if executable('gopls')
                 au User lsp_setup call lsp#register_server({
                             \ 'name': 'gopls',
@@ -334,6 +331,7 @@ augroup myPlug
             call asyncomplete#preprocess_complete(a:options, l:items)
         endfunction
         let g:asyncomplete_preprocessor = [function('s:sort_by_priority_preprocessor')]
+        let g:asyncomplete_auto_completeopt = 0
         if !exists('g:asyncomplete_triggers')
             let g:asyncomplete_triggers = {}
         endif
