@@ -282,6 +282,8 @@ augroup myCore
 
     let g:tex_flavor = 'latex'
 
+    let g:vim_json_conceal = 0
+
     nnoremap <leader>ec :e ~/.vim_runtime/config/core.vim<cr>
     autocmd BufWritePost ~/.vim_runtime/config/core.vim source ~/.vim_runtime/config/core.vim
 
