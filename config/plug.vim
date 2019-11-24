@@ -11,6 +11,9 @@ augroup myPlug
     Plug 'artur-shaik/vim-javacomplete2'
     " Plug 'octol/vim-cpp-enhanced-highlight'
     Plug 'bfrg/vim-cpp-modern'
+    if !executable('clangd') && executable('clang')
+        Plug 'justmao945/vim-clang'
+    endif
     Plug 'arp242/gopher.vim'
     " Plug 'fatih/vim-go'
     Plug 'vim-python/python-syntax'
@@ -234,6 +237,12 @@ augroup myPlug
     au FileType java vmap <buffer> <localleader>gg <Plug>(JavaComplete-Generate-AccessorGetter)
     au FileType java vmap <buffer> <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
 
+    if !executable('clangd') && executable('clang')
+        let g:clang_auto = 0
+        let g:clang_c_completeopt = ''
+        let g:clang_cpp_completeopt = ''
+    endif
+
     let python_highlight_all = 1
 
     if has('timers')
@@ -350,13 +359,24 @@ augroup myPlug
         let g:asyncomplete_triggers.markdown = ['<']
 
         try
-            call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-                        \ 'name': 'omni',
-                        \ 'whitelist': ['*'],
-                        \ 'blacklist': ['c', 'cpp', 'html', 'python'],
-                        \ 'priority' : 20,
-                        \ 'completor': function('asyncomplete#sources#omni#completor')
-                        \  }))
+            if !executable('clangd') && executable('clang')
+                call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+                            \ 'name': 'omni',
+                            \ 'whitelist': ['*'],
+                            \ 'blacklist': ['html', 'python'],
+                            \ 'priority' : 20,
+                            \ 'completor': function('asyncomplete#sources#omni#completor')
+                            \  }))
+            else
+                call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+                            \ 'name': 'omni',
+                            \ 'whitelist': ['*'],
+                            \ 'blacklist': ['c', 'cpp', 'html', 'python'],
+                            \ 'priority' : 20,
+                            \ 'completor': function('asyncomplete#sources#omni#completor')
+                            \  }))
+
+            endif
             call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
                         \ 'name': 'buffer',
                         \ 'whitelist': ['*'],
