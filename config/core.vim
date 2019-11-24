@@ -708,12 +708,25 @@ augroup myCore
     nnoremap [P :pfirst<cr>
     nnoremap ]P :plast<cr>
 
-    au Filetype qf set nobuflisted
     au FileType qf call AdjustWindowHeight(1, 10)
+    au Filetype qf set nobuflisted
     au FileType qf set foldcolumn=0
+    " function! AdjustWindowHeight(minheight, maxheight)
+    "     exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
+    " endfunction
     function! AdjustWindowHeight(minheight, maxheight)
-        exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
-    endfunction
+       let l = 1
+       let n_lines = 0
+       let w_width = winwidth(0)
+       while l <= line('$')
+           " number to float for division
+           let l_len = strlen(getline(l)) + 0.0
+           let line_width = l_len/w_width
+           let n_lines += float2nr(ceil(line_width))
+           let l += 1
+       endw
+       exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
+   endfunction
     nnoremap <leader>qq :QToggle<cr>
     nnoremap <leader>ll :LToggle<cr>
     nnoremap <leader>qe :cexpr [] <bar> :cclose<cr>
