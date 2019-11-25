@@ -528,15 +528,15 @@ augroup myPlug
     nnoremap <leader>gd :Gdiff<cr>
     nnoremap <leader>gD :Gdelete<cr>
     nnoremap <leader>gG :Ggrep!<space>
-    nnoremap <leader>gm :Gmerge<space>
+    nnoremap <leader>gm :Gmerge -v<space>
     nnoremap <leader>gM :Gmove<space>
     nnoremap <leader>gl :Glog<cr>
     nnoremap <leader>gL :Glog!<cr>
     nnoremap <leader>gh :0Glog<cr>
     nnoremap <leader>gH :0Glog!<cr>
-    nnoremap <leader>gf :Gfetch<cr>
+    nnoremap <leader>gf :Gfetch -v<cr>
     nnoremap <leader>gp :Gpush<cr>
-    nnoremap <leader>gP :Gpull<cr>
+    nnoremap <leader>gP :Gpull -v<cr>
     nnoremap <leader>gs :Gstatus<cr>
     nnoremap <leader>gS :Git stash<cr>
     nnoremap <leader>gr :Gread<cr>
