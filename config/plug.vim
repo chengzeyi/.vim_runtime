@@ -625,16 +625,16 @@ augroup myPlug
     nnoremap <leader>zf :FZFGFiles<cr>
     nnoremap <leader>zF :FZFGFiles?<cr>
     nnoremap <leader>zb :FZFBuffers<cr>
-    nnoremap <leader>zo :FZFCommits<cr>
-    nnoremap <leader>zO :FZFBCommits<cr>
+    nnoremap <leader>zo :FZFBCommits<cr>
+    nnoremap <leader>zO :FZFCommits<cr>
     nnoremap <leader>zc :FZFCommands<cr>
     nnoremap <leader>zC :FZFColors<cr>
     nnoremap <leader>za :FZFAg<cr>
     nnoremap <leader>zr :FZFRg<cr>
-    nnoremap <leader>zl :FZFLines<cr>
-    nnoremap <leader>zL :FZFBLines<cr>
-    nnoremap <leader>zt :FZFTags<cr>
-    nnoremap <leader>zT :FZFBTags<cr>
+    nnoremap <leader>zl :FZFBLines<cr>
+    nnoremap <leader>zL :FZFLines<cr>
+    nnoremap <leader>zt :FZFBTags<cr>
+    nnoremap <leader>zT :FZFTags<cr>
     nnoremap <leader>zm :FZFMarks<cr>
     nnoremap <leader>zM :FZFMaps<cr>
     nmap <F1> <plug>(fzf-maps-n)
@@ -656,16 +656,16 @@ augroup myPlug
     nnoremap <leader>Zf :FZFGFiles!<cr>
     nnoremap <leader>ZF :FZFGFiles!?<cr>
     nnoremap <leader>Zb :FZFBuffers!<cr>
-    nnoremap <leader>Zo :FZFCommits!<cr>
-    nnoremap <leader>ZO :FZFBCommits!<cr>
+    nnoremap <leader>Zo :FZFBCommits!<cr>
+    nnoremap <leader>ZO :FZFCommits!<cr>
     nnoremap <leader>Zc :FZFCommands!<cr>
     nnoremap <leader>ZC :FZFColors!<cr>
     nnoremap <leader>Za :FZFAg!<cr>
     nnoremap <leader>Zr :FZFRg!<cr>
-    nnoremap <leader>Zl :FZFLines!<cr>
-    nnoremap <leader>ZL :FZFBLines!<cr>
-    nnoremap <leader>Zt :FZFTags!<cr>
-    nnoremap <leader>ZT :FZFBTags!<cr>
+    nnoremap <leader>Zl :FZFBLines!<cr>
+    nnoremap <leader>ZL :FZFLines!<cr>
+    nnoremap <leader>Zt :FZFBTags!<cr>
+    nnoremap <leader>ZT :FZFTags!<cr>
     nnoremap <leader>Zm :FZFMarks!<cr>
     nnoremap <leader>ZM :FZFMaps!<cr>
     nnoremap <leader>Zw :FZFWindows!<cr>
