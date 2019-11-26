@@ -641,6 +641,7 @@ augroup myPlug
     xmap <F1> <plug>(fzf-maps-x)
     omap <F1> <plug>(fzf-maps-o)
     nnoremap <leader>zw :FZFWindows<cr>
+    nnoremap <leader>ze :FZFLocate<space>
     nnoremap <leader>zh :FZFHistory<cr>
     nnoremap <leader>z/ :FZFHistory/<cr>
     nnoremap <leader>z: :FZFHistory:<cr>
@@ -669,6 +670,7 @@ augroup myPlug
     nnoremap <leader>Zm :FZFMarks!<cr>
     nnoremap <leader>ZM :FZFMaps!<cr>
     nnoremap <leader>Zw :FZFWindows!<cr>
+    nnoremap <leader>Ze :FZFLocate!<space>
     nnoremap <leader>Zh :FZFHistory!<cr>
     nnoremap <leader>Z/ :FZFHistory/!<cr>
     nnoremap <leader>Z: :FZFHistory:!<cr>
@@ -680,6 +682,10 @@ augroup myPlug
     command! -bang -nargs=? -complete=dir FZF FZFFiles <args>
     command! -bang -nargs=? -complete=dir FZFFiles
                 \ call fzf#vim#files(<q-args>,
+                \     <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
+                \     <bang>0)
+    command! -bang -nargs=+ -complete=dir FZFLocate
+                \ call fzf#vim#locate(<q-args>,
                 \     <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
                 \     <bang>0)
     command! -bang -nargs=* FZFGGrep
