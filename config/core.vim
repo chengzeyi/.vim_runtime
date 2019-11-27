@@ -185,7 +185,7 @@ augroup myCore
     set wrap "Wrap lines
     set lbr
     set cink+=*<Return>
-    set cino+=l1,g0,N-s,E-s,(0,m1
+    set cino+=l1,g0,N-s,E-s,(0
 
     " Specify the behavior when switching between buffers
     try
