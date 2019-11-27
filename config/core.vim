@@ -707,6 +707,11 @@ augroup myCore
     nnoremap ]p :ptnext<cr>
     nnoremap [P :pfirst<cr>
     nnoremap ]P :plast<cr>
+    nnoremap [[ ?{<CR>w99[{
+    nnoremap ][ /}<CR>b99]}
+    map ]] j0[[%/{<CR>
+    map [] k$][%?}<CR>
+
 
     au FileType qf call AdjustWindowHeight(1, 10)
     au Filetype qf set nobuflisted
