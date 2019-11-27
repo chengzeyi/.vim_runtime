@@ -709,8 +709,8 @@ augroup myCore
     nnoremap ]P :plast<cr>
     nnoremap [[ ?{<CR>w99[{
     nnoremap ][ /}<CR>b99]}
-    map ]] j0[[%/{<CR>
-    map [] k$][%?}<CR>
+    nnoremap ]] j0?{<CR>w99[{%/{<CR>
+    nnoremap [] k$/}<CR>b99]}%?}<CR>
 
 
     au FileType qf call AdjustWindowHeight(1, 10)
