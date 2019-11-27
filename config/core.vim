@@ -1044,6 +1044,7 @@ augroup myCore
     inoremap <c-x>` `<c-g>U<left>"
 
     inoremap <expr> <c-b> CloseParen()
+    inoremap <expr> <c-space> CloseParen()
     function! CloseParen()
         let closepairs = {'(' : ')',
                     \ '[' : ']',
