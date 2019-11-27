@@ -184,6 +184,7 @@ augroup myCore
     set si "Smart indent
     set wrap "Wrap lines
     set lbr
+    set cino=l1,g0,N-s,E-s,m1
 
     " Specify the behavior when switching between buffers
     try
