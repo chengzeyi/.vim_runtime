@@ -80,6 +80,8 @@ augroup myPlug
     Plug 'junegunn/limelight.vim'
     Plug 'junegunn/vim-easy-align'
 
+    Plug 'reedes/vim-pencil'
+
     " Plug 'rbong/vim-flog'
     Plug 'junegunn/gv.vim'
     Plug 'tpope/vim-fugitive'
@@ -881,16 +883,20 @@ augroup myPlug
 
     let g:goyo_width = '80%'
     let g:goyo_height = '95%'
-    nnoremap <leader>go :Goyo<cr>
+    nnoremap <F5> :Goyo<cr>
 
     "     autocmd User GoyoEnter Limelight
     "     autocmd User GoyoLeave Limelight!
     " nmap <Leader>lM <Plug>(Limelight)
     " xmap <Leader>lM <Plug>(Limelight)
-    nnoremap <leader>lm :Limelight!!<cr>
+    nnoremap <F6> :Limelight!!<cr>
 
     xmap ga <Plug>(EasyAlign)
     nmap ga <Plug>(EasyAlign)
+
+    nnoremap <F7> :PencilToggle<cr>
+    let g:pencil#textwidth = 79
+    autocmd FileType markdown,tex,text call pencil#init()
 
     nnoremap <c-g> :Grepper<cr>
     if !exists('g:grepper')
