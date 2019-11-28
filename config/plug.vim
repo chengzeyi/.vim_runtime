@@ -8,7 +8,7 @@ augroup myPlug
 
     " Plug 'sheerun/vim-polyglot'
     Plug 'lervag/vimtex'
-    Plug 'artur-shaik/vim-javacomplete2'
+    " Plug 'artur-shaik/vim-javacomplete2'
     " Plug 'octol/vim-cpp-enhanced-highlight'
     Plug 'bfrg/vim-cpp-modern'
     Plug 'arp242/gopher.vim'
@@ -215,27 +215,27 @@ augroup myPlug
     let g:vimtex_imaps_enabled = 0
     let g:vimtex_quickfix_open_on_warning = 0
 
-    let g:JavaComplete_EnableDefaultMappings = 0
-    au FileType java setlocal omnifunc=javacomplete#Complete
-    au FileType java nmap <buffer> <localleader>ii <Plug>(JavaComplete-Imports-AddSmart)
-    au FileType java nmap <buffer> <localleader>ia <Plug>(JavaComplete-Imports-Add)
-    au FileType java nmap <buffer> <localleader>im <Plug>(JavaComplete-Imports-AddMissing)
-    au FileType java nmap <buffer> <localleader>ir <Plug>(JavaComplete-Imports-RemoveUnused)
+    " let g:JavaComplete_EnableDefaultMappings = 0
+    " au FileType java setlocal omnifunc=javacomplete#Complete
+    " au FileType java nmap <buffer> <localleader>ii <Plug>(JavaComplete-Imports-AddSmart)
+    " au FileType java nmap <buffer> <localleader>ia <Plug>(JavaComplete-Imports-Add)
+    " au FileType java nmap <buffer> <localleader>im <Plug>(JavaComplete-Imports-AddMissing)
+    " au FileType java nmap <buffer> <localleader>ir <Plug>(JavaComplete-Imports-RemoveUnused)
 
-    au FileType java nmap <buffer> <localleader>gm <Plug>(JavaComplete-Generate-AbstractMethods)
-    au FileType java nmap <buffer> <localleader>ga <Plug>(JavaComplete-Generate-Accessors)
-    au FileType java nmap <buffer> <localleader>gs <Plug>(JavaComplete-Generate-AccessorSetter)
-    au FileType java nmap <buffer> <localleader>gg <Plug>(JavaComplete-Generate-AccessorGetter)
-    au FileType java nmap <buffer> <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
-    au FileType java nmap <buffer> <localleader>gt <Plug>(JavaComplete-Generate-ToString)
-    au FileType java nmap <buffer> <localleader>ge <Plug>(JavaComplete-Generate-EqualAndHashCode)
-    au FileType java nmap <buffer> <localleader>gc <Plug>(JavaComplete-Generate-Constructor)
-    au FileType java nmap <buffer> <localleader>gC <Plug>(JavaComplete-Generate-DefaultConstructor)
-    au FileType java nmap <buffer> <localleader>gn <Plug>(JavaComplete-Generate-NewClass)
-    au FileType java nmap <buffer> <localleader>gN <Plug>(JavaComplete-Generate-ClassInFile)
-    au FileType java vmap <buffer> <localleader>gs <Plug>(JavaComplete-Generate-AccessorSetter)
-    au FileType java vmap <buffer> <localleader>gg <Plug>(JavaComplete-Generate-AccessorGetter)
-    au FileType java vmap <buffer> <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+    " au FileType java nmap <buffer> <localleader>gm <Plug>(JavaComplete-Generate-AbstractMethods)
+    " au FileType java nmap <buffer> <localleader>ga <Plug>(JavaComplete-Generate-Accessors)
+    " au FileType java nmap <buffer> <localleader>gs <Plug>(JavaComplete-Generate-AccessorSetter)
+    " au FileType java nmap <buffer> <localleader>gg <Plug>(JavaComplete-Generate-AccessorGetter)
+    " au FileType java nmap <buffer> <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+    " au FileType java nmap <buffer> <localleader>gt <Plug>(JavaComplete-Generate-ToString)
+    " au FileType java nmap <buffer> <localleader>ge <Plug>(JavaComplete-Generate-EqualAndHashCode)
+    " au FileType java nmap <buffer> <localleader>gc <Plug>(JavaComplete-Generate-Constructor)
+    " au FileType java nmap <buffer> <localleader>gC <Plug>(JavaComplete-Generate-DefaultConstructor)
+    " au FileType java nmap <buffer> <localleader>gn <Plug>(JavaComplete-Generate-NewClass)
+    " au FileType java nmap <buffer> <localleader>gN <Plug>(JavaComplete-Generate-ClassInFile)
+    " au FileType java vmap <buffer> <localleader>gs <Plug>(JavaComplete-Generate-AccessorSetter)
+    " au FileType java vmap <buffer> <localleader>gg <Plug>(JavaComplete-Generate-AccessorGetter)
+    " au FileType java vmap <buffer> <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
 
     let python_highlight_all = 1
 
@@ -930,7 +930,7 @@ augroup myPlug
     " let g:markify_echo_current_message = 1
 
     nnoremap <leader>aw :ArgWrap<cr>
-    let g:argwrap_tail_indent_braces = 1
+    au FileType c,cpp let b:argwrap_wrap_closing_brace = '()[]{}'
     au FileType go let b:argwrap_tail_comma = 1
     au FileType vim let b:argwrap_line_prefix = '\'
 
