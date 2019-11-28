@@ -894,8 +894,8 @@ augroup myPlug
     xmap ga <Plug>(EasyAlign)
     nmap ga <Plug>(EasyAlign)
 
-    nnoremap <F7> :PencilToggle<cr>
     let g:pencil#textwidth = 79
+    nnoremap <F7> :PencilToggle<cr>
     autocmd FileType markdown,tex,text call pencil#init()
 
     nnoremap <c-g> :Grepper<cr>
