@@ -174,7 +174,7 @@ augroup myPlug
     " Plug 'arcticicestudio/nord-vim'
     Plug 'chengzeyi/hydrangea-vim'
     Plug 'Badacadabra/vim-archery'
-    Plug 'logico-ar/typewriter-vim'
+    " Plug 'logico-ar/typewriter-vim'
     Plug 'reedes/vim-colors-pencil'
     Plug 'cormacrelf/vim-colors-github'
 
