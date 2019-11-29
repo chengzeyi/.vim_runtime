@@ -80,7 +80,7 @@ augroup myPlug
     Plug 'junegunn/limelight.vim'
     Plug 'junegunn/vim-easy-align'
 
-    Plug 'reedes/vim-pencil'
+    " Plug 'reedes/vim-pencil'
 
     " Plug 'rbong/vim-flog'
     Plug 'junegunn/gv.vim'
@@ -216,6 +216,7 @@ augroup myPlug
     let g:vimtex_toc_config.split_pos = 'vert rightbelow'
     let g:vimtex_imaps_enabled = 0
     let g:vimtex_quickfix_open_on_warning = 0
+    " let g:vimtex_format_enabled = 1
 
     " let g:JavaComplete_EnableDefaultMappings = 0
     " au FileType java setlocal omnifunc=javacomplete#Complete
@@ -883,20 +884,21 @@ augroup myPlug
 
     let g:goyo_width = '80%'
     let g:goyo_height = '95%'
-    nnoremap <F5> :Goyo<cr>
+    nnoremap <F9> :Goyo<cr>
 
     "     autocmd User GoyoEnter Limelight
     "     autocmd User GoyoLeave Limelight!
     " nmap <Leader>lM <Plug>(Limelight)
     " xmap <Leader>lM <Plug>(Limelight)
-    nnoremap <F6> :Limelight!!<cr>
+    nnoremap <F10> :Limelight!!<cr>
 
     xmap ga <Plug>(EasyAlign)
     nmap ga <Plug>(EasyAlign)
 
-    let g:pencil#textwidth = 79
-    nnoremap <F7> :PencilToggle<cr>
-    autocmd FileType markdown,tex,text call pencil#init()
+    " let g:pencil#textwidth = 79
+    " nnoremap <F7> :PencilToggle<cr>
+    " autocmd FileType markdown,text call pencil#init()
+    " autocmd FileType tex call pencil#init({'wrap': 'soft'})
 
     nnoremap <c-g> :Grepper<cr>
     if !exists('g:grepper')
