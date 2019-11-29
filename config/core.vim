@@ -88,7 +88,7 @@ augroup myCore
     endif
 
     set wildignore=*.o,*~,*.pyc
-    if has("win16") || has("win32")
+    if has('win16') || has('win32')
         set wildignore+=.git\*,.hg\*,.svn\*,tags,TAGS,cscope.*
     else
         set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store,tags,TAGS,cscope.*

@@ -175,6 +175,8 @@ augroup myPlug
     Plug 'chengzeyi/hydrangea-vim'
     Plug 'Badacadabra/vim-archery'
     Plug 'logico-ar/typewriter-vim'
+    Plug 'reedes/vim-colors-pencil'
+    Plug 'cormacrelf/vim-colors-github'
 
     call plug#end()
 
@@ -195,8 +197,8 @@ augroup myPlug
     " hi CursorLine ctermbg=0 guibg=#000000
     " hi CursorColumn ctermbg=0 guibg=#000000
     " hi CursorLineNr ctermbg=0 guibg=#000000
-    hi! link SpecialKey NonText
-    silent! hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
+    " hi! link SpecialKey NonText
+    " silent! hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
 
     " autocmd ColorScheme * hi Normal ctermbg=NONE guibg=NONE
     " autocmd ColorScheme * hi LineNr ctermbg=NONE guibg=NONE
@@ -206,8 +208,8 @@ augroup myPlug
     " autocmd ColorScheme * hi CursorLine ctermbg=0 guibg=#000000
     " autocmd ColorScheme * hi CursorColumn ctermbg=0 guibg=#000000
     " autocmd ColorScheme * hi CursorLineNr ctermbg=0 guibg=#000000
-    autocmd ColorScheme * hi! link SpecialKey NonText
-    autocmd ColorScheme * silent! hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
+    " autocmd ColorScheme * hi! link SpecialKey NonText
+    " autocmd ColorScheme * silent! hi EndOfBuffer ctermfg=bg ctermbg=NONE guifg=bg guibg=NONE
 
     au FileType tex nnoremap <leader>zx :call vimtex#fzf#run()<cr>
     if !exists('g:vimtex_toc_config')
@@ -301,6 +303,29 @@ augroup myPlug
                             \ 'name': 'bash-language-server',
                             \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
                             \ 'whitelist': ['sh', 'bash'],
+                            \ })
+            endif
+            if executable('java') && filereadable(expand('~/lsp/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_1.5.300.v20190213-1655.jar'))
+                au User lsp_setup call lsp#register_server({
+                            \ 'name': 'eclipse.jdt.ls',
+                            \ 'cmd': {server_info->[
+                            \     'java',
+                            \     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+                            \     '-Dosgi.bundles.defaultStartLevel=4',
+                            \     '-Declipse.product=org.eclipse.jdt.ls.core.product',
+                            \     '-Dlog.level=ALL',
+                            \     '-noverify',
+                            \     '-Dfile.encoding=UTF-8',
+                            \     '-Xmx1G',
+                            \     '-jar',
+                            \     expand('~/lsp/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_1.5.300.v20190213-1655.jar'),
+                            \     '-configuration',
+                            \     expand('~/lsp/eclipse.jdt.ls/config_' . (has('win32') ? 'win' :
+                            \       (has('mac') ? 'mac' : 'linux'))),
+                            \     '-data',
+                            \     getcwd()
+                            \ ]},
+                            \ 'whitelist': ['java'],
                             \ })
             endif
         endif
