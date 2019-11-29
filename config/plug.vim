@@ -184,6 +184,9 @@ augroup myPlug
     nnoremap <leader>ep :e ~/.vim_runtime/config/plug.vim<cr>
     autocmd BufWritePost ~/.vim_runtime/config/plug.vim source ~/.vim_runtime/config/plug.vim
 
+    let g:github_colors_soft = 1
+    let g:github_colors_block_diffmark = 0
+
     try
         colorscheme hydrangea
     catch
@@ -843,7 +846,7 @@ augroup myPlug
     " let g:easytags_async = 1
     " let g:easytags_opts = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
 
-    let g:airline_theme = 'nord'
+    let g:airline_theme = 'lucius'
     " let g:airline#themes#dracula#palette.tabline = {}
     " let g:airline#themes#dracula#palette.tabline.airline_tabhid = ['#f8f8f2', '#f8f8f2', '15', '59', '']
     " let g:airline_powerline_fonts = 1
