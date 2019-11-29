@@ -57,8 +57,6 @@ augroup myCore
 
     set history=500
 
-    set viminfo+='200
-
     set autoread
 
     set foldmethod=indent
