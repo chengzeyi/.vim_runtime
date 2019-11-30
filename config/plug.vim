@@ -339,6 +339,11 @@ augroup myPlug
                             \ 'whitelist': ['java'],
                             \ })
             endif
+            command! -nargs=0 InstallJavaLanguageServer
+                    \ !mkdir -p ~/lsp/eclipse.jdt.ls &&
+                    \ cd ~/lsp/eclipse.jdt.ls &&
+                    \ curl -L https://download.eclipse.org/jdtls/milestones/0.35.0/jdt-language-server-0.35.0-201903142358.tar.gz -O &&
+                    \ tar xf jdt-language-server-0.35.0-201903142358.tar.gz
         endif
 
         au CmdwinEnter [:>] iunmap <buffer> <Tab>
