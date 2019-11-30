@@ -167,6 +167,8 @@ augroup myPlug
 
     Plug 'guns/xterm-color-table.vim'
 
+    Plug 'rhysd/devdocs.vim'
+
     Plug 'cocopon/iceberg.vim'
     Plug 'sickill/vim-monokai'
     Plug 'rakr/vim-one'
@@ -1102,5 +1104,7 @@ augroup myPlug
                     \ })
     catch
     endtry
+
+    nmap <leader>k <Plug>(devdocs-under-cursor)
 
 augroup END
