@@ -171,10 +171,10 @@ augroup myPlug
     Plug 'sickill/vim-monokai'
     Plug 'rakr/vim-one'
     Plug 'morhetz/gruvbox'
-    Plug 'arcticicestudio/nord-vim'
+    " Plug 'arcticicestudio/nord-vim'
     Plug 'chengzeyi/hydrangea-vim'
     Plug 'Badacadabra/vim-archery'
-    Plug 'logico-ar/typewriter-vim'
+    " Plug 'logico-ar/typewriter-vim'
     Plug 'reedes/vim-colors-pencil'
     Plug 'cormacrelf/vim-colors-github'
 
