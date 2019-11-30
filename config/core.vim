@@ -358,6 +358,8 @@ augroup myCore
         tnoremap <F1> <c-\><c-n>
     endif
 
+    nnoremap <F4> [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+
     xnoremap if :<C-U>silent! normal! [zjV]zk<CR>
     onoremap if :normal Vif<CR>
     xnoremap af :<C-U>silent! normal! [zV]z<CR>
