@@ -666,10 +666,10 @@ augroup myPlug
     "             \ 'header':  ['fg', 'Comment'] }
     " let g:fzf_layout = {'down': '40%'}
     " nnoremap <c-n> :FZFCommands<cr>
-    imap <c-x><c-k> <plug>(fzf-complete-word)
-    imap <c-x><c-f> <plug>(fzf-complete-path)
-    imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-    imap <c-x><c-l> <plug>(fzf-complete-line)
+    imap <c-z><c-k> <plug>(fzf-complete-word)
+    imap <c-z><c-f> <plug>(fzf-complete-path)
+    imap <c-z><c-j> <plug>(fzf-complete-file-ag)
+    imap <c-z><c-l> <plug>(fzf-complete-line)
     nnoremap <leader>zz :FZFFiles<cr>
     nnoremap <leader>zZ :FZFFiletypes<cr>
     nnoremap <leader>zf :FZFGFiles<cr>
