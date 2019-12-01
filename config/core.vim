@@ -929,7 +929,7 @@ augroup myCore
           set invbin
           if &bin
              %!xxd
-             set filetype=xxd
+             set ft=xxd
           else
              %!xxd -r
              filetype detect
