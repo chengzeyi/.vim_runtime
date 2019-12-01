@@ -290,9 +290,6 @@ augroup myCore
 
     let g:vim_json_conceal = 0
 
-    nnoremap <leader>ec :e ~/.vim_runtime/config/core.vim<cr>
-    autocmd BufWritePost ~/.vim_runtime/config/core.vim source ~/.vim_runtime/config/core.vim
-
     inoremap <c-a> <home>
     inoremap <c-e> <end>
 
@@ -925,6 +922,24 @@ augroup myCore
 
     command! W w !sudo tee % > /dev/null
 
+    if executable('xxd')
+       nnoremap <leader>eb :Bin<cr>
+       command! Bin call InvBinMode()
+       function! InvBinMode() abort
+          set invbin
+          if &bin
+             %!xxd
+             set filetype=xxd
+          else
+             %!xxd -r
+             filetype detect
+          endif
+       endfunction
+
+       au BufWritePre * if &bin | exe '%!xxd -r' | endif
+       au BufWritePost * if &bin | exe '%!xxd' | endif
+    endif
+
     " <TAB>: completion.
     inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
     inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
@@ -1105,5 +1120,8 @@ augroup myCore
     if executable('gdb')
         au FileType c,cpp,go nnoremap <buffer> <localleader>e :e .gdbinit<cr>
     endif
+
+    nnoremap <leader>ec :e ~/.vim_runtime/config/core.vim<cr>
+    autocmd BufWritePost ~/.vim_runtime/config/core.vim source ~/.vim_runtime/config/core.vim
 
 augroup END

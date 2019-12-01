@@ -1,9 +1,6 @@
 augroup myGui
     au!
 
-    nnoremap <leader>eg :e ~/.vim_runtime/config/gui.vim<cr>
-    autocmd BufWritePost ~/.vim_runtime/config/gui.vim source ~/.vim_runtime/config/gui.vim
-
     " Properly disable sound on errors on MacVim
     " if has("gui_macvim")
     "     set vb t_vb=
@@ -38,5 +35,8 @@ augroup myGui
     if has('balloon_eval')
         set ballooneval
     endif
+
+    nnoremap <leader>eg :e ~/.vim_runtime/config/gui.vim<cr>
+    autocmd BufWritePost ~/.vim_runtime/config/gui.vim source ~/.vim_runtime/config/gui.vim
 
 augroup END

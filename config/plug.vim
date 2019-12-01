@@ -182,10 +182,6 @@ augroup myPlug
 
     call plug#end()
 
-
-    nnoremap <leader>ep :e ~/.vim_runtime/config/plug.vim<cr>
-    autocmd BufWritePost ~/.vim_runtime/config/plug.vim source ~/.vim_runtime/config/plug.vim
-
     let g:github_colors_soft = 1
     let g:github_colors_block_diffmark = 0
 
@@ -1106,5 +1102,8 @@ augroup myPlug
     endtry
 
     nmap <leader>k <Plug>(devdocs-under-cursor)
+
+    nnoremap <leader>ep :e ~/.vim_runtime/config/plug.vim<cr>
+    autocmd BufWritePost ~/.vim_runtime/config/plug.vim source ~/.vim_runtime/config/plug.vim
 
 augroup END
