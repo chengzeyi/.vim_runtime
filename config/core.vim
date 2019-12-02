@@ -667,32 +667,21 @@ augroup myCore
                     \ !go run %<space>
     endif
     if executable('pandoc')
-        au filetype html nnoremap <buffer> <localleader>r :w <bar>
-                    \ enew <bar> read # <bar> set buftype=nofile ft=markdown <bar>
+        au filetype html,docx,rtf,odp,odt nnoremap <buffer> <localleader>v
+                    \ :set buftype=nofile ft=markdown <bar>
                     \ %!pandoc -t markdown_strict<cr>
-        au filetype html nnoremap <buffer> <localleader>R :w <bar>
-                    \ set buftype=nofile ft=markdown <bar>
+        au filetype html,docx,rtf,odp,odt nnoremap <buffer> <localleader>V
+                    \ :enew <bar> read # <bar> set buftype=nofile ft=markdown <bar>
                     \ %!pandoc -t markdown_strict<cr>
     endif
-
-    if executable('pandoc')
-        autocmd BufReadPre *.docx,*.rtf,*.odp,*.odt silent set ro
-        autocmd BufReadPost *.docx,*.rtf,*.odp,*.odt silent %!pandoc -t markdown_strict
-    endif
-    " Read-only .doc through antiword
-    " autocmd BufReadPre *.doc silent set ro
-    " autocmd BufReadPost *.doc silent %!antiword "%"
-    " Read-only odt/odp through odt2txt
-    " autocmd BufReadPre *.odt,*.odp silent set ro
-    " autocmd BufReadPost *.odt,*.odp silent %!odt2txt "%"
-    " Read-only pdf through pdftotext
     if executable('pdftotext')
-        autocmd BufReadPre *.pdf silent set ro
-        autocmd BufReadPost *.pdf silent %!pdftotext -nopgbrk -layout -q -eol unix /dev/stdin - | fmt -w80
+        autocmd FileType pdf nnoremap <buffer> <localleader>v
+                    \ :set buftype=nofile ft=markdown <bar>
+                    \ %!pdftotext -nopgbrk -layout -q -eol unix /dev/stdin - <bar> fmt -w80<cr>
+        autocmd FileType pdf nnoremap <buffer> <localleader>V
+                    \ :enew <bar> read # <bar> set buftype=nofile ft=markdown <bar>
+                    \ %!pdftotext -nopgbrk -layout -q -eol unix /dev/stdin - <bar> fmt -w80<cr>
     endif
-    " Read-only rtf through unrtf
-    " autocmd BufReadPre *.rtf silent set ro
-    " autocmd BufReadPost *.rtf silent %!unrtf --text"
 
     if exists(':packadd')
         nnoremap <leader>qf :packadd cfilter<cr>:Cfilter<space>
