@@ -275,7 +275,7 @@ augroup myCore
     autocmd FileType cpp compiler gcc
     autocmd FileType go compiler go
 
-    set pastetoggle=<F3>
+    set pastetoggle=<F2>
 
     let mapleader = ' '
     let maplocalleader = '\'
@@ -355,7 +355,8 @@ augroup myCore
         tnoremap <F1> <c-\><c-n>
     endif
 
-    nnoremap <F4> [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+    nnoremap [I [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+    nnoremap ]I ]I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."]\t"<CR>
 
     xnoremap if :<C-U>silent! normal! [zjV]zk<CR>
     onoremap if :normal Vif<CR>

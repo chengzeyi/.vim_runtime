@@ -675,7 +675,7 @@ augroup myPlug
     nnoremap <leader>zo :FZFBCommits<cr>
     nnoremap <leader>zO :FZFCommits<cr>
     nnoremap <leader>zc :FZFCommands<cr>
-    nnoremap <F1> :FZFCommands<cr>
+    nnoremap <F3> :FZFCommands<cr>
     nnoremap <leader>zC :FZFColors<cr>
     nnoremap <leader>za :FZFAg<cr>
     nnoremap <leader>zr :FZFRg<cr>
@@ -685,9 +685,9 @@ augroup myPlug
     nnoremap <leader>zT :FZFTags<cr>
     nnoremap <leader>zm :FZFMarks<cr>
     nnoremap <leader>zM :FZFMaps<cr>
-    nmap <F2> <plug>(fzf-maps-n)
-    xmap <F2> <plug>(fzf-maps-x)
-    omap <F2> <plug>(fzf-maps-o)
+    nmap <F4> <plug>(fzf-maps-n)
+    xmap <F4> <plug>(fzf-maps-x)
+    omap <F4> <plug>(fzf-maps-o)
     nnoremap <leader>zw :FZFWindows<cr>
     nnoremap <leader>ze :FZFLocate<space>
     nnoremap <leader>zh :FZFHistory<cr>
