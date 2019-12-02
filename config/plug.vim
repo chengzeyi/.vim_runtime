@@ -960,6 +960,10 @@ augroup myPlug
     let g:better_whitespace_guicolor = '#4e4e4e'
     let g:better_whitespace_operator = 'gs'
     nnoremap <leader>sp :ToggleWhitespace<cr>
+    nnoremap ]w :NextTrailingWhitespace<CR>
+    nnoremap [w :PrevTrailingWhitespace<CR>
+    xnoremap ]w :NextTrailingWhitespace<CR>
+    xnoremap [w :PrevTrailingWhitespace<CR>
 
     nnoremap <leader>x :Sayonara<cr>
     nnoremap <leader>X :Sayonara!<cr>
@@ -1103,7 +1107,8 @@ augroup myPlug
     catch
     endtry
 
-    nmap <leader>k <Plug>(devdocs-under-cursor)
+    nmap <leader>k :DevDocs<space>
+    nmap <leader>K :DevDocsAll<space>
 
     nnoremap <leader>ep :e ~/.vim_runtime/config/plug.vim<cr>
     autocmd BufWritePost ~/.vim_runtime/config/plug.vim source ~/.vim_runtime/config/plug.vim
