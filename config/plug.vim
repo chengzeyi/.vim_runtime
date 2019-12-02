@@ -498,7 +498,7 @@ augroup myPlug
     nnoremap <leader>nb :NERDTreeFromBookmark<space>
     nnoremap <leader>nf :NERDTreeFocus<cr>
     nnoremap <leader>nF :NERDTreeFind<cr>
-    nnoremap <leader>nv :NERDTreeVCS<cr>
+    nnoremap <leader>nv :NERDTreeToggleVCS<cr>
     nnoremap <leader>nc :NERDTreeCWD<cr>
     nnoremap <leader>nr :NERDTreeRefreshRoot<cr>
     nnoremap <leader>nm :NERDTreeMirror<cr>
@@ -554,6 +554,7 @@ augroup myPlug
     nmap <leader>hu <Plug>(GitGutterUndoHunk)
     nmap <leader>hp <Plug>(GitGutterPreviewHunk)
     nnoremap <leader>hh :GitGutterToggle<cr>
+    nnoremap <leader>hq :GitGutterQuickFix<cr>
 
     " nnoremap <leader>fl :Flog<cr>
     " nnoremap <leader>fL :Flog<space>
@@ -674,6 +675,7 @@ augroup myPlug
     nnoremap <leader>zo :FZFBCommits<cr>
     nnoremap <leader>zO :FZFCommits<cr>
     nnoremap <leader>zc :FZFCommands<cr>
+    nnoremap <F1> :FZFCommands<cr>
     nnoremap <leader>zC :FZFColors<cr>
     nnoremap <leader>za :FZFAg<cr>
     nnoremap <leader>zr :FZFRg<cr>
@@ -683,9 +685,9 @@ augroup myPlug
     nnoremap <leader>zT :FZFTags<cr>
     nnoremap <leader>zm :FZFMarks<cr>
     nnoremap <leader>zM :FZFMaps<cr>
-    nmap <F1> <plug>(fzf-maps-n)
-    xmap <F1> <plug>(fzf-maps-x)
-    omap <F1> <plug>(fzf-maps-o)
+    nmap <F2> <plug>(fzf-maps-n)
+    xmap <F2> <plug>(fzf-maps-x)
+    omap <F2> <plug>(fzf-maps-o)
     nnoremap <leader>zw :FZFWindows<cr>
     nnoremap <leader>ze :FZFLocate<space>
     nnoremap <leader>zh :FZFHistory<cr>

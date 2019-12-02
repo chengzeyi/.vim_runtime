@@ -218,9 +218,9 @@ augroup myCore
     endif
     set pumheight=12
 
-    if has('patch-8.1.1714') && has('textprop')
-        set previewpopup=height:15,width:60
-    endif
+    " if has('patch-8.1.1714') && has('textprop')
+    "     set previewpopup=height:15,width:60
+    " endif
     set previewheight=6
 
     if has('balloondelay')
@@ -275,7 +275,7 @@ augroup myCore
     autocmd FileType cpp compiler gcc
     autocmd FileType go compiler go
 
-    set pastetoggle=<F2>
+    set pastetoggle=<F3>
 
     let mapleader = ' '
     let maplocalleader = '\'
@@ -916,6 +916,7 @@ augroup myCore
        command! Bin call InvBinMode()
        function! InvBinMode() abort
           set invbin
+          let modified = &modified
           if &bin
              %!xxd
              set ft=xxd
@@ -923,6 +924,7 @@ augroup myCore
              %!xxd -r
              filetype detect
           endif
+          let &modified = modified
        endfunction
 
        au BufWritePre * if &bin | exe '%!xxd -r' | endif
