@@ -473,19 +473,6 @@ augroup myCore
             endif
         endwhile
     endfunction
-    " nnoremap <leader>ms :match Folded /<bslash>v^.*(%'a<bar>%'b<bar>%'c<bar>%'d).*/<cr>
-    nnoremap <leader>mh :call MatchMarkLines()<cr>
-    nnoremap <leader>mH :match<cr>
-    nnoremap <leader>md :delmarks a-z<cr>
-    nnoremap <leader>mD :delmarks a-zA-Z<cr>
-    function! HighlightMarkLines()
-        let cmd = 'matc
-        echo range(char2nr('a'), char2nr('z'))
-        let marks = map(range(char2nr('a'), char2nr('z')) + range(char2nr('A'), char2nr('Z')), "'%''' . nr2char(v:val)")
-        let cmd .= join(marks, '|')
-        let cmd .= ').*$/'
-        execute cmd
-    endfunction
 
     nnoremap <leader>f0 :set foldlevel=0<cr>
     nnoremap <leader>f1 :set foldlevel=1<cr>

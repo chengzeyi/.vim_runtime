@@ -41,9 +41,9 @@ augroup myPlug
 
         Plug 'Shougo/neco-vim'
         Plug 'prabirshrestha/asyncomplete-necovim.vim'
-         if !executable('clangd') && executable('clang')
-             Plug 'keremc/asyncomplete-clang.vim'
-         endif
+        if !executable('clangd') && executable('clang')
+            Plug 'keremc/asyncomplete-clang.vim'
+        endif
     endif
 
     " Plug 'lfilho/cosco.vim'
