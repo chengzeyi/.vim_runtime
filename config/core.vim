@@ -211,9 +211,9 @@ augroup myCore
     endtry
 
     if has('patch-7.4.775')
-        set completeopt+=menuone,noinsert,noselect
+        set completeopt=menuone,noinsert,noselect
     else
-        set completeopt+=menuone,noinsert
+        set completeopt=menuone,noinsert
     endif
     if has('patch-8.1.1882') && has('textprop')
         set completepopup=highlight:Pmenu,border:off,align:menu
