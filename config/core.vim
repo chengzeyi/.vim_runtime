@@ -166,6 +166,8 @@ augroup myCore
     set nowb
     set noswapfile
 
+    set nojoinspaces
+
     " Use spaces instead of tabs
     set expandtab
     au FileType go set noexpandtab
