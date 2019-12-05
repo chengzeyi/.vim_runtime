@@ -170,7 +170,7 @@ augroup myPlug
     Plug 'rhysd/devdocs.vim'
 
     Plug 'cocopon/iceberg.vim'
-    Plug 'sickill/vim-monokai'
+    " Plug 'sickill/vim-monokai'
     Plug 'rakr/vim-one'
     Plug 'morhetz/gruvbox'
     " Plug 'arcticicestudio/nord-vim'
