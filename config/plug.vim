@@ -503,10 +503,11 @@ augroup myPlug
     " let NERDTreeDirArrowExpandable=">"
     " let NERDTreeDirArrowCollapsible="v"
     nnoremap <leader>nn :NERDTreeToggle<cr>
+    nnoremap <leader>nN :NERDTreeToggleVCS<cr>
     nnoremap <leader>nb :NERDTreeFromBookmark<space>
     nnoremap <leader>nf :NERDTreeFocus<cr>
     nnoremap <leader>nF :NERDTreeFind<cr>
-    nnoremap <leader>nv :NERDTreeToggleVCS<cr>
+    nnoremap <leader>nv :NERDTreeVCS<cr>
     nnoremap <leader>nc :NERDTreeCWD<cr>
     nnoremap <leader>nr :NERDTreeRefreshRoot<cr>
     nnoremap <leader>nm :NERDTreeMirror<cr>
