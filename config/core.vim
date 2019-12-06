@@ -286,7 +286,7 @@ augroup myCore
     " let g:vimsyn_folding = 'aflmpPrt'
 
     let g:markdown_folding = 1
-    " let g:markdown_syntax_conceal = 1
+    let g:markdown_syntax_conceal = 0
 
     let g:tex_flavor = 'latex'
 
@@ -358,6 +358,18 @@ augroup myCore
 
     if exists(':terminal')
         tnoremap <F1> <c-\><c-n>
+        if has('nvim')
+            nnoremap <leader>ts :split +terminal<cr>
+            nnoremap <leader>tv :vert terminal<cr>
+            nnoremap <leader>tt :tab terminal<cr>
+        else
+            nnoremap <leader>ts :terminal<cr>
+            nnoremap <leader>tS :terminal ++close<space>
+            nnoremap <leader>tv :vert terminal<cr>
+            nnoremap <leader>tV :vert terminal ++close<space>
+            nnoremap <leader>tt :tab terminal<cr>
+            nnoremap <leader>tT :tab terminal ++close<space>
+        endif
     endif
 
     nnoremap [I [I:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."[\t"<Bar>endif<CR>

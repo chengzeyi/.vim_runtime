@@ -14,6 +14,7 @@ augroup myPlug
     Plug 'arp242/gopher.vim'
     " Plug 'fatih/vim-go'
     Plug 'vim-python/python-syntax'
+    Plug 'plasticboy/vim-markdown'
 
     if has('timers')
         Plug 'prabirshrestha/async.vim'
@@ -244,6 +245,9 @@ augroup myPlug
     " au FileType java vmap <buffer> <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
 
     let python_highlight_all = 1
+
+    let g:vim_markdown_conceal = 0
+    let g:vim_markdown_conceal_code_blocks = 0
 
     if has('timers')
         if has('lambda')
@@ -608,7 +612,7 @@ augroup myPlug
 
     let g:tagbar_width = 30
     let g:tagbar_compact = 1
-    nnoremap <leader>tt :TagbarToggle<cr>
+    nnoremap <leader>tb :TagbarToggle<cr>
     nnoremap <leader>ta :TagbarOpenAutoClose<cr>
 
     " nnoremap <leader>rr :AsyncRun<space>
@@ -1030,14 +1034,8 @@ augroup myPlug
         nnoremap <c-n> :Nuake<cr>
         if has('nvim')
             tnoremap <c-n> <c-\><c-n>:Nuake<cr>
-            nnoremap <leader>ts :split +terminal<cr>
-            nnoremap <leader>tv :vert terminal<cr>
         else
             tnoremap <c-n> <c-w>:Nuake<cr>
-            nnoremap <leader>ts :terminal<cr>
-            nnoremap <leader>tS :terminal ++close<space>
-            nnoremap <leader>tv :vert terminal<cr>
-            nnoremap <leader>tV :vert terminal ++close<space>
         endif
     endif
 
