@@ -64,7 +64,7 @@ augroup myCore
     set foldnestmax=3
     " set nofoldenable
     set foldcolumn=1
-    au FileType c,cpp,go setlocal foldmethod=syntax
+    au FileType c,cpp,go,java setlocal foldmethod=syntax
 
     set display+=lastline
 
@@ -291,6 +291,9 @@ augroup myCore
     let g:tex_flavor = 'latex'
 
     let g:vim_json_conceal = 0
+
+    let g:java_highlight_all = 1
+    let g:java_highlight_functions = 1
 
     inoremap <c-a> <home>
     inoremap <c-e> <end>
