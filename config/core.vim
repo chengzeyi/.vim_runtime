@@ -542,8 +542,8 @@ augroup myCore
         endif
     endfunction
 
-    nmap <silent> gt :set opfunc=Fanyi<CR>g@
-    vmap <silent> gt :<C-U>call Fanyi(visualmode(), 1)<CR>
+    nmap <silent> g<c-t> :set opfunc=Fanyi<CR>g@
+    xmap <silent> g<c-t> :<C-U>call Fanyi(visualmode(), 1)<CR>
     command! -nargs=* -complete=tag Fanyi call DoFanyi(<q-args>)
     function! Fanyi(type, ...)
         let sel_save = &selection
