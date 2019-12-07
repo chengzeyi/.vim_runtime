@@ -216,7 +216,7 @@ augroup myCore
         set completeopt=menuone,noinsert
     endif
     if has('patch-8.1.1882') && has('textprop')
-        set completepopup=align:menu
+        set completepopup=height:15,width:30,align:menu
     endif
     set pumheight=12
 
