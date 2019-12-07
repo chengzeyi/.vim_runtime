@@ -15,6 +15,7 @@ augroup myPlug
     " Plug 'fatih/vim-go'
     Plug 'vim-python/python-syntax'
     Plug 'plasticboy/vim-markdown'
+    Plug 'chrisbra/csv.vim'
 
     if has('timers')
         Plug 'prabirshrestha/async.vim'
@@ -248,6 +249,8 @@ augroup myPlug
 
     let g:vim_markdown_conceal = 0
     let g:vim_markdown_conceal_code_blocks = 0
+
+    let g:csv_no_conceal = 1
 
     if has('timers')
         if has('lambda')
