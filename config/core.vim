@@ -357,6 +357,7 @@ augroup myCore
     nnoremap <C-LeftMouse> g<c-]>
 
     if exists(':terminal')
+        tnoremap <esc> <c-\><c-n>
         tnoremap <F1> <c-\><c-n>
         if has('nvim')
             nnoremap <leader>ts :split +terminal<cr>
