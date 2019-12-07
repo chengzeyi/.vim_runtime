@@ -251,6 +251,7 @@ augroup myPlug
     let g:vim_markdown_conceal_code_blocks = 0
 
     let g:csv_no_conceal = 1
+    let g:no_plugin_maps = 1
 
     if has('timers')
         if has('lambda')
