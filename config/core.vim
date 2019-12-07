@@ -23,7 +23,7 @@ augroup myCore
             set ttymouse=xterm2
         endif
     endif
-    set mousemodel=popup
+    set mousemodel=popup_setpos
 
     set tags+=./tags; tags+=./TAGS;
     " set tags+=./.tags
