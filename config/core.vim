@@ -362,6 +362,7 @@ augroup myCore
             nnoremap <leader>ts :split +terminal<cr>
             nnoremap <leader>tv :vert terminal<cr>
             nnoremap <leader>tt :tab terminal<cr>
+            nnoremap <leader>tw :terminal<cr>
         else
             nnoremap <leader>ts :terminal<cr>
             nnoremap <leader>tS :terminal ++close<space>
@@ -369,6 +370,8 @@ augroup myCore
             nnoremap <leader>tV :vert terminal ++close<space>
             nnoremap <leader>tt :tab terminal<cr>
             nnoremap <leader>tT :tab terminal ++close<space>
+            nnoremap <leader>tw :terminal ++curwin<cr>
+            nnoremap <leader>tW :terminal ++curwin ++close<space>
         endif
     endif
 
