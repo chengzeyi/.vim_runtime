@@ -976,34 +976,12 @@ augroup myCore
     nnoremap <leader>> :vertical resize +10<cr>
     nnoremap <leader><lt> :vertical resize -10<cr>
 
-    " nnoremap <c-h> :bprevious<cr>
-
     " Return to last edit position when opening files (You want this!)
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
     " Close the current buffer
-    nnoremap <leader>bb :call BufClose(0)<cr>
-    nnoremap <leader>bB :call BufClose(1)<cr>
-    " Don't close window, when deleting a buffer
-    function! BufClose(force)
-        let l:currentBufNum = bufnr('%')
-        let l:alternateBufNum = bufnr('#')
-        let l:doDelete = (empty(&bufhidden) && &hidden) || &bufhidden ==# 'hide'
-
-        if buflisted(l:alternateBufNum)
-            buffer #
-        else
-            try | bnext | catch | endtry
-        endif
-
-        if bufnr('%') == l:currentBufNum
-            enew
-        endif
-        if l:doDelete
-            exe 'bdelete' . (a:force ? '! ' : ' ') . l:currentBufNum
-        endif
-    endfunction
-
+    nnoremap <leader>bb :bd<cr>
+    nnoremap <leader>bB :bd!<cr>
     nnoremap <leader>bd :bufdo bd<cr>
     nnoremap <leader>bD :bufdo bd!<cr>
     " Close all the buffers
@@ -1018,7 +996,7 @@ augroup myCore
 
         for num in range(1, bufnr('$') + 1)
             if buflisted(num) && index(open_buffers, num) == -1
-                exec 'bdelete' . (a:force ? '! ' : ' ') . num
+               try | exec 'bdelete' . (a:force ? '! ' : ' ') . num | catch | endtry
             endif
         endfor
     endfunction
