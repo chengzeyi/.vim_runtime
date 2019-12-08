@@ -245,10 +245,10 @@ augroup myPlug
     " au FileType java vmap <buffer> <localleader>gg <Plug>(JavaComplete-Generate-AccessorGetter)
     " au FileType java vmap <buffer> <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
 
-    let python_highlight_all = 1
+    let g:python_highlight_all = 1
 
-    let g:vim_markdown_conceal = 0
-    let g:vim_markdown_conceal_code_blocks = 0
+    " let g:vim_markdown_conceal = 0
+    " let g:vim_markdown_conceal_code_blocks = 0
 
     let g:csv_no_conceal = 1
     let g:no_plugin_maps = 1
@@ -490,9 +490,9 @@ augroup myPlug
     imap <C-]> <Plug>(neosnippet_jump_or_expand)
     smap <C-]> <Plug>(neosnippet_jump_or_expand)
     xmap <C-\> <Plug>(neosnippet_expand_target)
-    if has('conceal')
-        set conceallevel=2 concealcursor=niv
-    endif
+    " if has('conceal')
+    "     set conceallevel=2 concealcursor=niv
+    " endif
     let g:neosnippet#snippets_directory = '~/.vim_neosnippet'
     let g:neosnippet#expand_word_boundary = 1
 
