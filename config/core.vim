@@ -1019,7 +1019,7 @@ augroup myCore
 
         for num in range(1, bufnr('$') + 1)
             if buflisted(num) && index(open_buffers, num) == -1
-               try exec 'bdelete' . (a:force ? '! ' : ' ') . num | catch | endtry
+               try | exec 'bdelete' . (a:force ? '! ' : ' ') . num | catch | endtry
             endif
         endfor
     endfunction
