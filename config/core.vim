@@ -359,19 +359,19 @@ augroup myCore
     if exists(':terminal')
         tnoremap <F1> <c-\><c-n>
         if has('nvim')
-            nnoremap <leader>ts :split +terminal<cr>
-            nnoremap <leader>tv :vert terminal<cr>
-            nnoremap <leader>tt :tab terminal<cr>
-            nnoremap <leader>tw :terminal<cr>
+            nnoremap <leader>is :split +terminal<cr>
+            nnoremap <leader>iv :vert terminal<cr>
+            nnoremap <leader>it :tab terminal<cr>
+            nnoremap <leader>iw :terminal<cr>
         else
-            nnoremap <leader>ts :terminal<cr>
-            nnoremap <leader>tS :terminal ++close<space>
-            nnoremap <leader>tv :vert terminal<cr>
-            nnoremap <leader>tV :vert terminal ++close<space>
-            nnoremap <leader>tt :tab terminal<cr>
-            nnoremap <leader>tT :tab terminal ++close<space>
-            nnoremap <leader>tw :terminal ++curwin<cr>
-            nnoremap <leader>tW :terminal ++curwin ++close<space>
+            nnoremap <leader>is :terminal<cr>
+            nnoremap <leader>iS :terminal ++close<space>
+            nnoremap <leader>iv :vert terminal<cr>
+            nnoremap <leader>iV :vert terminal ++close<space>
+            nnoremap <leader>it :tab terminal<cr>
+            nnoremap <leader>iT :tab terminal ++close<space>
+            nnoremap <leader>iw :terminal ++curwin<cr>
+            nnoremap <leader>iW :terminal ++curwin ++close<space>
         endif
     endif
 
@@ -1038,8 +1038,6 @@ augroup myCore
     nnoremap <leader>tm :tabmove<cr>
     nnoremap <leader>tc :tcd %:p:h<cr>:pwd<cr>
     nnoremap <expr> <leader>tC ':tcd ' . GetVcsRoot() . "\<lt>cr>"
-    nnoremap <leader>t<leader> :tabnext<cr>
-    nnoremap <leader>T<leader> :tabprevious<cr>
 
     " Let 'tl' toggle between this and the last accessed tab
     let g:lasttab = 1

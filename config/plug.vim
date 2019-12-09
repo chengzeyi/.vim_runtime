@@ -616,7 +616,7 @@ augroup myPlug
 
     let g:tagbar_width = 30
     let g:tagbar_compact = 1
-    nnoremap <leader>tb :TagbarToggle<cr>
+    nnoremap <leader>tt :TagbarToggle<cr>
     nnoremap <leader>ta :TagbarOpenAutoClose<cr>
 
     " nnoremap <leader>rr :AsyncRun<space>
