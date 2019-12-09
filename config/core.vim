@@ -286,11 +286,11 @@ augroup myCore
     " let g:vimsyn_folding = 'aflmpPrt'
 
     let g:markdown_folding = 1
-    let g:markdown_syntax_conceal = 0
+    " let g:markdown_syntax_conceal = 0
 
     let g:tex_flavor = 'latex'
 
-    let g:vim_json_conceal = 0
+    " let g:vim_json_conceal = 0
 
     let g:java_highlight_all = 1
     let g:java_highlight_functions = 1
@@ -494,6 +494,10 @@ augroup myCore
         endwhile
     endfunction
 
+    inoremap <F1> <C-O>za
+    nnoremap <F1> za
+    onoremap <F1> <C-C>za
+    vnoremap <F1> zf
     nnoremap <leader>f0 :set foldlevel=0<cr>
     nnoremap <leader>f1 :set foldlevel=1<cr>
     nnoremap <leader>f2 :set foldlevel=2<cr>
