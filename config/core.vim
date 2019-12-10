@@ -295,6 +295,8 @@ augroup myCore
     let g:java_highlight_all = 1
     let g:java_highlight_functions = 1
 
+    let g:netrw_liststyle = 1
+
     inoremap <c-a> <home>
     inoremap <c-e> <end>
 
