@@ -908,6 +908,15 @@ augroup myCore
     nnoremap <C-\><C-\>I :scs find i<space>
     nnoremap <C-\><C-\>D :scs find d<space>
 
+    nnoremap <leader>vc :VCS<space>
+    command! -nargs=+ -complete=command VCS call VCS(<q-args>)
+    function! VCS(cmd) abort
+       let saved = getcwd()
+       exe 'cd ' . GetVcsRoot()
+       exe a:cmd
+       exe 'cd ' . saved
+    endfunction
+
     nnoremap <leader>vv :vimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
     nnoremap <leader>vV :vimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
     nnoremap <leader>vl :lvimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
@@ -923,7 +932,7 @@ augroup myCore
     nnoremap <leader>bs :bufdo %s//g<left><left>
     nnoremap <leader>bc :bufdo %s//gc<left><left><left>
 
-    command! W w !sudo tee % > /dev/null
+    command! -nargs=0 W w !sudo tee % > /dev/null
 
     if executable('xxd')
        nnoremap <leader>eb :Bin<cr>
