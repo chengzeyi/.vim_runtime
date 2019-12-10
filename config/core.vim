@@ -912,8 +912,12 @@ augroup myCore
     command! -nargs=+ -complete=command VCS call VCS(<q-args>)
     function! VCS(cmd) abort
        let saved = getcwd()
-       exe 'cd ' . GetVcsRoot()
-       exe a:cmd
+       exe 'cd ' . GetVCSRoot()
+       try
+          exe a:cmd
+       catch
+          echohl ErrorMsg | echo v:exception | echohl None
+       endtry
        exe 'cd ' . saved
     endfunction
 
@@ -1046,7 +1050,7 @@ augroup myCore
     nnoremap <leader>tx :tabclose<cr>
     nnoremap <leader>tm :tabmove<cr>
     nnoremap <leader>tc :tcd %:p:h<cr>:pwd<cr>
-    nnoremap <expr> <leader>tC ':tcd ' . GetVcsRoot() . "\<lt>cr>"
+    nnoremap <expr> <leader>tC ':tcd ' . GetVCSRoot() . "\<lt>cr>"
 
     " Let 'tl' toggle between this and the last accessed tab
     let g:lasttab = 1
@@ -1059,8 +1063,8 @@ augroup myCore
 
     " Switch CWD to the directory of the open buffer
     nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
-    nnoremap <expr> <leader>cD ':cd ' . GetVcsRoot() . "\<lt>cr>"
-    function! GetVcsRoot()
+    nnoremap <expr> <leader>cD ':cd ' . GetVCSRoot() . "\<lt>cr>"
+    function! GetVCSRoot()
         let cph = expand('%:p:h', 1)
         if cph =~ '^.\+://' | retu | en
         for mkr in ['.git/', '.hg/', '.svn/', '.bzr/', '_darcs/', '.vimprojects']
