@@ -194,21 +194,17 @@ augroup myCore
     endif
 
     " Specify the behavior when switching between buffers
-    try
-        " set switchbuf=useopen,usetab,newtab
-        set switchbuf=useopen
-        set stal=2
-    catch
-    endtry
+    " set switchbuf=useopen,usetab,newtab
+    set switchbuf=useopen
+    set stal=2
 
     " Always show the status line
     set laststatus=2
 
-    try
-        set undodir=~/.vim_runtime/temp_dirs/undodir
-        set undofile
-    catch
-    endtry
+    if has('persistent_undo')
+       set undodir=~/.vim_runtime/temp_dirs/undodir
+       set undofile
+    endif
 
     if has('patch-7.4.775')
         set completeopt=menuone,noinsert,noselect
