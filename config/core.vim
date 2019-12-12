@@ -121,10 +121,9 @@ augroup myCore
     " How many tenths of a second to blink when matching brackets
     set mat=2
 
-    set noerrorbells
-    set novisualbell
-    set t_vb=
-    " set tm=500
+    " set noerrorbells
+    " set novisualbell
+    " set t_vb=
 
     set fillchars=vert:│,fold:-
     " let &showbreak = "\u21aa "
