@@ -189,7 +189,7 @@ augroup myCore
     set cino+=l1,g0,N-s,E-s,(0
 
     if has('patch-7.4.338')
-       set breakindent
+        set breakindent
     endif
 
     " Specify the behavior when switching between buffers
@@ -201,8 +201,8 @@ augroup myCore
     set laststatus=2
 
     if has('persistent_undo')
-       set undodir=~/.vim_runtime/temp_dirs/undodir
-       set undofile
+        set undodir=~/.vim_runtime/temp_dirs/undodir
+        set undofile
     endif
 
     if has('patch-7.4.775')
@@ -725,18 +725,18 @@ augroup myCore
     "     exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
     " endfunction
     function! AdjustWindowHeight(minheight, maxheight)
-       let l = 1
-       let n_lines = 0
-       let w_width = winwidth(0)
-       while l <= line('$')
-           " number to float for division
-           let l_len = strlen(getline(l)) + 0.0
-           let line_width = l_len/w_width
-           let n_lines += float2nr(ceil(line_width))
-           let l += 1
-       endw
-       exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
-   endfunction
+        let l = 1
+        let n_lines = 0
+        let w_width = winwidth(0)
+        while l <= line('$')
+            " number to float for division
+            let l_len = strlen(getline(l)) + 0.0
+            let line_width = l_len/w_width
+            let n_lines += float2nr(ceil(line_width))
+            let l += 1
+        endw
+        exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
+    endfunction
     nnoremap <leader>qq :QToggle<cr>
     nnoremap <leader>ll :LToggle<cr>
     nnoremap <leader>qe :cexpr [] <bar> :cclose<cr>
@@ -908,14 +908,14 @@ augroup myCore
     nnoremap <leader>vc :VCS<space>
     command! -nargs=+ -complete=command VCS call VCS(<q-args>)
     function! VCS(cmd) abort
-       let saved = getcwd()
-       exe 'cd ' . GetVCSRoot()
-       try
-          exe a:cmd
-       catch
-          echohl ErrorMsg | echo v:exception | echohl None
-       endtry
-       exe 'cd ' . saved
+        let saved = getcwd()
+        exe 'cd ' . GetVCSRoot()
+        try
+            exe a:cmd
+        catch
+            echohl ErrorMsg | echo v:exception | echohl None
+        endtry
+        exe 'cd ' . saved
     endfunction
 
     nnoremap <leader>vv :vimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
@@ -936,23 +936,23 @@ augroup myCore
     command! -nargs=0 W w !sudo tee % > /dev/null
 
     if executable('xxd')
-       nnoremap <leader>eb :Bin<cr>
-       command! Bin call InvBinMode()
-       function! InvBinMode() abort
-          set invbin
-          let modified = &modified
-          if &bin
-             %!xxd
-             set ft=xxd
-          else
-             %!xxd -r
-             filetype detect
-          endif
-          let &modified = modified
-       endfunction
+        nnoremap <leader>eb :Bin<cr>
+        command! Bin call InvBinMode()
+        function! InvBinMode() abort
+            set invbin
+            let modified = &modified
+            if &bin
+                %!xxd
+                set ft=xxd
+            else
+                %!xxd -r
+                filetype detect
+            endif
+            let &modified = modified
+        endfunction
 
-       au BufWritePre * if &bin | exe '%!xxd -r' | endif
-       au BufWritePost * if &bin | exe '%!xxd' | endif
+        au BufWritePre * if &bin | exe '%!xxd -r' | endif
+        au BufWritePost * if &bin | exe '%!xxd' | endif
     endif
 
     " <TAB>: completion.
@@ -998,25 +998,25 @@ augroup myCore
     nnoremap <leader>bB :call BufClose(1)<cr>
     " Don't close window, when deleting a buffer
     function! BufClose(force)
-       if &modified && !a:force
-          return
-       endif
-       let l:currentBufNum = bufnr('%')
-       let l:alternateBufNum = bufnr('#')
-       let l:doDelete = (empty(&bufhidden) && &hidden) || &bufhidden ==# 'hide'
+        if &modified && !a:force
+            return
+        endif
+        let l:currentBufNum = bufnr('%')
+        let l:alternateBufNum = bufnr('#')
+        let l:doDelete = (empty(&bufhidden) && &hidden) || &bufhidden ==# 'hide'
 
-       if buflisted(l:alternateBufNum)
-          buffer #
-       else
-          try | bnext | catch | endtry
-       endif
+        if buflisted(l:alternateBufNum)
+            buffer #
+        else
+            try | bnext | catch | endtry
+        endif
 
-       if bufnr('%') == l:currentBufNum
-          enew
-       endif
-       if l:doDelete
-          exe 'bdelete' . (a:force ? '! ' : ' ') . l:currentBufNum
-       endif
+        if bufnr('%') == l:currentBufNum
+            enew
+        endif
+        if l:doDelete
+            exe 'bdelete' . (a:force ? '! ' : ' ') . l:currentBufNum
+        endif
     endfunction
 
     nnoremap <leader>bd :try <bar> %bd <bar> catch <bar> endtry<cr>
@@ -1033,7 +1033,7 @@ augroup myCore
 
         for num in range(1, bufnr('$') + 1)
             if buflisted(num) && index(open_buffers, num) == -1
-               try | exec 'bdelete' . (a:force ? '! ' : ' ') . num | catch | endtry
+                try | exec 'bdelete' . (a:force ? '! ' : ' ') . num | catch | endtry
             endif
         endfor
     endfunction
