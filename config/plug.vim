@@ -694,6 +694,7 @@ augroup myPlug
     nnoremap <leader>zO :FZFCommits<cr>
     nnoremap <leader>zc :FZFCommands<cr>
     nnoremap <F3> :FZFCommands<cr>
+    nnoremap <S-F3> :FZFCommands!<cr>
     nnoremap <leader>zC :FZFColors<cr>
     nnoremap <leader>za :FZFAg<cr>
     nnoremap <leader>zr :FZFRg<cr>
