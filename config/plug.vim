@@ -361,6 +361,8 @@ augroup myPlug
                     \ tar xf jdt-language-server-0.35.0-201903142358.tar.gz
         endif
 
+        au CmdwinEnter [:>] iunmap <buffer> <Tab>
+
         inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
         inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
         inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
