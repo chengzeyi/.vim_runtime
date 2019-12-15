@@ -581,13 +581,14 @@ augroup myPlug
     xnoremap <leader>gv :GV<cr>
     xnoremap <leader>gV :GV?<cr>
 
+    nnoremap <leader>gg :Git<space>
+    nnoremap <leader>gG :Ggrep!<space>
     nnoremap <leader>gb :Gblame<cr>
     nnoremap <leader>gB :Gbrowse<cr>
     nnoremap <leader>gc :Gcommit -v<cr>
     nnoremap <leader>gC :Git checkout<space>
     nnoremap <leader>gd :Gdiff<cr>
     nnoremap <leader>gD :Gdelete<cr>
-    nnoremap <leader>gG :Ggrep!<space>
     nnoremap <leader>gm :Gmerge -v<space>
     nnoremap <leader>gM :Gmove<space>
     nnoremap <leader>gl :Glog<cr>
@@ -873,7 +874,7 @@ augroup myPlug
     let g:gutentags_define_advanced_commands = 1
     let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+mnialS', '--extra=+q']
     let g:gutentags_cache_dir = '~/.vim_gutentags'
-    nnoremap <leader>gg :GutentagsToggleEnabled<cr>
+    nnoremap <leader>gt :GutentagsToggleEnabled<cr>
     nnoremap <leader>gu :GutentagsUpdate<cr>
     nnoremap <leader>gU :GutentagsUpdate!<cr>
 
