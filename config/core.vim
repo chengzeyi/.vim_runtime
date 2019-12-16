@@ -215,9 +215,9 @@ augroup myCore
     endif
     set pumheight=12
 
-    " if has('patch-8.1.1714') && has('textprop')
-    "     set previewpopup=height:15,width:60
-    " endif
+    if has('patch-8.1.1714') && has('textprop')
+        set previewpopup=height:15,width:60
+    endif
     set previewheight=6
 
     if has('balloondelay')
