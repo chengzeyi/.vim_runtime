@@ -288,6 +288,8 @@ augroup myPlug
             nmenu PopUp.TypeDefinition <Plug>(lsp-type-definition)
             nmap <leader><cr>h <Plug>(lsp-hover)
             nmenu PopUp.Hover <Plug>(lsp-hover)
+            nmap <leader><cr>H <Plug>(lsp-signature-help)
+            nmenu PopUp.Signature\ Help <Plug>(lsp-signature-help)
             nmap <leader><cr>r <Plug>(lsp-rename)
             nmap <leader><cr>R <Plug>(lsp-references)
             nmap <leader><cr>s <Plug>(lsp-document-symbol)
