@@ -86,6 +86,7 @@ augroup myPlug
 
     " Plug 'rbong/vim-flog'
     Plug 'junegunn/gv.vim'
+    Plug 'tpope/vim-vinegar'
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-rhubarb'
     Plug 'tpope/vim-commentary'
