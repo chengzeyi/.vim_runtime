@@ -410,15 +410,16 @@ augroup myPlug
         let g:asyncomplete_triggers.php = ['->', '::']
         let g:asyncomplete_triggers.javascript = ['.']
         let g:asyncomplete_triggers.css = [':']
-        let g:asyncomplete_triggers.html = ['<']
-        let g:asyncomplete_triggers.xml = ['<']
-        let g:asyncomplete_triggers.markdown = ['<']
+        let g:asyncomplete_triggers.xml = ['<', '</']
+        let g:asyncomplete_triggers.html = ['<', '</']
+        let g:asyncomplete_triggers.xhtml = ['<', '</']
+        let g:asyncomplete_triggers.markdown = ['<', '</']
 
         try
             call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
                         \ 'name': 'omni',
                         \ 'whitelist': ['*'],
-                        \ 'blacklist': ['c', 'cpp', 'html', 'python'],
+                        \ 'blacklist': ['c', 'cpp', 'python'],
                         \ 'priority' : 20,
                         \ 'completor': function('asyncomplete#sources#omni#completor')
                         \  }))
