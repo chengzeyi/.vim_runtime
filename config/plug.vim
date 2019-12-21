@@ -122,7 +122,9 @@ augroup myPlug
     endif
     " Plug 'dbeecham/ctrlp-commandpalette.vim'
 
-    " Plug 'Shougo/echodoc.vim'
+    " if has('nvim') && exists('*nvim_open_win') || has('popupwin')
+    "     Plug 'Shougo/echodoc.vim'
+    " endif
     Plug 'Shougo/neosnippet.vim'
     Plug 'chengzeyi/neosnippet-snippets'
 
@@ -489,8 +491,9 @@ augroup myPlug
 
     " let g:echodoc_enable_at_startup = 1
     " if has('nvim') && exists('*nvim_open_win')
-    "     let g:echodoc_enable_at_startup = 1
     "     let g:echodoc#type = 'floating'
+    " elseif has('popupwin')
+    "     let g:echodoc#type = 'popup'
     " endif
 
     imap <C-\> <Plug>(neosnippet_expand_or_jump)
