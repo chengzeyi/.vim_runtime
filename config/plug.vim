@@ -306,7 +306,7 @@ augroup myPlug
             nmap <leader><cr>[ <Plug>(lsp-preview-close)
             let g:lsp_diagnostics_echo_cursor = 1
             " let g:lsp_preview_autoclose = 0
-            let g:lsp_text_edit_enabled = 0
+            " let g:lsp_text_edit_enabled = 0
             let g:lsp_highlight_references_enabled = 1
             if executable('gopls')
                 au User lsp_setup call lsp#register_server({
