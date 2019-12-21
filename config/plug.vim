@@ -16,6 +16,7 @@ augroup myPlug
     Plug 'vim-python/python-syntax'
     Plug 'plasticboy/vim-markdown'
     Plug 'chrisbra/csv.vim'
+    Plug 'othree/html5.vim'
 
     if has('timers')
         Plug 'prabirshrestha/async.vim'
@@ -411,8 +412,8 @@ augroup myPlug
         let g:asyncomplete_triggers.javascript = ['.']
         let g:asyncomplete_triggers.css = [':']
         let g:asyncomplete_triggers.xml = ['<', '</']
-        let g:asyncomplete_triggers.html = ['<', '</']
-        let g:asyncomplete_triggers.xhtml = ['<', '</']
+        let g:asyncomplete_triggers.html = ['<', '</', '.']
+        let g:asyncomplete_triggers.xhtml = ['<', '</', '.']
         let g:asyncomplete_triggers.markdown = ['<', '</']
 
         try
