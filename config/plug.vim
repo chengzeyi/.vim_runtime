@@ -17,6 +17,7 @@ augroup myPlug
     Plug 'plasticboy/vim-markdown'
     Plug 'chrisbra/csv.vim'
     Plug 'othree/html5.vim'
+    Plug 'uiiaoo/java-syntax.vim'
 
     if has('timers')
         Plug 'prabirshrestha/async.vim'
@@ -171,6 +172,7 @@ augroup myPlug
     " endif
 
     Plug 'guns/xterm-color-table.vim'
+    Plug 'ap/vim-css-color'
 
     Plug 'rhysd/devdocs.vim'
 
