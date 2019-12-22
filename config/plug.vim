@@ -40,8 +40,8 @@ augroup myPlug
         "     Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
         " endif
 
-        " Plug 'Shougo/neco-syntax'
-        " Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
+        Plug 'Shougo/neco-syntax'
+        Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
 
         Plug 'Shougo/neco-vim'
         Plug 'prabirshrestha/asyncomplete-necovim.vim'
@@ -473,11 +473,12 @@ augroup myPlug
             "                 \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
             "                 \ }))
             " endif
-            " call asyncomplete#register_source(asyncomplete#sources#necosyntax#get_source_options({
-            "             \ 'name': 'necosyntax',
-            "             \ 'whitelist': ['*'],
-            "             \ 'completor': function('asyncomplete#sources#necosyntax#completor'),
-            "             \ }))
+            call asyncomplete#register_source(asyncomplete#sources#necosyntax#get_source_options({
+                        \ 'name': 'necosyntax',
+                        \ 'priority' : -20,
+                        \ 'whitelist': ['*'],
+                        \ 'completor': function('asyncomplete#sources#necosyntax#completor'),
+                        \ }))
             call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
                         \ 'name': 'necovim',
                         \ 'whitelist': ['vim'],
