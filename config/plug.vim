@@ -236,7 +236,6 @@ augroup myPlug
     " au FileType java nmap <buffer> <localleader>ia <Plug>(JavaComplete-Imports-Add)
     " au FileType java nmap <buffer> <localleader>im <Plug>(JavaComplete-Imports-AddMissing)
     " au FileType java nmap <buffer> <localleader>ir <Plug>(JavaComplete-Imports-RemoveUnused)
-
     " au FileType java nmap <buffer> <localleader>gm <Plug>(JavaComplete-Generate-AbstractMethods)
     " au FileType java nmap <buffer> <localleader>ga <Plug>(JavaComplete-Generate-Accessors)
     " au FileType java nmap <buffer> <localleader>gs <Plug>(JavaComplete-Generate-AccessorSetter)
@@ -248,9 +247,6 @@ augroup myPlug
     " au FileType java nmap <buffer> <localleader>gC <Plug>(JavaComplete-Generate-DefaultConstructor)
     " au FileType java nmap <buffer> <localleader>gn <Plug>(JavaComplete-Generate-NewClass)
     " au FileType java nmap <buffer> <localleader>gN <Plug>(JavaComplete-Generate-ClassInFile)
-    " au FileType java vmap <buffer> <localleader>gs <Plug>(JavaComplete-Generate-AccessorSetter)
-    " au FileType java vmap <buffer> <localleader>gg <Plug>(JavaComplete-Generate-AccessorGetter)
-    " au FileType java vmap <buffer> <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
 
     let g:python_highlight_all = 1
 
@@ -434,6 +430,7 @@ augroup myPlug
                         \ 'name': 'buffer',
                         \ 'whitelist': ['*'],
                         \ 'blacklist': ['go'],
+                        \ 'priority' : -20,
                         \ 'completor': function('asyncomplete#sources#buffer#completor'),
                         \ 'config': {
                         \    'max_buffer_size': 5000000,
@@ -448,6 +445,7 @@ augroup myPlug
             call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
                         \ 'name': 'tags',
                         \ 'whitelist': ['c'],
+                        \ 'priority' : -10,
                         \ 'completor': function('asyncomplete#sources#tags#completor'),
                         \ 'config': {
                         \    'max_file_size': 50000000,
@@ -456,13 +454,14 @@ augroup myPlug
             if executable('look')
                 call asyncomplete#register_source(asyncomplete#sources#look#get_source_options({
                             \ 'name': 'look',
+                            \ 'priority' : -30,
                             \ 'whitelist': ['text', 'markdown', 'tex'],
                             \ 'completor': function('asyncomplete#sources#look#completor'),
                             \ }))
             endif
             call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
                         \ 'name': 'neosnippet',
-                        \ 'priority' : -10,
+                        \ 'priority' : -40,
                         \ 'whitelist': ['*'],
                         \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
                         \ }))
@@ -475,18 +474,19 @@ augroup myPlug
             " endif
             call asyncomplete#register_source(asyncomplete#sources#necosyntax#get_source_options({
                         \ 'name': 'necosyntax',
-                        \ 'priority' : -20,
+                        \ 'priority' : -50,
                         \ 'whitelist': ['*'],
                         \ 'completor': function('asyncomplete#sources#necosyntax#completor'),
                         \ }))
             call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
                         \ 'name': 'necovim',
+                        \ 'priority' : 20,
                         \ 'whitelist': ['vim'],
                         \ 'completor': function('asyncomplete#sources#necovim#completor'),
                         \ }))
             if !executable('clangd') && executable('clang')
                 call asyncomplete#register_source(
-                        \ asyncomplete#sources#clang#get_source_options())
+                        \ extend(asyncomplete#sources#clang#get_source_options(), {'priority': 20}))
             endif
         catch
         endtry
