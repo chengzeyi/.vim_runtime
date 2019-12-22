@@ -340,7 +340,8 @@ augroup myPlug
                             \ 'whitelist': ['sh', 'bash'],
                             \ })
             endif
-            if executable('java') && filereadable(expand('~/lsp/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_1.5.300.v20190213-1655.jar'))
+            let s:java_lsp_files = globpath('~/lsp/eclipse.jdt.ls', 'plugins/org.eclipse.equinox.launcher_\d\.\d\.\d\d\d\.*\.jar', 1, 1)
+            if executable('java') && !empty(s:java_lsp_files)
                 au User lsp_setup call lsp#register_server({
                             \ 'name': 'eclipse.jdt.ls',
                             \ 'cmd': {server_info->[
@@ -353,7 +354,7 @@ augroup myPlug
                             \     '-Dfile.encoding=UTF-8',
                             \     '-Xmx1G',
                             \     '-jar',
-                            \     expand('~/lsp/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_1.5.300.v20190213-1655.jar'),
+                            \     s:java_lsp_files[0],
                             \     '-configuration',
                             \     expand('~/lsp/eclipse.jdt.ls/config_' . (has('win32') ? 'win' :
                             \       (has('mac') ? 'mac' : 'linux'))),
@@ -366,8 +367,9 @@ augroup myPlug
             command! -nargs=0 InstallJavaLanguageServer
                     \ !mkdir -p ~/lsp/eclipse.jdt.ls &&
                     \ cd ~/lsp/eclipse.jdt.ls &&
-                    \ curl -L https://download.eclipse.org/jdtls/milestones/0.35.0/jdt-language-server-0.35.0-201903142358.tar.gz -O &&
-                    \ tar xf jdt-language-server-0.35.0-201903142358.tar.gz
+                    \ curl -L http://download.eclipse.org/jdtls/milestones/0.48.0/jdt-language-server-0.48.0-201912040033.tar.gz -O &&
+                    \ tar -xf jdt-language-server-0.48.0-201912040033.tar.gz &&
+                    \ rm jdt-language-server-0.48.0-201912040033.tar.gz
         endif
 
         au CmdwinEnter [:>] iunmap <buffer> <Tab>
