@@ -666,6 +666,7 @@ augroup myPlug
     nnoremap <leader>ra :call neomake#configure#automake('w')<cr>
     nnoremap <leader>rA :call neomake#configure#reset_automake()<cr>
 
+    autocmd FileType fzf tnoremap <buffer> <c-n> <c-n>
     let g:fzf_command_prefix = 'FZF'
     " Mapping selecting mappings
     " nmap <c-b> <plug>(fzf-maps-n)
