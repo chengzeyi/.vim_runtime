@@ -598,7 +598,7 @@ augroup myCore
 
     command! -nargs=+ -complete=shellcmd PV call PV(<q-args>)
     function! PV(cmd)
-        if exists('*popup_atcursor')
+        if has('popupwin')
             let out = system(a:cmd)
             let out = split(out, "\n")
             call popup_atcursor(out, {
