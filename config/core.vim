@@ -511,7 +511,7 @@ augroup myCore
     nnoremap <leader>fs :setlocal foldexpr=getline(v:lnum)=~@/ ? 0 : 1 foldmethod=
                 \<c-r>=&foldmethod == 'expr' ? 'indent' : 'expr'<cr> foldlevel=
                 \<c-r>=&foldmethod == 'expr' ? 99 : 0<cr><cr>
-    xnoremap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : '.'
+    xmap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : 'af'
 
     " Changes to allow blank lines in blocks, and
     " Top level blocks (zero indent) separated by two or more blank lines.
