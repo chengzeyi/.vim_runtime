@@ -264,6 +264,9 @@ augroup myPlug
     let g:no_plugin_maps = 1
 
     if v:version >= 800 || has('nvim-0.3.0')
+        " inoremap <expr> <cr> (pumvisible() ? "\<C-y>" : '') . "\<C-g>u\<CR>"
+        inoremap <expr> <cr> pumvisible() ? coc#_select_confirm()
+                    \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
         inoremap <expr> <TAB>
                     \ pumvisible() ? "\<C-n>" :
                     \ <SID>check_back_space() ? "\<TAB>" :
@@ -276,20 +279,19 @@ augroup myPlug
         endfunction
 
         inoremap <expr> <C-l> coc#refresh()
-        inoremap <expr> <cr> (pumvisible() ? "\<C-y>" : '') . "\<C-g>u\<CR>"
         nmap [g <Plug>(coc-diagnostic-prev)
         nmap ]g <Plug>(coc-diagnostic-next)
         nmap gd <Plug>(coc-definition)
         nmap gy <Plug>(coc-type-definition)
         nmap gi <Plug>(coc-implementation)
         nmap gr <Plug>(coc-references)
-        nnoremap <leader><cr>p :call <SID>show_documentation()<CR>
+        nnoremap <leader><cr>k :call <SID>show_documentation()<CR>
         nmap <leader><cr>r <Plug>(coc-rename)
         xmap <leader><cr>f <Plug>(coc-format-selected)
         nmap <leader><cr>f <Plug>(coc-format-selected)
-        xmap <leader><cr>a <Plug>(coc-codeaction-selected)
-        nmap <leader><cr>a <Plug>(coc-codeaction-selected)
-        nmap <leader><cr>A <Plug>(coc-codeaction)
+        xmap <leader><cr>A <Plug>(coc-codeaction-selected)
+        nmap <leader><cr>A <Plug>(coc-codeaction-selected)
+        nmap <leader><cr>a <Plug>(coc-codeaction)
         nmap <leader><cr>F <Plug>(coc-fix-current)
         xmap if <Plug>(coc-funcobj-i)
         xmap af <Plug>(coc-funcobj-a)
@@ -301,7 +303,7 @@ augroup myPlug
         command! -nargs=? CocFold call CocAction('fold', <f-args>)
         command! -nargs=0 CocOrganize call CocAction('runCommand', 'editor.action.organizeImport')
         nnoremap <leader><cr><cr> :<C-u>CocList<cr>
-        nnoremap <leader><cr>l :<C-u>CocListResume<cr>
+        nnoremap <leader><cr>p :<C-u>CocListResume<cr>
         nnoremap <leader><cr>d :<C-u>CocList diagnostics<cr>
         nnoremap <leader><cr>e :<C-u>CocList extensions<cr>
         nnoremap <leader><cr>c :<C-u>CocList commands<cr>
@@ -309,7 +311,7 @@ augroup myPlug
         nnoremap <leader><cr>s :<C-u>CocList -I symbols<cr>
         nnoremap <leader><cr>] :<C-u>CocNext<cr>
         nnoremap <leader><cr>[ :<C-u>CocPrev<cr>
-        nnoremap <leader><cr>C :<C-u>CocConfig<cr>
+        nnoremap <leader><cr>C :<C-u>CocCommand<space>
 
         function! s:show_documentation()
             if (index(['vim','help'], &filetype) >= 0)
