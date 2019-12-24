@@ -19,43 +19,41 @@ augroup myPlug
     Plug 'othree/html5.vim'
     Plug 'uiiaoo/java-syntax.vim'
 
-    if v:version >= 800 || has('nvim-0.3.0')
+    if v:version >= 800 || has('nvim-0.3.0') && exists('g:use_coc')
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
         Plug 'Shougo/neco-vim'
         Plug 'neoclide/coc-neco'
+    elseif has('timers')
+        Plug 'prabirshrestha/async.vim'
+        if has('lambda')
+            Plug 'prabirshrestha/vim-lsp'
+            Plug 'prabirshrestha/asyncomplete-lsp.vim'
+        endif
+
+        Plug 'prabirshrestha/asyncomplete.vim'
+        Plug 'yami-beta/asyncomplete-omni.vim'
+        Plug 'prabirshrestha/asyncomplete-buffer.vim'
+        Plug 'prabirshrestha/asyncomplete-file.vim'
+        Plug 'prabirshrestha/asyncomplete-tags.vim'
+        if executable('look')
+            Plug 'gonzoooooo/asyncomplete-look.vim'
+        endif
+
+        Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
+        " if has('python3')
+        "     Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+        " endif
+
+        Plug 'Shougo/neco-syntax'
+        Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
+
+        Plug 'Shougo/neco-vim'
+        Plug 'prabirshrestha/asyncomplete-necovim.vim'
+        if !executable('clangd') && executable('clang')
+            Plug 'keremc/asyncomplete-clang.vim'
+        endif
     endif
-
-    " if has('timers')
-    "     Plug 'prabirshrestha/async.vim'
-    "     if has('lambda')
-    "         Plug 'prabirshrestha/vim-lsp'
-    "         Plug 'prabirshrestha/asyncomplete-lsp.vim'
-    "     endif
-
-    "     Plug 'prabirshrestha/asyncomplete.vim'
-    "     Plug 'yami-beta/asyncomplete-omni.vim'
-    "     Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    "     Plug 'prabirshrestha/asyncomplete-file.vim'
-    "     Plug 'prabirshrestha/asyncomplete-tags.vim'
-    "     if executable('look')
-    "         Plug 'gonzoooooo/asyncomplete-look.vim'
-    "     endif
-
-    "     Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
-    "     " if has('python3')
-    "     "     Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-    "     " endif
-
-    "     Plug 'Shougo/neco-syntax'
-    "     Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
-
-    "     Plug 'Shougo/neco-vim'
-    "     Plug 'prabirshrestha/asyncomplete-necovim.vim'
-    "     if !executable('clangd') && executable('clang')
-    "         Plug 'keremc/asyncomplete-clang.vim'
-    "     endif
-    " endif
 
     " Plug 'lfilho/cosco.vim'
 
@@ -263,7 +261,9 @@ augroup myPlug
     let g:csv_no_conceal = 1
     let g:no_plugin_maps = 1
 
-    if v:version >= 800 || has('nvim-0.3.0')
+    if v:version >= 800 || has('nvim-0.3.0') && exists('g:use_coc')
+        au CmdwinEnter [:>] iunmap <buffer> <Tab>
+
         " inoremap <expr> <cr> (pumvisible() ? "\<C-y>" : '') . "\<C-g>u\<CR>"
         inoremap <expr> <cr> pumvisible() ? coc#_select_confirm()
                     \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
@@ -331,255 +331,262 @@ augroup myPlug
 
         command -nargs=0 CocInstallBasic call CocInstallBasic()
         function! CocInstallBasic() abort
-            let exts = ['coc-marketplace', 'coc-vimtex', 'coc-neosnippet', 'coc-syntax', 'coc-tag', 'coc-word', 'coc-json']
+            let exts = [
+                \ 'coc-marketplace',
+                \ 'coc-pairs',
+                \ 'coc-vimtex',
+                \ 'coc-neosnippet',
+                \ 'coc-syntax',
+                \ 'coc-tag',
+                \ 'coc-word',
+                \ 'coc-json'
+            \ ]
             for ext in exts
                 execute 'CocInstall ' . ext
             endfor
         endfunction
+    elseif has('timers')
+        if has('lambda')
+            nmap <leader><cr><cr> <Plug>(lsp-status)
+            nmap <leader><cr>a <Plug>(lsp-code-action)
+            nmap <leader><cr>f <Plug>(lsp-document-format)
+            nmap <leader><cr>F <Plug>(lsp-document-range-format)
+            xmap <leader><cr>F <Plug>(lsp-document-range-format)
+            nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
+            nmap <leader><cr>5 <Plug>(lsp-peek-declaration)
+            nmap <leader><cr>1 <Plug>(lsp-declaration)
+            nmap <leader><cr>6 <Plug>(lsp-peek-definition)
+            nmap <leader><cr>2 <Plug>(lsp-definition)
+            nmap <leader><cr>7 <Plug>(lsp-peek-implementation)
+            nmap <leader><cr>3 <Plug>(lsp-implementation)
+            nmap <leader><cr>8 <Plug>(lsp-peek-type-definition)
+            nmap <leader><cr>4 <Plug>(lsp-type-definition)
+            nmap <S-F5> <Plug>(lsp-peek-declaration)
+            nmap <F5> <Plug>(lsp-declaration)
+            nmap <S-F6> <Plug>(lsp-peek-definition)
+            nmap <F6> <Plug>(lsp-definition)
+            nmap <S-F7> <Plug>(lsp-peek-implementation)
+            nmap <F7> <Plug>(lsp-implementation)
+            nmap <S-F8> <Plug>(lsp-peek-type-definition)
+            nmap <F8> <Plug>(lsp-type-definition)
+            nmenu PopUp.Peek\ Declaration <Plug>(lsp-peek-declaration)
+            nmenu PopUp.Declaration <Plug>(lsp-declaration)
+            nmenu PopUp.Peek\ Definition <Plug>(lsp-peek-definition)
+            nmenu PopUp.Definition <Plug>(lsp-definition)
+            nmenu PopUp.Peek\ Implementation <Plug>(lsp-peek-implementation)
+            nmenu PopUp.Implementation <Plug>(lsp-implementation)
+            nmenu PopUp.Peek\ Type\ Definition <Plug>(lsp-peek-type-definition)
+            nmenu PopUp.TypeDefinition <Plug>(lsp-type-definition)
+            nmap <leader><cr>h <Plug>(lsp-hover)
+            nmenu PopUp.Hover <Plug>(lsp-hover)
+            nmap <leader><cr>H <Plug>(lsp-signature-help)
+            nmenu PopUp.Signature\ Help <Plug>(lsp-signature-help)
+            nmap <leader><cr>r <Plug>(lsp-rename)
+            nmap <leader><cr>R <Plug>(lsp-references)
+            nmap <leader><cr>s <Plug>(lsp-document-symbol)
+            nmap <leader><cr>S <Plug>(lsp-workspace-symbol)
+            nmap ]e <Plug>(lsp-next-error)
+            nmap ]r <Plug>(lsp-next-reference)
+            nmap [e <Plug>(lsp-previous-error)
+            nmap [r <Plug>(lsp-previous-reference)
+            nmap <leader><cr>] <Plug>(lsp-preview-focus)
+            nmap <leader><cr>[ <Plug>(lsp-preview-close)
+            let g:lsp_diagnostics_echo_cursor = 1
+            " let g:lsp_preview_autoclose = 0
+            " let g:lsp_text_edit_enabled = 0
+            let g:lsp_highlight_references_enabled = 1
+            if executable('gopls')
+                au User lsp_setup call lsp#register_server({
+                            \ 'name': 'gopls',
+                            \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+                            \ 'whitelist': ['go'],
+                            \ })
+                " au BufWritePre *.go LspDocumentFormatSync
+            endif
+            if executable('pyls')
+                " pip install python-language-server
+                au User lsp_setup call lsp#register_server({
+                            \ 'name': 'pyls',
+                            \ 'cmd': {server_info->['pyls']},
+                            \ 'whitelist': ['python'],
+                            \ })
+            endif
+            if executable('clangd')
+                au User lsp_setup call lsp#register_server({
+                            \ 'name': 'clangd',
+                            \ 'cmd': {server_info->['clangd']},
+                            \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+                            \ })
+            endif
+            if executable('bash-language-server')
+                au User lsp_setup call lsp#register_server({
+                            \ 'name': 'bash-language-server',
+                            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
+                            \ 'whitelist': ['sh', 'bash'],
+                            \ })
+            endif
+            let s:java_lsp_files = globpath('~/lsp/eclipse.jdt.ls', 'plugins/org.eclipse.equinox.launcher_\d\.\d\.\d\d\d\.*\.jar', 1, 1)
+            if executable('java') && !empty(s:java_lsp_files)
+                au User lsp_setup call lsp#register_server({
+                            \ 'name': 'eclipse.jdt.ls',
+                            \ 'cmd': {server_info->[
+                            \     'java',
+                            \     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+                            \     '-Dosgi.bundles.defaultStartLevel=4',
+                            \     '-Declipse.product=org.eclipse.jdt.ls.core.product',
+                            \     '-Dlog.level=ALL',
+                            \     '-noverify',
+                            \     '-Dfile.encoding=UTF-8',
+                            \     '-Xmx1G',
+                            \     '-jar',
+                            \     s:java_lsp_files[0],
+                            \     '-configuration',
+                            \     expand('~/lsp/eclipse.jdt.ls/config_' . (has('win32') ? 'win' :
+                            \       (has('mac') ? 'mac' : 'linux'))),
+                            \     '-data',
+                            \     getcwd()
+                            \ ]},
+                            \ 'whitelist': ['java'],
+                            \ })
+            endif
+            command! -nargs=0 InstallJavaLanguageServer
+                    \ !mkdir -p ~/lsp/eclipse.jdt.ls &&
+                    \ cd ~/lsp/eclipse.jdt.ls &&
+                    \ curl -L http://download.eclipse.org/jdtls/milestones/0.48.0/jdt-language-server-0.48.0-201912040033.tar.gz -O &&
+                    \ tar -xf jdt-language-server-0.48.0-201912040033.tar.gz &&
+                    \ rm jdt-language-server-0.48.0-201912040033.tar.gz
+        endif
+
+        au CmdwinEnter [:>] iunmap <buffer> <Tab>
+
+        inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+        inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+        inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+        imap <c-l> <Plug>(asyncomplete_force_refresh)
+        function! s:sort_by_priority_preprocessor(options, matches) abort
+            let l:items = []
+            let l:startcols = []
+            for [l:source_name, l:matches] in items(a:matches)
+                let l:startcol = l:matches['startcol']
+                let l:base = a:options['typed'][l:startcol - 1:]
+                for l:item in l:matches['items']
+                    if type(l:item) != v:t_dict
+                        continue
+                    endif
+                    if stridx(l:item['word'], l:base) == 0
+                        let l:startcols += [l:startcol]
+                        let l:item['priority'] =
+                                    \ get(asyncomplete#get_source_info(l:source_name), 'priority', 0)
+                        call add(l:items, l:item)
+                    endif
+                endfor
+            endfor
+
+            let a:options['startcol'] = min(l:startcols)
+            let l:items = sort(l:items, {a, b -> b['priority'] - a['priority']})
+
+            call asyncomplete#preprocess_complete(a:options, l:items)
+        endfunction
+        let g:asyncomplete_preprocessor = [function('s:sort_by_priority_preprocessor')]
+        let g:asyncomplete_auto_completeopt = 0
+        if !exists('g:asyncomplete_triggers')
+            let g:asyncomplete_triggers = {}
+        endif
+        let g:asyncomplete_triggers.c = ['.', '->']
+        let g:asyncomplete_triggers.cpp = ['.', '->', '::']
+        let g:asyncomplete_triggers.go = ['.']
+        let g:asyncomplete_triggers.java = ['.']
+        let g:asyncomplete_triggers.python = ['.']
+        let g:asyncomplete_triggers.vim = ['.', '#', ':']
+        let g:asyncomplete_triggers.tex = ['\']
+        let g:asyncomplete_triggers.php = ['->', '::']
+        let g:asyncomplete_triggers.javascript = ['.']
+        let g:asyncomplete_triggers.css = [':']
+        let g:asyncomplete_triggers.xml = ['<', '</']
+        let g:asyncomplete_triggers.html = ['<', '</', '.']
+        let g:asyncomplete_triggers.xhtml = ['<', '</', '.']
+        let g:asyncomplete_triggers.markdown = ['<', '</']
+
+        try
+            call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+                        \ 'name': 'omni',
+                        \ 'whitelist': ['*'],
+                        \ 'blacklist': ['c', 'cpp', 'python'],
+                        \ 'priority' : 20,
+                        \ 'completor': function('asyncomplete#sources#omni#completor')
+                        \  }))
+            call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+                        \ 'name': 'buffer',
+                        \ 'whitelist': ['*'],
+                        \ 'blacklist': ['go'],
+                        \ 'priority' : -20,
+                        \ 'completor': function('asyncomplete#sources#buffer#completor'),
+                        \ 'config': {
+                        \    'max_buffer_size': 5000000,
+                        \  },
+                        \ }))
+            call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+                        \ 'name': 'file',
+                        \ 'whitelist': ['*'],
+                        \ 'priority': 10,
+                        \ 'completor': function('asyncomplete#sources#file#completor')
+                        \ }))
+            call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
+                        \ 'name': 'tags',
+                        \ 'whitelist': ['c'],
+                        \ 'priority' : -10,
+                        \ 'completor': function('asyncomplete#sources#tags#completor'),
+                        \ 'config': {
+                        \    'max_file_size': 50000000,
+                        \  },
+                        \ }))
+            if executable('look')
+                call asyncomplete#register_source(asyncomplete#sources#look#get_source_options({
+                            \ 'name': 'look',
+                            \ 'priority' : -30,
+                            \ 'whitelist': ['text', 'markdown', 'tex'],
+                            \ 'completor': function('asyncomplete#sources#look#completor'),
+                            \ }))
+            endif
+            call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
+                        \ 'name': 'neosnippet',
+                        \ 'priority' : -40,
+                        \ 'whitelist': ['*'],
+                        \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
+                        \ }))
+            " if has('python3')
+            "     call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+            "                 \ 'name': 'ultisnips',
+            "                 \ 'whitelist': ['*'],
+            "                 \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+            "                 \ }))
+            " endif
+            call asyncomplete#register_source(asyncomplete#sources#necosyntax#get_source_options({
+                        \ 'name': 'necosyntax',
+                        \ 'priority' : -50,
+                        \ 'whitelist': ['*'],
+                        \ 'completor': function('asyncomplete#sources#necosyntax#completor'),
+                        \ }))
+            call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
+                        \ 'name': 'necovim',
+                        \ 'priority' : 20,
+                        \ 'whitelist': ['vim'],
+                        \ 'completor': function('asyncomplete#sources#necovim#completor'),
+                        \ }))
+            if !executable('clangd') && executable('clang')
+                call asyncomplete#register_source(
+                        \ extend(asyncomplete#sources#clang#get_source_options(), {'priority': 20}))
+            endif
+        catch
+        endtry
     endif
 
-    " if has('timers')
-    "     if has('lambda')
-    "         nmap <leader><cr><cr> <Plug>(lsp-status)
-    "         nmap <leader><cr>a <Plug>(lsp-code-action)
-    "         nmap <leader><cr>f <Plug>(lsp-document-format)
-    "         nmap <leader><cr>F <Plug>(lsp-document-range-format)
-    "         xmap <leader><cr>F <Plug>(lsp-document-range-format)
-    "         nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
-    "         nmap <leader><cr>5 <Plug>(lsp-peek-declaration)
-    "         nmap <leader><cr>1 <Plug>(lsp-declaration)
-    "         nmap <leader><cr>6 <Plug>(lsp-peek-definition)
-    "         nmap <leader><cr>2 <Plug>(lsp-definition)
-    "         nmap <leader><cr>7 <Plug>(lsp-peek-implementation)
-    "         nmap <leader><cr>3 <Plug>(lsp-implementation)
-    "         nmap <leader><cr>8 <Plug>(lsp-peek-type-definition)
-    "         nmap <leader><cr>4 <Plug>(lsp-type-definition)
-    "         nmap <S-F5> <Plug>(lsp-peek-declaration)
-    "         nmap <F5> <Plug>(lsp-declaration)
-    "         nmap <S-F6> <Plug>(lsp-peek-definition)
-    "         nmap <F6> <Plug>(lsp-definition)
-    "         nmap <S-F7> <Plug>(lsp-peek-implementation)
-    "         nmap <F7> <Plug>(lsp-implementation)
-    "         nmap <S-F8> <Plug>(lsp-peek-type-definition)
-    "         nmap <F8> <Plug>(lsp-type-definition)
-    "         nmenu PopUp.Peek\ Declaration <Plug>(lsp-peek-declaration)
-    "         nmenu PopUp.Declaration <Plug>(lsp-declaration)
-    "         nmenu PopUp.Peek\ Definition <Plug>(lsp-peek-definition)
-    "         nmenu PopUp.Definition <Plug>(lsp-definition)
-    "         nmenu PopUp.Peek\ Implementation <Plug>(lsp-peek-implementation)
-    "         nmenu PopUp.Implementation <Plug>(lsp-implementation)
-    "         nmenu PopUp.Peek\ Type\ Definition <Plug>(lsp-peek-type-definition)
-    "         nmenu PopUp.TypeDefinition <Plug>(lsp-type-definition)
-    "         nmap <leader><cr>h <Plug>(lsp-hover)
-    "         nmenu PopUp.Hover <Plug>(lsp-hover)
-    "         nmap <leader><cr>H <Plug>(lsp-signature-help)
-    "         nmenu PopUp.Signature\ Help <Plug>(lsp-signature-help)
-    "         nmap <leader><cr>r <Plug>(lsp-rename)
-    "         nmap <leader><cr>R <Plug>(lsp-references)
-    "         nmap <leader><cr>s <Plug>(lsp-document-symbol)
-    "         nmap <leader><cr>S <Plug>(lsp-workspace-symbol)
-    "         nmap ]e <Plug>(lsp-next-error)
-    "         nmap ]r <Plug>(lsp-next-reference)
-    "         nmap [e <Plug>(lsp-previous-error)
-    "         nmap [r <Plug>(lsp-previous-reference)
-    "         nmap <leader><cr>] <Plug>(lsp-preview-focus)
-    "         nmap <leader><cr>[ <Plug>(lsp-preview-close)
-    "         let g:lsp_diagnostics_echo_cursor = 1
-    "         " let g:lsp_preview_autoclose = 0
-    "         " let g:lsp_text_edit_enabled = 0
-    "         let g:lsp_highlight_references_enabled = 1
-    "         if executable('gopls')
-    "             au User lsp_setup call lsp#register_server({
-    "                         \ 'name': 'gopls',
-    "                         \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-    "                         \ 'whitelist': ['go'],
-    "                         \ })
-    "             " au BufWritePre *.go LspDocumentFormatSync
-    "         endif
-    "         if executable('pyls')
-    "             " pip install python-language-server
-    "             au User lsp_setup call lsp#register_server({
-    "                         \ 'name': 'pyls',
-    "                         \ 'cmd': {server_info->['pyls']},
-    "                         \ 'whitelist': ['python'],
-    "                         \ })
-    "         endif
-    "         if executable('clangd')
-    "             au User lsp_setup call lsp#register_server({
-    "                         \ 'name': 'clangd',
-    "                         \ 'cmd': {server_info->['clangd']},
-    "                         \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-    "                         \ })
-    "         endif
-    "         if executable('bash-language-server')
-    "             au User lsp_setup call lsp#register_server({
-    "                         \ 'name': 'bash-language-server',
-    "                         \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
-    "                         \ 'whitelist': ['sh', 'bash'],
-    "                         \ })
-    "         endif
-    "         let s:java_lsp_files = globpath('~/lsp/eclipse.jdt.ls', 'plugins/org.eclipse.equinox.launcher_\d\.\d\.\d\d\d\.*\.jar', 1, 1)
-    "         if executable('java') && !empty(s:java_lsp_files)
-    "             au User lsp_setup call lsp#register_server({
-    "                         \ 'name': 'eclipse.jdt.ls',
-    "                         \ 'cmd': {server_info->[
-    "                         \     'java',
-    "                         \     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-    "                         \     '-Dosgi.bundles.defaultStartLevel=4',
-    "                         \     '-Declipse.product=org.eclipse.jdt.ls.core.product',
-    "                         \     '-Dlog.level=ALL',
-    "                         \     '-noverify',
-    "                         \     '-Dfile.encoding=UTF-8',
-    "                         \     '-Xmx1G',
-    "                         \     '-jar',
-    "                         \     s:java_lsp_files[0],
-    "                         \     '-configuration',
-    "                         \     expand('~/lsp/eclipse.jdt.ls/config_' . (has('win32') ? 'win' :
-    "                         \       (has('mac') ? 'mac' : 'linux'))),
-    "                         \     '-data',
-    "                         \     getcwd()
-    "                         \ ]},
-    "                         \ 'whitelist': ['java'],
-    "                         \ })
-    "         endif
-    "         command! -nargs=0 InstallJavaLanguageServer
-    "                 \ !mkdir -p ~/lsp/eclipse.jdt.ls &&
-    "                 \ cd ~/lsp/eclipse.jdt.ls &&
-    "                 \ curl -L http://download.eclipse.org/jdtls/milestones/0.48.0/jdt-language-server-0.48.0-201912040033.tar.gz -O &&
-    "                 \ tar -xf jdt-language-server-0.48.0-201912040033.tar.gz &&
-    "                 \ rm jdt-language-server-0.48.0-201912040033.tar.gz
-    "     endif
-
-    "     au CmdwinEnter [:>] iunmap <buffer> <Tab>
-
-    "     inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    "     inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-    "     inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
-    "     imap <c-l> <Plug>(asyncomplete_force_refresh)
-    "     function! s:sort_by_priority_preprocessor(options, matches) abort
-    "         let l:items = []
-    "         let l:startcols = []
-    "         for [l:source_name, l:matches] in items(a:matches)
-    "             let l:startcol = l:matches['startcol']
-    "             let l:base = a:options['typed'][l:startcol - 1:]
-    "             for l:item in l:matches['items']
-    "                 if type(l:item) != v:t_dict
-    "                     continue
-    "                 endif
-    "                 if stridx(l:item['word'], l:base) == 0
-    "                     let l:startcols += [l:startcol]
-    "                     let l:item['priority'] =
-    "                                 \ get(asyncomplete#get_source_info(l:source_name), 'priority', 0)
-    "                     call add(l:items, l:item)
-    "                 endif
-    "             endfor
-    "         endfor
-
-    "         let a:options['startcol'] = min(l:startcols)
-    "         let l:items = sort(l:items, {a, b -> b['priority'] - a['priority']})
-
-    "         call asyncomplete#preprocess_complete(a:options, l:items)
-    "     endfunction
-    "     let g:asyncomplete_preprocessor = [function('s:sort_by_priority_preprocessor')]
-    "     let g:asyncomplete_auto_completeopt = 0
-    "     if !exists('g:asyncomplete_triggers')
-    "         let g:asyncomplete_triggers = {}
-    "     endif
-    "     let g:asyncomplete_triggers.c = ['.', '->']
-    "     let g:asyncomplete_triggers.cpp = ['.', '->', '::']
-    "     let g:asyncomplete_triggers.go = ['.']
-    "     let g:asyncomplete_triggers.java = ['.']
-    "     let g:asyncomplete_triggers.python = ['.']
-    "     let g:asyncomplete_triggers.vim = ['.', '#', ':']
-    "     let g:asyncomplete_triggers.tex = ['\']
-    "     let g:asyncomplete_triggers.php = ['->', '::']
-    "     let g:asyncomplete_triggers.javascript = ['.']
-    "     let g:asyncomplete_triggers.css = [':']
-    "     let g:asyncomplete_triggers.xml = ['<', '</']
-    "     let g:asyncomplete_triggers.html = ['<', '</', '.']
-    "     let g:asyncomplete_triggers.xhtml = ['<', '</', '.']
-    "     let g:asyncomplete_triggers.markdown = ['<', '</']
-
-    "     try
-    "         call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-    "                     \ 'name': 'omni',
-    "                     \ 'whitelist': ['*'],
-    "                     \ 'blacklist': ['c', 'cpp', 'python'],
-    "                     \ 'priority' : 20,
-    "                     \ 'completor': function('asyncomplete#sources#omni#completor')
-    "                     \  }))
-    "         call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-    "                     \ 'name': 'buffer',
-    "                     \ 'whitelist': ['*'],
-    "                     \ 'blacklist': ['go'],
-    "                     \ 'priority' : -20,
-    "                     \ 'completor': function('asyncomplete#sources#buffer#completor'),
-    "                     \ 'config': {
-    "                     \    'max_buffer_size': 5000000,
-    "                     \  },
-    "                     \ }))
-    "         call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-    "                     \ 'name': 'file',
-    "                     \ 'whitelist': ['*'],
-    "                     \ 'priority': 10,
-    "                     \ 'completor': function('asyncomplete#sources#file#completor')
-    "                     \ }))
-    "         call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
-    "                     \ 'name': 'tags',
-    "                     \ 'whitelist': ['c'],
-    "                     \ 'priority' : -10,
-    "                     \ 'completor': function('asyncomplete#sources#tags#completor'),
-    "                     \ 'config': {
-    "                     \    'max_file_size': 50000000,
-    "                     \  },
-    "                     \ }))
-    "         if executable('look')
-    "             call asyncomplete#register_source(asyncomplete#sources#look#get_source_options({
-    "                         \ 'name': 'look',
-    "                         \ 'priority' : -30,
-    "                         \ 'whitelist': ['text', 'markdown', 'tex'],
-    "                         \ 'completor': function('asyncomplete#sources#look#completor'),
-    "                         \ }))
-    "         endif
-    "         call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
-    "                     \ 'name': 'neosnippet',
-    "                     \ 'priority' : -40,
-    "                     \ 'whitelist': ['*'],
-    "                     \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
-    "                     \ }))
-    "         " if has('python3')
-    "         "     call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-    "         "                 \ 'name': 'ultisnips',
-    "         "                 \ 'whitelist': ['*'],
-    "         "                 \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-    "         "                 \ }))
-    "         " endif
-    "         call asyncomplete#register_source(asyncomplete#sources#necosyntax#get_source_options({
-    "                     \ 'name': 'necosyntax',
-    "                     \ 'priority' : -50,
-    "                     \ 'whitelist': ['*'],
-    "                     \ 'completor': function('asyncomplete#sources#necosyntax#completor'),
-    "                     \ }))
-    "         call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
-    "                     \ 'name': 'necovim',
-    "                     \ 'priority' : 20,
-    "                     \ 'whitelist': ['vim'],
-    "                     \ 'completor': function('asyncomplete#sources#necovim#completor'),
-    "                     \ }))
-    "         if !executable('clangd') && executable('clang')
-    "             call asyncomplete#register_source(
-    "                     \ extend(asyncomplete#sources#clang#get_source_options(), {'priority': 20}))
-    "         endif
-    "     catch
-    "     endtry
-    " endif
-
-    " let g:echodoc_enable_at_startup = 1
-    " if has('nvim') && exists('*nvim_open_win')
-    "     let g:echodoc#type = 'floating'
-    " elseif has('popupwin')
-    "     let g:echodoc#type = 'popup'
-    " endif
+    let g:echodoc_enable_at_startup = 1
+    if has('nvim') && exists('*nvim_open_win')
+        let g:echodoc#type = 'floating'
+    elseif has('popupwin')
+        let g:echodoc#type = 'popup'
+    endif
 
     imap <C-\> <Plug>(neosnippet_expand_or_jump)
     smap <C-\> <Plug>(neosnippet_expand_or_jump)

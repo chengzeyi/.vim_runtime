@@ -263,7 +263,8 @@ augroup myCore
     set csverb
     " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 
-    autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
+    autocmd FileType c,cpp,cs,java,json setlocal commentstring=//\ %s
+    autocmd FileType json syntax match Comment +\/\/.\+$+
 
     if has('python3') || has('python')
         autocmd Filetype python compiler pylint
@@ -511,7 +512,7 @@ augroup myCore
     nnoremap <leader>fs :setlocal foldexpr=getline(v:lnum)=~@/ ? 0 : 1 foldmethod=
                 \<c-r>=&foldmethod == 'expr' ? 'indent' : 'expr'<cr> foldlevel=
                 \<c-r>=&foldmethod == 'expr' ? 99 : 0<cr><cr>
-    xmap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : 'af'
+    xnoremap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : ':<c-u>silent! normal! [zV]z<cr>'
 
     " Changes to allow blank lines in blocks, and
     " Top level blocks (zero indent) separated by two or more blank lines.
@@ -558,8 +559,8 @@ augroup myCore
         endif
     endfunction
 
-    nmap <silent> g<c-t> :set opfunc=Fanyi<CR>g@
-    xmap <silent> g<c-t> :<C-U>call Fanyi(visualmode(), 1)<CR>
+    nnoremap g<c-t> :set opfunc=Fanyi<CR>g@
+    xnoremap g<c-t> :<C-U>call Fanyi(visualmode(), 1)<CR>
     command! -nargs=* Fanyi call DoFanyi(<q-args>)
     function! Fanyi(type, ...)
         let sel_save = &selection
