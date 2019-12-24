@@ -19,7 +19,7 @@ augroup myPlug
     Plug 'othree/html5.vim'
     Plug 'uiiaoo/java-syntax.vim'
 
-    if v:version >= 800 || has('nvim-0.3.0') && exists('g:use_coc')
+    if (v:version >= 800 || has('nvim-0.3.0')) && exists('g:use_coc')
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
         Plug 'Shougo/neco-vim'
@@ -261,7 +261,7 @@ augroup myPlug
     let g:csv_no_conceal = 1
     let g:no_plugin_maps = 1
 
-    if v:version >= 800 || has('nvim-0.3.0') && exists('g:use_coc')
+    if (v:version >= 800 || has('nvim-0.3.0')) && exists('g:use_coc')
         au CmdwinEnter [:>] iunmap <buffer> <Tab>
 
         " inoremap <expr> <cr> (pumvisible() ? "\<C-y>" : '') . "\<C-g>u\<CR>"
@@ -353,14 +353,14 @@ augroup myPlug
             nmap <leader><cr>F <Plug>(lsp-document-range-format)
             xmap <leader><cr>F <Plug>(lsp-document-range-format)
             nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
-            nmap <leader><cr>5 <Plug>(lsp-peek-declaration)
-            nmap <leader><cr>1 <Plug>(lsp-declaration)
-            nmap <leader><cr>6 <Plug>(lsp-peek-definition)
-            nmap <leader><cr>2 <Plug>(lsp-definition)
-            nmap <leader><cr>7 <Plug>(lsp-peek-implementation)
-            nmap <leader><cr>3 <Plug>(lsp-implementation)
-            nmap <leader><cr>8 <Plug>(lsp-peek-type-definition)
-            nmap <leader><cr>4 <Plug>(lsp-type-definition)
+            nmap gE <Plug>(lsp-peek-declaration)
+            nmap ge <Plug>(lsp-declaration)
+            nmap gD <Plug>(lsp-peek-definition)
+            nmap gd <Plug>(lsp-definition)
+            nmap gI <Plug>(lsp-peek-implementation)
+            nmap gi <Plug>(lsp-implementation)
+            nmap gY <Plug>(lsp-peek-type-definition)
+            nmap gy <Plug>(lsp-type-definition)
             nmap <S-F5> <Plug>(lsp-peek-declaration)
             nmap <F5> <Plug>(lsp-declaration)
             nmap <S-F6> <Plug>(lsp-peek-definition)
