@@ -4,11 +4,6 @@ augroup myAddition
     try | colorscheme murphy | catch | endtry
 
     nnoremap <leader>x :q<cr>
-    inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "<tab>"
-    inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-    inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<down>"
-    inoremap <expr> <up> pumvisible() ? "\<c-p>" : "\<up>"
-    inoremap <expr> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
 
     au InsertCharPre * noautocmd if !pumvisible() && v:char =~# '\k' | call feedkeys("\<c-n>", 'n') | endif
 

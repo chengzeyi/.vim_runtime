@@ -19,7 +19,7 @@ augroup myPlug
     Plug 'othree/html5.vim'
     Plug 'uiiaoo/java-syntax.vim'
 
-    if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('node')
+    if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('node')
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
         Plug 'Shougo/neco-vim'
@@ -261,23 +261,7 @@ augroup myPlug
     let g:csv_no_conceal = 1
     let g:no_plugin_maps = 1
 
-    if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('node')
-        au CmdwinEnter [:>] iunmap <buffer> <Tab>
-
-        " inoremap <expr> <cr> (pumvisible() ? "\<C-y>" : '') . "\<C-g>u\<CR>"
-        inoremap <expr> <cr> pumvisible() ? coc#_select_confirm()
-                    \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-        inoremap <expr> <TAB>
-                    \ pumvisible() ? "\<C-n>" :
-                    \ <SID>check_back_space() ? "\<TAB>" :
-                    \ coc#refresh()
-        inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-        function! s:check_back_space() abort
-            let col = col('.') - 1
-            return !col || getline('.')[col - 1]  =~# '\s'
-        endfunction
-
+    if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('node')
         inoremap <expr> <C-l> coc#refresh()
         nmap [g <Plug>(coc-diagnostic-prev)
         nmap ]g <Plug>(coc-diagnostic-next)
@@ -457,11 +441,6 @@ augroup myPlug
                     \ rm jdt-language-server-0.48.0-201912040033.tar.gz
         endif
 
-        au CmdwinEnter [:>] iunmap <buffer> <Tab>
-
-        inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-        inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-        inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
         imap <c-l> <Plug>(asyncomplete_force_refresh)
         function! s:sort_by_priority_preprocessor(options, matches) abort
             let l:items = []

@@ -967,6 +967,8 @@ augroup myCore
     xnoremap * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
     xnoremap # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
+    nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+
     nnoremap gh H
     nnoremap gm M
     nnoremap gl L
@@ -1107,6 +1109,22 @@ augroup myCore
         endif
         return ''
     endfun
+
+    au CmdwinEnter [:>] iunmap <buffer> <Tab>
+
+    if exists('*complete_info')
+        inoremap <expr> <cr> complete_info()["selected"] != "-1" ?
+                    \ "<C-y>" : "\<C-g>u\<CR>"
+    else
+        inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    endif
+    inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+    function! s:check_back_space() abort
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
 
     if !has('nvim') && has('terminal')
         if executable('pudb3')
