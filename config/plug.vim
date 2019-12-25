@@ -436,6 +436,7 @@ augroup myPlug
             command! -nargs=0 InstallJavaLanguageServer
                     \ !mkdir -p ~/lsp/eclipse.jdt.ls &&
                     \ cd ~/lsp/eclipse.jdt.ls &&
+                    \ rm -f * &&
                     \ curl -L http://download.eclipse.org/jdtls/milestones/0.48.0/jdt-language-server-0.48.0-201912040033.tar.gz -O &&
                     \ tar -xf jdt-language-server-0.48.0-201912040033.tar.gz &&
                     \ rm jdt-language-server-0.48.0-201912040033.tar.gz
