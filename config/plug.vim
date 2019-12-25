@@ -19,7 +19,7 @@ augroup myPlug
     Plug 'othree/html5.vim'
     Plug 'uiiaoo/java-syntax.vim'
 
-    if (v:version >= 800 || has('nvim-0.3.0')) && exists('g:use_coc')
+    if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('node')
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
         Plug 'Shougo/neco-vim'
@@ -261,7 +261,7 @@ augroup myPlug
     let g:csv_no_conceal = 1
     let g:no_plugin_maps = 1
 
-    if (v:version >= 800 || has('nvim-0.3.0')) && exists('g:use_coc')
+    if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('node')
         au CmdwinEnter [:>] iunmap <buffer> <Tab>
 
         " inoremap <expr> <cr> (pumvisible() ? "\<C-y>" : '') . "\<C-g>u\<CR>"
