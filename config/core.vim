@@ -13,8 +13,6 @@ augroup myCore
 
     " set shortmess=a
 
-    set belloff=all
-
     set mouse=a
     if exists('+ttymouse')
         if has('mouse_sgr')
@@ -120,6 +118,8 @@ augroup myCore
     set showmatch
     " How many tenths of a second to blink when matching brackets
     set mat=2
+
+    set belloff=all
 
     " set noerrorbells
     " set novisualbell
