@@ -981,8 +981,8 @@ augroup myPlug
                 \ }, <bang>0)
 
     if has('patch-8.1.2114') || has('nvim-0.4')
-        nnoremap <leader>cc :Clap<cr>
-        nnoremap <leader>cC :Clap<space>
+        nnoremap <leader>cc :Clap<space>
+        nnoremap <leader>cC :Clap<cr>
         command! -nargs=0 ClapBuildAll call clap#helper#build_all()
     endif
 
