@@ -160,6 +160,10 @@ augroup myPlug
     Plug 'junegunn/fzf', {'dir': '~/.fzf'}
     Plug 'junegunn/fzf.vim'
 
+    if has('patch-8.1.2114') || has('nvim-0.4')
+        Plug 'liuchengxu/vim-clap'
+    endif
+
     Plug 'nathanaelkane/vim-indent-guides'
 
     if exists(':terminal') && (has('patch-8.0.1593') || has('nvim'))
@@ -454,7 +458,7 @@ augroup myPlug
                             \ 'whitelist': ['java'],
                             \ })
             endif
-            command! -nargs=0 InstallJavaLanguageServer
+            command! -nargs=0 LSPInstallJava
                     \ !mkdir -p ~/lsp/eclipse.jdt.ls &&
                     \ cd ~/lsp/eclipse.jdt.ls &&
                     \ rm -f * &&
@@ -975,6 +979,12 @@ augroup myPlug
                 \                 (<bang>0 ? '' : ' --bind "?:toggle-preview"') .
                 \                 ' -m --layout=default'
                 \ }, <bang>0)
+
+    if has('patch-8.1.2114') || has('nvim-0.4')
+        nnoremap <leader>cc :Clap<cr>
+        nnoremap <leader>cC :Clap<space>
+        command! -nargs=0 ClapBuildAll call clap#helper#build_all()
+    endif
 
     nmap <c-_> <Plug>CommentaryLine
     vmap <c-_> <Plug>Commentary
