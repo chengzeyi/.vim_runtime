@@ -36,7 +36,7 @@ augroup myGui
         set ballooneval
     endif
 
-    nnoremap <S-Up> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0)+1)', 'g')<cr>
+    nnoremap <S-Up> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) + 1)', 'g')<cr>
     nnoremap <S-Down> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g')<cr>
 
     nnoremap <leader>eg :e ~/.vim_runtime/config/gui.vim<cr>
