@@ -294,12 +294,17 @@ augroup myCore
     let g:netrw_liststyle = 1
 
     inoremap <c-a> <home>
-    inoremap <c-e> <end>
+    " inoremap <c-e> <end>
+    inoremap <c-k> <end><c-u>
 
     " Bash like keys for the command line
     cnoremap <C-A> <Home>
     cnoremap <C-E> <End>
-    cnoremap <C-K> <C-U>
+    if v:version >= 600
+        cnoremap <C-K> <End><C-U>
+    else
+        cnoremap <C-K> <C-U>
+    endif
 
     cnoremap <C-P> <Up>
     cnoremap <C-N> <Down>
@@ -906,7 +911,7 @@ augroup myCore
     nnoremap <C-\><C-\>I :scs find i<space>
     nnoremap <C-\><C-\>D :scs find d<space>
 
-    nnoremap <leader>vc :VCS<space>
+    nnoremap <leader>vv :VCS<space>
     command! -nargs=+ -complete=command VCS call VCS(<q-args>)
     function! VCS(cmd) abort
         let saved = getcwd()
@@ -919,8 +924,8 @@ augroup myCore
         exe 'cd ' . saved
     endfunction
 
-    nnoremap <leader>vv :vimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
-    nnoremap <leader>vV :vimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
+    nnoremap <leader>vg :vimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
+    nnoremap <leader>vG :vimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
     nnoremap <leader>vl :lvimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
     nnoremap <leader>vL :lvimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
     nnoremap <leader>ss :%s//g<left><left>
@@ -1109,22 +1114,6 @@ augroup myCore
         endif
         return ''
     endfun
-
-    au CmdwinEnter [:>] iunmap <buffer> <Tab>
-
-    if exists('*complete_info')
-        inoremap <expr> <cr> complete_info()["selected"] != "-1" ?
-                    \ "<C-y>" : "\<C-g>u\<CR>"
-    else
-        inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-    endif
-    inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-    inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-    function! s:check_back_space() abort
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
 
     if !has('nvim') && has('terminal')
         if executable('pudb3')

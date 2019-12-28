@@ -16,7 +16,7 @@ augroup myGui
         elseif has("gui_macvim")
             set guifont=Menlo\ Regular:h14
         elseif has("gui_win32")
-            set guifont=Hack\ Regular:h12,Consolas:h12
+            set guifont=Hack\ Regular:h11,Consolas:h11
         endif
     catch
     endtry

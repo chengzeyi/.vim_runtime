@@ -262,6 +262,27 @@ augroup myPlug
     let g:no_plugin_maps = 1
 
     if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('node')
+        au CmdwinEnter [:>] iunmap <buffer> <Tab>
+
+        inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<End>"
+
+        if exists('*complete_info')
+            inoremap <expr> <cr> complete_info()["selected"] != "-1" ?
+                        \ "<C-y>" : "\<C-g>u\<CR>"
+        else
+            inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+        endif
+        inoremap <silent><expr> <TAB>
+                    \ pumvisible() ? "\<C-n>" :
+                    \ <SID>check_back_space() ? "\<TAB>" :
+                    \ coc#refresh()
+        inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+        function! s:check_back_space() abort
+            let col = col('.') - 1
+            return !col || getline('.')[col - 1]  =~# '\s'
+        endfunction
+
         inoremap <expr> <C-l> coc#refresh()
         nmap [g <Plug>(coc-diagnostic-prev)
         nmap ]g <Plug>(coc-diagnostic-next)
@@ -441,6 +462,28 @@ augroup myPlug
                     \ tar -xf jdt-language-server-0.48.0-201912040033.tar.gz &&
                     \ rm jdt-language-server-0.48.0-201912040033.tar.gz
         endif
+
+        au CmdwinEnter [:>] iunmap <buffer> <Tab>
+
+        inoremap <expr> <C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
+        inoremap <expr> <C-e> pumvisible() ? asyncomplete#cancel_popup() : "\<End>"
+
+        if exists('*complete_info')
+            inoremap <expr> <cr> complete_info()["selected"] != "-1" ?
+                        \ asyncomplete#close_popup() : "\<C-g>u\<CR>"
+        else
+            inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<C-g>u\<CR>"
+        endif
+        inoremap <silent><expr> <TAB>
+                    \ pumvisible() ? "\<C-n>" :
+                    \ <SID>check_back_space() ? "\<TAB>" :
+                    \ asyncomplete#force_refresh()
+        inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+        function! s:check_back_space() abort
+            let col = col('.') - 1
+            return !col || getline('.')[col - 1]  =~# '\s'
+        endfunction
 
         imap <c-l> <Plug>(asyncomplete_force_refresh)
         function! s:sort_by_priority_preprocessor(options, matches) abort
