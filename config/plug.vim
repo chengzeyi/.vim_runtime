@@ -914,10 +914,10 @@ augroup myPlug
                 \     <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
                 \     <bang>0)
     function! FZFHistory(arg, options, bang)
-        let bang = a:bang || a:arg[len(a:arg)-1] == '!'
-        if a:arg[0] == ':'
+        let bang = a:bang || a:arg[len(a:arg) - 1] ==# '!'
+        if a:arg[0] ==# ':'
             call fzf#vim#command_history(a:options, bang)
-        elseif a:arg[0] == '/'
+        elseif a:arg[0] ==# '/'
             call fzf#vim#search_history(a:options, bang)
         else
             call fzf#vim#history(a:options, bang)

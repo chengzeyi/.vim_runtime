@@ -397,21 +397,21 @@ augroup myCore
     function! GotoJump()
         redraw!
         jumps
-        let j = input("Please select your jump ([count]j|k): ")
+        let j = input('Please select your jump ([count]j|k): ')
         if j =~# '\v[0-9]+j'
-            execute "normal! " . j[0:-2] . "\<c-i>"
+            execute 'normal! ' . j[0:-2] . "\<c-i>"
         elseif j =~# '\v[0-9]+k'
-            execute "normal! " . j[0:-2] . "\<c-o>"
+            execute 'normal! ' . j[0:-2] . "\<c-o>"
         endif
     endfunction
     function! GotoTag()
         redraw!
         tags
-        let j = input("Please select your tag ([count]j|k): ")
+        let j = input('Please select your tag ([count]j|k): ')
         if j =~# '\v[0-9]+j'
-            execute j[0:-2] . "tag"
+            execute j[0:-2] . 'tag'
         elseif j =~# '\v[0-9]+k'
-            execute j[0:-2] . "pop"
+            execute j[0:-2] . 'pop'
         endif
     endfunction
     nnoremap <leader>? :call LookUpMap(1, '', '')<cr>
@@ -529,34 +529,34 @@ augroup myCore
     xnoremap ai <Esc>:call IndTxtObj(0)<CR><Esc>gv
     xnoremap ii <Esc>:call IndTxtObj(1)<CR><Esc>gv
     function! IndTxtObj(inner)
-        let curcol = col(".")
-        let curline = line(".")
-        let lastline = line("$")
-        let i = indent(line("."))
-        if getline(".") !~ "^\\s*$"
-            let p = line(".") - 1
-            let pp = line(".") - 2
+        let curcol = col('.')
+        let curline = line('.')
+        let lastline = line('$')
+        let i = indent(line('.'))
+        if getline('.') !~ "^\\s*$"
+            let p = line('.') - 1
+            let pp = line('.') - 2
             let nextblank = getline(p) =~ "^\\s*$"
             let nextnextblank = getline(pp) =~ "^\\s*$"
             while p > 0 && ((i == 0 && (!nextblank || (pp > 0 && !nextnextblank))) ||
                         \ (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
                 -
-                let p = line(".") - 1
-                let pp = line(".") - 2
+                let p = line('.') - 1
+                let pp = line('.') - 2
                 let nextblank = getline(p) =~ "^\\s*$"
                 let nextnextblank = getline(pp) =~ "^\\s*$"
             endwhile
             normal! 0V
             call cursor(curline, curcol)
-            let p = line(".") + 1
-            let pp = line(".") + 2
+            let p = line('.') + 1
+            let pp = line('.') + 2
             let nextblank = getline(p) =~ "^\\s*$"
             let nextnextblank = getline(pp) =~ "^\\s*$"
             while p <= lastline && ((i == 0 && (!nextblank || pp < lastline && !nextnextblank)) ||
                         \ (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
                 +
-                let p = line(".") + 1
-                let pp = line(".") + 2
+                let p = line('.') + 1
+                let pp = line('.') + 2
                 let nextblank = getline(p) =~ "^\\s*$"
                 let nextnextblank = getline(pp) =~ "^\\s*$"
             endwhile
@@ -569,15 +569,15 @@ augroup myCore
     command! -nargs=* Fanyi call DoFanyi(<q-args>)
     function! Fanyi(type, ...)
         let sel_save = &selection
-        let &selection = "inclusive"
+        let &selection = "i'clusive"
         let reg_save = @@
 
         if a:0  " Invoked from Visual mode, use gv command.
-            silent exe "normal! gvy"
-        elseif a:type == 'line'
+            silent exe 'normal! gvy'
+        elseif a:type ==# 'line'
             silent exe "normal! '[V']y"
         else
-            silent exe "normal! `[v`]y"
+            silent exe 'normal! `[v`]y'
         endif
 
         let &selection = sel_save
@@ -597,7 +597,7 @@ augroup myCore
             echohl ErrorMsg | echo 'No dict program installed' | echohl None
         endif
 
-        if cmd != ''
+        if !empty(cmd)
             call PV(cmd)
         endif
     endfunction
@@ -638,20 +638,20 @@ augroup myCore
     " endif
 
     function! CmdLine(str)
-        call feedkeys(":" . a:str)
+        call feedkeys(':' . a:str)
     endfunction
 
     function! VisualSelection(direction, extra_filter) range
         let l:saved_reg = @"
-        execute "normal! vgvy"
+        execute 'normal! vgvy'
 
         let l:pattern = escape(@", "\\/.*'$^~[]")
-        let l:pattern = substitute(l:pattern, "\n$", "", "")
+        let l:pattern = substitute(l:pattern, "\n$", '', '')
 
-        if a:direction == 'gv'
+        if a:direction ==# 'gv'
             call CmdLine("Ack '" . l:pattern . "' " )
-        elseif a:direction == 'replace'
-            call CmdLine("%s" . '/'. l:pattern . '/')
+        elseif a:direction ==# 'replace'
+            call CmdLine('%s' . '/'. l:pattern . '/')
         endif
 
         let @/ = l:pattern
@@ -741,7 +741,7 @@ augroup myCore
             let n_lines += float2nr(ceil(line_width))
             let l += 1
         endw
-        exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
+        exe max([min([n_lines, a:maxheight]), a:minheight]) . 'wincmd _'
     endfunction
     nnoremap <leader>qq :QToggle<cr>
     nnoremap <leader>ll :LToggle<cr>
@@ -767,7 +767,7 @@ augroup myCore
         silent! lclose
 
         if BufferCount() == buffer_count_before
-            execute "silent! lwindow " . a:height
+            execute 'silent! lwindow ' . a:height
         endif
     endfunction
     function! QListToggle(height) abort
@@ -775,7 +775,7 @@ augroup myCore
         silent! cclose
 
         if BufferCount() == buffer_count_before
-            execute "silent! botright cwindow " . a:height
+            execute 'silent! botright cwindow ' . a:height
         endif
     endfunction
     function! BufferCount() abort
@@ -1071,12 +1071,12 @@ augroup myCore
     nnoremap <expr> <leader>cD ':cd ' . GetVCSRoot() . "\<lt>cr>"
     function! GetVCSRoot()
         let cph = expand('%:p:h', 1)
-        if cph =~ '^.\+://' | retu | en
+        if cph =~# '^.\+://' | retu | en
         for mkr in ['.git/', '.hg/', '.svn/', '.bzr/', '_darcs/', '.vimprojects']
-            let wd = call('find'.(mkr =~ '/$' ? 'dir' : 'file'), [mkr, cph.';'])
-            if wd != '' | let &acd = 0 | brea | en
+            let wd = call('find'.(mkr =~# '/$' ? 'dir' : 'file'), [mkr, cph.';'])
+            if !empty(wd) | let &acd = 0 | brea | en
         endfo
-        return fnameescape(wd == '' ? cph : substitute(wd, mkr.'$', '.', ''))
+        return fnameescape(empty(wd) ? cph : substitute(wd, mkr.'$', '.', ''))
     endfunction
 
     nnoremap <leader>sl :set invspell<cr>
@@ -1096,7 +1096,7 @@ augroup myCore
                     \ '{' : '}',
                     \ '"' : '"',
                     \ "'" : "'",
-                    \ "`" : "`",
+                    \ '`' : '`',
                     \ }
 
         let attr = synIDattr(synID(line('.'), col('.') - 1, 0), 'name')

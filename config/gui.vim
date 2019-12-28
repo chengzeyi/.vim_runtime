@@ -7,15 +7,15 @@ augroup myGui
     " endif
 
     try
-        if has("gui_gtk2")
+        if has('gui_gtk2')
             set guifont=Inconsolata\ 12,Hack\ Regular\ 11
-        elseif has("gui_gtk3")
+        elseif has('gui_gtk3')
             set guifont=Inconsolata\ 14,Hack\ Regular\ 13
-        elseif has("gui_athena")
+        elseif has('gui_athena')
             set guifont=Inconsolata\ 14,Hack\ Regular\ 13
-        elseif has("gui_macvim")
+        elseif has('gui_macvim')
             set guifont=Menlo\ Regular:h14
-        elseif has("gui_win32")
+        elseif has('gui_win32')
             set guifont=Hack\ Regular:h11,Consolas:h11
         endif
     catch
