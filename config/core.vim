@@ -948,6 +948,8 @@ augroup myCore
 
     command! -nargs=0 W w !sudo tee % > /dev/null
 
+    nnoremap <leader>ew :e <C-R>=expand("%:.:h") . "/"<CR>
+
     if executable('xxd')
         nnoremap <leader>eb :Bin<cr>
         command! Bin call InvBinMode()
