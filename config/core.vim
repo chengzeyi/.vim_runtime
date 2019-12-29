@@ -32,7 +32,7 @@ augroup myCore
     " set tags+=~/.vimtags
     " set tags+=~/.vim_runtime/tags/cpp_tags
 
-    set updatetime=500
+    set updatetime=250
 
     set background=dark
 
