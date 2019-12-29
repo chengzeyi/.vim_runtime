@@ -100,6 +100,7 @@ augroup myPlug
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-sleuth'
     Plug 'tpope/vim-dadbod'
+    Plug 'tpope/vim-dispatch'
     Plug 'tpope/vim-repeat'
     " Plug 'tpope/vim-eunuch'
 
@@ -1004,6 +1005,27 @@ augroup myPlug
     nnoremap <leader>dB :%DB<space>
     xnoremap <leader>db :DB<space>
 
+    nnoremap <leader>mm :Make<space>
+    nnoremap <leader>mM :Make!<space>
+    nnoremap <leader>Mm :Make<cr>
+    nnoremap <leader>MM :Make!<cr>
+
+    nnoremap <leader>dc :Copen<cr>
+    nnoremap <leader>dC :Copen!<cr>
+
+    nnoremap <leader>dd :Dispatch<space>
+    nnoremap <leader>dD :Dispatch!<space>
+    nnoremap <leader>Dd :Dispatch<cr>
+    nnoremap <leader>DD :Dispatch!<cr>
+
+    nnoremap <leader>df :FocusDispatch<space>
+    nnoremap <leader>dF :FocusDispatch!<space>
+    nnoremap <leader>Df :FocusDispatch<cr>
+    nnoremap <leader>DF :FocusDispatch!<cr>
+
+    nnoremap <leader>da :AbortDispatch<cr>
+    nnoremap <leader>dA :AbortDispatch<space>
+
     if !exists('g:gutentags_modules')
         let g:gutentags_modules = []
     endif
@@ -1148,7 +1170,7 @@ augroup myPlug
     let g:undotree_SetFocusWhenToggle = 1
     let g:undotree_HelpLine = 0
 
-    nnoremap <leader>mm :MarkifyToggle<cr>
+    nnoremap <leader>mt :MarkifyToggle<cr>
     nnoremap <leader>mk :Markify<cr>
     nnoremap <leader>mc :MarkifyClear<cr>
     " let g:markify_echo_current_message = 1

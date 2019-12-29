@@ -992,7 +992,7 @@ augroup myCore
     nnoremap <s-left> <c-w>h
     nnoremap <s-right> <c-w>l
 
-    nnoremap <a-h> <c-w>j
+    nnoremap <a-j> <c-w>j
     nnoremap <a-k> <c-w>k
     nnoremap <a-h> <c-w>h
     nnoremap <a-l> <c-w>l
