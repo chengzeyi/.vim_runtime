@@ -73,7 +73,7 @@ augroup myCore
     let $LANG='en'
     set langmenu=en
 
-    set spelllang=en_gb
+    " set spelllang=en_gb
 
     set wildmenu
     set wildmode=longest,full
