@@ -323,7 +323,7 @@ augroup myCore
     noremap 0 ^
     noremap ^ 0
     nnoremap Q @q
-    nnoremap M `m
+    " nnoremap M `m
     nnoremap Y y$
 
     nnoremap <leader><bslash> :vs<cr>
@@ -974,9 +974,9 @@ augroup myCore
 
     nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
-    nnoremap gh H
-    nnoremap gm M
-    nnoremap gl L
+    " nnoremap gh H
+    " nnoremap gm M
+    " nnoremap gl L
 
     nnoremap <c-k> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>
     nnoremap <c-j> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>
@@ -987,10 +987,10 @@ augroup myCore
     nnoremap <leader><c-h> :nohls<cr>
 
     " Smart way to move between windows
-    nnoremap <s-j> <c-w>j
-    nnoremap <s-k> <c-w>k
-    nnoremap <s-h> <c-w>h
-    nnoremap <s-l> <c-w>l
+    nnoremap <s-down> <c-w>j
+    nnoremap <s-up> <c-w>k
+    nnoremap <s-left> <c-w>h
+    nnoremap <s-right> <c-w>l
 
     nnoremap <leader>= <c-w>=
     nnoremap <leader>+ :resize +5<cr>

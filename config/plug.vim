@@ -294,7 +294,6 @@ augroup myPlug
         nmap gy <Plug>(coc-type-definition)
         nmap gi <Plug>(coc-implementation)
         nmap gr <Plug>(coc-references)
-        nnoremap <leader><cr>k :call <SID>show_documentation()<CR>
         nmap <leader><cr>r <Plug>(coc-rename)
         nmap <leader><cr>q <Plug>(coc-fix-current)
         xmap <leader><cr>F <Plug>(coc-format-selected)
@@ -323,6 +322,7 @@ augroup myPlug
         nnoremap <leader><cr>[ :<C-u>CocPrev<cr>
         nnoremap <leader><cr>C :<C-u>CocCommand<space>
 
+        nnoremap K :call <SID>show_documentation()<CR>
         function! s:show_documentation()
             if (index(['vim','help'], &filetype) >= 0)
                 execute 'h '.expand('<cword>')
@@ -400,10 +400,21 @@ augroup myPlug
             nmap [r <Plug>(lsp-previous-reference)
             nmap <leader><cr>] <Plug>(lsp-preview-focus)
             nmap <leader><cr>[ <Plug>(lsp-preview-close)
+
+            nnoremap K :call <SID>show_documentation()<CR>
+            function! s:show_documentation()
+                if (index(['vim','help'], &filetype) >= 0)
+                    execute 'h '.expand('<cword>')
+                else
+                    LspHover
+                endif
+            endfunction
+
             let g:lsp_diagnostics_echo_cursor = 1
             " let g:lsp_preview_autoclose = 0
             " let g:lsp_text_edit_enabled = 0
             let g:lsp_highlight_references_enabled = 1
+
             if executable('gopls')
                 au User lsp_setup call lsp#register_server({
                             \ 'name': 'gopls',
