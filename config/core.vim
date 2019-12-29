@@ -992,6 +992,11 @@ augroup myCore
     nnoremap <s-left> <c-w>h
     nnoremap <s-right> <c-w>l
 
+    nnoremap <a-h> <c-w>j
+    nnoremap <a-k> <c-w>k
+    nnoremap <a-h> <c-w>h
+    nnoremap <a-l> <c-w>l
+
     nnoremap <leader>= <c-w>=
     nnoremap <leader>+ :resize +5<cr>
     nnoremap <leader>- :resize -5<cr>
