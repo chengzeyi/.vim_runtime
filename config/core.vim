@@ -260,8 +260,10 @@ augroup myCore
         set balloonexpr=BalloonExpr()
     endif
 
-    set csverb
-    " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
+    if has('cscope')
+        set csverb
+        " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
+    endif
 
     autocmd FileType c,cpp,cs,java,json setlocal commentstring=//\ %s
     autocmd FileType json syntax match Comment +\/\/.\+$+
@@ -861,55 +863,57 @@ augroup myCore
     command! -complete=file -nargs=* Ctags !ctags
                 \ -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q <args>
 
-    nnoremap <leader>cs :Cscope<cr>
-    nnoremap <leader>cS :Cscope<space>
-    command! -complete=file -nargs=* Cscope !cscope
-                \ -RUbq <args>
-    nnoremap <C-\>q :set cscopequickfix=<c-r>=&cscopequickfix == '' ? 's-,g-,d-,c-,t-,e-,f-,i-,a-' : ''<cr><cr>
-    nnoremap <C-\><bs> :set invcst<cr>
-    nnoremap <C-\><c-h> :set invcst<cr>
-    nnoremap <C-\>\ :cs add .<cr>
-    nnoremap <C-\><bar> :cs add<space>
-    nnoremap <C-\><cr> :cs show<cr>
-    nnoremap <C-\>h :cs help<cr>
-    nnoremap <C-\>r :cs reset<cr>
-    nnoremap <C-\>k :cs kill -1<cr>
-    nnoremap <C-\>a :cs find a <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-    nnoremap <C-\>i :cs find i <C-R>=expand("<cfile>")<CR><CR>
-    nnoremap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\>A :cs find a<space>
-    nnoremap <C-\>S :cs find s<space>
-    nnoremap <C-\>G :cs find g<space>
-    nnoremap <C-\>C :cs find c<space>
-    nnoremap <C-\>T :cs find t<space>
-    nnoremap <C-\>E :cs find e<space>
-    nnoremap <C-\>F :cs find f<space>
-    nnoremap <C-\>I :cs find i<space>
-    nnoremap <C-\>D :cs find d<space>
-    nnoremap <C-\><C-\>a :scs find a <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\><C-\>s :scs find s <C-R>=expand("<cword>")<CR><CR>;
-    nnoremap <C-\><C-\>g :scs find g <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\><C-\>c :scs find c <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\><C-\>t :scs find t <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\><C-\>e :scs find e <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\><C-\>f :scs find f <C-R>=expand("<cfile>")<CR><CR>
-    nnoremap <C-\><C-\>i :scs find i <C-R>=expand("<cfile>")<CR><CR>
-    nnoremap <C-\><C-\>d :scs find d <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\><C-\>A :scs find a<space>
-    nnoremap <C-\><C-\>S :scs find s<space>
-    nnoremap <C-\><C-\>G :scs find g<space>
-    nnoremap <C-\><C-\>C :scs find c<space>
-    nnoremap <C-\><C-\>T :scs find t<space>
-    nnoremap <C-\><C-\>E :scs find e<space>
-    nnoremap <C-\><C-\>F :scs find f<space>
-    nnoremap <C-\><C-\>I :scs find i<space>
-    nnoremap <C-\><C-\>D :scs find d<space>
+    if has('cscope')
+        nnoremap <leader>cs :Cscope<cr>
+        nnoremap <leader>cS :Cscope<space>
+        command! -complete=file -nargs=* Cscope !cscope
+                    \ -RUbq <args>
+        nnoremap <C-\>q :set cscopequickfix=<c-r>=&cscopequickfix == '' ? 's-,g-,d-,c-,t-,e-,f-,i-,a-' : ''<cr><cr>
+        nnoremap <C-\><bs> :set invcst<cr>
+        nnoremap <C-\><c-h> :set invcst<cr>
+        nnoremap <C-\>\ :cs add .<cr>
+        nnoremap <C-\><bar> :cs add<space>
+        nnoremap <C-\><cr> :cs show<cr>
+        nnoremap <C-\>h :cs help<cr>
+        nnoremap <C-\>r :cs reset<cr>
+        nnoremap <C-\>k :cs kill -1<cr>
+        nnoremap <C-\>a :cs find a <C-R>=expand("<cword>")<CR><CR>
+        nnoremap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+        nnoremap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+        nnoremap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+        nnoremap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+        nnoremap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+        nnoremap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+        nnoremap <C-\>i :cs find i <C-R>=expand("<cfile>")<CR><CR>
+        nnoremap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+        nnoremap <C-\>A :cs find a<space>
+        nnoremap <C-\>S :cs find s<space>
+        nnoremap <C-\>G :cs find g<space>
+        nnoremap <C-\>C :cs find c<space>
+        nnoremap <C-\>T :cs find t<space>
+        nnoremap <C-\>E :cs find e<space>
+        nnoremap <C-\>F :cs find f<space>
+        nnoremap <C-\>I :cs find i<space>
+        nnoremap <C-\>D :cs find d<space>
+        nnoremap <C-\><C-\>a :scs find a <C-R>=expand("<cword>")<CR><CR>
+        nnoremap <C-\><C-\>s :scs find s <C-R>=expand("<cword>")<CR><CR>;
+        nnoremap <C-\><C-\>g :scs find g <C-R>=expand("<cword>")<CR><CR>
+        nnoremap <C-\><C-\>c :scs find c <C-R>=expand("<cword>")<CR><CR>
+        nnoremap <C-\><C-\>t :scs find t <C-R>=expand("<cword>")<CR><CR>
+        nnoremap <C-\><C-\>e :scs find e <C-R>=expand("<cword>")<CR><CR>
+        nnoremap <C-\><C-\>f :scs find f <C-R>=expand("<cfile>")<CR><CR>
+        nnoremap <C-\><C-\>i :scs find i <C-R>=expand("<cfile>")<CR><CR>
+        nnoremap <C-\><C-\>d :scs find d <C-R>=expand("<cword>")<CR><CR>
+        nnoremap <C-\><C-\>A :scs find a<space>
+        nnoremap <C-\><C-\>S :scs find s<space>
+        nnoremap <C-\><C-\>G :scs find g<space>
+        nnoremap <C-\><C-\>C :scs find c<space>
+        nnoremap <C-\><C-\>T :scs find t<space>
+        nnoremap <C-\><C-\>E :scs find e<space>
+        nnoremap <C-\><C-\>F :scs find f<space>
+        nnoremap <C-\><C-\>I :scs find i<space>
+        nnoremap <C-\><C-\>D :scs find d<space>
+    endif
 
     nnoremap <leader>vv :VCS<space>
     command! -nargs=+ -complete=command VCS call VCS(<q-args>)
