@@ -181,12 +181,15 @@ augroup myCore
     set shiftwidth=4
     set tabstop=4
 
+    set cink+=*<Return>
+    set cino+=l1,g0,N-s,E-s,(0
+
+    set indentkeys+=*<Return>
+
     set ai "Auto indent
     set si "Smart indent
     set wrap "Wrap lines
     set lbr
-    set cink+=*<Return>
-    set cino+=l1,g0,N-s,E-s,(0
 
     if has('patch-7.4.338')
         set breakindent
