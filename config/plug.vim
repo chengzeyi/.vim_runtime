@@ -403,8 +403,8 @@ augroup myPlug
 
             nnoremap K :call <SID>show_documentation()<CR>
             function! s:show_documentation()
-                if (index(['vim','help'], &filetype) >= 0)
-                    execute 'h '.expand('<cword>')
+                if (index(['vim', 'help'], &filetype) >= 0)
+                    execute 'h '. expand('<cword>')
                 else
                     LspHover
                 endif
