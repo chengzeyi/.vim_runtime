@@ -123,14 +123,15 @@ augroup myPlug
 
     Plug 'ctrlpvim/ctrlp.vim'
     Plug 'tacahiroy/ctrlp-funky'
-    if has('python') || has('python3')
-        Plug 'fisadev/vim-ctrlp-cmdpalette'
-    endif
+    " if has('python') || has('python3')
+    "     Plug 'fisadev/vim-ctrlp-cmdpalette'
+    " endif
     " Plug 'dbeecham/ctrlp-commandpalette.vim'
 
     " if has('nvim') && exists('*nvim_open_win') || has('popupwin')
     "     Plug 'Shougo/echodoc.vim'
     " endif
+    Plug 'Shougo/unite.vim'
     Plug 'Shougo/neosnippet.vim'
     Plug 'chengzeyi/neosnippet-snippets'
 
@@ -161,9 +162,9 @@ augroup myPlug
     Plug 'junegunn/fzf', {'dir': '~/.fzf'}
     Plug 'junegunn/fzf.vim'
 
-    if has('patch-8.1.2114') || has('nvim-0.4')
-        Plug 'liuchengxu/vim-clap'
-    endif
+    " if has('patch-8.1.2114') || has('nvim-0.4')
+    "     Plug 'liuchengxu/vim-clap'
+    " endif
 
     Plug 'nathanaelkane/vim-indent-guides'
 
@@ -627,6 +628,17 @@ augroup myPlug
         let g:echodoc#type = 'popup'
     endif
 
+    nnoremap <leader>ff :Unite<space>
+    nnoremap <leader>fF :Unite<cr>
+    try
+        call unite#custom#profile('default', 'context', {
+                    \   'start_insert': 1,
+                    \   'winheight': 10,
+                    \   'direction': 'botright',
+                    \ })
+    catch
+    endtry
+
     imap <C-\> <Plug>(neosnippet_expand_or_jump)
     smap <C-\> <Plug>(neosnippet_expand_or_jump)
     imap <C-]> <Plug>(neosnippet_jump_or_expand)
@@ -690,11 +702,9 @@ augroup myPlug
     let g:ctrlp_funky_matchtype = 'path'
     let g:ctrlp_funky_multi_buffers = 1
 
-    if has('python') || has('python3')
-        nnoremap <leader>pc :CtrlPCmdPalette<cr>
-        " nnoremap <c-n> :CtrlPCmdPalette<cr>
-    endif
-    " nnoremap <leader>pc :CtrlPCommandPalette<cr>
+    " if has('python') || has('python3')
+    "     nnoremap <leader>pc :CtrlPCmdPalette<cr>
+    " endif
     " nnoremap <c-p> :CtrlPCommandPalette<cr>
 
     " hi GitGutterAdd ctermfg=44 ctermbg=236 cterm=bold guifg=#169ec4 guibg=#2a303b gui=bold
@@ -992,11 +1002,11 @@ augroup myPlug
                 \                 ' -m --layout=default'
                 \ }, <bang>0)
 
-    if has('patch-8.1.2114') || has('nvim-0.4')
-        nnoremap <leader>cc :Clap<space>
-        nnoremap <leader>cC :Clap<cr>
-        command! -nargs=0 ClapBuildAll call clap#helper#build_all()
-    endif
+    " if has('patch-8.1.2114') || has('nvim-0.4')
+    "     nnoremap <leader>cc :Clap<space>
+    "     nnoremap <leader>cC :Clap<cr>
+    "     command! -nargs=0 ClapBuildAll call clap#helper#build_all()
+    " endif
 
     nmap <c-_> <Plug>CommentaryLine
     vmap <c-_> <Plug>Commentary

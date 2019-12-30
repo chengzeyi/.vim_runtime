@@ -394,8 +394,8 @@ augroup myCore
     onoremap af :normal Vaf<CR>
     " nnoremap <leader>mm :match Question /<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<cr>
     " nnoremap <leader>mM :match<cr>
-    nnoremap <leader>ff :let @/='\<lt><c-r>=expand('<lt>cword>')<cr>\>' <bar> set hls<cr>
-    nnoremap <leader>fF :let @/='\<lt><c-r>=expand('<lt>cWORD>')<cr>\>' <bar> set hls<cr>
+    nnoremap <leader>fw :let @/='\<lt><c-r>=expand('<lt>cword>')<cr>\>' <bar> set hls<cr>
+    nnoremap <leader>fW :let @/='\<lt><c-r>=expand('<lt>cWORD>')<cr>\>' <bar> set hls<cr>
     nnoremap <leader>jj :call GotoJump()<cr>
     nnoremap <leader>jt :call GotoTag()<cr>
     nnoremap <leader>jm :tselect<cr>
@@ -519,7 +519,7 @@ augroup myCore
     nnoremap <leader>f- :set foldlevel-=1<cr>
     nnoremap <leader>f+ :set foldlevel+=1<cr>
     nnoremap <leader>f= :set foldlevel=<c-r>=&foldlevel == 99 ? 0 : 99<cr><cr>
-    nnoremap <leader>fs :setlocal foldexpr=getline(v:lnum)=~@/ ? 0 : 1 foldmethod=
+    nnoremap <leader>fs :setlocal foldexpr=getline(v:lnum)=~@/?0:1 foldmethod=
                 \<c-r>=&foldmethod == 'expr' ? 'indent' : 'expr'<cr> foldlevel=
                 \<c-r>=&foldmethod == 'expr' ? 99 : 0<cr><cr>
     xnoremap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : ':<c-u>silent! normal! [zV]z<cr>'
