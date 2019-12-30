@@ -639,6 +639,7 @@ augroup myPlug
     if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
         nnoremap <leader>ff :Denite<space>
         autocmd FileType denite call s:denite_my_settings()
+        autocmd FileType denite-filter call s:denite_filter_my_settings()
         function! s:denite_my_settings() abort
             nnoremap <nowait><silent><buffer><expr> <C-\>
                         \ denite#do_map('choose_action')
@@ -654,12 +655,20 @@ augroup myPlug
                         \ denite#do_map('quit')
             nnoremap <nowait><silent><buffer><expr> i
                         \ denite#do_map('open_filter_buffer')
+            nnoremap <nowait><silent><buffer><expr> a
+                        \ denite#do_map('open_filter_buffer')
             nnoremap <nowait><silent><buffer><expr> /
                         \ denite#do_map('open_filter_buffer')
             nnoremap <nowait><silent><buffer><expr> <TAB>
                         \ denite#do_map('toggle_select').'j'
             nnoremap <nowait><silent><buffer><expr> <S-TAB>
                         \ denite#do_map('toggle_select').'k'
+        endfunction
+        function! s:denite_filter_my_settings() abort
+            nmap <nowait><silent><buffer> <Esc> <Plug>(denite_filter_quit)
+            imap <nowait><silent><buffer> <Esc> <Plug>(denite_filter_quit)
+            nnoremap <nowait><silent><buffer><expr> <C-c>  denite#do_map('quit')
+            inoremap <nowait><silent><buffer><expr> <C-c>  denite#do_map('quit')
         endfunction
         try
             call denite#custom#option('_', {
@@ -675,7 +684,6 @@ augroup myPlug
         if has('nvim')
             call denite#custom#option('_', { 'split': 'floating', 'statusline': 0 })
         endif
-
     endif
 
     imap <C-\> <Plug>(neosnippet_expand_or_jump)
