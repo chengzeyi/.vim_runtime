@@ -653,6 +653,10 @@ augroup myPlug
                         \ denite#do_map('quit')
             nnoremap <nowait><silent><buffer><expr> <ESC>
                         \ denite#do_map('quit')
+            nnoremap <nowait><silent><buffer><expr> <C-c>
+                        \ denite#do_map('quit')
+            inoremap <nowait><silent><buffer><expr> <C-c>
+                        \ denite#do_map('quit')
             nnoremap <nowait><silent><buffer><expr> i
                         \ denite#do_map('open_filter_buffer')
             nnoremap <nowait><silent><buffer><expr> a
@@ -667,8 +671,10 @@ augroup myPlug
         function! s:denite_filter_my_settings() abort
             nmap <nowait><silent><buffer> <Esc> <Plug>(denite_filter_quit)
             imap <nowait><silent><buffer> <Esc> <Plug>(denite_filter_quit)
-            nnoremap <nowait><silent><buffer><expr> <C-c>  denite#do_map('quit')
-            inoremap <nowait><silent><buffer><expr> <C-c>  denite#do_map('quit')
+            nnoremap <nowait><silent><buffer><expr> <C-c>
+                        \ denite#do_map('quit')
+            inoremap <nowait><silent><buffer><expr> <C-c>
+                        \ denite#do_map('quit')
         endfunction
         try
             call denite#custom#option('_', {
