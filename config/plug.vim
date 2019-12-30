@@ -131,7 +131,15 @@ augroup myPlug
     " if has('nvim') && exists('*nvim_open_win') || has('popupwin')
     "     Plug 'Shougo/echodoc.vim'
     " endif
-    Plug 'Shougo/unite.vim'
+    if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
+        if has('nvim')
+            Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+        else
+            Plug 'Shougo/denite.nvim'
+            Plug 'roxma/nvim-yarp'
+            Plug 'roxma/vim-hug-neovim-rpc'
+        endif
+    endif
     Plug 'Shougo/neosnippet.vim'
     Plug 'chengzeyi/neosnippet-snippets'
 
@@ -621,23 +629,54 @@ augroup myPlug
         endtry
     endif
 
-    let g:echodoc_enable_at_startup = 1
-    if has('nvim') && exists('*nvim_open_win')
-        let g:echodoc#type = 'floating'
-    elseif has('popupwin')
-        let g:echodoc#type = 'popup'
-    endif
+    " let g:echodoc_enable_at_startup = 1
+    " if has('nvim') && exists('*nvim_open_win')
+    "     let g:echodoc#type = 'floating'
+    " elseif has('popupwin')
+    "     let g:echodoc#type = 'popup'
+    " endif
 
-    nnoremap <leader>ff :Unite<space>
-    nnoremap <leader>fF :Unite<cr>
-    try
-        call unite#custom#profile('default', 'context', {
-                    \   'start_insert': 1,
-                    \   'winheight': 10,
-                    \   'direction': 'botright',
-                    \ })
-    catch
-    endtry
+    if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
+        nnoremap <leader>ff :Denite<space>
+        autocmd FileType denite call s:denite_my_settings()
+        function! s:denite_my_settings() abort
+            nnoremap <nowait><silent><buffer><expr> <C-\>
+                        \ denite#do_map('choose_action')
+            nnoremap <nowait><silent><buffer><expr> <CR>
+                        \ denite#do_map('do_action')
+            nnoremap <nowait><silent><buffer><expr> d
+                        \ denite#do_map('do_action', 'delete')
+            nnoremap <nowait><silent><buffer><expr> p
+                        \ denite#do_map('do_action', 'preview')
+            nnoremap <nowait><silent><buffer><expr> q
+                        \ denite#do_map('quit')
+            nnoremap <nowait><silent><buffer><expr> <ESC>
+                        \ denite#do_map('quit')
+            nnoremap <nowait><silent><buffer><expr> i
+                        \ denite#do_map('open_filter_buffer')
+            nnoremap <nowait><silent><buffer><expr> /
+                        \ denite#do_map('open_filter_buffer')
+            nnoremap <nowait><silent><buffer><expr> <TAB>
+                        \ denite#do_map('toggle_select').'j'
+            nnoremap <nowait><silent><buffer><expr> <S-TAB>
+                        \ denite#do_map('toggle_select').'k'
+        endfunction
+        try
+            call denite#custom#option('_', {
+                        \ 'prompt': '❯',
+                        \ 'auto_resume': 1,
+                        \ 'statusline': 1,
+                        \ 'smartcase': 1,
+                        \ 'vertical_preview': 1,
+                        \ 'max_dynamic_update_candidates': 50000,
+                        \ })
+        catch
+        endtry
+        if has('nvim')
+            call denite#custom#option('_', { 'split': 'floating', 'statusline': 0 })
+        endif
+
+    endif
 
     imap <C-\> <Plug>(neosnippet_expand_or_jump)
     smap <C-\> <Plug>(neosnippet_expand_or_jump)
