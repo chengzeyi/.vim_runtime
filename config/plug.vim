@@ -640,15 +640,44 @@ augroup myPlug
         nnoremap <leader>ff :Denite<space>
         autocmd FileType denite call s:denite_my_settings()
         autocmd FileType denite-filter call s:denite_filter_my_settings()
+        autocmd FileType denite-filter let b:coc_suggest_disable = 1
+        autocmd FileType denite-filter let g:asyncomplete_auto_popup = 0
+        autocmd FileType denite-filter autocmd BufLeave <buffer> let g:asyncomplete_auto_popup = 1
         function! s:denite_my_settings() abort
             nnoremap <nowait><silent><buffer><expr> <C-\>
                         \ denite#do_map('choose_action')
             nnoremap <nowait><silent><buffer><expr> <CR>
                         \ denite#do_map('do_action')
+            nnoremap <nowait><silent><buffer><expr> a
+                        \ denite#do_map('do_action', 'append')
+            nnoremap <nowait><silent><buffer><expr> echo
+                        \ denite#do_map('do_action', 'echo')
+            nnoremap <nowait><silent><buffer><expr> r
+                        \ denite#do_map('do_action', 'replace')
+            nnoremap <nowait><silent><buffer><expr> y
+                        \ denite#do_map('do_action', 'yank')
             nnoremap <nowait><silent><buffer><expr> d
                         \ denite#do_map('do_action', 'delete')
             nnoremap <nowait><silent><buffer><expr> p
                         \ denite#do_map('do_action', 'preview')
+            nnoremap <nowait><silent><buffer><expr> h
+                        \ denite#do_map('do_action', 'highlight')
+            nnoremap <nowait><silent><buffer><expr> t
+                        \ denite#do_map('do_action', 'tabopen')
+            nnoremap <nowait><silent><buffer><expr> s
+                        \ denite#do_map('do_action', 'split')
+            nnoremap <nowait><silent><buffer><expr> v
+                        \ denite#do_map('do_action', 'vsplit')
+            nnoremap <nowait><silent><buffer><expr> R
+                        \ denite#do_map('do_action', 'redraw')
+            nnoremap <nowait><silent><buffer><expr> '
+                        \ denite#do_map('do_action', 'quick_move')
+            nnoremap <nowait><silent><buffer><expr> c
+                        \ denite#do_map('do_action', 'cd')
+            nnoremap <nowait><silent><buffer><expr> e
+                        \ denite#do_map('do_action', 'edit')
+            nnoremap <nowait><silent><buffer><expr> o
+                        \ denite#do_map('do_action', 'open')
             nnoremap <nowait><silent><buffer><expr> q
                         \ denite#do_map('quit')
             nnoremap <nowait><silent><buffer><expr> <ESC>
@@ -658,8 +687,6 @@ augroup myPlug
             inoremap <nowait><silent><buffer><expr> <C-c>
                         \ denite#do_map('quit')
             nnoremap <nowait><silent><buffer><expr> i
-                        \ denite#do_map('open_filter_buffer')
-            nnoremap <nowait><silent><buffer><expr> a
                         \ denite#do_map('open_filter_buffer')
             nnoremap <nowait><silent><buffer><expr> /
                         \ denite#do_map('open_filter_buffer')
@@ -671,6 +698,8 @@ augroup myPlug
         function! s:denite_filter_my_settings() abort
             nmap <nowait><silent><buffer> <Esc> <Plug>(denite_filter_quit)
             imap <nowait><silent><buffer> <Esc> <Plug>(denite_filter_quit)
+            nnoremap <nowait><silent><buffer><expr> q
+                        \ denite#do_map('quit')
             nnoremap <nowait><silent><buffer><expr> <C-c>
                         \ denite#do_map('quit')
             inoremap <nowait><silent><buffer><expr> <C-c>
