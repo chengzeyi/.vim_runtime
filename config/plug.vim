@@ -704,6 +704,18 @@ augroup myPlug
                         \ denite#do_map('quit')
             inoremap <nowait><silent><buffer><expr> <C-c>
                         \ denite#do_map('quit')
+            inoremap <nowait><silent><buffer><expr> <TAB>
+                        \ denite#do_map('toggle_select')."\<Esc>\<C-w>p:call cursor(line('.')+1,0)\<CR>\<C-w>pA"
+            inoremap <nowait><silent><buffer><expr> <S-TAB>
+                        \ denite#do_map('toggle_select')."\<Esc>\<C-w>p:call cursor(line('.')-1,0)\<CR>\<C-w>pA"
+            inoremap <nowait><silent><buffer> <C-n>
+                        \ <Esc><C-w>p:call cursor(line('.')+1,0)<CR><C-w>pA
+            inoremap <nowait><silent><buffer> <C-p>
+                        \ <Esc><C-w>p:call cursor(line('.')-1,0)<CR><C-w>pA
+            inoremap <nowait><silent><buffer> <Down>
+                        \ <Esc><C-w>p:call cursor(line('.')+1,0)<CR><C-w>pA
+            inoremap <nowait><silent><buffer> <Up>
+                        \ <Esc><C-w>p:call cursor(line('.')-1,0)<CR><C-w>pA
         endfunction
         try
             call denite#custom#option('_', {
