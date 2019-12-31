@@ -638,6 +638,7 @@ augroup myPlug
 
     if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
         nnoremap <leader>ff :Denite<space>
+        nnoremap <leader>fF :DeniteProjectDir<space>
         autocmd FileType denite call s:denite_my_settings()
         autocmd FileType denite-filter call s:denite_filter_my_settings()
         autocmd FileType denite-filter let b:coc_suggest_disable = 1
