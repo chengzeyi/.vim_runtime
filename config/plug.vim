@@ -642,6 +642,7 @@ augroup myPlug
         autocmd FileType denite-filter call s:denite_filter_my_settings()
         autocmd FileType denite-filter let b:coc_suggest_disable = 1
         autocmd FileType denite-filter let g:asyncomplete_auto_popup = 0
+        autocmd FileType denite-filter autocmd BufEnter <buffer> let g:asyncomplete_auto_popup = 0
         autocmd FileType denite-filter autocmd BufLeave <buffer> let g:asyncomplete_auto_popup = 1
         function! s:denite_my_settings() abort
             nnoremap <nowait><silent><buffer><expr> <C-\>
