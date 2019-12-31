@@ -691,9 +691,9 @@ augroup myPlug
             nnoremap <nowait><silent><buffer><expr> /
                         \ denite#do_map('open_filter_buffer')
             nnoremap <nowait><silent><buffer><expr> <TAB>
-                        \ denite#do_map('toggle_select').'j'
+                        \ denite#do_map('toggle_select') . 'j'
             nnoremap <nowait><silent><buffer><expr> <S-TAB>
-                        \ denite#do_map('toggle_select').'k'
+                        \ denite#do_map('toggle_select') . 'k'
         endfunction
         function! s:denite_filter_my_settings() abort
             nmap <nowait><silent><buffer> <Esc> <Plug>(denite_filter_quit)
@@ -705,9 +705,11 @@ augroup myPlug
             inoremap <nowait><silent><buffer><expr> <C-c>
                         \ denite#do_map('quit')
             inoremap <nowait><silent><buffer><expr> <TAB>
-                        \ denite#do_map('toggle_select')."\<Esc>\<C-w>p:call cursor(line('.')+1,0)\<CR>\<C-w>pA"
+                        \ denite#do_map('toggle_select') .
+                        \ "\<Esc>\<C-w>p:call cursor(line('.')+1,0)\<CR>\<C-w>pA"
             inoremap <nowait><silent><buffer><expr> <S-TAB>
-                        \ denite#do_map('toggle_select')."\<Esc>\<C-w>p:call cursor(line('.')-1,0)\<CR>\<C-w>pA"
+                        \ denite#do_map('toggle_select') .
+                        \ "\<Esc>\<C-w>p:call cursor(line('.')-1,0)\<CR>\<C-w>pA"
             inoremap <nowait><silent><buffer> <C-n>
                         \ <Esc><C-w>p:call cursor(line('.')+1,0)<CR><C-w>pA
             inoremap <nowait><silent><buffer> <C-p>
@@ -728,7 +730,7 @@ augroup myPlug
         catch
         endtry
         if has('nvim')
-            call denite#custom#option('_', { 'split': 'floating'})
+            call denite#custom#option('_', {'split': 'floating'})
         endif
     endif
 
