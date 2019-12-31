@@ -709,15 +709,14 @@ augroup myPlug
             call denite#custom#option('_', {
                         \ 'prompt': '❯',
                         \ 'auto_resume': 1,
-                        \ 'statusline': 1,
+                        \ 'statusline': 0,
                         \ 'smartcase': 1,
-                        \ 'vertical_preview': 1,
                         \ 'max_dynamic_update_candidates': 50000,
                         \ })
         catch
         endtry
         if has('nvim')
-            call denite#custom#option('_', { 'split': 'floating', 'statusline': 0 })
+            call denite#custom#option('_', { 'split': 'floating'})
         endif
     endif
 
