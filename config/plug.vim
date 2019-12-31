@@ -684,12 +684,12 @@ augroup myPlug
                         \ denite#do_map('quit')
             nnoremap <nowait><silent><buffer><expr> <C-c>
                         \ denite#do_map('quit')
-            inoremap <nowait><silent><buffer><expr> <C-c>
-                        \ denite#do_map('quit')
             nnoremap <nowait><silent><buffer><expr> i
                         \ denite#do_map('open_filter_buffer')
             nnoremap <nowait><silent><buffer><expr> /
                         \ denite#do_map('open_filter_buffer')
+            nnoremap <nowait><silent><buffer><expr> <C-SPACE>
+                        \ denite#do_map('toggle_select')
             nnoremap <nowait><silent><buffer><expr> <TAB>
                         \ denite#do_map('toggle_select') . 'j'
             nnoremap <nowait><silent><buffer><expr> <S-TAB>
@@ -704,6 +704,8 @@ augroup myPlug
                         \ denite#do_map('quit')
             inoremap <nowait><silent><buffer><expr> <C-c>
                         \ denite#do_map('quit')
+            inoremap <nowait><silent><buffer><expr> <C-SPACE>
+                        \ denite#do_map('toggle_select')
             inoremap <nowait><silent><buffer><expr> <TAB>
                         \ denite#do_map('toggle_select') .
                         \ "\<Esc>\<C-w>p:call cursor(line('.')+1,0)\<CR>\<C-w>pA"
