@@ -1086,10 +1086,10 @@ augroup myCore
         let cph = expand('%:p:h', 1)
         if cph =~# '^.\+://' | retu | en
         for mkr in ['.git/', '.hg/', '.svn/', '.bzr/', '_darcs/', '.vimprojects']
-            let wd = call('find'.(mkr =~# '/$' ? 'dir' : 'file'), [mkr, cph.';'])
+            let wd = call('find' . (mkr =~# '/$' ? 'dir' : 'file'), [mkr, cph . ';'])
             if !empty(wd) | let &acd = 0 | brea | en
         endfo
-        return fnameescape(empty(wd) ? cph : substitute(wd, mkr.'$', '.', ''))
+        return fnameescape(empty(wd) ? cph : substitute(wd, mkr . '$', '.', ''))
     endfunction
 
     nnoremap <leader>sl :set invspell<cr>
