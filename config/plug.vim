@@ -27,6 +27,7 @@ augroup myPlug
     elseif has('timers')
         Plug 'prabirshrestha/async.vim'
         if has('lambda')
+            Plug 'mattn/vim-lsp-settings'
             Plug 'prabirshrestha/vim-lsp'
             Plug 'prabirshrestha/asyncomplete-lsp.vim'
         endif
@@ -367,56 +368,71 @@ augroup myPlug
     elseif has('timers')
         if has('lambda')
             nmap <leader><cr><cr> <Plug>(lsp-status)
-            nmap <leader><cr>a <Plug>(lsp-code-action)
-            nmap <leader><cr>f <Plug>(lsp-document-format)
-            nmap <leader><cr>F <Plug>(lsp-document-range-format)
-            xmap <leader><cr>F <Plug>(lsp-document-range-format)
-            nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
-            nmap gE <Plug>(lsp-peek-declaration)
-            nmap ge <Plug>(lsp-declaration)
-            nmap gD <Plug>(lsp-peek-definition)
-            nmap gd <Plug>(lsp-definition)
-            nmap gI <Plug>(lsp-peek-implementation)
-            nmap gi <Plug>(lsp-implementation)
-            nmap gY <Plug>(lsp-peek-type-definition)
-            nmap gy <Plug>(lsp-type-definition)
-            nmap <S-F5> <Plug>(lsp-peek-declaration)
-            nmap <F5> <Plug>(lsp-declaration)
-            nmap <S-F6> <Plug>(lsp-peek-definition)
-            nmap <F6> <Plug>(lsp-definition)
-            nmap <S-F7> <Plug>(lsp-peek-implementation)
-            nmap <F7> <Plug>(lsp-implementation)
-            nmap <S-F8> <Plug>(lsp-peek-type-definition)
-            nmap <F8> <Plug>(lsp-type-definition)
-            nmenu PopUp.Peek\ Declaration <Plug>(lsp-peek-declaration)
-            nmenu PopUp.Declaration <Plug>(lsp-declaration)
-            nmenu PopUp.Peek\ Definition <Plug>(lsp-peek-definition)
-            nmenu PopUp.Definition <Plug>(lsp-definition)
-            nmenu PopUp.Peek\ Implementation <Plug>(lsp-peek-implementation)
-            nmenu PopUp.Implementation <Plug>(lsp-implementation)
-            nmenu PopUp.Peek\ Type\ Definition <Plug>(lsp-peek-type-definition)
-            nmenu PopUp.TypeDefinition <Plug>(lsp-type-definition)
-            nmap <leader><cr>h <Plug>(lsp-hover)
-            nmenu PopUp.Hover <Plug>(lsp-hover)
-            nmap <leader><cr>H <Plug>(lsp-signature-help)
-            nmenu PopUp.Signature\ Help <Plug>(lsp-signature-help)
-            nmap <leader><cr>r <Plug>(lsp-rename)
-            nmap <leader><cr>R <Plug>(lsp-references)
-            nmap <leader><cr>s <Plug>(lsp-document-symbol)
-            nmap <leader><cr>S <Plug>(lsp-workspace-symbol)
-            nmap ]e <Plug>(lsp-next-error)
-            nmap ]r <Plug>(lsp-next-reference)
-            nmap [e <Plug>(lsp-previous-error)
-            nmap [r <Plug>(lsp-previous-reference)
             nmap <leader><cr>] <Plug>(lsp-preview-focus)
             nmap <leader><cr>[ <Plug>(lsp-preview-close)
 
-            nnoremap K :call <SID>show_documentation()<CR>
+            autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+            function! s:on_lsp_buffer_enabled() abort
+                setlocal omnifunc=
+
+                nmap <buffer> <leader><cr>a <Plug>(lsp-code-action)
+                nmap <buffer> <leader><cr>f <Plug>(lsp-document-format)
+                nmap <buffer> <leader><cr>F <Plug>(lsp-document-range-format)
+                xmap <buffer> <leader><cr>F <Plug>(lsp-document-range-format)
+                nmap <buffer> <leader><cr>d <Plug>(lsp-document-diagnostics)
+
+                nmap <buffer> gE <Plug>(lsp-peek-declaration)
+                nmap <buffer> ge <Plug>(lsp-declaration)
+                nmap <buffer> gD <Plug>(lsp-peek-definition)
+                nmap <buffer> gd <Plug>(lsp-definition)
+                nmap <buffer> gI <Plug>(lsp-peek-implementation)
+                nmap <buffer> gi <Plug>(lsp-implementation)
+                nmap <buffer> gY <Plug>(lsp-peek-type-definition)
+                nmap <buffer> gy <Plug>(lsp-type-definition)
+                nmap <buffer> <S-F5> <Plug>(lsp-peek-declaration)
+                nmap <buffer> <F5> <Plug>(lsp-declaration)
+                nmap <buffer> <S-F6> <Plug>(lsp-peek-definition)
+                nmap <buffer> <F6> <Plug>(lsp-definition)
+                nmap <buffer> <S-F7> <Plug>(lsp-peek-implementation)
+                nmap <buffer> <F7> <Plug>(lsp-implementation)
+                nmap <buffer> <S-F8> <Plug>(lsp-peek-type-definition)
+                nmap <buffer> <F8> <Plug>(lsp-type-definition)
+                if has('menu')
+                    nmenu <buffer> PopUp.[Peek\ Declaration] <Plug>(lsp-peek-declaration)
+                    nmenu <buffer> PopUp.[Declaration] <Plug>(lsp-declaration)
+                    nmenu <buffer> PopUp.[Peek\ Definition] <Plug>(lsp-peek-definition)
+                    nmenu <buffer> PopUp.[Definition] <Plug>(lsp-definition)
+                    nmenu <buffer> PopUp.[Peek\ Implementation] <Plug>(lsp-peek-implementation)
+                    nmenu <buffer> PopUp.[Implementation] <Plug>(lsp-implementation)
+                    nmenu <buffer> PopUp.[Peek\ Type\ Definition] <Plug>(lsp-peek-type-definition)
+                    nmenu <buffer> PopUp.[TypeDefinition] <Plug>(lsp-type-definition)
+                endif
+
+                nmap <buffer> <leader><cr>h <Plug>(lsp-hover)
+                nmap <buffer> <leader><cr>H <Plug>(lsp-signature-help)
+                if has('menu')
+                    nmenu <buffer> PopUp.[Hover] <Plug>(lsp-hover)
+                    nmenu <buffer> PopUp.[Signature\ Help] <Plug>(lsp-signature-help)
+                endif
+
+                nmap <buffer> <leader><cr>t <Plug>(lsp-type-hierarchy)
+                nmap <buffer> <leader><cr>r <Plug>(lsp-rename)
+                nmap <buffer> <leader><cr>R <Plug>(lsp-references)
+                nmap <buffer> <leader><cr>s <Plug>(lsp-document-symbol)
+                nmap <buffer> <leader><cr>S <Plug>(lsp-workspace-symbol)
+                nmap <buffer> ]e <Plug>(lsp-next-error)
+                nmap <buffer> ]r <Plug>(lsp-next-reference)
+                nmap <buffer> [e <Plug>(lsp-previous-error)
+                nmap <buffer> [r <Plug>(lsp-previous-reference)
+
+                nnoremap K :call <SID>show_documentation()<CR>
+            endfunction
+
             function! s:show_documentation()
                 if (index(['vim', 'help'], &filetype) >= 0)
                     execute 'h '. expand('<cword>')
                 else
-                    LspHover
+                    execute 'LspHover'
                 endif
             endfunction
 
@@ -425,67 +441,65 @@ augroup myPlug
             " let g:lsp_text_edit_enabled = 0
             let g:lsp_highlight_references_enabled = 1
 
-            if executable('gopls')
-                au User lsp_setup call lsp#register_server({
-                            \ 'name': 'gopls',
-                            \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-                            \ 'whitelist': ['go'],
-                            \ })
-                " au BufWritePre *.go LspDocumentFormatSync
-            endif
-            if executable('pyls')
-                " pip install python-language-server
-                au User lsp_setup call lsp#register_server({
-                            \ 'name': 'pyls',
-                            \ 'cmd': {server_info->['pyls']},
-                            \ 'whitelist': ['python'],
-                            \ })
-            endif
-            if executable('clangd')
-                au User lsp_setup call lsp#register_server({
-                            \ 'name': 'clangd',
-                            \ 'cmd': {server_info->['clangd']},
-                            \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-                            \ })
-            endif
-            if executable('bash-language-server')
-                au User lsp_setup call lsp#register_server({
-                            \ 'name': 'bash-language-server',
-                            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
-                            \ 'whitelist': ['sh', 'bash'],
-                            \ })
-            endif
-            let s:java_lsp_files = globpath('~/lsp/eclipse.jdt.ls', 'plugins/org.eclipse.equinox.launcher_\d\.\d\.\d\d\d\.*\.jar', 1, 1)
-            if executable('java') && !empty(s:java_lsp_files)
-                au User lsp_setup call lsp#register_server({
-                            \ 'name': 'eclipse.jdt.ls',
-                            \ 'cmd': {server_info->[
-                            \     'java',
-                            \     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-                            \     '-Dosgi.bundles.defaultStartLevel=4',
-                            \     '-Declipse.product=org.eclipse.jdt.ls.core.product',
-                            \     '-Dlog.level=ALL',
-                            \     '-noverify',
-                            \     '-Dfile.encoding=UTF-8',
-                            \     '-Xmx1G',
-                            \     '-jar',
-                            \     s:java_lsp_files[0],
-                            \     '-configuration',
-                            \     expand('~/lsp/eclipse.jdt.ls/config_' . (has('win32') ? 'win' :
-                            \       (has('mac') ? 'mac' : 'linux'))),
-                            \     '-data',
-                            \     getcwd()
-                            \ ]},
-                            \ 'whitelist': ['java'],
-                            \ })
-            endif
-            command! -nargs=0 LSPInstallJava
-                    \ !mkdir -p ~/lsp/eclipse.jdt.ls &&
-                    \ cd ~/lsp/eclipse.jdt.ls &&
-                    \ rm -f * &&
-                    \ curl -L http://download.eclipse.org/jdtls/milestones/0.48.0/jdt-language-server-0.48.0-201912040033.tar.gz -O &&
-                    \ tar -xf jdt-language-server-0.48.0-201912040033.tar.gz &&
-                    \ rm jdt-language-server-0.48.0-201912040033.tar.gz
+            " if executable('gopls')
+            "     au User lsp_setup call lsp#register_server({
+            "                 \ 'name': 'gopls',
+            "                 \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+            "                 \ 'whitelist': ['go'],
+            "                 \ })
+            " endif
+            " if executable('pyls')
+            "     au User lsp_setup call lsp#register_server({
+            "                 \ 'name': 'pyls',
+            "                 \ 'cmd': {server_info->['pyls']},
+            "                 \ 'whitelist': ['python'],
+            "                 \ })
+            " endif
+            " if executable('clangd')
+            "     au User lsp_setup call lsp#register_server({
+            "                 \ 'name': 'clangd',
+            "                 \ 'cmd': {server_info->['clangd']},
+            "                 \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+            "                 \ })
+            " endif
+            " if executable('bash-language-server')
+            "     au User lsp_setup call lsp#register_server({
+            "                 \ 'name': 'bash-language-server',
+            "                 \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
+            "                 \ 'whitelist': ['sh', 'bash'],
+            "                 \ })
+            " endif
+            " let s:java_lsp_files = globpath('~/lsp/eclipse.jdt.ls', 'plugins/org.eclipse.equinox.launcher_\d\.\d\.\d\d\d\.*\.jar', 1, 1)
+            " if executable('java') && !empty(s:java_lsp_files)
+            "     au User lsp_setup call lsp#register_server({
+            "                 \ 'name': 'eclipse.jdt.ls',
+            "                 \ 'cmd': {server_info->[
+            "                 \     'java',
+            "                 \     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+            "                 \     '-Dosgi.bundles.defaultStartLevel=4',
+            "                 \     '-Declipse.product=org.eclipse.jdt.ls.core.product',
+            "                 \     '-Dlog.level=ALL',
+            "                 \     '-noverify',
+            "                 \     '-Dfile.encoding=UTF-8',
+            "                 \     '-Xmx1G',
+            "                 \     '-jar',
+            "                 \     s:java_lsp_files[0],
+            "                 \     '-configuration',
+            "                 \     expand('~/lsp/eclipse.jdt.ls/config_' . (has('win32') ? 'win' :
+            "                 \       (has('mac') ? 'mac' : 'linux'))),
+            "                 \     '-data',
+            "                 \     getcwd()
+            "                 \ ]},
+            "                 \ 'whitelist': ['java'],
+            "                 \ })
+            " endif
+            " command! -nargs=0 LSPInstallJava
+            "         \ !mkdir -p ~/lsp/eclipse.jdt.ls &&
+            "         \ cd ~/lsp/eclipse.jdt.ls &&
+            "         \ rm -f * &&
+            "         \ curl -L http://download.eclipse.org/jdtls/milestones/0.48.0/jdt-language-server-0.48.0-201912040033.tar.gz -O &&
+            "         \ tar -xf jdt-language-server-0.48.0-201912040033.tar.gz &&
+            "         \ rm jdt-language-server-0.48.0-201912040033.tar.gz
         endif
 
         au CmdwinEnter [:>] iunmap <buffer> <Tab>

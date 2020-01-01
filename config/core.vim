@@ -1128,26 +1128,35 @@ augroup myCore
         return ''
     endfun
 
-    if !has('nvim') && has('terminal')
+    if exists(':terminal')
         if executable('pudb3')
-            au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb3<space>
-            au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb3 %<cr>
+            au Filetype python nnoremap <buffer> <localleader>d :vert RunTermCmd pudb3<space>
+            au Filetype python nnoremap <buffer> <localleader>D :vert RunTermCmd pudb3 %<cr>
         elseif executable('pdb3')
-            au Filetype python nnoremap <buffer> <localleader>d :terminal ++close pdb3<space>
-            au Filetype python nnoremap <buffer> <localleader>D :terminal ++close pdb3 %<cr>
+            au Filetype python nnoremap <buffer> <localleader>d :RunTermCmd pdb3<space>
+            au Filetype python nnoremap <buffer> <localleader>D :RunTermCmd pdb3 %<cr>
         elseif executable('pudb')
-            au Filetype python nnoremap <buffer> <localleader>d :vert terminal ++close pudb<space>
-            au Filetype python nnoremap <buffer> <localleader>D :vert terminal ++close pudb %<cr>
+            au Filetype python nnoremap <buffer> <localleader>d :RunTermCmd pudb<space>
+            au Filetype python nnoremap <buffer> <localleader>D :RunTermCmd pudb %<cr>
         elseif executable('pdb')
-            au Filetype python nnoremap <buffer> <localleader>d :terminal ++close pdb<space>
-            au Filetype python nnoremap <buffer> <localleader>D :terminal ++close pdb %<cr>
+            au Filetype python nnoremap <buffer> <localleader>d :RunTermCmd pdb<space>
+            au Filetype python nnoremap <buffer> <localleader>D :RunTermCmd pdb %<cr>
         endif
         if executable('gdb')
-            au Filetype c,cpp,go nnoremap <buffer> <localleader>d :vert terminal ++close gdb<space>
-            au Filetype c,cpp,go nnoremap <buffer> <localleader>D :vert terminal ++close gdb<cr>
+            au Filetype c,cpp,go nnoremap <buffer> <localleader>d :RunTermCmd gdb<space>
+            au Filetype c,cpp,go nnoremap <buffer> <localleader>D :RunTermCmd gdb<cr>
         endif
+        command! -nargs=+ RunTermCmd call RunTermCmd(<q-args>)
+        function! RunTermCmd(cmd) abort
+            botright split
+            if has('nvim')
+                execute 'terminal ' . a:cmd
+            else
+                execute 'terminal ++close ++curwin ' . a:cmd
+            endif
+        endfunction
     endif
-    if has('terminal')
+    if exists(':terminal')
         nnoremap <localleader>b :let @" = 'break ' . expand('%:p') . ':' . line('.')<cr>
         nnoremap <localleader>B :let @" = 'tbreak ' . expand('%:p') . ':' . line('.')<cr>
         nnoremap <localleader>c :let @" = 'clear ' . expand('%:p') . ':' . line('.')<cr>
