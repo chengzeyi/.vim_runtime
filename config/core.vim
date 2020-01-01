@@ -728,7 +728,6 @@ augroup myCore
     nnoremap ]] j0?{<CR>w99[{%/{<CR>
     nnoremap [] k$/}<CR>b99]}%?}<CR>
 
-
     au FileType qf call AdjustWindowHeight(1, 10)
     au Filetype qf set nobuflisted
     au FileType qf set foldcolumn=0
