@@ -352,15 +352,15 @@ augroup myPlug
         command -nargs=0 CocInstallBasic call CocInstallBasic()
         function! CocInstallBasic() abort
             let exts = [
-                \ 'coc-marketplace',
-                \ 'coc-pairs',
-                \ 'coc-vimtex',
-                \ 'coc-neosnippet',
-                \ 'coc-syntax',
-                \ 'coc-tag',
-                \ 'coc-word',
-                \ 'coc-json'
-            \ ]
+                        \ 'coc-marketplace',
+                        \ 'coc-pairs',
+                        \ 'coc-vimtex',
+                        \ 'coc-neosnippet',
+                        \ 'coc-syntax',
+                        \ 'coc-tag',
+                        \ 'coc-word',
+                        \ 'coc-json'
+                        \ ]
             for ext in exts
                 execute 'CocInstall ' . ext
             endfor
@@ -398,21 +398,21 @@ augroup myPlug
                 nmap <buffer> <S-F8> <Plug>(lsp-peek-type-definition)
                 nmap <buffer> <F8> <Plug>(lsp-type-definition)
                 if has('menu')
-                    nmenu <buffer> PopUp.[Peek\ Declaration] <Plug>(lsp-peek-declaration)
-                    nmenu <buffer> PopUp.[Declaration] <Plug>(lsp-declaration)
-                    nmenu <buffer> PopUp.[Peek\ Definition] <Plug>(lsp-peek-definition)
-                    nmenu <buffer> PopUp.[Definition] <Plug>(lsp-definition)
-                    nmenu <buffer> PopUp.[Peek\ Implementation] <Plug>(lsp-peek-implementation)
-                    nmenu <buffer> PopUp.[Implementation] <Plug>(lsp-implementation)
-                    nmenu <buffer> PopUp.[Peek\ Type\ Definition] <Plug>(lsp-peek-type-definition)
-                    nmenu <buffer> PopUp.[TypeDefinition] <Plug>(lsp-type-definition)
+                    nmenu PopUp.[Peek\ Declaration] <Plug>(lsp-peek-declaration)
+                    nmenu PopUp.[Declaration] <Plug>(lsp-declaration)
+                    nmenu PopUp.[Peek\ Definition] <Plug>(lsp-peek-definition)
+                    nmenu PopUp.[Definition] <Plug>(lsp-definition)
+                    nmenu PopUp.[Peek\ Implementation] <Plug>(lsp-peek-implementation)
+                    nmenu PopUp.[Implementation] <Plug>(lsp-implementation)
+                    nmenu PopUp.[Peek\ Type\ Definition] <Plug>(lsp-peek-type-definition)
+                    nmenu PopUp.[TypeDefinition] <Plug>(lsp-type-definition)
                 endif
 
                 nmap <buffer> <leader><cr>h <Plug>(lsp-hover)
                 nmap <buffer> <leader><cr>H <Plug>(lsp-signature-help)
                 if has('menu')
-                    nmenu <buffer> PopUp.[Hover] <Plug>(lsp-hover)
-                    nmenu <buffer> PopUp.[Signature\ Help] <Plug>(lsp-signature-help)
+                    nmenu PopUp.[Hover] <Plug>(lsp-hover)
+                    nmenu PopUp.[Signature\ Help] <Plug>(lsp-signature-help)
                 endif
 
                 nmap <buffer> <leader><cr>t <Plug>(lsp-type-hierarchy)
@@ -637,7 +637,7 @@ augroup myPlug
                         \ }))
             if !executable('clangd') && executable('clang')
                 call asyncomplete#register_source(
-                        \ extend(asyncomplete#sources#clang#get_source_options(), {'priority': 20}))
+                            \ extend(asyncomplete#sources#clang#get_source_options(), {'priority': 20}))
             endif
         catch
         endtry
