@@ -1067,7 +1067,7 @@ augroup myCore
     nnoremap <leader>to :tabonly<cr>
     nnoremap <leader>tx :tabclose<cr>
     nnoremap <leader>tm :tabmove<cr>
-    nnoremap <leader>tc :tcd %:p:h<cr>:pwd<cr>
+    nnoremap <leader>tc :tcd %:p:h<cr>
     nnoremap <expr> <leader>tC ':tcd ' . GetVCSRoot() . "\<lt>cr>"
 
     " Let 'tl' toggle between this and the last accessed tab
