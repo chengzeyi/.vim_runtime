@@ -21,7 +21,8 @@ augroup END
 ' > ~/.vimrc
 
 mkdir -p ~/.config/nvim
-cat ~/.vimrc > ~/.config/nvim/init.vim
+rm -f ~/.config/nvim/init.vim
+ln -s ~/,vimrc ~/.config/nvim/init.vim
 
 echo '
 
