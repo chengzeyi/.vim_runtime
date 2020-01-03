@@ -4,18 +4,21 @@ set -e
 
 echo '
 
-set runtimepath+=~/.vim_runtime
-
-source ~/.vim_runtime/config/core.vim
-source ~/.vim_runtime/config/plug.vim
-
-nnoremap <leader>ed :e ~/.vimrc<cr>
 augroup configDot
-    autocmd!
-    autocmd BufWritePost ~/.vimrc source ~/.vimrc
-augroup END
+    au!
 
-" local configuration below
+    set runtimepath+=~/.vim_runtime
+
+    source ~/.vim_runtime/config/core.vim
+    source ~/.vim_runtime/config/plug.vim
+
+    nnoremap <leader>ed :e ~/.vimrc<cr>
+
+    " local configuration below
+
+    autocmd BufWritePost ~/.vimrc source ~/.vimrc
+
+augroup END
 
 ' > ~/.vimrc
 
