@@ -14,8 +14,6 @@ augroup configDot
 
     nnoremap <leader>ed :e ~/.vimrc<cr>
 
-    " local configuration below
-
     autocmd BufWritePost ~/.vimrc source ~/.vimrc
 
 augroup END
