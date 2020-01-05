@@ -636,14 +636,6 @@ augroup myCore
     nnoremap <leader>p+ :set previewheight+=1<cr>
     nnoremap <leader>p= :set previewheight=6<cr>
 
-    if has('win32')
-        let git_bash_path = 'C:\Program Files\Git\bin\bash.exe'
-        if filereadable(git_bash_path)
-            let &sh = '"' . git_bash_path . '"'
-            set shellcmdflag=-c
-            set shellxquote=
-        endif
-    endif
     " if executable('zsh')
     "     set shell=zsh
     " endif
