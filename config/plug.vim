@@ -49,8 +49,6 @@ augroup myPlug
         Plug 'Shougo/neco-syntax'
         Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
 
-        Plug 'Shougo/neco-vim'
-        Plug 'prabirshrestha/asyncomplete-necovim.vim'
         if !executable('clangd') && executable('clang')
             Plug 'keremc/asyncomplete-clang.vim'
         endif
@@ -1124,28 +1122,24 @@ augroup myPlug
     nmap <c-_> <Plug>CommentaryLine
     vmap <c-_> <Plug>Commentary
 
+    let g:dispatch_no_maps = 1
     nnoremap <leader>db :DB<space>
     nnoremap <leader>dB :%DB<space>
     xnoremap <leader>db :DB<space>
-
     nnoremap <leader>mm :Make<space>
     nnoremap <leader>mM :Make!<space>
     nnoremap <leader>Mm :Make<cr>
     nnoremap <leader>MM :Make!<cr>
-
     nnoremap <leader>dc :Copen<cr>
     nnoremap <leader>dC :Copen!<cr>
-
     nnoremap <leader>dd :Dispatch<space>
     nnoremap <leader>dD :Dispatch!<space>
     nnoremap <leader>Dd :Dispatch<cr>
     nnoremap <leader>DD :Dispatch!<cr>
-
     nnoremap <leader>df :FocusDispatch<space>
     nnoremap <leader>dF :FocusDispatch!<space>
     nnoremap <leader>Df :FocusDispatch<cr>
     nnoremap <leader>DF :FocusDispatch!<cr>
-
     nnoremap <leader>da :AbortDispatch<cr>
     nnoremap <leader>dA :AbortDispatch<space>
 

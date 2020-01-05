@@ -635,6 +635,15 @@ augroup myCore
     nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? 0 : 1<cr><cr>
     nnoremap <leader>p+ :set previewheight+=1<cr>
     nnoremap <leader>p= :set previewheight=6<cr>
+
+    if has('win32')
+        let git_bash_path = 'C:\Program Files\Git\bin\bash.exe'
+        if filereadable(git_bash_path)
+            let &sh = '"' . git_bash_path . '"'
+            set shellcmdflag=-c
+            set shellxquote=
+        endif
+    endif
     " if executable('zsh')
     "     set shell=zsh
     " endif
@@ -986,8 +995,8 @@ augroup myCore
     " nnoremap gm M
     " nnoremap gl L
 
-    nnoremap <c-k> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>
-    nnoremap <c-j> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>
+    nnoremap <a-k> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>
+    nnoremap <a-j> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>
     " inoremap <c-k> <Esc><C-w>p5<C-y><C-w>pi
     " inoremap <c-j> <Esc><C-w>p5<C-e><C-w>pi
 
@@ -995,15 +1004,10 @@ augroup myCore
     nnoremap <leader><c-h> :nohls<cr>
 
     " Smart way to move between windows
-    nnoremap <s-down> <c-w>j
-    nnoremap <s-up> <c-w>k
-    nnoremap <s-left> <c-w>h
-    nnoremap <s-right> <c-w>l
-
-    nnoremap <a-j> <c-w>j
-    nnoremap <a-k> <c-w>k
-    nnoremap <a-h> <c-w>h
-    nnoremap <a-l> <c-w>l
+    nnoremap <c-j> <c-w>j
+    nnoremap <c-k> <c-w>k
+    nnoremap <c-h> <c-w>h
+    nnoremap <c-l> <c-w>l
 
     nnoremap <leader>= <c-w>=
     nnoremap <leader>+ :resize +5<cr>
