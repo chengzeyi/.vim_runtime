@@ -79,10 +79,9 @@ augroup myPlug
     " Plug 'Valloric/ListToggle'
 
     Plug 'mhinz/vim-startify'
-
     Plug 'mhinz/vim-grepper'
 
-    " Plug 'jiangmiao/auto-pairs'
+    Plug 'jiangmiao/auto-pairs'
 
     Plug 'junegunn/goyo.vim'
     Plug 'junegunn/limelight.vim'
@@ -351,7 +350,6 @@ augroup myPlug
         function! CocInstallBasic() abort
             let exts = [
                         \ 'coc-marketplace',
-                        \ 'coc-pairs',
                         \ 'coc-vimtex',
                         \ 'coc-neosnippet',
                         \ 'coc-syntax',
