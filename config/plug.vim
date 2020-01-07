@@ -645,8 +645,30 @@ augroup myPlug
     " endif
 
     if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
-        nnoremap <leader>ff :Denite<space>
-        nnoremap <leader>fF :DeniteProjectDir<space>
+        nnoremap <leader>yy :Denite source<cr>
+        nnoremap <leader>yY :Denite<space>
+        nnoremap <leader>yY :DeniteProjectDir<space>
+        nnoremap <leader>yb :Denite buffer<cr>
+        nnoremap <leader>yc :Denite command<cr>
+        nnoremap <leader>yC :Denite colorscheme<cr>
+        nnoremap <leader>y: :Denite command_history<cr>
+        nnoremap <leader>ya :Denite change<cr>
+        nnoremap <leader>yh :Denite file/old<cr>
+        nnoremap <leader>yH :Denite help<cr>
+        nnoremap <leader>yd :Denite directory_rec<cr>
+        nnoremap <leader>yf :Denite file/rec<cr>
+        nnoremap <leader>yF :Denite file<cr>
+        nnoremap <leader>yt :Denite tag<cr>
+        nnoremap <leader>yT :Denite filetype<cr>
+        nnoremap <leader>yg :Denite grep<cr>
+        nnoremap <leader>yj :Denite jump<cr>
+        nnoremap <leader>yl :Denite line<cr>
+        nnoremap <leader>ym :Denite menu<cr>
+        nnoremap <leader>yM :Denite mark<cr>
+        nnoremap <leader>yo :Denite outline<cr>
+        nnoremap <leader>yr :Denite register<cr>
+        nnoremap <leader>ys :Denite spell<cr>
+        nnoremap <leader>yS :Denite source<cr>
         autocmd FileType denite call s:denite_my_settings()
         autocmd FileType denite-filter call s:denite_filter_my_settings()
         autocmd FileType denite-filter let b:coc_suggest_disable = 1
@@ -712,6 +734,10 @@ augroup myPlug
                         \ denite#do_map('quit')
             nnoremap <nowait><silent><buffer><expr> <C-c>
                         \ denite#do_map('quit')
+            inoremap <nowait><silent><buffer><expr> <C-y>
+                        \ denite#do_map('do_action')
+            inoremap <nowait><silent><buffer><expr> <C-\>
+                        \ denite#do_map('choose_action')
             inoremap <nowait><silent><buffer><expr> <C-c>
                         \ denite#do_map('quit')
             inoremap <nowait><silent><buffer><expr> <C-SPACE>

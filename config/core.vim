@@ -519,7 +519,7 @@ augroup myCore
     nnoremap <leader>f- :set foldlevel-=1<cr>
     nnoremap <leader>f+ :set foldlevel+=1<cr>
     nnoremap <leader>f= :set foldlevel=<c-r>=&foldlevel == 99 ? 0 : 99<cr><cr>
-    nnoremap <leader>fs :setlocal foldexpr=getline(v:lnum)=~@/?0:1 foldmethod=
+    nnoremap <leader>ff :setlocal foldexpr=getline(v:lnum)=~@/?0:1 foldmethod=
                 \<c-r>=&foldmethod == 'expr' ? 'indent' : 'expr'<cr> foldlevel=
                 \<c-r>=&foldmethod == 'expr' ? 99 : 0<cr><cr>
     xnoremap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : ':<c-u>silent! normal! [zV]z<cr>'
