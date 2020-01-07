@@ -16,38 +16,42 @@ Plug 'chrisbra/csv.vim'
 Plug 'othree/html5.vim'
 Plug 'uiiaoo/java-syntax.vim'
 
-if exists('$VIMUSECOC') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('node')
+if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('node')
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     Plug 'Shougo/neco-vim'
     Plug 'neoclide/coc-neco'
-elseif has('timers')
-    Plug 'prabirshrestha/async.vim'
-    if has('lambda')
-        Plug 'mattn/vim-lsp-settings'
-        Plug 'prabirshrestha/vim-lsp'
-        Plug 'prabirshrestha/asyncomplete-lsp.vim'
-    endif
+else
+    Plug 'jiangmiao/auto-pairs'
 
-    Plug 'prabirshrestha/asyncomplete.vim'
-    Plug 'yami-beta/asyncomplete-omni.vim'
-    Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    Plug 'prabirshrestha/asyncomplete-file.vim'
-    Plug 'prabirshrestha/asyncomplete-tags.vim'
-    if executable('look')
-        Plug 'gonzoooooo/asyncomplete-look.vim'
-    endif
+    if has('timers')
+        Plug 'prabirshrestha/async.vim'
+        if has('lambda')
+            Plug 'mattn/vim-lsp-settings'
+            Plug 'prabirshrestha/vim-lsp'
+            Plug 'prabirshrestha/asyncomplete-lsp.vim'
+        endif
 
-    Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
-    " if has('python3')
-    "     Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-    " endif
+        Plug 'prabirshrestha/asyncomplete.vim'
+        Plug 'yami-beta/asyncomplete-omni.vim'
+        Plug 'prabirshrestha/asyncomplete-buffer.vim'
+        Plug 'prabirshrestha/asyncomplete-file.vim'
+        Plug 'prabirshrestha/asyncomplete-tags.vim'
+        if executable('look')
+            Plug 'gonzoooooo/asyncomplete-look.vim'
+        endif
 
-    Plug 'Shougo/neco-syntax'
-    Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
+        Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
+        " if has('python3')
+        "     Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+        " endif
 
-    if !executable('clangd') && executable('clang')
-        Plug 'keremc/asyncomplete-clang.vim'
+        Plug 'Shougo/neco-syntax'
+        Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
+
+        if !executable('clangd') && executable('clang')
+            Plug 'keremc/asyncomplete-clang.vim'
+        endif
     endif
 endif
 
@@ -77,8 +81,6 @@ Plug 'ntpeters/vim-better-whitespace'
 
 Plug 'mhinz/vim-startify'
 Plug 'mhinz/vim-grepper'
-
-Plug 'jiangmiao/auto-pairs'
 
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
@@ -270,7 +272,7 @@ let g:python_highlight_all = 1
 let g:csv_no_conceal = 1
 let g:no_plugin_maps = 1
 
-if exists('$VIMUSECOC') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('node')
+if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('node')
     au CmdwinEnter [:>] iunmap <buffer> <Tab>
 
     inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<End>"
@@ -347,6 +349,7 @@ if exists('$VIMUSECOC') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execu
     function! CocInstallBasic() abort
         let exts = [
                     \ 'coc-marketplace',
+                    \ 'coc-pairs',
                     \ 'coc-vimtex',
                     \ 'coc-neosnippet',
                     \ 'coc-syntax',
