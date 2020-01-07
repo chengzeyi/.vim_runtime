@@ -9,13 +9,12 @@ augroup configDot
 
     set runtimepath+=~/.vim_runtime
 
-
-    if filereadable("~/.vim_runtime/config/before.vim")
+    if filereadable(expand("~/.vim_runtime/config/before.vim"))
         source ~/.vim_runtime/config/before.vim
     endif
     source ~/.vim_runtime/config/core.vim
     source ~/.vim_runtime/config/addition.vim
-    if filereadable("~/.vim_runtime/config/after.vim")
+    if filereadable(expand("~/.vim_runtime/config/after.vim"))
         source ~/.vim_runtime/config/after.vim
     endif
 
