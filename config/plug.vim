@@ -16,7 +16,7 @@ Plug 'chrisbra/csv.vim'
 Plug 'othree/html5.vim'
 Plug 'uiiaoo/java-syntax.vim'
 
-if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('node')
+if exists('$VIMUSECOC') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('node')
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     Plug 'Shougo/neco-vim'
@@ -270,7 +270,7 @@ let g:python_highlight_all = 1
 let g:csv_no_conceal = 1
 let g:no_plugin_maps = 1
 
-if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('node')
+if exists('$VIMUSECOC') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('node')
     au CmdwinEnter [:>] iunmap <buffer> <Tab>
 
     inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<End>"
