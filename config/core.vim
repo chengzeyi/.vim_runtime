@@ -635,7 +635,7 @@ if has('win32')
     let g:git_bash_path = 'C:\Program Files\Git\git-bash.exe'
     if executable(g:git_bash_path)
         nnoremap <leader>g: :GitBash<cr>
-        command! -nargs=0 GitBash execute '!"' . g:git_bash_path . '" --cd=' . getcwd()
+        command! -nargs=0 GitBash silent execute '!"' . g:git_bash_path . '" --cd=' . getcwd()
     endif
 endif
 
