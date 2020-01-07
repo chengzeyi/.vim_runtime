@@ -448,9 +448,7 @@ nnoremap <leader>" :registers<CR>
 nnoremap <leader>@ :registers<CR>
 inoremap <c-r> <c-r>="\<lt>c-r>" . BetterRegister()<cr>
 if exists(':terminal')
-    if has('nvim')
-        tnoremap <expr> <c-r> "\<lt>c-\>\<lt>c-n>\"" . BetterRegister() . 'pi'
-    else
+    if !has('nvim')
         tnoremap <expr> <c-w>" "\<lt>c-w>\"" . BetterRegister()
     endif
 endif
@@ -632,6 +630,14 @@ endif
 nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? 0 : 1<cr><cr>
 nnoremap <leader>p+ :set previewheight+=1<cr>
 nnoremap <leader>p= :set previewheight=6<cr>
+
+if has('win32')
+    let g:git_bash_path = 'C:\Program Files\Git\git-bash.exe'
+    if executable(g:git_bash_path)
+        nnoremap <leader>g: :GitBash<cr>
+        command! -nargs=0 GitBash execute '!"' . g:git_bash_path . '" --cd=' . getcwd()
+    endif
+endif
 
 " if executable('zsh')
 "     set shell=zsh
