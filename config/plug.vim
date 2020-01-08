@@ -295,6 +295,7 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     endfunction
 
     inoremap <expr> <C-l> coc#refresh()
+    nmap <leader><cr>g <Plug>(coc-diagnostic-info)
     nmap [g <Plug>(coc-diagnostic-prev)
     nmap ]g <Plug>(coc-diagnostic-next)
     nmap gd <Plug>(coc-definition)
@@ -327,7 +328,7 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     nnoremap <leader><cr>s :<C-u>CocList -I symbols<cr>
     nnoremap <leader><cr>] :<C-u>CocNext<cr>
     nnoremap <leader><cr>[ :<C-u>CocPrev<cr>
-    nnoremap <leader><cr>C :<C-u>CocCommand<space>
+    nnoremap <leader><cr>C :<C-u>CocConfig<cr>
 
     nnoremap K :call <SID>show_documentation()<CR>
     function! s:show_documentation()
@@ -345,7 +346,7 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
         autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     augroup END
 
-    command -nargs=0 CocInstallBasic call CocInstallBasic()
+    command! -nargs=0 CocInstallBasic call CocInstallBasic()
     function! CocInstallBasic() abort
         let exts = [
                     \ 'coc-marketplace',
