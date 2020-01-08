@@ -46,8 +46,11 @@ else
         "     Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
         " endif
 
-        Plug 'Shougo/neco-syntax'
-        Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
+        " Plug 'Shougo/neco-syntax'
+        " Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
+
+        Plug 'Shougo/neco-vim'
+        Plug 'prabirshrestha/asyncomplete-necovim.vim'
 
         if !executable('clangd') && executable('clang')
             Plug 'keremc/asyncomplete-clang.vim'
@@ -464,7 +467,7 @@ elseif has('timers')
         "                 \ 'whitelist': ['sh', 'bash'],
         "                 \ })
         " endif
-        " let s:java_lsp_files = globpath('~/lsp/eclipse.jdt.ls', 'plugins/org.eclipse.equinox.launcher_\d\.\d\.\d\d\d\.*\.jar', 1, 1)
+        " let s:java_lsp_files = globpath('~/lsp/eclipse.jdt.ls', 'plugins/org.eclipse.equinox.launcher_*.jar', 1, 1)
         " if executable('java') && !empty(s:java_lsp_files)
         "     au User lsp_setup call lsp#register_server({
         "                 \ 'name': 'eclipse.jdt.ls',
@@ -491,10 +494,10 @@ elseif has('timers')
         " command! -nargs=0 LSPInstallJava
         "         \ !mkdir -p ~/lsp/eclipse.jdt.ls &&
         "         \ cd ~/lsp/eclipse.jdt.ls &&
-        "         \ rm -f * &&
-        "         \ curl -L http://download.eclipse.org/jdtls/milestones/0.48.0/jdt-language-server-0.48.0-201912040033.tar.gz -O &&
-        "         \ tar -xf jdt-language-server-0.48.0-201912040033.tar.gz &&
-        "         \ rm jdt-language-server-0.48.0-201912040033.tar.gz
+        "         \ rm -rf * &&
+        "         \ curl -L http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz -O &&
+        "         \ tar -xf jdt-language-server-latest.tar.gz &&
+        "         \ rm jdt-language-server-latest.tar.gz
     endif
 
     au CmdwinEnter [:>] iunmap <buffer> <Tab>

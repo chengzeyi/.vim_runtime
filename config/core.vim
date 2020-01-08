@@ -639,6 +639,24 @@ if has('win32')
     endif
 endif
 
+if has('win32') && executable('sh')
+    nnoremap <leader>sh :Sh<space>
+    command! -nargs=+ -complete=command Sh call Sh(<q-args>)
+    function! Sh(cmd) abort
+        let saved = [&shell, &shellcmdflag, &shellxquote]
+        set shell=sh
+        set shellcmdflag=-c
+        set shellxquote=
+        try
+            exe a:cmd
+        catch
+            echohl ErrorMsg | echo v:exception | echohl None
+        endtry
+        let &shell = saved[0]
+        let &shellcmdflag = saved[1]
+        let &shellxquote = saved[2]
+    endfunction
+endif
 " if executable('zsh')
 "     set shell=zsh
 " endif
@@ -921,11 +939,11 @@ if has('cscope')
     nnoremap <C-\><C-\>D :scs find d<space>
 endif
 
-nnoremap <leader>vv :VCS<space>
-command! -nargs=+ -complete=command VCS call VCS(<q-args>)
-function! VCS(cmd) abort
+nnoremap <leader>vv :Vcs<space>
+command! -nargs=+ -complete=command Vcs call Vcs(<q-args>)
+function! Vcs(cmd) abort
     let saved = getcwd()
-    exe 'cd ' . GetVCSRoot()
+    exe 'cd ' . GetVcsRoot()
     try
         exe a:cmd
     catch
@@ -1067,7 +1085,7 @@ nnoremap <leader>to :tabonly<cr>
 nnoremap <leader>tx :tabclose<cr>
 nnoremap <leader>tm :tabmove<cr>
 nnoremap <leader>tc :tcd %:p:h<cr>
-nnoremap <expr> <leader>tC ':tcd ' . GetVCSRoot() . "\<lt>cr>"
+nnoremap <expr> <leader>tC ':tcd ' . GetVcsRoot() . "\<lt>cr>"
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
@@ -1080,8 +1098,8 @@ nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 " Switch CWD to the directory of the open buffer
 nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
-nnoremap <expr> <leader>cD ':cd ' . GetVCSRoot() . "\<lt>cr>"
-function! GetVCSRoot()
+nnoremap <expr> <leader>cD ':cd ' . GetVcsRoot() . "\<lt>cr>"
+function! GetVcsRoot()
     let cph = expand('%:p:h', 1)
     if cph =~# '^.\+://' | retu | en
     for mkr in ['.git/', '.hg/', '.svn/', '.bzr/', '_darcs/', '.vimprojects']
