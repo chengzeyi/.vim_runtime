@@ -12,7 +12,7 @@ Plug 'arp242/gopher.vim'
 " Plug 'fatih/vim-go'
 Plug 'vim-python/python-syntax'
 Plug 'plasticboy/vim-markdown'
-Plug 'chrisbra/csv.vim'
+" Plug 'chrisbra/csv.vim'
 Plug 'othree/html5.vim'
 Plug 'uiiaoo/java-syntax.vim'
 
@@ -60,7 +60,7 @@ endif
 
 " Plug 'lfilho/cosco.vim'
 
-Plug 'vim-utils/vim-man'
+" Plug 'vim-utils/vim-man'
 
 Plug 'FooSoft/vim-argwrap'
 
@@ -70,7 +70,7 @@ Plug 'mhinz/vim-sayonara'
 
 Plug 'mbbill/undotree'
 
-Plug 'luochen1990/rainbow'
+" Plug 'luochen1990/rainbow'
 
 Plug 'easymotion/vim-easymotion'
 
@@ -99,8 +99,8 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
-Plug 'tpope/vim-dadbod'
-Plug 'tpope/vim-dispatch'
+" Plug 'tpope/vim-dadbod'
+" Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 " Plug 'tpope/vim-eunuch'
 
@@ -649,30 +649,29 @@ endif
 " endif
 
 if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
-    nnoremap <leader>yy :Denite source<cr>
-    nnoremap <leader>yY :Denite<space>
-    nnoremap <leader>yY :DeniteProjectDir<space>
-    nnoremap <leader>yb :Denite buffer<cr>
-    nnoremap <leader>yc :Denite command<cr>
-    nnoremap <leader>yC :Denite colorscheme<cr>
-    nnoremap <leader>y: :Denite command_history<cr>
-    nnoremap <leader>ya :Denite change<cr>
-    nnoremap <leader>yh :Denite file/old<cr>
-    nnoremap <leader>yH :Denite help<cr>
-    nnoremap <leader>yd :Denite directory_rec<cr>
-    nnoremap <leader>yf :Denite file/rec<cr>
-    nnoremap <leader>yF :Denite file<cr>
-    nnoremap <leader>yt :Denite tag<cr>
-    nnoremap <leader>yT :Denite filetype<cr>
-    nnoremap <leader>yg :Denite grep<cr>
-    nnoremap <leader>yj :Denite jump<cr>
-    nnoremap <leader>yl :Denite line<cr>
-    nnoremap <leader>ym :Denite menu<cr>
-    nnoremap <leader>yM :Denite mark<cr>
-    nnoremap <leader>yo :Denite outline<cr>
-    nnoremap <leader>yr :Denite register<cr>
-    nnoremap <leader>ys :Denite spell<cr>
-    nnoremap <leader>yS :Denite source<cr>
+    nnoremap <leader>dd :Denite<space>
+    nnoremap <leader>dD :DeniteProjectDir<space>
+    nnoremap <leader>db :Denite buffer<cr>
+    nnoremap <leader>dc :Denite command<cr>
+    nnoremap <leader>dC :Denite colorscheme<cr>
+    nnoremap <leader>d: :Denite command_history<cr>
+    nnoremap <leader>da :Denite change<cr>
+    nnoremap <leader>dh :Denite file/old<cr>
+    nnoremap <leader>dH :Denite help<cr>
+    nnoremap <leader>dd :Denite directory_rec<cr>
+    nnoremap <leader>df :Denite file/rec<cr>
+    nnoremap <leader>dF :Denite file<cr>
+    nnoremap <leader>dt :Denite tag<cr>
+    nnoremap <leader>dT :Denite filetype<cr>
+    nnoremap <leader>dg :Denite grep<cr>
+    nnoremap <leader>dj :Denite jump<cr>
+    nnoremap <leader>dl :Denite line<cr>
+    nnoremap <leader>dm :Denite menu<cr>
+    nnoremap <leader>dM :Denite mark<cr>
+    nnoremap <leader>do :Denite outline<cr>
+    nnoremap <leader>dr :Denite register<cr>
+    nnoremap <leader>ds :Denite source<cr>
+    nnoremap <leader>dS :Denite spell<cr>
     autocmd FileType denite call s:denite_my_settings()
     autocmd FileType denite-filter call s:denite_filter_my_settings()
     autocmd FileType denite-filter let b:coc_suggest_disable = 1
@@ -784,6 +783,7 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     endtry
 endif
 
+nmap <C-\> :Denite neosnippet<cr>
 imap <C-\> <Plug>(neosnippet_expand_or_jump)
 smap <C-\> <Plug>(neosnippet_expand_or_jump)
 imap <C-]> <Plug>(neosnippet_jump_or_expand)
@@ -1156,26 +1156,27 @@ command! -bar -bang FZFWindows
 nmap <c-_> <Plug>CommentaryLine
 vmap <c-_> <Plug>Commentary
 
-let g:dispatch_no_maps = 1
-nnoremap <leader>db :DB<space>
-nnoremap <leader>dB :%DB<space>
-xnoremap <leader>db :DB<space>
-nnoremap <leader>mm :Make<space>
-nnoremap <leader>mM :Make!<space>
-nnoremap <leader>Mm :Make<cr>
-nnoremap <leader>MM :Make!<cr>
-nnoremap <leader>dc :Copen<cr>
-nnoremap <leader>dC :Copen!<cr>
-nnoremap <leader>dd :Dispatch<space>
-nnoremap <leader>dD :Dispatch!<space>
-nnoremap <leader>Dd :Dispatch<cr>
-nnoremap <leader>DD :Dispatch!<cr>
-nnoremap <leader>df :FocusDispatch<space>
-nnoremap <leader>dF :FocusDispatch!<space>
-nnoremap <leader>Df :FocusDispatch<cr>
-nnoremap <leader>DF :FocusDispatch!<cr>
-nnoremap <leader>da :AbortDispatch<cr>
-nnoremap <leader>dA :AbortDispatch<space>
+" nnoremap <leader>db :DB<space>
+" nnoremap <leader>dB :%DB<space>
+" xnoremap <leader>db :DB<space>
+
+" let g:dispatch_no_maps = 1
+" nnoremap <leader>mm :Make<space>
+" nnoremap <leader>mM :Make!<space>
+" nnoremap <leader>Mm :Make<cr>
+" nnoremap <leader>MM :Make!<cr>
+" nnoremap <leader>dc :Copen<cr>
+" nnoremap <leader>dC :Copen!<cr>
+" nnoremap <leader>dd :Dispatch<space>
+" nnoremap <leader>dD :Dispatch!<space>
+" nnoremap <leader>Dd :Dispatch<cr>
+" nnoremap <leader>DD :Dispatch!<cr>
+" nnoremap <leader>df :FocusDispatch<space>
+" nnoremap <leader>dF :FocusDispatch!<space>
+" nnoremap <leader>Df :FocusDispatch<cr>
+" nnoremap <leader>DF :FocusDispatch!<cr>
+" nnoremap <leader>da :AbortDispatch<cr>
+" nnoremap <leader>dA :AbortDispatch<space>
 
 if !exists('g:gutentags_modules')
     let g:gutentags_modules = []
@@ -1308,10 +1309,8 @@ xnoremap [w :PrevTrailingWhitespace<CR>
 nnoremap <leader>x :Sayonara<cr>
 nnoremap <leader>X :Sayonara!<cr>
 
-let g:EasyMotion_do_mapping = 1
-
-let g:rainbow_active = 0 "set to 0 if you want to enable it later via :RainbowToggle
-nnoremap <leader>rb :RainbowToggle<cr>
+" let g:rainbow_active = 0 "set to 0 if you want to enable it later via :RainbowToggle
+" nnoremap <leader>rb :RainbowToggle<cr>
 
 nnoremap <leader>uu :UndotreeToggle<cr>
 nnoremap <leader>uf :UndotreeFocus<cr>
