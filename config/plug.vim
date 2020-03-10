@@ -1,3 +1,5 @@
+let g:plug_url_format = 'https://github.com/%s.git'
+
 call plug#begin('~/.vim_runtime/plugged')
 
 Plug 'chengzeyi/vim-markify'
