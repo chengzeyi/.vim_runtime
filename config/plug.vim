@@ -820,8 +820,9 @@ autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isT
 let g:ctrlp_working_path_mode = 'ra'
 " let g:ctrlp_map = '<c-p>'
 nnoremap <leader>pp :CtrlP<cr>
-nnoremap <leader>pw :CtrlPCurFile<cr>
-nnoremap <leader>pW :CtrlPCurWD<cr>
+nnoremap <leader>pc :CtrlPCurFile<cr>
+nnoremap <leader>pC :CtrlPCurWD<cr>
+nnoremap <leader>pr :CtrlPRoot<cr>
 nnoremap <leader>pb :CtrlPBuffer<cr>
 nnoremap <leader>pt :CtrlPTag<cr>
 nnoremap <leader>pl :CtrlPLine<cr>
@@ -831,7 +832,7 @@ nnoremap <leader>pr :CtrlPRTS<cr>
 nnoremap <leader>pm :CtrlPMRU<cr>
 nnoremap <leader>pM :CtrlPMixed<cr>
 nnoremap <leader>pu :CtrlPUndo<cr>
-nnoremap <leader>pC :CtrlPChange<cr>
+nnoremap <leader>ph :CtrlPChange<cr>
 nnoremap <leader>pd :CtrlPDir<cr>
 
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
