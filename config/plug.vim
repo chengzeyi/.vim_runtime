@@ -823,12 +823,12 @@ nnoremap <leader>pp :CtrlP<cr>
 nnoremap <leader>pc :CtrlPCurFile<cr>
 nnoremap <leader>pC :CtrlPCurWD<cr>
 nnoremap <leader>pr :CtrlPRoot<cr>
+nnoremap <leader>pR :CtrlPRTS<cr>
 nnoremap <leader>pb :CtrlPBuffer<cr>
 nnoremap <leader>pt :CtrlPTag<cr>
 nnoremap <leader>pl :CtrlPLine<cr>
 nnoremap <leader>pL :CtrlPLastMode<cr>
 nnoremap <leader>pq :CtrlPQuickfix<cr>
-nnoremap <leader>pr :CtrlPRTS<cr>
 nnoremap <leader>pm :CtrlPMRU<cr>
 nnoremap <leader>pM :CtrlPMixed<cr>
 nnoremap <leader>pu :CtrlPUndo<cr>
