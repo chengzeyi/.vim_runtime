@@ -66,7 +66,7 @@ endif
 
 Plug 'FooSoft/vim-argwrap'
 
-Plug 'mhinz/vim-sayonara'
+" Plug 'mhinz/vim-sayonara'
 
 " Plug 'terryma/vim-expand-region'
 
@@ -787,9 +787,6 @@ smap <C-\> <Plug>(neosnippet_expand_or_jump)
 imap <C-]> <Plug>(neosnippet_jump_or_expand)
 smap <C-]> <Plug>(neosnippet_jump_or_expand)
 xmap <C-\> <Plug>(neosnippet_expand_target)
-" if has('conceal')
-"     set conceallevel=2 concealcursor=niv
-" endif
 let g:neosnippet#snippets_directory = '~/.vim_neosnippet'
 let g:neosnippet#expand_word_boundary = 1
 
@@ -1305,8 +1302,8 @@ nnoremap [w :PrevTrailingWhitespace<CR>
 xnoremap ]w :NextTrailingWhitespace<CR>
 xnoremap [w :PrevTrailingWhitespace<CR>
 
-nnoremap <leader>x :Sayonara<cr>
-nnoremap <leader>X :Sayonara!<cr>
+" nnoremap <leader>x :Sayonara<cr>
+" nnoremap <leader>X :Sayonara!<cr>
 
 " let g:rainbow_active = 0 "set to 0 if you want to enable it later via :RainbowToggle
 " nnoremap <leader>rb :RainbowToggle<cr>
