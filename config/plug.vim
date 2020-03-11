@@ -733,19 +733,14 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
                     \ denite#do_map('toggle_select') . 'k'
     endfunction
     function! s:denite_filter_my_settings() abort
-        nmap <nowait><silent><buffer> <Esc> <Plug>(denite_filter_quit)
-        imap <nowait><silent><buffer> <Esc> <Plug>(denite_filter_quit)
-        imap <nowait><silent><buffer> <C-o> <Plug>(denite_filter_quit)
-        nmap <nowait><silent><buffer> <C-c>
-                    \ <Plug>(denite_filter_quit)
-        imap <nowait><silent><buffer> <C-c>
-                    \ <Plug>(denite_filter_quit)
-        nmap <nowait><silent><buffer> <C-y>
-                    \ <Plug>(denite_filter_update)
         imap <nowait><silent><buffer> <C-y>
                     \ <Plug>(denite_filter_update)
-        nnoremap <nowait><silent><buffer><expr> <CR>
-                    \ denite#do_map('do_action')
+        imap <nowait><silent><buffer> <Esc>
+                    \ <Plug>(denite_filter_quit)
+        imap <nowait><silent><buffer> <C-o>
+                    \ <Plug>(denite_filter_quit)
+        inoremap <nowait><silent><buffer><expr> <C-c>
+                    \ denite#do_map('quit')
         inoremap <nowait><silent><buffer><expr> <CR>
                     \ denite#do_map('do_action')
         inoremap <nowait><silent><buffer><expr> <C-\>
