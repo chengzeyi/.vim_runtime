@@ -1,7 +1,5 @@
 try | colorscheme murphy | catch | endtry
 
-nnoremap <leader>x :q<cr>
-
 au InsertCharPre * noautocmd if !pumvisible() && v:char =~# '\k' | call feedkeys("\<c-n>", 'n') | endif
 
 au CmdwinEnter [:>] iunmap <buffer> <Tab>

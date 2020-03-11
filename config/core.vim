@@ -288,7 +288,7 @@ let maplocalleader = '\'
 " let g:vimsyn_embed = 'lmpPrt'
 " let g:vimsyn_folding = 'aflmpPrt'
 
-let g:markdown_folding = 1
+" let g:markdown_folding = 1
 " let g:markdown_syntax_conceal = 0
 
 let g:tex_flavor = 'latex'
@@ -332,6 +332,9 @@ noremap ^ 0
 nnoremap Q @q
 " nnoremap M `m
 nnoremap Y y$
+
+nnoremap <leader>x :q<cr>
+nnoremap <leader>X :q!<cr>
 
 nnoremap <leader><bslash> :vs<cr>
 nnoremap <leader><bar> :sp<cr>
