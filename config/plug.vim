@@ -282,11 +282,12 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
 
     inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<End>"
 
-    if exists('*complete_info')
-        inoremap <expr> <cr> complete_info()["selected"] != "-1" ?
-                    \ "<C-y>" : "\<C-g>u\<CR>"
+    if exists('#CompleteChanged')
+        inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                    \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
     else
-        inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+        inoremap <silent><expr> <cr> pumvisible() ? "\<C-y>"
+                    \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
     endif
     inoremap <silent><expr> <TAB>
                 \ pumvisible() ? "\<C-n>" :
