@@ -1033,11 +1033,11 @@ let g:startify_custom_header = [
 nnoremap <leader>st :Startify<cr>
 
 if exists(':terminal')
-    nnoremap <c-n> :Nuake<cr>
+    nnoremap <F12> :Nuake<cr>
     if has('nvim')
-        tnoremap <c-n> <c-\><c-n>:Nuake<cr>
+        tnoremap <F12> <c-\><c-n>:Nuake<cr>
     else
-        tnoremap <c-n> <c-w>:Nuake<cr>
+        tnoremap <F12> <c-w>:Nuake<cr>
     endif
 endif
 
