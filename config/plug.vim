@@ -294,8 +294,8 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     nnoremap <leader><cr>c :<C-u>CocList commands<cr>
     nnoremap <leader><cr>o :<C-u>CocList outline<cr>
     nnoremap <leader><cr>s :<C-u>CocList -I symbols<cr>
-    nnoremap <leader><cr>] :<C-u>CocNext<cr>
-    nnoremap <leader><cr>[ :<C-u>CocPrev<cr>
+    nnoremap ]c :<C-u>CocNext<cr>
+    nnoremap [c :<C-u>CocPrev<cr>
     nnoremap <leader><cr>C :<C-u>CocConfig<cr>
 
     nnoremap K :call <SID>show_documentation()<CR>
