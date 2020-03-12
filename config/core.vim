@@ -302,7 +302,7 @@ let g:netrw_liststyle = 1
 
 inoremap <c-a> <home>
 " inoremap <c-e> <end>
-inoremap <c-k> <end><c-u>
+" inoremap <c-k> <end><c-u>
 
 " Bash like keys for the command line
 cnoremap <C-A> <Home>
