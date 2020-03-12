@@ -59,7 +59,7 @@ set foldlevelstart=99
 set foldnestmax=3
 " set nofoldenable
 set foldcolumn=1
-au FileType c,cpp,go setlocal foldmethod=syntax
+" au FileType c,cpp,go setlocal foldmethod=syntax
 
 set display+=lastline
 
