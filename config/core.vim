@@ -59,7 +59,7 @@ set foldlevelstart=99
 set foldnestmax=3
 " set nofoldenable
 set foldcolumn=1
-au FileType c,cpp,go,java setlocal foldmethod=syntax
+au FileType c,cpp,go setlocal foldmethod=syntax
 
 set display+=lastline
 
@@ -393,10 +393,10 @@ nnoremap ]I ]I:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "n
 nnoremap [D [I:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."[\<lt>c-d>"<Bar>endif<CR>
 nnoremap ]D ]I:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."]\<lt>c-d>"<Bar>endif<CR>
 
-xnoremap if :<C-U>silent! normal! [zjV]zk<CR>
-onoremap if :normal Vif<CR>
-xnoremap af :<C-U>silent! normal! [zV]z<CR>
-onoremap af :normal Vaf<CR>
+" xnoremap if :<C-U>silent! normal! [zjV]zk<CR>
+" onoremap if :normal Vif<CR>
+" xnoremap af :<C-U>silent! normal! [zV]z<CR>
+" onoremap af :normal Vaf<CR>
 " nnoremap <leader>mm :match Question /<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<cr>
 " nnoremap <leader>mM :match<cr>
 nnoremap <leader>fw :let @/='\<lt><c-r>=expand('<lt>cword>')<cr>\>' <bar> set hls<cr>
