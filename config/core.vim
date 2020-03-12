@@ -648,8 +648,8 @@ if has('win32')
 endif
 
 if has('win32') && executable('sh')
-    nnoremap <leader>sh :Sh<space>
-    command! -nargs=+ -complete=command Sh call Sh(<q-args>)
+    nnoremap <leader>! :Sh<space>
+    command! -nargs=+ -complete=shellcmd Sh call Sh(<q-args>)
     function! Sh(cmd) abort
         let saved = [&shell, &shellcmdflag, &shellxquote]
         set shell=sh
