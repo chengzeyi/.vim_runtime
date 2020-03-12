@@ -307,12 +307,9 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
         endif
     endfunction
 
-    augroup coc
-        autocmd!
-        autocmd CursorHold * silent! call CocActionAsync('highlight')
-        autocmd FileType typescript,json silent! setl formatexpr=CocAction('formatSelected')
-        autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-    augroup END
+    autocmd CursorHold * silent! call CocActionAsync('highlight')
+    autocmd FileType typescript,json silent! setl formatexpr=CocAction('formatSelected')
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 
     command! -nargs=0 CocInstallBasic call CocInstallBasic()
     function! CocInstallBasic() abort
