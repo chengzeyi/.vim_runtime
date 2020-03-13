@@ -382,7 +382,6 @@ elseif has('timers')
 
         nmap <leader><cr>t <Plug>(lsp-type-hierarchy)
         nmap <leader><cr>r <Plug>(lsp-rename)
-        nmap <leader><cr>R <Plug>(lsp-references)
         nmap <leader><cr>s <Plug>(lsp-document-symbol)
         nmap <leader><cr>S <Plug>(lsp-workspace-symbol)
         nmap ]e <Plug>(lsp-next-error)
@@ -399,6 +398,7 @@ elseif has('timers')
             nmenu PopUp.[Implementation] <Plug>(lsp-implementation)
             nmenu PopUp.[Peek\ Type\ Definition] <Plug>(lsp-peek-type-definition)
             nmenu PopUp.[TypeDefinition] <Plug>(lsp-type-definition)
+            nmenu PopUp.[References] <Plug>(lsp-references)
             nmenu PopUp.[Hover] <Plug>(lsp-hover)
             nmenu PopUp.[Signature\ Help] <Plug>(lsp-signature-help)
         endif
@@ -407,24 +407,17 @@ elseif has('timers')
         function! s:on_lsp_buffer_enabled() abort
             setlocal omnifunc=
 
-            nmap <buffer> gE <Plug>(lsp-peek-declaration)
-            nmap <buffer> ge <Plug>(lsp-declaration)
+            nmap <buffer> gL <Plug>(lsp-peek-declaration)
+            nmap <buffer> gl <Plug>(lsp-declaration)
             nmap <buffer> gD <Plug>(lsp-peek-definition)
             nmap <buffer> gd <Plug>(lsp-definition)
             nmap <buffer> gI <Plug>(lsp-peek-implementation)
             nmap <buffer> gi <Plug>(lsp-implementation)
             nmap <buffer> gY <Plug>(lsp-peek-type-definition)
             nmap <buffer> gy <Plug>(lsp-type-definition)
+            nmap <buffer> gr <Plug>(lsp-references)
 
-            nnoremap K :call <SID>show_documentation()<CR>
-        endfunction
-
-        function! s:show_documentation()
-            if (index(['vim', 'help'], &filetype) >= 0)
-                execute 'h '. expand('<cword>')
-            else
-                execute 'LspHover'
-            endif
+            nmap <buffer> K <Plug>(lsp-hover)
         endfunction
 
         let g:lsp_diagnostics_echo_cursor = 1
