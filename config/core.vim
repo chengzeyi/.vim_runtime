@@ -101,7 +101,7 @@ set whichwrap+=<,>,[,]
 
 set ignorecase
 set smartcase
-" set gdefault
+set gdefault
 set hlsearch
 set incsearch
 
@@ -964,16 +964,16 @@ nnoremap <leader>vg :vimgrep //j % <bar> cw<left><left><left><left><left><left><
 nnoremap <leader>vG :vimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>vl :lvimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
 nnoremap <leader>vL :lvimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>ss :%s//g<left><left>
-nnoremap <leader>sc :%s//gc<left><left><left>
-xnoremap <leader>ss :s//g<left><left>
-xnoremap <leader>sc :s//gc<left><left><left>
-nnoremap <leader>qs :cdo s//g<left><left>
-nnoremap <leader>qc :cdo s//gc<left><left><left>
-nnoremap <leader>ls :ldo s//g<left><left>
-nnoremap <leader>lc :ldo s//gc<left><left><left>
-nnoremap <leader>bs :bufdo %s//g<left><left>
-nnoremap <leader>bc :bufdo %s//gc<left><left><left>
+nnoremap <leader>ss :%s//<left>
+nnoremap <leader>sc :%s//c<left><left>
+xnoremap <leader>ss :s//<left>
+xnoremap <leader>sc :s//c<left><left>
+nnoremap <leader>qs :cdo s//<left>
+nnoremap <leader>qc :cdo s//c<left><left>
+nnoremap <leader>ls :ldo s//<left>
+nnoremap <leader>lc :ldo s//c<left><left>
+nnoremap <leader>bs :bufdo %s//<left>
+nnoremap <leader>bc :bufdo %s//c<left><left>
 
 command! -nargs=0 W w !sudo tee % > /dev/null
 
