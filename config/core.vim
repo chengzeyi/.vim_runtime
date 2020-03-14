@@ -652,17 +652,24 @@ if has('win32') && executable('sh')
     command! -nargs=+ -complete=shellcmd Sh call Sh(<q-args>)
     function! Sh(cmd) abort
         let saved = [&shell, &shellcmdflag, &shellxquote]
+        if exists('+shellslash')
+            let saved += [&shellslash]
+        endif
         set shell=sh
         set shellcmdflag=-c
         set shellxquote=
+        set shellslash
         try
-            exe a:cmd
+            exe '!' . a:cmd
         catch
             echohl ErrorMsg | echo v:exception | echohl None
         endtry
         let &shell = saved[0]
         let &shellcmdflag = saved[1]
         let &shellxquote = saved[2]
+		if exists('+shellslash')
+            let &shellslash = saved[3]
+        endif
     endfunction
 endif
 " if executable('zsh')
