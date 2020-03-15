@@ -1,0 +1,10 @@
+{
+  "suggest.enablePreview": true,
+  "suggest.detailMaxLength": 20,
+  "suggest.noselect": false,
+  "suggest.keepCompleteopt": true,
+  "diagnostic.enableSign": false,
+  "java.completion.filteredTypes": [
+    "java.awt.*"
+  ]
+}

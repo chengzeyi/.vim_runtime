@@ -206,11 +206,12 @@ if has('persistent_undo')
     set undofile
 endif
 
-if has('patch-7.4.775')
-    set completeopt=menuone,noinsert,noselect
-else
-    set completeopt=menuone,noinsert
-endif
+" if has('patch-7.4.775')
+"     set completeopt=menuone,noinsert,noselect
+" else
+"     set completeopt=menuone,noinsert
+" endif
+set completeopt=menuone,noinsert
 if has('patch-8.1.1882') && has('textprop')
     set completepopup=height:15,width:30,align:menu
 endif
@@ -1006,9 +1007,8 @@ if executable('xxd')
     au BufWritePost * if &bin | exe '%!xxd' | endif
 endif
 
-" <TAB>: completion.
-inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
+inoremap <expr> <S-TAB> pumvisible() ? "\<C-e>" : "\<S-TAB>"
 inoremap <expr> <down> pumvisible() ? "\<C-n>" : "\<down>"
 inoremap <expr> <up> pumvisible() ? "\<C-p>" : "\<up>"
 

@@ -271,6 +271,8 @@ let g:csv_no_conceal = 1
 let g:no_plugin_maps = 1
 
 if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
+    let g:coc_config_home = $HOME . '/.vim_runtime/config'
+
     au CmdwinEnter [:>] iunmap <buffer> <Tab>
 
     inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<End>"
@@ -282,16 +284,6 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
         inoremap <silent><expr> <cr> pumvisible() ? "\<C-y>"
                     \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
     endif
-    inoremap <silent><expr> <TAB>
-                \ pumvisible() ? "\<C-n>" :
-                \ <SID>check_back_space() ? "\<TAB>" :
-                \ coc#refresh()
-    inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-    function! s:check_back_space() abort
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
 
     inoremap <expr> <C-l> coc#refresh()
     nmap <leader><cr>g <Plug>(coc-diagnostic-info)
@@ -497,16 +489,6 @@ elseif has('timers')
     else
         inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<C-g>u\<CR>"
     endif
-    inoremap <silent><expr> <TAB>
-                \ pumvisible() ? "\<C-n>" :
-                \ <SID>check_back_space() ? "\<TAB>" :
-                \ asyncomplete#force_refresh()
-    inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-    function! s:check_back_space() abort
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
 
     imap <c-l> <Plug>(asyncomplete_force_refresh)
     function! s:sort_by_priority_preprocessor(options, matches) abort
