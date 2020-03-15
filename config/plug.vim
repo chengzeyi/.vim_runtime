@@ -2,7 +2,7 @@ let g:plug_url_format = 'https://github.com/%s.git'
 
 call plug#begin('~/.vim_runtime/plugged')
 
-Plug 'chengzeyi/vim-markify'
+" Plug 'chengzeyi/vim-markify'
 " Plug 'chengzeyi/a.vim'
 
 " Plug 'sheerun/vim-polyglot'
@@ -98,7 +98,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 " Plug 'tpope/vim-dadbod'
-" Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 " Plug 'tpope/vim-eunuch'
 
@@ -607,7 +607,7 @@ endif
 
 if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     nnoremap <leader>dd :Denite<space>
-    nnoremap <leader>dD :DeniteProjectDir<space>
+    nnoremap <leader>dD :Denite directory_rec<cr>
     nnoremap <leader>db :Denite buffer<cr>
     nnoremap <leader>dc :Denite command<cr>
     nnoremap <leader>dC :Denite colorscheme<cr>
@@ -615,7 +615,6 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     nnoremap <leader>da :Denite change<cr>
     nnoremap <leader>dh :Denite file/old<cr>
     nnoremap <leader>dH :Denite help<cr>
-    nnoremap <leader>dd :Denite directory_rec<cr>
     nnoremap <leader>df :Denite file/rec<cr>
     nnoremap <leader>dF :Denite file<cr>
     nnoremap <leader>dt :Denite tag<cr>
@@ -879,27 +878,27 @@ nnoremap <leader>ta :TagbarOpenAutoClose<cr>
 " let g:asyncrun_save = 2
 " let g:asyncrun_auto = "make"
 
-nnoremap <leader>rr :Neomake<cr>
-nnoremap <leader>rR :Neomake<space>
-nnoremap <leader>rp :Neomake!<cr>
-nnoremap <leader>rP :Neomake!<space>
-nnoremap <leader>rs :NeomakeCancelJobs<cr>
-nnoremap <leader>rS :NeomakeCancelJob<space>
-nnoremap <leader>rc :NeomakeClean<cr>
-nnoremap <leader>rC :NeomakeClean!<cr>
-nnoremap <leader>ri :NeomakeStatus<cr>
-nnoremap <leader>rI :NeomakeInfo<cr>
-nnoremap <leader>rl :NeomakeListJobs<cr>
-nnoremap <leader>rs :NeomakeSh<space>
-nnoremap <leader>rS :NeomakeSh!<space>
-nnoremap <leader>rt :NeomakeToggle<cr>
-nnoremap <leader>rT :NeomakeToggleBuffer<cr>
-nnoremap <leader>rd :NeomakeDisable<cr>
-nnoremap <leader>rD :NeomakeDisableBuffer<cr>
-nnoremap <leader>re :NeomakeEnable<cr>
-nnoremap <leader>rE :NeomakeEnableBuffer<cr>
-nnoremap <leader>ra :call neomake#configure#automake('w')<cr>
-nnoremap <leader>rA :call neomake#configure#reset_automake()<cr>
+nnoremap <leader>mm :Neomake<cr>
+nnoremap <leader>mM :Neomake<space>
+nnoremap <leader>mp :Neomake!<cr>
+nnoremap <leader>mP :Neomake!<space>
+nnoremap <leader>ms :NeomakeCancelJobs<cr>
+nnoremap <leader>mS :NeomakeCancelJob<space>
+nnoremap <leader>mc :NeomakeClean<cr>
+nnoremap <leader>mC :NeomakeClean!<cr>
+nnoremap <leader>mi :NeomakeStatus<cr>
+nnoremap <leader>mI :NeomakeInfo<cr>
+nnoremap <leader>ml :NeomakeListJobs<cr>
+nnoremap <leader>ms :NeomakeSh<space>
+nnoremap <leader>mS :NeomakeSh!<space>
+nnoremap <leader>mt :NeomakeToggle<cr>
+nnoremap <leader>mT :NeomakeToggleBuffer<cr>
+nnoremap <leader>md :NeomakeDisable<cr>
+nnoremap <leader>mD :NeomakeDisableBuffer<cr>
+nnoremap <leader>me :NeomakeEnable<cr>
+nnoremap <leader>mE :NeomakeEnableBuffer<cr>
+nnoremap <leader>ma :call neomake#configure#automake('w')<cr>
+nnoremap <leader>mA :call neomake#configure#reset_automake()<cr>
 
 autocmd FileType fzf tnoremap <buffer> <c-n> <c-n>
 let g:fzf_command_prefix = 'FZF'
@@ -1112,23 +1111,23 @@ vmap <c-_> <Plug>Commentary
 " nnoremap <leader>dB :%DB<space>
 " xnoremap <leader>db :DB<space>
 
-" let g:dispatch_no_maps = 1
-" nnoremap <leader>mm :Make<space>
-" nnoremap <leader>mM :Make!<space>
-" nnoremap <leader>Mm :Make<cr>
-" nnoremap <leader>MM :Make!<cr>
-" nnoremap <leader>dc :Copen<cr>
-" nnoremap <leader>dC :Copen!<cr>
-" nnoremap <leader>dd :Dispatch<space>
-" nnoremap <leader>dD :Dispatch!<space>
-" nnoremap <leader>Dd :Dispatch<cr>
-" nnoremap <leader>DD :Dispatch!<cr>
-" nnoremap <leader>df :FocusDispatch<space>
-" nnoremap <leader>dF :FocusDispatch!<space>
-" nnoremap <leader>Df :FocusDispatch<cr>
-" nnoremap <leader>DF :FocusDispatch!<cr>
-" nnoremap <leader>da :AbortDispatch<cr>
-" nnoremap <leader>dA :AbortDispatch<space>
+let g:dispatch_no_maps = 1
+nnoremap <leader>rr :Dispatch<space>
+nnoremap <leader>rR :Dispatch!<space>
+nnoremap <leader>Rd :Dispatch<cr>
+nnoremap <leader>RD :Dispatch!<cr>
+nnoremap <leader>rm :Make<space>
+nnoremap <leader>rM :Make!<space>
+nnoremap <leader>Rm :Make<cr>
+nnoremap <leader>RM :Make!<cr>
+nnoremap <leader>rc :Copen<cr>
+nnoremap <leader>rC :Copen!<cr>
+nnoremap <leader>rf :FocusDispatch<space>
+nnoremap <leader>rF :FocusDispatch!<space>
+nnoremap <leader>Rf :FocusDispatch<cr>
+nnoremap <leader>RF :FocusDispatch!<cr>
+nnoremap <leader>ra :AbortDispatch<cr>
+nnoremap <leader>rA :AbortDispatch<space>
 
 if !exists('g:gutentags_modules')
     let g:gutentags_modules = []
@@ -1142,6 +1141,7 @@ elseif executable('cscope')
     call add(g:gutentags_modules, 'cscope')
 endif
 let g:gutentags_enabled = 0
+let g:gitgutter_preview_win_floating = 0
 let g:gutentags_generate_on_missing = 0
 let g:gutentags_generate_on_new = 0
 let g:gutentags_generate_on_write = 1
@@ -1272,9 +1272,9 @@ let g:undotree_WindowLayout = 3
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_HelpLine = 0
 
-nnoremap <leader>mt :MarkifyToggle<cr>
-nnoremap <leader>mk :Markify<cr>
-nnoremap <leader>mc :MarkifyClear<cr>
+" nnoremap <leader>mt :MarkifyToggle<cr>
+" nnoremap <leader>mk :Markify<cr>
+" nnoremap <leader>mc :MarkifyClear<cr>
 " let g:markify_echo_current_message = 1
 
 nnoremap <leader>aw :ArgWrap<cr>
