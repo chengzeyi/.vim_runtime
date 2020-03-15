@@ -221,9 +221,9 @@ set pumheight=12
 " endif
 set previewheight=6
 
-" if has('conceal')
-"     set conceallevel=2 concealcursor=nc
-" endif
+if has('conceal')
+    set conceallevel=2 concealcursor=nc
+endif
 
 if has('balloondelay')
     set balloondelay=200
