@@ -1024,8 +1024,14 @@ nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 nnoremap <a-k> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>
 nnoremap <a-j> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>
-" inoremap <c-k> <Esc><C-w>p5<C-y><C-w>pi
-" inoremap <c-j> <Esc><C-w>p5<C-e><C-w>pi
+inoremap <a-k> <c-o>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>
+inoremap <a-j> <c-o>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>
+inoremap <a-y> <c-o><c-y>
+inoremap <a-e> <c-o><c-e>
+if exists(':terminal')
+    tnoremap <a-k> <c-\><c-n>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>i
+    tnoremap <a-j> <c-\><c-n>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>i
+endif
 
 nnoremap <leader><bs> :nohls<cr>
 nnoremap <leader><c-h> :nohls<cr>
