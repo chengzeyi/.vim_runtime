@@ -1,9 +1,11 @@
 {
   "suggest.enablePreview": true,
   "suggest.detailMaxLength": 20,
-  "suggest.noselect": false,
-  "suggest.keepCompleteopt": true,
-  "java.completion.filteredTypes": [
-    "java.awt.*"
-  ]
+  "languageserver": {
+    "clangd": {
+      "command": "clangd",
+      "rootPatterns": ["compile_flags.txt", "compile_commands.json"],
+      "filetypes": ["c", "cpp", "objc", "objcpp"]
+    }
+  }
 }
