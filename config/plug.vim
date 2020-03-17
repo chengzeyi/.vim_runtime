@@ -291,10 +291,11 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     nmap ]d <Plug>(coc-diagnostic-next)
     nmap [e <Plug>(coc-diagnostic-prev-error)
     nmap ]e <Plug>(coc-diagnostic-next-error)
-    nmap gd <Plug>(coc-definition)
-    nmap gy <Plug>(coc-type-definition)
-    nmap gi <Plug>(coc-implementation)
-    nmap gr <Plug>(coc-references)
+    nmap <expr> gl CocHasProvider('declaration') ? '<Plug>(coc-declaration)' : 'gl'
+    nmap <expr> gd CocHasProvider('definition') ? '<Plug>(coc-definition)' : 'gd'
+    nmap <expr> gy CocHasProvider('typeDefinition') ? '<Plug>(coc-type-definition)' : 'gy'
+    nmap <expr> gi CocHasProvider('implementation') ? '<Plug>(coc-implementation)' : 'gi'
+    nmap <expr> gr CocHasProvider('reference') ? '<Plug>(coc-references)' : 'gr'
     nmap <leader><cr>r <Plug>(coc-rename)
     nmap <leader><cr>q <Plug>(coc-fix-current)
     xmap <leader><cr>F <Plug>(coc-format-selected)
@@ -378,14 +379,6 @@ elseif has('timers')
         nmap <leader><cr>r <Plug>(lsp-rename)
         nmap <leader><cr>s <Plug>(lsp-document-symbol)
         nmap <leader><cr>S <Plug>(lsp-workspace-symbol)
-        nmap ]d <Plug>(lsp-next-diagnostic)
-        nmap ]e <Plug>(lsp-next-error)
-        nmap ]w <Plug>(lsp-next-warning)
-        nmap ]r <Plug>(lsp-next-reference)
-        nmap [d <Plug>(lsp-previous-diagnostic)
-        nmap [e <Plug>(lsp-previous-error)
-        nmap [r <Plug>(lsp-previous-reference)
-        nmap [w <Plug>(lsp-previous-warning)
 
         if has('menu')
             nmenu PopUp.[Peek\ Declaration] <Plug>(lsp-peek-declaration)
@@ -414,6 +407,15 @@ elseif has('timers')
             nmap <buffer> gY <Plug>(lsp-peek-type-definition)
             nmap <buffer> gy <Plug>(lsp-type-definition)
             nmap <buffer> gr <Plug>(lsp-references)
+
+            nmap ]d <Plug>(lsp-next-diagnostic)
+            nmap ]e <Plug>(lsp-next-error)
+            nmap ]w <Plug>(lsp-next-warning)
+            nmap ]r <Plug>(lsp-next-reference)
+            nmap [d <Plug>(lsp-previous-diagnostic)
+            nmap [e <Plug>(lsp-previous-error)
+            nmap [r <Plug>(lsp-previous-reference)
+            nmap [w <Plug>(lsp-previous-warning)
 
             nmap <buffer> K <Plug>(lsp-hover)
         endfunction
