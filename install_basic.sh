@@ -34,16 +34,4 @@ mkdir -p ~/.config/nvim
 rm -f ~/.config/nvim/init.vim
 ln -s ~/.vimrc ~/.config/nvim/init.vim
 
-echo '
-
-source ~/.vim_runtime/config/gvimrc.vim
-
-' > ~/.gvimrc
-
-echo '
-
-source ~/.vim_runtime/config/ginit.vim
-
-' > ~/.config/nvim/ginit.vim
-
 echo "Installed the Basic Vim configuration successfully!"
