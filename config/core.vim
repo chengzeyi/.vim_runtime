@@ -382,9 +382,6 @@ nnoremap Q @q
 " nnoremap M `m
 nnoremap Y y$
 
-nnoremap <leader>x :q<cr>
-nnoremap <leader>X :q!<cr>
-
 nnoremap <leader><bar> :vs<cr>
 nnoremap <leader><bslash> :sp<cr>
 
@@ -501,6 +498,9 @@ endfunction
 
 nnoremap <leader>w :w<cr>
 nnoremap <leader>W :wa<cr>
+nnoremap <leader>x :q<cr>
+nnoremap <leader>X :qa<cr>
+
 nnoremap <leader>" :registers<CR>
 nnoremap <leader>@ :registers<CR>
 inoremap <c-r> <c-r>="\<lt>c-r>" . BetterRegister()<cr>
