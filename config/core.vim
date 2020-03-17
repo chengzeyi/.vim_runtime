@@ -1,38 +1,38 @@
 set encoding=utf8
 
 if has('gui_running')
-        try
-            if has('gui_gtk2')
-                set guifont=Inconsolata\ 12,Hack\ Regular\ 11
-            elseif has('gui_gtk3')
-                set guifont=Inconsolata\ 14,Hack\ Regular\ 13
-            elseif has('gui_athena')
-                set guifont=Inconsolata\ 14,Hack\ Regular\ 13
-            elseif has('gui_macvim')
-                set guifont=Menlo\ Regular:h14
-            elseif has('gui_win32')
-                set guifont=Cascadia\ Code:h11
-            endif
-        catch
-        endtry
-
-        set guioptions-=e  "tab pages
-        set guioptions-=m  "menu bar
-        set guioptions-=r  "scrollbar
-        set guioptions-=L  "scrollbar
-        set guioptions-=T  "toolbar
-        set guioptions-=c  "dialogs
-        " set guioptions-=b  "scrollbar
-        " set guioptions-=R  "scrollbar
-        " set guioptions-=l  "scrollbar
-        set guitablabel=%M\ %t
-
-        if has('balloon_eval')
-            set ballooneval
+    try
+        if has('gui_gtk2')
+            set guifont=Inconsolata\ 12,Hack\ Regular\ 11
+        elseif has('gui_gtk3')
+            set guifont=Inconsolata\ 14,Hack\ Regular\ 13
+        elseif has('gui_athena')
+            set guifont=Inconsolata\ 14,Hack\ Regular\ 13
+        elseif has('gui_macvim')
+            set guifont=Menlo\ Regular:h14
+        elseif has('gui_win32')
+            set guifont=Cascadia\ Code:h11
         endif
+    catch
+    endtry
 
-        nnoremap <S-Up> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) + 1)', 'g')<cr>
-        nnoremap <S-Down> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g')<cr>
+    set guioptions-=e  "tab pages
+    set guioptions-=m  "menu bar
+    set guioptions-=r  "scrollbar
+    set guioptions-=L  "scrollbar
+    set guioptions-=T  "toolbar
+    set guioptions-=c  "dialogs
+    " set guioptions-=b  "scrollbar
+    " set guioptions-=R  "scrollbar
+    " set guioptions-=l  "scrollbar
+    set guitablabel=%M\ %t
+
+    if has('balloon_eval')
+        set ballooneval
+    endif
+
+    nnoremap <S-Up> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) + 1)', 'g')<cr>
+    nnoremap <S-Down> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g')<cr>
 elseif exists('g:fvim_loaded')
     if has('unix')
         set guifont=Inconsolata\ 12,Hack\ Regular\ 11
