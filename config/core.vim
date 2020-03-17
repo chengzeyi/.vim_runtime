@@ -141,7 +141,7 @@ endif
 set ruler
 set cmdheight=1
 set showmode
-set showcmd
+set noshowcmd
 
 set hid
 
@@ -155,7 +155,7 @@ set hlsearch
 set incsearch
 
 if has('nvim')
-    set inccommand=nosplit
+    set inccommand=split
 endif
 
 set lazyredraw
@@ -716,7 +716,7 @@ if has('win32') && executable('sh')
         let &shell = saved[0]
         let &shellcmdflag = saved[1]
         let &shellxquote = saved[2]
-		if exists('+shellslash')
+        if exists('+shellslash')
             let &shellslash = saved[3]
         endif
     endfunction
