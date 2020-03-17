@@ -385,8 +385,8 @@ nnoremap Y y$
 nnoremap <leader>x :q<cr>
 nnoremap <leader>X :q!<cr>
 
-nnoremap <leader><bslash> :vs<cr>
-nnoremap <leader><bar> :sp<cr>
+nnoremap <leader><bar> :vs<cr>
+nnoremap <leader><bslash> :sp<cr>
 
 nnoremap <leader>en :enew<cr>
 
