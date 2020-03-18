@@ -1,6 +1,10 @@
 {
   "suggest.enablePreview": true,
-  "suggest.detailMaxLength": 20,
+  "suggest.labelMaxLength": 30,
+  "suggest.detailMaxLength": 30,
+  "suggest.detailField": "preview",
+  // "coc.preferences.enableFloatHighlight": false,
+  "python.jediEnabled": false,
   "languageserver": {
     "clangd": {
       "command": "clangd",

@@ -264,8 +264,8 @@ let g:vimtex_quickfix_open_on_warning = 0
 
 let g:python_highlight_all = 1
 
-" let g:vim_markdown_conceal = 0
-" let g:vim_markdown_conceal_code_blocks = 0
+let g:vim_markdown_conceal = 1
+let g:vim_markdown_conceal_code_blocks = 1
 
 let g:csv_no_conceal = 1
 let g:no_plugin_maps = 1
