@@ -750,16 +750,36 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     endtry
 endif
 
+function! CompleteSnippets(findstart, base)
+    if a:findstart
+        " locate the start of the word
+        let line = getline('.')
+        let start = col('.') - 1
+        while start > 0 && line[start - 1] =~ '\a'
+            let start -= 1
+        endwhile
+        return start
+    else
+        " find months matching with "a:base"
+        let res = []
+        for m in values(neosnippet#helpers#get_completion_snippets())
+            if m.word =~ '^' . a:base
+                call add(res, m)
+            endif
+        endfor
+        return res
+    endif
+endfunction
+set completefunc=CompleteSnippets
 imap <C-\> <Plug>(neosnippet_expand_or_jump)
 smap <C-\> <Plug>(neosnippet_expand_or_jump)
-nmap <C-\>     <Plug>(neosnippet_expand_or_jump)
+nmap <C-\> <Plug>(neosnippet_expand_or_jump)
+xmap <C-\> <Plug>(neosnippet_expand_target)
 imap <C-]> <Plug>(neosnippet_jump_or_expand)
 smap <C-]> <Plug>(neosnippet_jump_or_expand)
-xmap <C-\> <Plug>(neosnippet_expand_target)
 let g:neosnippet#snippets_directory = '~/.vim_snippets'
 let g:neosnippet#expand_word_boundary = 1
 let g:neosnippet#disable_runtime_snippets = {'_': 1}
-
 
 " if v:version >= 740 && has('python3')
 "     let g:UltiSnipsExpandTrigger = "<c-\>"
