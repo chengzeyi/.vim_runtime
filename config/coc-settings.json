@@ -1,15 +1,8 @@
 {
-  "suggest.enablePreview": true,
-  "suggest.labelMaxLength": 30,
-  "suggest.detailMaxLength": 30,
-  "suggest.detailField": "preview",
-  // "coc.preferences.enableFloatHighlight": false,
   "python.jediEnabled": false,
-  "languageserver": {
-    "clangd": {
-      "command": "clangd",
-      "rootPatterns": ["compile_flags.txt", "compile_commands.json"],
-      "filetypes": ["c", "cpp", "objc", "objcpp"]
-    }
-  }
+  "suggest.enablePreview": true,
+  "suggest.labelMaxLength": 40,
+  "suggest.detailMaxLength": 40,
+  "suggest.detailField": "preview",
+  "marketplace.npmsio": true
 }

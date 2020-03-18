@@ -20,9 +20,6 @@ Plug 'uiiaoo/java-syntax.vim'
 
 if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-    Plug 'Shougo/neco-vim'
-    Plug 'neoclide/coc-neco'
 else
     Plug 'jiangmiao/auto-pairs'
 
@@ -328,8 +325,10 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     function! s:show_documentation()
         if (index(['vim', 'help'], &filetype) >= 0)
             execute 'h '. expand('<cword>')
-        else
+        elseif CocHasProvider('hover')
             call CocAction('doHover')
+        else
+            normal! K
         endif
     endfunction
 
@@ -342,12 +341,12 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
         let exts = [
                     \ 'coc-marketplace',
                     \ 'coc-pairs',
-                    \ 'coc-vimtex',
                     \ 'coc-neosnippet',
-                    \ 'coc-syntax',
                     \ 'coc-tag',
                     \ 'coc-word',
-                    \ 'coc-json'
+                    \ 'coc-json',
+                    \ 'coc-vimtex',
+                    \ 'coc-vimlsp'
                     \ ]
         for ext in exts
             execute 'CocInstall ' . ext
@@ -417,7 +416,15 @@ elseif has('timers')
             nmap [r <Plug>(lsp-previous-reference)
             nmap [w <Plug>(lsp-previous-warning)
 
-            nmap <buffer> K <Plug>(lsp-hover)
+            nnoremap <buffer> K :call <SID>show_documentation()<CR>
+        endfunction
+
+        function! s:show_documentation()
+            if (index(['vim', 'help'], &filetype) >= 0)
+                execute 'h '. expand('<cword>')
+            else
+                LspHover
+            endif
         endfunction
 
         let g:lsp_diagnostics_echo_cursor = 1
@@ -636,6 +643,7 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     nnoremap <leader>dr :Denite register<cr>
     nnoremap <leader>ds :Denite source<cr>
     nnoremap <leader>dS :Denite spell<cr>
+    nnoremap <leader>dn :Denite neosnippet<cr>
     autocmd FileType denite call s:denite_my_settings()
     autocmd FileType denite-filter call s:denite_filter_my_settings()
     autocmd FileType denite-filter let b:coc_suggest_disable = 1
@@ -742,9 +750,9 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     endtry
 endif
 
-nmap <C-\> :Denite neosnippet<cr>
 imap <C-\> <Plug>(neosnippet_expand_or_jump)
 smap <C-\> <Plug>(neosnippet_expand_or_jump)
+nmap <C-\>     <Plug>(neosnippet_expand_or_jump)
 imap <C-]> <Plug>(neosnippet_jump_or_expand)
 smap <C-]> <Plug>(neosnippet_jump_or_expand)
 xmap <C-\> <Plug>(neosnippet_expand_target)
