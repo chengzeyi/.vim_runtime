@@ -40,7 +40,7 @@ else
             Plug 'gonzoooooo/asyncomplete-look.vim'
         endif
 
-        Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
+        " Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
         " if has('python3')
         "     Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
         " endif
@@ -320,6 +320,8 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     nnoremap ]c :<C-u>CocNext<cr>
     nnoremap [c :<C-u>CocPrev<cr>
     nnoremap <leader><cr>C :<C-u>CocConfig<cr>
+    nnoremap <expr><C-f> coc#util#has_float() ? coc#util#float_scroll(1) : "\<C-f>"
+    nnoremap <expr><C-b> coc#util#has_float() ? coc#util#float_scroll(0) : "\<C-b>"
 
     nnoremap K :call <SID>show_documentation()<CR>
     function! s:show_documentation()
@@ -341,7 +343,6 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
         let exts = [
                     \ 'coc-marketplace',
                     \ 'coc-pairs',
-                    \ 'coc-neosnippet',
                     \ 'coc-tag',
                     \ 'coc-word',
                     \ 'coc-json',
@@ -591,12 +592,12 @@ elseif has('timers')
                         \ 'completor': function('asyncomplete#sources#look#completor'),
                         \ }))
         endif
-        call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
-                    \ 'name': 'neosnippet',
-                    \ 'priority' : -40,
-                    \ 'whitelist': ['*'],
-                    \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
-                    \ }))
+        " call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
+        "             \ 'name': 'neosnippet',
+        "             \ 'priority' : -40,
+        "             \ 'whitelist': ['*'],
+        "             \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
+        "             \ }))
         " if has('python3')
         "     call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
         "                 \ 'name': 'ultisnips',
@@ -1314,6 +1315,7 @@ let g:undotree_HelpLine = 0
 " let g:markify_echo_current_message = 1
 
 nnoremap <leader>aw :ArgWrap<cr>
+let g:argwrap_wrap_closing_brace = 0
 au FileType c,cpp let b:argwrap_wrap_closing_brace = '()[]{}'
 au FileType go let b:argwrap_tail_comma = 1
 au FileType vim let b:argwrap_line_prefix = '\'
