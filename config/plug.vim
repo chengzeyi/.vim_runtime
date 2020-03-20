@@ -283,7 +283,7 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     endif
 
     inoremap <expr> <C-l> coc#refresh()
-    nmap <leader><cr>i <Plug>(coc-diagnostic-info)
+    nmap <leader><cr>D <Plug>(coc-diagnostic-info)
     nmap [d <Plug>(coc-diagnostic-prev)
     nmap ]d <Plug>(coc-diagnostic-next)
     nmap [e <Plug>(coc-diagnostic-prev-error)
