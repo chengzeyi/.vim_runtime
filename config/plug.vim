@@ -294,6 +294,7 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     nmap <expr> gi CocHasProvider('implementation') ? '<Plug>(coc-implementation)' : 'gi'
     nmap <expr> gr CocHasProvider('reference') ? '<Plug>(coc-references)' : 'gr'
     nmap <leader><cr>r <Plug>(coc-rename)
+    nmap <leader><cr>R <Plug>(coc-refactor)
     nmap <leader><cr>q <Plug>(coc-fix-current)
     xmap <leader><cr>F <Plug>(coc-format-selected)
     nmap <leader><cr>F <Plug>(coc-format-selected)
@@ -305,8 +306,10 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     xmap am <Plug>(coc-funcobj-a)
     omap im <Plug>(coc-funcobj-i)
     omap am <Plug>(coc-funcobj-a)
-    nmap <leader><cr>R <Plug>(coc-range-select)
-    xmap <leader><cr>R <Plug>(coc-range-select)
+    nmap <leader><cr>] <Plug>(coc-range-select)
+    xmap <leader><cr>] <Plug>(coc-range-select)
+    nmap <leader><cr>[ <Plug>(coc-range-select-backward)
+    xmap <leader><cr>[ <Plug>(coc-range-select-backward)
     command! -nargs=0 CocFormat call CocAction('format')
     command! -nargs=? CocFold call CocAction('fold', <f-args>)
     command! -nargs=0 CocOrganize call CocAction('runCommand', 'editor.action.organizeImport')
