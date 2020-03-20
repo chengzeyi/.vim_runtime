@@ -1257,7 +1257,7 @@ nmap <leader>9 <Plug>AirlineSelectTab9
 " catch
 " endtry
 
-let g:goyo_width = '80%'
+let g:goyo_width = '95%'
 let g:goyo_height = '95%'
 nnoremap <F9> :Goyo<cr>
 
