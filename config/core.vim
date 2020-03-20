@@ -33,21 +33,36 @@ if has('gui_running')
 
     nnoremap <S-Up> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) + 1)', 'g')<cr>
     nnoremap <S-Down> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g')<cr>
-elseif exists('g:fvim_loaded')
-    if has('unix')
-        set guifont=Inconsolata\ 12,Hack\ Regular\ 11
-    elseif has('win32')
-        set guifont=Cascadia\ Code:h15
-    endif
-    nnoremap <silent> <S-Up> :set guifont=+<CR>
-    nnoremap <silent> <S-Down> :set guifont=-<CR>
-    nnoremap <A-CR> :FVimToggleFullScreen<CR>
-    FVimCursorSmoothMove 1
-    FVimCursorSmoothBlink 1
-elseif exists('g:GuiLoaded')
-    GuiTabline 0
-    GuiPopupmenu 0
 endif
+
+if has('nvim')
+    autocmd UIEnter * call SetNeovimGui()
+endif
+function! SetNeovimGui() abort
+    if exists('g:fvim_loaded')
+        if has('unix')
+            set guifont=Inconsolata\ 12,Hack\ Regular\ 11
+        elseif has('win32')
+            set guifont=Cascadia\ Code:h15
+        endif
+        nnoremap <silent> <S-Up> :set guifont=+<CR>
+        nnoremap <silent> <S-Down> :set guifont=-<CR>
+        nnoremap <A-CR> :FVimToggleFullScreen<CR>
+        try
+            FVimCursorSmoothMove 1
+            FVimCursorSmoothBlink 1
+        catch
+        endtry
+    elseif exists('g:GuiLoaded')
+        try
+            GuiTabline 0
+            GuiPopupmenu 0
+        catch
+        endtry
+        nnoremap <S-Up> :call GuiFont(substitute(g:GuiFont, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) + 1)', 'g'))<cr>
+        nnoremap <S-Down> :call GuiFont(substitute(g:GuiFont, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g'))<cr>
+    endif
+endfunction
 
 filetype plugin on
 filetype indent on
@@ -282,7 +297,7 @@ if has('balloon_eval_term')
 endif
 if has('balloon_eval')
     " Returns either the contents of a fold or spelling suggestions.
-    function! BalloonExpr()
+    function! BalloonExpr() abort
         let foldStart = foldclosed(v:beval_lnum )
         let foldEnd = foldclosedend(v:beval_lnum)
         let lines = []
@@ -365,7 +380,7 @@ endif
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
 
-function! MapMotion(from, ...)
+function! MapMotion(from, ...) abort
     let from = a:from
     let to = a:0 == 0 ? a:from : a:1
     exec 'noremap ' . from . ' g' . to
@@ -450,7 +465,7 @@ nnoremap <leader>fW :let @/='\<lt><c-r>=expand('<lt>cWORD>')<cr>\>' <bar> set hl
 nnoremap <leader>jj :call GotoJump()<cr>
 nnoremap <leader>jt :call GotoTag()<cr>
 nnoremap <leader>jm :tselect<cr>
-function! GotoJump()
+function! GotoJump() abort
     redraw!
     jumps
     let j = input('Please select your jump ([count]j|k): ')
@@ -460,7 +475,7 @@ function! GotoJump()
         execute 'normal! ' . j[0:-2] . "\<c-o>"
     endif
 endfunction
-function! GotoTag()
+function! GotoTag() abort
     redraw!
     tags
     let j = input('Please select your tag ([count]j|k): ')
@@ -585,7 +600,7 @@ onoremap ai :<C-u>call IndTxtObj(0)<CR>
 onoremap ii :<C-u>call IndTxtObj(1)<CR>
 xnoremap ai <Esc>:call IndTxtObj(0)<CR><Esc>gv
 xnoremap ii <Esc>:call IndTxtObj(1)<CR><Esc>gv
-function! IndTxtObj(inner)
+function! IndTxtObj(inner) abort
     let curcol = col('.')
     let curline = line('.')
     let lastline = line('$')
@@ -624,7 +639,7 @@ endfunction
 nnoremap g<c-t> :set opfunc=Fanyi<CR>g@
 xnoremap g<c-t> :<C-U>call Fanyi(visualmode(), 1)<CR>
 command! -nargs=* Fanyi call DoFanyi(<q-args>)
-function! Fanyi(type, ...)
+function! Fanyi(type, ...) abort
     let sel_save = &selection
     let &selection = "i'clusive"
     let reg_save = @@
@@ -642,7 +657,7 @@ function! Fanyi(type, ...)
     let @@ = reg_save
     call DoFanyi(text)
 endfunction
-function! DoFanyi(text)
+function! DoFanyi(text) abort
     let text = empty(a:text) ? expand('<cword>') : a:text
     let text = substitute(text, '\v\n', ' ', 'g')
     if executable('fanyi')
@@ -660,7 +675,7 @@ function! DoFanyi(text)
 endfunction
 
 command! -nargs=+ -complete=shellcmd PV call PV(<q-args>)
-function! PV(cmd)
+function! PV(cmd) abort
     if has('popupwin')
         let out = system(a:cmd)
         let out = split(out, "\n")
@@ -728,11 +743,11 @@ endif
 "     set shell=fish
 " endif
 
-function! CmdLine(str)
+function! CmdLine(str) abort
     call feedkeys(':' . a:str)
 endfunction
 
-function! VisualSelection(direction, extra_filter) range
+function! VisualSelection(direction, extra_filter) range abort
     let l:saved_reg = @"
     execute 'normal! vgvy'
 
@@ -820,7 +835,7 @@ au FileType qf set foldcolumn=0
 " function! AdjustWindowHeight(minheight, maxheight)
 "     exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
 " endfunction
-function! AdjustWindowHeight(minheight, maxheight)
+function! AdjustWindowHeight(minheight, maxheight) abort
     let l = 1
     let n_lines = 0
     let w_width = winwidth(0)
@@ -876,7 +891,7 @@ autocmd FileType qf nnoremap <buffer> <tab> :RemoveQFItem<cr>
 autocmd FileType qf nnoremap <buffer> <s-tab> :UndoQFRemove<cr>
 command! RemoveQFItem call RemoveQFItem()
 command! UndoQFRemove call UndoQFRemove()
-function! RemoveQFItem()
+function! RemoveQFItem() abort
     let winid = win_getid()
     if getwininfo(winid)[0]['loclist']
         let abbr = 'loc' | let ch = 'l'
@@ -899,7 +914,7 @@ function! RemoveQFItem()
     endif
     execute curidx + 1
 endfunction
-function! UndoQFRemove()
+function! UndoQFRemove() abort
     if !exists('b:undostack') || len(b:undostack) == 0 | return | endif
     let [item, curidx] = remove(b:undostack, -1)
     let winid = win_getid()
@@ -923,7 +938,7 @@ function! UndoQFRemove()
 endfunction
 
 nnoremap <leader>aa :call AlternateFile()<cr>
-function! AlternateFile()
+function! AlternateFile() abort
     let suffix = expand('%:e')
     if suffix ==# 'cpp' || suffix ==# 'cc'
         try | find %:t:r.hpp | catch | try | find %:t:r.h | catch | endtry | endtry
@@ -1038,7 +1053,7 @@ nnoremap <leader>ew :e <C-R>=expand("%:.:h") . "/"<CR>
 if executable('xxd')
     nnoremap <leader>eb :Bin<cr>
     command! Bin call InvBinMode()
-    function! InvBinMode() abort
+    function! InvBinMode() abort abort
         set invbin
         let modified = &modified
         if &bin
@@ -1104,7 +1119,7 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 nnoremap <leader>bb :call BufClose(0)<cr>
 nnoremap <leader>bB :call BufClose(1)<cr>
 " Don't close window, when deleting a buffer
-function! BufClose(force)
+function! BufClose(force) abort
     if &modified && !a:force
         return
     endif
@@ -1131,7 +1146,7 @@ nnoremap <leader>bD :try <bar> %bd! <bar> catch <bar> endtry<cr>
 " Close all the buffers
 nnoremap <leader>bh :call CloseHiddenBuffers(0)<cr>
 nnoremap <leader>bH :call CloseHiddenBuffers(1)<cr>
-function! CloseHiddenBuffers(force)
+function! CloseHiddenBuffers(force) abort
     let open_buffers = []
 
     for i in range(tabpagenr('$'))
@@ -1168,7 +1183,7 @@ nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 " Switch CWD to the directory of the open buffer
 nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
 nnoremap <expr> <leader>cD ':cd ' . GetVcsRoot() . "\<lt>cr>"
-function! GetVcsRoot()
+function! GetVcsRoot() abort
     let cph = expand('%:p:h', 1)
     if cph =~# '^.\+://' | retu | en
     for mkr in ['.git/', '.hg/', '.svn/', '.bzr/', '_darcs/', '.vimprojects']
@@ -1189,7 +1204,7 @@ inoremap <c-x>` `<c-g>U<left>"
 
 inoremap <expr> <c-b> CloseParen()
 inoremap <expr> <c-space> CloseParen()
-function! CloseParen()
+function! CloseParen() abort
     let closepairs = {'(' : ')',
                 \ '[' : ']',
                 \ '{' : '}',

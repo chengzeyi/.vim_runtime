@@ -324,7 +324,7 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     nnoremap <expr><C-b> coc#util#has_float() ? coc#util#float_scroll(0) : "\<C-b>"
 
     nnoremap K :call <SID>show_documentation()<CR>
-    function! s:show_documentation()
+    function! s:show_documentation() abort
         if (index(['vim', 'help'], &filetype) >= 0)
             execute 'h '. expand('<cword>')
         elseif CocHasProvider('hover')
@@ -420,7 +420,7 @@ elseif has('timers')
             nnoremap <buffer> K :call <SID>show_documentation()<CR>
         endfunction
 
-        function! s:show_documentation()
+        function! s:show_documentation() abort
             if (index(['vim', 'help'], &filetype) >= 0)
                 execute 'h '. expand('<cword>')
             else
@@ -751,7 +751,7 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     endtry
 endif
 
-function! CompleteSnippets(findstart, base)
+function! CompleteSnippets(findstart, base) abort
     if a:findstart
         " locate the start of the word
         let line = getline('.')
@@ -1072,7 +1072,7 @@ command! -bang -nargs=* FZFHistory
             \ call FZFHistory(<q-args>,
             \     <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
             \     <bang>0)
-function! FZFHistory(arg, options, bang)
+function! FZFHistory(arg, options, bang) abort
     let bang = a:bang || a:arg[len(a:arg) - 1] ==# '!'
     if a:arg[0] ==# ':'
         call fzf#vim#command_history(a:options, bang)
