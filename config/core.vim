@@ -391,11 +391,17 @@ call MapMotion('k')
 " call MapMotion('0', '^')
 " call MapMotion('^', '0')
 " call MapMotion('$')
-noremap 0 ^
-noremap ^ 0
+nnoremap 0 ^
+xnoremap 0 ^
+onoremap 0 ^
+nnoremap ^ 0
+xnoremap ^ 0
+onoremap ^ 0
 nnoremap Q @q
-" nnoremap M `m
+xnoremap Q @q
+" noremap M `m
 nnoremap Y y$
+xnoremap Y y$
 
 nnoremap <leader><bar> :vs<cr>
 nnoremap <leader><bslash> :sp<cr>
