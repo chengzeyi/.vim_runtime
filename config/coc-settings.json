@@ -1,8 +1,9 @@
 {
   "python.jediEnabled": false,
+  "marketplace.npmsio": true,
   "suggest.enablePreview": true,
   // "suggest.labelMaxLength": 40,
   // "suggest.detailMaxLength": 40,
   "suggest.detailField": "preview",
-  "marketplace.npmsio": true
+  "coc.preferences.extensionUpdateCheck": "never"
 }

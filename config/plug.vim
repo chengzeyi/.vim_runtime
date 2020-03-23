@@ -631,7 +631,7 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     nnoremap <leader>dc :Denite command<cr>
     nnoremap <leader>dC :Denite colorscheme<cr>
     nnoremap <leader>d: :Denite command_history<cr>
-    nnoremap <leader>da :Denite change<cr>
+    nnoremap <leader>de :Denite change<cr>
     nnoremap <leader>dh :Denite file/old<cr>
     nnoremap <leader>dH :Denite help<cr>
     nnoremap <leader>df :Denite file/rec<cr>
@@ -849,6 +849,7 @@ let g:ctrlp_funky_multi_buffers = 1
 " hi GitGutterChangeDelete ctermfg=162 ctermbg=236 cterm=bold guifg=#e242ac guibg=#2a303b gui=bold
 let g:gitgutter_map_keys = 0
 let g:gitgutter_override_sign_column_highlight = 0
+let g:gitgutter_use_location_list = 1
 omap ih <Plug>(GitGutterTextObjectInnerPending)
 omap ah <Plug>(GitGutterTextObjectOuterPending)
 xmap ih <Plug>(GitGutterTextObjectInnerVisual)
@@ -859,6 +860,11 @@ nmap <leader>hs <Plug>(GitGutterStageHunk)
 nmap <leader>hu <Plug>(GitGutterUndoHunk)
 nmap <leader>hp <Plug>(GitGutterPreviewHunk)
 nnoremap <leader>hh :GitGutterToggle<cr>
+nnoremap <leader>hs :GitGutterSignsToggle<cr>
+nnoremap <leader>hl :GitGutterLineHighlightsToggle<cr>
+if has('nvim-0.3.2')
+    nnoremap <leader>hn :GitGutterLineNrHighlightsToggle<cr>
+endif
 nnoremap <leader>hq :GitGutterQuickFix<cr>
 
 " nnoremap <leader>fl :Flog<cr>
