@@ -283,7 +283,6 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     endif
 
     inoremap <expr> <C-l> coc#refresh()
-    nmap <leader><cr>d <Plug>(coc-diagnostic-info)
     nmap [d <Plug>(coc-diagnostic-prev)
     nmap ]d <Plug>(coc-diagnostic-next)
     nmap [e <Plug>(coc-diagnostic-prev-error)
@@ -832,6 +831,8 @@ let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 
 nnoremap <leader>pf :CtrlPFunky<cr>
+" narrow the list down with a word under cursor
+nnoremap <leader>pF :execute 'CtrlPFunky ' . expand('<cword>')<cr>
 let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_multi_buffers = 1
