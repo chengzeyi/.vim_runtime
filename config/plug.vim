@@ -283,7 +283,7 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     endif
 
     inoremap <expr> <C-l> coc#refresh()
-    nmap <leader><cr>D <Plug>(coc-diagnostic-info)
+    nmap <leader><cr>d <Plug>(coc-diagnostic-info)
     nmap [d <Plug>(coc-diagnostic-prev)
     nmap ]d <Plug>(coc-diagnostic-next)
     nmap [e <Plug>(coc-diagnostic-prev-error)
@@ -315,7 +315,7 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     command! -nargs=0 CocOrganize call CocAction('runCommand', 'editor.action.organizeImport')
     nnoremap <leader><cr><cr> :<C-u>CocList<cr>
     nnoremap <leader><cr>p :<C-u>CocListResume<cr>
-    nnoremap <leader><cr>d :<C-u>CocList diagnostics<cr>
+    nnoremap <leader><cr>D :<C-u>CocList diagnostics<cr>
     nnoremap <leader><cr>e :<C-u>CocList extensions<cr>
     nnoremap <leader><cr>c :<C-u>CocList commands<cr>
     nnoremap <leader><cr>o :<C-u>CocList outline<cr>
@@ -831,9 +831,7 @@ nnoremap <leader>pd :CtrlPDir<cr>
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 
-nnoremap <leader>pf :CtrlPFunky<Cr>
-" narrow the list down with a word under cursor
-nnoremap <leader>pF :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+nnoremap <leader>pf :CtrlPFunky<cr>
 let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_multi_buffers = 1
