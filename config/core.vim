@@ -893,8 +893,8 @@ function! BufferCount() abort
     return len(filter(range(1, bufnr('$')), 'bufwinnr(v:val) != -1'))
 endfunction
 
-autocmd FileType qf nnoremap <buffer> <tab> :RemoveQFItem<cr>
-autocmd FileType qf nnoremap <buffer> <s-tab> :UndoQFRemove<cr>
+autocmd FileType qf nnoremap <buffer> <nowait> <tab> :RemoveQFItem<cr>
+autocmd FileType qf nnoremap <buffer> <nowait> <s-tab> :UndoQFRemove<cr>
 command! RemoveQFItem call RemoveQFItem()
 command! UndoQFRemove call UndoQFRemove()
 function! RemoveQFItem() abort
@@ -1202,8 +1202,13 @@ endfunction
 nnoremap <leader>sl :set invspell<cr>
 
 inoremap <c-x>( )<c-g>U<left>(
+inoremap <c-x>) )<c-g>U<left>(
 inoremap <c-x>[ ]<c-g>U<left>[
+inoremap <c-x>] ]<c-g>U<left>[
 inoremap <c-x>{ }<c-g>U<left>{
+inoremap <c-x>] }<c-g>U<left>{
+inoremap <c-x><lt> ><c-g>U<left><lt>
+inoremap <c-x>> ><c-g>U<left><lt>
 inoremap <c-x>' '<c-g>U<left>'
 inoremap <c-x>" "<c-g>U<left>"
 inoremap <c-x>` `<c-g>U<left>"

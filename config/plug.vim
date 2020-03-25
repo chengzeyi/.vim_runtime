@@ -749,31 +749,33 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
         endif
         call denite#custom#source('grep',
                     \ 'converters', ['converter/abbr_word'])
+        if has('lambda')
+            call denite#custom#action('word',
+                        \ 'expand',
+                        \ {context -> execute('call neosnippet#expand(context["targets"][0]["word"])')})
+            call denite#custom#source('neosnippet',
+                        \ 'default_action',
+                        \ 'expand')
+        endif
     catch
     endtry
 endif
 
-function! CompleteSnippets(findstart, base) abort
-    if a:findstart
-        " locate the start of the word
-        let line = getline('.')
-        let start = col('.') - 1
-        while start > 0 && line[start - 1] =~ '\a'
-            let start -= 1
-        endwhile
-        return start
-    else
-        " find months matching with "a:base"
-        let res = []
-        for m in values(neosnippet#helpers#get_completion_snippets())
-            if m.word =~ '^' . a:base
-                call add(res, m)
-            endif
-        endfor
-        return res
-    endif
+function! NeoSnippetCompleteSnippets(arglead, cmdline, cursorpos) abort
+  return map(filter(values(neosnippet#helpers#get_snippets()),
+        \ 'stridx(v:val.word, a:arglead) == 0'), 'v:val.word')
 endfunction
-set completefunc=CompleteSnippets
+function! NeoSnippetExpand() abort
+  let trigger = input('Please input snippet trigger: ',
+        \ '', 'customlist,NeoSnippetCompleteSnippets')
+  if !has_key(neosnippet#helpers#get_snippets('i'), trigger) && trigger !=# ''
+      echo 'The trigger is invalid.'
+    return
+  endif
+
+  return neosnippet#expand(trigger)
+endfunction
+inoremap <expr> <c-x><c-\> NeoSnippetExpand()
 imap <C-\> <Plug>(neosnippet_expand_or_jump)
 smap <C-\> <Plug>(neosnippet_expand_or_jump)
 nmap <C-\> <Plug>(neosnippet_expand_or_jump)
