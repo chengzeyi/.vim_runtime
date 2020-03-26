@@ -40,27 +40,27 @@ if has('nvim')
 endif
 function! SetNeovimGui() abort
     if exists('g:fvim_loaded')
-        if has('unix')
-            set guifont=Inconsolata\ 12,Hack\ Regular\ 11
-        elseif has('win32')
-            set guifont=Cascadia\ Code:h15
-        endif
-        nnoremap <silent> <S-Up> :set guifont=+<CR>
-        nnoremap <silent> <S-Down> :set guifont=-<CR>
-        nnoremap <A-CR> :FVimToggleFullScreen<CR>
         try
+            if has('unix')
+                set guifont=Inconsolata\ 12,Hack\ Regular\ 11
+            elseif has('win32')
+                set guifont=Cascadia\ Code:h15
+            endif
             FVimCursorSmoothMove 1
             FVimCursorSmoothBlink 1
         catch
         endtry
+        nnoremap <silent> <S-Up> :set guifont=+<CR>
+        nnoremap <silent> <S-Down> :set guifont=-<CR>
+        nnoremap <A-CR> :FVimToggleFullScreen<CR>
     elseif exists('g:GuiLoaded')
         try
             GuiTabline 0
             GuiPopupmenu 0
         catch
         endtry
-        nnoremap <S-Up> :call GuiFont(substitute(g:GuiFont, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) + 1)', 'g'))<cr>
-        nnoremap <S-Down> :call GuiFont(substitute(g:GuiFont, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g'))<cr>
+        nnoremap <S-Up> :call GuiFont(substitute(g:GuiFont, ':h\zs\d\+', '\=eval(submatch(0) + 1)', 'g'))<cr>
+        nnoremap <S-Down> :call GuiFont(substitute(g:GuiFont, ':h\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g'))<cr>
     endif
 endfunction
 
