@@ -205,11 +205,6 @@ call plug#end()
 let g:github_colors_soft = 1
 let g:github_colors_block_diffmark = 0
 
-try
-    colorscheme hydrangea
-catch
-endtry
-
 " hi Normal ctermbg=NONE guibg=NONE
 " hi LineNr ctermbg=NONE guibg=NONE
 " hi! link SignColumn LineNr
