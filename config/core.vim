@@ -35,7 +35,7 @@ if has('gui_running')
     nnoremap <S-Down> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g')<cr>
 endif
 
-if has('nvim')
+if has('nvim') && exists('#UIEnter')
     autocmd UIEnter * call SetNeovimGui()
 endif
 function! SetNeovimGui() abort
