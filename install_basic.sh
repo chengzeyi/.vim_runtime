@@ -20,8 +20,8 @@ nnoremap <leader>e[ :e ~/.vim_runtime/config/before.vim<cr>
 nnoremap <leader>e] :e ~/.vim_runtime/config/after.vim<cr>
 
 autocmd BufWritePost ~/.vimrc source ~/.vimrc
-autocmd BufWritePost ~/.vim_runtime/config/before.vim source ~/.vimrc
-autocmd BufWritePost ~/.vim_runtime/config/after.vim source ~/.vimrc
+autocmd BufWritePost ~/.vim_runtime/config/before.vim source ~/.vim_runtime/config/before.vim
+autocmd BufWritePost ~/.vim_runtime/config/after.vim source ~/.vim_runtime/config/after.vim
 
 ' > ~/.vimrc
 
