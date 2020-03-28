@@ -1,21 +1,6 @@
 set encoding=utf8
 
 if has('gui_running')
-    try
-        if has('gui_gtk2')
-            set guifont=Inconsolata\ 12,Hack\ Regular\ 11
-        elseif has('gui_gtk3')
-            set guifont=Inconsolata\ 14,Hack\ Regular\ 13
-        elseif has('gui_athena')
-            set guifont=Inconsolata\ 14,Hack\ Regular\ 13
-        elseif has('gui_macvim')
-            set guifont=Menlo\ Regular:h14
-        elseif has('gui_win32')
-            set guifont=Cascadia\ Code:h11
-        endif
-    catch
-    endtry
-
     set guioptions-=e  "tab pages
     set guioptions-=m  "menu bar
     set guioptions-=r  "scrollbar
@@ -41,11 +26,6 @@ endif
 function! SetNeovimGui() abort
     if exists('g:fvim_loaded')
         try
-            if has('unix')
-                set guifont=Inconsolata\ 12,Hack\ Regular\ 11
-            elseif has('win32')
-                set guifont=Cascadia\ Code:h15
-            endif
             FVimCursorSmoothMove 1
             FVimCursorSmoothBlink 1
         catch
