@@ -182,12 +182,12 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     endif
 
     inoremap <expr> <C-l> coc#refresh()
-    nmap [d <Plug>(coc-diagnostic-prev)
-    nmap ]d <Plug>(coc-diagnostic-next)
+    nmap [g <Plug>(coc-diagnostic-prev)
+    nmap ]g <Plug>(coc-diagnostic-next)
     nmap [e <Plug>(coc-diagnostic-prev-error)
     nmap ]e <Plug>(coc-diagnostic-next-error)
     nmap <expr> gl CocHasProvider('declaration') ? '<Plug>(coc-declaration)' : 'gl'
-    nmap <expr> gd CocHasProvider('definition') ? '<Plug>(coc-definition)' : 'gd'
+    nmap <expr> gD CocHasProvider('definition') ? '<Plug>(coc-definition)' : 'gd'
     nmap <expr> gy CocHasProvider('typeDefinition') ? '<Plug>(coc-type-definition)' : 'gy'
     nmap <expr> gi CocHasProvider('implementation') ? '<Plug>(coc-implementation)' : 'gi'
     nmap <expr> gr CocHasProvider('reference') ? '<Plug>(coc-references)' : 'gr'
@@ -213,7 +213,8 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     command! -nargs=0 CocOrganize call CocAction('runCommand', 'editor.action.organizeImport')
     nnoremap <leader><cr><cr> :<C-u>CocList<cr>
     nnoremap <leader><cr>p :<C-u>CocListResume<cr>
-    nnoremap <leader><cr>D :<C-u>CocList diagnostics<cr>
+    nnoremap <leader><cr>d :<C-u>CocList diagnostics<cr>
+    nmap <leader><cr>D <Plug>(coc-diagnostic-info)
     nnoremap <leader><cr>e :<C-u>CocList extensions<cr>
     nnoremap <leader><cr>c :<C-u>CocList commands<cr>
     nnoremap <leader><cr>o :<C-u>CocList outline<cr>
