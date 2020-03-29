@@ -3,18 +3,13 @@ let g:plug_url_format = 'https://github.com/%s.git'
 call plug#begin('~/.vim_runtime/plugged')
 
 " Plug 'chengzeyi/vim-markify'
-" Plug 'chengzeyi/a.vim'
 
-" Plug 'sheerun/vim-polyglot'
 Plug 'lervag/vimtex'
-" Plug 'artur-shaik/vim-javacomplete2'
 " Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'bfrg/vim-cpp-modern'
 Plug 'arp242/gopher.vim'
-" Plug 'fatih/vim-go'
 Plug 'vim-python/python-syntax'
 Plug 'plasticboy/vim-markdown'
-" Plug 'chrisbra/csv.vim'
 Plug 'othree/html5.vim'
 Plug 'uiiaoo/java-syntax.vim'
 
@@ -53,29 +48,15 @@ else
     endif
 endif
 
-" Plug 'lfilho/cosco.vim'
-
-" Plug 'vim-utils/vim-man'
-
 Plug 'FooSoft/vim-argwrap'
 
-" Plug 'mhinz/vim-sayonara'
-
-" Plug 'terryma/vim-expand-region'
-
 Plug 'mbbill/undotree'
-
-" Plug 'luochen1990/rainbow'
 
 Plug 'easymotion/vim-easymotion'
 
 Plug 'deris/vim-shot-f'
 
-" Plug 'stefandtw/quickfix-reflector.vim'
-
 Plug 'ntpeters/vim-better-whitespace'
-
-" Plug 'Valloric/ListToggle'
 
 Plug 'mhinz/vim-startify'
 Plug 'mhinz/vim-grepper'
@@ -91,7 +72,6 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
-" Plug 'tpope/vim-dadbod'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 
@@ -104,10 +84,6 @@ Plug 'scrooloose/nerdtree'
 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tacahiroy/ctrlp-funky'
-" if has('python') || has('python3')
-"     Plug 'fisadev/vim-ctrlp-cmdpalette'
-" endif
-" Plug 'dbeecham/ctrlp-commandpalette.vim'
 
 if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     if has('nvim')
@@ -121,36 +97,16 @@ endif
 Plug 'Shougo/neosnippet.vim'
 Plug 'chengzeyi/neosnippet-snippets', { 'dir': '~/.vim_snippets'}
 
-" if v:version >= 740 && has('python3')
-"     Plug 'SirVer/ultisnips'
-"     Plug 'chengzeyi/vim-snippets'
-" endif
-
 Plug 'majutsushi/tagbar'
 
 Plug 'sbdchd/neoformat'
 
-" Plug 'skywind3000/vim-preview'
-" Plug 'skywind3000/asyncrun.vim'
-
 Plug 'neomake/neomake'
-
-" Plug 'xuhdev/SingleCompile'
-
-" Plug 'vim-scripts/TagHighlight'
 
 Plug 'ludovicchabant/vim-gutentags'
 
-" Plug 'xolox/vim-misc'
-" Plug 'xolox/vim-easytags'
-
-" Plug 'chengzeyi/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf', {'dir': '~/.fzf'}
 Plug 'junegunn/fzf.vim'
-
-" if has('patch-8.1.2114') || has('nvim-0.4')
-"     Plug 'liuchengxu/vim-clap'
-" endif
 
 Plug 'nathanaelkane/vim-indent-guides'
 
@@ -165,10 +121,6 @@ endif
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
 Plug 'glts/vim-textobj-comment'
-
-" if has('python') || has('python3')
-"     Plug 'voldikss/vim-translate-me'
-" endif
 
 Plug 'guns/xterm-color-table.vim'
 Plug 'ap/vim-css-color'
@@ -738,12 +690,6 @@ let g:neosnippet#snippets_directory = '~/.vim_snippets'
 let g:neosnippet#expand_word_boundary = 1
 let g:neosnippet#disable_runtime_snippets = {'_': 1}
 
-" if v:version >= 740 && has('python3')
-"     let g:UltiSnipsExpandTrigger = "<c-\>"
-"     let g:UltiSnipsJumpForwardTrigger = "<c-\>"
-"     let g:UltiSnipsJumpBackwardTrigger = "<c-]>"
-" endif
-
 " autocmd vimenter * NERDTree
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeHijackNetrw = 0
@@ -794,11 +740,6 @@ let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_multi_buffers = 1
 
-" if has('python') || has('python3')
-"     nnoremap <leader>pc :CtrlPCmdPalette<cr>
-" endif
-" nnoremap <c-p> :CtrlPCommandPalette<cr>
-
 " hi GitGutterAdd ctermfg=44 ctermbg=236 cterm=bold guifg=#169ec4 guibg=#2a303b gui=bold
 " hi GitGutterChange ctermfg=162 ctermbg=236 cterm=bold guifg=#e242ac guibg=#2a303b gui=bold
 " hi GitGutterDelete ctermfg=162 ctermbg=236 cterm=bold guifg=#e242ac guibg=#2a303b gui=bold
@@ -822,9 +763,6 @@ if has('nvim-0.3.2')
     nnoremap <leader>hn :GitGutterLineNrHighlightsToggle<cr>
 endif
 nnoremap <leader>hq :GitGutterQuickFix<cr>
-
-" nnoremap <leader>fl :Flog<cr>
-" nnoremap <leader>fL :Flog<space>
 
 nnoremap <leader>gv :GV<cr>
 nnoremap <leader>gV :GV!<cr>
@@ -855,30 +793,10 @@ nnoremap <leader>gR :Gremove<cr>
 nnoremap <leader>ge :Gedit<cr>
 nnoremap <leader>gw :Gwrite<cr>
 
-" nnoremap <leader>ms :DoShowMarks<cr>
-" nnoremap <leader>mS :NoShowMarks<cr>
-" nnoremap <leader>mp :PreviewMarks<cr>
-
-" let g:yankstack_yank_keys = ['y', 'd']
-" nmap <F9> <Plug>yankstack_substitute_older_paste
-" nmap <F10> <Plug>yankstack_substitute_newer_paste
-" imap <F9> <Plug>yankstack_substitute_older_paste
-" imap <F10> <Plug>yankstack_substitute_newer_paste
-
 let g:tagbar_width = 30
 let g:tagbar_compact = 1
 nnoremap <leader>tt :TagbarToggle<cr>
 nnoremap <leader>ta :TagbarOpenAutoClose<cr>
-
-" nnoremap <leader>rr :AsyncRun<space>
-" nnoremap <leader>rR :AsyncRun -save=2<space>
-" nnoremap <leader>rs :AsyncStop<cr>
-" nnoremap <leader>rS :AsyncStop!<cr>
-" let g:asyncrun_bell = 1
-" map <leader>q :call asyncrun#quickfix_toggle(8)<cr>
-" let g:asyncrun_open = 10
-" let g:asyncrun_save = 2
-" let g:asyncrun_auto = "make"
 
 nnoremap <leader>mm :Neomake<cr>
 nnoremap <leader>mM :Neomake<space>
@@ -915,22 +833,7 @@ let g:fzf_prefer_tmux = 1
 " let g:fzf_statusline = 0
 " let g:fzf_nvim_statusline = 0
 " let g:fzf_layout = {'window': 'bot'.float2nr(0.4 * &lines).'new'}
-" let g:fzf_colors = {
-"             \ 'fg':      ['fg', 'Normal'],
-"             \ 'bg':      ['bg', 'Normal'],
-"             \ 'hl':      ['fg', 'Comment'],
-"             \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-"             \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-"             \ 'hl+':     ['fg', 'Statement'],
-"             \ 'info':    ['fg', 'PreProc'],
-"             \ 'border':  ['fg', 'Ignore'],
-"             \ 'prompt':  ['fg', 'Conditional'],
-"             \ 'pointer': ['fg', 'Exception'],
-"             \ 'marker':  ['fg', 'Keyword'],
-"             \ 'spinner': ['fg', 'Label'],
-"             \ 'header':  ['fg', 'Comment'] }
 " let g:fzf_layout = {'down': '40%'}
-" nnoremap <c-n> :FZFCommands<cr>
 imap <c-z><c-k> <plug>(fzf-complete-word)
 imap <c-z><c-f> <plug>(fzf-complete-path)
 imap <c-z><c-j> <plug>(fzf-complete-file-ag)
@@ -1102,18 +1005,8 @@ command! -bar -bang FZFWindows
             \                 ' -m --layout=default'
             \ }, <bang>0)
 
-" if has('patch-8.1.2114') || has('nvim-0.4')
-"     nnoremap <leader>cc :Clap<space>
-"     nnoremap <leader>cC :Clap<cr>
-"     command! -nargs=0 ClapBuildAll call clap#helper#build_all()
-" endif
-
 nmap <c-_> <Plug>CommentaryLine
 vmap <c-_> <Plug>Commentary
-
-" nnoremap <leader>db :DB<space>
-" nnoremap <leader>dB :%DB<space>
-" xnoremap <leader>db :DB<space>
 
 let g:dispatch_no_maps = 1
 nnoremap <leader>rr :Dispatch<space>
@@ -1156,10 +1049,6 @@ nnoremap <leader>gt :GutentagsToggleEnabled<cr>
 nnoremap <leader>gu :GutentagsUpdate<cr>
 nnoremap <leader>gU :GutentagsUpdate!<cr>
 
-" let g:easytags_include_members = 1
-" let g:easytags_async = 1
-" let g:easytags_opts = ['--sort=yes', '--c++-kinds=+p', '--fields=+iaS', '--extra=+q']
-
 let g:goyo_width = '95%'
 let g:goyo_height = '95%'
 nnoremap <F9> :Goyo<cr>
@@ -1178,7 +1067,6 @@ let g:grepper.prompt_mapping_tool = '<c-g>'
 " let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
-" nnoremap <leader>i :IndentGuidesToggle<cr>
 
 let g:better_whitespace_ctermcolor = '239'
 let g:better_whitespace_guicolor = '#4e4e4e'
@@ -1210,12 +1098,6 @@ augroup MyArgWrap
     au FileType go let b:argwrap_tail_comma = 1
     au FileType vim let b:argwrap_line_prefix = '\'
 augroup END
-
-" ctrl-b is unused in insert mode
-" imap <c-b> <c-o><Plug>(cosco-commaOrSemiColon)
-" nmap <c-b> <Plug>(cosco-commaOrSemiColon)
-" nmap <c-space> <Plug>(cosco-commaOrSemiColon)o
-" imap <c-space> <esc><Plug>(cosco-commaOrSemiColon)o
 
 let g:neoformat_basic_format_align = 1
 let g:neoformat_basic_format_retab = 1
