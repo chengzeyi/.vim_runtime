@@ -188,7 +188,10 @@ Plug 'cormacrelf/vim-colors-github'
 
 call plug#end()
 
-au FileType tex nnoremap <leader>zx :call vimtex#fzf#run()<cr>
+augroup MyFZFVimTex
+  autocmd!
+  au FileType tex nnoremap <leader>zx :call vimtex#fzf#run()<cr>
+augroup END
 if !exists('g:vimtex_toc_config')
     let g:vimtex_toc_config = {}
 endif
@@ -196,24 +199,6 @@ let g:vimtex_toc_config.split_pos = 'vert rightbelow'
 let g:vimtex_imaps_enabled = 0
 let g:vimtex_quickfix_open_on_warning = 0
 " let g:vimtex_format_enabled = 1
-
-" let g:JavaComplete_EnableDefaultMappings = 0
-" au FileType java setlocal omnifunc=javacomplete#Complete
-" au FileType java nmap <buffer> <localleader>ii <Plug>(JavaComplete-Imports-AddSmart)
-" au FileType java nmap <buffer> <localleader>ia <Plug>(JavaComplete-Imports-Add)
-" au FileType java nmap <buffer> <localleader>im <Plug>(JavaComplete-Imports-AddMissing)
-" au FileType java nmap <buffer> <localleader>ir <Plug>(JavaComplete-Imports-RemoveUnused)
-" au FileType java nmap <buffer> <localleader>gm <Plug>(JavaComplete-Generate-AbstractMethods)
-" au FileType java nmap <buffer> <localleader>ga <Plug>(JavaComplete-Generate-Accessors)
-" au FileType java nmap <buffer> <localleader>gs <Plug>(JavaComplete-Generate-AccessorSetter)
-" au FileType java nmap <buffer> <localleader>gg <Plug>(JavaComplete-Generate-AccessorGetter)
-" au FileType java nmap <buffer> <localleader>gA <Plug>(JavaComplete-Generate-AccessorSetterGetter)
-" au FileType java nmap <buffer> <localleader>gt <Plug>(JavaComplete-Generate-ToString)
-" au FileType java nmap <buffer> <localleader>ge <Plug>(JavaComplete-Generate-EqualAndHashCode)
-" au FileType java nmap <buffer> <localleader>gc <Plug>(JavaComplete-Generate-Constructor)
-" au FileType java nmap <buffer> <localleader>gC <Plug>(JavaComplete-Generate-DefaultConstructor)
-" au FileType java nmap <buffer> <localleader>gn <Plug>(JavaComplete-Generate-NewClass)
-" au FileType java nmap <buffer> <localleader>gN <Plug>(JavaComplete-Generate-ClassInFile)
 
 let g:python_highlight_all = 1
 
@@ -226,7 +211,13 @@ let g:no_plugin_maps = 1
 if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     let g:coc_config_home = $HOME . '/.vim_runtime/config'
 
-    au CmdwinEnter [:>] iunmap <buffer> <Tab>
+    augroup MyCoc
+      autocmd!
+      au CmdwinEnter [:>] iunmap <buffer> <Tab>
+      autocmd CursorHold * silent! call CocActionAsync('highlight')
+      autocmd FileType typescript,json silent! setl formatexpr=CocAction('formatSelected')
+      autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    augroup END
 
     inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<End>"
 
@@ -292,10 +283,6 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
         endif
     endfunction
 
-    autocmd CursorHold * silent! call CocActionAsync('highlight')
-    autocmd FileType typescript,json silent! setl formatexpr=CocAction('formatSelected')
-    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-
     command! -nargs=0 CocInstallBasic call CocInstallBasic()
     function! CocInstallBasic() abort
         let exts = [
@@ -352,7 +339,10 @@ elseif has('timers')
             nmenu PopUp.[Signature\ Help] <Plug>(lsp-signature-help)
         endif
 
-        autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+        augroup MyVimLsp
+          autocmd!
+          autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+        augroup END
         function! s:on_lsp_buffer_enabled() abort
             setlocal omnifunc=
 
@@ -452,7 +442,10 @@ elseif has('timers')
         "         \ rm jdt-language-server-latest.tar.gz
     endif
 
-    au CmdwinEnter [:>] iunmap <buffer> <Tab>
+    augroup MyAsyncomplete
+      autocmd!
+      au CmdwinEnter [:>] iunmap <buffer> <Tab>
+    augroup END
 
     inoremap <expr> <C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
     inoremap <expr> <C-e> pumvisible() ? asyncomplete#cancel_popup() : "\<End>"
@@ -603,12 +596,15 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     nnoremap <leader>ds :Denite source<cr>
     nnoremap <leader>dS :Denite spell<cr>
     nnoremap <leader>dn :Denite neosnippet<cr>
-    autocmd FileType denite call s:denite_my_settings()
-    autocmd FileType denite-filter call s:denite_filter_my_settings()
-    autocmd FileType denite-filter let b:coc_suggest_disable = 1
-    autocmd FileType denite-filter let g:asyncomplete_auto_popup = 0
-    autocmd FileType denite-filter autocmd BufEnter <buffer> let g:asyncomplete_auto_popup = 0
-    autocmd FileType denite-filter autocmd BufLeave <buffer> let g:asyncomplete_auto_popup = 1
+    augroup MyDenite
+      autocmd!
+      autocmd FileType denite call s:denite_my_settings()
+      autocmd FileType denite-filter call s:denite_filter_my_settings()
+      autocmd FileType denite-filter let b:coc_suggest_disable = 1
+      autocmd FileType denite-filter let g:asyncomplete_auto_popup = 0
+      autocmd FileType denite-filter autocmd BufEnter <buffer> let g:asyncomplete_auto_popup = 0
+      autocmd FileType denite-filter autocmd BufLeave <buffer> let g:asyncomplete_auto_popup = 1
+    augroup END
     function! s:denite_my_settings() abort
         nnoremap <nowait><silent><buffer><expr> <C-\>
                     \ denite#do_map('choose_action')
@@ -765,7 +761,10 @@ nnoremap <leader>nv :NERDTreeVCS<cr>
 nnoremap <leader>nc :NERDTreeCWD<cr>
 nnoremap <leader>nr :NERDTreeRefreshRoot<cr>
 nnoremap <leader>nm :NERDTreeMirror<cr>
-autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
+augroup MyNERDTree
+  autocmd!
+  autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
+augroup END
 
 let g:ctrlp_working_path_mode = 'ra'
 " let g:ctrlp_map = '<c-p>'
@@ -903,7 +902,6 @@ nnoremap <leader>mE :NeomakeEnableBuffer<cr>
 nnoremap <leader>ma :call neomake#configure#automake('w')<cr>
 nnoremap <leader>mA :call neomake#configure#reset_automake()<cr>
 
-autocmd FileType fzf tnoremap <buffer> <c-n> <c-n>
 let g:fzf_command_prefix = 'FZF'
 " Mapping selecting mappings
 " nmap <c-b> <plug>(fzf-maps-n)
@@ -1206,9 +1204,12 @@ let g:undotree_HelpLine = 0
 
 nnoremap <leader>aw :ArgWrap<cr>
 let g:argwrap_wrap_closing_brace = 0
-au FileType c,cpp let b:argwrap_wrap_closing_brace = '()[]{}'
-au FileType go let b:argwrap_tail_comma = 1
-au FileType vim let b:argwrap_line_prefix = '\'
+augroup MyArgWrap
+  autocmd!
+  au FileType c,cpp let b:argwrap_wrap_closing_brace = '()[]{}'
+  au FileType go let b:argwrap_tail_comma = 1
+  au FileType vim let b:argwrap_line_prefix = '\'
+augroup END
 
 " ctrl-b is unused in insert mode
 " imap <c-b> <c-o><Plug>(cosco-commaOrSemiColon)
@@ -1324,4 +1325,7 @@ nmap <leader>k :DevDocs<space>
 nmap <leader>K :DevDocsAll<space>
 
 nnoremap <leader>ep :e ~/.vim_runtime/config/plug.vim<cr>
-autocmd BufWritePost ~/.vim_runtime/config/plug.vim source ~/.vim_runtime/config/plug.vim
+augroup MyPlug
+  autocmd!
+  autocmd BufWritePost ~/.vim_runtime/config/plug.vim source ~/.vim_runtime/config/plug.vim
+augroup END

@@ -21,7 +21,10 @@ if has('gui_running')
 endif
 
 if has('nvim') && exists('#UIEnter')
-    autocmd UIEnter * call SetNeovimGui()
+    augroup MyUIEnter
+        autocmd!
+        autocmd UIEnter * call SetNeovimGui()
+    augroup END
 endif
 function! SetNeovimGui() abort
     if exists('g:fvim_loaded')
@@ -314,15 +317,17 @@ endif
     " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 " endif
 
-autocmd FileType c,cpp,cs,java,json setlocal commentstring=//\ %s
-autocmd FileType json syntax match Comment +\/\/.\+$+
-
-if has('python3') || has('python')
-    autocmd Filetype python compiler pylint
-endif
-autocmd FileType c compiler gcc
-autocmd FileType cpp compiler gcc
-autocmd FileType go compiler go
+augroup MyFileType
+    autocmd!
+    autocmd FileType c,cpp,cs,java,json setlocal commentstring=//\ %s
+    autocmd FileType json syntax match Comment +\/\/.\+$+
+    if has('python3') || has('python')
+        autocmd Filetype python compiler pylint
+    endif
+    autocmd FileType c compiler gcc
+    autocmd FileType cpp compiler gcc
+    autocmd FileType go compiler go
+augroup END
 
 set pastetoggle=<F2>
 
@@ -750,47 +755,50 @@ function! VisualSelection(direction, extra_filter) range abort
     let @" = l:saved_reg
 endfunction
 
-if executable('python3')
-    au filetype python nnoremap <buffer> <localleader>r :w <bar> !python3 %<cr>
-    au filetype python nnoremap <buffer> <localleader>R :w <bar> !python3 %<space>
-elseif executable('python')
-    au filetype python nnoremap <buffer> <localleader>r :w <bar> !python %<cr>
-    au filetype python nnoremap <buffer> <localleader>R :w <bar> !python %<space>
-endif
-if executable('gcc')
-    au filetype c nnoremap <buffer> <localleader>r :w <bar>
-                \ !gcc % -o %:r && ./%:r<cr>
-    au filetype c nnoremap <buffer> <localleader>R :w <bar>
-                \ !gcc % -o %:r && ./%:r<space>
-endif
-if executable('g++')
-    au filetype cpp nnoremap <buffer> <localleader>r :w <bar>
-                \ !g++ % -o %:r && ./%:r<cr>
-    au filetype cpp nnoremap <buffer> <localleader>R :w <bar>
-                \ !g++ % -o %:r && ./%:r<space>
-endif
-if executable('go')
-    au filetype go nnoremap <buffer> <localleader>r :w <bar>
-                \ !go run %<cr>
-    au filetype go nnoremap <buffer> <localleader>R :w <bar>
-                \ !go run %<space>
-endif
-if executable('pandoc')
-    au filetype html,docx,rtf,odp,odt nnoremap <buffer> <localleader>v
-                \ :set buftype=nofile ft=markdown <bar>
-                \ %!pandoc -t markdown_strict<cr>
-    au filetype html,docx,rtf,odp,odt nnoremap <buffer> <localleader>V
-                \ :enew <bar> read # <bar> set buftype=nofile ft=markdown <bar>
-                \ %!pandoc -t markdown_strict<cr>
-endif
-if executable('pdftotext')
-    autocmd FileType pdf nnoremap <buffer> <localleader>v
-                \ :set buftype=nofile ft=markdown <bar>
-                \ %!pdftotext -nopgbrk -layout -q -eol unix /dev/stdin - <bar> fmt -w80<cr>
-    autocmd FileType pdf nnoremap <buffer> <localleader>V
-                \ :enew <bar> read # <bar> set buftype=nofile ft=markdown <bar>
-                \ %!pdftotext -nopgbrk -layout -q -eol unix /dev/stdin - <bar> fmt -w80<cr>
-endif
+augroup MyFileTypeMapping
+    autocmd!
+    if executable('python3')
+        au filetype python nnoremap <buffer> <localleader>r :w <bar> !python3 %<cr>
+        au filetype python nnoremap <buffer> <localleader>R :w <bar> !python3 %<space>
+    elseif executable('python')
+        au filetype python nnoremap <buffer> <localleader>r :w <bar> !python %<cr>
+        au filetype python nnoremap <buffer> <localleader>R :w <bar> !python %<space>
+    endif
+    if executable('gcc')
+        au filetype c nnoremap <buffer> <localleader>r :w <bar>
+                    \ !gcc % -o %:r && ./%:r<cr>
+        au filetype c nnoremap <buffer> <localleader>R :w <bar>
+                    \ !gcc % -o %:r && ./%:r<space>
+    endif
+    if executable('g++')
+        au filetype cpp nnoremap <buffer> <localleader>r :w <bar>
+                    \ !g++ % -o %:r && ./%:r<cr>
+        au filetype cpp nnoremap <buffer> <localleader>R :w <bar>
+                    \ !g++ % -o %:r && ./%:r<space>
+    endif
+    if executable('go')
+        au filetype go nnoremap <buffer> <localleader>r :w <bar>
+                    \ !go run %<cr>
+        au filetype go nnoremap <buffer> <localleader>R :w <bar>
+                    \ !go run %<space>
+    endif
+    if executable('pandoc')
+        au filetype html,docx,rtf,odp,odt nnoremap <buffer> <localleader>v
+                    \ :set buftype=nofile ft=markdown <bar>
+                    \ %!pandoc -t markdown_strict<cr>
+        au filetype html,docx,rtf,odp,odt nnoremap <buffer> <localleader>V
+                    \ :enew <bar> read # <bar> set buftype=nofile ft=markdown <bar>
+                    \ %!pandoc -t markdown_strict<cr>
+    endif
+    if executable('pdftotext')
+        autocmd FileType pdf nnoremap <buffer> <localleader>v
+                    \ :set buftype=nofile ft=markdown <bar>
+                    \ %!pdftotext -nopgbrk -layout -q -eol unix /dev/stdin - <bar> fmt -w80<cr>
+        autocmd FileType pdf nnoremap <buffer> <localleader>V
+                    \ :enew <bar> read # <bar> set buftype=nofile ft=markdown <bar>
+                    \ %!pdftotext -nopgbrk -layout -q -eol unix /dev/stdin - <bar> fmt -w80<cr>
+    endif
+augroup END
 
 if exists(':packadd')
     nnoremap <leader>qf :packadd cfilter<cr>:Cfilter<space>
@@ -815,9 +823,12 @@ nnoremap ][ /}<CR>b99]}
 nnoremap ]] j0?{<CR>w99[{%/{<CR>
 nnoremap [] k$/}<CR>b99]}%?}<CR>
 
-au FileType qf call AdjustWindowHeight(1, 10)
-au Filetype qf set nobuflisted
-au FileType qf set foldcolumn=0
+augroup MyQuickfixWindow
+    autocmd!
+    au FileType qf call AdjustWindowHeight(1, 10)
+    au Filetype qf set nobuflisted
+    au FileType qf set foldcolumn=0
+augroup END
 " function! AdjustWindowHeight(minheight, maxheight)
 "     exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
 " endfunction
@@ -873,8 +884,11 @@ function! BufferCount() abort
     return len(filter(range(1, bufnr('$')), 'bufwinnr(v:val) != -1'))
 endfunction
 
-autocmd FileType qf nnoremap <buffer> <nowait> <tab> :RemoveQFItem<cr>
-autocmd FileType qf nnoremap <buffer> <nowait> <s-tab> :UndoQFRemove<cr>
+augroup MyQuickfixUndo
+    autocmd!
+    autocmd FileType qf nnoremap <buffer> <nowait> <tab> :RemoveQFItem<cr>
+    autocmd FileType qf nnoremap <buffer> <nowait> <s-tab> :UndoQFRemove<cr>
+augroup END
 command! RemoveQFItem call RemoveQFItem()
 command! UndoQFRemove call UndoQFRemove()
 function! RemoveQFItem() abort
@@ -1052,8 +1066,11 @@ if executable('xxd')
         let &modified = modified
     endfunction
 
-    au BufWritePre * if &bin | exe '%!xxd -r' | endif
-    au BufWritePost * if &bin | exe '%!xxd' | endif
+    augroup MyBinaryMode
+        autocmd!
+        au BufWritePre * if &bin | exe '%!xxd -r' | endif
+        au BufWritePost * if &bin | exe '%!xxd' | endif
+    augroup END
 endif
 
 inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -1099,7 +1116,10 @@ nnoremap <leader>> :vertical resize +10<cr>
 nnoremap <leader><lt> :vertical resize -10<cr>
 
 " Return to last edit position when opening files (You want this!)
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+augroup MyReturnToLastEditPosition
+    autocmd!
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+augroup END
 
 " Close the current buffer
 nnoremap <leader>bb :call BufClose(0)<cr>
@@ -1159,8 +1179,11 @@ nnoremap <expr> <leader>tC ':tcd ' . GetVcsRoot() . "\<lt>cr>"
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
-nnoremap <leader>tl :exe "tabn ".g:lasttab<cr>
-au TabLeave * let g:lasttab = tabpagenr()
+nnoremap <leader>tl :exe 'tabn ' . g:lasttab<cr>
+augroup MyReturnToLastTab
+    autocmd!
+    au TabLeave * let g:lasttab = tabpagenr()
+augroup END
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
@@ -1221,23 +1244,26 @@ function! CloseParen() abort
 endfun
 
 if exists(':terminal')
-    if executable('pudb3')
-        au Filetype python nnoremap <buffer> <localleader>d :vert RunTermCmd pudb3<space>
-        au Filetype python nnoremap <buffer> <localleader>D :vert RunTermCmd pudb3 %<cr>
-    elseif executable('pdb3')
-        au Filetype python nnoremap <buffer> <localleader>d :RunTermCmd pdb3<space>
-        au Filetype python nnoremap <buffer> <localleader>D :RunTermCmd pdb3 %<cr>
-    elseif executable('pudb')
-        au Filetype python nnoremap <buffer> <localleader>d :RunTermCmd pudb<space>
-        au Filetype python nnoremap <buffer> <localleader>D :RunTermCmd pudb %<cr>
-    elseif executable('pdb')
-        au Filetype python nnoremap <buffer> <localleader>d :RunTermCmd pdb<space>
-        au Filetype python nnoremap <buffer> <localleader>D :RunTermCmd pdb %<cr>
-    endif
-    if executable('gdb')
-        au Filetype c,cpp,go nnoremap <buffer> <localleader>d :RunTermCmd gdb<space>
-        au Filetype c,cpp,go nnoremap <buffer> <localleader>D :RunTermCmd gdb<cr>
-    endif
+    augroup MyLaunchDebugger
+        autocmd!
+        if executable('pudb3')
+            au Filetype python nnoremap <buffer> <localleader>d :vert RunTermCmd pudb3<space>
+            au Filetype python nnoremap <buffer> <localleader>D :vert RunTermCmd pudb3 %<cr>
+        elseif executable('pdb3')
+            au Filetype python nnoremap <buffer> <localleader>d :RunTermCmd pdb3<space>
+            au Filetype python nnoremap <buffer> <localleader>D :RunTermCmd pdb3 %<cr>
+        elseif executable('pudb')
+            au Filetype python nnoremap <buffer> <localleader>d :RunTermCmd pudb<space>
+            au Filetype python nnoremap <buffer> <localleader>D :RunTermCmd pudb %<cr>
+        elseif executable('pdb')
+            au Filetype python nnoremap <buffer> <localleader>d :RunTermCmd pdb<space>
+            au Filetype python nnoremap <buffer> <localleader>D :RunTermCmd pdb %<cr>
+        endif
+        if executable('gdb')
+            au Filetype c,cpp,go nnoremap <buffer> <localleader>d :RunTermCmd gdb<space>
+            au Filetype c,cpp,go nnoremap <buffer> <localleader>D :RunTermCmd gdb<cr>
+        endif
+    augroup END
     command! -nargs=+ RunTermCmd call RunTermCmd(<q-args>)
     function! RunTermCmd(cmd) abort
         botright split
@@ -1253,9 +1279,15 @@ if exists(':terminal')
     nnoremap <localleader>B :let @" = 'tbreak ' . expand('%:p') . ':' . line('.')<cr>
     nnoremap <localleader>c :let @" = 'clear ' . expand('%:p') . ':' . line('.')<cr>
 endif
-if executable('gdb')
-    au FileType c,cpp,go nnoremap <buffer> <localleader>e :e .gdbinit<cr>
-endif
+augroup MyEditGDBInit
+    autocmd!
+    if executable('gdb')
+        au FileType c,cpp,go nnoremap <buffer> <localleader>e :e .gdbinit<cr>
+    endif
+augroup END
 
 nnoremap <leader>ec :e ~/.vim_runtime/config/core.vim<cr>
-autocmd BufWritePost ~/.vim_runtime/config/core.vim source ~/.vim_runtime/config/core.vim
+augroup MyCore
+    autocmd!
+    autocmd BufWritePost ~/.vim_runtime/config/core.vim source ~/.vim_runtime/config/core.vim
+augroup END
