@@ -103,7 +103,7 @@ Plug 'sbdchd/neoformat'
 
 Plug 'neomake/neomake'
 
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'ludovicchabant/vim-gutentags'
 
 Plug 'junegunn/fzf', {'dir': '~/.fzf'}
 Plug 'junegunn/fzf.vim'
@@ -683,7 +683,6 @@ endfunction
 inoremap <expr> <c-x><c-\> NeoSnippetExpand()
 imap <C-\> <Plug>(neosnippet_expand_or_jump)
 smap <C-\> <Plug>(neosnippet_expand_or_jump)
-nmap <C-\> <Plug>(neosnippet_expand_or_jump)
 xmap <C-\> <Plug>(neosnippet_expand_target)
 imap <C-]> <Plug>(neosnippet_jump_or_expand)
 smap <C-]> <Plug>(neosnippet_jump_or_expand)
@@ -1027,28 +1026,28 @@ nnoremap <leader>RF :FocusDispatch!<cr>
 nnoremap <leader>ra :AbortDispatch<cr>
 nnoremap <leader>rA :AbortDispatch<space>
 
-if !exists('g:gutentags_modules')
-    let g:gutentags_modules = []
-endif
-if executable('ctags')
-    call add(g:gutentags_modules, 'ctags')
-endif
-if executable('gtags-cscope')
-    call add(g:gutentags_modules, 'gtags_cscope')
-elseif executable('cscope')
-    call add(g:gutentags_modules, 'cscope')
-endif
-let g:gutentags_enabled = 0
-let g:gitgutter_preview_win_floating = 0
-let g:gutentags_generate_on_missing = 0
-let g:gutentags_generate_on_new = 0
-let g:gutentags_generate_on_write = 1
-let g:gutentags_define_advanced_commands = 1
-let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+mnialS', '--extra=+q']
-let g:gutentags_cache_dir = '~/.vim_gutentags'
-nnoremap <leader>gt :GutentagsToggleEnabled<cr>
-nnoremap <leader>gu :GutentagsUpdate<cr>
-nnoremap <leader>gU :GutentagsUpdate!<cr>
+" if !exists('g:gutentags_modules')
+"     let g:gutentags_modules = []
+" endif
+" if executable('ctags')
+"     call add(g:gutentags_modules, 'ctags')
+" endif
+" if executable('gtags-cscope')
+"     call add(g:gutentags_modules, 'gtags_cscope')
+" elseif executable('cscope')
+"     call add(g:gutentags_modules, 'cscope')
+" endif
+" let g:gutentags_enabled = 0
+" let g:gitgutter_preview_win_floating = 0
+" let g:gutentags_generate_on_missing = 0
+" let g:gutentags_generate_on_new = 0
+" let g:gutentags_generate_on_write = 1
+" let g:gutentags_define_advanced_commands = 1
+" let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+mnialS', '--extra=+q']
+" let g:gutentags_cache_dir = '~/.vim_gutentags'
+" nnoremap <leader>gt :GutentagsToggleEnabled<cr>
+" nnoremap <leader>gu :GutentagsUpdate<cr>
+" nnoremap <leader>gU :GutentagsUpdate!<cr>
 
 let g:goyo_width = '95%'
 let g:goyo_height = '95%'
