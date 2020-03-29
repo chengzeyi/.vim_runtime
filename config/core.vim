@@ -146,6 +146,8 @@ set hid
 set backspace=eol,start,indent
 set whichwrap+=<,>,[,]
 
+set virtualedit=block
+
 set ignorecase
 set smartcase
 set gdefault
@@ -247,6 +249,7 @@ set stal=2
 
 " Always show the status line
 set laststatus=2
+set statusline=%f%m%=%y\ %{&fenc?&fenc:&enc}\[%{&ff}\]\ %p%%\ %l:%c
 
 if has('persistent_undo')
     set undodir=~/.vim_runtime/temp_dirs/undodir
@@ -314,7 +317,7 @@ endif
 
 " if has('cscope')
 "     set csverb
-    " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
+" set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 " endif
 
 augroup MyFileType

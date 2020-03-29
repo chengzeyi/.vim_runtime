@@ -189,8 +189,8 @@ Plug 'cormacrelf/vim-colors-github'
 call plug#end()
 
 augroup MyFZFVimTex
-  autocmd!
-  au FileType tex nnoremap <leader>zx :call vimtex#fzf#run()<cr>
+    autocmd!
+    au FileType tex nnoremap <leader>zx :call vimtex#fzf#run()<cr>
 augroup END
 if !exists('g:vimtex_toc_config')
     let g:vimtex_toc_config = {}
@@ -212,11 +212,11 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     let g:coc_config_home = $HOME . '/.vim_runtime/config'
 
     augroup MyCoc
-      autocmd!
-      au CmdwinEnter [:>] iunmap <buffer> <Tab>
-      autocmd CursorHold * silent! call CocActionAsync('highlight')
-      autocmd FileType typescript,json silent! setl formatexpr=CocAction('formatSelected')
-      autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+        autocmd!
+        au CmdwinEnter [:>] iunmap <buffer> <Tab>
+        autocmd CursorHold * silent! call CocActionAsync('highlight')
+        autocmd FileType typescript,json silent! setl formatexpr=CocAction('formatSelected')
+        autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     augroup END
 
     inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<End>"
@@ -340,8 +340,8 @@ elseif has('timers')
         endif
 
         augroup MyVimLsp
-          autocmd!
-          autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+            autocmd!
+            autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
         augroup END
         function! s:on_lsp_buffer_enabled() abort
             setlocal omnifunc=
@@ -443,8 +443,8 @@ elseif has('timers')
     endif
 
     augroup MyAsyncomplete
-      autocmd!
-      au CmdwinEnter [:>] iunmap <buffer> <Tab>
+        autocmd!
+        au CmdwinEnter [:>] iunmap <buffer> <Tab>
     augroup END
 
     inoremap <expr> <C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
@@ -597,13 +597,13 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     nnoremap <leader>dS :Denite spell<cr>
     nnoremap <leader>dn :Denite neosnippet<cr>
     augroup MyDenite
-      autocmd!
-      autocmd FileType denite call s:denite_my_settings()
-      autocmd FileType denite-filter call s:denite_filter_my_settings()
-      autocmd FileType denite-filter let b:coc_suggest_disable = 1
-      autocmd FileType denite-filter let g:asyncomplete_auto_popup = 0
-      autocmd FileType denite-filter autocmd BufEnter <buffer> let g:asyncomplete_auto_popup = 0
-      autocmd FileType denite-filter autocmd BufLeave <buffer> let g:asyncomplete_auto_popup = 1
+        autocmd!
+        autocmd FileType denite call s:denite_my_settings()
+        autocmd FileType denite-filter call s:denite_filter_my_settings()
+        autocmd FileType denite-filter let b:coc_suggest_disable = 1
+        autocmd FileType denite-filter let g:asyncomplete_auto_popup = 0
+        autocmd FileType denite-filter autocmd BufEnter <buffer> let g:asyncomplete_auto_popup = 0
+        autocmd FileType denite-filter autocmd BufLeave <buffer> let g:asyncomplete_auto_popup = 1
     augroup END
     function! s:denite_my_settings() abort
         nnoremap <nowait><silent><buffer><expr> <C-\>
@@ -714,18 +714,18 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
 endif
 
 function! NeoSnippetCompleteSnippets(arglead, cmdline, cursorpos) abort
-  return map(filter(values(neosnippet#helpers#get_snippets()),
-        \ 'stridx(v:val.word, a:arglead) == 0'), 'v:val.word')
+    return map(filter(values(neosnippet#helpers#get_snippets()),
+                \ 'stridx(v:val.word, a:arglead) == 0'), 'v:val.word')
 endfunction
 function! NeoSnippetExpand() abort
-  let trigger = input('Please input snippet trigger: ',
-        \ '', 'customlist,NeoSnippetCompleteSnippets')
-  if !has_key(neosnippet#helpers#get_snippets('i'), trigger) && trigger !=# ''
-      echo 'The trigger is invalid.'
-    return
-  endif
+    let trigger = input('Please input snippet trigger: ',
+                \ '', 'customlist,NeoSnippetCompleteSnippets')
+    if !has_key(neosnippet#helpers#get_snippets('i'), trigger) && trigger !=# ''
+        echo 'The trigger is invalid.'
+        return
+    endif
 
-  return neosnippet#expand(trigger)
+    return neosnippet#expand(trigger)
 endfunction
 inoremap <expr> <c-x><c-\> NeoSnippetExpand()
 imap <C-\> <Plug>(neosnippet_expand_or_jump)
@@ -762,8 +762,8 @@ nnoremap <leader>nc :NERDTreeCWD<cr>
 nnoremap <leader>nr :NERDTreeRefreshRoot<cr>
 nnoremap <leader>nm :NERDTreeMirror<cr>
 augroup MyNERDTree
-  autocmd!
-  autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
+    autocmd!
+    autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
 augroup END
 
 let g:ctrlp_working_path_mode = 'ra'
@@ -1205,10 +1205,10 @@ let g:undotree_HelpLine = 0
 nnoremap <leader>aw :ArgWrap<cr>
 let g:argwrap_wrap_closing_brace = 0
 augroup MyArgWrap
-  autocmd!
-  au FileType c,cpp let b:argwrap_wrap_closing_brace = '()[]{}'
-  au FileType go let b:argwrap_tail_comma = 1
-  au FileType vim let b:argwrap_line_prefix = '\'
+    autocmd!
+    au FileType c,cpp let b:argwrap_wrap_closing_brace = '()[]{}'
+    au FileType go let b:argwrap_tail_comma = 1
+    au FileType vim let b:argwrap_line_prefix = '\'
 augroup END
 
 " ctrl-b is unused in insert mode
@@ -1326,6 +1326,6 @@ nmap <leader>K :DevDocsAll<space>
 
 nnoremap <leader>ep :e ~/.vim_runtime/config/plug.vim<cr>
 augroup MyPlug
-  autocmd!
-  autocmd BufWritePost ~/.vim_runtime/config/plug.vim source ~/.vim_runtime/config/plug.vim
+    autocmd!
+    autocmd BufWritePost ~/.vim_runtime/config/plug.vim source ~/.vim_runtime/config/plug.vim
 augroup END
