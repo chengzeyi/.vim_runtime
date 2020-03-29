@@ -53,7 +53,7 @@ filetype indent on
 set notimeout
 " set timeoutlen=2000
 set ttimeout
-set ttimeoutlen=10
+set ttimeoutlen=20
 
 " set shortmess=a
 
