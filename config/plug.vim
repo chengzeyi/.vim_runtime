@@ -913,18 +913,18 @@ command! -bang -nargs=* FZFGGrep
             \    'git grep --line-number --color=always '.shellescape(<q-args>),
             \     0,
             \     <bang>0 ? fzf#vim#with_preview(
-            \             {'options': '--delimiter : --nth 4..',
+            \             {'options': '--delimiter : --nth 3..',
             \                 'dir': systemlist('git rev-parse --show-toplevel')[0]}, 'up:60%') :
             \         fzf#vim#with_preview(
-            \             {'options': '--delimiter : --nth 4..',
+            \             {'options': '--delimiter : --nth 3..',
             \                 'dir': systemlist('git rev-parse --show-toplevel')[0]}, 'right:50%:hidden', '?'),
             \     <bang>0)
 command! -bang -nargs=* FZFGrep
             \ call fzf#vim#grep(
             \    'grep --line-number --color=always -r '.shellescape(<q-args>).' .',
             \     0,
-            \     <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:60%') :
-            \         fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
+            \     <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 3..'}, 'up:60%') :
+            \         fzf#vim#with_preview({'options': '--delimiter : --nth 3..'}, 'right:50%:hidden', '?'),
             \     <bang>0)
 command! -bang -nargs=* FZFAg
             \ call fzf#vim#ag(<q-args>,
