@@ -245,7 +245,7 @@ endif
 " Specify the behavior when switching between buffers
 " set switchbuf=useopen,usetab,newtab
 set switchbuf=useopen
-set stal=2
+set stal=1
 
 " Always show the status line
 set laststatus=2
