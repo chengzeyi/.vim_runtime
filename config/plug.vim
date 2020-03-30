@@ -56,7 +56,7 @@ Plug 'easymotion/vim-easymotion'
 
 Plug 'deris/vim-shot-f'
 
-Plug 'ntpeters/vim-better-whitespace'
+" Plug 'ntpeters/vim-better-whitespace'
 
 Plug 'mhinz/vim-startify'
 Plug 'mhinz/vim-grepper'
@@ -1060,14 +1060,14 @@ let g:grepper.prompt_mapping_tool = '<c-g>'
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
 
-let g:better_whitespace_ctermcolor = '239'
-let g:better_whitespace_guicolor = '#4e4e4e'
-let g:better_whitespace_operator = 'gs'
-nnoremap <leader>sp :ToggleWhitespace<cr>
-nnoremap ]w :NextTrailingWhitespace<CR>
-nnoremap [w :PrevTrailingWhitespace<CR>
-xnoremap ]w :NextTrailingWhitespace<CR>
-xnoremap [w :PrevTrailingWhitespace<CR>
+" let g:better_whitespace_ctermcolor = '239'
+" let g:better_whitespace_guicolor = '#4e4e4e'
+" let g:better_whitespace_operator = 'gs'
+" nnoremap <leader>sp :ToggleWhitespace<cr>
+" nnoremap ]w :NextTrailingWhitespace<CR>
+" nnoremap [w :PrevTrailingWhitespace<CR>
+" xnoremap ]w :NextTrailingWhitespace<CR>
+" xnoremap [w :PrevTrailingWhitespace<CR>
 
 nnoremap <leader>uu :UndotreeToggle<cr>
 nnoremap <leader>uf :UndotreeFocus<cr>

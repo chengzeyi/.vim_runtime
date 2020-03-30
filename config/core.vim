@@ -175,7 +175,7 @@ set belloff=all
 set fillchars=vert:│,fold:-
 " let &showbreak = "\u21aa "
 let &showbreak = '↪ '
-set listchars=tab:→\ ,nbsp:·,extends:⟩,precedes:⟨
+set listchars=tab:→\ ,nbsp:·,trail:·,extends:⟩,precedes:⟨
 " if has('patch-7.4.710')
 "     set listchars+=space:·
 " endif
@@ -1274,6 +1274,14 @@ augroup MyEditGDBInit
         au FileType c,cpp,go nnoremap <buffer> <localleader>e :e .gdbinit<cr>
     endif
 augroup END
+
+nnoremap <leader>sp :TrimWhiteSpace<cr>
+command! -nargs=0 TrimWhiteSpace call TrimWhiteSpace()
+function! TrimWhiteSpace()
+    let l:winview = winsaveview()
+    silent! %s/\s\+$//
+    call winrestview(l:winview)
+endfunction
 
 nnoremap <leader>ec :e ~/.vim_runtime/config/core.vim<cr>
 augroup MyCore
