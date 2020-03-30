@@ -216,7 +216,10 @@ set nojoinspaces
 
 " Use spaces instead of tabs
 set expandtab
-au FileType go set noexpandtab
+augroup MyFileTypeExpandTab
+    autocmd!
+    au FileType go set noexpandtab
+augroup END
 " set tabstop=4
 " set softtabstop=4
 " set shiftwidth=4
@@ -331,6 +334,15 @@ augroup MyFileType
     autocmd FileType cpp compiler gcc
     autocmd FileType go compiler go
 augroup END
+
+if has('nvim')
+    augroup NeovimTerminal
+        autocmd!
+        autocmd TermOpen * startinsert
+        autocmd TermOpen * set nonumber
+        autocmd TermClose * bdelete!
+    augroup END
+endif
 
 set pastetoggle=<F2>
 
