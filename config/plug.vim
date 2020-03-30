@@ -187,7 +187,7 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     nmap [e <Plug>(coc-diagnostic-prev-error)
     nmap ]e <Plug>(coc-diagnostic-next-error)
     nmap <expr> gl CocHasProvider('declaration') ? '<Plug>(coc-declaration)' : 'gl'
-    nmap <expr> gD CocHasProvider('definition') ? '<Plug>(coc-definition)' : 'gd'
+    nmap <expr> gd CocHasProvider('definition') ? '<Plug>(coc-definition)' : 'gd'
     nmap <expr> gy CocHasProvider('typeDefinition') ? '<Plug>(coc-type-definition)' : 'gy'
     nmap <expr> gi CocHasProvider('implementation') ? '<Plug>(coc-implementation)' : 'gi'
     nmap <expr> gr CocHasProvider('reference') ? '<Plug>(coc-references)' : 'gr'
