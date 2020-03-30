@@ -125,7 +125,7 @@ Plug 'glts/vim-textobj-comment'
 Plug 'guns/xterm-color-table.vim'
 Plug 'ap/vim-css-color'
 
-Plug 'rhysd/devdocs.vim'
+" Plug 'rhysd/devdocs.vim'
 
 Plug 'cocopon/iceberg.vim'
 " Plug 'sickill/vim-monokai'
@@ -649,19 +649,11 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
                     \ 'smartcase': 1,
                     \ 'max_dynamic_update_candidates': 50000,
                     \ })
-        if has('nvim')
+        if has('nvim-0.4.0')
             call denite#custom#option('_', {'split': 'floating'})
         endif
         call denite#custom#source('grep',
                     \ 'converters', ['converter/abbr_word'])
-        if has('lambda')
-            call denite#custom#action('word',
-                        \ 'expand',
-                        \ {context -> execute('call neosnippet#expand(context["targets"][0]["word"])')})
-            call denite#custom#source('neosnippet',
-                        \ 'default_action',
-                        \ 'expand')
-        endif
     catch
     endtry
 endif
@@ -1203,8 +1195,8 @@ try
 catch
 endtry
 
-nmap <leader>k :DevDocs<space>
-nmap <leader>K :DevDocsAll<space>
+" nmap <leader>k :DevDocs<space>
+" nmap <leader>K :DevDocsAll<space>
 
 nnoremap <leader>ep :e ~/.vim_runtime/config/plug.vim<cr>
 augroup MyPlug
