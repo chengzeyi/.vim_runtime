@@ -340,7 +340,14 @@ if has('nvim')
         autocmd!
         autocmd TermOpen * startinsert
         autocmd TermOpen * set nonumber
-        " autocmd TermClose * call feedkeys('i')
+        autocmd TermOpen * set foldcolumn=0
+        if has('patch-7.3.787')
+            autocmd TermOpen * set norelativenumber
+        endif
+        " autocmd TermClose *
+        "             \ if expand('<afile>') !~# 'fzf' && expand('<afile>') !~# 'coc' |
+        "             \     bdelete! |
+        "             \ endif
     augroup END
 endif
 
@@ -418,7 +425,9 @@ if has('patch-8.1.1564')
 else
     nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr><cr>
 endif
-nnoremap <leader>or :set invrelativenumber<cr>
+if has('patch-7.3.787')
+    nnoremap <leader>or :set invrelativenumber<cr>
+endif
 nnoremap <leader>on :set invnumber<cr>
 if has('termguicolors')
     nnoremap <leader>og :set invtermguicolors<cr>
