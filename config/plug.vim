@@ -127,6 +127,7 @@ endif
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
 Plug 'glts/vim-textobj-comment'
+Plug 'kana/vim-textobj-entire'
 
 Plug 'guns/xterm-color-table.vim'
 Plug 'ap/vim-css-color'
