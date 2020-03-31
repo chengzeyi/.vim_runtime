@@ -814,6 +814,9 @@ let g:fzf_command_prefix = 'FZF'
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 let g:fzf_tags_command = 'ctags -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q'
 let g:fzf_prefer_tmux = 1
+if has('nvim-0.4.0') || has('patch-0.2.191')
+    let g:fzf_layout = {'window': {'width': 0.9, 'height': 0.6}}
+endif
 " let g:fzf_statusline = 0
 " let g:fzf_nvim_statusline = 0
 " let g:fzf_layout = {'window': 'bot'.float2nr(0.4 * &lines).'new'}
