@@ -1066,6 +1066,13 @@ inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<c-h>"
 inoremap <expr> <down> pumvisible() ? "\<C-n>" : "\<down>"
 inoremap <expr> <up> pumvisible() ? "\<C-p>" : "\<up>"
+if exists('*complete_info')
+    inoremap <expr> <cr> complete_info()['selected'] != '-1' ?
+                \ "\<C-y>" : "\<C-g>u\<CR>"
+else
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<End>"
 
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann

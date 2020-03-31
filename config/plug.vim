@@ -16,8 +16,6 @@ Plug 'uiiaoo/java-syntax.vim'
 if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 else
-    Plug 'jiangmiao/auto-pairs'
-
     if has('timers')
         Plug 'prabirshrestha/async.vim'
         if has('lambda')
@@ -47,6 +45,8 @@ else
         Plug 'prabirshrestha/asyncomplete-necovim.vim'
     endif
 endif
+
+Plug 'jiangmiao/auto-pairs'
 
 Plug 'FooSoft/vim-argwrap'
 
@@ -171,16 +171,6 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
         autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     augroup END
 
-    inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<End>"
-
-    if exists('#CompleteChanged')
-        inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                    \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-    else
-        inoremap <silent><expr> <cr> pumvisible() ? "\<C-y>"
-                    \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-    endif
-
     inoremap <expr> <C-l> coc#refresh()
     nmap [g <Plug>(coc-diagnostic-prev)
     nmap ]g <Plug>(coc-diagnostic-next)
@@ -240,7 +230,6 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     function! CocInstallBasic() abort
         let exts = [
                     \ 'coc-marketplace',
-                    \ 'coc-pairs',
                     \ 'coc-tag',
                     \ 'coc-word',
                     \ 'coc-json',
@@ -399,16 +388,6 @@ elseif has('timers')
         autocmd!
         au CmdwinEnter [:>] iunmap <buffer> <Tab>
     augroup END
-
-    inoremap <expr> <C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
-    inoremap <expr> <C-e> pumvisible() ? asyncomplete#cancel_popup() : "\<End>"
-
-    if exists('*complete_info')
-        inoremap <expr> <cr> complete_info()["selected"] != "-1" ?
-                    \ asyncomplete#close_popup() : "\<C-g>u\<CR>"
-    else
-        inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<C-g>u\<CR>"
-    endif
 
     imap <c-l> <Plug>(asyncomplete_force_refresh)
     function! s:sort_by_priority_preprocessor(options, matches) abort
@@ -684,7 +663,7 @@ let g:neosnippet#disable_runtime_snippets = {'_': 1}
 
 " autocmd vimenter * NERDTree
 let g:NERDTreeShowHidden = 1
-let g:NERDTreeHijackNetrw = 0
+" let g:NERDTreeHijackNetrw = 0
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeWinPos = 'left'
 let g:NERDTreeWinSize = 30
