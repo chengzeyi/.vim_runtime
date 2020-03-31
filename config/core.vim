@@ -1033,15 +1033,15 @@ nnoremap <leader>vg :vimgrep //j % <bar> cw<left><left><left><left><left><left><
 nnoremap <leader>vG :vimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>vl :lvimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
 nnoremap <leader>vL :lvimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>ss :%s//<left>
+nnoremap <leader>ss :%s/
 nnoremap <leader>sc :%s//c<left><left>
-xnoremap <leader>ss :s//<left>
+xnoremap <leader>ss :s/
 xnoremap <leader>sc :s//c<left><left>
-nnoremap <leader>qs :cdo s//<left>
+nnoremap <leader>qs :cdo s/
 nnoremap <leader>qc :cdo s//c<left><left>
-nnoremap <leader>ls :ldo s//<left>
+nnoremap <leader>ls :ldo s/
 nnoremap <leader>lc :ldo s//c<left><left>
-nnoremap <leader>bs :bufdo %s//<left>
+nnoremap <leader>bs :bufdo %s/
 nnoremap <leader>bc :bufdo %s//c<left><left>
 
 command! -nargs=0 W w !sudo tee % > /dev/null

@@ -74,6 +74,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-abolish'
 
 Plug 'airblade/vim-gitgutter'
 
