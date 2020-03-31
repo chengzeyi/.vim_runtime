@@ -1269,7 +1269,7 @@ if exists(':terminal')
             au Filetype c,cpp,go nnoremap <buffer> <localleader>D :RunTermCmd gdb<cr>
         endif
     augroup END
-    command! -nargs=+ RunTermCmd call RunTermCmd(<q-args>)
+    command! -nargs=+ -complete=shellcmd RunTermCmd call RunTermCmd(<q-args>)
     function! RunTermCmd(cmd) abort
         botright split
         if has('nvim')
