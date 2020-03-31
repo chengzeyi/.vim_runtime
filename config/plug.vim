@@ -95,7 +95,12 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     endif
 endif
 Plug 'Shougo/neosnippet.vim'
-Plug 'chengzeyi/neosnippet-snippets', { 'dir': '~/.vim_snippets'}
+Plug 'chengzeyi/neosnippet-snippets', {'dir': '~/.vim_snippets'}
+
+" if v:version >=740 && has('python3')
+"     Plug 'SirVer/ultisnips'
+"     Plug 'chengzeyi/vim-snippets', {'dir': '~/.vim_snippets'}
+" endif
 
 Plug 'majutsushi/tagbar'
 
@@ -661,6 +666,14 @@ let g:neosnippet#snippets_directory = '~/.vim_snippets'
 let g:neosnippet#expand_word_boundary = 1
 let g:neosnippet#disable_runtime_snippets = {'_': 1}
 
+" if v:version >=740 && has('python3')
+"     let g:UltiSnipsExpandTrigger = '<c-\>'
+"     let g:UltiSnipsListSnippets = '<c-]>'
+"     let g:UltiSnipsJumpForwardTrigger = '<c-right>'
+"     let g:UltiSnipsJumpBackwardTrigger = '<c-left>'
+"     let g:UltiSnipsSnippetDirectories = [expand('~/.vim_snippets/UltiSnips')]
+" endif
+
 " autocmd vimenter * NERDTree
 let g:NERDTreeShowHidden = 1
 " let g:NERDTreeHijackNetrw = 0
@@ -838,7 +851,7 @@ nnoremap <leader>z/ :FZFHistory/<cr>
 nnoremap <leader>z: :FZFHistory:<cr>
 nnoremap <leader>zH :FZFHelptags<cr>
 " if v:version >= 740 && has('python3')
-"     inoremap <c-\> <c-o>:FZFSnippets<cr>
+"     nnoremap <leader>zs :FZFSnippets<cr>
 " endif
 nnoremap <leader>zg :FZFGrep<cr>
 nnoremap <leader>zG :FZFGGrep<cr>
@@ -866,7 +879,9 @@ nnoremap <leader>Zh :FZFHistory!<cr>
 nnoremap <leader>Z/ :FZFHistory/!<cr>
 nnoremap <leader>Z: :FZFHistory:!<cr>
 nnoremap <leader>ZH :FZFHelptags!<cr>
-nnoremap <leader>Zs :FZFSnippets!<cr>
+" if v:version >= 740 && has('python3')
+"     nnoremap <leader>Zs :FZFSnippets!<cr>
+" endif
 nnoremap <leader>Zg :FZFGGrep!<cr>
 nnoremap <leader>ZG :FZFGrep!<cr>
 

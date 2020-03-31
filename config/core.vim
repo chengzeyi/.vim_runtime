@@ -84,9 +84,9 @@ if has('patch-8.1.1564')
     set signcolumn=number
 endif
 set number
-" if has('patch-7.3.787')
-"     set relativenumber
-" endif
+if has('patch-7.3.787')
+    set relativenumber
+endif
 
 set exrc
 set secure
@@ -340,7 +340,7 @@ if has('nvim')
         autocmd!
         autocmd TermOpen * startinsert
         autocmd TermOpen * set nonumber
-        autocmd TermClose * bdelete!
+        " autocmd TermClose * call feedkeys('i')
     augroup END
 endif
 
@@ -383,8 +383,8 @@ cnoremap <C-N> <Down>
 function! MapMotion(from, ...) abort
     let from = a:from
     let to = a:0 == 0 ? a:from : a:1
-    exec 'noremap ' . from . ' g' . to
-    exec 'noremap g' . from . ' ' . to
+    exec 'noremap <expr> ' . from . ' v:count == 0 ? "g' . to . '" : "' . to . '"'
+    exec 'noremap <expr> g' . from . ' v:count == 0 ? ' . '"' . to . '" : "' '"g' . to . '"'
 endfunction
 call MapMotion('j')
 call MapMotion('k')
