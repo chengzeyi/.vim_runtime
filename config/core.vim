@@ -980,7 +980,7 @@ endif
 nnoremap <leader>ct :Ctags<cr>
 nnoremap <leader>cT :Ctags<space>
 command! -complete=file -nargs=* Ctags !ctags
-            \ -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q <args>
+            \ -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q --excmd=number <args>
 
 if has('cscope')
     nnoremap <leader>cs :Cscope<cr>
