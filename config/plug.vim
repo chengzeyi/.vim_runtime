@@ -918,15 +918,16 @@ command! -bang -nargs=* FZFGrep
             \         fzf#vim#with_preview({'options': '--delimiter : --nth 3..'}, 'right:50%:hidden', '?'),
             \     <bang>0)
 command! -bang -nargs=* FZFAg
-            \ call fzf#vim#ag(<q-args>,
-            \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-            \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-            \                 <bang>0)
+            \ call fzf#vim#ag(
+            \     <q-args>,
+            \     <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:60%') :
+            \         fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
+            \     <bang>0)
 command! -bang -nargs=* FZFRg
             \ call fzf#vim#grep(
             \    'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-            \     <bang>0 ? fzf#vim#with_preview('up:60%')
-            \            : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \     <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:60%') :
+            \         fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
             \     <bang>0
             \)
 command! -bang -nargs=* FZFHistory
