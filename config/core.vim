@@ -20,7 +20,7 @@ if has('gui_running')
     nnoremap <S-Down> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g')<cr>
 endif
 
-if has('nvim') && exists('#UIEnter')
+if has('nvim-0.4.0')
     augroup MyUIEnter
         autocmd!
         autocmd UIEnter * call SetNeovimGui()
