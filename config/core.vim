@@ -27,16 +27,7 @@ if has('nvim-0.4.0')
     augroup END
 endif
 function! SetNeovimGui() abort
-    if exists('g:fvim_loaded')
-        try
-            FVimCursorSmoothMove 1
-            FVimCursorSmoothBlink 1
-        catch
-        endtry
-        nnoremap <silent> <S-Up> :set guifont=+<CR>
-        nnoremap <silent> <S-Down> :set guifont=-<CR>
-        nnoremap <A-CR> :FVimToggleFullScreen<CR>
-    elseif exists('g:GuiLoaded')
+    if exists('g:GuiLoaded')
         try
             GuiTabline 0
             GuiPopupmenu 0
@@ -103,10 +94,9 @@ set autoread
 
 set foldmethod=indent
 set foldlevelstart=99
-set foldnestmax=3
+" set foldnestmax=3
 " set nofoldenable
-set foldcolumn=1
-" au FileType c,cpp,go setlocal foldmethod=syntax
+" set foldcolumn=1
 
 set display+=lastline
 
@@ -175,10 +165,10 @@ set belloff=all
 set fillchars=vert:│,fold:-
 " let &showbreak = "\u21aa "
 let &showbreak = '↪ '
-set listchars=tab:→\ ,nbsp:·,trail:·,extends:⟩,precedes:⟨
-" if has('patch-7.4.710')
-"     set listchars+=space:·
-" endif
+set listchars=tab:→\ ,nbsp:␣,trail:·,extends:⟩,precedes:⟨
+if has('patch-7.4.710')
+    set listchars+=space:·
+endif
 " set listchars=tab:>-,trail:~,extends:>,precedes:<
 " set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
 set list
@@ -216,13 +206,6 @@ set nojoinspaces
 
 " Use spaces instead of tabs
 set expandtab
-augroup MyFileTypeExpandTab
-    autocmd!
-    au FileType go set noexpandtab
-augroup END
-" set tabstop=4
-" set softtabstop=4
-" set shiftwidth=4
 
 " Be smart when using tabs ;)
 set smarttab
@@ -230,6 +213,7 @@ set smarttab
 " 1 tab == 4 spaces
 set shiftwidth=4
 set tabstop=4
+set softtabstop=-1
 
 set cink+=*<Return>
 set cino+=l1,g0,N-s,E-s,(0
@@ -265,7 +249,8 @@ else
     set completeopt=menuone,noinsert
 endif
 if has('patch-8.1.1882') && has('textprop')
-    set completepopup=height:15,width:30,align:menu
+    set completeopt+=popup
+    set completepopup=height:15,width:30,align:menu,border:off
 endif
 set pumheight=12
 
@@ -320,20 +305,8 @@ endif
 
 if has('cscope')
     set csverb
-" set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
+    " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 endif
-
-augroup MyFileType
-    autocmd!
-    autocmd FileType c,cpp,cs,java,json setlocal commentstring=//\ %s
-    autocmd FileType json syntax match Comment +\/\/.\+$+
-    if has('python3') || has('python')
-        autocmd Filetype python compiler pylint
-    endif
-    autocmd FileType c compiler gcc
-    autocmd FileType cpp compiler gcc
-    autocmd FileType go compiler go
-augroup END
 
 if has('nvim')
     augroup NeovimTerminal
@@ -350,6 +323,19 @@ if has('nvim')
         "             \ endif
     augroup END
 endif
+
+augroup MyFileType
+    autocmd!
+    " autocmd FileType c,cpp,cs,java,json setlocal commentstring=//\ %s
+    " autocmd FileType json syntax match Comment +\/\/.\+$+
+    " if has('python3') || has('python')
+        " autocmd Filetype python compiler pylint
+    " endif
+    " autocmd FileType c compiler gcc
+    " autocmd FileType cpp compiler gcc
+    " autocmd FileType go compiler go
+    autocmd FileType go set noexpandtab
+augroup END
 
 set pastetoggle=<F2>
 
@@ -415,7 +401,7 @@ nnoremap <leader><bslash> :sp<cr>
 
 nnoremap <leader>en :enew<cr>
 
-nnoremap <leader>oo :set scrolloff=<c-r>=&scrolloff == 1 ? 999 : 1<cr><cr>
+nnoremap <leader>oo :set scrolloff=<c-r>=&scrolloff == 999 ? 1 : 999<cr><cr>
 nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
 nnoremap <leader>ot :set ttyscroll=<c-r>=&ttyscroll == 999 ? 5 : 999<cr><cr>
 nnoremap <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
@@ -834,10 +820,14 @@ nnoremap [p :ptprevious<cr>
 nnoremap ]p :ptnext<cr>
 nnoremap [P :pfirst<cr>
 nnoremap ]P :plast<cr>
-nnoremap [[ ?{<CR>w99[{
-nnoremap ][ /}<CR>b99]}
-nnoremap ]] j0?{<CR>w99[{%/{<CR>
-nnoremap [] k$/}<CR>b99]}%?}<CR>
+nnoremap [[ m':call search('{', 'bW')<CR>
+vnoremap [[ m':<C-U>exe 'normal! gv'<Bar>call search('{', 'bW')<CR>
+nnoremap ]] m':call search('{', 'W')<CR>
+vnoremap ]] m':<C-U>exe 'normal! gv'<Bar>call search('{', 'W')<CR>
+nnoremap [] m':call search('}', 'bW')<CR>
+vnoremap [] m':<C-U>exe 'normal! gv'<Bar>call search('}', 'bW')<CR>
+nnoremap ][ m':call search('}', 'W')<CR>
+vnoremap ][ m':<C-U>exe 'normal! gv'<Bar>call search('}', 'W')<CR>
 
 augroup MyQuickfixWindow
     autocmd!
@@ -846,7 +836,7 @@ augroup MyQuickfixWindow
     au FileType qf set foldcolumn=0
 augroup END
 " function! AdjustWindowHeight(minheight, maxheight)
-"     exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
+"     exe max([min([line('$'), a:maxheight]), a:minheight]) . 'wincmd _'
 " endfunction
 function! AdjustWindowHeight(minheight, maxheight) abort
     let l = 1
@@ -1071,18 +1061,6 @@ if executable('xxd')
     augroup END
 endif
 
-inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<c-h>"
-inoremap <expr> <down> pumvisible() ? "\<C-n>" : "\<down>"
-inoremap <expr> <up> pumvisible() ? "\<C-p>" : "\<up>"
-if exists('*complete_info')
-    inoremap <expr> <cr> complete_info()['selected'] != '-1' ?
-                \ "\<C-y>" : "\<C-g>u\<CR>"
-else
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<End>"
-
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
 xnoremap * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
@@ -1096,10 +1074,12 @@ nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 nnoremap <a-k> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>
 nnoremap <a-j> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>
-inoremap <a-k> <c-o>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>
-inoremap <a-j> <c-o>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>
 inoremap <a-y> <c-o><c-y>
 inoremap <a-e> <c-o><c-e>
+inoremap <a-h> <c-o>h
+inoremap <a-j> <c-o>j
+inoremap <a-k> <c-o>k
+inoremap <a-l> <c-o>l
 if exists(':terminal')
     tnoremap <a-k> <c-\><c-n>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>i
     tnoremap <a-j> <c-\><c-n>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>i
@@ -1195,7 +1175,7 @@ augroup END
 nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 " Switch CWD to the directory of the open buffer
-nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
+nnoremap <leader>cd :cd %:p:h<cr>
 nnoremap <expr> <leader>cD ':cd ' . GetVcsRoot() . "\<lt>cr>"
 function! GetVcsRoot() abort
     let cph = expand('%:p:h', 1)
@@ -1209,6 +1189,76 @@ endfunction
 
 nnoremap <leader>sl :set invspell<cr>
 
+inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
+inoremap <expr> <S-TAB> pumvisible() ? "\<c-p>" : "\<c-h>"
+inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<down>"
+inoremap <expr> <up> pumvisible() ? "\<c-p>" : "\<up>"
+inoremap <expr> <c-e> pumvisible() ? "\<c-e>" : "\<End>"
+inoremap <expr> <c-h> ICH()
+inoremap <expr> <bs> ICH()
+function! ICH() abort
+    let previous = getline('.')[col('.') - 2]
+    let next = getline('.')[col('.') - 1]
+    let idxp = stridx("{[('\"`", previous)
+    let idxn = stridx("}])'\"`", next)
+    if previous !=# '' && idxp >= 0 && idxp ==# idxn
+        return "\<DEL>\<C-H>"
+    else
+        return "\<C-H>"
+    endif
+endfunction
+if exists('*complete_info')
+    inoremap <expr> <cr> complete_info()['selected'] != '-1' ?
+                \ "\<C-y>" : "\<C-g>u" . ICR()
+else
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u" . ICR()
+endif
+" tries to make <CR> a little smarter in insert mode:
+" - expands [{()}] 'correctly'
+" - expands <tag>|</tag> 'correctly'
+function! ICR()
+    " specific case: beware of the cmdline window
+    if &buftype ==# 'quickfix' || &buftype ==# 'nofile'
+        return "\<CR>"
+    endif
+    " generic case
+    let previous = getline('.')[col('.') - 2]
+    let next = getline('.')[col('.') - 1]
+    let idx = stridx('{[(', previous)
+    if previous !=# '' && idx >= 0
+        return ExpandPair(previous, '}])'[idx], next)
+    elseif previous ==# '>'
+        return ExpandTag(next)
+    else
+        return "\<CR>"
+    endif
+endfunction
+function! ExpandPair(left, right, next)
+    let pair_position = []
+    let pair_position = searchpairpos('\V' . a:left, '', '\V' . a:right, 'Wn')
+    if a:next ==# a:right
+        return "\<CR>\<ESC>==O"
+    endif
+    if (pair_position[0] == 0 || indent(pair_position[0]) != indent('.'))
+        return "\<CR>" . a:right . "\<ESC>==O"
+    else
+        return "\<CR>"
+    endif
+endfunction
+function! ExpandTag(next)
+    let thisline = getline('.')
+    if a:next ==# '<' && thisline[col('.')] ==# '/'
+        let tagname0 = thisline[searchpos('<', 'bnw')[1]]
+        if tagname0 ==# '/' || tagname0 !=# thisline[col('.') + 1]
+            return "\<CR>"
+        else
+            return "\<CR>\<ESC>==O"
+        endif
+    else
+        return "\<CR>"
+    endif
+endfunction
+
 inoremap <c-x>( )<c-g>U<left>(
 inoremap <c-x>) )<c-g>U<left>(
 inoremap <c-x>[ ]<c-g>U<left>[
@@ -1220,6 +1270,16 @@ inoremap <c-x>> ><c-g>U<left><lt>
 inoremap <c-x>' '<c-g>U<left>'
 inoremap <c-x>" "<c-g>U<left>"
 inoremap <c-x>` `<c-g>U<left>"
+
+inoremap ( )<c-g>U<left>(
+inoremap [ ]<c-g>U<left>[
+inoremap { }<c-g>U<left>{
+inoremap <expr> ) strpart(getline('.'), col('.') -1, 1) == ')' ? "\<right>" : ')'
+inoremap <expr> ] strpart(getline('.'), col('.') -1, 1) == ']' ? "\<right>" : ']'
+inoremap <expr> } strpart(getline('.'), col('.') -1, 1) == '}' ? "\<right>" : '}'
+inoremap <expr> ' strpart(getline('.'), col('.') -1, 1) == "'" ? "\<Right>" : "''\<Left>"
+inoremap <expr> " strpart(getline('.'), col('.') -1, 1) == "\"" ? "\<Right>" : "\"\"\<Left>"
+inoremap <expr> ` strpart(getline('.'), col('.') -1, 1) == "`" ? "\<Right>" : "``\<Left>"
 
 inoremap <expr> <c-b> CloseParen()
 inoremap <expr> <c-space> CloseParen()

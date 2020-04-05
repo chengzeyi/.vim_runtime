@@ -7,7 +7,7 @@ call plug#begin('~/.vim_runtime/plugged')
 Plug 'lervag/vimtex'
 " Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'bfrg/vim-cpp-modern'
-Plug 'arp242/gopher.vim'
+" Plug 'arp242/gopher.vim'
 Plug 'vim-python/python-syntax'
 Plug 'plasticboy/vim-markdown'
 Plug 'othree/html5.vim'
@@ -46,7 +46,9 @@ else
     endif
 endif
 
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
+
+" Plug 'Raimondi/delimitMate'
 
 Plug 'FooSoft/vim-argwrap'
 
@@ -76,6 +78,8 @@ Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 
+" Plug 'tomtom/tcomment_vim'
+
 Plug 'airblade/vim-gitgutter'
 
 Plug 'machakann/vim-highlightedyank'
@@ -103,6 +107,9 @@ Plug 'chengzeyi/neosnippet-snippets', {'dir': '~/.vim_snippets'}
 "     Plug 'chengzeyi/vim-snippets', {'dir': '~/.vim_snippets'}
 " endif
 
+" Plug 'camspiers/animate.vim'
+" Plug 'camspiers/lens.vim'
+
 Plug 'majutsushi/tagbar'
 
 Plug 'sbdchd/neoformat'
@@ -124,6 +131,8 @@ endif
 if (has('job') && has('channel')) || has('nvim')
     Plug 'metakirby5/codi.vim'
 endif
+
+Plug 'lfilho/cosco.vim'
 
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
@@ -164,9 +173,6 @@ let g:python_highlight_all = 1
 
 let g:vim_markdown_conceal = 1
 let g:vim_markdown_conceal_code_blocks = 1
-
-let g:csv_no_conceal = 1
-let g:no_plugin_maps = 1
 
 if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     let g:coc_config_home = $HOME . '/.vim_runtime/config'
@@ -631,7 +637,6 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
         call denite#custom#option('_', {
                     \ 'prompt': '❯',
                     \ 'auto_resume': 1,
-                    \ 'start_filter': 1,
                     \ 'statusline': 0,
                     \ 'smartcase': 1,
                     \ 'max_dynamic_update_candidates': 50000,
@@ -817,8 +822,9 @@ let g:fzf_command_prefix = 'FZF'
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 let g:fzf_tags_command = 'ctags -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q'
 let g:fzf_prefer_tmux = 1
+" let g:fzf_preview_window = 'up'
 if has('nvim-0.4.0') || has('patch-0.2.191')
-    let g:fzf_layout = {'window': {'width': 0.9, 'height': 0.6}}
+    let g:fzf_layout = {'window': {'width': 0.9, 'height': 0.8}}
 endif
 " let g:fzf_statusline = 0
 " let g:fzf_nvim_statusline = 0
@@ -897,7 +903,7 @@ nnoremap <leader>ZG :FZFGrep!<cr>
 "             \ call fzf#vim#colors({'left': '20%', 'options': '--reverse --margin 5%,0'}, <bang>0)
 
 nmap <c-_> <Plug>CommentaryLine
-vmap <c-_> <Plug>Commentary
+xmap <c-_> <Plug>Commentary
 
 let g:dispatch_no_maps = 1
 nnoremap <leader>rr :Dispatch<space>
@@ -956,8 +962,8 @@ endif
 let g:grepper.prompt_mapping_tool = '<c-g>'
 
 " let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_guide_size = 1
-let g:indent_guides_start_level = 2
+" let g:indent_guides_guide_size = 1
+" let g:indent_guides_start_level = 2
 
 " let g:better_whitespace_ctermcolor = '239'
 " let g:better_whitespace_guicolor = '#4e4e4e'
@@ -1023,6 +1029,13 @@ if has('nvim') || has('job') || has('channel')
     nnoremap <leader>co :Codi!!<cr>
     nnoremap <leader>cO :Codi!!<space>
 endif
+
+nmap <c-right> <Plug>(cosco-commaOrSemiColon)
+imap <c-right> <c-o><Plug>(cosco-commaOrSemiColon)
+nmap <c-down> <Plug>(cosco-commaOrSemiColon):append<cr><cr>.<cr>
+imap <c-down> <c-o><Plug>(cosco-commaOrSemiColon)<c-g>U<c-o>o
+nmap <a-cr> <Plug>(cosco-commaOrSemiColon):append<cr><cr>.<cr>
+imap <a-cr> <c-o><Plug>(cosco-commaOrSemiColon)<c-g>U<c-o>o
 
 try
     " call textobj#user#plugin('datetime', {
