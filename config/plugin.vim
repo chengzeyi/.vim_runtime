@@ -144,16 +144,8 @@ Plug 'ap/vim-css-color'
 
 " Plug 'rhysd/devdocs.vim'
 
-Plug 'cocopon/iceberg.vim'
-" Plug 'sickill/vim-monokai'
-Plug 'rakr/vim-one'
-Plug 'morhetz/gruvbox'
-" Plug 'arcticicestudio/nord-vim'
 Plug 'chengzeyi/hydrangea-vim'
-Plug 'Badacadabra/vim-archery'
-" Plug 'logico-ar/typewriter-vim'
-Plug 'reedes/vim-colors-pencil'
-Plug 'cormacrelf/vim-colors-github'
+Plug 'rafi/awesome-vim-colorschemes'
 
 call plug#end()
 
@@ -822,7 +814,7 @@ let g:fzf_command_prefix = 'FZF'
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 let g:fzf_tags_command = 'ctags -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q'
 let g:fzf_prefer_tmux = 1
-" let g:fzf_preview_window = 'up'
+let g:fzf_preview_window = 'up'
 if has('nvim-0.4.0') || has('patch-0.2.191')
     let g:fzf_layout = {'window': {'width': 0.9, 'height': 0.8}}
 endif
@@ -1109,9 +1101,3 @@ endtry
 
 " nmap <leader>k :DevDocs<space>
 " nmap <leader>K :DevDocsAll<space>
-
-nnoremap <leader>ep :e ~/.vim_runtime/config/plug.vim<cr>
-augroup MyPlug
-    autocmd!
-    autocmd BufWritePost ~/.vim_runtime/config/plug.vim source ~/.vim_runtime/config/plug.vim
-augroup END

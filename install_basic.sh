@@ -6,22 +6,9 @@ echo '
 
 set runtimepath+=~/.vim_runtime
 
-if filereadable(expand("~/.vim_runtime/config/before.vim"))
-    source ~/.vim_runtime/config/before.vim
-endif
+let g:installed_basic = 1
+
 source ~/.vim_runtime/config/core.vim
-source ~/.vim_runtime/config/addition.vim
-if filereadable(expand("~/.vim_runtime/config/after.vim"))
-    source ~/.vim_runtime/config/after.vim
-endif
-
-nnoremap <leader>ed :e ~/.vimrc<cr>
-nnoremap <leader>e[ :e ~/.vim_runtime/config/before.vim<cr>
-nnoremap <leader>e] :e ~/.vim_runtime/config/after.vim<cr>
-
-autocmd BufWritePost ~/.vimrc source ~/.vimrc
-autocmd BufWritePost ~/.vim_runtime/config/before.vim source ~/.vim_runtime/config/before.vim
-autocmd BufWritePost ~/.vim_runtime/config/after.vim source ~/.vim_runtime/config/after.vim
 
 ' > ~/.vimrc
 
