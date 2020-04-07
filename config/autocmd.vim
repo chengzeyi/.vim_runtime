@@ -89,10 +89,10 @@ if has('nvim')
     augroup NeovimTerminal
         autocmd!
         autocmd TermOpen * startinsert
-        autocmd TermOpen * set nonumber
-        autocmd TermOpen * set foldcolumn=0
+        autocmd TermOpen * setlocal nonumber
+        autocmd TermOpen * setlocal foldcolumn=0
         if has('patch-7.3.787')
-            autocmd TermOpen * set norelativenumber
+            autocmd TermOpen * setlocal norelativenumber
         endif
         " autocmd TermClose *
         "             \ if expand('<afile>') !~# 'fzf' && expand('<afile>') !~# 'coc' |

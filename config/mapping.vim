@@ -75,10 +75,14 @@ nnoremap <leader>ow :set textwidth=<c-r>=&textwidth == 0 ? 79 : 0<cr><cr>
 if exists(':terminal')
     tnoremap <F1> <c-\><c-n>
     if has('nvim')
-        nnoremap <leader>is :split +terminal<cr>
+        nnoremap <leader>is :split <bar> terminal<cr>
+        nnoremap <leader>iS :split <bar> terminal<space>
         nnoremap <leader>iv :vert terminal<cr>
+        nnoremap <leader>iV :vert terminal<space>
         nnoremap <leader>it :tab terminal<cr>
+        nnoremap <leader>iT :tab terminal<space>
         nnoremap <leader>iw :terminal<cr>
+        nnoremap <leader>iW :terminal<space>
     else
         nnoremap <leader>is :terminal<cr>
         nnoremap <leader>iS :terminal ++close<space>
@@ -89,6 +93,46 @@ if exists(':terminal')
         nnoremap <leader>iw :terminal ++curwin<cr>
         nnoremap <leader>iW :terminal ++curwin ++close<space>
     endif
+endif
+
+if has('nvim-0.4.0')
+    nnoremap <leader>if :FloatTerm<cr>
+    nnoremap <leader>iF :FloatTerm<space>
+    command! -nargs=* -complete=shellcmd FloatTerm call FloatTerm(<q-args>)
+
+    function! FloatTerm(cmd) abort
+        call CreateCenteredFloatingWindow()
+        call termopen(empty(a:cmd) ? &shell : a:cmd, { 'on_exit': function('OnTermExit') })
+    endfunction
+
+    function! CreateCenteredFloatingWindow() abort
+        let width = float2nr(&columns * 0.8)
+        let height = float2nr(&lines * 0.8)
+        let top = ((&lines - height) / 2) - 1
+        let left = (&columns - width) / 2
+        let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
+
+        let top = "╭" . repeat("─", width - 2) . "╮"
+        let mid = "│" . repeat(" ", width - 2) . "│"
+        let bot = "╰" . repeat("─", width - 2) . "╯"
+        let lines = [top] + repeat([mid], height - 2) + [bot]
+        let s:buf = nvim_create_buf(v:false, v:true)
+        call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)
+        call nvim_open_win(s:buf, v:true, opts)
+        set winhl=Normal:Floating
+        let opts.row += 1
+        let opts.height -= 2
+        let opts.col += 2
+        let opts.width -= 4
+        call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
+        autocmd BufWipeout <buffer> exe 'bwipeout '.s:buf
+    endfunction
+
+    function! OnTermExit(job_id, code, event) abort dict
+        if a:code == 0
+            bwipeout!
+        endif
+    endfunction
 endif
 
 nnoremap [I [I:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."[\t"<Bar>endif<CR>
@@ -557,7 +601,8 @@ nnoremap <leader>bc :bufdo %s//c<left><left>
 
 command! -nargs=0 W w !sudo tee % > /dev/null
 
-nnoremap <leader>ew :e <C-R>=expand("%:.:h")<CR>/
+nnoremap <leader>ed :e <c-r>=fnameescape(expand("%:.:h"))<cr>/
+nnoremap <leader>eD :e <c-r>=fnameescape(getcwd())<cr>/
 
 if executable('xxd')
     nnoremap <leader>eb :Bin<cr>

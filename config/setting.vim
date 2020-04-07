@@ -29,9 +29,10 @@ set tags+=./tags; tags+=./TAGS;
 " set tags+=~/.vimtags
 " set tags+=~/.vim_runtime/tags/cpp_tags
 
-set updatetime=250
+set updatetime=200
 
-set background=dark
+" Rsetting this can cause highlight issues
+" set background=dark
 
 if has('patch-8.1.1564')
     set signcolumn=number

@@ -816,7 +816,7 @@ let g:fzf_tags_command = 'ctags -R --sort=yes --c++-kinds=+p --fields=+mnialS --
 let g:fzf_prefer_tmux = 1
 let g:fzf_preview_window = 'up'
 if has('nvim-0.4.0') || has('patch-0.2.191')
-    let g:fzf_layout = {'window': {'width': 0.9, 'height': 0.8}}
+    let g:fzf_layout = {'window': {'width': 0.8, 'height': 0.8}}
 endif
 " let g:fzf_statusline = 0
 " let g:fzf_nvim_statusline = 0
@@ -944,8 +944,10 @@ nnoremap <F9> :Goyo<cr>
 
 nnoremap <F10> :Limelight!!<cr>
 
-xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+xmap ga <Plug>(EasyAlign)
+nmap gA <Plug>(LiveEasyAlign)
+xmap gA <Plug>(LiveEasyAlign)
 
 nnoremap <c-g> :Grepper<cr>
 if !exists('g:grepper')
