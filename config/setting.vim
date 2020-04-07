@@ -199,7 +199,7 @@ set stal=1
 
 " Always show the status line
 set laststatus=2
-set statusline=%f%m%=%y\ %{&fenc?&fenc:&enc}\[%{&ff}\]\ %p%%\ %l:%c
+set statusline=%f%m%=%{fnamemodify(getcwd(),':~')}\ %y\ %{&fenc?&fenc:&enc}\[%{&ff}\]\ %p%%\ %l:%c
 
 if has('persistent_undo')
     set undodir=~/.vim_runtime/temp_dirs/undodir
