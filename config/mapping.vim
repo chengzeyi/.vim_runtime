@@ -102,7 +102,7 @@ if has('nvim-0.4.0')
 
     function! FloatTerm(cmd) abort
         call CreateCenteredFloatingWindow()
-        call termopen(empty(a:cmd) ? &shell : a:cmd, { 'on_exit': function('OnTermExit') })
+        call termopen(empty(a:cmd) ? &shell : a:cmd, {'on_exit': function('OnTermExit')})
     endfunction
 
     function! CreateCenteredFloatingWindow() abort
@@ -112,9 +112,9 @@ if has('nvim-0.4.0')
         let left = (&columns - width) / 2
         let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
 
-        let top = "╭" . repeat("─", width - 2) . "╮"
-        let mid = "│" . repeat(" ", width - 2) . "│"
-        let bot = "╰" . repeat("─", width - 2) . "╯"
+        let top = '╭' . repeat('─', width - 2) . '╮'
+        let mid = '│' . repeat(' ', width - 2) . '│'
+        let bot = '╰' . repeat('─', width - 2) . '╯'
         let lines = [top] + repeat([mid], height - 2) + [bot]
         let s:buf = nvim_create_buf(v:false, v:true)
         call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)
@@ -880,3 +880,10 @@ function! TrimWhiteSpace()
     silent! %s/\s\+$//
     call winrestview(l:winview)
 endfunction
+
+nnoremap <leader>sg :SynGroup<cr>
+command! -nargs=0 SynGroup call SynGroup()
+function! SynGroup()                                                            
+    let s = synID(line('.'), col('.'), 1)                                       
+    echo synIDattr(s, 'name') . ' -> ' . synIDattr(synIDtrans(s), 'name')
+endfun

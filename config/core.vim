@@ -1,5 +1,5 @@
 if get(g:, 'installed_basic', 0)
-    let s:configs = ['core', 'before', 'gui', 'setting', 'autocmd', 'mapping', 'after']
+    let s:configs = ['core', 'before', 'gui', 'setting', 'autocmd', 'mapping', 'extra', 'after']
 else
     let s:configs = ['core', 'before', 'gui', 'setting', 'autocmd', 'mapping', 'plugin', 'after']
 endif
