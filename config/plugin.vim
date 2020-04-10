@@ -77,6 +77,7 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-eunuch'
 
 " Plug 'tomtom/tcomment_vim'
 
@@ -140,12 +141,19 @@ Plug 'glts/vim-textobj-comment'
 Plug 'kana/vim-textobj-entire'
 
 Plug 'guns/xterm-color-table.vim'
-Plug 'ap/vim-css-color'
+Plug 'chrisbra/Colorizer'
+" Plug 'ap/vim-css-color'
 
 " Plug 'rhysd/devdocs.vim'
 
+Plug 'lifepillar/vim-colortemplate'
+
 Plug 'chengzeyi/hydrangea-vim'
-Plug 'rafi/awesome-vim-colorschemes'
+Plug 'chengzeyi/space-vim-theme'
+Plug 'chengzeyi/space-vim-dark'
+Plug 'rakr/vim-one'
+Plug 'lifepillar/vim-gruvbox8'
+Plug 'cormacrelf/vim-colors-github'
 
 call plug#end()
 
@@ -224,8 +232,13 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
     nnoremap K :call <SID>show_documentation()<CR>
     function! s:show_documentation() abort
         if (index(['vim', 'help'], &filetype) >= 0)
-            execute 'h '. expand('<cword>')
-        elseif CocHasProvider('hover')
+            try
+                execute 'h '. expand('<cword>')
+                return
+            catch
+            endtry
+        endif
+        if CocHasProvider('hover')
             call CocAction('doHover')
         else
             normal! K
@@ -322,6 +335,16 @@ elseif has('timers')
             else
                 LspHover
             endif
+        endfunction
+        function! s:show_documentation() abort
+            if (index(['vim', 'help'], &filetype) >= 0)
+                try
+                    execute 'h '. expand('<cword>')
+                    return
+                catch
+                endtry
+            endif
+            LspHover
         endfunction
 
         let g:lsp_diagnostics_echo_cursor = 1
@@ -859,6 +882,8 @@ nnoremap <leader>zH :FZFHelptags<cr>
 " endif
 nnoremap <leader>zg :FZFGrep<cr>
 nnoremap <leader>zG :FZFGGrep<cr>
+nnoremap <leader>zq :FZFQuickFix<cr>
+nnoremap <leader>zQ :FZFLocList<cr>
 
 nnoremap <leader>Zz :FZFFiles!<cr>
 nnoremap <leader>ZZ :FZFFiletypes!<cr>
@@ -888,6 +913,8 @@ nnoremap <leader>ZH :FZFHelptags!<cr>
 " endif
 nnoremap <leader>Zg :FZFGGrep!<cr>
 nnoremap <leader>ZG :FZFGrep!<cr>
+nnoremap <leader>Zq :FZFQuickFix!<cr>
+nnoremap <leader>ZQ :FZFLocList!<cr>
 
 " command! -bar -bang -nargs=0 FZFFiletypes
 "             \ call fzf#vim#filetypes({'left': '20%', 'options': '--reverse --margin 5%,0'}, <bang>0)
@@ -956,8 +983,8 @@ endif
 let g:grepper.prompt_mapping_tool = '<c-g>'
 
 " let g:indent_guides_enable_on_vim_startup = 1
-" let g:indent_guides_guide_size = 1
-" let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+let g:indent_guides_start_level = 2
 
 " let g:better_whitespace_ctermcolor = '239'
 " let g:better_whitespace_guicolor = '#4e4e4e'
@@ -1103,3 +1130,11 @@ endtry
 
 " nmap <leader>k :DevDocs<space>
 " nmap <leader>K :DevDocsAll<space>
+
+nmap <leader>cc <Plug>Colorizer
+xmap <leader>cc <Plug>Colorizer
+
+let g:space_vim_dark_background = 233
+
+let g:github_colors_soft = 1
+let g:github_colors_block_diffmark = 1

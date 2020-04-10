@@ -92,7 +92,7 @@ endif
 set ruler
 set cmdheight=1
 set showmode
-set noshowcmd
+set showcmd
 
 set hid
 
@@ -108,7 +108,7 @@ set hlsearch
 set incsearch
 
 if has('nvim')
-    set inccommand=split
+    set inccommand=nosplit
 endif
 
 set lazyredraw
@@ -126,6 +126,9 @@ set belloff=all
 " set t_vb=
 
 set fillchars=vert:│,fold:-
+if has('nvim-0.3.1')
+    set fillchars+=eob:\ 
+endif
 " let &showbreak = "\u21aa "
 let &showbreak = '↪ '
 set listchars=tab:→\ ,nbsp:␣,trail:·,extends:⟩,precedes:⟨
@@ -216,6 +219,10 @@ if has('patch-8.1.1882') && has('textprop')
     set completepopup=height:15,width:30,align:menu,border:off
 endif
 set pumheight=12
+" if has('nvim-0.4.0')
+"     set pumblend=10
+"     autocmd ColorScheme * ++once hi PmenuSel blend=0
+" endif
 
 " if has('patch-8.1.1714') && has('textprop')
 "     set previewpopup=height:15,width:60

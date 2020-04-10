@@ -584,10 +584,10 @@ function! Vcs(cmd) abort
     exe 'cd ' . saved
 endfunction
 
-nnoremap <leader>vg :vimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vG :vimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vl :lvimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vL :lvimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vg :noautocmd vimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vG :noautocmd vimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vl :noautocmd lvimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vL :noautocmd lvimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>ss :%s/
 nnoremap <leader>sc :%s//c<left><left>
 xnoremap <leader>ss :s/
