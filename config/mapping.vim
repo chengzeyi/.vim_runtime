@@ -60,6 +60,9 @@ if has('termguicolors')
     nnoremap <leader>og :set invtermguicolors<cr>
 endif
 nnoremap <leader>ow :set textwidth=<c-r>=&textwidth == 0 ? 79 : 0<cr><cr>
+nnoremap <leader>oc :set colorcolumn=<c-r>=empty(&colorcolumn) ? '+1' : ''<cr><cr>
+nnoremap <leader>oz :set foldclose=<c-r>=empty(&foldclose) ? 'all' : ''<cr><cr>
+nnoremap <leader>ob :set background=<c-r>=&background ==# 'dark' ? 'light' : 'dark'<cr><cr>
 
 " nnoremap <c-]> g<c-]>
 " nnoremap g<c-]> <c-]>
@@ -460,14 +463,10 @@ nnoremap [p :ptprevious<cr>
 nnoremap ]p :ptnext<cr>
 nnoremap [P :pfirst<cr>
 nnoremap ]P :plast<cr>
-nnoremap [[ m':call search('{', 'bW')<CR>
-vnoremap [[ m':<C-U>exe 'normal! gv'<Bar>call search('{', 'bW')<CR>
-nnoremap ]] m':call search('{', 'W')<CR>
-vnoremap ]] m':<C-U>exe 'normal! gv'<Bar>call search('{', 'W')<CR>
-nnoremap [] m':call search('}', 'bW')<CR>
-vnoremap [] m':<C-U>exe 'normal! gv'<Bar>call search('}', 'bW')<CR>
-nnoremap ][ m':call search('}', 'W')<CR>
-vnoremap ][ m':<C-U>exe 'normal! gv'<Bar>call search('}', 'W')<CR>
+map [[ ?{<CR>w99[{:noh<CR>
+map ][ /}<CR>b99]}:noh<CR>
+map ]] j0[[%/{<CR>:noh<CR>
+map [] k$][%?}<CR>:noh<CR>
 
 nnoremap <leader>qq :QToggle<cr>
 nnoremap <leader>ll :LToggle<cr>
@@ -704,7 +703,7 @@ function! CloseHiddenBuffers(force) abort
     endfor
 
     for num in range(1, bufnr('$') + 1)
-        if buflisted(num) && index(open_buffers, num) == -1
+        if bufexists(num) && index(open_buffers, num) == -1
             try | exec 'bdelete' . (a:force ? '! ' : ' ') . num | catch | endtry
         endif
     endfor
@@ -733,6 +732,17 @@ augroup END
 " Super useful when editing files in the same directory
 nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
+nnoremap <leader>1 1gt
+nnoremap <leader>2 2gt
+nnoremap <leader>3 3gt
+nnoremap <leader>4 4gt
+nnoremap <leader>5 5gt
+nnoremap <leader>6 6gt
+nnoremap <leader>7 7gt
+nnoremap <leader>8 8gt
+nnoremap <leader>9 9gt
+nnoremap <leader>$ :$tabnext<cr>
+
 " Switch CWD to the directory of the open buffer
 nnoremap <leader>cd :cd %:p:h<cr>
 nnoremap <expr> <leader>cD ':cd ' . GetVcsRoot() . "\<lt>cr>"
@@ -748,8 +758,7 @@ endfunction
 
 nnoremap <leader>sl :set invspell<cr>
 
-inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
-inoremap <expr> <S-TAB> pumvisible() ? "\<c-p>" : "\<c-h>"
+inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<down>"
 inoremap <expr> <up> pumvisible() ? "\<c-p>" : "\<up>"
 inoremap <expr> <c-e> pumvisible() ? "\<c-e>" : "\<End>"

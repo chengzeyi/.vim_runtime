@@ -174,6 +174,11 @@ let g:python_highlight_all = 1
 let g:vim_markdown_conceal = 1
 let g:vim_markdown_conceal_code_blocks = 1
 
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
 if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     let g:coc_config_home = $HOME . '/.vim_runtime/config'
 
@@ -185,7 +190,12 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
         autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     augroup END
 
+    inoremap <silent><expr> <TAB>
+                \ pumvisible() ? "\<C-n>" :
+                \ <SID>check_back_space() ? "\<TAB>" :
+                \ coc#refresh()
     inoremap <expr> <C-l> coc#refresh()
+
     nmap [g <Plug>(coc-diagnostic-prev)
     nmap ]g <Plug>(coc-diagnostic-next)
     nmap [e <Plug>(coc-diagnostic-prev-error)
@@ -418,7 +428,12 @@ elseif has('timers')
         au CmdwinEnter [:>] iunmap <buffer> <Tab>
     augroup END
 
+    inoremap <silent><expr> <TAB>
+                \ pumvisible() ? "\<C-n>" :
+                \ <SID>check_back_space() ? "\<TAB>" :
+                \ asyncomplete#force_refresh()
     imap <c-l> <Plug>(asyncomplete_force_refresh)
+
     function! s:sort_by_priority_preprocessor(options, matches) abort
         let l:items = []
         let l:startcols = []
@@ -999,7 +1014,7 @@ nnoremap <leader>uu :UndotreeToggle<cr>
 nnoremap <leader>uf :UndotreeFocus<cr>
 nnoremap <leader>us :UndotreeShow<cr>
 nnoremap <leader>uh :UndotreeHide<cr>
-let g:undotree_WindowLayout = 3
+let g:undotree_WindowLayout = 4
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_HelpLine = 0
 
