@@ -140,8 +140,8 @@ endif
 
 nnoremap [I [I:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."[\t"<Bar>endif<CR>
 nnoremap ]I ]I:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."]\t"<Bar>endif<CR>
-nnoremap [D [I:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."[\<lt>c-d>"<Bar>endif<CR>
-nnoremap ]D ]I:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."]\<lt>c-d>"<Bar>endif<CR>
+nnoremap [D [D:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."[\<lt>c-d>"<Bar>endif<CR>
+nnoremap ]D ]D:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."]\<lt>c-d>"<Bar>endif<CR>
 
 xnoremap if :<C-U>silent! normal! [zjV]zk<CR>
 onoremap if :normal Vif<CR>
@@ -583,10 +583,10 @@ function! Vcs(cmd) abort
     exe 'cd ' . saved
 endfunction
 
-nnoremap <leader>vg :noautocmd vimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vG :noautocmd vimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vl :noautocmd lvimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vL :noautocmd lvimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vg :vimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vG :vimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vl :lvimgrep //j % <bar> lw<left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vL :lvimgrep //j **/* <bar> lw<left><left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>ss :%s/
 nnoremap <leader>sc :%s//c<left><left>
 xnoremap <leader>ss :s/
@@ -601,12 +601,12 @@ nnoremap <leader>bc :bufdo %s//c<left><left>
 command! -nargs=0 W w !sudo tee % > /dev/null
 
 nnoremap <leader>ed :e <c-r>=fnameescape(expand("%:.:h"))<cr>/
-nnoremap <leader>eD :e <c-r>=fnameescape(getcwd())<cr>/
+
 
 if executable('xxd')
     nnoremap <leader>eb :Bin<cr>
     command! Bin call InvBinMode()
-    function! InvBinMode() abort abort
+    function! InvBinMode() abort
         set invbin
         let modified = &modified
         if &bin
@@ -614,12 +614,15 @@ if executable('xxd')
             set ft=xxd
             augroup MyBinaryMode
                 autocmd!
-                au BufWritePre * exe '%!xxd -r'
-                au BufWritePost * exe '%!xxd'
+                au BufWritePre <buffer> exe '%!xxd -r'
+                au BufWritePost <buffer> exe '%!xxd'
             augroup END
         else
             %!xxd -r
             filetype detect
+            augroup MyBinaryMode
+                autocmd!
+            augroup END
         endif
         let &modified = modified
     endfunction
@@ -721,11 +724,11 @@ nnoremap <leader>tc :tcd %:p:h<cr>
 nnoremap <expr> <leader>tC ':tcd ' . GetVcsRoot() . "\<lt>cr>"
 
 " Let 'tl' toggle between this and the last accessed tab
-let g:lasttab = 1
-nnoremap <leader>tl :exe 'tabn ' . g:lasttab<cr>
+let s:lasttab = 1
+nnoremap <leader>tl :exe 'tabn ' . s:lasttab<cr>
 augroup MyReturnToLastTab
     autocmd!
-    au TabLeave * let g:lasttab = tabpagenr()
+    au TabLeave * let s:lasttab = tabpagenr()
 augroup END
 
 " Opens a new tab with the current buffer's path

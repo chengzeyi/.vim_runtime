@@ -3,6 +3,8 @@ set encoding=utf8
 filetype plugin on
 filetype indent on
 
+set sessionoptions-=folds
+
 set notimeout
 " set timeoutlen=2000
 set ttimeout
@@ -227,7 +229,7 @@ set pumheight=12
 " if has('patch-8.1.1714') && has('textprop')
 "     set previewpopup=height:15,width:60
 " endif
-set previewheight=6
+set previewheight=10
 
 " if has('conceal')
 "     set conceallevel=2 concealcursor=nc
@@ -297,3 +299,10 @@ let g:java_highlight_all = 1
 let g:java_highlight_functions = 1
 
 let g:netrw_liststyle = 1
+
+if exists(':packadd')
+    try
+        packadd justify
+    catch
+    endtry
+endif

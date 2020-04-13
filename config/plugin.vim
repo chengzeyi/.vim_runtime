@@ -13,44 +13,42 @@ Plug 'plasticboy/vim-markdown'
 Plug 'othree/html5.vim'
 Plug 'uiiaoo/java-syntax.vim'
 
-if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
+if get(g:, 'use_coc', 1) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
-else
-    if has('timers')
-        Plug 'prabirshrestha/async.vim'
-        if has('lambda')
-            Plug 'mattn/vim-lsp-settings'
-            Plug 'prabirshrestha/vim-lsp'
-            Plug 'prabirshrestha/asyncomplete-lsp.vim'
-        endif
-
-        Plug 'prabirshrestha/asyncomplete.vim'
-        Plug 'yami-beta/asyncomplete-omni.vim'
-        Plug 'prabirshrestha/asyncomplete-buffer.vim'
-        Plug 'prabirshrestha/asyncomplete-file.vim'
-        Plug 'prabirshrestha/asyncomplete-tags.vim'
-        if executable('look')
-            Plug 'gonzoooooo/asyncomplete-look.vim'
-        endif
-
-        " Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
-        " if has('python3')
-        "     Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-        " endif
-
-        " Plug 'Shougo/neco-syntax'
-        " Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
-
-        Plug 'Shougo/neco-vim'
-        Plug 'prabirshrestha/asyncomplete-necovim.vim'
+elseif get(g:, 'use_vim_lsp', 1) && has('timers')
+    Plug 'prabirshrestha/async.vim'
+    if has('lambda')
+        Plug 'mattn/vim-lsp-settings'
+        Plug 'prabirshrestha/vim-lsp'
+        Plug 'prabirshrestha/asyncomplete-lsp.vim'
     endif
+
+    Plug 'prabirshrestha/asyncomplete.vim'
+    Plug 'yami-beta/asyncomplete-omni.vim'
+    Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    Plug 'prabirshrestha/asyncomplete-file.vim'
+    Plug 'prabirshrestha/asyncomplete-tags.vim'
+    if executable('look')
+        Plug 'gonzoooooo/asyncomplete-look.vim'
+    endif
+
+    " Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
+    " if has('python3')
+    "     Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+    " endif
+
+    " Plug 'Shougo/neco-syntax'
+    " Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
+
+    Plug 'Shougo/neco-vim'
+    Plug 'prabirshrestha/asyncomplete-necovim.vim'
 endif
 
 " Plug 'jiangmiao/auto-pairs'
 
 " Plug 'Raimondi/delimitMate'
 
-Plug 'FooSoft/vim-argwrap'
+Plug 'AndrewRadev/splitjoin.vim'
 
 Plug 'mbbill/undotree'
 
@@ -154,6 +152,7 @@ Plug 'chengzeyi/space-vim-dark'
 Plug 'rakr/vim-one'
 Plug 'lifepillar/vim-gruvbox8'
 Plug 'cormacrelf/vim-colors-github'
+Plug 'ayu-theme/ayu-vim'
 
 call plug#end()
 
@@ -179,8 +178,8 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
-    let g:coc_config_home = $HOME . '/.vim_runtime/config'
+if get(g:, 'use_coc', 1) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
+    let g:coc_config_home = expand( '~/.vim_runtime/config')
 
     augroup MyCoc
         autocmd!
@@ -269,7 +268,7 @@ if exists('g:use_coc') && (has('patch-8.0.1453') || has('nvim-0.3.1')) && execut
             execute 'CocInstall ' . ext
         endfor
     endfunction
-elseif has('timers')
+elseif get(g:, 'use_vim_lsp', 1) && has('timers')
     if has('lambda')
         nmap <leader><cr><cr> <Plug>(lsp-status)
         nmap <leader><cr>] <Plug>(lsp-preview-focus)
@@ -860,10 +859,31 @@ endif
 " let g:fzf_nvim_statusline = 0
 " let g:fzf_layout = {'window': 'bot'.float2nr(0.4 * &lines).'new'}
 " let g:fzf_layout = {'down': '40%'}
-imap <c-z><c-k> <plug>(fzf-complete-word)
-imap <c-z><c-f> <plug>(fzf-complete-path)
-imap <c-z><c-j> <plug>(fzf-complete-file-ag)
-imap <c-z><c-l> <plug>(fzf-complete-line)
+imap <c-x>w <plug>(fzf-complete-word)
+imap <c-x>p <plug>(fzf-complete-path)
+imap <c-x>f <plug>(fzf-complete-file)
+imap <c-x>F <plug>(fzf-complete-file-ag)
+imap <c-x>l <plug>(fzf-complete-buffer-line)
+imap <c-x>L <plug>(fzf-complete-line)
+inoremap <expr> <c-x>g fzf#vim#complete(fzf#wrap({
+            \ 'prefix': '^.*$',
+            \ 'source': 'grep -n --color=always -r .',
+            \ 'options': '--ansi --delimiter : --nth 3..',
+            \ 'reducer': {lines -> join(split(lines[0], ':\zs')[2:], '')}
+            \ }))
+inoremap <expr> <c-x>G fzf#vim#complete(fzf#wrap({
+            \ 'prefix': '^.*$',
+            \ 'source': 'git grep -n --color=always ^',
+            \ 'options': '--ansi --delimiter : --nth 3..',
+            \ 'reducer': {lines -> join(split(lines[0], ':\zs')[2:], '')},
+            \ 'dir': systemlist('git rev-parse --show-toplevel')[0]
+            \ }))
+inoremap <expr> <c-x>r fzf#vim#complete(fzf#wrap({
+            \ 'prefix': '^.*$',
+            \ 'source': 'rg -n ^ --color always',
+            \ 'options': '--ansi --delimiter : --nth 3..',
+            \ 'reducer': {lines -> join(split(lines[0], ':\zs')[2:], '')}
+            \ }))
 nnoremap <leader>zz :FZFFiles<cr>
 nnoremap <leader>zZ :FZFFiletypes<cr>
 nnoremap <leader>zf :FZFGFiles<cr>
@@ -1022,15 +1042,6 @@ let g:undotree_HelpLine = 0
 " nnoremap <leader>mk :Markify<cr>
 " nnoremap <leader>mc :MarkifyClear<cr>
 " let g:markify_echo_current_message = 1
-
-nnoremap <leader>aw :ArgWrap<cr>
-let g:argwrap_wrap_closing_brace = 0
-augroup MyArgWrap
-    autocmd!
-    au FileType c,cpp let b:argwrap_wrap_closing_brace = '()[]{}'
-    au FileType go let b:argwrap_tail_comma = 1
-    au FileType vim let b:argwrap_line_prefix = '\'
-augroup END
 
 let g:neoformat_basic_format_align = 1
 let g:neoformat_basic_format_retab = 1

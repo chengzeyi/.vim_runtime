@@ -4,63 +4,143 @@ augroup MyReturnToLastEditPosition
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 augroup END
 
-augroup MyQuickfixUndo
+augroup MyQuickFixEnhancement
     autocmd!
     autocmd FileType qf nnoremap <buffer> <nowait> <tab> :RemoveQFItem<cr>
     autocmd FileType qf nnoremap <buffer> <nowait> <s-tab> :UndoQFRemove<cr>
+    autocmd QuickFixCmdPost [^l]* call ShortenQuifkFixPath(0)
+    autocmd QuickFixCmdPost l* call ShortenQuifkFixPath(1)
+    autocmd FileType qf autocmd CursorMoved <buffer=abuf> call EchoQFBufName()
 augroup END
 
 command! RemoveQFItem call RemoveQFItem()
 command! UndoQFRemove call UndoQFRemove()
 
-function! RemoveQFItem() abort
+function! GetQuickFixAll() abort
     let winid = win_getid()
     if getwininfo(winid)[0]['loclist']
-        let abbr = 'loc' | let ch = 'l'
-        let all = getloclist(win_getid())
+        return getloclist(win_getid(), {'all': 1})
     elseif getwininfo(winid)[0]['quickfix']
-        let abbr = 'qf' | let ch = 'c'
-        let all = getqflist()
+        return getqflist({'all': 1})
     else
+        return {}
+    endif
+endfunction
+
+function! SetQuickFixAll(all, au) abort
+    let winid = win_getid()
+    if getwininfo(winid)[0]['loclist']
+        if a:au
+            call setloclist(winid, [], 'r', a:all)
+        else
+            noautocmd call setloclist(winid, [], 'r', a:all)
+        endif
+    elseif getwininfo(winid)[0]['quickfix']
+        if a:au
+            call setqflist([], 'r', a:all)
+        else
+            noautocmd call setqflist([], 'r', a:all)
+        endif
+    endif
+endfunction
+
+function! RemoveQFItem() abort
+    let all = GetQuickFixAll()
+    if empty(all)
         return
     endif
     let curidx = line('.') - 1
-    if curidx < 0 || curidx >= len(all) | return | endif
-    let item = remove(all, curidx)
+    if curidx < 0 || curidx >= len(all.items) | return | endif
+    let item = remove(all.items, curidx)
     if !exists('b:undostack') | let b:undostack = [] | endif
     call add(b:undostack, [item, curidx])
-    if getwininfo(winid)[0]['loclist']
-        call setloclist(winid, all, 'r')
-    else
-        call setqflist(all, 'r')
-    endif
+    call SetQuickFixAll(all, 0)
     execute curidx + 1
 endfunction
 
 function! UndoQFRemove() abort
-    if !exists('b:undostack') || len(b:undostack) == 0 | return | endif
-    let [item, curidx] = remove(b:undostack, -1)
-    let winid = win_getid()
-    if getwininfo(winid)[0]['loclist']
-        let abbr = 'loc' | let ch = 'l'
-        let all = getloclist(win_getid())
-    elseif getwininfo(winid)[0]['quickfix']
-        let abbr = 'qf' | let ch = 'c'
-        let all = getqflist()
-    else
+    let all = GetQuickFixAll()
+    if empty(all)
         return
     endif
-    if curidx > len(all) | let curidx = 0 | endif
-    call insert(all, item, curidx)
-    if getwininfo(winid)[0]['loclist']
-        call setloclist(winid, all, 'r')
-    else
-        call setqflist(all, 'r')
-    endif
+    if !exists('b:undostack') || len(b:undostack) == 0 | return | endif
+    let [item, curidx] = remove(b:undostack, -1)
+    if curidx > len(all.items) | let curidx = 0 | endif
+    call insert(all.items, item, curidx)
+    call SetQuickFixAll(all, 0)
     execute curidx + 1
 endfunction
 
-augroup MyQuickfixWindow
+function! ShortenQuifkFixPath(loc) abort
+    if a:loc
+        let all = getloclist(0, {'all': 1})
+    else
+        let all = getqflist({'all': 1})
+    endif
+    if empty(all)
+        return
+    endif
+    for item in all.items
+        let item.module = pathshorten(bufname(item.bufnr))
+    endfor
+    if a:loc
+        call setloclist(0, [], 'r', all)
+    else
+        call setqflist([], 'r', all)
+    endif
+endfunction
+
+command! EchoQFBufName call EchoQFBufName()
+function! EchoQFBufName() abort
+    let all = GetQuickFixAll()
+    if empty(all)
+        return
+    endif
+    let curidx = line('.') - 1
+    if curidx < 0 || curidx >= len(all.items) | return | endif
+    let item = all.items[curidx]
+    let buf_name = bufname(item.bufnr)
+    echo buf_name
+endfunction
+
+if has('nvim-0.4.0')
+    augroup MyQuickFixPreview
+        autocmd!
+        au FileType qf nnoremap <buffer> p :PreviewQuickFixEntry<cr>
+    augroup END
+    command! PreviewQuickFixEntry call PreviewQuickFixEntry()
+
+    function! PreviewQuickFixEntry() abort
+        let all = GetQuickFixAll()
+        if empty(all)
+            return
+        endif
+        let curidx = line('.') - 1
+        if curidx < 0 || curidx >= len(all.items) | return | endif
+        let item = all.items[curidx]
+        let bufnr = item.bufnr
+        let lnum = item.lnum
+        let col = item.col
+        let winid = nvim_open_win(
+                    \ bufnr,
+                    \ 0, {
+                        \ 'relative': 'editor',
+                        \ 'width': float2nr(&columns * 0.8),
+                        \ 'height': &previewheight,
+                        \ 'row': 0,
+                        \ 'col': (&columns - float2nr(&columns * 0.8)) / 2,
+                        \ 'style': 'minimal'})
+        call nvim_win_set_cursor(winid, [lnum, col])
+        call nvim_win_set_option(winid, 'cursorline', v:true)
+        let old_winid = win_getid()
+        call nvim_set_current_win(winid)
+        normal! zz
+        call nvim_set_current_win(old_winid)
+        execute 'au CursorMoved * ++once call nvim_win_close(' . winid . ', 0)'
+    endfunction
+endif
+
+augroup MyQuickFixWindow
     autocmd!
     au FileType qf call AdjustWindowHeight(1, 10)
     au Filetype qf set nobuflisted
