@@ -614,8 +614,8 @@ if executable('xxd')
             set ft=xxd
             augroup MyBinaryMode
                 autocmd!
-                au BufWritePre <buffer> exe '%!xxd -r'
-                au BufWritePost <buffer> exe '%!xxd'
+                au BufWritePre <buffer> silent exe '%!xxd -r'
+                au BufWritePost <buffer> silent exe '%!xxd'
             augroup END
         else
             %!xxd -r

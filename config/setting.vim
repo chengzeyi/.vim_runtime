@@ -96,6 +96,8 @@ set cmdheight=1
 set showmode
 set showcmd
 
+set shortmess=at
+
 set hid
 
 set backspace=eol,start,indent
