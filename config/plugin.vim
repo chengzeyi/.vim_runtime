@@ -153,6 +153,7 @@ Plug 'rakr/vim-one'
 Plug 'lifepillar/vim-gruvbox8'
 Plug 'cormacrelf/vim-colors-github'
 Plug 'ayu-theme/ayu-vim'
+Plug 'logico/typewriter-vim'
 
 call plug#end()
 
@@ -213,6 +214,7 @@ if get(g:, 'use_coc', 1) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && exec
     xmap <leader><cr>A <Plug>(coc-codeaction-selected)
     nmap <leader><cr>A <Plug>(coc-codeaction-selected)
     nmap <leader><cr>a <Plug>(coc-codeaction)
+    nmap <leader><cr>l <Plug>(coc-codelens-action)
     xmap im <Plug>(coc-funcobj-i)
     xmap am <Plug>(coc-funcobj-a)
     omap im <Plug>(coc-funcobj-i)
@@ -575,6 +577,7 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
         autocmd!
         autocmd FileType denite call s:denite_my_settings()
         autocmd FileType denite-filter call s:denite_filter_my_settings()
+        autocmd User denite-preview setlocal nonumber norelativenumber
         autocmd FileType denite-filter let b:coc_suggest_disable = 1
         autocmd FileType denite-filter let g:asyncomplete_auto_popup = 0
         autocmd FileType denite-filter autocmd BufEnter <buffer> let g:asyncomplete_auto_popup = 0
@@ -671,7 +674,10 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
                     \ 'max_dynamic_update_candidates': 50000,
                     \ })
         if has('nvim-0.4.0')
-            call denite#custom#option('_', {'split': 'floating'})
+            call denite#custom#option('_', {
+                        \ 'split': 'floating',
+                        \ 'vertical_preview': 1,
+                        \ 'floating_preview': 1})
         endif
         call denite#custom#source('grep',
                     \ 'converters', ['converter/abbr_word'])
@@ -715,8 +721,8 @@ let g:neosnippet#disable_runtime_snippets = {'_': 1}
 let g:NERDTreeShowHidden = 1
 " let g:NERDTreeHijackNetrw = 0
 let g:NERDTreeMinimalUI = 1
-let g:NERDTreeWinPos = 'left'
-let g:NERDTreeWinSize = 30
+" let g:NERDTreeWinPos = 'left'
+" let g:NERDTreeWinSize = 30
 " let NERDTreeDirArrowExpandable=">"
 " let NERDTreeDirArrowCollapsible="v"
 nnoremap <leader>nn :NERDTreeToggle<cr>
@@ -758,8 +764,9 @@ nnoremap <leader>pf :CtrlPFunky<cr>
 " narrow the list down with a word under cursor
 nnoremap <leader>pF :execute 'CtrlPFunky ' . expand('<cword>')<cr>
 let g:ctrlp_funky_syntax_highlight = 1
-let g:ctrlp_funky_matchtype = 'path'
-let g:ctrlp_funky_multi_buffers = 1
+let g:ctrlp_funky_nolim = 1
+" let g:ctrlp_funky_matchtype = 'path'
+" let g:ctrlp_funky_multi_buffers = 1
 
 " hi GitGutterAdd ctermfg=44 ctermbg=236 cterm=bold guifg=#169ec4 guibg=#2a303b gui=bold
 " hi GitGutterChange ctermfg=162 ctermbg=236 cterm=bold guifg=#e242ac guibg=#2a303b gui=bold

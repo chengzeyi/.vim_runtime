@@ -1,10 +1,17 @@
 {
   "python.jediEnabled": false,
+  "java.completion.guessMethodArguments": true,
+  "java.signatureHelp.enabled": true,
+  "java.referencesCodeLens.enabled": true,
+  "java.implementationsCodeLens.enabled": true,
   "marketplace.npmsio": true,
   "suggest.enablePreview": true,
   // "suggest.labelMaxLength": 40,
   // "suggest.detailMaxLength": 40,
   "suggest.removeDuplicateItems": true,
   "suggest.detailField": "preview",
+  "diagnostic.checkCurrentLine": true,
+  "diagnostic.refreshOnInsertMode": true,
+  "codeLens.enable": true,
   "coc.preferences.extensionUpdateCheck": "never"
 }
