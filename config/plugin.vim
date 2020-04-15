@@ -159,7 +159,7 @@ call plug#end()
 
 augroup MyFZFVimTex
     autocmd!
-    au FileType tex nnoremap <leader>zx :call vimtex#fzf#run()<cr>
+    au FileType tex nnoremap <buffer> <leader>zx :call vimtex#fzf#run()<cr>
 augroup END
 if !exists('g:vimtex_toc_config')
     let g:vimtex_toc_config = {}

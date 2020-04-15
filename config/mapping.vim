@@ -746,8 +746,12 @@ nnoremap <leader>tc :tcd %:p:h<cr>
 nnoremap <expr> <leader>tC ':tcd ' . GetVcsRoot() . "\<lt>cr>"
 
 " Let 'tl' toggle between this and the last accessed tab
-let s:lasttab = 1
-nnoremap <leader>tl :exe 'tabn ' . s:lasttab<cr>
+nnoremap <leader>tl :TabLast<cr>
+command! TabLast call TabLast()
+function! TabLast() abort
+    let lasttab = get(s:, 'lasttab', 1)
+    exe 'tabn ' . lasttab
+endfunction
 augroup MyReturnToLastTab
     autocmd!
     au TabLeave * let s:lasttab = tabpagenr()
