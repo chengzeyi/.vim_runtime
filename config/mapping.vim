@@ -921,7 +921,7 @@ endfunction
 
 nnoremap <leader>sg :SynGroup<cr>
 command! -nargs=0 SynGroup call SynGroup()
-function! SynGroup()                                                            
-    let s = synID(line('.'), col('.'), 1)                                       
+function! SynGroup()
+    let s = synID(line('.'), col('.'), 1)
     echo synIDattr(s, 'name') . ' -> ' . synIDattr(synIDtrans(s), 'name')
 endfun
