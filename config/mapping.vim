@@ -99,36 +99,58 @@ if exists(':terminal')
 endif
 
 if has('nvim-0.4.0')
-    nnoremap <leader>if :FloatTerm<cr>
-    nnoremap <leader>iF :FloatTerm<space>
-    command! -nargs=* -complete=shellcmd FloatTerm call FloatTerm(<q-args>)
+    nnoremap <F12> :ToggleFloatTerm<cr>
+    tnoremap <F12> <c-\><c-n>:ToggleFloatTerm<cr>
+    command! -nargs=* -complete=shellcmd ToggleFloatTerm call ToggleFloatTerm(<q-args>)
 
-    function! FloatTerm(cmd) abort
-        call CreateCenteredFloatingWindow()
-        call termopen(empty(a:cmd) ? &shell : a:cmd, {'on_exit': function('OnTermExit')})
+    function! ToggleFloatBoarder(opts) abort
+        if exists('s:border_buf') && bufexists(s:border_buf)
+            exe 'bwipeout ' . s:border_buf
+            return 0
+        endif
+        let width = a:opts.width
+        let height = a:opts.height
+        let top = '╭' . repeat('─', width - 2) . '╮'
+        let mid = '│' . repeat(' ', width - 2) . '│'
+        let bot = '╰' . repeat('─', width - 2) . '╯'
+        let lines = [top] + repeat([mid], height - 2) + [bot]
+        let s:border_buf = nvim_create_buf(v:false, v:true)
+        call nvim_buf_set_lines(s:border_buf, 0, -1, v:true, lines)
+        call nvim_open_win(s:border_buf, v:true, a:opts)
+        set winhl=Normal:Floating
+        return s:border_buf
     endfunction
 
-    function! CreateCenteredFloatingWindow() abort
+    function! ToggleFloatTerm(cmd) abort
         let width = float2nr(&columns * 0.8)
         let height = float2nr(&lines * 0.8)
         let top = ((&lines - height) / 2) - 1
         let left = (&columns - width) / 2
         let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
-
-        let top = '╭' . repeat('─', width - 2) . '╮'
-        let mid = '│' . repeat(' ', width - 2) . '│'
-        let bot = '╰' . repeat('─', width - 2) . '╯'
-        let lines = [top] + repeat([mid], height - 2) + [bot]
-        let s:buf = nvim_create_buf(v:false, v:true)
-        call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)
-        call nvim_open_win(s:buf, v:true, opts)
-        set winhl=Normal:Floating
+        let border_buf = ToggleFloatBoarder(opts)
         let opts.row += 1
         let opts.height -= 2
         let opts.col += 2
         let opts.width -= 4
-        call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
-        autocmd BufWipeout <buffer> exe 'bwipeout '.s:buf
+        if !exists('s:term_buf') || !bufexists(s:term_buf)
+            let s:term_buf = nvim_create_buf(v:false, v:false)
+            let need_termopen = 1
+        else
+            let need_termopen = 0
+        endif
+        if border_buf
+            let s:term_win = nvim_open_win(s:term_buf, v:true, opts)
+            augroup MyTermBuf
+                autocmd!
+                exe 'au BufWipeout <buffer> if bufexists(' . border_buf . ') | bwipeout ' . border_buf . ' | endif'
+            augroup END
+            if need_termopen
+                call termopen(empty(a:cmd) ? &shell : a:cmd, {'on_exit': function('OnTermExit')})
+            endif
+            startinsert
+        elseif nvim_win_is_valid(s:term_win)
+            call nvim_win_close(s:term_win, v:false)
+        endif
     endfunction
 
     function! OnTermExit(job_id, code, event) abort dict

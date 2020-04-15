@@ -123,7 +123,7 @@ Plug 'chengzeyi/fzf-preview.vim'
 
 Plug 'nathanaelkane/vim-indent-guides'
 
-if exists(':terminal') && (has('patch-8.0.1593') || has('nvim'))
+if (exists(':terminal') && (has('patch-8.0.1593') || has('nvim'))) && !has('nvim-0.4.0')
     Plug 'Lenovsky/nuake'
 endif
 
@@ -207,13 +207,16 @@ if get(g:, 'use_coc', 1) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && exec
     nmap <expr> gr CocHasProvider('reference') ? '<Plug>(coc-references)' : 'gr'
     nmap <leader><cr>r <Plug>(coc-rename)
     nmap <leader><cr>R <Plug>(coc-refactor)
-    nmap <leader><cr>q <Plug>(coc-fix-current)
+    nmap <leader><cr>q :CocFix<cr>
+    xmap <leader><cr>q :CocFix<cr>
+    nmap <leader><cr>Q <Plug>(coc-fix-current)
     xmap <leader><cr>F <Plug>(coc-format-selected)
     nmap <leader><cr>F <Plug>(coc-format-selected)
     nmap <leader><cr>f <Plug>(coc-format)
     xmap <leader><cr>A <Plug>(coc-codeaction-selected)
     nmap <leader><cr>A <Plug>(coc-codeaction-selected)
-    nmap <leader><cr>a <Plug>(coc-codeaction)
+    nmap <leader><cr>a :CocAction<cr>
+    xmap <leader><cr>a :CocAction<cr>
     nmap <leader><cr>l <Plug>(coc-codelens-action)
     xmap im <Plug>(coc-funcobj-i)
     xmap am <Plug>(coc-funcobj-a)
@@ -226,17 +229,17 @@ if get(g:, 'use_coc', 1) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && exec
     command! -nargs=0 CocFormat call CocAction('format')
     command! -nargs=? CocFold call CocAction('fold', <f-args>)
     command! -nargs=0 CocOrganize call CocAction('runCommand', 'editor.action.organizeImport')
-    nnoremap <leader><cr><cr> :<C-u>CocList<cr>
-    nnoremap <leader><cr>p :<C-u>CocListResume<cr>
-    nnoremap <leader><cr>d :<C-u>CocList diagnostics<cr>
+    nnoremap <leader><cr><cr> :CocList<cr>
+    nnoremap <leader><cr>p :CocListResume<cr>
+    nnoremap <leader><cr>d :CocList diagnostics<cr>
     nmap <leader><cr>D <Plug>(coc-diagnostic-info)
-    nnoremap <leader><cr>e :<C-u>CocList extensions<cr>
-    nnoremap <leader><cr>c :<C-u>CocList commands<cr>
-    nnoremap <leader><cr>o :<C-u>CocList outline<cr>
-    nnoremap <leader><cr>s :<C-u>CocList -I symbols<cr>
-    nnoremap ]c :<C-u>CocNext<cr>
-    nnoremap [c :<C-u>CocPrev<cr>
-    nnoremap <leader><cr>C :<C-u>CocConfig<cr>
+    nnoremap <leader><cr>e :CocList extensions<cr>
+    nnoremap <leader><cr>c :CocList commands<cr>
+    nnoremap <leader><cr>o :CocList outline<cr>
+    nnoremap <leader><cr>s :CocList -I symbols<cr>
+    nnoremap ]c :CocNext<cr>
+    nnoremap [c :CocPrev<cr>
+    nnoremap <leader><cr>C :CocConfig<cr>
     nnoremap <expr><C-f> coc#util#has_float() ? coc#util#float_scroll(1) : "\<C-f>"
     nnoremap <expr><C-b> coc#util#has_float() ? coc#util#float_scroll(0) : "\<C-b>"
 
@@ -1070,7 +1073,7 @@ let g:startify_custom_header = [
             \ ]
 nnoremap <leader>st :Startify<cr>
 
-if exists(':terminal')
+if (exists(':terminal') && (has('patch-8.0.1593') || has('nvim'))) && !has('nvim-0.4.0')
     nnoremap <F12> :Nuake<cr>
     if has('nvim')
         tnoremap <F12> <c-\><c-n>:Nuake<cr>
