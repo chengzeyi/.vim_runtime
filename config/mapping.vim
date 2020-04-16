@@ -613,17 +613,18 @@ nnoremap <leader>ss :%s/
 nnoremap <leader>sc :%s//c<left><left>
 xnoremap <leader>ss :s/
 xnoremap <leader>sc :s//c<left><left>
-nnoremap <leader>qs :cdo s/
-nnoremap <leader>qc :cdo s//c<left><left>
-nnoremap <leader>ls :ldo s/
-nnoremap <leader>lc :ldo s//c<left><left>
+nnoremap <leader>qd :cdo<space>
+xnoremap <leader>qd :cdo<space>
+nnoremap <leader>ld :ldo<space>
+xnoremap <leader>ld :ldo<space>
 nnoremap <leader>bs :bufdo %s/
 nnoremap <leader>bc :bufdo %s//c<left><left>
 
-command! -nargs=0 W w !sudo tee % > /dev/null
+if !has('nvim') 
+    command! -nargs=0 W w !sudo tee % > /dev/null
+endif
 
 nnoremap <leader>ed :e <c-r>=fnameescape(expand("%:.:h"))<cr>/
-
 
 if executable('xxd')
     nnoremap <leader>eb :Bin<cr>

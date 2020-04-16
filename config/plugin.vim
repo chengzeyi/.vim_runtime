@@ -190,7 +190,7 @@ if get(g:, 'use_coc', 1) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && exec
         autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     augroup END
 
-    inoremap <silent><expr> <TAB>
+    inoremap <expr> <TAB>
                 \ pumvisible() ? "\<C-n>" :
                 \ <SID>check_back_space() ? "\<TAB>" :
                 \ coc#refresh()
@@ -319,7 +319,7 @@ elseif get(g:, 'use_vim_lsp', 1) && has('timers')
             autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
         augroup END
         function! s:on_lsp_buffer_enabled() abort
-            setlocal omnifunc=
+            " setlocal omnifunc=
 
             nmap <buffer> gL <Plug>(lsp-peek-declaration)
             nmap <buffer> gl <Plug>(lsp-declaration)
@@ -343,13 +343,6 @@ elseif get(g:, 'use_vim_lsp', 1) && has('timers')
             nnoremap <buffer> K :call <SID>show_documentation()<CR>
         endfunction
 
-        function! s:show_documentation() abort
-            if (index(['vim', 'help'], &filetype) >= 0)
-                execute 'h '. expand('<cword>')
-            else
-                LspHover
-            endif
-        endfunction
         function! s:show_documentation() abort
             if (index(['vim', 'help'], &filetype) >= 0)
                 try
@@ -432,7 +425,7 @@ elseif get(g:, 'use_vim_lsp', 1) && has('timers')
         au CmdwinEnter [:>] iunmap <buffer> <Tab>
     augroup END
 
-    inoremap <silent><expr> <TAB>
+    inoremap <expr> <TAB>
                 \ pumvisible() ? "\<C-n>" :
                 \ <SID>check_back_space() ? "\<TAB>" :
                 \ asyncomplete#force_refresh()
@@ -483,13 +476,13 @@ elseif get(g:, 'use_vim_lsp', 1) && has('timers')
     let g:asyncomplete_triggers.markdown = ['<', '</']
 
     try
-        call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-                    \ 'name': 'omni',
-                    \ 'whitelist': ['*'],
-                    \ 'blacklist': ['c', 'cpp', 'python'],
-                    \ 'priority' : 20,
-                    \ 'completor': function('asyncomplete#sources#omni#completor')
-                    \  }))
+        " call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+        "             \ 'name': 'omni',
+        "             \ 'whitelist': ['*'],
+        "             \ 'blacklist': ['c', 'cpp', 'python'],
+        "             \ 'priority' : 20,
+        "             \ 'completor': function('asyncomplete#sources#omni#completor')
+        "             \  }))
         call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
                     \ 'name': 'buffer',
                     \ 'whitelist': ['*'],
