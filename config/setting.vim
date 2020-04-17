@@ -69,15 +69,14 @@ set re=1
 
 set scrolloff=1
 
-let $LANG='en'
-set langmenu=en
-
+" let $LANG='en'
 " set spelllang=en_gb
 
 set wildmenu
 set wildmode=longest,full
 set wildignorecase
 if has('menu')
+    " set langmenu=en
     source $VIMRUNTIME/delmenu.vim
     source $VIMRUNTIME/menu.vim
     set wcm=<F11>
@@ -193,6 +192,7 @@ set indentkeys+=*<Return>
 set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
+set sidescroll=5
 set lbr
 
 if has('patch-7.4.338')
@@ -206,7 +206,23 @@ set stal=1
 
 " Always show the status line
 set laststatus=2
-set statusline=%f%m%=%{fnamemodify(getcwd(),':~')}\ %y\ %{&fenc?&fenc:&enc}\[%{&ff}\]\ %p%%\ %l:%c
+set statusline=%f%m\ %<%{StatuslineExtra('left')}%=%{StatuslineExtra('right')}\ %{fnamemodify(getcwd(),':~')}\ %y\ %{&fenc?&fenc:&enc}\[%{&ff}\]\ %p%%\ %l:%c
+
+function! StatuslineExtra(dir) abort
+    let statusline_extra = get(g:, 'statusline_extra_' . a:dir, [])
+    if empty(statusline_extra)
+        return ''
+    endif
+    try
+        let status = call(statusline_extra[0], statusline_extra[1])
+    catch
+        return ''
+    endtry
+    if empty(status)
+        return ''
+    endif
+    return '[' . status . ']'
+endfunction
 
 if has('persistent_undo')
     set undodir=~/.vim_runtime/temp_dirs/undodir
@@ -297,8 +313,8 @@ let g:tex_flavor = 'latex'
 
 " let g:vim_json_conceal = 0
 
-let g:java_highlight_all = 1
-let g:java_highlight_functions = 1
+let java_highlight_all = 1
+let java_highlight_functions = 'style'
 
 let g:netrw_liststyle = 1
 

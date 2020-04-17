@@ -98,66 +98,100 @@ if exists(':terminal')
     endif
 endif
 
-if has('nvim-0.4.0')
+if has('nvim-0.4.0') || has('patch-8.2.191')
     nnoremap <F12> :ToggleFloatTerm<cr>
-    tnoremap <F12> <c-\><c-n>:ToggleFloatTerm<cr>
+    if has('nvim')
+        tnoremap <F12> <c-\><c-n>:ToggleFloatTerm<cr>
+    else
+        tnoremap <F12> <c-w>:ToggleFloatTerm<cr>
+    endif
     command! -nargs=* -complete=shellcmd ToggleFloatTerm call ToggleFloatTerm(<q-args>)
 
-    function! ToggleFloatBoarder(opts) abort
-        if exists('s:border_buf') && bufexists(s:border_buf)
-            exe 'bwipeout ' . s:border_buf
-            return 0
-        endif
-        let width = a:opts.width
-        let height = a:opts.height
-        let top = '╭' . repeat('─', width - 2) . '╮'
-        let mid = '│' . repeat(' ', width - 2) . '│'
-        let bot = '╰' . repeat('─', width - 2) . '╯'
-        let lines = [top] + repeat([mid], height - 2) + [bot]
-        let s:border_buf = nvim_create_buf(v:false, v:true)
-        call nvim_buf_set_lines(s:border_buf, 0, -1, v:true, lines)
-        call nvim_open_win(s:border_buf, v:true, a:opts)
-        set winhl=Normal:Floating
-        return s:border_buf
-    endfunction
-
-    function! ToggleFloatTerm(cmd) abort
-        let width = float2nr(&columns * 0.8)
-        let height = float2nr(&lines * 0.8)
-        let top = ((&lines - height) / 2) - 1
-        let left = (&columns - width) / 2
-        let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
-        let border_buf = ToggleFloatBoarder(opts)
-        let opts.row += 1
-        let opts.height -= 2
-        let opts.col += 2
-        let opts.width -= 4
-        if !exists('s:term_buf') || !bufexists(s:term_buf)
-            let s:term_buf = nvim_create_buf(v:false, v:false)
-            let need_termopen = 1
-        else
-            let need_termopen = 0
-        endif
-        if border_buf
-            let s:term_win = nvim_open_win(s:term_buf, v:true, opts)
-            augroup MyTermBuf
-                autocmd!
-                exe 'au BufWipeout <buffer> if bufexists(' . border_buf . ') | bwipeout ' . border_buf . ' | endif'
-            augroup END
-            if need_termopen
-                call termopen(empty(a:cmd) ? &shell : a:cmd, {'on_exit': function('OnTermExit')})
+    if has('nvim')
+        function! ToggleFloatBoarder(opts) abort
+            if exists('s:border_buf') && bufexists(s:border_buf)
+                exe 'bwipeout ' . s:border_buf
+                return 0
             endif
-            startinsert
-        elseif nvim_win_is_valid(s:term_win)
-            call nvim_win_close(s:term_win, v:false)
-        endif
-    endfunction
+            let width = a:opts.width
+            let height = a:opts.height
+            let top = '╭' . repeat('─', width - 2) . '╮'
+            let mid = '│' . repeat(' ', width - 2) . '│'
+            let bot = '╰' . repeat('─', width - 2) . '╯'
+            let lines = [top] + repeat([mid], height - 2) + [bot]
+            let s:border_buf = nvim_create_buf(v:false, v:true)
+            call nvim_buf_set_lines(s:border_buf, 0, -1, v:true, lines)
+            call nvim_open_win(s:border_buf, v:true, a:opts)
+            set winhl=Normal:Floating
+            return s:border_buf
+        endfunction
 
-    function! OnTermExit(job_id, code, event) abort dict
-        if a:code == 0
-            bwipeout!
-        endif
-    endfunction
+        function! ToggleFloatTerm(cmd) abort
+            let width = float2nr(&columns * 0.8)
+            let height = float2nr(&lines * 0.8)
+            let top = ((&lines - height) / 2) - 1
+            let left = (&columns - width) / 2
+            let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
+            let border_buf = ToggleFloatBoarder(opts)
+            let opts.row += 1
+            let opts.height -= 2
+            let opts.col += 2
+            let opts.width -= 4
+            if !exists('s:term_buf') || !bufexists(s:term_buf)
+                let s:term_buf = nvim_create_buf(v:false, v:false)
+                let need_termopen = 1
+            else
+                let need_termopen = 0
+            endif
+            if border_buf
+                let s:term_win = nvim_open_win(s:term_buf, v:true, opts)
+                augroup MyTermBuf
+                    autocmd!
+                    exe 'au BufWipeout <buffer> if bufexists(' . border_buf . ') | bwipeout ' . border_buf . ' | endif'
+                    exe 'au BufWipeout <buffer> if win_id2tabwin(' . s:term_win . ') != [0, 0] | call nvim_win_close(' . s:term_win . ', v:false) | endif'
+                augroup END
+                if need_termopen
+                    call termopen(empty(a:cmd) ? &shell : a:cmd, {'on_exit': function('OnTermExit')})
+                endif
+                startinsert
+            elseif nvim_win_is_valid(s:term_win)
+                call nvim_win_close(s:term_win, v:false)
+            endif
+        endfunction
+
+        function! OnTermExit(job_id, code, event) abort dict
+            if a:code == 0
+                bwipeout!
+            endif
+        endfunction
+    else
+        function! ToggleFloatTerm(cmd) abort
+            if !exists('s:term_buf') || !bufexists(s:term_buf)
+                let s:term_buf = term_start(empty(a:cmd) ? &shell : a:cmd, {'hidden': 1, 'term_finish': 'close'})
+                " exe 'autocmd BufWipeout <buffer=' . s:term_buf . '> ++once call term_sendkeys(' . s:term_buf . ', "exit\<cr>")'
+            endif
+            if !exists('s:term_win') || empty(popup_getoptions(s:term_win))
+                let width = float2nr(&columns * 0.8)
+                let height = float2nr(&lines * 0.8)
+                let line = ((&lines - height) / 2) - 1
+                let col = (&columns - width) / 2
+                let s:term_win = popup_create(s:term_buf, {
+                            \ 'line': line,
+                            \ 'col': col,
+                            \ 'maxwidth': width,
+                            \ 'minwidth': width,
+                            \ 'maxheight': height,
+                            \ 'minheight': height,
+                            \ 'zindex': 50,
+                            \ 'border': [1],
+                            \ 'borderhighlight': ['Floating'],
+                            \ 'borderchars': ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
+                            \ })
+            else 
+                call popup_close(s:term_win)
+            endif
+        endfunction
+    endif
 endif
 
 nnoremap [I [I:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."[\t"<Bar>endif<CR>

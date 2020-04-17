@@ -11,6 +11,7 @@ augroup MyQuickFixEnhancement
     autocmd QuickFixCmdPost [^l]* call ShortenQuifkFixPath(0)
     autocmd QuickFixCmdPost l* call ShortenQuifkFixPath(1)
     autocmd FileType qf autocmd CursorMoved <buffer=abuf> call EchoQFBufName()
+    autocmd FileType qf setl nowrap nonumber norelativenumber foldcolumn=0
 augroup END
 
 command! RemoveQFItem call RemoveQFItem()
@@ -192,6 +193,10 @@ augroup MyFileType
     " autocmd FileType cpp compiler gcc
     " autocmd FileType go compiler go
     autocmd FileType go set noexpandtab
+    autocmd Filetype *
+                \ if empty(&omnifunc) |
+                \     setlocal omnifunc=syntaxcomplete#Complete |
+                \ endif
 augroup END
 
 augroup MyFileTypeMapping

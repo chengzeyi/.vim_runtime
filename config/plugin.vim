@@ -14,7 +14,7 @@ Plug 'othree/html5.vim'
 Plug 'uiiaoo/java-syntax.vim'
 
 if get(g:, 'use_coc', 1) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'neoclide/coc.nvim', {'branch': 'release', 'tag': '*'}
 elseif get(g:, 'use_vim_lsp', 1) && has('timers')
     Plug 'prabirshrestha/async.vim'
     if has('lambda')
@@ -24,7 +24,7 @@ elseif get(g:, 'use_vim_lsp', 1) && has('timers')
     endif
 
     Plug 'prabirshrestha/asyncomplete.vim'
-    Plug 'yami-beta/asyncomplete-omni.vim'
+    " Plug 'yami-beta/asyncomplete-omni.vim'
     Plug 'prabirshrestha/asyncomplete-buffer.vim'
     Plug 'prabirshrestha/asyncomplete-file.vim'
     Plug 'prabirshrestha/asyncomplete-tags.vim'
@@ -123,7 +123,7 @@ Plug 'chengzeyi/fzf-preview.vim'
 
 Plug 'nathanaelkane/vim-indent-guides'
 
-if (exists(':terminal') && (has('patch-8.0.1593') || has('nvim'))) && !has('nvim-0.4.0')
+if (exists(':terminal') && (has('patch-8.0.1593') || has('nvim'))) && !has('nvim-0.4.0') && !has('patch-8.2.191')
     Plug 'Lenovsky/nuake'
 endif
 
@@ -181,6 +181,8 @@ endfunction
 
 if get(g:, 'use_coc', 1) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     let g:coc_config_home = expand( '~/.vim_runtime/config')
+
+    let g:statusline_extra_left = ['coc#status', []]
 
     augroup MyCoc
         autocmd!
@@ -667,7 +669,7 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
                     \ 'auto_resume': 1,
                     \ 'statusline': 0,
                     \ 'smartcase': 1,
-                    \ 'max_dynamic_update_candidates': 50000,
+                    \ 'max_dynamic_update_candidates': 50000
                     \ })
         if has('nvim-0.4.0')
             call denite#custom#option('_', {
@@ -817,6 +819,7 @@ nnoremap <leader>gR :Gremove<cr>
 nnoremap <leader>ge :Gedit<cr>
 nnoremap <leader>gw :Gwrite<cr>
 
+let g:statusline_extra_right = ['tagbar#currenttag', ['%s', '']]
 let g:tagbar_width = 30
 let g:tagbar_compact = 1
 nnoremap <leader>tt :TagbarToggle<cr>
@@ -855,7 +858,7 @@ let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 let g:fzf_tags_command = 'ctags -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q'
 let g:fzf_prefer_tmux = 1
 let g:fzf_preview_window = 'up'
-if has('nvim-0.4.0') || has('patch-0.2.191')
+if has('nvim-0.4.0') || has('patch-8.2.191')
     let g:fzf_layout = {'window': {'width': 0.8, 'height': 0.8}}
 endif
 " let g:fzf_statusline = 0
@@ -1066,7 +1069,7 @@ let g:startify_custom_header = [
             \ ]
 nnoremap <leader>st :Startify<cr>
 
-if (exists(':terminal') && (has('patch-8.0.1593') || has('nvim'))) && !has('nvim-0.4.0')
+if (exists(':terminal') && (has('patch-8.0.1593') || has('nvim'))) && !has('nvim-0.4.0') && !has('patch-8.2.191')
     nnoremap <F12> :Nuake<cr>
     if has('nvim')
         tnoremap <F12> <c-\><c-n>:Nuake<cr>
@@ -1164,6 +1167,8 @@ nmap <leader>cc <Plug>Colorizer
 xmap <leader>cc <Plug>Colorizer
 
 let g:space_vim_dark_background = 233
+
+let g:space_vim_italic = 1
 
 let g:github_colors_soft = 1
 let g:github_colors_block_diffmark = 1
