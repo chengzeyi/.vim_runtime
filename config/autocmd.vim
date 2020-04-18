@@ -104,7 +104,7 @@ function! EchoQFBufName() abort
     echo buf_name
 endfunction
 
-if has('nvim-0.4.0')
+if has('nvim-0.4.0') || has('popupwin')
     augroup MyQuickFixPreview
         autocmd!
         au FileType qf nnoremap <buffer> p :PreviewQuickFixEntry<cr>
@@ -122,22 +122,41 @@ if has('nvim-0.4.0')
         let bufnr = item.bufnr
         let lnum = item.lnum
         let col = item.col
-        let winid = nvim_open_win(
-                    \ bufnr,
-                    \ 0, {
-                        \ 'relative': 'editor',
-                        \ 'width': float2nr(&columns * 0.8),
-                        \ 'height': &previewheight,
-                        \ 'row': 0,
-                        \ 'col': (&columns - float2nr(&columns * 0.8)) / 2,
-                        \ 'style': 'minimal'})
-        call nvim_win_set_cursor(winid, [lnum, col])
-        call nvim_win_set_option(winid, 'cursorline', v:true)
-        let old_winid = win_getid()
-        call nvim_set_current_win(winid)
-        normal! zz
-        call nvim_set_current_win(old_winid)
-        execute 'au CursorMoved * ++once call nvim_win_close(' . winid . ', 0)'
+        let width = float2nr(&columns * 0.8)
+        let height = &previewheight
+        let line_pos = 0
+        let col_pos = (&columns - float2nr(&columns * 0.8)) / 2
+        if has('nvim')
+            let winid = nvim_open_win(
+                        \ bufnr,
+                        \ 0, {
+                            \ 'relative': 'editor',
+                            \ 'width': width,
+                            \ 'height': height,
+                            \ 'row': line_pos,
+                            \ 'col': col_pos,
+                            \ 'style': 'minimal'})
+            call nvim_win_set_cursor(winid, [lnum, col])
+            call nvim_win_set_option(winid, 'cursorline', v:true)
+            let old_winid = win_getid()
+            call nvim_set_current_win(winid)
+            normal! zz
+            call nvim_set_current_win(old_winid)
+            execute 'au CursorMoved * ++once call nvim_win_close(' . winid . ', 0)'
+        else
+            let winid = popup_create(bufnr, {
+                        \ 'minwidth': width,
+                        \ 'maxwidth': width,
+                        \ 'minheight': height,
+                        \ 'maxheight': height,
+                        \ 'line': line_pos + 1,
+                        \ 'col': col_pos,
+                        \ 'zindex': 200,
+                        \ 'moved': 'any',
+                        \ 'wrap': 0,
+                        \ 'firstline': lnum - (height - 1) / 2
+                        \ })
+        endif
     endfunction
 endif
 
