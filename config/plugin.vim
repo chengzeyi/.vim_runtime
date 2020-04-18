@@ -13,6 +13,8 @@ Plug 'plasticboy/vim-markdown'
 Plug 'othree/html5.vim'
 Plug 'uiiaoo/java-syntax.vim'
 
+Plug 'mikelue/vim-maven-plugin'
+
 if get(g:, 'use_coc', 1) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     Plug 'neoclide/coc.nvim', {'branch': 'release', 'tag': '*'}
 elseif get(g:, 'use_vim_lsp', 1) && has('timers')

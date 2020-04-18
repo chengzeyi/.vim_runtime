@@ -64,26 +64,26 @@ nnoremap <leader>oc :set colorcolumn=<c-r>=empty(&colorcolumn) ? '+1' : ''<cr><c
 nnoremap <leader>oz :set foldclose=<c-r>=empty(&foldclose) ? 'all' : ''<cr><cr>
 nnoremap <leader>ob :set background=<c-r>=&background ==# 'dark' ? 'light' : 'dark'<cr><cr>
 
-" nnoremap <c-]> g<c-]>
-" nnoremap g<c-]> <c-]>
-" xnoremap <c-]> g<c-]>
-" xnoremap g<c-]> <c-]>
-" nnoremap <c-w><c-]> <c-w>g<c-]>
-" nnoremap <c-w>g<c-]> <c-w><c-]>
-" xnoremap <c-w><c-]> <c-w>g<c-]>
-" xnoremap <c-w>g<c-]> <c-w><c-]>
-" nnoremap g<LeftMouse> g<c-]>
-" nnoremap <C-LeftMouse> g<c-]>
+nnoremap <c-]> g<c-]>
+nnoremap g<c-]> <c-]>
+xnoremap <c-]> g<c-]>
+xnoremap g<c-]> <c-]>
+nnoremap <c-w><c-]> <c-w>g<c-]>
+nnoremap <c-w>g<c-]> <c-w><c-]>
+xnoremap <c-w><c-]> <c-w>g<c-]>
+xnoremap <c-w>g<c-]> <c-w><c-]>
+nnoremap g<LeftMouse> g<c-]>
+nnoremap <C-LeftMouse> g<c-]>
 
 if exists(':terminal')
     tnoremap <F1> <c-\><c-n>
     if has('nvim')
         nnoremap <leader>is :split <bar> terminal<cr>
         nnoremap <leader>iS :split <bar> terminal<space>
-        nnoremap <leader>iv :vert terminal<cr>
-        nnoremap <leader>iV :vert terminal<space>
-        nnoremap <leader>it :tab terminal<cr>
-        nnoremap <leader>iT :tab terminal<space>
+        nnoremap <leader>iv :vsplit <bar> terminal<cr>
+        nnoremap <leader>iV :vsplit <bar> terminal<space>
+        nnoremap <leader>it :tabnew <bar> terminal<cr>
+        nnoremap <leader>iT :tabnew <bar> terminal<space>
         nnoremap <leader>iw :terminal<cr>
         nnoremap <leader>iW :terminal<space>
     else
@@ -101,11 +101,11 @@ endif
 if has('nvim-0.4.0') || has('patch-8.2.191')
     nnoremap <F12> :ToggleFloatTerm<cr>
     if has('nvim')
-        tnoremap <F12> <c-\><c-n>:ToggleFloatTerm<cr>
+        tnoremap <F12> <c-\><c-n>:ToggleFloatTerm!<cr>
     else
         tnoremap <F12> <c-w>:ToggleFloatTerm<cr>
     endif
-    command! -nargs=* -complete=shellcmd ToggleFloatTerm call ToggleFloatTerm(<q-args>)
+    command! -nargs=* -bang -complete=shellcmd ToggleFloatTerm call ToggleFloatTerm(<q-args>, <bang>0)
 
     if has('nvim')
         function! ToggleFloatBoarder(opts) abort
@@ -126,7 +126,7 @@ if has('nvim-0.4.0') || has('patch-8.2.191')
             return s:border_buf
         endfunction
 
-        function! ToggleFloatTerm(cmd) abort
+        function! ToggleFloatTerm(cmd, bang) abort
             let width = float2nr(&columns * 0.8)
             let height = float2nr(&lines * 0.8)
             let top = ((&lines - height) / 2) - 1
@@ -152,10 +152,14 @@ if has('nvim-0.4.0') || has('patch-8.2.191')
                 augroup END
                 if need_termopen
                     call termopen(empty(a:cmd) ? &shell : a:cmd, {'on_exit': function('OnTermExit')})
+                    startinsert
                 endif
-                startinsert
+                if get(s:, 'term_tmode', 0) && mode() !=# 't'
+                    startinsert
+                endif
             elseif nvim_win_is_valid(s:term_win)
                 call nvim_win_close(s:term_win, v:false)
+                let s:term_tmode = a:bang
             endif
         endfunction
 
@@ -165,7 +169,7 @@ if has('nvim-0.4.0') || has('patch-8.2.191')
             endif
         endfunction
     else
-        function! ToggleFloatTerm(cmd) abort
+        function! ToggleFloatTerm(cmd, bang) abort
             if !exists('s:term_buf') || !bufexists(s:term_buf)
                 let s:term_buf = term_start(empty(a:cmd) ? &shell : a:cmd, {'hidden': 1, 'term_finish': 'close'})
                 " exe 'autocmd BufWipeout <buffer=' . s:term_buf . '> ++once call term_sendkeys(' . s:term_buf . ', "exit\<cr>")'
