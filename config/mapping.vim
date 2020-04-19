@@ -653,8 +653,10 @@ xnoremap <leader>ss :s/
 xnoremap <leader>sc :s//c<left><left>
 nnoremap <leader>qd :cdo<space>
 xnoremap <leader>qd :cdo<space>
+nnoremap <leader>qD :cfdo<space>
 nnoremap <leader>ld :ldo<space>
 xnoremap <leader>ld :ldo<space>
+nnoremap <leader>lD :lfdo<space>
 nnoremap <leader>bs :bufdo %s/
 nnoremap <leader>bc :bufdo %s//c<left><left>
 
@@ -834,14 +836,19 @@ inoremap <expr> <c-h> ICH()
 inoremap <expr> <bs> ICH()
 function! ICH() abort
     let previous = getline('.')[col('.') - 2]
-    let next = getline('.')[col('.') - 1]
-    let idxp = stridx("{[('\"`", previous)
-    let idxn = stridx("}])'\"`", next)
-    if previous !=# '' && idxp >= 0 && idxp ==# idxn
-        return "\<DEL>\<C-H>"
-    else
+    if empty(previous)
         return "\<C-H>"
     endif
+    let next = getline('.')[col('.') - 1]
+    if empty(next)
+        return "\<C-H>"
+    endif
+    let idxp = stridx("{[('\"`", previous)
+    let idxn = stridx("}])'\"`", next)
+    if idxp >= 0 && idxp ==# idxn
+        return "\<DEL>\<C-H>"
+    endif
+    return "\<C-H>"
 endfunction
 if exists('*complete_info')
     inoremap <expr> <cr> complete_info()['selected'] != '-1' ?

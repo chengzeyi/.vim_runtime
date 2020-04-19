@@ -57,7 +57,32 @@ set history=500
 
 set autoread
 
-set foldmethod=indent
+" function! TSIndent(line)
+"     return strlen(matchstr(a:line, '\V\^\s\+'))
+" endfunction
+function! MyFoldExpr()
+    let cline = getline(v:lnum)
+    if empty(cline)
+        return -1
+    endif
+    let nline = getline(v:lnum + 1)
+    let tabstop = &tabstop
+    let ind = (indent(v:lnum) + tabstop - 1) / tabstop
+    let indNext = (indent(v:lnum + 1) + tabstop - 1) / tabstop
+    return (ind < indNext) ? ('>' . (indNext)) : ind
+endfunction
+function! MyFoldText()
+    " Foldtext ignores tabstop and shows tabs as one space,
+    " so convert tabs to 'tabstop' spaces so text lines up
+    let ts = repeat(' ', &tabstop)
+    let fline = substitute(getline(v:foldstart), '\V\t', ts, 'g')
+    let numLines = v:foldend - v:foldstart + 1
+    let numLinesStr = ' [' . numLines . ' lines]'
+    return fline . numLinesStr
+endfunction
+set foldmethod=expr
+set foldtext=MyFoldText()
+set foldexpr=MyFoldExpr()
 set foldlevelstart=99
 " set foldnestmax=3
 " set nofoldenable
@@ -318,9 +343,6 @@ let java_highlight_functions = 'style'
 
 let g:netrw_liststyle = 1
 
-if exists(':packadd')
-    try
-        packadd justify
-    catch
-    endtry
-endif
+" if exists('!!:packadd')
+"     packadd! justify
+" endif
