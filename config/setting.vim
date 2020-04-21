@@ -12,7 +12,8 @@ set ttimeoutlen=20
 
 " set shortmess=a
 
-set mouse=a
+" Setting this instead of nvi makes VIM more compatible with aweful terminals
+set mouse=nvi
 if exists('+ttymouse')
     if has('mouse_sgr')
         set ttymouse=sgr
@@ -66,9 +67,9 @@ function! MyFoldExpr()
         return -1
     endif
     let nline = getline(v:lnum + 1)
-    let tabstop = &tabstop
-    let ind = (indent(v:lnum) + tabstop - 1) / tabstop
-    let indNext = (indent(v:lnum + 1) + tabstop - 1) / tabstop
+    let shiftwidth = &shiftwidth
+    let ind = (indent(v:lnum) + shiftwidth - 1) / shiftwidth
+    let indNext = (indent(v:lnum + 1) + shiftwidth - 1) / shiftwidth
     return (ind < indNext) ? ('>' . (indNext)) : ind
 endfunction
 function! MyFoldText()
@@ -278,45 +279,45 @@ set previewheight=10
 "     set conceallevel=2 concealcursor=nc
 " endif
 
-if has('balloondelay')
-    set balloondelay=200
-endif
-if has('balloon_eval_term')
-    set balloonevalterm
-endif
-if has('balloon_eval')
-    " Returns either the contents of a fold or spelling suggestions.
-    function! BalloonExpr() abort
-        let foldStart = foldclosed(v:beval_lnum )
-        let foldEnd = foldclosedend(v:beval_lnum)
-        let lines = []
-        if foldStart < 0
-            " We're not in a fold.
-            " If 'spell' is on and the word pointed to is incorrectly spelled,
-            " the tool tip will contain a few suggestions.
-            let suggestions = spellsuggest(spellbadword(v:beval_text)[0], 5, 0)
-            if empty(suggestions)
-                let lines = ['[' . v:beval_lnum . ', ' . v:beval_col . '] ' . synIDattr(synID(v:beval_lnum, v:beval_col, 0), 'name')]
-            else
-                let lines = suggestions
-            endif
-        else
-            let numLines = foldEnd - foldStart + 1
-            " Up to 31 lines get shown okay; beyond that, only 30 lines are shown with
-            " ellipsis in between to indicate too much. The reason why 31 get shown ok
-            " is that 30 lines plus one of ellipsis is 31 anyway.
-            if (numLines > 31)
-                let lines = getline(foldStart, foldStart + 14)
-                let lines += ['-- Snipped ' . (numLines - 30) . ' lines --']
-                let lines += getline(foldEnd - 14, foldEnd)
-            else
-                let lines = getline(foldStart, foldEnd)
-            endif
-        endif
-        return join(lines, has('balloon_multiline') ? "\n" : ' ')
-    endfunction
-    set balloonexpr=BalloonExpr()
-endif
+" if has('balloondelay')
+"     set balloondelay=200
+" endif
+" if has('balloon_eval_term')
+"     set balloonevalterm
+" endif
+" if has('balloon_eval')
+"     " Returns either the contents of a fold or spelling suggestions.
+"     function! BalloonExpr() abort
+"         let foldStart = foldclosed(v:beval_lnum )
+"         let foldEnd = foldclosedend(v:beval_lnum)
+"         let lines = []
+"         if foldStart < 0
+"             " We're not in a fold.
+"             " If 'spell' is on and the word pointed to is incorrectly spelled,
+"             " the tool tip will contain a few suggestions.
+"             let suggestions = spellsuggest(spellbadword(v:beval_text)[0], 5, 0)
+"             if empty(suggestions)
+"                 let lines = ['[' . v:beval_lnum . ':' . v:beval_col . '] ' . synIDattr(synID(v:beval_lnum, v:beval_col, 0), 'name')]
+"             else
+"                 let lines = suggestions
+"             endif
+"         else
+"             let numLines = foldEnd - foldStart + 1
+"             " Up to 31 lines get shown okay; beyond that, only 30 lines are shown with
+"             " ellipsis in between to indicate too much. The reason why 31 get shown ok
+"             " is that 30 lines plus one of ellipsis is 31 anyway.
+"             if (numLines > 31)
+"                 let lines = getline(foldStart, foldStart + 14)
+"                 let lines += ['-- Snipped ' . (numLines - 30) . ' lines --']
+"                 let lines += getline(foldEnd - 14, foldEnd)
+"             else
+"                 let lines = getline(foldStart, foldEnd)
+"             endif
+"         endif
+"         return join(lines, has('balloon_multiline') ? "\n" : ' ')
+"     endfunction
+"     set balloonexpr=BalloonExpr()
+" endif
 
 if has('cscope')
     set csverb

@@ -590,8 +590,6 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
                     \ denite#do_map('do_action')
         nnoremap <nowait><silent><buffer><expr> a
                     \ denite#do_map('do_action', 'append')
-        nnoremap <nowait><silent><buffer><expr> echo
-                    \ denite#do_map('do_action', 'echo')
         nnoremap <nowait><silent><buffer><expr> r
                     \ denite#do_map('do_action', 'replace')
         nnoremap <nowait><silent><buffer><expr> y
@@ -616,6 +614,8 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
                     \ denite#do_map('do_action', 'cd')
         nnoremap <nowait><silent><buffer><expr> e
                     \ denite#do_map('do_action', 'edit')
+        nnoremap <nowait><silent><buffer><expr> E
+                    \ denite#do_map('do_action', 'echo')
         nnoremap <nowait><silent><buffer><expr> o
                     \ denite#do_map('do_action', 'open')
         nnoremap <nowait><silent><buffer><expr> q
@@ -628,7 +628,7 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
                     \ denite#do_map('open_filter_buffer')
         nnoremap <nowait><silent><buffer><expr> /
                     \ denite#do_map('open_filter_buffer')
-        nnoremap <nowait><silent><buffer><expr> <C-SPACE>
+        nnoremap <nowait><silent><buffer><expr> <SPACE>
                     \ denite#do_map('toggle_select')
         nnoremap <nowait><silent><buffer><expr> <TAB>
                     \ denite#do_map('toggle_select') . 'j'

@@ -42,9 +42,9 @@ nnoremap <leader><bslash> :sp<cr>
 
 nnoremap <leader>en :enew<cr>
 
-nnoremap <leader>oo :set scrolloff=<c-r>=&scrolloff == 999 ? 1 : 999<cr><cr>
+nnoremap <leader>oo :set scrolloff=<c-r>=999 - &scrolloff<cr><cr>
 nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
-nnoremap <leader>ot :set ttyscroll=<c-r>=&ttyscroll == 999 ? 5 : 999<cr><cr>
+nnoremap <leader>ot :set ttyscroll=<c-r>=999 - &ttyscroll<cr><cr>
 nnoremap <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
 nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? 1 : 0<cr><cr>
 if has('patch-8.1.1564')
@@ -61,7 +61,7 @@ if has('termguicolors')
 endif
 nnoremap <leader>ow :set textwidth=<c-r>=&textwidth == 0 ? 79 : 0<cr><cr>
 nnoremap <leader>oc :set colorcolumn=<c-r>=empty(&colorcolumn) ? '+1' : ''<cr><cr>
-nnoremap <leader>oz :set foldclose=<c-r>=empty(&foldclose) ? 'all' : ''<cr><cr>
+nnoremap <leader>oz :set foldclose=<c-r>=&foldclose !=# 'all' ? 'all' : ''<cr> foldopen=<c-r>=&foldopen !=# 'all' ? 'all' : ''<cr><cr>
 nnoremap <leader>ob :set background=<c-r>=&background ==# 'dark' ? 'light' : 'dark'<cr><cr>
 
 nnoremap <c-]> g<c-]>
@@ -72,8 +72,8 @@ nnoremap <c-w><c-]> <c-w>g<c-]>
 nnoremap <c-w>g<c-]> <c-w><c-]>
 xnoremap <c-w><c-]> <c-w>g<c-]>
 xnoremap <c-w>g<c-]> <c-w><c-]>
-nnoremap g<LeftMouse> g<c-]>
-nnoremap <C-LeftMouse> g<c-]>
+nnoremap g<LeftMouse> <LeftMouse>g<c-]>
+nnoremap <C-LeftMouse> <LeftMouse>g<c-]>
 
 if exists(':terminal')
     tnoremap <F1> <c-\><c-n>
@@ -515,10 +515,10 @@ nnoremap [t :tprevious<cr>
 nnoremap ]t :tnext<cr>
 nnoremap [T :tfirst<cr>
 nnoremap ]T :tlast<cr>
-nnoremap <leader>] :execute 'ptag ' . expand('<lt>cword>')<cr>
-nnoremap <C-LeftMouse> :execute 'ptag ' . expand('<lt>cword>')<cr>
-nnoremap <leader>[ :pclose<cr>
-nnoremap <C-RightMouse> :pclose<cr>
+nnoremap <leader>] <c-w>g}
+" nnoremap <C-LeftMouse> :execute 'ptag ' . expand('<lt>cword>')<cr>
+nnoremap <leader>[ <c-w>z
+" nnoremap <C-RightMouse> :pclose<cr>
 nnoremap [p :ptprevious<cr>
 nnoremap ]p :ptnext<cr>
 nnoremap [P :pfirst<cr>
@@ -822,7 +822,7 @@ function! GetVcsRoot() abort
     for mkr in ['.git/', '.hg/', '.svn/', '.bzr/', '_darcs/', '.vimprojects']
         let wd = call('find' . (mkr =~# '/$' ? 'dir' : 'file'), [mkr, cph . ';'])
         if !empty(wd) | let &acd = 0 | brea | en
-    endfo
+    endfor
     return fnameescape(empty(wd) ? cph : substitute(wd, mkr . '$', '.', ''))
 endfunction
 
@@ -835,19 +835,31 @@ inoremap <expr> <c-e> pumvisible() ? "\<c-e>" : "\<End>"
 inoremap <expr> <c-h> ICH()
 inoremap <expr> <bs> ICH()
 function! ICH() abort
-    let previous = getline('.')[col('.') - 2]
+    let thisline = getline('.')
+    let col = col('.')
+    let previous = thisline[col - 2]
     if empty(previous)
         return "\<C-H>"
     endif
-    let next = getline('.')[col('.') - 1]
+    let next = thisline[col - 1]
     if empty(next)
         return "\<C-H>"
     endif
-    let idxp = stridx("{[('\"`", previous)
-    let idxn = stridx("}])'\"`", next)
+    let idxp = stridx("{[(<'\"`", previous)
+    let idxn = stridx("}])>'\"`", next)
     if idxp >= 0 && idxp ==# idxn
         return "\<DEL>\<C-H>"
     endif
+    " if previous ==# '>' && next ==# '<'
+    "     let left = thisline[: col - 2]
+    "     let right = thisline[col - 1:]
+    "     let lname = matchstr(left, '\V<\zs\[^>[:blank:]]\+\ze\[^>]\*>\$')
+    "     let rname = matchstr(right, '\V\^</\zs\[^>[:blank:]]\+\ze\[[:blank:]]\*>')
+    "     echomsg left . '()' . right
+    "     if lname ==# rname
+    "         return "\<C-O>dat"
+    "     endif
+    " endif
     return "\<C-H>"
 endfunction
 if exists('*complete_info')
@@ -870,8 +882,8 @@ function! ICR()
     let idx = stridx('{[(', previous)
     if previous !=# '' && idx >= 0
         return ExpandPair(previous, '}])'[idx], next)
-    elseif previous ==# '>'
-        return ExpandTag(next)
+    " elseif previous ==# '>' && next ==# '<'
+    "     return ExpandTag(next)
     else
         return "\<CR>"
     endif
@@ -888,19 +900,15 @@ function! ExpandPair(left, right, next)
         return "\<CR>"
     endif
 endfunction
-function! ExpandTag(next)
-    let thisline = getline('.')
-    if a:next ==# '<' && thisline[col('.')] ==# '/'
-        let tagname0 = thisline[searchpos('<', 'bnw')[1]]
-        if tagname0 ==# '/' || tagname0 !=# thisline[col('.') + 1]
-            return "\<CR>"
-        else
-            return "\<CR>\<ESC>==O"
-        endif
-    else
-        return "\<CR>"
-    endif
-endfunction
+" function! ExpandTag(next)
+"     let thisline = getline('.')
+"     let name = matchstr(thisline, '\V<\zs\[^>[:blank:]]\+\ze\[^>]\*>\$')
+"     if !empty(name)
+"         return "\<CR></" . name . ">\<ESC>==O"
+"     else
+"         return "\<CR>"
+"     endif
+" endfunction
 
 inoremap <c-x>( )<c-g>U<left>(
 inoremap <c-x>) )<c-g>U<left>(
@@ -917,12 +925,51 @@ inoremap <c-x>` `<c-g>U<left>"
 inoremap ( )<c-g>U<left>(
 inoremap [ ]<c-g>U<left>[
 inoremap { }<c-g>U<left>{
-inoremap <expr> ) strpart(getline('.'), col('.') -1, 1) == ')' ? "\<c-g>U\<right>" : ')'
-inoremap <expr> ] strpart(getline('.'), col('.') -1, 1) == ']' ? "\<c-g>U<right>" : ']'
-inoremap <expr> } strpart(getline('.'), col('.') -1, 1) == '}' ? "\<c-g>U<right>" : '}'
-inoremap <expr> ' strpart(getline('.'), col('.') -1, 1) == "'" ? "\<c-g>U<right>" : "''\<c-g>U\<left>"
-inoremap <expr> " strpart(getline('.'), col('.') -1, 1) == "\"" ? "\<c-g>U<right>" : "\"\"\<c-g>U\<Left>"
-inoremap <expr> ` strpart(getline('.'), col('.') -1, 1) == "`" ? "\<c-g>U<right>" : "``\<c-g>U\<left>"
+inoremap <expr> < strpart(getline('.'), col('.') - 2, 1) !~# '\V\s' ? ">\<c-g>U\<left><lt>" : '<'
+inoremap <expr> > strpart(getline('.'), col('.') - 1, 1) ==# '>' && strpart(getline('.'), col('.') - 2, 1) !~# '\V\s' ?
+            \ "\<c-g>U\<right>" : '>'
+inoremap <expr> ) strpart(getline('.'), col('.') - 1, 1) ==# ')' ? "\<c-g>U\<right>" : ')'
+inoremap <expr> ] strpart(getline('.'), col('.') - 1, 1) ==# ']' ? "\<c-g>U\<right>" : ']'
+inoremap <expr> } strpart(getline('.'), col('.') - 1, 1) ==# '}' ? "\<c-g>U\<right>" : '}'
+inoremap <expr> ' I_Single_Quote()
+function! I_Single_Quote() abort
+    let line = getline('.')
+    let col = col('.')
+    if strpart(line, col - 3, 2) ==# "''"
+        return "'"
+    endif
+    if strpart(line, col - 1, 1) ==# "'"
+        return "\<c-g>U\<right>"
+    endif
+    if strpart(line, col - 2, 1) =~# '\V\w'
+        return "'"
+    endif
+    return "''\<c-g>U\<left>"
+endfunction
+inoremap <expr> " I_Double_Quote()
+function! I_Double_Quote() abort
+    let line = getline('.')
+    let col = col('.')
+    if strpart(line, col - 3, 2) ==# '""'
+        return '"'
+    endif
+    if strpart(line, col - 1, 1) ==# '"'
+        return "\<c-g>U\<right>"
+    endif
+    return "\"\"\<c-g>U\<left>"
+endfunction
+inoremap <expr> ` I_Back_Tick()
+function! I_Back_Tick() abort
+    let line = getline('.')
+    let col = col('.')
+    if strpart(line, col - 3, 2) ==# '``'
+        return '`'
+    endif
+    if strpart(line, col - 1, 1) ==# '`'
+        return "\<c-g>U\<right>"
+    endif
+    return "``\<c-g>U\<left>"
+endfunction
 
 inoremap <expr> <c-b> CloseParen()
 inoremap <expr> <c-space> CloseParen()

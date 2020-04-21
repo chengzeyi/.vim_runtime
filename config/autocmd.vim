@@ -4,6 +4,14 @@ augroup MyReturnToLastEditPosition
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 augroup END
 
+if !has('nvim') && !has('gui_running')
+    augroup MyVimCursorLine
+        autocmd!
+        autocmd InsertEnter * set cuc
+        autocmd InsertLeave * set nocuc
+    augroup END
+endif
+
 augroup MyQuickFixEnhancement
     autocmd!
     autocmd FileType qf nnoremap <buffer> <nowait> <tab> :RemoveQFItem<cr>

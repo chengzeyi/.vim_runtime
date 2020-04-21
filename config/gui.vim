@@ -10,9 +10,9 @@ if has('gui_running')
     " set guioptions-=l  "scrollbar
     set guitablabel=%M\ %t
 
-    if has('balloon_eval')
-        set ballooneval
-    endif
+    " if has('balloon_eval')
+    "     set ballooneval
+    " endif
 
     nnoremap <S-Up> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) + 1)', 'g')<cr>
     nnoremap <S-Down> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g')<cr>
