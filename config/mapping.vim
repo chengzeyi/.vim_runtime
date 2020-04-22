@@ -386,7 +386,7 @@ function! IndTxtObj(inner) abort
     endif
 endfunction
 
-nnoremap <a-t> :set opfunc=Trans<CR>g@iw
+nnoremap <a-t> :set opfunc=Trans<CR>g@
 xnoremap <a-t> :<C-U>call Trans(visualmode(), 1)<CR>
 nnoremap g<c-t> :set opfunc=Trans<CR>g@
 xnoremap g<c-t> :<C-U>call Trans(visualmode(), 1)<CR>

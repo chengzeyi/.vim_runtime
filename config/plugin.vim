@@ -997,6 +997,7 @@ nnoremap <leader>rR :AsyncRun!<space>
 nnoremap <leader>rs :AsyncStop<cr>
 nnoremap <leader>rS :AsyncStop!<cr>
 let g:asyncrun_auto = ''
+command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 
 nnoremap <leader>Tn :TestNearest<CR>
 nnoremap <leader>TN :TestNearest<Space>
