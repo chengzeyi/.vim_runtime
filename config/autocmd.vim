@@ -16,9 +16,9 @@ augroup MyQuickFixEnhancement
     autocmd!
     autocmd FileType qf nnoremap <buffer> <nowait> <tab> :RemoveQFItem<cr>
     autocmd FileType qf nnoremap <buffer> <nowait> <s-tab> :UndoQFRemove<cr>
-    autocmd QuickFixCmdPost [^l]* call ShortenQuifkFixPath(0)
-    autocmd QuickFixCmdPost l* call ShortenQuifkFixPath(1)
-    autocmd FileType qf autocmd CursorMoved <buffer=abuf> call EchoQFBufName()
+    " autocmd QuickFixCmdPost [^l]* call ShortenQuifkFixPath(0)
+    " autocmd QuickFixCmdPost l* call ShortenQuifkFixPath(1)
+    " autocmd FileType qf autocmd CursorMoved <buffer=abuf> call EchoQFBufName()
     autocmd FileType qf setl nowrap nonumber norelativenumber foldcolumn=0
 augroup END
 
@@ -80,37 +80,37 @@ function! UndoQFRemove() abort
     execute curidx + 1
 endfunction
 
-function! ShortenQuifkFixPath(loc) abort
-    if a:loc
-        let all = getloclist(0, {'all': 1})
-    else
-        let all = getqflist({'all': 1})
-    endif
-    if empty(all)
-        return
-    endif
-    for item in all.items
-        let item.module = pathshorten(bufname(item.bufnr))
-    endfor
-    if a:loc
-        call setloclist(0, [], 'r', all)
-    else
-        call setqflist([], 'r', all)
-    endif
-endfunction
+" function! ShortenQuifkFixPath(loc) abort
+"     if a:loc
+"         let all = getloclist(0, {'all': 1})
+"     else
+"         let all = getqflist({'all': 1})
+"     endif
+"     if empty(all)
+"         return
+"     endif
+"     for item in all.items
+"         let item.module = pathshorten(bufname(item.bufnr))
+"     endfor
+"     if a:loc
+"         call setloclist(0, [], 'r', all)
+"     else
+"         call setqflist([], 'r', all)
+"     endif
+" endfunction
 
-command! EchoQFBufName call EchoQFBufName()
-function! EchoQFBufName() abort
-    let all = GetQuickFixAll()
-    if empty(all)
-        return
-    endif
-    let curidx = line('.') - 1
-    if curidx < 0 || curidx >= len(all.items) | return | endif
-    let item = all.items[curidx]
-    let buf_name = bufname(item.bufnr)
-    echo buf_name
-endfunction
+" command! EchoQFBufName call EchoQFBufName()
+" function! EchoQFBufName() abort
+"     let all = GetQuickFixAll()
+"     if empty(all)
+"         return
+"     endif
+"     let curidx = line('.') - 1
+"     if curidx < 0 || curidx >= len(all.items) | return | endif
+"     let item = all.items[curidx]
+"     let buf_name = bufname(item.bufnr)
+"     echo buf_name
+" endfunction
 
 if has('nvim-0.4.0') || has('popupwin')
     augroup MyQuickFixPreview

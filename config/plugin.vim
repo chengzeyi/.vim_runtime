@@ -74,10 +74,14 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
-Plug 'tpope/vim-dispatch'
+" Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-eunuch'
+
+Plug 'skywind3000/asyncrun.vim'
+
+Plug 'janko/vim-test'
 
 " Plug 'tomtom/tcomment_vim'
 
@@ -914,6 +918,8 @@ nnoremap <leader>zM :FZFMaps<cr>
 nmap <F4> <plug>(fzf-maps-n)
 xmap <F4> <plug>(fzf-maps-x)
 omap <F4> <plug>(fzf-maps-o)
+imap <F4> <plug>(fzf-maps-i)
+
 nnoremap <leader>zw :FZFWindows<cr>
 nnoremap <leader>ze :FZFLocate<space>
 nnoremap <leader>zh :FZFHistory<cr>
@@ -967,23 +973,40 @@ nnoremap <leader>ZQ :FZFLocList!<cr>
 nmap <c-_> <Plug>CommentaryLine
 xmap <c-_> <Plug>Commentary
 
-let g:dispatch_no_maps = 1
-nnoremap <leader>rr :Dispatch<space>
-nnoremap <leader>rR :Dispatch!<space>
-nnoremap <leader>Rd :Dispatch<cr>
-nnoremap <leader>RD :Dispatch!<cr>
-nnoremap <leader>rm :Make<space>
-nnoremap <leader>rM :Make!<space>
-nnoremap <leader>Rm :Make<cr>
-nnoremap <leader>RM :Make!<cr>
-nnoremap <leader>rc :Copen<cr>
-nnoremap <leader>rC :Copen!<cr>
-nnoremap <leader>rf :FocusDispatch<space>
-nnoremap <leader>rF :FocusDispatch!<space>
-nnoremap <leader>Rf :FocusDispatch<cr>
-nnoremap <leader>RF :FocusDispatch!<cr>
-nnoremap <leader>ra :AbortDispatch<cr>
-nnoremap <leader>rA :AbortDispatch<space>
+" let g:dispatch_no_maps = 1
+" nnoremap <leader>rr :Dispatch<space>
+" nnoremap <leader>rR :Dispatch!<space>
+" nnoremap <leader>Rd :Dispatch<cr>
+" nnoremap <leader>RD :Dispatch!<cr>
+" nnoremap <leader>rm :Make<space>
+" nnoremap <leader>rM :Make!<space>
+" nnoremap <leader>Rm :Make<cr>
+" nnoremap <leader>RM :Make!<cr>
+" nnoremap <leader>rc :Copen<cr>
+" nnoremap <leader>rC :Copen!<cr>
+" nnoremap <leader>rf :FocusDispatch<space>
+" nnoremap <leader>rF :FocusDispatch!<space>
+" nnoremap <leader>Rf :FocusDispatch<cr>
+" nnoremap <leader>RF :FocusDispatch!<cr>
+" nnoremap <leader>ra :AbortDispatch<cr>
+" nnoremap <leader>rA :AbortDispatch<space>
+" nnoremap <leader>rs :Start<space>
+
+nnoremap <leader>rr :AsyncRun<space>
+nnoremap <leader>rR :AsyncRun!<space>
+nnoremap <leader>rs :AsyncStop<cr>
+nnoremap <leader>rS :AsyncStop!<cr>
+let g:asyncrun_auto = ''
+
+nnoremap <leader>Tn :TestNearest<CR>
+nnoremap <leader>TN :TestNearest<Space>
+nnoremap <leader>Tf :TestFile<CR>
+nnoremap <leader>TF :TestFile<Space>
+nnoremap <leader>Ts :TestSuite<CR>
+nnoremap <leader>TS :TestSuite<Space>
+nnoremap <leader>Tl :TestLast<CR>
+nnoremap <leader>Tv :TestVisit<CR>
+" let test#strategy = 'neomake'
 
 " if !exists('g:gutentags_modules')
 "     let g:gutentags_modules = []

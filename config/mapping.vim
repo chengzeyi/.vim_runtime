@@ -77,6 +77,7 @@ nnoremap <C-LeftMouse> <LeftMouse>g<c-]>
 
 if exists(':terminal')
     tnoremap <F1> <c-\><c-n>
+    tnoremap <c-o> <c-\><c-n>
     if has('nvim')
         nnoremap <leader>is :split <bar> terminal<cr>
         nnoremap <leader>iS :split <bar> terminal<space>
@@ -151,7 +152,7 @@ if has('nvim-0.4.0') || has('patch-8.2.191')
                     exe 'au BufWipeout <buffer> if win_id2tabwin(' . s:term_win . ') != [0, 0] | call nvim_win_close(' . s:term_win . ', v:false) | endif'
                 augroup END
                 if need_termopen
-                    call termopen(empty(a:cmd) ? &shell : a:cmd, {'on_exit': function('OnTermExit')})
+                    call termopen(empty(a:cmd) ? &shell : (a:cmd), {'on_exit': function('OnTermExit')})
                     startinsert
                 endif
                 if get(s:, 'term_tmode', 0) && mode() !=# 't'
@@ -385,10 +386,12 @@ function! IndTxtObj(inner) abort
     endif
 endfunction
 
-nnoremap g<c-t> :set opfunc=Fanyi<CR>g@
-xnoremap g<c-t> :<C-U>call Fanyi(visualmode(), 1)<CR>
-command! -nargs=* Fanyi call DoFanyi(<q-args>)
-function! Fanyi(type, ...) abort
+nnoremap <a-t> :set opfunc=Trans<CR>g@iw
+xnoremap <a-t> :<C-U>call Trans(visualmode(), 1)<CR>
+nnoremap g<c-t> :set opfunc=Trans<CR>g@
+xnoremap g<c-t> :<C-U>call Trans(visualmode(), 1)<CR>
+command! -nargs=* Trans call DoTrans(<q-args>)
+function! Trans(type, ...) abort
     let sel_save = &selection
     let &selection = "i'clusive"
     let reg_save = @@
@@ -404,12 +407,14 @@ function! Fanyi(type, ...) abort
     let &selection = sel_save
     let text = @@
     let @@ = reg_save
-    call DoFanyi(text)
+    call DoTrans(text)
 endfunction
-function! DoFanyi(text) abort
+function! DoTrans(text) abort
     let text = empty(a:text) ? expand('<cword>') : a:text
-    let text = substitute(text, '\v\n', ' ', 'g')
-    if executable('fanyi')
+    let text = shellescape(text)
+    if executable('trans')
+        let cmd = 'trans --no-ansi :zh ' . text
+    elseif executable('fanyi')
         let cmd = 'fanyi --nocolor ' . text
     elseif executable('yd')
         let cmd = 'yd ' . text
@@ -426,20 +431,28 @@ endfunction
 command! -nargs=+ -complete=shellcmd PV call PV(<q-args>)
 function! PV(cmd) abort
     if has('popupwin')
-        let out = system(a:cmd)
-        let out = split(out, "\n")
+        let out = systemlist(a:cmd)
         call popup_atcursor(out, {
                     \ 'pos': 'botright',
                     \ 'maxheight': 15,
-                    \ 'maxwidth': 60,
+                    \ 'maxwidth': 78,
                     \ 'padding': [0, 1, 0, 1],
                     \ 'highlight': 'Pmenu',
                     \ })
+    elseif has('nvim-0.0.4')
+        let out = systemlist(a:cmd)
+        let buf = nvim_create_buf(v:false, v:true)
+        call nvim_buf_set_lines(buf, 0, 0, v:false, out)
+        let win = nvim_open_win(buf, v:false, {
+                    \ 'relative': 'cursor',
+                    \ 'height': 15,
+                    \ 'width': 78,
+                    \ 'row': 0,
+                    \ 'col': 0,
+                    \ 'style': 'minimal'})
+        execute 'au CursorMoved * ++once call nvim_win_close(' . win . ', 0)'
     else
-        let cmd = substitute(a:cmd, '\v[ \t]', '\\ ', 'g')
-        let cmd = substitute(cmd, '\v\n', ';\\ ', 'g')
-        let cmd = substitute(cmd, '\v\|', '\\|', 'g')
-        exe 'noautocmd pedit +exe\ "set\ bufhidden=wipe\ buftype=nofile\\n%d\\nread\ !' . cmd . '\\n1" [Popup Cmd]'
+        execute '!' . a:cmd
     endif
 endfunction
 
@@ -551,16 +564,16 @@ function! LListToggle(height) abort
     silent! lclose
     silent! lclose
 
-    if BufferCount() == buffer_count_before
-        execute 'silent! lwindow ' . a:height
+    if BufferCount() == buffer_count_before && !empty(getloclist(0))
+        execute 'silent! botright lopen ' . a:height
     endif
 endfunction
 function! QListToggle(height) abort
     let buffer_count_before = BufferCount()
     silent! cclose
 
-    if BufferCount() == buffer_count_before
-        execute 'silent! botright cwindow ' . a:height
+    if BufferCount() == buffer_count_before && !empty(getqflist())
+        execute 'silent! botright copen ' . a:height
     endif
 endfunction
 function! BufferCount() abort
@@ -664,7 +677,8 @@ if !has('nvim')
     command! -nargs=0 W w !sudo tee % > /dev/null
 endif
 
-nnoremap <leader>ed :e <c-r>=fnameescape(expand("%:.:h"))<cr>/
+nnoremap <leader>ed :e <c-r>=GetVcsRoot()<cr>
+nnoremap <leader>eD :e <c-r>=fnameescape(expand('%:.:h'))<cr>/
 
 if executable('xxd')
     nnoremap <leader>eb :Bin<cr>
@@ -823,7 +837,7 @@ function! GetVcsRoot() abort
         let wd = call('find' . (mkr =~# '/$' ? 'dir' : 'file'), [mkr, cph . ';'])
         if !empty(wd) | let &acd = 0 | brea | en
     endfor
-    return fnameescape(empty(wd) ? cph : substitute(wd, mkr . '$', '.', ''))
+    return fnameescape(empty(wd) ? cph : substitute(wd, mkr . '$', '', ''))
 endfunction
 
 nnoremap <leader>sl :set invspell<cr>
