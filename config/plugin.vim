@@ -77,7 +77,9 @@ Plug 'tpope/vim-sleuth'
 " Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-eunuch'
+if has('unix')
+    Plug 'tpope/vim-eunuch'
+endif
 
 Plug 'skywind3000/asyncrun.vim'
 

@@ -13,6 +13,7 @@
   "suggest.fixInsertedWord": false,
   "diagnostic.checkCurrentLine": true,
   "diagnostic.refreshOnInsertMode": true,
+  "signature.hideOnTextChange": true,
   "codeLens.enable": true,
   "coc.preferences.extensionUpdateCheck": "never"
 }

@@ -547,6 +547,12 @@ nnoremap <leader>qe :cexpr [] <bar> :cclose<cr>
 nnoremap <leader>le :lexpr [] <bar> :lclose<cr>
 nnoremap <leader>qb :cbuffer<cr>
 nnoremap <leader>lb :lbuffer<cr>
+nnoremap <leader>qo :colder<cr>
+nnoremap <leader>lo :lolder<cr>
+nnoremap <leader>qn :cnewer<cr>
+nnoremap <leader>ln :lnewer<cr>
+nnoremap <leader>qh :chistory<cr>
+nnoremap <leader>lh :lhistory<cr>
 nnoremap [q :cprev<cr>
 nnoremap ]q :cnext<cr>
 nnoremap [Q :cfirst<cr>
@@ -677,8 +683,8 @@ if !has('nvim')
     command! -nargs=0 W w !sudo tee % > /dev/null
 endif
 
-nnoremap <leader>ed :e <c-r>=GetVcsRoot()<cr>
-nnoremap <leader>eD :e <c-r>=fnameescape(expand('%:.:h'))<cr>/
+nnoremap <leader>ed :e <c-r>=fnameescape(expand('%:.:h'))<cr>/
+nnoremap <leader>eD :e <c-r>=GetVcsRoot()<cr>
 
 if executable('xxd')
     nnoremap <leader>eb :Bin<cr>
