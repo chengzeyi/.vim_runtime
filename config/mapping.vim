@@ -42,7 +42,7 @@ nnoremap <leader><bslash> :sp<cr>
 
 nnoremap <leader>en :enew<cr>
 
-nnoremap <leader>oo :set scrolloff=<c-r>=999 - &scrolloff<cr><cr>
+nnoremap <leader>oo :set scrolloff=<c-r>=999 - &scrolloff<cr> sidescrolloff=<c-r>=999 - &sidescrolloff<cr><cr>
 nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
 nnoremap <leader>ot :set ttyscroll=<c-r>=999 - &ttyscroll<cr><cr>
 nnoremap <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
@@ -690,8 +690,10 @@ if executable('xxd')
     nnoremap <leader>eb :Bin<cr>
     command! Bin call InvBinMode()
     function! InvBinMode() abort
-        set invbin
-        let modified = &modified
+        setl invbin
+        let modified = &l:modified
+        let modifiable = &l:modifiable
+        setl modifiable
         if &bin
             %!xxd
             set ft=xxd
@@ -707,7 +709,8 @@ if executable('xxd')
                 autocmd!
             augroup END
         endif
-        let &modified = modified
+        let &l:modifiable = modifiable
+        let &l:modified = modified
     endfunction
 endif
 
@@ -724,16 +727,16 @@ nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 nnoremap <a-y> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>
 nnoremap <a-e> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>
-inoremap <a-y> <c-o><c-y>
-inoremap <a-e> <c-o><c-e>
-inoremap <a-h> <c-o>h
-inoremap <a-j> <c-o>j
-inoremap <a-k> <c-o>k
-inoremap <a-l> <c-o>l
-if exists(':terminal')
-    tnoremap <a-k> <c-\><c-n>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>i
-    tnoremap <a-j> <c-\><c-n>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>i
-endif
+" inoremap <a-y> <c-o><c-y>
+" inoremap <a-e> <c-o><c-e>
+" inoremap <a-h> <left>
+" inoremap <a-l> <right>
+" inoremap <a-j> <down>
+" inoremap <a-k> <up>
+" if exists(':terminal')
+"     tnoremap <a-k> <c-\><c-n>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>i
+"     tnoremap <a-j> <c-\><c-n>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>i
+" endif
 
 nnoremap <leader><bs> :nohls<cr>
 nnoremap <leader><c-h> :nohls<cr>
@@ -795,8 +798,12 @@ function! CloseHiddenBuffers(force) abort
     endfor
 endfunction
 
-nnoremap <leader><tab> :bnext<cr>
-nnoremap <leader><s-tab> :bprevious<cr>
+nnoremap <leader><tab> :bn<cr>
+nnoremap <leader><s-tab> :bp<cr>
+nnoremap <leader>bs :sba<cr>
+nnoremap <leader>bt :tab ba<cr>
+nnoremap <leader>bm :sbm<cr>
+nnoremap <leader>bu :sun<cr>
 
 " Useful mappings for managing tabs
 nnoremap <leader>tn :tabnew<cr>

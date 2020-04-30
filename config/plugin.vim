@@ -15,9 +15,9 @@ Plug 'uiiaoo/java-syntax.vim'
 
 Plug 'mikelue/vim-maven-plugin'
 
-if get(g:, 'use_coc', 1) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
+if get(g:, 'use_coc', 0) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     Plug 'neoclide/coc.nvim', {'branch': 'release', 'tag': '*'}
-elseif get(g:, 'use_vim_lsp', 1) && has('timers')
+elseif get(g:, 'use_vim_lsp', 0) && has('timers')
     Plug 'prabirshrestha/async.vim'
     if has('lambda')
         Plug 'mattn/vim-lsp-settings'
@@ -139,12 +139,14 @@ if (has('job') && has('channel')) || has('nvim')
     Plug 'metakirby5/codi.vim'
 endif
 
-Plug 'lfilho/cosco.vim'
+" Plug 'lfilho/cosco.vim'
 
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
 Plug 'glts/vim-textobj-comment'
 Plug 'kana/vim-textobj-entire'
+
+Plug 'terryma/vim-expand-region'
 
 Plug 'guns/xterm-color-table.vim'
 Plug 'chrisbra/Colorizer'
@@ -175,6 +177,9 @@ endif
 let g:vimtex_toc_config.split_pos = 'vert rightbelow'
 let g:vimtex_imaps_enabled = 0
 let g:vimtex_quickfix_open_on_warning = 0
+let g:vimtex_quickfix_mode = 0
+let g:vimtex_format_enabled = 1
+
 " let g:vimtex_format_enabled = 1
 
 let g:python_highlight_all = 1
@@ -187,7 +192,7 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-if get(g:, 'use_coc', 1) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
+if get(g:, 'use_coc', 0) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     let g:coc_config_home = expand( '~/.vim_runtime/config')
 
     let g:statusline_extra_left = ['coc#status', []]
@@ -283,7 +288,7 @@ if get(g:, 'use_coc', 1) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && exec
             execute 'CocInstall ' . ext
         endfor
     endfunction
-elseif get(g:, 'use_vim_lsp', 1) && has('timers')
+elseif get(g:, 'use_vim_lsp', 0) && has('timers')
     if has('lambda')
         nmap <leader><cr><cr> <Plug>(lsp-status)
         nmap <leader><cr>] <Plug>(lsp-preview-focus)
@@ -553,6 +558,8 @@ elseif get(g:, 'use_vim_lsp', 1) && has('timers')
                     \ }))
     catch
     endtry
+else
+    inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 endif
 
 if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
@@ -734,8 +741,8 @@ let g:NERDTreeMinimalUI = 1
 nnoremap <leader>nn :NERDTreeToggle<cr>
 nnoremap <leader>nN :NERDTreeToggleVCS<cr>
 nnoremap <leader>nb :NERDTreeFromBookmark<space>
-nnoremap <leader>nf :NERDTreeFocus<cr>
-nnoremap <leader>nF :NERDTreeFind<cr>
+nnoremap <leader>nf :NERDTreeFind<cr>
+nnoremap <leader>nF :NERDTreeFocus<cr>
 nnoremap <leader>nv :NERDTreeVCS<cr>
 nnoremap <leader>nc :NERDTreeCWD<cr>
 nnoremap <leader>nr :NERDTreeRefreshRoot<cr>
@@ -856,21 +863,28 @@ nnoremap <leader>ma :call neomake#configure#automake('w')<cr>
 nnoremap <leader>mA :call neomake#configure#reset_automake()<cr>
 
 let g:fzf_command_prefix = 'FZF'
-" Mapping selecting mappings
-" nmap <c-b> <plug>(fzf-maps-n)
-" xmap <c-b> <plug>(fzf-maps-x)
-" omap <c-b> <plug>(fzf-maps-o)
-" nnoremap <c-c> :FzfCommand<cr>
 " [Commands] --expect expression for directly executing the command
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 let g:fzf_tags_command = 'ctags -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q'
 let g:fzf_prefer_tmux = 1
 let g:fzf_preview_window = 'up'
+let g:fzf_colors =
+            \ { 'fg':      ['fg', 'Normal'],
+            \ 'bg':      ['bg', 'Normal'],
+            \ 'hl':      ['fg', 'Comment'],
+            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+            \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+            \ 'hl+':     ['fg', 'Statement'],
+            \ 'info':    ['fg', 'PreProc'],
+            \ 'border':  ['fg', 'Ignore'],
+            \ 'prompt':  ['fg', 'Conditional'],
+            \ 'pointer': ['fg', 'Exception'],
+            \ 'marker':  ['fg', 'Keyword'],
+            \ 'spinner': ['fg', 'Label'],
+            \ 'header':  ['fg', 'Comment'] }
 if has('nvim-0.4.0') || has('patch-8.2.191')
     let g:fzf_layout = {'window': {'width': 0.8, 'height': 0.8}}
 endif
-" let g:fzf_statusline = 0
-" let g:fzf_nvim_statusline = 0
 " let g:fzf_layout = {'window': 'bot'.float2nr(0.4 * &lines).'new'}
 " let g:fzf_layout = {'down': '40%'}
 imap <c-x>w <plug>(fzf-complete-word)
@@ -1111,12 +1125,12 @@ if has('nvim') || has('job') || has('channel')
     nnoremap <leader>cO :Codi!!<space>
 endif
 
-nmap <c-right> <Plug>(cosco-commaOrSemiColon)
-imap <c-right> <c-o><Plug>(cosco-commaOrSemiColon)
-nmap <c-down> <Plug>(cosco-commaOrSemiColon):append<cr><cr>.<cr>
-imap <c-down> <c-o><Plug>(cosco-commaOrSemiColon)<c-g>U<c-o>o
-nmap <a-cr> <Plug>(cosco-commaOrSemiColon):append<cr><cr>.<cr>
-imap <a-cr> <c-o><Plug>(cosco-commaOrSemiColon)<c-g>U<c-o>o
+" nmap <c-right> <Plug>(cosco-commaOrSemiColon)
+" imap <c-right> <c-o><Plug>(cosco-commaOrSemiColon)
+" nmap <c-down> <Plug>(cosco-commaOrSemiColon):append<cr><cr>.<cr>
+" imap <c-down> <c-o><Plug>(cosco-commaOrSemiColon)<c-g>U<c-o>o
+" nmap <a-cr> <Plug>(cosco-commaOrSemiColon):append<cr><cr>.<cr>
+" imap <a-cr> <c-o><Plug>(cosco-commaOrSemiColon)<c-g>U<c-o>o
 
 try
     " call textobj#user#plugin('datetime', {
@@ -1185,6 +1199,18 @@ try
                 \     'scan': 'cursor',
                 \   },
                 \ })
+catch
+endtry
+
+try
+call expand_region#custom_text_objects({
+            \ "\/\\n\\n\<CR>": 1,
+            \ 'a]' :1,
+            \ 'ab' :1,
+            \ 'aB' :1,
+            \ 'ii' :0,
+            \ 'ai' :0
+            \ })
 catch
 endtry
 

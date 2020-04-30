@@ -97,19 +97,22 @@ set scrolloff=1
 
 " let $LANG='en'
 " set spelllang=en_gb
+if v:version > 704 || (v:version == 704 && has('patch88'))
+    set spelllang+=cjk
+endif
 
 set wildmenu
 set wildmode=longest,full
 set wildignorecase
-if has('menu')
-    " set langmenu=en
-    source $VIMRUNTIME/delmenu.vim
-    source $VIMRUNTIME/menu.vim
-    set wcm=<F11>
-    map <F11> :emenu <F11>
-endif
+" if has('menu')
+"     " set langmenu=en
+"     source $VIMRUNTIME/delmenu.vim
+"     source $VIMRUNTIME/menu.vim
+"     set wcm=<F11>
+"     map <F11> :emenu <F11>
+" endif
 
-set wildignore=*.o,*~,*.pyc
+set wildignore=*.o,*.obj,*~,*.pyc
 if has('win16') || has('win32')
     set wildignore+=.git\*,.hg\*,.svn\*,tags,TAGS,cscope.*
 else
@@ -126,7 +129,7 @@ set shortmess=at
 set hid
 
 set backspace=eol,start,indent
-set whichwrap+=<,>,[,]
+set whichwrap+=<,>,[,],h,l
 
 set virtualedit=block
 
@@ -137,7 +140,7 @@ set hlsearch
 set incsearch
 
 if has('nvim')
-    set inccommand=nosplit
+    set inccommand=split
 endif
 
 set lazyredraw
@@ -154,10 +157,12 @@ set belloff=all
 " set novisualbell
 " set t_vb=
 
-set fillchars=vert:│,fold:-
 if has('nvim-0.3.1')
-    set fillchars+=eob:\ 
+    let &fillchars = 'eob: '
+else
+    set fillchars=
 endif
+set fillchars+=vert:│,fold:-
 " let &showbreak = "\u21aa "
 let &showbreak = '↪ '
 set listchars=tab:→\ ,nbsp:␣,trail:·,extends:⟩,precedes:⟨
@@ -232,7 +237,7 @@ set stal=1
 
 " Always show the status line
 set laststatus=2
-set statusline=%f%m\ %<%{StatuslineExtra('left')}%=%{StatuslineExtra('right')}\ %{fnamemodify(getcwd(),':~')}\ %y\ %{&fenc?&fenc:&enc}\[%{&ff}\]\ %p%%\ %l:%c
+set statusline=%f%m\ %{StatuslineExtra('left')}%=%{StatuslineExtra('right')}\ %{fnamemodify(getcwd(),':~')}\ %y\ %{&fenc?&fenc:&enc}\[%{&ff}\]\ %p%%\ %l:%c
 
 function! StatuslineExtra(dir) abort
     let statusline_extra = get(g:, 'statusline_extra_' . a:dir, [])
