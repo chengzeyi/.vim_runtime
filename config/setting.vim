@@ -37,12 +37,12 @@ set updatetime=200
 " Rsetting this can cause highlight issues
 " set background=dark
 
+set number
+" if has('patch-7.3.787')
+"     set relativenumber
+" endif
 if has('patch-8.1.1564')
     set signcolumn=number
-endif
-set number
-if has('patch-7.3.787')
-    set relativenumber
 endif
 
 set exrc
@@ -188,7 +188,7 @@ endif
 "     let &t_EI = "\<Esc>]2 q"
 " endif
 
-set t_Co=256
+" set t_Co=256
 
 if has('termguicolors')
     set termguicolors
@@ -201,6 +201,8 @@ endif
 set nobackup
 set nowb
 set noswapfile
+
+set formatoptions+=tcromMqj
 
 set nojoinspaces
 

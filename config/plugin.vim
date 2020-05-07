@@ -5,9 +5,8 @@ call plug#begin('~/.vim_runtime/plugged')
 " Plug 'chengzeyi/vim-markify'
 
 Plug 'lervag/vimtex'
-" Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'bfrg/vim-cpp-modern'
-" Plug 'arp242/gopher.vim'
+Plug 'octol/vim-cpp-enhanced-highlight'
+" Plug 'bfrg/vim-cpp-modern'
 Plug 'vim-python/python-syntax'
 Plug 'plasticboy/vim-markdown'
 Plug 'othree/html5.vim'
@@ -15,40 +14,10 @@ Plug 'uiiaoo/java-syntax.vim'
 
 Plug 'mikelue/vim-maven-plugin'
 
-if get(g:, 'use_coc', 0) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
-    Plug 'neoclide/coc.nvim', {'branch': 'release', 'tag': '*'}
-elseif get(g:, 'use_vim_lsp', 0) && has('timers')
-    Plug 'prabirshrestha/async.vim'
-    if has('lambda')
-        Plug 'mattn/vim-lsp-settings'
-        Plug 'prabirshrestha/vim-lsp'
-        Plug 'prabirshrestha/asyncomplete-lsp.vim'
-    endif
-
-    Plug 'prabirshrestha/asyncomplete.vim'
-    " Plug 'yami-beta/asyncomplete-omni.vim'
-    Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    Plug 'prabirshrestha/asyncomplete-file.vim'
-    Plug 'prabirshrestha/asyncomplete-tags.vim'
-    if executable('look')
-        Plug 'gonzoooooo/asyncomplete-look.vim'
-    endif
-
-    " Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
-    " if has('python3')
-    "     Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-    " endif
-
-    " Plug 'Shougo/neco-syntax'
-    " Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
-
-    Plug 'Shougo/neco-vim'
-    Plug 'prabirshrestha/asyncomplete-necovim.vim'
+if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
+    " Plug 'jackguo380/vim-lsp-cxx-highlight'
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 endif
-
-" Plug 'jiangmiao/auto-pairs'
-
-" Plug 'Raimondi/delimitMate'
 
 Plug 'AndrewRadev/splitjoin.vim'
 
@@ -57,8 +26,6 @@ Plug 'mbbill/undotree'
 Plug 'easymotion/vim-easymotion'
 
 Plug 'deris/vim-shot-f'
-
-" Plug 'ntpeters/vim-better-whitespace'
 
 Plug 'mhinz/vim-startify'
 Plug 'mhinz/vim-grepper'
@@ -74,7 +41,6 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
-" Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 if has('unix')
@@ -84,8 +50,6 @@ endif
 Plug 'skywind3000/asyncrun.vim'
 
 Plug 'janko/vim-test'
-
-" Plug 'tomtom/tcomment_vim'
 
 Plug 'airblade/vim-gitgutter'
 
@@ -109,11 +73,6 @@ endif
 Plug 'Shougo/neosnippet.vim'
 Plug 'chengzeyi/neosnippet-snippets', {'dir': '~/.vim_snippets'}
 
-" if v:version >=740 && has('python3')
-"     Plug 'SirVer/ultisnips'
-"     Plug 'chengzeyi/vim-snippets', {'dir': '~/.vim_snippets'}
-" endif
-
 " Plug 'camspiers/animate.vim'
 " Plug 'camspiers/lens.vim'
 
@@ -122,8 +81,6 @@ Plug 'majutsushi/tagbar'
 Plug 'sbdchd/neoformat'
 
 Plug 'neomake/neomake'
-
-" Plug 'ludovicchabant/vim-gutentags'
 
 Plug 'junegunn/fzf', {'dir': '~/.fzf'}
 Plug 'junegunn/fzf.vim'
@@ -152,8 +109,6 @@ Plug 'guns/xterm-color-table.vim'
 Plug 'chrisbra/Colorizer'
 " Plug 'ap/vim-css-color'
 
-" Plug 'rhysd/devdocs.vim'
-
 Plug 'lifepillar/vim-colortemplate'
 
 Plug 'chengzeyi/hydrangea-vim'
@@ -164,12 +119,13 @@ Plug 'lifepillar/vim-gruvbox8'
 Plug 'cormacrelf/vim-colors-github'
 Plug 'ayu-theme/ayu-vim'
 Plug 'logico/typewriter-vim'
+Plug 'sainnhe/edge'
 
 call plug#end()
 
 augroup MyFZFVimTex
     autocmd!
-    au FileType tex nnoremap <buffer> <leader>zx :call vimtex#fzf#run()<cr>
+    au FileType tex nnoremap <buffer> <leader>fx :call vimtex#fzf#run()<cr>
 augroup END
 if !exists('g:vimtex_toc_config')
     let g:vimtex_toc_config = {}
@@ -180,19 +136,24 @@ let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_quickfix_mode = 0
 let g:vimtex_format_enabled = 1
 
-" let g:vimtex_format_enabled = 1
+let g:cpp_class_scope_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_posix_standard = 1
+let g:cpp_experimental_simple_template_highlight = 1
 
 let g:python_highlight_all = 1
 
 let g:vim_markdown_conceal = 1
 let g:vim_markdown_conceal_code_blocks = 1
+let g:vim_markdown_fenced_languages = [
+            \ 'c++=cpp',
+            \ 'viml=vim',
+            \ 'bash=sh',
+            \ 'ini=dosini',
+            \ 'csharp=cs'
+            \ ]
 
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-if get(g:, 'use_coc', 0) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
+if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     let g:coc_config_home = expand( '~/.vim_runtime/config')
 
     let g:statusline_extra_left = ['coc#status', []]
@@ -205,10 +166,7 @@ if get(g:, 'use_coc', 0) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && exec
         autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     augroup END
 
-    inoremap <expr> <TAB>
-                \ pumvisible() ? "\<C-n>" :
-                \ <SID>check_back_space() ? "\<TAB>" :
-                \ coc#refresh()
+    let g:refresh_pum = ['coc#refresh', []]
     inoremap <expr> <C-l> coc#refresh()
 
     nmap [g <Plug>(coc-diagnostic-prev)
@@ -278,8 +236,6 @@ if get(g:, 'use_coc', 0) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && exec
     function! CocInstallBasic() abort
         let exts = [
                     \ 'coc-marketplace',
-                    \ 'coc-tag',
-                    \ 'coc-word',
                     \ 'coc-json',
                     \ 'coc-vimtex',
                     \ 'coc-vimlsp'
@@ -288,276 +244,6 @@ if get(g:, 'use_coc', 0) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && exec
             execute 'CocInstall ' . ext
         endfor
     endfunction
-elseif get(g:, 'use_vim_lsp', 0) && has('timers')
-    if has('lambda')
-        nmap <leader><cr><cr> <Plug>(lsp-status)
-        nmap <leader><cr>] <Plug>(lsp-preview-focus)
-        nmap <leader><cr>[ <Plug>(lsp-preview-close)
-        nmap <leader><cr>a <Plug>(lsp-code-action)
-        nmap <leader><cr>f <Plug>(lsp-document-format)
-        nmap <leader><cr>F <Plug>(lsp-document-range-format)
-        xmap <leader><cr>F <Plug>(lsp-document-range-format)
-        nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
-        nmap <S-F5> <Plug>(lsp-peek-declaration)
-        nmap <F5> <Plug>(lsp-declaration)
-        nmap <S-F6> <Plug>(lsp-peek-definition)
-        nmap <F6> <Plug>(lsp-definition)
-        nmap <S-F7> <Plug>(lsp-peek-implementation)
-        nmap <F7> <Plug>(lsp-implementation)
-        nmap <S-F8> <Plug>(lsp-peek-type-definition)
-        nmap <F8> <Plug>(lsp-type-definition)
-
-        nmap <leader><cr>h <Plug>(lsp-hover)
-        nmap <leader><cr>H <Plug>(lsp-signature-help)
-
-        nmap <leader><cr>t <Plug>(lsp-type-hierarchy)
-        nmap <leader><cr>r <Plug>(lsp-rename)
-        nmap <leader><cr>s <Plug>(lsp-document-symbol)
-        nmap <leader><cr>S <Plug>(lsp-workspace-symbol)
-
-        if has('menu')
-            nmenu PopUp.[Peek\ Declaration] <Plug>(lsp-peek-declaration)
-            nmenu PopUp.[Declaration] <Plug>(lsp-declaration)
-            nmenu PopUp.[Peek\ Definition] <Plug>(lsp-peek-definition)
-            nmenu PopUp.[Definition] <Plug>(lsp-definition)
-            nmenu PopUp.[Peek\ Implementation] <Plug>(lsp-peek-implementation)
-            nmenu PopUp.[Implementation] <Plug>(lsp-implementation)
-            nmenu PopUp.[Peek\ Type\ Definition] <Plug>(lsp-peek-type-definition)
-            nmenu PopUp.[TypeDefinition] <Plug>(lsp-type-definition)
-            nmenu PopUp.[References] <Plug>(lsp-references)
-            nmenu PopUp.[Hover] <Plug>(lsp-hover)
-            nmenu PopUp.[Signature\ Help] <Plug>(lsp-signature-help)
-        endif
-
-        augroup MyVimLsp
-            autocmd!
-            autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-        augroup END
-        function! s:on_lsp_buffer_enabled() abort
-            " setlocal omnifunc=
-
-            nmap <buffer> gL <Plug>(lsp-peek-declaration)
-            nmap <buffer> gl <Plug>(lsp-declaration)
-            nmap <buffer> gD <Plug>(lsp-peek-definition)
-            nmap <buffer> gd <Plug>(lsp-definition)
-            nmap <buffer> gI <Plug>(lsp-peek-implementation)
-            nmap <buffer> gi <Plug>(lsp-implementation)
-            nmap <buffer> gY <Plug>(lsp-peek-type-definition)
-            nmap <buffer> gy <Plug>(lsp-type-definition)
-            nmap <buffer> gr <Plug>(lsp-references)
-
-            nmap ]d <Plug>(lsp-next-diagnostic)
-            nmap ]e <Plug>(lsp-next-error)
-            nmap ]w <Plug>(lsp-next-warning)
-            nmap ]r <Plug>(lsp-next-reference)
-            nmap [d <Plug>(lsp-previous-diagnostic)
-            nmap [e <Plug>(lsp-previous-error)
-            nmap [r <Plug>(lsp-previous-reference)
-            nmap [w <Plug>(lsp-previous-warning)
-
-            nnoremap <buffer> K :call <SID>show_documentation()<CR>
-        endfunction
-
-        function! s:show_documentation() abort
-            if (index(['vim', 'help'], &filetype) >= 0)
-                try
-                    execute 'h '. expand('<cword>')
-                    return
-                catch
-                endtry
-            endif
-            LspHover
-        endfunction
-
-        let g:lsp_diagnostics_echo_cursor = 1
-        " let g:lsp_preview_autoclose = 0
-        " let g:lsp_text_edit_enabled = 0
-        let g:lsp_highlight_references_enabled = 1
-
-        " if executable('gopls')
-        "     au User lsp_setup call lsp#register_server({
-        "                 \ 'name': 'gopls',
-        "                 \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-        "                 \ 'whitelist': ['go'],
-        "                 \ })
-        " endif
-        " if executable('pyls')
-        "     au User lsp_setup call lsp#register_server({
-        "                 \ 'name': 'pyls',
-        "                 \ 'cmd': {server_info->['pyls']},
-        "                 \ 'whitelist': ['python'],
-        "                 \ })
-        " endif
-        " if executable('clangd')
-        "     au User lsp_setup call lsp#register_server({
-        "                 \ 'name': 'clangd',
-        "                 \ 'cmd': {server_info->['clangd']},
-        "                 \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-        "                 \ })
-        " endif
-        " if executable('bash-language-server')
-        "     au User lsp_setup call lsp#register_server({
-        "                 \ 'name': 'bash-language-server',
-        "                 \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
-        "                 \ 'whitelist': ['sh', 'bash'],
-        "                 \ })
-        " endif
-        " let s:java_lsp_files = globpath('~/lsp/eclipse.jdt.ls', 'plugins/org.eclipse.equinox.launcher_*.jar', 1, 1)
-        " if executable('java') && !empty(s:java_lsp_files)
-        "     au User lsp_setup call lsp#register_server({
-        "                 \ 'name': 'eclipse.jdt.ls',
-        "                 \ 'cmd': {server_info->[
-        "                 \     'java',
-        "                 \     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-        "                 \     '-Dosgi.bundles.defaultStartLevel=4',
-        "                 \     '-Declipse.product=org.eclipse.jdt.ls.core.product',
-        "                 \     '-Dlog.level=ALL',
-        "                 \     '-noverify',
-        "                 \     '-Dfile.encoding=UTF-8',
-        "                 \     '-Xmx1G',
-        "                 \     '-jar',
-        "                 \     s:java_lsp_files[0],
-        "                 \     '-configuration',
-        "                 \     expand('~/lsp/eclipse.jdt.ls/config_' . (has('win32') ? 'win' :
-        "                 \       (has('mac') ? 'mac' : 'linux'))),
-        "                 \     '-data',
-        "                 \     getcwd()
-        "                 \ ]},
-        "                 \ 'whitelist': ['java'],
-        "                 \ })
-        " endif
-        " command! -nargs=0 LSPInstallJava
-        "         \ !mkdir -p ~/lsp/eclipse.jdt.ls &&
-        "         \ cd ~/lsp/eclipse.jdt.ls &&
-        "         \ rm -rf * &&
-        "         \ curl -L http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz -O &&
-        "         \ tar -xf jdt-language-server-latest.tar.gz &&
-        "         \ rm jdt-language-server-latest.tar.gz
-    endif
-
-    augroup MyAsyncomplete
-        autocmd!
-        au CmdwinEnter [:>] iunmap <buffer> <Tab>
-    augroup END
-
-    inoremap <expr> <TAB>
-                \ pumvisible() ? "\<C-n>" :
-                \ <SID>check_back_space() ? "\<TAB>" :
-                \ asyncomplete#force_refresh()
-    imap <c-l> <Plug>(asyncomplete_force_refresh)
-
-    function! s:sort_by_priority_preprocessor(options, matches) abort
-        let l:items = []
-        let l:startcols = []
-        for [l:source_name, l:matches] in items(a:matches)
-            let l:startcol = l:matches['startcol']
-            let l:base = a:options['typed'][l:startcol - 1:]
-            for l:item in l:matches['items']
-                if type(l:item) != v:t_dict
-                    continue
-                endif
-                if stridx(l:item['word'], l:base) == 0
-                    let l:startcols += [l:startcol]
-                    let l:item['priority'] =
-                                \ get(asyncomplete#get_source_info(l:source_name), 'priority', 0)
-                    call add(l:items, l:item)
-                endif
-            endfor
-        endfor
-
-        let a:options['startcol'] = min(l:startcols)
-        let l:items = sort(l:items, {a, b -> b['priority'] - a['priority']})
-
-        call asyncomplete#preprocess_complete(a:options, l:items)
-    endfunction
-    let g:asyncomplete_preprocessor = [function('s:sort_by_priority_preprocessor')]
-    let g:asyncomplete_auto_completeopt = 0
-    if !exists('g:asyncomplete_triggers')
-        let g:asyncomplete_triggers = {}
-    endif
-    let g:asyncomplete_triggers.c = ['.', '->']
-    let g:asyncomplete_triggers.cpp = ['.', '->', '::']
-    let g:asyncomplete_triggers.go = ['.']
-    let g:asyncomplete_triggers.java = ['.']
-    let g:asyncomplete_triggers.python = ['.']
-    let g:asyncomplete_triggers.vim = ['.', '#', ':']
-    let g:asyncomplete_triggers.tex = ['\']
-    let g:asyncomplete_triggers.php = ['->', '::']
-    let g:asyncomplete_triggers.javascript = ['.']
-    let g:asyncomplete_triggers.css = [':']
-    let g:asyncomplete_triggers.xml = ['<', '</']
-    let g:asyncomplete_triggers.html = ['<', '</', '.']
-    let g:asyncomplete_triggers.xhtml = ['<', '</', '.']
-    let g:asyncomplete_triggers.markdown = ['<', '</']
-
-    try
-        " call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-        "             \ 'name': 'omni',
-        "             \ 'whitelist': ['*'],
-        "             \ 'blacklist': ['c', 'cpp', 'python'],
-        "             \ 'priority' : 20,
-        "             \ 'completor': function('asyncomplete#sources#omni#completor')
-        "             \  }))
-        call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-                    \ 'name': 'buffer',
-                    \ 'whitelist': ['*'],
-                    \ 'blacklist': ['go'],
-                    \ 'priority' : -20,
-                    \ 'completor': function('asyncomplete#sources#buffer#completor'),
-                    \ 'config': {
-                    \    'max_buffer_size': 5000000,
-                    \  },
-                    \ }))
-        call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-                    \ 'name': 'file',
-                    \ 'whitelist': ['*'],
-                    \ 'priority': 10,
-                    \ 'completor': function('asyncomplete#sources#file#completor')
-                    \ }))
-        call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
-                    \ 'name': 'tags',
-                    \ 'whitelist': ['c'],
-                    \ 'priority' : -10,
-                    \ 'completor': function('asyncomplete#sources#tags#completor'),
-                    \ 'config': {
-                    \    'max_file_size': 50000000,
-                    \  },
-                    \ }))
-        if executable('look')
-            call asyncomplete#register_source(asyncomplete#sources#look#get_source_options({
-                        \ 'name': 'look',
-                        \ 'priority' : -30,
-                        \ 'whitelist': ['text', 'markdown', 'tex'],
-                        \ 'completor': function('asyncomplete#sources#look#completor'),
-                        \ }))
-        endif
-        " call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
-        "             \ 'name': 'neosnippet',
-        "             \ 'priority' : -40,
-        "             \ 'whitelist': ['*'],
-        "             \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
-        "             \ }))
-        " if has('python3')
-        "     call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-        "                 \ 'name': 'ultisnips',
-        "                 \ 'whitelist': ['*'],
-        "                 \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-        "                 \ }))
-        " endif
-        call asyncomplete#register_source(asyncomplete#sources#necosyntax#get_source_options({
-                    \ 'name': 'necosyntax',
-                    \ 'priority' : -50,
-                    \ 'whitelist': ['*'],
-                    \ 'completor': function('asyncomplete#sources#necosyntax#completor'),
-                    \ }))
-        call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
-                    \ 'name': 'necovim',
-                    \ 'priority' : 20,
-                    \ 'whitelist': ['vim'],
-                    \ 'completor': function('asyncomplete#sources#necovim#completor'),
-                    \ }))
-    catch
-    endtry
 else
     inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 endif
@@ -721,14 +407,6 @@ smap <C-]> <Plug>(neosnippet_jump_or_expand)
 let g:neosnippet#snippets_directory = '~/.vim_snippets'
 let g:neosnippet#expand_word_boundary = 1
 let g:neosnippet#disable_runtime_snippets = {'_': 1}
-
-" if v:version >=740 && has('python3')
-"     let g:UltiSnipsExpandTrigger = '<c-\>'
-"     let g:UltiSnipsListSnippets = '<c-]>'
-"     let g:UltiSnipsJumpForwardTrigger = '<c-right>'
-"     let g:UltiSnipsJumpBackwardTrigger = '<c-left>'
-"     let g:UltiSnipsSnippetDirectories = [expand('~/.vim_snippets/UltiSnips')]
-" endif
 
 " autocmd vimenter * NERDTree
 let g:NERDTreeShowHidden = 1
@@ -912,74 +590,73 @@ inoremap <expr> <c-x>r fzf#vim#complete(fzf#wrap({
             \ 'options': '--ansi --delimiter : --nth 3..',
             \ 'reducer': {lines -> join(split(lines[0], ':\zs')[2:], '')}
             \ }))
-nnoremap <leader>zz :FZFFiles<cr>
-nnoremap <leader>zZ :FZFFiletypes<cr>
-nnoremap <leader>zf :FZFGFiles<cr>
-nnoremap <leader>zF :FZFGFiles?<cr>
-nnoremap <leader>zb :FZFBuffers<cr>
-nnoremap <leader>zo :FZFBCommits<cr>
-nnoremap <leader>zO :FZFCommits<cr>
-nnoremap <leader>zc :FZFCommands<cr>
 nnoremap <F3> :FZFCommands<cr>
 nnoremap <S-F3> :FZFCommands!<cr>
-nnoremap <leader>zC :FZFColors<cr>
-nnoremap <leader>za :FZFAg<cr>
-nnoremap <leader>zr :FZFRg<cr>
-nnoremap <leader>zl :FZFBLines<cr>
-nnoremap <leader>zL :FZFLines<cr>
-nnoremap <leader>zt :FZFBTags<cr>
-nnoremap <leader>zT :FZFTags<cr>
-nnoremap <leader>zm :FZFMarks<cr>
-nnoremap <leader>zM :FZFMaps<cr>
 nmap <F4> <plug>(fzf-maps-n)
 xmap <F4> <plug>(fzf-maps-x)
 omap <F4> <plug>(fzf-maps-o)
 imap <F4> <plug>(fzf-maps-i)
-
-nnoremap <leader>zw :FZFWindows<cr>
-nnoremap <leader>ze :FZFLocate<space>
-nnoremap <leader>zh :FZFHistory<cr>
-nnoremap <leader>z/ :FZFHistory/<cr>
-nnoremap <leader>z: :FZFHistory:<cr>
-nnoremap <leader>zH :FZFHelptags<cr>
+nnoremap <leader>ff :FZFFiles<cr>
+nnoremap <leader>fF :FZFFiletypes<cr>
+nnoremap <leader>fi :FZFGFiles<cr>
+nnoremap <leader>fI :FZFGFiles?<cr>
+nnoremap <leader>fb :FZFBuffers<cr>
+nnoremap <leader>fo :FZFBCommits<cr>
+nnoremap <leader>fO :FZFCommits<cr>
+nnoremap <leader>fc :FZFCommands<cr>
+nnoremap <leader>fC :FZFColors<cr>
+nnoremap <leader>fa :FZFAg<cr>
+nnoremap <leader>fr :FZFRg<cr>
+nnoremap <leader>fl :FZFBLines<cr>
+nnoremap <leader>fL :FZFLines<cr>
+nnoremap <leader>ft :FZFBTags<cr>
+nnoremap <leader>fT :FZFTags<cr>
+nnoremap <leader>fm :FZFMarks<cr>
+nnoremap <leader>fM :FZFMaps<cr>
+nnoremap <leader>fw :FZFWindows<cr>
+nnoremap <leader>fe :FZFLocate<space>
+nnoremap <leader>fh :FZFHistory<cr>
+nnoremap <leader>f/ :FZFHistory/<cr>
+nnoremap <leader>f: :FZFHistory:<cr>
+nnoremap <leader>fH :FZFHelptags<cr>
 " if v:version >= 740 && has('python3')
-"     nnoremap <leader>zs :FZFSnippets<cr>
+"     nnoremap <leader>fs :FZFSnippets<cr>
 " endif
-nnoremap <leader>zg :FZFGrep<cr>
-nnoremap <leader>zG :FZFGGrep<cr>
-nnoremap <leader>zq :FZFQuickFix<cr>
-nnoremap <leader>zQ :FZFLocList<cr>
+nnoremap <leader>fg :FZFGrep<cr>
+nnoremap <leader>fG :FZFGGrep<cr>
+nnoremap <leader>fq :FZFQuickFix<cr>
+nnoremap <leader>fQ :FZFLocList<cr>
 
-nnoremap <leader>Zz :FZFFiles!<cr>
-nnoremap <leader>ZZ :FZFFiletypes!<cr>
-nnoremap <leader>Zf :FZFGFiles!<cr>
-nnoremap <leader>ZF :FZFGFiles!?<cr>
-nnoremap <leader>Zb :FZFBuffers!<cr>
-nnoremap <leader>Zo :FZFBCommits!<cr>
-nnoremap <leader>ZO :FZFCommits!<cr>
-nnoremap <leader>Zc :FZFCommands!<cr>
-nnoremap <leader>ZC :FZFColors!<cr>
-nnoremap <leader>Za :FZFAg!<cr>
-nnoremap <leader>Zr :FZFRg!<cr>
-nnoremap <leader>Zl :FZFBLines!<cr>
-nnoremap <leader>ZL :FZFLines!<cr>
-nnoremap <leader>Zt :FZFBTags!<cr>
-nnoremap <leader>ZT :FZFTags!<cr>
-nnoremap <leader>Zm :FZFMarks!<cr>
-nnoremap <leader>ZM :FZFMaps!<cr>
-nnoremap <leader>Zw :FZFWindows!<cr>
-nnoremap <leader>Ze :FZFLocate!<space>
-nnoremap <leader>Zh :FZFHistory!<cr>
-nnoremap <leader>Z/ :FZFHistory/!<cr>
-nnoremap <leader>Z: :FZFHistory:!<cr>
-nnoremap <leader>ZH :FZFHelptags!<cr>
+nnoremap <leader>Fz :FZFFiles!<cr>
+nnoremap <leader>FZ :FZFFiletypes!<cr>
+nnoremap <leader>Ff :FZFGFiles!<cr>
+nnoremap <leader>FF :FZFGFiles!?<cr>
+nnoremap <leader>Fb :FZFBuffers!<cr>
+nnoremap <leader>Fo :FZFBCommits!<cr>
+nnoremap <leader>FO :FZFCommits!<cr>
+nnoremap <leader>Fc :FZFCommands!<cr>
+nnoremap <leader>FC :FZFColors!<cr>
+nnoremap <leader>Fa :FZFAg!<cr>
+nnoremap <leader>Fr :FZFRg!<cr>
+nnoremap <leader>Fl :FZFBLines!<cr>
+nnoremap <leader>FL :FZFLines!<cr>
+nnoremap <leader>Ft :FZFBTags!<cr>
+nnoremap <leader>FT :FZFTags!<cr>
+nnoremap <leader>Fm :FZFMarks!<cr>
+nnoremap <leader>FM :FZFMaps!<cr>
+nnoremap <leader>Fw :FZFWindows!<cr>
+nnoremap <leader>Fe :FZFLocate!<space>
+nnoremap <leader>Fh :FZFHistory!<cr>
+nnoremap <leader>F/ :FZFHistory/!<cr>
+nnoremap <leader>F: :FZFHistory:!<cr>
+nnoremap <leader>FH :FZFHelptags!<cr>
 " if v:version >= 740 && has('python3')
-"     nnoremap <leader>Zs :FZFSnippets!<cr>
+"     nnoremap <leader>Fs :FZFSnippets!<cr>
 " endif
-nnoremap <leader>Zg :FZFGGrep!<cr>
-nnoremap <leader>ZG :FZFGrep!<cr>
-nnoremap <leader>Zq :FZFQuickFix!<cr>
-nnoremap <leader>ZQ :FZFLocList!<cr>
+nnoremap <leader>Fg :FZFGGrep!<cr>
+nnoremap <leader>FG :FZFGrep!<cr>
+nnoremap <leader>Fq :FZFQuickFix!<cr>
+nnoremap <leader>FQ :FZFLocList!<cr>
 
 " command! -bar -bang -nargs=0 FZFFiletypes
 "             \ call fzf#vim#filetypes({'left': '20%', 'options': '--reverse --margin 5%,0'}, <bang>0)
@@ -988,25 +665,6 @@ nnoremap <leader>ZQ :FZFLocList!<cr>
 
 nmap <c-_> <Plug>CommentaryLine
 xmap <c-_> <Plug>Commentary
-
-" let g:dispatch_no_maps = 1
-" nnoremap <leader>rr :Dispatch<space>
-" nnoremap <leader>rR :Dispatch!<space>
-" nnoremap <leader>Rd :Dispatch<cr>
-" nnoremap <leader>RD :Dispatch!<cr>
-" nnoremap <leader>rm :Make<space>
-" nnoremap <leader>rM :Make!<space>
-" nnoremap <leader>Rm :Make<cr>
-" nnoremap <leader>RM :Make!<cr>
-" nnoremap <leader>rc :Copen<cr>
-" nnoremap <leader>rC :Copen!<cr>
-" nnoremap <leader>rf :FocusDispatch<space>
-" nnoremap <leader>rF :FocusDispatch!<space>
-" nnoremap <leader>Rf :FocusDispatch<cr>
-" nnoremap <leader>RF :FocusDispatch!<cr>
-" nnoremap <leader>ra :AbortDispatch<cr>
-" nnoremap <leader>rA :AbortDispatch<space>
-" nnoremap <leader>rs :Start<space>
 
 nnoremap <leader>rr :AsyncRun<space>
 nnoremap <leader>rR :AsyncRun!<space>
@@ -1024,29 +682,6 @@ nnoremap <leader>TS :TestSuite<Space>
 nnoremap <leader>Tl :TestLast<CR>
 nnoremap <leader>Tv :TestVisit<CR>
 " let test#strategy = 'neomake'
-
-" if !exists('g:gutentags_modules')
-"     let g:gutentags_modules = []
-" endif
-" if executable('ctags')
-"     call add(g:gutentags_modules, 'ctags')
-" endif
-" if executable('gtags-cscope')
-"     call add(g:gutentags_modules, 'gtags_cscope')
-" elseif executable('cscope')
-"     call add(g:gutentags_modules, 'cscope')
-" endif
-" let g:gutentags_enabled = 0
-" let g:gitgutter_preview_win_floating = 0
-" let g:gutentags_generate_on_missing = 0
-" let g:gutentags_generate_on_new = 0
-" let g:gutentags_generate_on_write = 1
-" let g:gutentags_define_advanced_commands = 1
-" let g:gutentags_ctags_extra_args = ['--sort=yes', '--c++-kinds=+p', '--fields=+mnialS', '--extra=+q']
-" let g:gutentags_cache_dir = '~/.vim_gutentags'
-" nnoremap <leader>gt :GutentagsToggleEnabled<cr>
-" nnoremap <leader>gu :GutentagsUpdate<cr>
-" nnoremap <leader>gU :GutentagsUpdate!<cr>
 
 let g:goyo_width = '95%'
 let g:goyo_height = '95%'
@@ -1069,15 +704,6 @@ let g:grepper.prompt_mapping_tool = '<c-g>'
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
 
-" let g:better_whitespace_ctermcolor = '239'
-" let g:better_whitespace_guicolor = '#4e4e4e'
-" let g:better_whitespace_operator = 'gs'
-" nnoremap <leader>sp :ToggleWhitespace<cr>
-" nnoremap ]w :NextTrailingWhitespace<CR>
-" nnoremap [w :PrevTrailingWhitespace<CR>
-" xnoremap ]w :NextTrailingWhitespace<CR>
-" xnoremap [w :PrevTrailingWhitespace<CR>
-
 nnoremap <leader>uu :UndotreeToggle<cr>
 nnoremap <leader>uf :UndotreeFocus<cr>
 nnoremap <leader>us :UndotreeShow<cr>
@@ -1094,10 +720,10 @@ let g:undotree_HelpLine = 0
 let g:neoformat_basic_format_align = 1
 let g:neoformat_basic_format_retab = 1
 let g:neoformat_basic_format_trim = 1
-nnoremap <leader>fm :Neoformat<cr>
-xnoremap <leader>fm :Neoformat<cr>
-nnoremap <leader>fM :Neoformat<space>
-xnoremap <leader>fM :Neoformat<space>
+nnoremap g<c-f> :Neoformat<cr>
+xnoremap g<c-f> :Neoformat<cr>
+nnoremap <a-f> :Neoformat<cr>
+xnoremap <a-f> :Neoformat<cr>
 
 let g:startify_change_to_vcs_root = 1
 let g:startify_custom_indices = map(range(0,99), 'printf("%02d", v:val)')
@@ -1203,19 +829,16 @@ catch
 endtry
 
 try
-call expand_region#custom_text_objects({
-            \ "\/\\n\\n\<CR>": 1,
-            \ 'a]' :1,
-            \ 'ab' :1,
-            \ 'aB' :1,
-            \ 'ii' :0,
-            \ 'ai' :0
-            \ })
+    call expand_region#custom_text_objects({
+                \ "\/\\n\\n\<CR>": 1,
+                \ 'a]' :1,
+                \ 'ab' :1,
+                \ 'aB' :1,
+                \ 'ii' :0,
+                \ 'ai' :0
+                \ })
 catch
 endtry
-
-" nmap <leader>k :DevDocs<space>
-" nmap <leader>K :DevDocsAll<space>
 
 nmap <leader>cc <Plug>Colorizer
 xmap <leader>cc <Plug>Colorizer

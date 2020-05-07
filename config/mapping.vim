@@ -44,7 +44,6 @@ nnoremap <leader>en :enew<cr>
 
 nnoremap <leader>oo :set scrolloff=<c-r>=999 - &scrolloff<cr> sidescrolloff=<c-r>=999 - &sidescrolloff<cr><cr>
 nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
-nnoremap <leader>ot :set ttyscroll=<c-r>=999 - &ttyscroll<cr><cr>
 nnoremap <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
 nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? 1 : 0<cr><cr>
 if has('patch-8.1.1564')
@@ -63,6 +62,27 @@ nnoremap <leader>ow :set textwidth=<c-r>=&textwidth == 0 ? 79 : 0<cr><cr>
 nnoremap <leader>oc :set colorcolumn=<c-r>=empty(&colorcolumn) ? '+1' : ''<cr><cr>
 nnoremap <leader>oz :set foldclose=<c-r>=&foldclose !=# 'all' ? 'all' : ''<cr> foldopen=<c-r>=&foldopen !=# 'all' ? 'all' : ''<cr><cr>
 nnoremap <leader>ob :set background=<c-r>=&background ==# 'dark' ? 'light' : 'dark'<cr><cr>
+" nnoremap <leader>ot :set ttyscroll=<c-r>=999 - &ttyscroll<cr><cr>
+nnoremap <leader>ot :ToggleTransparent<cr>
+command! -nargs=0 ToggleTransparent call ToggleTransparent()
+function! ToggleTransparent() abort
+    if get(s:, 'transparent', 0)
+        exe 'hi Normal guibg=' . s:normal_guibg . ' ctermbg=' . s:normal_ctermbg
+        let s:transparent = 0
+    else
+        let s:normal_guibg = ReturnHighlightTerm('Normal', 'guibg')
+        let s:normal_ctermbg = ReturnHighlightTerm('Normal', 'ctermbg')
+        hi Normal guibg=NONE ctermbg=NONE
+        let s:transparent = 1
+    endif
+endfunction
+function! ReturnHighlightTerm(group, term) abort
+   " Store output of group to variable
+   let output = execute('hi ' . a:group)
+
+   " Find the term we're looking for
+   return matchstr(output, a:term . '\V=\zs\S\*')
+endfunction
 
 nnoremap <c-]> g<c-]>
 nnoremap g<c-]> <c-]>
@@ -152,7 +172,7 @@ if has('nvim-0.4.0') || has('patch-8.2.191')
                     exe 'au BufWipeout <buffer> if win_id2tabwin(' . s:term_win . ') != [0, 0] | call nvim_win_close(' . s:term_win . ', v:false) | endif'
                 augroup END
                 if need_termopen
-                    call termopen(empty(a:cmd) ? &shell : (a:cmd), {'on_exit': function('OnTermExit')})
+                    call termopen(empty(a:cmd) ? split(&shell) : (a:cmd), {'on_exit': function('OnTermExit')})
                     startinsert
                 endif
                 if get(s:, 'term_tmode', 0) && mode() !=# 't'
@@ -317,28 +337,29 @@ function! BetterMark()
     endwhile
 endfunction
 
+nnoremap <leader>sw :let @/='\<lt><c-r>=expand('<lt>cword>')<cr>\>' <bar> set hls<cr>
+nnoremap <leader>sW :let @/='\<lt><c-r>=expand('<lt>cWORD>')<cr>\>' <bar> set hls<cr>
+
 inoremap <F1> <C-O>za
 nnoremap <F1> za
 onoremap <F1> <C-C>za
 vnoremap <F1> zf
-nnoremap <leader>ff :let @/='\<lt><c-r>=expand('<lt>cword>')<cr>\>' <bar> set hls<cr>
-nnoremap <leader>fF :let @/='\<lt><c-r>=expand('<lt>cWORD>')<cr>\>' <bar> set hls<cr>
-nnoremap <leader>f0 :set foldlevel=0<cr>
-nnoremap <leader>f1 :set foldlevel=1<cr>
-nnoremap <leader>f2 :set foldlevel=2<cr>
-nnoremap <leader>f3 :set foldlevel=3<cr>
-nnoremap <leader>f4 :set foldlevel=4<cr>
-nnoremap <leader>f5 :set foldlevel=5<cr>
-nnoremap <leader>f6 :set foldlevel=6<cr>
-nnoremap <leader>f7 :set foldlevel=7<cr>
-nnoremap <leader>f8 :set foldlevel=8<cr>
-nnoremap <leader>f9 :set foldlevel=9<cr>
-nnoremap <leader>f- :set foldlevel-=1<cr>
-nnoremap <leader>f+ :set foldlevel+=1<cr>
-nnoremap <leader>f= :set foldlevel=<c-r>=&foldlevel == 99 ? 0 : 99<cr><cr>
-nnoremap <leader>f/ :setlocal foldexpr=getline(v:lnum)=~@/?0:1 foldmethod=
-            \<c-r>=&foldmethod == 'expr' ? 'indent' : 'expr'<cr> foldlevel=
-            \<c-r>=&foldmethod == 'expr' ? 99 : 0<cr><cr>
+nnoremap <leader>z0 :set foldlevel=0<cr>
+nnoremap <leader>z1 :set foldlevel=1<cr>
+nnoremap <leader>z2 :set foldlevel=2<cr>
+nnoremap <leader>z3 :set foldlevel=3<cr>
+nnoremap <leader>z4 :set foldlevel=4<cr>
+nnoremap <leader>z5 :set foldlevel=5<cr>
+nnoremap <leader>z6 :set foldlevel=6<cr>
+nnoremap <leader>z7 :set foldlevel=7<cr>
+nnoremap <leader>z8 :set foldlevel=8<cr>
+nnoremap <leader>z9 :set foldlevel=9<cr>
+nnoremap <leader>z- :set foldlevel-=1<cr>
+nnoremap <leader>z+ :set foldlevel+=1<cr>
+nnoremap <leader>z= :set foldlevel=<c-r>=&foldlevel == 99 ? 0 : 99<cr><cr>
+" nnoremap <leader>f/ :setlocal foldexpr=getline(v:lnum)=~@/?0:1 foldmethod=
+"             \<c-r>=&foldmethod == 'expr' ? 'indent' : 'expr'<cr> foldlevel=
+"             \<c-r>=&foldmethod == 'expr' ? 99 : 0<cr><cr>
 xnoremap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : ':<c-u>silent! normal! [zV]z<cr>'
 
 " Changes to allow blank lines in blocks, and
@@ -827,7 +848,8 @@ augroup END
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
-nnoremap <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+nnoremap <leader>te :tabe <c-r>=fnameescape(expand('%:.:h'))<cr>/
+nnoremap <leader>tE :tabe <c-r>=GetVcsRoot()<cr>
 
 nnoremap <leader>1 1gt
 nnoremap <leader>2 2gt
@@ -855,12 +877,39 @@ endfunction
 
 nnoremap <leader>sl :set invspell<cr>
 
-inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : RefreshPum("\<TAB>", "\<C-n>")
+inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : RefreshPum("\<S-TAB>", "\<C-p>")
 inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<down>"
 inoremap <expr> <up> pumvisible() ? "\<c-p>" : "\<up>"
 inoremap <expr> <c-e> pumvisible() ? "\<c-e>" : "\<End>"
 inoremap <expr> <c-h> ICH()
 inoremap <expr> <bs> ICH()
+if exists('*complete_info')
+    inoremap <expr> <cr> complete_info()['selected'] != '-1' ?
+                \ "\<C-y>" : "\<C-g>u" . ICR()
+else
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u" . ICR()
+endif
+function! RefreshPum(old, new) abort
+    if CheckBS()
+        return a:old
+    endif
+    let refresh_pum = get(g:, 'refresh_pum', [])
+    if empty(refresh_pum)
+        return a:new
+    endif
+    try
+        return call(refresh_pum[0], refresh_pum[1])
+    catch
+        return a:new
+    endtry
+endfunction
+function! CheckBS() abort
+    fu
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
 function! ICH() abort
     let thisline = getline('.')
     let col = col('.')
@@ -889,12 +938,6 @@ function! ICH() abort
     " endif
     return "\<C-H>"
 endfunction
-if exists('*complete_info')
-    inoremap <expr> <cr> complete_info()['selected'] != '-1' ?
-                \ "\<C-y>" : "\<C-g>u" . ICR()
-else
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u" . ICR()
-endif
 " tries to make <CR> a little smarter in insert mode:
 " - expands [{()}] 'correctly'
 " - expands <tag>|</tag> 'correctly'
@@ -916,7 +959,6 @@ function! ICR()
     endif
 endfunction
 function! ExpandPair(left, right, next)
-    let pair_position = []
     let pair_position = searchpairpos('\V' . a:left, '', '\V' . a:right, 'Wn')
     if a:next ==# a:right
         return "\<CR>\<ESC>==O"
@@ -1026,9 +1068,9 @@ function! CloseParen() abort
 endfun
 
 if exists(':terminal')
-    nnoremap <localleader>b :let @" = 'break ' . expand('%:p') . ':' . line('.')<cr>
-    nnoremap <localleader>B :let @" = 'tbreak ' . expand('%:p') . ':' . line('.')<cr>
-    nnoremap <localleader>c :let @" = 'clear ' . expand('%:p') . ':' . line('.')<cr>
+    nnoremap <localleader>bb :let @" = 'break ' . expand('%:p') . ':' . line('.')<cr>
+    nnoremap <localleader>bt :let @" = 'tbreak ' . expand('%:p') . ':' . line('.')<cr>
+    nnoremap <localleader>bc :let @" = 'clear ' . expand('%:p') . ':' . line('.')<cr>
 endif
 
 nnoremap <leader>sp :TrimWhiteSpace<cr>
