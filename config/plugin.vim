@@ -427,7 +427,7 @@ nnoremap <leader>nr :NERDTreeRefreshRoot<cr>
 nnoremap <leader>nm :NERDTreeMirror<cr>
 augroup MyNERDTree
     autocmd!
-    autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
+    autocmd BufEnter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
 augroup END
 
 let g:ctrlp_working_path_mode = 'ra'

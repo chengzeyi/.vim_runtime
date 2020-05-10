@@ -10,7 +10,7 @@ set notimeout
 set ttimeout
 set ttimeoutlen=20
 
-" set shortmess=a
+set shortmess+=atT
 
 " Setting this instead of nvi makes VIM more compatible with aweful terminals
 set mouse=nvi
@@ -21,7 +21,7 @@ if exists('+ttymouse')
         set ttymouse=xterm2
     endif
 endif
-set mousemodel=popup_setpos
+" set mousemodel=popup_setpos
 
 set tags+=./tags; tags+=./TAGS;
 " set tags+=./.tags
@@ -123,8 +123,6 @@ set ruler
 set cmdheight=1
 set showmode
 set showcmd
-
-set shortmess=at
 
 set hid
 

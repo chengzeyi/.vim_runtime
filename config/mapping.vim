@@ -42,7 +42,7 @@ nnoremap <leader><bslash> :sp<cr>
 
 nnoremap <leader>en :enew<cr>
 
-nnoremap <leader>oo :set scrolloff=<c-r>=999 - &scrolloff<cr> sidescrolloff=<c-r>=999 - &sidescrolloff<cr><cr>
+nnoremap <leader>oo :set scrolloff=<c-r>=999 - &scrolloff<cr><cr>
 nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
 nnoremap <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
 nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? 1 : 0<cr><cr>
@@ -142,8 +142,8 @@ if has('nvim-0.4.0') || has('patch-8.2.191')
             let lines = [top] + repeat([mid], height - 2) + [bot]
             let s:border_buf = nvim_create_buf(v:false, v:true)
             call nvim_buf_set_lines(s:border_buf, 0, -1, v:true, lines)
-            call nvim_open_win(s:border_buf, v:true, a:opts)
-            set winhl=Normal:Floating
+            let win = nvim_open_win(s:border_buf, v:true, a:opts)
+            call setwinvar(win, '&winhighlight', 'NormalFloat:Comment')
             return s:border_buf
         endfunction
 
@@ -166,6 +166,7 @@ if has('nvim-0.4.0') || has('patch-8.2.191')
             endif
             if border_buf
                 let s:term_win = nvim_open_win(s:term_buf, v:true, opts)
+                call setwinvar(s:term_win, '&winhighlight', 'NormalFloat:Normal')
                 augroup MyTermBuf
                     autocmd!
                     exe 'au BufWipeout <buffer> if bufexists(' . border_buf . ') | bwipeout ' . border_buf . ' | endif'
@@ -209,7 +210,7 @@ if has('nvim-0.4.0') || has('patch-8.2.191')
                             \ 'minheight': height,
                             \ 'zindex': 50,
                             \ 'border': [1],
-                            \ 'borderhighlight': ['Floating'],
+                            \ 'borderhighlight': ['Comment'],
                             \ 'borderchars': ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
                             \ })
             else 
@@ -518,27 +519,6 @@ endif
 "     set shell=fish
 " endif
 
-function! CmdLine(str) abort
-    call feedkeys(':' . a:str)
-endfunction
-
-function! VisualSelection(direction, extra_filter) range abort
-    let l:saved_reg = @"
-    execute 'normal! vgvy'
-
-    let l:pattern = escape(@", "\\/.*'$^~[]")
-    let l:pattern = substitute(l:pattern, "\n$", '', '')
-
-    if a:direction ==# 'gv'
-        call CmdLine("Ack '" . l:pattern . "' " )
-    elseif a:direction ==# 'replace'
-        call CmdLine('%s' . '/'. l:pattern . '/')
-    endif
-
-    let @/ = l:pattern
-    let @" = l:saved_reg
-endfunction
-
 if exists(':packadd')
     nnoremap <leader>qf :packadd cfilter<cr>:Cfilter<space>
     nnoremap <leader>qv :packadd cfilter<cr>:Cfilter!<space>
@@ -734,11 +714,6 @@ if executable('xxd')
         let &l:modified = modified
     endfunction
 endif
-
-" Visual mode pressing * or # searches for the current selection
-" Super useful! From an idea by Michael Naumann
-xnoremap * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-xnoremap # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 

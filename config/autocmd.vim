@@ -20,6 +20,9 @@ augroup MyQuickFixEnhancement
     " autocmd QuickFixCmdPost l* call ShortenQuifkFixPath(1)
     " autocmd FileType qf autocmd CursorMoved <buffer=abuf> call EchoQFBufName()
     autocmd FileType qf setl nowrap nonumber norelativenumber foldcolumn=0
+    autocmd BufEnter * if winnr('$') == 1 &&
+                \ &filetype ==# 'qf'
+                \ | q | endif
 augroup END
 
 command! RemoveQFItem call RemoveQFItem()
