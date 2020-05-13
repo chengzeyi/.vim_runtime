@@ -77,23 +77,23 @@ function! ToggleTransparent() abort
     endif
 endfunction
 function! ReturnHighlightTerm(group, term) abort
-   " Store output of group to variable
-   let output = execute('hi ' . a:group)
+    " Store output of group to variable
+    let output = execute('hi ' . a:group)
 
-   " Find the term we're looking for
-   return matchstr(output, a:term . '\V=\zs\S\*')
+    " Find the term we're looking for
+    return matchstr(output, a:term . '\V=\zs\S\*')
 endfunction
 
-nnoremap <c-]> g<c-]>
-nnoremap g<c-]> <c-]>
-xnoremap <c-]> g<c-]>
-xnoremap g<c-]> <c-]>
-nnoremap <c-w><c-]> <c-w>g<c-]>
-nnoremap <c-w>g<c-]> <c-w><c-]>
-xnoremap <c-w><c-]> <c-w>g<c-]>
-xnoremap <c-w>g<c-]> <c-w><c-]>
-nnoremap g<LeftMouse> <LeftMouse>g<c-]>
-nnoremap <C-LeftMouse> <LeftMouse>g<c-]>
+" nnoremap <c-]> g<c-]>
+" nnoremap g<c-]> <c-]>
+" xnoremap <c-]> g<c-]>
+" xnoremap g<c-]> <c-]>
+" nnoremap <c-w><c-]> <c-w>g<c-]>
+" nnoremap <c-w>g<c-]> <c-w><c-]>
+" xnoremap <c-w><c-]> <c-w>g<c-]>
+" xnoremap <c-w>g<c-]> <c-w><c-]>
+" nnoremap g<LeftMouse> <LeftMouse>g<c-]>
+" nnoremap <C-LeftMouse> <LeftMouse>g<c-]>
 
 if exists(':terminal')
     tnoremap <F1> <c-\><c-n>
@@ -158,13 +158,13 @@ if has('nvim-0.4.0') || has('patch-8.2.191')
             let opts.height -= 2
             let opts.col += 2
             let opts.width -= 4
-            if !exists('s:term_buf') || !bufexists(s:term_buf)
-                let s:term_buf = nvim_create_buf(v:false, v:false)
-                let need_termopen = 1
-            else
-                let need_termopen = 0
-            endif
             if border_buf
+                if !exists('s:term_buf') || !bufexists(s:term_buf)
+                    let s:term_buf = nvim_create_buf(v:false, v:false)
+                    let need_termopen = 1
+                else
+                    let need_termopen = 0
+                endif
                 let s:term_win = nvim_open_win(s:term_buf, v:true, opts)
                 call setwinvar(s:term_win, '&winhighlight', 'NormalFloat:Normal')
                 augroup MyTermBuf
@@ -175,11 +175,10 @@ if has('nvim-0.4.0') || has('patch-8.2.191')
                 if need_termopen
                     call termopen(empty(a:cmd) ? split(&shell) : (a:cmd), {'on_exit': function('OnTermExit')})
                     startinsert
-                endif
-                if get(s:, 'term_tmode', 0) && mode() !=# 't'
+                elseif get(s:, 'term_tmode', 0) && mode() !=# 't'
                     startinsert
                 endif
-            elseif nvim_win_is_valid(s:term_win)
+            elseif exists('s:term_win') && nvim_win_is_valid(s:term_win)
                 call nvim_win_close(s:term_win, v:false)
                 let s:term_tmode = a:bang
             endif
@@ -408,28 +407,28 @@ function! IndTxtObj(inner) abort
     endif
 endfunction
 
-nnoremap <a-t> :set opfunc=Trans<CR>g@
+nnoremap <a-t> :set opfunc=Trans<CR>g@iw
 xnoremap <a-t> :<C-U>call Trans(visualmode(), 1)<CR>
-nnoremap g<c-t> :set opfunc=Trans<CR>g@
+nnoremap g<c-t> :set opfunc=Trans<CR>g@iw
 xnoremap g<c-t> :<C-U>call Trans(visualmode(), 1)<CR>
 command! -nargs=* Trans call DoTrans(<q-args>)
 function! Trans(type, ...) abort
     let sel_save = &selection
-    let &selection = "i'clusive"
+    let &selection = 'inclusive'
     let reg_save = @@
 
     if a:0  " Invoked from Visual mode, use gv command.
-        silent exe 'normal! gvy'
+        noautocmd silent exe 'normal! gvy'
     elseif a:type ==# 'line'
-        silent exe "normal! '[V']y"
+        noautocmd silent exe "normal! '[V']y"
     else
-        silent exe 'normal! `[v`]y'
+        noautocmd silent exe 'normal! `[v`]y'
     endif
 
+    call DoTrans(@@)
+
     let &selection = sel_save
-    let text = @@
     let @@ = reg_save
-    call DoTrans(text)
 endfunction
 function! DoTrans(text) abort
     let text = empty(a:text) ? expand('<cword>') : a:text
@@ -472,7 +471,11 @@ function! PV(cmd) abort
                     \ 'row': 0,
                     \ 'col': 0,
                     \ 'style': 'minimal'})
-        execute 'au CursorMoved * ++once call nvim_win_close(' . win . ', 0)'
+        " Must use a delayed autocmd, otherwise the window will be closed as
+        " soon as it has been created in visual mode.
+        " This might be a bug of NeoVim?
+        call timer_start(50,
+                    \ {-> execute('au CursorMoved * ++once call nvim_win_close(' . win . ', 0)')})
     else
         execute '!' . a:cmd
     endif
@@ -880,7 +883,6 @@ function! RefreshPum(old, new) abort
     endtry
 endfunction
 function! CheckBS() abort
-    fu
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
@@ -927,8 +929,8 @@ function! ICR()
     let idx = stridx('{[(', previous)
     if previous !=# '' && idx >= 0
         return ExpandPair(previous, '}])'[idx], next)
-    " elseif previous ==# '>' && next ==# '<'
-    "     return ExpandTag(next)
+        " elseif previous ==# '>' && next ==# '<'
+        "     return ExpandTag(next)
     else
         return "\<CR>"
     endif

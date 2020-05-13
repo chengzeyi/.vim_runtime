@@ -23,7 +23,7 @@ if exists('+ttymouse')
 endif
 " set mousemodel=popup_setpos
 
-set tags+=./tags; tags+=./TAGS;
+set tags+=./tags;
 " set tags+=./.tags
 " set tags+=../.tags
 " set tags+=../../.tags
@@ -31,6 +31,7 @@ set tags+=./tags; tags+=./TAGS;
 " set tags+=../../../../.tags
 " set tags+=~/.vimtags
 " set tags+=~/.vim_runtime/tags/cpp_tags
+set tagcase=match
 
 set updatetime=200
 

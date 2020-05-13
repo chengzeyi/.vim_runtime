@@ -546,20 +546,20 @@ let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 let g:fzf_tags_command = 'ctags -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q'
 let g:fzf_prefer_tmux = 1
 let g:fzf_preview_window = 'up'
-let g:fzf_colors =
-            \ { 'fg':      ['fg', 'Normal'],
-            \ 'bg':      ['bg', 'Normal'],
-            \ 'hl':      ['fg', 'Comment'],
-            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-            \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-            \ 'hl+':     ['fg', 'Statement'],
-            \ 'info':    ['fg', 'PreProc'],
-            \ 'border':  ['fg', 'Ignore'],
-            \ 'prompt':  ['fg', 'Conditional'],
-            \ 'pointer': ['fg', 'Exception'],
-            \ 'marker':  ['fg', 'Keyword'],
-            \ 'spinner': ['fg', 'Label'],
-            \ 'header':  ['fg', 'Comment'] }
+" let g:fzf_colors =
+"             \ { 'fg':      ['fg', 'Normal'],
+"             \ 'bg':      ['bg', 'Normal'],
+"             \ 'hl':      ['fg', 'Comment'],
+"             \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+"             \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+"             \ 'hl+':     ['fg', 'Statement'],
+"             \ 'info':    ['fg', 'PreProc'],
+"             \ 'border':  ['fg', 'Ignore'],
+"             \ 'prompt':  ['fg', 'Conditional'],
+"             \ 'pointer': ['fg', 'Exception'],
+"             \ 'marker':  ['fg', 'Keyword'],
+"             \ 'spinner': ['fg', 'Label'],
+"             \ 'header':  ['fg', 'Comment'] }
 if has('nvim-0.4.0') || has('patch-8.2.191')
     let g:fzf_layout = {'window': {'width': 0.8, 'height': 0.8}}
 endif
@@ -590,6 +590,18 @@ inoremap <expr> <c-x>r fzf#vim#complete(fzf#wrap({
             \ 'options': '--ansi --delimiter : --nth 3..',
             \ 'reducer': {lines -> join(split(lines[0], ':\zs')[2:], '')}
             \ }))
+nnoremap <leader>fd :FZFCd<cr>
+nnoremap <leader>fD :FZFTcd<cr>
+nnoremap <leader>Fd :FZFCd!<cr>
+nnoremap <leader>FD :FZFTcd!<cr>
+command! -nargs=* -complete=dir -bang FZFCd call fzf#run(fzf#wrap({
+            \ 'source': 'find ' . (empty(<q-args>) ? '.' : <q-args>) . ' -type d',
+            \ 'sink': 'cd'
+            \ }, <bang>0))
+command! -nargs=* -complete=dir -bang FZFTcd call fzf#run(fzf#wrap({
+            \ 'source': 'find ' . (empty(<q-args>) ? '.' : <q-args>) . ' -type d',
+            \ 'sink': 'tcd'
+            \ }, <bang>0))
 nnoremap <F3> :FZFCommands<cr>
 nnoremap <S-F3> :FZFCommands!<cr>
 nmap <F4> <plug>(fzf-maps-n)
