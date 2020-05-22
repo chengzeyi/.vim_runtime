@@ -244,8 +244,6 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
             execute 'CocInstall ' . ext
         endfor
     endfunction
-else
-    inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 endif
 
 if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
