@@ -88,8 +88,12 @@ Plug 'chengzeyi/fzf-preview.vim'
 
 Plug 'nathanaelkane/vim-indent-guides'
 
-if (exists(':terminal') && (has('patch-8.0.1593') || has('nvim'))) && !has('nvim-0.4.0') && !has('patch-8.2.191')
-    Plug 'Lenovsky/nuake'
+if exists(':terminal')
+    if has('nvim-0.4.0') || has('patch-8.2.191')
+        Plug 'chengzeyi/multiterm.vim'
+    elseif has('patch-8.0.1593') || has('nvim')
+        Plug 'Lenovsky/nuake'
+    endif
 endif
 
 if (has('job') && has('channel')) || has('nvim')
@@ -749,12 +753,17 @@ let g:startify_custom_header = [
             \ ]
 nnoremap <leader>st :Startify<cr>
 
-if (exists(':terminal') && (has('patch-8.0.1593') || has('nvim'))) && !has('nvim-0.4.0') && !has('patch-8.2.191')
-    nnoremap <F12> :Nuake<cr>
-    if has('nvim')
-        tnoremap <F12> <c-\><c-n>:Nuake<cr>
-    else
-        tnoremap <F12> <c-w>:Nuake<cr>
+if exists(':terminal')
+    if has('nvim-0.4.0') || has('patch-8.2.191')
+        nmap <F12> <Plug>(Multiterm)
+        tmap <F12> <Plug>(Multiterm)
+    elseif has('patch-8.0.1593') || has('nvim')
+        nnoremap <F12> :Nuake<cr>
+        if has('nvim')
+            tnoremap <F12> <c-\><c-n>:Nuake<cr>
+        else
+            tnoremap <F12> <c-w>:Nuake<cr>
+        endif
     endif
 endif
 

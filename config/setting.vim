@@ -92,7 +92,7 @@ set foldlevelstart=99
 
 set display+=lastline
 
-set re=1
+" set re=1
 
 set scrolloff=1
 
@@ -281,9 +281,10 @@ set pumheight=12
 " endif
 set previewheight=10
 
-" if has('conceal')
-"     set conceallevel=2 concealcursor=nc
-" endif
+if has('conceal')
+    " set conceallevel=2 concealcursor=nc
+    set concealcursor=nc
+endif
 
 " if has('balloondelay')
 "     set balloondelay=200
