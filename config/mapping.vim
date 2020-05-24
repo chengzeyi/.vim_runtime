@@ -709,7 +709,7 @@ if !has('nvim')
     command! -nargs=0 W w !sudo tee % > /dev/null
 endif
 
-nnoremap <leader>ed :e <c-r>=fnameescape(expand('%:.:h'))<cr>/
+nnoremap <leader>ed :e <c-r>=fnameescape(expand('%:~:h'))<cr>/
 nnoremap <leader>eD :e <c-r>=GetVcsRoot()<cr>
 
 if executable('xxd')
@@ -850,7 +850,7 @@ augroup END
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
-nnoremap <leader>te :tabe <c-r>=fnameescape(expand('%:.:h'))<cr>/
+nnoremap <leader>te :tabe <c-r>=fnameescape(expand('%:~:h'))<cr>/
 nnoremap <leader>tE :tabe <c-r>=GetVcsRoot()<cr>
 
 nnoremap <leader>1 1gt
@@ -995,7 +995,7 @@ inoremap <c-x>` `<c-g>U<left>"
 inoremap ( )<c-g>U<left>(
 inoremap [ ]<c-g>U<left>[
 inoremap { }<c-g>U<left>{
-inoremap <expr> < strpart(getline('.'), col('.') - 2, 1) !~# '\V\s' ? ">\<c-g>U\<left><lt>" : '<'
+inoremap <expr> <lt> strpart(getline('.'), col('.') - 2, 1) !~# '\V\s\<bar>\[<lt>]' ? ">\<c-g>U\<left><lt>" : '<lt>'
 inoremap <expr> > strpart(getline('.'), col('.') - 1, 1) ==# '>' && strpart(getline('.'), col('.') - 2, 1) !~# '\V\s' ?
             \ "\<c-g>U\<right>" : '>'
 inoremap <expr> ) strpart(getline('.'), col('.') - 1, 1) ==# ')' ? "\<c-g>U\<right>" : ')'
