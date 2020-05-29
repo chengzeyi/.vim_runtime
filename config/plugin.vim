@@ -5,6 +5,7 @@ call plug#begin('~/.vim_runtime/plugged')
 " Plug 'chengzeyi/vim-markify'
 
 Plug 'lervag/vimtex'
+Plug 'chengzeyi/go-highlight.vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
 " Plug 'bfrg/vim-cpp-modern'
 Plug 'vim-python/python-syntax'
@@ -13,6 +14,9 @@ Plug 'othree/html5.vim'
 Plug 'uiiaoo/java-syntax.vim'
 
 Plug 'mikelue/vim-maven-plugin'
+if executable('gotests')
+    Plug 'buoto/gotests-vim'
+endif
 
 if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     " Plug 'jackguo380/vim-lsp-cxx-highlight'
@@ -195,6 +199,8 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     nmap <leader><cr>a :CocAction<cr>
     xmap <leader><cr>a :CocAction<cr>
     nmap <leader><cr>l <Plug>(coc-codelens-action)
+    nmap <leader><cr>h :call CocActionAsync('showSignatureHelp')<cr>
+    imap <c-q> <c-o>:call CocActionAsync('showSignatureHelp')<cr>
     xmap im <Plug>(coc-funcobj-i)
     xmap am <Plug>(coc-funcobj-a)
     omap im <Plug>(coc-funcobj-i)
@@ -567,12 +573,13 @@ if has('nvim-0.4.0') || has('patch-8.2.191')
 endif
 " let g:fzf_layout = {'window': 'bot'.float2nr(0.4 * &lines).'new'}
 " let g:fzf_layout = {'down': '40%'}
-imap <c-x>w <plug>(fzf-complete-word)
-imap <c-x>p <plug>(fzf-complete-path)
-imap <c-x>f <plug>(fzf-complete-file)
-imap <c-x>F <plug>(fzf-complete-file-ag)
-imap <c-x>l <plug>(fzf-complete-buffer-line)
-imap <c-x>L <plug>(fzf-complete-line)
+" Some workaround to fix the character deletion error at empty lines.
+imap <c-x>w 0<c-h><plug>(fzf-complete-word)
+imap <c-x>p 0<c-h><plug>(fzf-complete-path)
+imap <c-x>f 0<c-h><plug>(fzf-complete-file)
+imap <c-x>F 0<c-h><plug>(fzf-complete-file-ag)
+imap <c-x>l 0<c-h><plug>(fzf-complete-buffer-line)
+imap <c-x>L 0<c-h><plug>(fzf-complete-line)
 inoremap <expr> <c-x>g fzf#vim#complete(fzf#wrap({
             \ 'prefix': '^.*$',
             \ 'source': 'grep -n --color=always -r .',

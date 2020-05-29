@@ -41,6 +41,7 @@ nnoremap <leader><bar> :vs<cr>
 nnoremap <leader><bslash> :sp<cr>
 
 nnoremap <leader>en :enew<cr>
+nnoremap <leader>eN :enew<cr>:set buftype=nofile<cr>
 
 nnoremap <leader>oo :set scrolloff=<c-r>=999 - &scrolloff<cr><cr>
 nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
@@ -879,8 +880,8 @@ endfunction
 
 nnoremap <leader>sl :set invspell<cr>
 
-inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : RefreshPum("\<TAB>", "\<C-n>")
-inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : RefreshPum("\<S-TAB>", "\<C-p>")
+inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : RefreshPum("\<TAB>", "\<c-n>")
+inoremap <expr> <S-TAB> pumvisible() ? "\<c-p>" : RefreshPum("\<S-TAB>", "\<c-p>")
 inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<down>"
 inoremap <expr> <up> pumvisible() ? "\<c-p>" : "\<up>"
 " inoremap <expr> <c-e> pumvisible() ? "\<c-e>" : "\<End>"
@@ -888,9 +889,9 @@ inoremap <expr> <c-h> ICH()
 inoremap <expr> <bs> ICH()
 if exists('*complete_info')
     inoremap <expr> <cr> complete_info()['selected'] != '-1' ?
-                \ "\<C-y>" : "\<C-g>u" . ICR()
+                \ "\<c-y>" : "\<c-g>u" . ICR()
 else
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u" . ICR()
+    inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<c-g>u" . ICR()
 endif
 function! RefreshPum(old, new) abort
     if CheckBS()
