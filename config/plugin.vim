@@ -80,7 +80,8 @@ Plug 'chengzeyi/neosnippet-snippets', {'dir': '~/.vim_snippets'}
 " Plug 'camspiers/animate.vim'
 " Plug 'camspiers/lens.vim'
 
-Plug 'majutsushi/tagbar'
+" Can make VIM slow while editing large files.
+" Plug 'majutsushi/tagbar'
 
 Plug 'sbdchd/neoformat'
 
@@ -165,6 +166,11 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     let g:coc_config_home = expand( '~/.vim_runtime/config')
 
     let g:statusline_extra_left = ['coc#status', []]
+    let g:statusline_extra_right = ['CocCurrentFunction', []]
+
+    function! CocCurrentFunction() abort
+        return get(b:, 'coc_current_function', '')
+    endfunction
 
     augroup MyCoc
         autocmd!
@@ -227,6 +233,7 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     nnoremap <expr><C-b> coc#util#has_float() ? coc#util#float_scroll(0) : "\<C-b>"
 
     nnoremap K :call <SID>show_documentation()<CR>
+
     function! s:show_documentation() abort
         if (index(['vim', 'help'], &filetype) >= 0)
             try
@@ -243,6 +250,7 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     endfunction
 
     command! -nargs=0 CocInstallBasic call CocInstallBasic()
+
     function! CocInstallBasic() abort
         let exts = [
                     \ 'coc-marketplace',
@@ -290,6 +298,7 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
         autocmd FileType denite-filter autocmd BufEnter <buffer> let g:asyncomplete_auto_popup = 0
         autocmd FileType denite-filter autocmd BufLeave <buffer> let g:asyncomplete_auto_popup = 1
     augroup END
+
     function! s:denite_my_settings() abort
         nnoremap <nowait><silent><buffer><expr> <C-\>
                     \ denite#do_map('choose_action')
@@ -342,6 +351,7 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
         nnoremap <nowait><silent><buffer><expr> <S-TAB>
                     \ denite#do_map('toggle_select') . 'k'
     endfunction
+
     function! s:denite_filter_my_settings() abort
         imap <nowait><silent><buffer> <C-y>
                     \ <Plug>(denite_filter_update)
@@ -372,6 +382,7 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
         inoremap <nowait><silent><buffer> <Up>
                     \ <Esc><C-w>p:call cursor(line('.')-1,0)<CR><C-w>pA
     endfunction
+
     try
         call denite#custom#option('_', {
                     \ 'prompt': '❯',
@@ -396,6 +407,7 @@ function! NeoSnippetCompleteSnippets(arglead, cmdline, cursorpos) abort
     return map(filter(values(neosnippet#helpers#get_snippets()),
                 \ 'stridx(v:val.word, a:arglead) == 0'), 'v:val.word')
 endfunction
+
 function! NeoSnippetExpand() abort
     let trigger = input('Please input snippet trigger: ',
                 \ '', 'customlist,NeoSnippetCompleteSnippets')
@@ -406,6 +418,7 @@ function! NeoSnippetExpand() abort
 
     return neosnippet#expand(trigger)
 endfunction
+
 inoremap <expr> <c-x><c-\> NeoSnippetExpand()
 imap <C-\> <Plug>(neosnippet_expand_or_jump)
 smap <C-\> <Plug>(neosnippet_expand_or_jump)
@@ -520,11 +533,11 @@ nnoremap <leader>gR :Gremove<cr>
 nnoremap <leader>ge :Gedit<cr>
 nnoremap <leader>gw :Gwrite<cr>
 
-let g:statusline_extra_right = ['tagbar#currenttag', ['%s', '']]
-let g:tagbar_width = 30
-let g:tagbar_compact = 1
-nnoremap <leader>tt :TagbarToggle<cr>
-nnoremap <leader>ta :TagbarOpenAutoClose<cr>
+" let g:statusline_extra_right = ['tagbar#currenttag', ['%s', '']]
+" let g:tagbar_width = 30
+" let g:tagbar_compact = 1
+" nnoremap <leader>tt :TagbarToggle<cr>
+" nnoremap <leader>ta :TagbarOpenAutoClose<cr>
 
 nnoremap <leader>mm :Neomake<cr>
 nnoremap <leader>mM :Neomake<space>
@@ -762,12 +775,14 @@ if exists(':terminal')
     if has('nvim-0.4.0') || has('patch-8.2.191')
         nmap <F12> <Plug>(Multiterm)
         tmap <F12> <Plug>(Multiterm)
+        nmap <c-space> <Plug>(Multiterm)
+        tmap <c-space> <Plug>(Multiterm)
     elseif has('patch-8.0.1593') || has('nvim')
-        nnoremap <F12> :Nuake<cr>
+        nnoremap <c-space> :Nuake<cr>
         if has('nvim')
-            tnoremap <F12> <c-\><c-n>:Nuake<cr>
+            tnoremap <c-space> <c-\><c-n>:Nuake<cr>
         else
-            tnoremap <F12> <c-w>:Nuake<cr>
+            tnoremap <c-space> <c-w>:Nuake<cr>
         endif
     endif
 endif

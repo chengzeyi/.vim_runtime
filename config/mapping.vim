@@ -20,6 +20,7 @@ function! MapMotion(from, ...) abort
     exec 'noremap <expr> ' . from . ' v:count == 0 ? "g' . to . '" : "' . to . '"'
     exec 'noremap <expr> g' . from . ' v:count == 0 ? ' . '"' . to . '" : "g' . to . '"'
 endfunction
+
 call MapMotion('j')
 call MapMotion('k')
 " call MapMotion('0', '^')
@@ -66,6 +67,7 @@ nnoremap <leader>ob :set background=<c-r>=&background ==# 'dark' ? 'light' : 'da
 " nnoremap <leader>ot :set ttyscroll=<c-r>=999 - &ttyscroll<cr><cr>
 nnoremap <leader>ot :ToggleTransparent<cr>
 command! -nargs=0 ToggleTransparent call ToggleTransparent()
+
 function! ToggleTransparent() abort
     if get(s:, 'transparent', 0)
         exe 'hi Normal guibg=' . s:normal_guibg . ' ctermbg=' . s:normal_ctermbg
@@ -77,6 +79,7 @@ function! ToggleTransparent() abort
         let s:transparent = 1
     endif
 endfunction
+
 function! ReturnHighlightTerm(group, term) abort
     " Store output of group to variable
     let output = execute('hi ' . a:group)
@@ -222,23 +225,23 @@ if exists(':terminal')
     tnoremap <F1> <c-\><c-n>
     tnoremap <c-o> <c-\><c-n>
     if has('nvim')
-        nnoremap <leader>is :split <bar> terminal<cr>
-        nnoremap <leader>iS :split <bar> terminal<space>
-        nnoremap <leader>iv :vsplit <bar> terminal<cr>
-        nnoremap <leader>iV :vsplit <bar> terminal<space>
-        nnoremap <leader>it :tabnew <bar> terminal<cr>
-        nnoremap <leader>iT :tabnew <bar> terminal<space>
-        nnoremap <leader>iw :terminal<cr>
-        nnoremap <leader>iW :terminal<space>
+        nnoremap <leader>ts :split <bar> terminal<cr>
+        nnoremap <leader>tS :split <bar> terminal<space>
+        nnoremap <leader>tv :vsplit <bar> terminal<cr>
+        nnoremap <leader>tV :vsplit <bar> terminal<space>
+        nnoremap <leader>tt :tabnew <bar> terminal<cr>
+        nnoremap <leader>tT :tabnew <bar> terminal<space>
+        nnoremap <leader>tw :terminal<cr>
+        nnoremap <leader>tW :terminal<space>
     else
-        nnoremap <leader>is :terminal ++close<cr>
-        nnoremap <leader>iS :terminal ++close<space>
-        nnoremap <leader>iv :vert terminal ++close<cr>
-        nnoremap <leader>iV :vert terminal ++close<space>
-        nnoremap <leader>it :tab terminal ++close<cr>
-        nnoremap <leader>iT :tab terminal ++close<space>
-        nnoremap <leader>iw :terminal ++curwin ++close<cr>
-        nnoremap <leader>iW :terminal ++curwin ++close<space>
+        nnoremap <leader>ts :terminal ++close<cr>
+        nnoremap <leader>tS :terminal ++close<space>
+        nnoremap <leader>tv :vert terminal ++close<cr>
+        nnoremap <leader>tV :vert terminal ++close<space>
+        nnoremap <leader>tt :tab terminal ++close<cr>
+        nnoremap <leader>tT :tab terminal ++close<space>
+        nnoremap <leader>tw :terminal ++curwin ++close<cr>
+        nnoremap <leader>tW :terminal ++curwin ++close<space>
     endif
 endif
 
@@ -256,6 +259,7 @@ onoremap af :normal Vaf<CR>
 nnoremap <leader>jj :call GotoJump()<cr>
 nnoremap <leader>jt :call GotoTag()<cr>
 nnoremap <leader>js :tselect<cr>
+
 function! GotoJump() abort
     redraw!
     jumps
@@ -266,6 +270,7 @@ function! GotoJump() abort
         execute 'normal! ' . j[0:-2] . "\<c-o>"
     endif
 endfunction
+
 function! GotoTag() abort
     redraw!
     tags
@@ -276,10 +281,12 @@ function! GotoTag() abort
         execute j[0:-2] . 'pop'
     endif
 endfunction
+
 nnoremap <leader>? :call LookUpMap(1, '', '')<cr>
 nnoremap <leader>/ :call LookUpMap(1, '', '<lt>leader>')<cr>
 nnoremap <localleader>? :map <lt>localleader><cr>
 nnoremap <localleader>/ :call LookUpMap(1, '', '<lt>localleader>')<cr>
+
 function! LookUpMap(count, mode, prefix)
     let cmd = a:mode . 'map ' . a:prefix
     let cnt = 0
@@ -319,6 +326,7 @@ nnoremap <expr> " '"' . BetterRegister()
 nnoremap <expr> @ '@' . BetterRegister()
 xnoremap <expr> " '"' . BetterRegister()
 xnoremap <expr> @ '@' . BetterRegister()
+
 function! BetterRegister()
     let more = &more
     set nomore
@@ -336,12 +344,14 @@ function! BetterRegister()
         endif
     endwhile
 endfunction
+
 nnoremap <leader>' :marks<CR>
 nnoremap <leader>` :marks<CR>
 nnoremap <expr> ' "'" . BetterMark()
 nnoremap <expr> ` '`' . BetterMark()
 xnoremap <expr> ' "'" . BetterMark()
 xnoremap <expr> ` '`' . BetterMark()
+
 function! BetterMark()
     let more = &more
     set nomore
@@ -394,6 +404,7 @@ onoremap ai :<C-u>call IndTxtObj(0)<CR>
 onoremap ii :<C-u>call IndTxtObj(1)<CR>
 xnoremap ai <Esc>:call IndTxtObj(0)<CR><Esc>gv
 xnoremap ii <Esc>:call IndTxtObj(1)<CR><Esc>gv
+
 function! IndTxtObj(inner) abort
     let curcol = col('.')
     let curline = line('.')
@@ -435,6 +446,7 @@ xnoremap <a-t> :<C-U>call Trans(visualmode(), 1)<CR>
 nnoremap g<c-t> :set opfunc=Trans<CR>g@iw
 xnoremap g<c-t> :<C-U>call Trans(visualmode(), 1)<CR>
 command! -nargs=* Trans call DoTrans(<q-args>)
+
 function! Trans(type, ...) abort
     let sel_save = &selection
     let &selection = 'inclusive'
@@ -453,6 +465,7 @@ function! Trans(type, ...) abort
     let &selection = sel_save
     let @@ = reg_save
 endfunction
+
 function! DoTrans(text) abort
     let text = empty(a:text) ? expand('<cword>') : a:text
     let text = shellescape(text)
@@ -473,6 +486,7 @@ function! DoTrans(text) abort
 endfunction
 
 command! -nargs=+ -complete=shellcmd PV call PV(<q-args>)
+
 function! PV(cmd) abort
     if has('popupwin')
         let out = systemlist(a:cmd)
@@ -590,6 +604,7 @@ nnoremap [L :lfirst<cr>
 nnoremap ]L :llast<cr>
 command! QToggle call QListToggle(10)
 command! LToggle call LListToggle(10)
+
 function! LListToggle(height) abort
     let buffer_count_before = BufferCount()
     " Location list can't be closed if there's cursor in it, so we need
@@ -601,6 +616,7 @@ function! LListToggle(height) abort
         execute 'silent! botright lopen ' . a:height
     endif
 endfunction
+
 function! QListToggle(height) abort
     let buffer_count_before = BufferCount()
     silent! cclose
@@ -614,6 +630,7 @@ function! BufferCount() abort
 endfunction
 
 nnoremap <leader>aa :call AlternateFile()<cr>
+
 function! AlternateFile() abort
     let suffix = expand('%:e')
     if suffix ==# 'cpp' || suffix ==# 'cc'
@@ -676,9 +693,10 @@ if has('cscope')
     nnoremap <C-\>D :cs find d<space>
 endif
 
-nnoremap <leader>vv :Vcs<space>
-command! -nargs=+ -complete=command Vcs call Vcs(<q-args>)
-function! Vcs(cmd) abort
+nnoremap <leader>vv :VCS<space>
+command! -nargs=+ -complete=command VCS call VCS(<q-args>)
+
+function! VCS(cmd) abort
     let saved = getcwd()
     exe 'cd ' . GetVcsRoot()
     try
@@ -716,6 +734,7 @@ nnoremap <leader>eD :e <c-r>=GetVcsRoot()<cr>
 if executable('xxd')
     nnoremap <leader>eb :Bin<cr>
     command! Bin call InvBinMode()
+
     function! InvBinMode() abort
         setl invbin
         let modified = &l:modified
@@ -776,11 +795,14 @@ nnoremap <leader>> :vertical resize +10<cr>
 nnoremap <leader><lt> :vertical resize -10<cr>
 
 " Close the current buffer
-nnoremap <leader>bb :call BufClose(0)<cr>
-nnoremap <leader>bB :call BufClose(1)<cr>
+nnoremap <leader>bb :BufClose<cr>
+nnoremap <leader>bB :BufClose!<cr>
+
 " Don't close window, when deleting a buffer
+command! -nargs=0 -bang BufClose call BufClose(<bang>0)
 function! BufClose(force) abort
     if &modified && !a:force
+        echohl ErrorMsg | echo 'Cannot close modified buffer without force' | echohl None
         return
     endif
     let l:currentBufNum = bufnr('%')
@@ -806,8 +828,10 @@ nnoremap <leader>bL :buffers!<cr>:buffer<space>
 nnoremap <leader>bd :try <bar> %bd <bar> catch <bar> endtry<cr>
 nnoremap <leader>bD :try <bar> %bd! <bar> catch <bar> endtry<cr>
 " Close all the buffers
-nnoremap <leader>bh :call CloseHiddenBuffers(0)<cr>
-nnoremap <leader>bH :call CloseHiddenBuffers(1)<cr>
+nnoremap <leader>bh :CloseHiddenBuffers<cr>
+nnoremap <leader>bH :CloseHiddenBuffers!<cr>
+
+command! -nargs=0 -bang CloseHiddenBuffers call CloseHiddenBuffers(<bang>0)
 function! CloseHiddenBuffers(force) abort
     let open_buffers = []
 
@@ -838,16 +862,7 @@ nnoremap <leader>tc :tcd %:p:h<cr>
 nnoremap <expr> <leader>tC ':tcd ' . GetVcsRoot() . "\<lt>cr>"
 
 " Let 'tl' toggle between this and the last accessed tab
-nnoremap <leader>tl :TabLast<cr>
-command! TabLast call TabLast()
-function! TabLast() abort
-    let lasttab = get(s:, 'lasttab', 1)
-    exe 'tabn ' . lasttab
-endfunction
-augroup MyReturnToLastTab
-    autocmd!
-    au TabLeave * let s:lasttab = tabpagenr()
-augroup END
+nnoremap <leader>tl :tablast<cr>
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
@@ -868,6 +883,7 @@ nnoremap <leader>$ :$tabnext<cr>
 " Switch CWD to the directory of the open buffer
 nnoremap <leader>cd :cd %:p:h<cr>
 nnoremap <expr> <leader>cD ':cd ' . GetVcsRoot() . "\<lt>cr>"
+
 function! GetVcsRoot() abort
     let cph = expand('%:p:h', 1)
     if cph =~# '^.\+://' | retu | en
@@ -893,6 +909,7 @@ if exists('*complete_info')
 else
     inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<c-g>u" . ICR()
 endif
+
 function! RefreshPum(old, new) abort
     if CheckBS()
         return a:old
@@ -907,6 +924,7 @@ function! RefreshPum(old, new) abort
         return a:new
     endtry
 endfunction
+
 function! CheckBS() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
@@ -940,6 +958,7 @@ function! ICH() abort
     " endif
     return "\<C-H>"
 endfunction
+
 " tries to make <CR> a little smarter in insert mode:
 " - expands [{()}] 'correctly'
 " - expands <tag>|</tag> 'correctly'
@@ -960,6 +979,7 @@ function! ICR()
         return "\<CR>"
     endif
 endfunction
+
 function! ExpandPair(left, right, next)
     let pair_position = searchpairpos('\V' . a:left, '', '\V' . a:right, 'Wn')
     if a:next ==# a:right
@@ -971,6 +991,7 @@ function! ExpandPair(left, right, next)
         return "\<CR>"
     endif
 endfunction
+
 " function! ExpandTag(next)
 "     let thisline = getline('.')
 "     let name = matchstr(thisline, '\V<\zs\[^>[:blank:]]\+\ze\[^>]\*>\$')
@@ -1003,6 +1024,7 @@ inoremap <expr> ) strpart(getline('.'), col('.') - 1, 1) ==# ')' ? "\<c-g>U\<rig
 inoremap <expr> ] strpart(getline('.'), col('.') - 1, 1) ==# ']' ? "\<c-g>U\<right>" : ']'
 inoremap <expr> } strpart(getline('.'), col('.') - 1, 1) ==# '}' ? "\<c-g>U\<right>" : '}'
 inoremap <expr> ' I_Single_Quote()
+
 function! I_Single_Quote() abort
     let line = getline('.')
     let col = col('.')
@@ -1017,7 +1039,9 @@ function! I_Single_Quote() abort
     endif
     return "''\<c-g>U\<left>"
 endfunction
+
 inoremap <expr> " I_Double_Quote()
+
 function! I_Double_Quote() abort
     let line = getline('.')
     let col = col('.')
@@ -1029,7 +1053,9 @@ function! I_Double_Quote() abort
     endif
     return "\"\"\<c-g>U\<left>"
 endfunction
+
 inoremap <expr> ` I_Back_Tick()
+
 function! I_Back_Tick() abort
     let line = getline('.')
     let col = col('.')
@@ -1044,6 +1070,7 @@ endfunction
 
 inoremap <expr> <c-b> CloseParen()
 inoremap <expr> <c-space> CloseParen()
+
 function! CloseParen() abort
     let closepairs = {'(' : ')',
                 \ '[' : ']',
@@ -1077,6 +1104,7 @@ endif
 
 nnoremap <leader>sp :TrimWhiteSpace<cr>
 command! -nargs=0 TrimWhiteSpace call TrimWhiteSpace()
+
 function! TrimWhiteSpace()
     let l:winview = winsaveview()
     silent! %s/\s\+$//
@@ -1085,7 +1113,8 @@ endfunction
 
 nnoremap <leader>sg :SynGroup<cr>
 command! -nargs=0 SynGroup call SynGroup()
+
 function! SynGroup()
     let s = synID(line('.'), col('.'), 1)
     echo synIDattr(s, 'name') . ' -> ' . synIDattr(synIDtrans(s), 'name')
-endfun
+endfunction

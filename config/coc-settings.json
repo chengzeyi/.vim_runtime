@@ -14,10 +14,10 @@
   },
   // "clangd.semanticHighlighting": true,
   "marketplace.npmsio": true,
-  "suggest.autoTrigger": "none",
+  // "suggest.autoTrigger": "none",
   "suggest.enablePreview": true,
   "suggest.labelMaxLength": 40,
-  "suggest.keepCompleteopt": true,
+  // "suggest.keepCompleteopt": true,
   // "suggest.detailMaxLength": 40,
   "suggest.removeDuplicateItems": true,
   "suggest.detailField": "preview",
@@ -26,5 +26,6 @@
   "diagnostic.refreshOnInsertMode": true,
   "signature.hideOnTextChange": true,
   "codeLens.enable": true,
+  "coc.preferences.currentFunctionSymbolAutoUpdate": true,
   "coc.preferences.extensionUpdateCheck": "never"
 }

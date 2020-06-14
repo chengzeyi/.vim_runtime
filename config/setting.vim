@@ -262,20 +262,22 @@ if has('persistent_undo')
 endif
 
 set completeopt-=preview
-" if has('patch-7.4.775')
-"     set completeopt+=menuone,noinsert,noselect
-" else
-"     set completeopt+=menuone
-" endif
-set completeopt+=menuone
+if has('patch-7.4.775')
+    set completeopt+=menuone,noinsert,noselect
+else
+    set completeopt+=menuone
+endif
 if has('patch-8.1.1882') && has('textprop')
     set completeopt+=popup
     set completepopup=height:15,width:30,align:menu,border:off
 endif
 set pumheight=12
 " if has('nvim-0.4.0')
-"     set pumblend=10
-"     autocmd ColorScheme * ++once hi PmenuSel blend=0
+"     set pumblend=15
+"     augroup MyPumBlend
+"         autocmd!
+"         autocmd ColorScheme * hi PmenuSel blend=0
+"     augroup END
 " endif
 
 " if has('patch-8.1.1714') && has('textprop')
