@@ -21,6 +21,19 @@ endif
 if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     " Plug 'jackguo380/vim-lsp-cxx-highlight'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
+elseif has('timers')
+    Plug 'prabirshrestha/asyncomplete.vim'
+    Plug 'yami-beta/asyncomplete-omni.vim'
+    Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    Plug 'prabirshrestha/asyncomplete-file.vim'
+    " if executable('ctags')
+    "     Plug 'prabirshrestha/asyncomplete-tags.vim'
+    " endif
+    " if executable('look')
+    "     Plug 'gonzoooooo/asyncomplete-look.vim'
+    " endif
+    Plug 'Shougo/neco-vim'
+    Plug 'prabirshrestha/asyncomplete-necovim.vim'
 endif
 
 Plug 'AndrewRadev/splitjoin.vim'
@@ -174,14 +187,14 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
 
     augroup MyCoc
         autocmd!
-        au CmdwinEnter [:>] iunmap <buffer> <Tab>
+        au CmdwinEnter [:>] let b:coc_suggest_disable = 1
         autocmd CursorHold * silent! call CocActionAsync('highlight')
         autocmd FileType typescript,json silent! setl formatexpr=CocAction('formatSelected')
         autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     augroup END
 
     let g:refresh_pum = ['coc#refresh', []]
-    inoremap <expr> <C-l> coc#refresh()
+    inoremap <expr> <c-l> coc#refresh()
 
     nmap [g <Plug>(coc-diagnostic-prev)
     nmap ]g <Plug>(coc-diagnostic-next)
@@ -262,6 +275,51 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
             execute 'CocInstall ' . ext
         endfor
     endfunction
+elseif has('timers')
+    let g:refresh_pum = ['asyncomplete#force_refresh', []]
+    imap <c-l> <Plug>(asyncomplete_force_refresh)
+
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+                \ 'name': 'omni',
+                \ 'whitelist': ['*'],
+                \ 'blacklist': ['c', 'cpp', 'html'],
+                \ 'completor': function('asyncomplete#sources#omni#completor')
+                \  }))
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+                \ 'name': 'buffer',
+                \ 'whitelist': ['*'],
+                \ 'completor': function('asyncomplete#sources#buffer#completor'),
+                \ 'config': {
+                \    'max_buffer_size': 5000000,
+                \  },
+                \ }))
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+                \ 'name': 'file',
+                \ 'whitelist': ['*'],
+                \ 'completor': function('asyncomplete#sources#file#completor')
+                \ }))
+    " if executable('ctags')
+    "     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
+    "                 \ 'name': 'tags',
+    "                 \ 'whitelist': ['c'],
+    "                 \ 'completor': function('asyncomplete#sources#tags#completor'),
+    "                 \ 'config': {
+    "                 \    'max_file_size': 50000000,
+    "                 \  },
+    "                 \ }))
+    " endif
+    " if executable('look')
+    "     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#look#get_source_options({
+    "                 \ 'name': 'look',
+    "                 \ 'whitelist': ['*'],
+    "                 \ 'completor': function('asyncomplete#sources#look#completor'),
+    "                 \ }))
+    " endif
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
+                \ 'name': 'necovim',
+                \ 'whitelist': ['vim'],
+                \ 'completor': function('asyncomplete#sources#necovim#completor'),
+                \ }))
 endif
 
 if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')

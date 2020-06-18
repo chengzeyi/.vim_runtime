@@ -896,6 +896,10 @@ endfunction
 
 nnoremap <leader>sl :set invspell<cr>
 
+" inoremap <c-]> <c-x><c-]>
+" inoremap <c-f> <c-x><c-f>
+" inoremap <c-d> <c-x><c-d>
+" inoremap <c-l> <c-x><c-l>
 inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : RefreshPum("\<TAB>", "\<c-n>")
 inoremap <expr> <S-TAB> pumvisible() ? "\<c-p>" : RefreshPum("\<S-TAB>", "\<c-p>")
 inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<down>"
@@ -1069,7 +1073,7 @@ function! I_Back_Tick() abort
 endfunction
 
 inoremap <expr> <c-b> CloseParen()
-inoremap <expr> <c-space> CloseParen()
+" inoremap <expr> <c-space> CloseParen()
 
 function! CloseParen() abort
     let closepairs = {'(' : ')',
