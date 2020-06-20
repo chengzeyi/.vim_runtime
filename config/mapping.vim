@@ -650,10 +650,6 @@ function! AlternateFile() abort
     endif
 endfunction
 
-if has('patch-8.1.0360') || has('nvim-0.3.2')
-    set diffopt=filler,internal,indent-heuristic,algorithm:histogram
-endif
-
 nnoremap <leader>ct :Ctags<cr>
 nnoremap <leader>cT :Ctags<space>
 command! -complete=file -nargs=* Ctags !ctags

@@ -261,12 +261,17 @@ if has('persistent_undo')
     set undofile
 endif
 
-set completeopt-=preview
-if has('patch-7.4.775')
-    set completeopt+=menuone,noinsert,noselect
-else
-    set completeopt+=menuone
+if has('patch-8.1.0360') || has('nvim-0.3.2')
+    set diffopt=filler,internal,indent-heuristic,algorithm:histogram
 endif
+
+set completeopt-=preview
+" if has('patch-7.4.775')
+"     set completeopt+=menuone,noinsert,noselect
+" else
+"     set completeopt+=menuone
+" endif
+set completeopt+=menuone
 if has('patch-8.1.1882') && has('textprop')
     set completeopt+=popup
     set completepopup=height:15,width:30,align:menu,border:off

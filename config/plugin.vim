@@ -137,6 +137,7 @@ Plug 'chengzeyi/hydrangea-vim'
 Plug 'chengzeyi/space-vim-theme'
 Plug 'chengzeyi/space-vim-dark'
 Plug 'rakr/vim-one'
+Plug 'arzg/vim-colors-xcode'
 Plug 'lifepillar/vim-gruvbox8'
 Plug 'cormacrelf/vim-colors-github'
 Plug 'ayu-theme/ayu-vim'
@@ -276,8 +277,10 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
         endfor
     endfunction
 elseif has('timers')
+    let g:asyncomplete_auto_popup = 0
+
     let g:refresh_pum = ['asyncomplete#force_refresh', []]
-    imap <c-l> <Plug>(asyncomplete_force_refresh)
+    inoremap <expr> <c-l> asyncomplete#force_refresh()
 
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
                 \ 'name': 'omni',
@@ -833,14 +836,12 @@ if exists(':terminal')
     if has('nvim-0.4.0') || has('patch-8.2.191')
         nmap <F12> <Plug>(Multiterm)
         tmap <F12> <Plug>(Multiterm)
-        nmap <c-space> <Plug>(Multiterm)
-        tmap <c-space> <Plug>(Multiterm)
     elseif has('patch-8.0.1593') || has('nvim')
-        nnoremap <c-space> :Nuake<cr>
+        nnoremap <F12> :Nuake<cr>
         if has('nvim')
-            tnoremap <c-space> <c-\><c-n>:Nuake<cr>
+            tnoremap <F12> <c-\><c-n>:Nuake<cr>
         else
-            tnoremap <c-space> <c-w>:Nuake<cr>
+            tnoremap <F12> <c-w>:Nuake<cr>
         endif
     endif
 endif
