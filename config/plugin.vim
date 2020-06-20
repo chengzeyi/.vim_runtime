@@ -277,6 +277,8 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
         endfor
     endfunction
 elseif has('timers')
+    let g:asyncomplete_auto_completeopt = 0
+
     let g:asyncomplete_auto_popup = 0
 
     let g:refresh_pum = ['asyncomplete#force_refresh', []]
