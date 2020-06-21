@@ -224,7 +224,8 @@ set indentkeys+=*<Return>
 set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
-set sidescroll=5
+set sidescroll=1
+set sidescrolloff=1
 set lbr
 
 if has('patch-7.4.338')

@@ -578,8 +578,8 @@ nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gB :Gbrowse<cr>
 nnoremap <leader>gc :Gcommit -v<cr>
 nnoremap <leader>gC :Git checkout<space>
-nnoremap <leader>gd :Gdiff<cr>
-nnoremap <leader>gD :Gdelete<cr>
+nnoremap <leader>gd :Gdiffsplit<cr>
+nnoremap <leader>gD :Gvdiffsplit<cr>
 nnoremap <leader>gm :Gmerge -v<space>
 nnoremap <leader>gM :Gmove<space>
 nnoremap <leader>gl :Glog<cr>
@@ -592,7 +592,7 @@ nnoremap <leader>gP :Gpull -v<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gS :Git stash<cr>
 nnoremap <leader>gr :Gread<cr>
-nnoremap <leader>gR :Gremove<cr>
+nnoremap <leader>gR :Git revert<space>
 nnoremap <leader>ge :Gedit<cr>
 nnoremap <leader>gw :Gwrite<cr>
 
