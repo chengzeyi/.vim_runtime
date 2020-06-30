@@ -33,6 +33,8 @@ set tags+=./tags;
 " set tags+=~/.vim_runtime/tags/cpp_tags
 set tagcase=match
 
+set showfulltag
+
 set updatetime=200
 
 " Rsetting this can cause highlight issues
@@ -62,6 +64,7 @@ set autoread
 " function! TSIndent(line)
 "     return strlen(matchstr(a:line, '\V\^\s\+'))
 " endfunction
+
 function! MyFoldExpr()
     let cline = getline(v:lnum)
     if empty(cline)
@@ -73,6 +76,7 @@ function! MyFoldExpr()
     let indNext = (indent(v:lnum + 1) + shiftwidth - 1) / shiftwidth
     return (ind < indNext) ? ('>' . (indNext)) : ind
 endfunction
+
 function! MyFoldText()
     " Foldtext ignores tabstop and shows tabs as one space,
     " so convert tabs to 'tabstop' spaces so text lines up
@@ -82,6 +86,7 @@ function! MyFoldText()
     let numLinesStr = ' [' . numLines . ' lines]'
     return fline . numLinesStr
 endfunction
+
 set foldmethod=expr
 set foldtext=MyFoldText()
 set foldexpr=MyFoldExpr()
@@ -127,10 +132,10 @@ set showcmd
 
 set hid
 
-set backspace=eol,start,indent
-set whichwrap+=<,>,[,],h,l
+set backspace+=eol,start,indent
+" set whichwrap+=<,>,[,],h,l
 
-set virtualedit=block
+set virtualedit+=block
 
 set ignorecase
 set smartcase
@@ -150,11 +155,9 @@ set showmatch
 " How many tenths of a second to blink when matching brackets
 set mat=2
 
-set belloff=all
-
-" set noerrorbells
-" set novisualbell
-" set t_vb=
+set belloff=
+set novisualbell
+set noerrorbells
 
 if has('nvim-0.3.1')
     let &fillchars = 'eob: '
@@ -233,13 +236,15 @@ if has('patch-7.4.338')
 endif
 
 " Specify the behavior when switching between buffers
-" set switchbuf=useopen,usetab,newtab
 set switchbuf=useopen
+if has('patch-8.1.2315') || has('nvim-0.5.0')
+    set switchbuf+=uselast
+endif
 set stal=1
 
 " Always show the status line
 set laststatus=2
-set statusline=%f%m\ %{StatuslineExtra('left')}%=%{StatuslineExtra('right')}\ %{fnamemodify(getcwd(),':~')}\ %y\ %{&fenc?&fenc:&enc}\[%{&ff}\]\ %p%%\ %l:%c
+set statusline=%f%m\ %{StatuslineExtra('left')}%=%{StatuslineExtra('right')}\ Ln\ %3l/%L\ Col\ %2c\ %{fnamemodify(getcwd(),':~')}\ %y\ %{&fenc?&fenc:&enc}\[%{&ff}\]
 
 function! StatuslineExtra(dir) abort
     let statusline_extra = get(g:, 'statusline_extra_' . a:dir, [])
@@ -262,20 +267,21 @@ if has('persistent_undo')
     set undofile
 endif
 
-if has('patch-8.1.0360') || has('nvim-0.3.2')
-    set diffopt=filler,internal,indent-heuristic,algorithm:histogram
+if has('diff')
+    if has('patch-8.1.0360') || has('nvim-0.3.2')
+        set diffopt=filler,internal,indent-heuristic,algorithm:histogram
+    endif
 endif
 
 set completeopt-=preview
-" if has('patch-7.4.775')
-"     set completeopt+=menuone,noinsert,noselect
-" else
-"     set completeopt+=menuone
-" endif
-set completeopt+=menuone
+if has('patch-7.4.775')
+    set completeopt+=menuone,noinsert,noselect
+else
+    set completeopt+=menuone
+endif
 if has('patch-8.1.1882') && has('textprop')
     set completeopt+=popup
-    set completepopup=height:15,width:30,align:menu,border:off
+    set completepopup=height:20,width:80,align:menu,border:off
 endif
 set pumheight=12
 " if has('nvim-0.4.0')
@@ -286,9 +292,9 @@ set pumheight=12
 "     augroup END
 " endif
 
-" if has('patch-8.1.1714') && has('textprop')
-"     set previewpopup=height:15,width:60
-" endif
+if has('patch-8.1.1714') && has('textprop')
+    set previewpopup=height:15,width:80
+endif
 set previewheight=10
 
 if has('conceal')

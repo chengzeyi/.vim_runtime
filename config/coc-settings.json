@@ -10,22 +10,44 @@
     "usePlaceholders": true,
     "completeUnimported": true,
     "deepCompletion": false,
-    "codelens": true
+    "codelens": {
+      "generate": true,
+      "upgrade.dependency": true,
+      "test": true
+    }
   },
   // "clangd.semanticHighlighting": true,
+  "clangd.disableSnippetCompletion": true,
   "marketplace.npmsio": true,
-  "suggest.autoTrigger": "none",
-  "suggest.enablePreview": true,
-  "suggest.labelMaxLength": 40,
-  "suggest.keepCompleteopt": true,
+  // "suggest.autoTrigger": "none",
+  // "suggest.keepCompleteopt": true,
+  // "suggest.minTriggerInputLength": 2,
+  // "suggest.enablePreselect": true,
+  // "suggest.labelMaxLength": 40,
   // "suggest.detailMaxLength": 40,
-  "suggest.removeDuplicateItems": true,
-  "suggest.detailField": "preview",
+  // "suggest.removeDuplicateItems": true,
+  // "suggest.detailField": "preview",
+  // "suggest.enablePreview": true,
+  // "suggest.floatEnable": false,
   // "suggest.fixInsertedWord": false,
   "diagnostic.checkCurrentLine": true,
-  "diagnostic.refreshOnInsertMode": true,
+  "diagnostic.virtualText": false,
+  // "diagnostic.refreshOnInsertMode": true,
   "signature.hideOnTextChange": true,
   "codeLens.enable": true,
+  "list.insertMappings": {
+    "<C-r>": "do:refresh",
+    "<C-f>": "feedkeys:\\<C-f>",
+    "<C-b>": "feedkeys:\\<C-b>",
+    "<C-n>": "normal:j",
+    "<C-p>": "normal:k",
+    "<C-t>": "action:tabe",
+    "<C-x>": "action:split",
+    "<C-v>": "action:vsplit"
+  },
+  "list.normalMappings": {
+    "v": "action:vsplit"
+  },
   "coc.preferences.currentFunctionSymbolAutoUpdate": true,
   "coc.preferences.extensionUpdateCheck": "never"
 }

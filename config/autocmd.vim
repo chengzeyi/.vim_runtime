@@ -4,13 +4,11 @@ augroup MyReturnToLastEditPosition
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 augroup END
 
-if !has('nvim') && !has('gui_running')
-    augroup MyVimCursorLine
-        autocmd!
-        autocmd InsertEnter * set cuc
-        autocmd InsertLeave * set nocuc
-    augroup END
-endif
+" augroup MyVimCursorLine
+"     autocmd!
+"     autocmd InsertEnter * set cuc
+"     autocmd InsertLeave * set nocuc
+" augroup END
 
 augroup MyQuickFixEnhancement
     autocmd!
@@ -173,6 +171,7 @@ endif
 
 augroup MyQuickFixWindow
     autocmd!
+    au WinEnter * if &filetype ==# 'qf' | call AdjustWindowHeight(1, 10) | endif
     au FileType qf call AdjustWindowHeight(1, 10)
     au Filetype qf set nobuflisted
     au FileType qf set foldcolumn=0
@@ -193,7 +192,8 @@ function! AdjustWindowHeight(minheight, maxheight) abort
         let n_lines += float2nr(ceil(line_width))
         let l += 1
     endw
-    exe max([min([n_lines, a:maxheight]), a:minheight]) . 'wincmd _'
+    echo 'ahah'
+    exe 'resize ' . max([min([n_lines, a:maxheight]), a:minheight])
 endfunction
 
 if has('nvim')

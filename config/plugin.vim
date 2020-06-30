@@ -1,4 +1,4 @@
-let g:plug_url_format = 'https://github.com/%s.git'
+" let g:plug_url_format = 'https://github.com/%s.git'
 
 call plug#begin('~/.vim_runtime/plugged')
 
@@ -12,13 +12,15 @@ Plug 'vim-python/python-syntax'
 Plug 'plasticboy/vim-markdown'
 Plug 'othree/html5.vim'
 Plug 'uiiaoo/java-syntax.vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'pangloss/vim-javascript'
 
 Plug 'mikelue/vim-maven-plugin'
 if executable('gotests')
     Plug 'buoto/gotests-vim'
 endif
 
-if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
+if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm') && get(g:, 'use_coc', 1)
     " Plug 'jackguo380/vim-lsp-cxx-highlight'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 elseif has('timers')
@@ -26,6 +28,7 @@ elseif has('timers')
     Plug 'yami-beta/asyncomplete-omni.vim'
     Plug 'prabirshrestha/asyncomplete-buffer.vim'
     Plug 'prabirshrestha/asyncomplete-file.vim'
+    Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
     " if executable('ctags')
     "     Plug 'prabirshrestha/asyncomplete-tags.vim'
     " endif
@@ -131,6 +134,8 @@ Plug 'guns/xterm-color-table.vim'
 Plug 'chrisbra/Colorizer'
 " Plug 'ap/vim-css-color'
 
+" Plug 'ojroques/vim-scrollstatus'
+
 Plug 'lifepillar/vim-colortemplate'
 
 Plug 'chengzeyi/hydrangea-vim'
@@ -176,7 +181,11 @@ let g:vim_markdown_fenced_languages = [
             \ 'csharp=cs'
             \ ]
 
-if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_ngdoc = 1
+let g:javascript_plugin_flow = 1
+
+if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm') && get(g:, 'use_coc', 1)
     let g:coc_config_home = expand( '~/.vim_runtime/config')
 
     let g:statusline_extra_left = ['coc#status', []]
@@ -206,6 +215,11 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     nmap <expr> gy CocHasProvider('typeDefinition') ? '<Plug>(coc-type-definition)' : 'gy'
     nmap <expr> gi CocHasProvider('implementation') ? '<Plug>(coc-implementation)' : 'gi'
     nmap <expr> gr CocHasProvider('reference') ? '<Plug>(coc-references)' : 'gr'
+    nnoremap gL :<c-r>=CocHasProvider('declaration') ? 'call CocAction("jumpDeclaration", v:false)' : 'normal! gL'<cr><cr>
+    nnoremap gD :<c-r>=CocHasProvider('definition') ? 'call CocAction("jumpDefinition", v:false)' : 'normal! gD'<cr><cr>
+    nnoremap gY :<c-r>=CocHasProvider('typeDefinition') ? 'call CocAction("jumpTypeDefinition", v:false)' : 'normal! gY'<cr><cr>
+    nnoremap gI :<c-r>=CocHasProvider('implementation') ? 'call CocAction("jumpImplementation", v:false)' : 'normal! gI'<cr><cr>
+    nnoremap gR :<c-r>=CocHasProvider('reference') ? 'call CocAction("jumpReferences", v:false)' : 'normal! gR'<cr><cr>
     nmap <leader><cr>r <Plug>(coc-rename)
     nmap <leader><cr>R <Plug>(coc-refactor)
     nmap <leader><cr>q :CocFix<cr>
@@ -270,7 +284,8 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
                     \ 'coc-marketplace',
                     \ 'coc-json',
                     \ 'coc-vimtex',
-                    \ 'coc-vimlsp'
+                    \ 'coc-vimlsp',
+                    \ 'coc-neosnippet'
                     \ ]
         for ext in exts
             execute 'CocInstall ' . ext
@@ -279,7 +294,7 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
 elseif has('timers')
     let g:asyncomplete_auto_completeopt = 0
 
-    let g:asyncomplete_auto_popup = 0
+    " let g:asyncomplete_auto_popup = 0
 
     let g:refresh_pum = ['asyncomplete#force_refresh', []]
     inoremap <expr> <c-l> asyncomplete#force_refresh()
@@ -302,6 +317,11 @@ elseif has('timers')
                 \ 'name': 'file',
                 \ 'whitelist': ['*'],
                 \ 'completor': function('asyncomplete#sources#file#completor')
+                \ }))
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
+                \ 'name': 'neosnippet',
+                \ 'whitelist': ['*'],
+                \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
                 \ }))
     " if executable('ctags')
     "     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
@@ -483,11 +503,11 @@ function! NeoSnippetExpand() abort
 endfunction
 
 inoremap <expr> <c-x><c-\> NeoSnippetExpand()
-imap <C-\> <Plug>(neosnippet_expand_or_jump)
-smap <C-\> <Plug>(neosnippet_expand_or_jump)
-xmap <C-\> <Plug>(neosnippet_expand_target)
-imap <C-]> <Plug>(neosnippet_jump_or_expand)
-smap <C-]> <Plug>(neosnippet_jump_or_expand)
+imap <c-\> <Plug>(neosnippet_expand_or_jump)
+smap <c-\> <Plug>(neosnippet_expand_or_jump)
+xmap <c-\> <Plug>(neosnippet_expand_target)
+imap <c-]> <Plug>(neosnippet_jump_or_expand)
+smap <c-]> <Plug>(neosnippet_jump_or_expand)
 let g:neosnippet#snippets_directory = '~/.vim_snippets'
 let g:neosnippet#expand_word_boundary = 1
 let g:neosnippet#disable_runtime_snippets = {'_': 1}
@@ -687,6 +707,14 @@ command! -nargs=* -complete=dir -bang FZFTcd call fzf#run(fzf#wrap({
             \ 'source': 'find ' . (empty(<q-args>) ? '.' : <q-args>) . ' -type d',
             \ 'sink': 'tcd'
             \ }, <bang>0))
+if has('mac')
+    nnoremap <leader>fs :FZFSpotlight<space>
+    nnoremap <leader>Fs :FZFSpotlight!<space>
+    command! -nargs=+ -bang FZFSpotlight call fzf#run(fzf#wrap(fzf#vim#with_preview({
+                \ 'source': 'mdfind -name ' . <q-args>,
+                \ 'options': '-m --prompt "Spotlight> "'
+                \ }), <bang>0))
+endif
 nnoremap <F3> :FZFCommands<cr>
 nnoremap <S-F3> :FZFCommands!<cr>
 nmap <F4> <plug>(fzf-maps-n)
@@ -768,7 +796,12 @@ nnoremap <leader>rR :AsyncRun!<space>
 nnoremap <leader>rs :AsyncStop<cr>
 nnoremap <leader>rS :AsyncStop!<cr>
 let g:asyncrun_auto = ''
+let g:asyncrun_bell = 1
 command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
+" augroup MyAsyncRun
+"     autocmd!
+"     au User AsyncRunStop copen | wincmd p
+" augroup END
 
 nnoremap <leader>Tn :TestNearest<CR>
 nnoremap <leader>TN :TestNearest<Space>
@@ -778,7 +811,7 @@ nnoremap <leader>Ts :TestSuite<CR>
 nnoremap <leader>TS :TestSuite<Space>
 nnoremap <leader>Tl :TestLast<CR>
 nnoremap <leader>Tv :TestVisit<CR>
-" let test#strategy = 'neomake'
+let test#strategy = 'asyncrun'
 
 let g:goyo_width = '95%'
 let g:goyo_height = '95%'
@@ -838,13 +871,35 @@ if exists(':terminal')
     if has('nvim-0.4.0') || has('patch-8.2.191')
         nmap <F12> <Plug>(Multiterm)
         tmap <F12> <Plug>(Multiterm)
+        xmap <F12> <Plug>(Multiterm)
+        imap <F12> <Plug>(Multiterm)
+        nmap <c-space> <Plug>(Multiterm)
+        tmap <c-space> <Plug>(Multiterm)
+        xmap <c-space> <Plug>(Multiterm)
+        imap <c-space> <Plug>(Multiterm)
+        nmap <nul> <Plug>(Multiterm)
+        tmap <nul> <Plug>(Multiterm)
+        xmap <nul> <Plug>(Multiterm)
+        imap <nul> <Plug>(Multiterm)
     elseif has('patch-8.0.1593') || has('nvim')
         nnoremap <F12> :Nuake<cr>
+        nnoremap <c-space> :Nuake<cr>
+        nnoremap <nul> :Nuake<cr>
         if has('nvim')
             tnoremap <F12> <c-\><c-n>:Nuake<cr>
+            tnoremap <c-space> <c-\><c-n>:Nuake<cr>
+            tnoremap <nul> <c-\><c-n>:Nuake<cr>
         else
             tnoremap <F12> <c-w>:Nuake<cr>
+            tnoremap <c-space> <c-w>:Nuake<cr>
+            tnoremap <nul> <c-w>:Nuake<cr>
         endif
+        xnoremap <F12> :<c-u>Nuake<cr>
+        xnoremap <c-space> :<c-u>Nuake<cr>
+        xnoremap <nul> :<c-u>Nuake<cr>
+        inoremap <F12> <c-o>:Nuake<cr>
+        inoremap <c-space> <c-o>:Nuake<cr>
+        inoremap <nul> <c-o>:Nuake<cr>
     endif
 endif
 
@@ -944,6 +999,10 @@ endtry
 
 nmap <leader>cc <Plug>Colorizer
 xmap <leader>cc <Plug>Colorizer
+
+" let g:scrollstatus_symbol_track = '░'
+" let g:scrollstatus_symbol_bar = '▓'
+" let g:statusline_extra_left = ['ScrollStatus', []]
 
 let g:space_vim_dark_background = 233
 

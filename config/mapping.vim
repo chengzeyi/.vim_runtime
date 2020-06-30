@@ -40,6 +40,7 @@ xnoremap Y y$
 
 nnoremap <leader><bar> :vs<cr>
 nnoremap <leader><bslash> :sp<cr>
+nnoremap <leader><c-\> :tab sp<cr>
 
 nnoremap <leader>en :enew<cr>
 nnoremap <leader>eN :enew<cr>:set buftype=nofile<cr>
@@ -87,6 +88,12 @@ function! ReturnHighlightTerm(group, term) abort
     " Find the term we're looking for
     return matchstr(output, a:term . '\V=\zs\S\*')
 endfunction
+
+if has('patch-8.1.1880') && has('textprop')
+    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview,popup<cr>
+else
+    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview<cr>
+endif
 
 " nnoremap <c-]> g<c-]>
 " nnoremap g<c-]> <c-]>
@@ -518,11 +525,6 @@ function! PV(cmd) abort
     endif
 endfunction
 
-if has('patch-8.1.1880') && has('textprop')
-    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview,popup<cr>
-else
-    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview<cr>
-endif
 nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? 0 : 1<cr><cr>
 nnoremap <leader>p+ :set previewheight+=1<cr>
 nnoremap <leader>p= :set previewheight=6<cr>
@@ -854,8 +856,8 @@ nnoremap <leader>tn :tabnew<cr>
 nnoremap <leader>to :tabonly<cr>
 nnoremap <leader>tx :tabclose<cr>
 nnoremap <leader>tm :tabmove<cr>
-nnoremap <leader>tc :tcd %:p:h<cr>
-nnoremap <expr> <leader>tC ':tcd ' . GetVcsRoot() . "\<lt>cr>"
+nnoremap <expr> <leader>tc ':tcd ' . GetVcsRoot() . "\<lt>cr>"
+nnoremap <leader>tC :tcd %:p:h<cr>
 
 " Let 'tl' toggle between this and the last accessed tab
 nnoremap <leader>tl :tablast<cr>
@@ -876,9 +878,9 @@ nnoremap <leader>8 8gt
 nnoremap <leader>9 9gt
 nnoremap <leader>$ :$tabnext<cr>
 
+nnoremap <expr> <leader>cd ':cd ' . GetVcsRoot() . "\<lt>cr>"
 " Switch CWD to the directory of the open buffer
-nnoremap <leader>cd :cd %:p:h<cr>
-nnoremap <expr> <leader>cD ':cd ' . GetVcsRoot() . "\<lt>cr>"
+nnoremap <leader>cD :cd %:p:h<cr>
 
 function! GetVcsRoot() abort
     let cph = expand('%:p:h', 1)
@@ -1070,6 +1072,7 @@ endfunction
 
 inoremap <expr> <c-b> CloseParen()
 " inoremap <expr> <c-space> CloseParen()
+" inoremap <expr> <nul> CloseParen()
 
 function! CloseParen() abort
     let closepairs = {'(' : ')',
@@ -1118,3 +1121,47 @@ function! SynGroup()
     let s = synID(line('.'), col('.'), 1)
     echo synIDattr(s, 'name') . ' -> ' . synIDattr(synIDtrans(s), 'name')
 endfunction
+
+"This function turns Rolodex Vim on or off for the current tab
+"If turning off, it sets all windows to equal height
+function! ToggleRolodexTab()
+    if exists('t:rolodex_tab')
+        unlet t:rolodex_tab
+        call ClearRolodexSettings()
+        execute "normal! \<C-W>="
+    else
+        let t:rolodex_tab = 1
+        call SetRolodexSettings()
+    endif
+endfunction
+ 
+"This function clears the Rolodex Vim settings and restores the previous values
+function! ClearRolodexSettings()
+    "Assume if one exists they all will
+    if exists('g:remember_ea') > 0
+        let &equalalways = g:remember_ea
+        let &winheight = g:remember_wh
+        let &winminheight = g:remember_wmh
+        let &helpheight = g:remember_hh
+    endif
+endfunction
+ 
+"This function set the Rolodex Vim settings and remembers the previous values for later
+function! SetRolodexSettings()
+    if exists("t:rolodex_tab") > 0
+        let g:remember_ea = &equalalways
+        let g:remember_wh = &winheight
+        let g:remember_wmh = &winminheight
+        let g:remember_hh = &helpheight
+        set noequalalways winminheight=0 winheight=999 helpheight=999
+    endif
+endfunction
+ 
+"These two autocmds make Vim change the settings whenever a new tab is selected
+"We have to use TabLeave to always clear them.  If we try and turn them off
+"in TabEnter, it is too late ( I think, since WinEnter has already been called and triggered the display)
+au TabLeave * call ClearRolodexSettings()
+au TabEnter * call SetRolodexSettings()
+ 
+"With this mapping, F2 toggles a tab to be Rolodex style
+nnoremap <F2> :call ToggleRolodexTab()<cr>
