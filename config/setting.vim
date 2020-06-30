@@ -274,11 +274,12 @@ if has('diff')
 endif
 
 set completeopt-=preview
-if has('patch-7.4.775')
-    set completeopt+=menuone,noinsert,noselect
-else
-    set completeopt+=menuone
-endif
+" if has('patch-7.4.775')
+"     set completeopt+=menuone,noinsert,noselect
+" else
+"     set completeopt+=menuone
+" endif
+set completeopt+=menuone
 if has('patch-8.1.1882') && has('textprop')
     set completeopt+=popup
     set completepopup=height:20,width:80,align:menu,border:off

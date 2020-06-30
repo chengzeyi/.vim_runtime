@@ -203,8 +203,10 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm') && get(g:, 
         autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     augroup END
 
-    let g:refresh_pum = ['coc#refresh', []]
+    " let g:refresh_pum = ['coc#refresh', []]
     inoremap <expr> <c-l> coc#refresh()
+    inoremap <expr> <c-space> coc#refresh()
+    inoremap <expr> <nul> coc#refresh()
 
     nmap [g <Plug>(coc-diagnostic-prev)
     nmap ]g <Plug>(coc-diagnostic-next)
@@ -294,10 +296,12 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm') && get(g:, 
 elseif has('timers')
     let g:asyncomplete_auto_completeopt = 0
 
-    " let g:asyncomplete_auto_popup = 0
+    let g:asyncomplete_auto_popup = 0
 
-    let g:refresh_pum = ['asyncomplete#force_refresh', []]
+    " let g:refresh_pum = ['asyncomplete#force_refresh', []]
     inoremap <expr> <c-l> asyncomplete#force_refresh()
+    inoremap <expr> <c-space> asyncomplete#force_refresh()
+    inoremap <expr> <nul> asyncomplete#force_refresh()
 
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
                 \ 'name': 'omni',
@@ -670,12 +674,12 @@ endif
 " let g:fzf_layout = {'window': 'bot'.float2nr(0.4 * &lines).'new'}
 " let g:fzf_layout = {'down': '40%'}
 " Some workaround to fix the character deletion error at empty lines.
-imap <c-x>w 0<c-h><plug>(fzf-complete-word)
-imap <c-x>p 0<c-h><plug>(fzf-complete-path)
-imap <c-x>f 0<c-h><plug>(fzf-complete-file)
-imap <c-x>F 0<c-h><plug>(fzf-complete-file-ag)
-imap <c-x>l 0<c-h><plug>(fzf-complete-buffer-line)
-imap <c-x>L 0<c-h><plug>(fzf-complete-line)
+imap <c-x>w <plug>(fzf-complete-word)
+imap <c-x>p <plug>(fzf-complete-path)
+imap <c-x>f <plug>(fzf-complete-file)
+imap <c-x>F <plug>(fzf-complete-file-ag)
+imap <c-x>l <plug>(fzf-complete-buffer-line)
+imap <c-x>L <plug>(fzf-complete-line)
 inoremap <expr> <c-x>g fzf#vim#complete(fzf#wrap({
             \ 'prefix': '^.*$',
             \ 'source': 'grep -n --color=always -r .',
@@ -870,17 +874,17 @@ nnoremap <leader>st :Startify<cr>
 if exists(':terminal')
     if has('nvim-0.4.0') || has('patch-8.2.191')
         nmap <F12> <Plug>(Multiterm)
-        tmap <F12> <Plug>(Multiterm)
-        xmap <F12> <Plug>(Multiterm)
-        imap <F12> <Plug>(Multiterm)
         nmap <c-space> <Plug>(Multiterm)
-        tmap <c-space> <Plug>(Multiterm)
-        xmap <c-space> <Plug>(Multiterm)
-        imap <c-space> <Plug>(Multiterm)
         nmap <nul> <Plug>(Multiterm)
+        tmap <F12> <Plug>(Multiterm)
+        tmap <c-space> <Plug>(Multiterm)
         tmap <nul> <Plug>(Multiterm)
-        xmap <nul> <Plug>(Multiterm)
-        imap <nul> <Plug>(Multiterm)
+        " xmap <F12> <Plug>(Multiterm)
+        " xmap <c-space> <Plug>(Multiterm)
+        " xmap <nul> <Plug>(Multiterm)
+        " imap <F12> <Plug>(Multiterm)
+        " imap <c-space> <Plug>(Multiterm)
+        " imap <nul> <Plug>(Multiterm)
     elseif has('patch-8.0.1593') || has('nvim')
         nnoremap <F12> :Nuake<cr>
         nnoremap <c-space> :Nuake<cr>
@@ -894,12 +898,12 @@ if exists(':terminal')
             tnoremap <c-space> <c-w>:Nuake<cr>
             tnoremap <nul> <c-w>:Nuake<cr>
         endif
-        xnoremap <F12> :<c-u>Nuake<cr>
-        xnoremap <c-space> :<c-u>Nuake<cr>
-        xnoremap <nul> :<c-u>Nuake<cr>
-        inoremap <F12> <c-o>:Nuake<cr>
-        inoremap <c-space> <c-o>:Nuake<cr>
-        inoremap <nul> <c-o>:Nuake<cr>
+        " xnoremap <F12> :<c-u>Nuake<cr>
+        " xnoremap <c-space> :<c-u>Nuake<cr>
+        " xnoremap <nul> :<c-u>Nuake<cr>
+        " inoremap <F12> <c-o>:Nuake<cr>
+        " inoremap <c-space> <c-o>:Nuake<cr>
+        " inoremap <nul> <c-o>:Nuake<cr>
     endif
 endif
 
