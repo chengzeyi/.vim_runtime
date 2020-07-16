@@ -192,7 +192,6 @@ function! AdjustWindowHeight(minheight, maxheight) abort
         let n_lines += float2nr(ceil(line_width))
         let l += 1
     endw
-    echo 'ahah'
     exe 'resize ' . max([min([n_lines, a:maxheight]), a:minheight])
 endfunction
 

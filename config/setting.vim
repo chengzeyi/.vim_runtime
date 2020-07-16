@@ -23,6 +23,8 @@ if exists('+ttymouse')
 endif
 " set mousemodel=popup_setpos
 
+" set path+=**
+
 set tags+=./tags;
 " set tags+=./.tags
 " set tags+=../.tags
@@ -105,6 +107,10 @@ set scrolloff=1
 " set spelllang=en_gb
 if v:version > 704 || (v:version == 704 && has('patch88'))
     set spelllang+=cjk
+endif
+
+if filereadable('/usr/share/dict/words')
+    set dictionary+=/usr/share/dict/words
 endif
 
 set wildmenu
@@ -244,7 +250,7 @@ set stal=1
 
 " Always show the status line
 set laststatus=2
-set statusline=%f%m\ %{StatuslineExtra('left')}%=%{StatuslineExtra('right')}\ Ln\ %3l/%L\ Col\ %2c\ %{fnamemodify(getcwd(),':~')}\ %y\ %{&fenc?&fenc:&enc}\[%{&ff}\]
+set statusline=%f%m\ %{StatuslineExtra('left')}%=%{StatuslineExtra('right')}\ Ln\ %3l/%L\ Col\ %2c\ [%p%%]\ %{fnamemodify(getcwd(),':~')}\ %y\ %{&fenc?&fenc:&enc}\[%{&ff}\]
 
 function! StatuslineExtra(dir) abort
     let statusline_extra = get(g:, 'statusline_extra_' . a:dir, [])
@@ -274,12 +280,10 @@ if has('diff')
 endif
 
 set completeopt-=preview
-" if has('patch-7.4.775')
-"     set completeopt+=menuone,noinsert,noselect
-" else
-"     set completeopt+=menuone
-" endif
 set completeopt+=menuone
+" if has('patch-7.4.775')
+"     set completeopt+=noinsert,noselect
+" endif
 if has('patch-8.1.1882') && has('textprop')
     set completeopt+=popup
     set completepopup=height:20,width:80,align:menu,border:off

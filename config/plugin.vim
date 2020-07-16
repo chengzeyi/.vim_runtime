@@ -20,23 +20,11 @@ if executable('gotests')
     Plug 'buoto/gotests-vim'
 endif
 
-if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm') && get(g:, 'use_coc', 1)
+if get(g:, 'use_coc', 0) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     " Plug 'jackguo380/vim-lsp-cxx-highlight'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
-elseif has('timers')
-    Plug 'prabirshrestha/asyncomplete.vim'
-    Plug 'yami-beta/asyncomplete-omni.vim'
-    Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    Plug 'prabirshrestha/asyncomplete-file.vim'
-    Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
-    " if executable('ctags')
-    "     Plug 'prabirshrestha/asyncomplete-tags.vim'
-    " endif
-    " if executable('look')
-    "     Plug 'gonzoooooo/asyncomplete-look.vim'
-    " endif
-    Plug 'Shougo/neco-vim'
-    Plug 'prabirshrestha/asyncomplete-necovim.vim'
+elseif get(g:, 'use_ale', 0) && (v:version >= 800 || has('nvim-0.2.0'))
+    Plug 'dense-analysis/ale'
 endif
 
 Plug 'AndrewRadev/splitjoin.vim'
@@ -50,8 +38,8 @@ Plug 'deris/vim-shot-f'
 Plug 'mhinz/vim-startify'
 Plug 'mhinz/vim-grepper'
 
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
+" Plug 'junegunn/goyo.vim'
+" Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
 
 Plug 'junegunn/gv.vim'
@@ -73,7 +61,9 @@ Plug 'janko/vim-test'
 
 Plug 'airblade/vim-gitgutter'
 
-Plug 'machakann/vim-highlightedyank'
+if exists('##TextYankPost')
+    Plug 'machakann/vim-highlightedyank'
+endif
 
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdtree'
@@ -84,7 +74,14 @@ Plug 'tacahiroy/ctrlp-funky'
 if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     if has('nvim')
         Plug 'Shougo/denite.nvim', {'do': ':UpdateRemotePlugins'}
+        if get(g:, 'use_deoplete', 0)
+            Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+            Plug 'ncm2/float-preview.nvim'
+        endif
     else
+        if get(g:, 'use_deoplete', 0)
+            Plug 'Shougo/deoplete.nvim'
+        endif
         Plug 'Shougo/denite.nvim'
         Plug 'roxma/nvim-yarp'
         Plug 'roxma/vim-hug-neovim-rpc'
@@ -140,14 +137,10 @@ Plug 'lifepillar/vim-colortemplate'
 
 Plug 'chengzeyi/hydrangea-vim'
 Plug 'chengzeyi/space-vim-theme'
-Plug 'chengzeyi/space-vim-dark'
+Plug 'skbolton/embark'
 Plug 'rakr/vim-one'
 Plug 'arzg/vim-colors-xcode'
-Plug 'lifepillar/vim-gruvbox8'
 Plug 'cormacrelf/vim-colors-github'
-Plug 'ayu-theme/ayu-vim'
-Plug 'logico/typewriter-vim'
-Plug 'sainnhe/edge'
 
 call plug#end()
 
@@ -185,7 +178,7 @@ let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
 let g:javascript_plugin_flow = 1
 
-if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm') && get(g:, 'use_coc', 1)
+if get(g:, 'use_coc', 0) && (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
     let g:coc_config_home = expand( '~/.vim_runtime/config')
 
     let g:statusline_extra_left = ['coc#status', []]
@@ -203,10 +196,10 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm') && get(g:, 
         autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     augroup END
 
-    " let g:refresh_pum = ['coc#refresh', []]
-    inoremap <expr> <c-l> coc#refresh()
-    inoremap <expr> <c-space> coc#refresh()
-    inoremap <expr> <nul> coc#refresh()
+    let g:refresh_pum = ['coc#refresh', []]
+    inoremap <expr> <c-l> pumvisible() ? "\<c-l>" : coc#refresh()
+    inoremap <expr> <c-space> pumvisible() ? "\<c-e>" : coc#refresh()
+    inoremap <expr> <nul> pumvisible() ? "\<c-e>" : coc#refresh()
 
     nmap [g <Plug>(coc-diagnostic-prev)
     nmap ]g <Plug>(coc-diagnostic-next)
@@ -287,68 +280,106 @@ if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm') && get(g:, 
                     \ 'coc-json',
                     \ 'coc-vimtex',
                     \ 'coc-vimlsp',
-                    \ 'coc-neosnippet'
                     \ ]
         for ext in exts
             execute 'CocInstall ' . ext
         endfor
     endfunction
-elseif has('timers')
-    let g:asyncomplete_auto_completeopt = 0
+elseif get(g:, 'use_ale', 0) && (v:version >= 800 || has('nvim-0.2.0'))
+    let g:ale_c_parse_compile_commands = 1
+    let g:ale_c_parse_makefile = 1
 
-    let g:asyncomplete_auto_popup = 0
+    augroup MyALE
+        autocmd!
+        au FileType * let b:ale_linters = 'all'
+    augroup END
+    " let g:ale_linters_explicit = 1
 
-    " let g:refresh_pum = ['asyncomplete#force_refresh', []]
-    inoremap <expr> <c-l> asyncomplete#force_refresh()
-    inoremap <expr> <c-space> asyncomplete#force_refresh()
-    inoremap <expr> <nul> asyncomplete#force_refresh()
+    " let g:ale_hover_to_preview = 1
+    " let g:ale_virtualtext_cursor = 1
+    let g:ale_virtualtext_prefix = '‣ '
+    let g:ale_echo_msg_format = '[%severity%] %linter% %code: %%s'
 
-    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-                \ 'name': 'omni',
-                \ 'whitelist': ['*'],
-                \ 'blacklist': ['c', 'cpp', 'html'],
-                \ 'completor': function('asyncomplete#sources#omni#completor')
-                \  }))
-    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-                \ 'name': 'buffer',
-                \ 'whitelist': ['*'],
-                \ 'completor': function('asyncomplete#sources#buffer#completor'),
-                \ 'config': {
-                \    'max_buffer_size': 5000000,
-                \  },
-                \ }))
-    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-                \ 'name': 'file',
-                \ 'whitelist': ['*'],
-                \ 'completor': function('asyncomplete#sources#file#completor')
-                \ }))
-    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
-                \ 'name': 'neosnippet',
-                \ 'whitelist': ['*'],
-                \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
-                \ }))
-    " if executable('ctags')
-    "     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
-    "                 \ 'name': 'tags',
-    "                 \ 'whitelist': ['c'],
-    "                 \ 'completor': function('asyncomplete#sources#tags#completor'),
-    "                 \ 'config': {
-    "                 \    'max_file_size': 50000000,
-    "                 \  },
-    "                 \ }))
+    function! ALELinterStatus() abort
+        let l:counts = ale#statusline#Count(bufnr(''))
+
+        let l:all_errors = l:counts.error + l:counts.style_error
+        let l:all_non_errors = l:counts.total - l:all_errors
+
+        return l:counts.total == 0 ? 'OK' : printf(
+                    \   '%dW %dE',
+                    \   all_non_errors,
+                    \   all_errors
+                    \)
+    endfunction
+
+    let g:statusline_extra_left = ['ALELinterStatus', []]
+
+    " if !(get(g:, 'use_deoplete', 0) && (v:version >= 800 || has('nvim-0.3.0')) && has('python3'))
+    "     let g:ale_completion_enabled = 1
+    "     " let g:refresh_pum = ['feedkeys', ["\<Plug>(ale_complete)"]]
+    "     imap <expr> <c-l> pumvisible() ? "\<c-l>" : "\<Plug>(ale_complete)"
+    "     imap <expr> <c-space> pumvisible() ? "\<c-e>" : "\<Plug>(ale_complete)"
+    "     imap <expr> <nul> pumvisible() ? "\<c-e>" : "\<Plug>(ale_complete)"
     " endif
-    " if executable('look')
-    "     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#look#get_source_options({
-    "                 \ 'name': 'look',
-    "                 \ 'whitelist': ['*'],
-    "                 \ 'completor': function('asyncomplete#sources#look#completor'),
-    "                 \ }))
+
+    nnoremap [G :ALEFirst<cr>
+    nnoremap ]G :ALELast<cr>
+    nnoremap [g :ALEPrevious<cr>
+    nnoremap ]g :ALENext<cr>
+    nnoremap [e :ALEPreviousError<cr>
+    nnoremap ]e :ALENextError<cr>
+    nnoremap [w :ALEPreviousWarning<cr>
+    nnoremap ]w :ALENextWarning<cr>
+
+    function ALELSPMappings()
+        let lsp_found=0
+        for linter in ale#linter#Get(&filetype)
+            if !empty(linter.lsp) && ale#lsp_linter#CheckWithLSP(bufnr(''), linter)
+                let lsp_found=1
+            endif
+        endfor
+        if (lsp_found)
+            nnoremap <buffer> gh :ALEDocumentation<cr>
+            nnoremap <buffer> gr :ALEFindReferences<cr>
+            nnoremap <buffer> gd :ALEGoToDefinition<cr>
+            nnoremap <buffer> gD :ALEGoToDefinition -tab<cr>
+            nnoremap <buffer> gy :ALEGoToTypeDefinition<cr>
+            nnoremap <buffer> gY :ALEGoToTypeDefinition -tab<cr>
+            nnoremap <buffer> K :ALEHover<cr>
+
+            setlocal omnifunc=ale#completion#OmniFunc
+        endif
+    endfunction
+
+    autocmd BufRead,FileType * call ALELSPMappings()
+
+    nnoremap <leader><cr>f :ALEFix<cr>
+    nnoremap <leader><cr>F :ALEFixSuggest<cr>
+    nnoremap <leader><cr>o :ALEOrganizeImports<cr>
+    nnoremap <leader><cr>r :ALERename<cr>
+    nnoremap <leader><cr>R :ALERepeatSelection<cr>
+    nnoremap <leader><cr>s :ALESymbolSearch<space>
+    nnoremap <leader><cr>l :ALELint<cr>
+    nnoremap <leader><cr>t :ALEToggleBuffer<cr>
+    nnoremap <leader><cr>T :ALEToggle<cr>
+    nnoremap <leader><cr>d :ALEDetail<cr>
+    nnoremap <leader><cr>i :ALEInfo<cr>
+    nnoremap <leader><cr>c :ALEResetBuffer<cr>
+    nnoremap <leader><cr>C :ALEReset<cr>
+    nnoremap <leader><cr>S :ALEStopAllLSPs<cr>
+endif
+
+if get(g:, 'use_deoplete', 0) && (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
+    let g:deoplete#enable_at_startup = 1
+    let g:refresh_pum = ['deoplete#manual_complete', []]
+    inoremap <expr> <c-l> pumvisible() ? "\<c-l>" : deoplete#manual_complete()
+    inoremap <expr> <c-space> pumvisible() ? "\<c-e>" : deoplete#manual_complete()
+    inoremap <expr> <nul> pumvisible() ? "\<c-e>" : deoplete#manual_complete()
+    " if has('nvim')
+        " let g:float_preview#docked = 0
+        " let g:float_preview#winhl = 'Normal:PmenuSel,NormalNC:PmenuSel'
     " endif
-    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
-                \ 'name': 'necovim',
-                \ 'whitelist': ['vim'],
-                \ 'completor': function('asyncomplete#sources#necovim#completor'),
-                \ }))
 endif
 
 if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
@@ -374,7 +405,7 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     nnoremap <leader>dr :Denite register<cr>
     nnoremap <leader>ds :Denite source<cr>
     nnoremap <leader>dS :Denite spell<cr>
-    nnoremap <leader>dn :Denite neosnippet<cr>
+    " nnoremap <leader>dn :Denite neosnippet<cr>
     augroup MyDenite
         autocmd!
         autocmd FileType denite call s:denite_my_settings()
@@ -506,7 +537,7 @@ function! NeoSnippetExpand() abort
     return neosnippet#expand(trigger)
 endfunction
 
-inoremap <expr> <c-x><c-\> NeoSnippetExpand()
+inoremap <expr> <c-x>\ NeoSnippetExpand()
 imap <c-\> <Plug>(neosnippet_expand_or_jump)
 smap <c-\> <Plug>(neosnippet_expand_or_jump)
 xmap <c-\> <Plug>(neosnippet_expand_target)
@@ -567,10 +598,6 @@ let g:ctrlp_funky_nolim = 1
 " let g:ctrlp_funky_matchtype = 'path'
 " let g:ctrlp_funky_multi_buffers = 1
 
-" hi GitGutterAdd ctermfg=44 ctermbg=236 cterm=bold guifg=#169ec4 guibg=#2a303b gui=bold
-" hi GitGutterChange ctermfg=162 ctermbg=236 cterm=bold guifg=#e242ac guibg=#2a303b gui=bold
-" hi GitGutterDelete ctermfg=162 ctermbg=236 cterm=bold guifg=#e242ac guibg=#2a303b gui=bold
-" hi GitGutterChangeDelete ctermfg=162 ctermbg=236 cterm=bold guifg=#e242ac guibg=#2a303b gui=bold
 let g:gitgutter_map_keys = 0
 let g:gitgutter_override_sign_column_highlight = 0
 let g:gitgutter_use_location_list = 1
@@ -654,27 +681,27 @@ let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 let g:fzf_tags_command = 'ctags -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q'
 let g:fzf_prefer_tmux = 1
 let g:fzf_preview_window = 'up'
-" let g:fzf_colors =
-"             \ { 'fg':      ['fg', 'Normal'],
-"             \ 'bg':      ['bg', 'Normal'],
-"             \ 'hl':      ['fg', 'Comment'],
-"             \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-"             \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-"             \ 'hl+':     ['fg', 'Statement'],
-"             \ 'info':    ['fg', 'PreProc'],
-"             \ 'border':  ['fg', 'Ignore'],
-"             \ 'prompt':  ['fg', 'Conditional'],
-"             \ 'pointer': ['fg', 'Exception'],
-"             \ 'marker':  ['fg', 'Keyword'],
-"             \ 'spinner': ['fg', 'Label'],
-"             \ 'header':  ['fg', 'Comment'] }
+let g:fzf_colors = {
+            \ 'fg':      ['fg', 'Normal'],
+            \ 'bg':      ['bg', 'Normal'],
+            \ 'hl':      ['fg', 'Comment'],
+            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+            \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+            \ 'hl+':     ['fg', 'Statement'],
+            \ 'info':    ['fg', 'PreProc'],
+            \ 'border':  ['fg', 'Ignore'],
+            \ 'prompt':  ['fg', 'Conditional'],
+            \ 'pointer': ['fg', 'Exception'],
+            \ 'marker':  ['fg', 'Keyword'],
+            \ 'spinner': ['fg', 'Label'],
+            \ 'header':  ['fg', 'Comment'] }
 if has('nvim-0.4.0') || has('patch-8.2.191')
     let g:fzf_layout = {'window': {'width': 0.8, 'height': 0.8}}
 endif
 " let g:fzf_layout = {'window': 'bot'.float2nr(0.4 * &lines).'new'}
 " let g:fzf_layout = {'down': '40%'}
 " Some workaround to fix the character deletion error at empty lines.
-imap <c-x>w <plug>(fzf-complete-word)
+imap <c-x>k <plug>(fzf-complete-word)
 imap <c-x>p <plug>(fzf-complete-path)
 imap <c-x>f <plug>(fzf-complete-file)
 imap <c-x>F <plug>(fzf-complete-file-ag)
@@ -749,7 +776,7 @@ nnoremap <leader>f/ :FZFHistory/<cr>
 nnoremap <leader>f: :FZFHistory:<cr>
 nnoremap <leader>fH :FZFHelptags<cr>
 " if v:version >= 740 && has('python3')
-"     nnoremap <leader>fs :FZFSnippets<cr>
+"     nnoremap <leader>fu :FZFSnippets<cr>
 " endif
 nnoremap <leader>fg :FZFGrep<cr>
 nnoremap <leader>fG :FZFGGrep<cr>
@@ -780,7 +807,7 @@ nnoremap <leader>F/ :FZFHistory/!<cr>
 nnoremap <leader>F: :FZFHistory:!<cr>
 nnoremap <leader>FH :FZFHelptags!<cr>
 " if v:version >= 740 && has('python3')
-"     nnoremap <leader>Fs :FZFSnippets!<cr>
+"     nnoremap <leader>Fu :FZFSnippets!<cr>
 " endif
 nnoremap <leader>Fg :FZFGGrep!<cr>
 nnoremap <leader>FG :FZFGrep!<cr>
@@ -817,11 +844,11 @@ nnoremap <leader>Tl :TestLast<CR>
 nnoremap <leader>Tv :TestVisit<CR>
 let test#strategy = 'asyncrun'
 
-let g:goyo_width = '95%'
-let g:goyo_height = '95%'
-nnoremap <F9> :Goyo<cr>
+" let g:goyo_width = '95%'
+" let g:goyo_height = '95%'
+" nnoremap <F9> :Goyo<cr>
 
-nnoremap <F10> :Limelight!!<cr>
+" nnoremap <F10> :Limelight!!<cr>
 
 nmap ga <Plug>(EasyAlign)
 xmap ga <Plug>(EasyAlign)
