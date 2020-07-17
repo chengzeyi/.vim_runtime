@@ -334,11 +334,14 @@ elseif get(g:, 'use_ale', 0) && (v:version >= 800 || has('nvim-0.2.0'))
 
     function ALELSPMappings()
         let lsp_found=0
-        for linter in ale#linter#Get(&filetype)
-            if !empty(linter.lsp) && ale#lsp_linter#CheckWithLSP(bufnr(''), linter)
-                let lsp_found=1
-            endif
-        endfor
+        try
+            for linter in ale#linter#Get(&filetype)
+                if !empty(linter.lsp) && ale#lsp_linter#CheckWithLSP(bufnr(''), linter)
+                    let lsp_found=1
+                endif
+            endfor
+        catch
+        endtry
         if (lsp_found)
             nnoremap <buffer> gh :ALEDocumentation<cr>
             nnoremap <buffer> gr :ALEFindReferences<cr>
