@@ -785,23 +785,19 @@ inoremap <expr> <c-x>r fzf#vim#complete(fzf#wrap({
             \ }))
 if has('unix')
     nnoremap <leader>fd :FZFDir<cr>
-    nnoremap <leader>Fd :FZFDir!<cr>
+    nnoremap <leader>Fd :FZFDir<space>
     command! -nargs=* -complete=dir -bang FZFDir call fzf#run(fzf#wrap({
                 \ 'source': 'find ' . (empty(<q-args>) ? '.' : <q-args>) . ' -type d',
                 \ 'options': '-m --prompt "Dir> " --preview "tree -L 3 -ughC {} || ls -Glh {}" --bind "?:toggle-preview"'
                 \ }, <bang>0))
-    nnoremap <leader>fD :FZFDir ~<cr>
-    nnoremap <leader>FD :FZFDir! ~<cr>
 endif
 if has('mac')
     nnoremap <leader>fs :FZFSpotlight<space>
-    nnoremap <leader>Fs :FZFSpotlight!<space>
     command! -nargs=+ -bang FZFSpotlight call fzf#run(fzf#wrap(s:p(<bang>0, {
                 \ 'source': 'mdfind -name ' . <q-args> . ' "NOT kind:folder"',
                 \ 'options': '-m --prompt "Spotlight> "'
                 \ })))
     nnoremap <leader>fS :FZFSpotlightDir<space>
-    nnoremap <leader>FS :FZFSpotlightDir!<space>
     command! -nargs=+ -bang FZFSpotlightDir call fzf#run(fzf#wrap({
                 \ 'source': 'mdfind -name ' . <q-args> . ' "kind:folder"',
                 \ 'options': '-m --prompt "SpotlightDir> " --preview "tree -L 3 -ughC {} || ls -Glh {}" --bind "?:toggle-preview"'
