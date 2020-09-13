@@ -845,44 +845,23 @@ nnoremap <leader>fh :FZFHistory<cr>
 nnoremap <leader>f/ :FZFHistory/<cr>
 nnoremap <leader>f: :FZFHistory:<cr>
 nnoremap <leader>fH :FZFHelptags<cr>
-" if v:version >= 740 && has('python3')
-"     nnoremap <leader>fu :FZFSnippets<cr>
-" endif
 nnoremap <leader>fg :FZFGrep<cr>
 nnoremap <leader>fG :FZFGGrep<cr>
 nnoremap <leader>fq :FZFQuickFix<cr>
 nnoremap <leader>fQ :FZFLocList<cr>
 
-nnoremap <leader>Ff :FZFFiles!<cr>
-nnoremap <leader>FF :FZFGFiles!<cr>
-nnoremap <leader>Fy :FZFFiletypes!<cr>
-nnoremap <leader>F? :FZFGFiles!?<cr>
-nnoremap <leader>Fb :FZFBuffers!<cr>
-nnoremap <leader>Fo :FZFBCommits!<cr>
-nnoremap <leader>FO :FZFCommits!<cr>
-nnoremap <leader>Fc :FZFCommands!<cr>
-nnoremap <leader>FC :FZFColors!<cr>
-nnoremap <leader>Fa :FZFAg!<cr>
-nnoremap <leader>Fr :FZFRg!<cr>
-nnoremap <leader>Fl :FZFBLines!<cr>
-nnoremap <leader>FL :FZFLines!<cr>
-nnoremap <leader>Ft :FZFBTags!<cr>
-nnoremap <leader>FT :FZFTags!<cr>
-nnoremap <leader>Fm :FZFMarks!<cr>
-nnoremap <leader>FM :FZFMaps!<cr>
-nnoremap <leader>Fw :FZFWindows!<cr>
-nnoremap <leader>Fe :FZFLocate!<space>
-nnoremap <leader>Fh :FZFHistory!<cr>
-nnoremap <leader>F/ :FZFHistory/!<cr>
-nnoremap <leader>F: :FZFHistory:!<cr>
-nnoremap <leader>FH :FZFHelptags!<cr>
-" if v:version >= 740 && has('python3')
-"     nnoremap <leader>Fu :FZFSnippets!<cr>
-" endif
-nnoremap <leader>Fg :FZFGGrep!<cr>
-nnoremap <leader>FG :FZFGrep!<cr>
-nnoremap <leader>Fq :FZFQuickFix!<cr>
-nnoremap <leader>FQ :FZFLocList!<cr>
+nnoremap <leader>Ff :FZFFiles<space>
+nnoremap <leader>FF :FZFGFiles<space>
+nnoremap <leader>F? :FZFGFiles?<space>
+nnoremap <leader>Fb :FZFBuffers<space>
+nnoremap <leader>Fa :FZFAg<space>
+nnoremap <leader>Fr :FZFRg<space>
+nnoremap <leader>Fl :FZFBLines<space>
+nnoremap <leader>FL :FZFLines<space>
+nnoremap <leader>Ft :FZFBTags<space>
+nnoremap <leader>FT :FZFTags<space>
+nnoremap <leader>Fg :FZFGGrep<space>
+nnoremap <leader>FG :FZFGrep<space>
 
 nnoremap <c-g> :Grepper<cr>
 if !exists('g:grepper')

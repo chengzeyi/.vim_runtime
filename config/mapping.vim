@@ -45,8 +45,9 @@ nnoremap <leader><tab> :leftabove sp<cr>
 nnoremap <leader><s-tab> :leftabove vs<cr>
 nnoremap <leader><c-\> :tab sp<cr>
 
+nnoremap <leader>ee :e<space>
+nnoremap <leader>eE :e <c-r>=fnameescape(expand('%:~:h'))<cr>/
 nnoremap <leader>en :enew<cr>
-nnoremap <leader>eN :enew<cr>:set buftype=nofile<cr>
 
 nnoremap <leader>oo :set scrolloff=<c-r>=999 - &scrolloff<cr><cr>
 nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
