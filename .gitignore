@@ -1,5 +1,6 @@
 /temp_dirs/undodir/*
 /plugged/*
-/tags/*tags
 /config/before.vim
 /config/after.vim
+/tags
+/.vim

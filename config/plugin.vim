@@ -314,7 +314,6 @@ if get(g:, 'use_coc', 0)
         nnoremap <leader><cr>s :CocList -I symbols<cr>
         nnoremap ]c :CocNext<cr>
         nnoremap [c :CocPrev<cr>
-        nnoremap <leader><cr>C :CocConfig<cr>
         nnoremap <expr><C-f> coc#util#has_float() ? coc#util#float_scroll(1) : "\<C-f>"
         nnoremap <expr><C-b> coc#util#has_float() ? coc#util#float_scroll(0) : "\<C-b>"
 
