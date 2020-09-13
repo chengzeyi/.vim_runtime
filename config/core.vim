@@ -6,7 +6,7 @@ endif
 
 let s:paths = []
 for config_name in s:configs
-     call add(s:paths, expand('<sfile>:h') . '/' . config_name . '.vim')
+    call add(s:paths, expand('<sfile>:h') . '/' . config_name . '.vim')
 endfor
 
 function! MapEdit(configs, paths) abort

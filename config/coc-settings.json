@@ -1,4 +1,18 @@
 {
+  "languageserver": {
+    "bash": {
+      "command": "bash-language-server",
+      "args": [
+        "start"
+      ],
+      "filetypes": [
+        "sh", "zsh"
+      ],
+      "ignoredRootPaths": [
+        "~"
+      ]
+    }
+  },
   "python.jediEnabled": false,
   "java.completion.guessMethodArguments": true,
   "java.signatureHelp.enabled": true,
@@ -16,8 +30,13 @@
       "test": true
     }
   },
+  "clangd.arguments": [
+    "--background-index",
+    "--clang-tidy",
+    "--suggest-missing-includes"
+  ],
   // "clangd.semanticHighlighting": true,
-  "clangd.disableSnippetCompletion": true,
+  // "clangd.disableSnippetCompletion": true,
   "marketplace.npmsio": true,
   // "suggest.autoTrigger": "none",
   // "suggest.keepCompleteopt": true,
@@ -31,17 +50,15 @@
   // "suggest.floatEnable": false,
   // "suggest.fixInsertedWord": false,
   "diagnostic.checkCurrentLine": true,
-  "diagnostic.messageTarget": "echo",
-  "diagnostic.virtualText": true,
+  // "diagnostic.messageTarget": "echo",
+  // "diagnostic.virtualText": true,
   // "diagnostic.refreshOnInsertMode": true,
   "signature.hideOnTextChange": true,
   "codeLens.enable": true,
   "list.insertMappings": {
-    "<C-r>": "do:refresh",
-    "<C-f>": "feedkeys:\\<C-f>",
-    "<C-b>": "feedkeys:\\<C-b>",
     "<C-n>": "normal:j",
     "<C-p>": "normal:k",
+    "<C-d>": "action:drop",
     "<C-t>": "action:tabe",
     "<C-x>": "action:split",
     "<C-s>": "action:split",

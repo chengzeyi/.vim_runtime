@@ -1,18 +1,13 @@
-" inoremap <c-a> <home>
-" inoremap <c-e> <end>
-" inoremap <c-k> <end><c-u>
-
-" Bash like keys for the command line
-cnoremap <C-A> <Home>
-cnoremap <C-E> <End>
+inoremap <c-b> <home>
+cnoremap <c-b> <home>
 if v:version >= 600
-    cnoremap <C-K> <End><C-U>
+    cnoremap <c-k> <end><c-u>
 else
-    cnoremap <C-K> <C-U>
+    cnoremap <c-k> <c-u>
 endif
 
-cnoremap <C-P> <Up>
-cnoremap <C-N> <Down>
+cnoremap <c-p> <up>
+cnoremap <c-n> <down>
 
 function! MapMotion(from, ...) abort
     let from = a:from
@@ -38,8 +33,16 @@ xnoremap Q @q
 nnoremap Y y$
 xnoremap Y y$
 
-nnoremap <leader><bar> :vs<cr>
-nnoremap <leader><bslash> :sp<cr>
+xnoremap g> >gv
+xnoremap g< <gv
+
+nnoremap ]<space> :<c-u>put =repeat(nr2char(10), v:count) <bar> execute "'[-1"<cr>
+nnoremap [<space> :<c-u>put!=repeat(nr2char(10), v:count) <bar> execute "']+1"<cr>
+
+nnoremap <leader><bslash> :rightbelow sp<cr>
+nnoremap <leader><bar> :rightbelow vs<cr>
+nnoremap <leader><tab> :leftabove sp<cr>
+nnoremap <leader><s-tab> :leftabove vs<cr>
 nnoremap <leader><c-\> :tab sp<cr>
 
 nnoremap <leader>en :enew<cr>
@@ -48,11 +51,15 @@ nnoremap <leader>eN :enew<cr>:set buftype=nofile<cr>
 nnoremap <leader>oo :set scrolloff=<c-r>=999 - &scrolloff<cr><cr>
 nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
 nnoremap <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
-nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? 1 : 0<cr><cr>
-if has('patch-8.1.1564')
-    nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'number' : 'no'<cr><cr>
+if has('nvim-0.4.4')
+    nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn ==# '0' ? 'auto:1' : '0'<cr><cr>
 else
-    nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn == 'no' ? 'auto' : 'no'<cr><cr>
+    nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? 1 : 0<cr><cr>
+endif
+if has('patch-8.1.1564')
+    nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn ==# 'no' ? 'number' : 'no'<cr><cr>
+else
+    nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn ==# 'no' ? 'auto' : 'no'<cr><cr>
 endif
 if has('patch-7.3.787')
     nnoremap <leader>or :set invrelativenumber<cr>
@@ -106,128 +113,6 @@ endif
 " nnoremap g<LeftMouse> <LeftMouse>g<c-]>
 " nnoremap <C-LeftMouse> <LeftMouse>g<c-]>
 
-" if exists(':terminal')
-"     if has('nvim-0.4.0') || has('patch-8.2.191')
-"         command! -nargs=* -complete=shellcmd -bang FloatTerm call FloatTerm(<bang>0, 0, <q-args>)
-"         nnoremap <F12> :call FloatTerm(0, 0)<cr>
-"         if has('nvim')
-"             tnoremap <F12> <c-\><c-n>:call FloatTerm(0, 1)<cr>
-"         else
-"             tnoremap <F12> <c-w>:call FloatTerm(0, 0)<cr>
-"         endif
-
-"         let s:term_opts = {
-"                     \ 'height': 'float2nr(&lines * 0.8)',
-"                     \ 'width': 'float2nr(&columns * 0.8)',
-"                     \ 'row': '(&lines - height) / 2',
-"                     \ 'col': '(&columns - width) / 2',
-"                     \ 'border_hl': 'Comment',
-"                     \ 'border_chars': ['─', '│', '─', '│', '╭', '╮', '╯', '╰'],
-"                     \ 'term_hl': 'Normal'
-"                     \ }
-
-"         if has('nvim')
-"             function! FloatTerm(no_close, tmode, ...) abort
-"                 let height = eval(s:term_opts.height)
-"                 let width = eval(s:term_opts.width)
-"                 let row = eval(s:term_opts.row)
-"                 let col = eval(s:term_opts.col)
-"                 let opts = {'relative': 'editor', 'row': row, 'col': col, 'width': width, 'height': height, 'style': 'minimal'}
-"                 if !exists('s:term_win') || !nvim_win_is_valid(s:term_win)
-"                     let border_buf = CreateFloatBorder(opts)
-"                     if !exists('s:term_buf') || !bufexists(s:term_buf)
-"                         let s:term_buf = nvim_create_buf(v:false, v:false)
-"                         let need_termopen = 1
-"                     else
-"                         let need_termopen = 0
-"                     endif
-"                     let s:term_win = nvim_open_win(s:term_buf, v:true, opts)
-"                     call setwinvar(s:term_win, '&winhighlight', 'NormalFloat:' . s:term_opts.term_hl)
-"                     augroup MyFloatTermBuffer
-"                         autocmd!
-"                         exe 'au BufWipeout <buffer> if bufexists(' . border_buf . ') | bwipeout ' . border_buf . ' | endif'
-"                         exe 'au BufWinLeave <buffer> if bufexists(' . border_buf . ') | bwipeout ' . border_buf . ' | endif'
-"                         exe 'au BufWipeout <buffer> if win_id2tabwin(' . s:term_win . ') != [0, 0] | call nvim_win_close(' . s:term_win . ', v:false) | endif'
-"                     augroup END
-"                     if need_termopen
-"                         call termopen(a:0 == 0 || empty(a:1) ? &shell : a:1, {'on_exit': function(a:no_close ? 'FloatTermOnExitNoClose' : 'FloatTermOnExit')})
-"                     elseif get(s:, 'term_tmode', 0) && mode() !=# 't'
-"                         startinsert
-"                     endif
-"                 else
-"                     call nvim_win_close(s:term_win, v:false)
-"                     let s:term_tmode = a:tmode
-"                 endif
-"             endfunction
-
-"             function! CreateFloatBorder(opts) abort
-"                 let opts = copy(a:opts)
-"                 let opts.row -= 1
-"                 let opts.col -= 1
-"                 let opts.height += 2
-"                 let opts.width += 2
-"                 let bcs = s:term_opts.border_chars
-"                 let top = bcs[4] . repeat(bcs[0], opts.width - 2) . bcs[5]
-"                 let mid = bcs[3] . repeat(' ', opts.width - 2) . bcs[1]
-"                 let bot = bcs[7] . repeat(bcs[2], opts.width - 2) . bcs[6]
-"                 let lines = [top] + repeat([mid], opts.height - 2) + [bot]
-"                 let border_buf = nvim_create_buf(v:false, v:true)
-"                 call nvim_buf_set_lines(border_buf, 0, -1, v:true, lines)
-"                 let win = nvim_open_win(border_buf, v:true, opts)
-"                 call setwinvar(win, '&winhighlight', 'NormalFloat:' . s:term_opts.border_hl)
-"                 return border_buf
-"             endfunction
-
-"             function! FloatTermOnExit(job_id, code, event) abort dict
-"                 if a:code == 0
-"                     bwipeout!
-"                 endif
-"             endfunction
-
-"             function! FloatTermOnExitNoClose(job_id, code, event) abort dict
-"                 return
-"             endfunction
-"     else
-"         function! FloatTerm(no_close, tmode, ...) abort
-"             if !exists('s:term_buf') || !bufexists(s:term_buf)
-"                 let s:term_buf = term_start(a:0 == 0 || empty(a:1) ? &shell : a:1, extend({
-"                             \ 'hidden': 1,
-"                             \ 'norestore': 1,
-"                             \ 'term_highlight': s:term_opts.term_hl
-"                             \ }, a:no_close ? {} : {'term_finish': 'close'}))
-"                 " exe 'autocmd BufWipeout <buffer=' . s:term_buf . '> ++once call term_sendkeys(' . s:term_buf . ', "exit\<cr>")'
-"                 call setbufvar(s:term_buf, '&buflisted', 0)
-"             endif
-"             if !exists('s:term_win') || empty(popup_getoptions(s:term_win))
-"                 let height = eval(s:term_opts.height)
-"                 let width = eval(s:term_opts.width)
-"                 let row = eval(s:term_opts.row)
-"                 let col = eval(s:term_opts.col)
-"                 let s:term_win = popup_create(s:term_buf, {
-"                             \ 'maxheight': height,
-"                             \ 'minheight': height,
-"                             \ 'maxwidth': width,
-"                             \ 'minwidth': width,
-"                             \ 'line': row,
-"                             \ 'col': col,
-"                             \ 'zindex': 50,
-"                             \ 'border': [1],
-"                             \ 'borderhighlight': [s:term_opts.border_hl],
-"                             \ 'borderchars': s:term_opts.border_chars
-"                             \ })
-"                 if get(s:, 'term_tmode', 0) && mode() !=# 't'
-"                     startinsert
-"                 endif
-"             else 
-"                 call popup_close(s:term_win)
-"                 let s:term_tmode = a:tmode
-"             endif
-"         endfunction
-"     endif
-
-"     endif
-" endif
-
 if exists(':terminal')
     tnoremap <F1> <c-\><c-n>
     tnoremap <c-o> <c-\><c-n>
@@ -257,12 +142,10 @@ nnoremap ]I ]I:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "n
 nnoremap [D [D:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."[\<lt>c-d>"<Bar>endif<CR>
 nnoremap ]D ]D:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."]\<lt>c-d>"<Bar>endif<CR>
 
-xnoremap if :<C-U>silent! normal! [zjV]zk<CR>
-onoremap if :normal Vif<CR>
-xnoremap af :<C-U>silent! normal! [zV]z<CR>
-onoremap af :normal Vaf<CR>
-" nnoremap <leader>mm :match Question /<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<cr>
-" nnoremap <leader>mM :match<cr>
+nnoremap <leader>mm :make!  <bar> botright cw<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>mM :make! <bar> botright cw<cr>
+nnoremap <leader>ml :lmake!  <bar> botright cw<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>mL :lmake! <bar> botright cw<cr>
 nnoremap <leader>jj :call GotoJump()<cr>
 nnoremap <leader>jt :call GotoTag()<cr>
 nnoremap <leader>js :tselect<cr>
@@ -377,8 +260,12 @@ function! BetterMark()
     endwhile
 endfunction
 
-nnoremap <leader>sw :let @/='\<lt><c-r>=expand('<lt>cword>')<cr>\>' <bar> set hls<cr>
-nnoremap <leader>sW :let @/='\<lt><c-r>=expand('<lt>cWORD>')<cr>\>' <bar> set hls<cr>
+nnoremap <leader># #``
+nnoremap <leader>* *``
+nnoremap <leader>g# g#``
+nnoremap <leader>g* g*``
+nnoremap c# #``cgn
+nnoremap c* *``cgn
 
 inoremap <F1> <C-O>za
 nnoremap <F1> za
@@ -475,20 +362,20 @@ endfunction
 
 function! DoTrans(text) abort
     let text = empty(a:text) ? expand('<cword>') : a:text
-    let text = shellescape(text)
+    let text = substitute(text, '\V\n', ' ', 'g')
     if executable('trans')
-        let cmd = 'trans --no-ansi :zh ' . text
-    elseif executable('fanyi')
-        let cmd = 'fanyi --nocolor ' . text
-    elseif executable('yd')
-        let cmd = 'yd ' . text
+        let cmd = [
+                    \ 'trans',
+                    \ '--no-ansi',
+                    \ text
+                    \ ]
     else
-        let cmd = ''
+        let cmd = []
         echohl ErrorMsg | echo 'No dict program installed' | echohl None
     endif
 
     if !empty(cmd)
-        call PV(cmd)
+        call PV(join(map(cmd, 'shellescape(v:val)')))
     endif
 endfunction
 
@@ -504,7 +391,7 @@ function! PV(cmd) abort
                     \ 'padding': [0, 1, 0, 1],
                     \ 'highlight': 'Pmenu',
                     \ })
-    elseif has('nvim-0.0.4')
+    elseif has('nvim-0.4.0')
         let out = systemlist(a:cmd)
         let buf = nvim_create_buf(v:false, v:true)
         call nvim_buf_set_lines(buf, 0, 0, v:false, out)
@@ -527,46 +414,34 @@ endfunction
 
 nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? 0 : 1<cr><cr>
 nnoremap <leader>p+ :set previewheight+=1<cr>
-nnoremap <leader>p= :set previewheight=6<cr>
+nnoremap <leader>p= :set previewheight=10<cr>
 
-if has('win32') && executable('sh')
-    nnoremap <leader>! :Sh<space>
-    command! -nargs=+ -complete=shellcmd Sh call Sh(<q-args>)
-    function! Sh(cmd) abort
-        let saved = [&shell, &shellcmdflag, &shellxquote]
-        if exists('+shellslash')
-            let saved += [&shellslash]
-        endif
-        set shell=sh
-        set shellcmdflag=-c
-        set shellxquote=
-        set shellslash
-        try
-            exe '!' . a:cmd
-        catch
-            echohl ErrorMsg | echo v:exception | echohl None
-        endtry
-        let &shell = saved[0]
-        let &shellcmdflag = saved[1]
-        let &shellxquote = saved[2]
-        if exists('+shellslash')
-            let &shellslash = saved[3]
-        endif
-    endfunction
-endif
-" if executable('zsh')
-"     set shell=zsh
-" endif
-" elseif executable('fish')
-"     set shell=fish
+" if has('win32') && executable('sh')
+"     nnoremap <leader>! :Sh<space>
+"     command! -nargs=+ -complete=shellcmd Sh call Sh(<q-args>)
+"     function! Sh(cmd) abort
+"         let saved = [&shell, &shellcmdflag, &shellxquote]
+"         if exists('+shellslash')
+"             let saved += [&shellslash]
+"         endif
+"         set shell=sh
+"         set shellcmdflag=-c
+"         set shellxquote=
+"         set shellslash
+"         try
+"             exe '!' . a:cmd
+"         catch
+"             echohl ErrorMsg | echo v:exception | echohl None
+"         endtry
+"         let &shell = saved[0]
+"         let &shellcmdflag = saved[1]
+"         let &shellxquote = saved[2]
+"         if exists('+shellslash')
+"             let &shellslash = saved[3]
+"         endif
+"     endfunction
 " endif
 
-if exists(':packadd')
-    nnoremap <leader>qf :packadd cfilter<cr>:Cfilter<space>
-    nnoremap <leader>qv :packadd cfilter<cr>:Cfilter!<space>
-    nnoremap <leader>lf :packadd cfilter<cr>:Lfilter<space>
-    nnoremap <leader>lv :packadd cfilter<cr>:Lfilter!<space>
-endif
 nnoremap [t :tprevious<cr>
 nnoremap ]t :tnext<cr>
 nnoremap [T :tfirst<cr>
@@ -577,12 +452,38 @@ nnoremap <leader>[ <c-w>z
 " nnoremap <C-RightMouse> :pclose<cr>
 nnoremap [p :ptprevious<cr>
 nnoremap ]p :ptnext<cr>
-nnoremap [P :pfirst<cr>
-nnoremap ]P :plast<cr>
-map [[ ?{<CR>w99[{:noh<CR>
-map ][ /}<CR>b99]}:noh<CR>
-map ]] j0[[%/{<CR>:noh<CR>
-map [] k$][%?}<CR>:noh<CR>
+nnoremap [P :ptfirst<cr>
+nnoremap ]P :ptlast<cr>
+noremap [[ :call search('\V\^\[^ \t{]\[^{]\*\(\n\[^{]\+\)\*\n\?\zs{\ze\s\*\$', 'b', 1)<cr>
+noremap [] :call search('\V\^}', 'b', 1)<cr>
+noremap ]] :call search('\V\^\[^ \t{]\[^{]\*\(\n\[^{]\+\)\*\n\?\zs{\ze\s\*\$', '', line('$'))<cr>
+noremap ][ :call search('\V\^}', '', line('$'))<cr>
+
+nnoremap <leader>qw :cfdo w<cr>
+nnoremap <leader>lw :lfdo w<cr>
+nnoremap <leader>qW :cfdo w!<cr>
+nnoremap <leader>lW :lfdo w!<cr>
+nnoremap <leader>qu :cfdo up<cr>
+nnoremap <leader>lu :lfdo up<cr>
+nnoremap <leader>qU :cfdo up!<cr>
+nnoremap <leader>lU :lfdo up!<cr>
+nnoremap <leader>qd :cdo<space>
+nnoremap <leader>qD :cfdo<space>
+nnoremap <leader>ld :ldo<space>
+nnoremap <leader>lD :lfdo<space>
+nnoremap <leader>qr :cdo s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
+nnoremap <leader>lr :ldo s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
+nnoremap <leader>qs :cdo s/
+nnoremap <leader>ls :ldo s/
+nnoremap <leader>qS :cfdo %s/
+nnoremap <leader>lS :lfdo %s/
+
+if exists(':packadd')
+    nnoremap <leader>qf :packadd cfilter <bar> Cfilter<space>
+    nnoremap <leader>qF :packadd cfilter <bar> Cfilter!<space>
+    nnoremap <leader>lf :packadd cfilter <bar> Lfilter<space>
+    nnoremap <leader>lF :packadd cfilter <bar> Lfilter!<space>
+endif
 
 nnoremap <leader>qq :QToggle<cr>
 nnoremap <leader>ll :LToggle<cr>
@@ -596,6 +497,11 @@ nnoremap <leader>qn :cnewer<cr>
 nnoremap <leader>ln :lnewer<cr>
 nnoremap <leader>qh :chistory<cr>
 nnoremap <leader>lh :lhistory<cr>
+nnoremap <leader>lt :ltag<cr>
+nnoremap <expr> <leader>lc ':lcd ' . GetVcsRoot() . "\<lt>cr>"
+nnoremap <leader>lC :lcd %:p:h<cr>
+nnoremap <leader>q<space> :cc<cr>
+nnoremap <leader>l<space> :ll<cr>
 nnoremap [q :cprev<cr>
 nnoremap ]q :cnext<cr>
 nnoremap [Q :cfirst<cr>
@@ -615,7 +521,7 @@ function! LListToggle(height) abort
     silent! lclose
 
     if BufferCount() == buffer_count_before && !empty(getloclist(0))
-        execute 'silent! botright lopen ' . a:height
+        execute 'silent! lopen ' . a:height
     endif
 endfunction
 
@@ -631,35 +537,83 @@ function! BufferCount() abort
     return len(filter(range(1, bufnr('$')), 'bufwinnr(v:val) != -1'))
 endfunction
 
-nnoremap <leader>aa :call AlternateFile()<cr>
+nnoremap <leader>as :args<space>
+nnoremap <leader>aS :args<cr>
+nnoremap <leader>aa :arga<space>
+nnoremap <leader>ae :arge<space>
+nnoremap <leader>ad :argdo<space>
+nnoremap <leader>aD :argdo!<space>
+nnoremap <leader>ar :argd<space>
+nnoremap <leader>aR :%argd<cr>
+nnoremap <leader>au :argu<space>
+nnoremap <leader>aU :argu<cr>
+nnoremap <leader>a<space> :argu<cr>
+nnoremap <leader>al :argl<space>
+nnoremap <leader>aL :argl<cr>
+nnoremap <leader>ag :argg<space>
+nnoremap <leader>aG :argg<cr>
+nnoremap ]a :next<cr>
+nnoremap [a :prev<cr>
+nnoremap ]A :last<cr>
+nnoremap [A :first<cr>
+
+nnoremap <leader>af :AlternateFile<cr>
+command! -nargs=0 AlternateFile call AlternateFile()
 
 function! AlternateFile() abort
     let suffix = expand('%:e')
     if suffix ==# 'cpp' || suffix ==# 'cc'
-        try | find %:t:r.hpp | catch | try | find %:t:r.h | catch | endtry | endtry
+        let alt_files = [
+                    \ '%:t:r.hpp',
+                    \ '%:t:r.h'
+                    \ ]
     elseif suffix ==# 'c'
-        try | find %:t:r.h | catch | endtry
+        let alt_files = [
+                    \ '%:t:r.h'
+                    \ ]
     elseif suffix ==# 'hpp'
-        try | find %:t:r.cpp | catch | try | find %:t:r.cc | catch | endtry | endtry
+        let alt_files = [
+                    \ '%:t:r.cpp',
+                    \ '%:t:r.cc'
+                    \ ]
     elseif suffix ==# 'h'
-        try | find %:t:r.cpp | catch | try | find %:t:r.cc | catch | try | find %:t:r.c | catch | endtry | endtry | endtry
+        let alt_files = [
+                    \ '%:t:r.cpp',
+                    \ '%:t:r.cc',
+                    \ '%:t:r.c'
+                    \ ]
     elseif suffix ==# 'go'
         if expand('%:t:r') =~# '_test$'
-            try | find %:t:r:s?\V_test\$??.go | catch | endtry
+            let alt_files = [
+                        \ '%:t:r:s?\V_test\$??.go'
+                        \ ]
         else
-            try | find %:t:r_test.go | catch | endtry
+            let alt_files = [
+                        \ '%:t:r_test.go'
+                        \ ]
         endif
     endif
+    if !exists('alt_files')
+        return
+    endif
+    for file in alt_files
+        try
+            execute 'find ' . file
+        catch
+            continue
+        endtry
+        break
+    endfor
 endfunction
 
-nnoremap <leader>ct :Ctags<cr>
-nnoremap <leader>cT :Ctags<space>
+nnoremap <leader>ct :Ctags<space>
+nnoremap <leader>cT :Ctags<cr>
 command! -complete=file -nargs=* Ctags !ctags
             \ -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q --excmd=number <args>
 
 if has('cscope')
-    nnoremap <leader>cs :Cscope<cr>
-    nnoremap <leader>cS :Cscope<space>
+    nnoremap <leader>cs :Cscope<space>
+    nnoremap <leader>cS :Cscope<cr>
     command! -complete=file -nargs=* Cscope !cscope
                 \ -RUbq <args>
     nnoremap <c-\>q :set cscopequickfix=<c-r>=&cscopequickfix == '' ? 's-,g-,d-,c-,t-,e-,f-,i-,a-' : ''<cr><cr>
@@ -723,24 +677,28 @@ function! VCS(cmd) abort
     exe 'cd ' . saved
 endfunction
 
-nnoremap <leader>vg :vimgrep //j % <bar> cw<left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vG :vimgrep //j **/* <bar> cw<left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vl :lvimgrep //j % <bar> lw<left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vL :lvimgrep //j **/* <bar> lw<left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vg :vim //j % <bar> botright cw
+            \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vG :vim //j **/* <bar> botright cw
+            \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>va :vima //j % <bar> botright cw
+            \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vA :vima //j **/* <bar> botright cw
+            \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vl :lvim //j % <bar> lw<left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vL :lvim //j **/* <bar> lw<left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vw :vim /<bslash>C<bslash><lt><bslash>>/j % <bar> botright cw
+            \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vW :vim /<bslash>C<bslash><lt><bslash>>/j **/* <bar> botright cw
+            \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>ss :%s/
-nnoremap <leader>sc :%s//c<left><left>
 xnoremap <leader>ss :s/
-xnoremap <leader>sc :s//c<left><left>
-nnoremap <leader>qd :cdo<space>
-xnoremap <leader>qd :cdo<space>
-nnoremap <leader>qD :cfdo<space>
-nnoremap <leader>ld :ldo<space>
-xnoremap <leader>ld :ldo<space>
-nnoremap <leader>lD :lfdo<space>
-nnoremap <leader>bs :bufdo %s/
-nnoremap <leader>bc :bufdo %s//c<left><left>
+nnoremap <leader>sS :%argd <bar> arga **/* <bar> argdo %s/
+nnoremap <leader>sr :%s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
+xnoremap <leader>sr :s/<bslash>C<bslash><lt><bslash>>/<left><left><left>
+nnoremap <leader>sR :%argd <bar> arga **/* <bar> argdo %s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
 
-if !has('nvim') 
+if !has('nvim')
     command! -nargs=0 W w !sudo tee % > /dev/null
 endif
 
@@ -748,42 +706,66 @@ nnoremap <leader>ed :e <c-r>=fnameescape(expand('%:~:h'))<cr>/
 nnoremap <leader>eD :e <c-r>=GetVcsRoot()<cr>
 
 if executable('xxd')
-    nnoremap <leader>eb :Bin<cr>
-    command! Bin call InvBinMode()
+    nnoremap <leader>eh :EditHex<cr>
+    nnoremap <leader>eH :vert EditHex<cr>
+    command! -bang -complete=file -nargs=? EditHex call EditHex(<q-args>, <q-mods>)
 
-    function! InvBinMode() abort
-        setl invbin
-        let modified = &l:modified
-        let modifiable = &l:modifiable
-        setl modifiable
-        if &bin
-            %!xxd
-            set ft=xxd
-            augroup MyBinaryMode
-                autocmd!
-                au BufWritePre <buffer> silent exe '%!xxd -r'
-                au BufWritePost <buffer> silent exe '%!xxd'
-            augroup END
-        else
-            %!xxd -r
-            filetype detect
-            augroup MyBinaryMode
-                autocmd!
-            augroup END
+    function! EditHex(file, mods) abort
+        let file = empty(a:file) ? expand('%') : a:file
+        if !filereadable(file)
+            echohl ErrorMsg | echo 'File is not readable' | echohl None
+            return
         endif
-        let &l:modifiable = modifiable
-        let &l:modified = modified
+        let hex_filepath = 'hex://' . file
+        exe a:mods . ' split ' . fnameescape(hex_filepath)
+    endfunction
+
+    augroup MyEditHex
+        autocmd!
+        au BufReadCmd,FileReadCmd hex://* call ReadHex(expand('<amatch>'))
+        au BufWriteCmd,FileWriteCmd hex://* call WriteHex(expand('<afile>'))
+    augroup END
+    
+    function ReadHex(file) abort
+        let fname = substitute(a:file, '\V\^hex://', '', '')
+        if !filereadable(fname)
+            echohl ErrorMsg | echo 'File is not readable' | echohl None
+            return
+        endif
+        let repkeep = &report
+        set report=10
+        set noswapfile
+        set buftype=acwrite
+        set nowrap
+        set bin
+        set ft=xxd
+        let makeep = &ma
+        set ma
+        exe 'r !xxd ' . shellescape(fname, 1)
+        keepj silent! 0d _
+        let &ma = makeep
+        set nomod
+        let &report = repkeep
+    endfunction
+
+    function WriteHex(file) abort
+        let fname = substitute(a:file, '\V\^hex://', '', '')
+        let v:errmsg = ''
+        exe 'w !xxd -r > ' . shellescape(fname)
+        if empty(v:errmsg)
+            set nomod
+        endif
     endfunction
 endif
 
-nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+nnoremap <expr> gV '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " nnoremap gh H
 " nnoremap gm M
 " nnoremap gl L
 
-nnoremap <a-y> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>
-nnoremap <a-e> :noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>
+nnoremap <c-p> :noautocmd exe "normal! \<lt>c-w>p"<cr>:noautocmd exe "normal! \<lt>c-y>"<cr>:noautocmd exe "normal! \<lt>c-w>p"<cr>
+nnoremap <c-n> :noautocmd exe "normal! \<lt>c-w>p"<cr>:noautocmd exe "normal! \<lt>c-e>"<cr>:noautocmd exe "normal! \<lt>c-w>p"<cr>
 " inoremap <a-y> <c-o><c-y>
 " inoremap <a-e> <c-o><c-e>
 " inoremap <a-h> <left>
@@ -810,39 +792,19 @@ nnoremap <leader>- :resize -5<cr>
 nnoremap <leader>> :vertical resize +10<cr>
 nnoremap <leader><lt> :vertical resize -10<cr>
 
-" Close the current buffer
-nnoremap <leader>bb :BufClose<cr>
-nnoremap <leader>bB :BufClose!<cr>
-
-" Don't close window, when deleting a buffer
-command! -nargs=0 -bang BufClose call BufClose(<bang>0)
-function! BufClose(force) abort
-    if &modified && !a:force
-        echohl ErrorMsg | echo 'Cannot close modified buffer without force' | echohl None
-        return
-    endif
-    let l:currentBufNum = bufnr('%')
-    let l:alternateBufNum = bufnr('#')
-    let l:doDelete = (empty(&bufhidden) && &hidden) || &bufhidden ==# 'hide'
-
-    if buflisted(l:alternateBufNum)
-        buffer #
-    else
-        try | bnext | catch | endtry
-    endif
-
-    if bufnr('%') == l:currentBufNum
-        enew
-    endif
-    if l:doDelete
-        exe 'bdelete' . (a:force ? '! ' : ' ') . l:currentBufNum
-    endif
-endfunction
+nnoremap <leader>bb :ls<cr>:b<space>
+nnoremap <leader>bB :ls<cr>:b!<space>
+nnoremap <leader>bf :filter //ls<left><left><left>
+nnoremap <leader>bF :filter //ls!<left><left><left><left>
+nnoremap <leader>bv :filter! //ls<left><left><left>
+nnoremap <leader>bV :filter! //ls!<left><left><left><left>
 
 nnoremap <leader>bl :buffers<cr>:buffer<space>
 nnoremap <leader>bL :buffers!<cr>:buffer<space>
-nnoremap <leader>bd :try <bar> %bd <bar> catch <bar> endtry<cr>
-nnoremap <leader>bD :try <bar> %bd! <bar> catch <bar> endtry<cr>
+nnoremap <leader>bd :bufdo<space>
+nnoremap <leader>bD :bufdo!<space>
+nnoremap <leader>bx :bd<cr>
+nnoremap <leader>bX :bd!<cr>
 " Close all the buffers
 nnoremap <leader>bh :CloseHiddenBuffers<cr>
 nnoremap <leader>bH :CloseHiddenBuffers!<cr>
@@ -857,14 +819,16 @@ function! CloseHiddenBuffers(force) abort
 
     for num in range(1, bufnr('$') + 1)
         if bufexists(num) && index(open_buffers, num) == -1
-            try | exec 'bdelete' . (a:force ? '! ' : ' ') . num | catch | endtry
+            try | exec 'bunload' . (a:force ? '! ' : ' ') . num | catch | endtry
         endif
     endfor
 endfunction
 
-nnoremap <leader><tab> :bn<cr>
-nnoremap <leader><s-tab> :bp<cr>
-nnoremap <leader>bs :sba<cr>
+nnoremap [b :bp<cr>
+nnoremap ]b :bn<cr>
+nnoremap [B :bf<cr>
+nnoremap ]B :bl<cr>
+nnoremap <leader>ba :sba<cr>
 nnoremap <leader>bt :tab ba<cr>
 nnoremap <leader>bm :sbm<cr>
 nnoremap <leader>bu :sun<cr>
@@ -880,10 +844,13 @@ nnoremap <leader>tC :tcd %:p:h<cr>
 " Let 'tl' toggle between this and the last accessed tab
 nnoremap <leader>tl :tablast<cr>
 
+nnoremap <leader>te :tabe<space>
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
-nnoremap <leader>te :tabe <c-r>=fnameescape(expand('%:~:h'))<cr>/
-nnoremap <leader>tE :tabe <c-r>=GetVcsRoot()<cr>
+nnoremap <leader>tE :tabe <c-r>=fnameescape(expand('%:~:h'))<cr>/
+
+nnoremap <leader>td :tabdo<space>
+nnoremap <leader>tD :tabdo!<space>
 
 nnoremap <leader>1 1gt
 nnoremap <leader>2 2gt
@@ -900,24 +867,29 @@ nnoremap <expr> <leader>cd ':cd ' . GetVcsRoot() . "\<lt>cr>"
 " Switch CWD to the directory of the open buffer
 nnoremap <leader>cD :cd %:p:h<cr>
 
-function! GetVcsRoot() abort
-    let cph = expand('%:p:h', 1)
+function! GetVcsRoot(...) abort
+    if empty(a:000)
+        let cph = expand('%:p:h', 1)
+    else
+        let cph = fnamemodify(a:1, ':p:h')
+    endif
     if cph =~# '^.\+://' | retu | en
     for mkr in ['.git/', '.hg/', '.svn/', '.bzr/', '_darcs/', '.vimprojects']
         let wd = call('find' . (mkr =~# '/$' ? 'dir' : 'file'), [mkr, cph . ';'])
         if !empty(wd) | let &acd = 0 | brea | en
     endfor
-    return fnameescape(empty(wd) ? cph : substitute(wd, mkr . '$', '', ''))
+    let result = fnameescape(empty(wd) ? cph : substitute(wd, mkr . '$', '', ''))
+    return empty(result) ? './' : result
 endfunction
 
-nnoremap <leader>sl :set invspell<cr>
+nnoremap <leader>sp :set invspell<cr>
 
 " inoremap <c-]> <c-x><c-]>
 " inoremap <c-f> <c-x><c-f>
 " inoremap <c-d> <c-x><c-d>
 " inoremap <c-l> <c-x><c-l>
-inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : RefreshPum("\<TAB>", "\<c-n>")
-inoremap <expr> <S-TAB> pumvisible() ? "\<c-p>" : RefreshPum("\<S-TAB>", "\<c-p>")
+inoremap <expr> <tab> pumvisible() ? "\<c-n>" : RefreshPum("\<tab>", "\<c-n>")
+inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : RefreshPum("\<s-tab>", "\<c-p>")
 inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<down>"
 inoremap <expr> <up> pumvisible() ? "\<c-p>" : "\<up>"
 " inoremap <expr> <c-e> pumvisible() ? "\<c-e>" : "\<End>"
@@ -991,22 +963,8 @@ function! ICR()
     let previous = getline('.')[col('.') - 2]
     let next = getline('.')[col('.') - 1]
     let idx = stridx('{[(', previous)
-    if previous !=# '' && idx >= 0
-        return ExpandPair(previous, '}])'[idx], next)
-        " elseif previous ==# '>' && next ==# '<'
-        "     return ExpandTag(next)
-    else
-        return "\<CR>"
-    endif
-endfunction
-
-function! ExpandPair(left, right, next)
-    let pair_position = searchpairpos('\V' . a:left, '', '\V' . a:right, 'Wn')
-    if a:next ==# a:right
+    if previous !=# '' && idx >= 0 && idx == stridx('}])', next)
         return "\<CR>\<ESC>==O"
-    endif
-    if (pair_position[0] == 0 || indent(pair_position[0]) != indent('.'))
-        return "\<CR>" . a:right . "\<ESC>==O"
     else
         return "\<CR>"
     endif
@@ -1117,69 +1075,85 @@ function! CloseParen() abort
     return ''
 endfun
 
+nnoremap <leader>cl :let @" = expand('%:p') . ':' . line('.')<cr>
+
 if exists(':terminal')
-    nnoremap <localleader>bb :let @" = 'break ' . expand('%:p') . ':' . line('.')<cr>
-    nnoremap <localleader>bt :let @" = 'tbreak ' . expand('%:p') . ':' . line('.')<cr>
-    nnoremap <localleader>bc :let @" = 'clear ' . expand('%:p') . ':' . line('.')<cr>
+    nnoremap <leader>rt :RunTermCmd<space>
+    command! -nargs=+ -complete=shellcmd RunTermCmd call RunTermCmd(<q-args>)
+    function! RunTermCmd(cmd) abort
+        botright split
+        if has('nvim')
+            execute 'terminal ' . a:cmd
+        else
+            execute 'terminal ++close ++curwin ' . a:cmd
+        endif
+    endfunction
 endif
 
-nnoremap <leader>sp :TrimWhiteSpace<cr>
+nnoremap g<c-w> :TrimWhiteSpace<cr>
 command! -nargs=0 TrimWhiteSpace call TrimWhiteSpace()
 
-function! TrimWhiteSpace()
+function! TrimWhiteSpace() abort
     let l:winview = winsaveview()
-    silent! %s/\s\+$//
+    try
+        %s/\V\s\+\$//
+    catch
+    endtry
     call winrestview(l:winview)
 endfunction
 
 nnoremap <leader>sg :SynGroup<cr>
 command! -nargs=0 SynGroup call SynGroup()
 
-function! SynGroup()
+function! SynGroup() abort
     let s = synID(line('.'), col('.'), 1)
     echo synIDattr(s, 'name') . ' -> ' . synIDattr(synIDtrans(s), 'name')
 endfunction
 
+augroup MyRolodexTab
+    autocmd!
+    "These two autocmds make Vim change the settings whenever a new tab is selected
+    "We have to use TabLeave to always clear them.  If we try and turn them off
+    "in TabEnter, it is too late ( I think, since WinEnter has already been called and triggered the display)
+    au TabLeave * call ClearRolodexSettings()
+    au TabEnter * call SetRolodexSettings()
+augroup END
+
+nnoremap <leader>ox :ToggleRolodexTab<cr>
+command! -nargs=0 ToggleRolodexTab call ToggleRolodexTab()
+
 "This function turns Rolodex Vim on or off for the current tab
 "If turning off, it sets all windows to equal height
-function! ToggleRolodexTab()
+function! ToggleRolodexTab() abort
     if exists('t:rolodex_tab')
-        unlet t:rolodex_tab
         call ClearRolodexSettings()
         execute "normal! \<C-W>="
+        unlet t:rolodex_tab
     else
         let t:rolodex_tab = 1
         call SetRolodexSettings()
     endif
 endfunction
- 
+
 "This function clears the Rolodex Vim settings and restores the previous values
-function! ClearRolodexSettings()
+function! ClearRolodexSettings() abort
     "Assume if one exists they all will
-    if exists('g:remember_ea') > 0
-        let &equalalways = g:remember_ea
-        let &winheight = g:remember_wh
-        let &winminheight = g:remember_wmh
-        let &helpheight = g:remember_hh
+    if exists('t:rolodex_tab')
+        let &equalalways = s:remember_ea
+        let &winheight = s:remember_wh
+        let &winminheight = s:remember_wmh
+        let &helpheight = s:remember_hh
     endif
 endfunction
- 
+
 "This function set the Rolodex Vim settings and remembers the previous values for later
-function! SetRolodexSettings()
-    if exists("t:rolodex_tab") > 0
-        let g:remember_ea = &equalalways
-        let g:remember_wh = &winheight
-        let g:remember_wmh = &winminheight
-        let g:remember_hh = &helpheight
+function! SetRolodexSettings() abort
+    if exists("t:rolodex_tab")
+        let s:remember_ea = &equalalways
+        let s:remember_wh = &winheight
+        let s:remember_wmh = &winminheight
+        let s:remember_hh = &helpheight
         set noequalalways winminheight=0 winheight=999 helpheight=999
+
     endif
 endfunction
- 
-"These two autocmds make Vim change the settings whenever a new tab is selected
-"We have to use TabLeave to always clear them.  If we try and turn them off
-"in TabEnter, it is too late ( I think, since WinEnter has already been called and triggered the display)
-au TabLeave * call ClearRolodexSettings()
-au TabEnter * call SetRolodexSettings()
- 
-"With this mapping, F2 toggles a tab to be Rolodex style
-nnoremap <F2> :call ToggleRolodexTab()<cr>

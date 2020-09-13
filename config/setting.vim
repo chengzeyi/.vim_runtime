@@ -33,7 +33,9 @@ set tags+=./tags;
 " set tags+=../../../../.tags
 " set tags+=~/.vimtags
 " set tags+=~/.vim_runtime/tags/cpp_tags
-set tagcase=match
+if has('patch-7.4.941')
+    set tagcase=match
+endif
 
 set showfulltag
 
@@ -67,17 +69,20 @@ set autoread
 "     return strlen(matchstr(a:line, '\V\^\s\+'))
 " endfunction
 
-function! MyFoldExpr()
-    let cline = getline(v:lnum)
-    if empty(cline)
-        return -1
-    endif
-    let nline = getline(v:lnum + 1)
-    let shiftwidth = &shiftwidth
-    let ind = (indent(v:lnum) + shiftwidth - 1) / shiftwidth
-    let indNext = (indent(v:lnum + 1) + shiftwidth - 1) / shiftwidth
-    return (ind < indNext) ? ('>' . (indNext)) : ind
-endfunction
+" function! MyFoldExpr()
+"     if empty(getline(v:lnum))
+"         return -1
+"     endif
+"     for char in split(&foldignore, '\zs')
+"         if char ==? getline(v:lnum)[indent(v:lnum)]
+"             return '='
+"         endif
+"     endfor
+"     let shiftwidth = &shiftwidth
+"     let ind = (indent(v:lnum) + shiftwidth - 1) / shiftwidth
+"     let indNext = (indent(v:lnum + 1) + shiftwidth - 1) / shiftwidth
+"     return (ind < indNext) ? ('>' . (indNext)) : ind
+" endfunction
 
 function! MyFoldText()
     " Foldtext ignores tabstop and shows tabs as one space,
@@ -89,13 +94,19 @@ function! MyFoldText()
     return fline . numLinesStr
 endfunction
 
-set foldmethod=expr
+" set foldmethod=expr
+" set foldexpr=MyFoldExpr()
 set foldtext=MyFoldText()
-set foldexpr=MyFoldExpr()
+set foldmethod=indent
+set foldlevel=99
 set foldlevelstart=99
 " set foldnestmax=3
 " set nofoldenable
-" set foldcolumn=1
+if has('nvim-0.4.4')
+    set foldcolumn=auto:1
+else
+    set foldcolumn=1
+endif
 
 set display+=lastline
 
@@ -114,21 +125,24 @@ if filereadable('/usr/share/dict/words')
 endif
 
 set wildmenu
-set wildmode=longest,full
+set wildmode=longest:full,full
 set wildignorecase
+set wcm=<c-z>
 " if has('menu')
 "     " set langmenu=en
 "     source $VIMRUNTIME/delmenu.vim
 "     source $VIMRUNTIME/menu.vim
-"     set wcm=<F11>
-"     map <F11> :emenu <F11>
+"     map <c-z> :emenu <c-z>
 " endif
 
-set wildignore=*.o,*.obj,*~,*.pyc
+set wildignore=*.o,*.obj,*~,*.pyc,tags,TAGS,cscope.*
 if has('win16') || has('win32')
-    set wildignore+=.git\*,.hg\*,.svn\*,tags,TAGS,cscope.*
+    set wildignore+=.git\*,.hg\*,.svn\*
 else
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store,tags,TAGS,cscope.*
+    set wildignore+=.git/*,.hg/*,.svn/*
+    if has('mac')
+        set wildignore+=.DS_Store
+    endif
 endif
 
 set ruler
@@ -145,7 +159,7 @@ set virtualedit+=block
 
 set ignorecase
 set smartcase
-set gdefault
+" set gdefault
 set hlsearch
 set incsearch
 
@@ -161,8 +175,10 @@ set showmatch
 " How many tenths of a second to blink when matching brackets
 set mat=2
 
-set belloff=
-set novisualbell
+if has('7.4.793')
+    set belloff=all
+endif
+" set novisualbell
 set noerrorbells
 
 if has('nvim-0.3.1')
@@ -170,9 +186,12 @@ if has('nvim-0.3.1')
 else
     set fillchars=
 endif
-set fillchars+=vert:│,fold:-
+if !has('nvim-0.3.0')
+    set fillchars+=vert:│,fold:·
+endif
 " let &showbreak = "\u21aa "
 let &showbreak = '↪ '
+" let &showbreak = '=> '
 set listchars=tab:→\ ,nbsp:␣,trail:·,extends:⟩,precedes:⟨
 if has('patch-7.4.710')
     set listchars+=space:·
@@ -250,22 +269,49 @@ set stal=1
 
 " Always show the status line
 set laststatus=2
-set statusline=%f%m\ %{StatuslineExtra('left')}%=%{StatuslineExtra('right')}\ Ln\ %3l/%L\ Col\ %2c\ [%p%%]\ %{fnamemodify(getcwd(),':~')}\ %y\ %{&fenc?&fenc:&enc}\[%{&ff}\]
+set statusline=%f%m%<
+set statusline+=%{StatuslineExtraLeft()}
+set statusline+=%=\ %{StatuslineExtraRight()}
+set statusline+=Ln\ %l/%L\ Col\ %c\ [%p%%]\ %{pathshorten(fnamemodify(getcwd(),':~'))}\ %y\ %{&fenc?&fenc:&enc}\ [%{&ff}\]
 
-function! StatuslineExtra(dir) abort
-    let statusline_extra = get(g:, 'statusline_extra_' . a:dir, [])
-    if empty(statusline_extra)
-        return ''
-    endif
-    try
-        let status = call(statusline_extra[0], statusline_extra[1])
-    catch
-        return ''
-    endtry
-    if empty(status)
-        return ''
-    endif
-    return '[' . status . ']'
+function! StatuslineExtraLeft() abort
+    let statueline_left = ''
+    for i in range(4)
+        let statusline_extra = get(g:, 'statusline_extra_left_' . i , [])
+        if empty(statusline_extra)
+            continue
+        endif
+        try
+            let status = call(statusline_extra[0], statusline_extra[1])
+        catch
+            continue
+        endtry
+        if empty(status)
+            continue
+        endif
+        let statueline_left .= ' [' . status . ']'
+    endfor
+    return statueline_left
+endfunction
+
+function! StatuslineExtraRight() abort
+    let statueline_right = ''
+    for i in range(4, 0, -1)
+        let statusline_extra = get(g:, 'statusline_extra_right_' . i , [])
+        if empty(statusline_extra)
+            continue
+        endif
+        try
+            let status = call(statusline_extra[0], statusline_extra[1])
+        catch
+            continue
+        endtry
+        if empty(status)
+            continue
+        endif
+        let statueline_right .= '[' . status . '] '
+    endfor
+    return statueline_right
 endfunction
 
 if has('persistent_undo')
@@ -273,11 +319,11 @@ if has('persistent_undo')
     set undofile
 endif
 
-if has('diff')
-    if has('patch-8.1.0360') || has('nvim-0.3.2')
-        set diffopt=filler,internal,indent-heuristic,algorithm:histogram
-    endif
-endif
+" if has('diff')
+"     if has('patch-8.1.0360') || has('nvim-0.3.2')
+"         set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram
+"     endif
+" endif
 
 set completeopt-=preview
 set completeopt+=menuone
@@ -286,7 +332,7 @@ set completeopt+=menuone
 " endif
 if has('patch-8.1.1882') && has('textprop')
     set completeopt+=popup
-    set completepopup=height:20,width:80,align:menu,border:off
+    set completepopup=height:20,width:80,align:menu,border:off,highlight:Pmenu
 endif
 set pumheight=12
 " if has('nvim-0.4.0')
@@ -307,45 +353,45 @@ if has('conceal')
     set concealcursor=nc
 endif
 
-" if has('balloondelay')
-"     set balloondelay=200
-" endif
-" if has('balloon_eval_term')
-"     set balloonevalterm
-" endif
-" if has('balloon_eval')
-"     " Returns either the contents of a fold or spelling suggestions.
-"     function! BalloonExpr() abort
-"         let foldStart = foldclosed(v:beval_lnum )
-"         let foldEnd = foldclosedend(v:beval_lnum)
-"         let lines = []
-"         if foldStart < 0
-"             " We're not in a fold.
-"             " If 'spell' is on and the word pointed to is incorrectly spelled,
-"             " the tool tip will contain a few suggestions.
-"             let suggestions = spellsuggest(spellbadword(v:beval_text)[0], 5, 0)
-"             if empty(suggestions)
-"                 let lines = ['[' . v:beval_lnum . ':' . v:beval_col . '] ' . synIDattr(synID(v:beval_lnum, v:beval_col, 0), 'name')]
-"             else
-"                 let lines = suggestions
-"             endif
-"         else
-"             let numLines = foldEnd - foldStart + 1
-"             " Up to 31 lines get shown okay; beyond that, only 30 lines are shown with
-"             " ellipsis in between to indicate too much. The reason why 31 get shown ok
-"             " is that 30 lines plus one of ellipsis is 31 anyway.
-"             if (numLines > 31)
-"                 let lines = getline(foldStart, foldStart + 14)
-"                 let lines += ['-- Snipped ' . (numLines - 30) . ' lines --']
-"                 let lines += getline(foldEnd - 14, foldEnd)
-"             else
-"                 let lines = getline(foldStart, foldEnd)
-"             endif
-"         endif
-"         return join(lines, has('balloon_multiline') ? "\n" : ' ')
-"     endfunction
-"     set balloonexpr=BalloonExpr()
-" endif
+if has('balloondelay')
+    set balloondelay=200
+endif
+if has('balloon_eval_term')
+    set balloonevalterm
+endif
+if has('balloon_eval')
+    " Returns either the contents of a fold or spelling suggestions.
+    function! BalloonExpr() abort
+        let foldStart = foldclosed(v:beval_lnum )
+        let foldEnd = foldclosedend(v:beval_lnum)
+        let lines = []
+        if foldStart < 0
+            " We're not in a fold.
+            " If 'spell' is on and the word pointed to is incorrectly spelled,
+            " the tool tip will contain a few suggestions.
+            let suggestions = spellsuggest(spellbadword(v:beval_text)[0], 5, 0)
+            if empty(suggestions)
+                let lines = ['[' . v:beval_lnum . ':' . v:beval_col . '] ' . synIDattr(synID(v:beval_lnum, v:beval_col, 0), 'name')]
+            else
+                let lines = suggestions
+            endif
+        else
+            let numLines = foldEnd - foldStart + 1
+            " Up to 31 lines get shown okay; beyond that, only 30 lines are shown with
+            " ellipsis in between to indicate too much. The reason why 31 get shown ok
+            " is that 30 lines plus one of ellipsis is 31 anyway.
+            if (numLines > 31)
+                let lines = getline(foldStart, foldStart + 14)
+                let lines += ['-- Snipped ' . (numLines - 30) . ' lines --']
+                let lines += getline(foldEnd - 14, foldEnd)
+            else
+                let lines = getline(foldStart, foldEnd)
+            endif
+        endif
+        return join(lines, has('balloon_multiline') ? "\n" : ' ')
+    endfunction
+    set balloonexpr=BalloonExpr()
+endif
 
 if has('cscope')
     set csverb
@@ -357,7 +403,17 @@ set pastetoggle=<F2>
 let mapleader = ' '
 let maplocalleader = '\'
 
-" let g:vimsyn_embed = 'lmpPrt'
+let g:netrw_altfile = 1
+let g:netrw_liststyle = 1
+let g:netrw_banner = 0
+" let g:netrw_special_syntax = 1
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+
+" if exists('!!:packadd')
+"     packadd! justify
+" endif
+
+let g:vimsyn_embed = 'lmpPrt'
 " let g:vimsyn_folding = 'aflmpPrt'
 
 " let g:markdown_folding = 1
@@ -370,8 +426,4 @@ let g:tex_flavor = 'latex'
 let java_highlight_all = 1
 let java_highlight_functions = 'style'
 
-let g:netrw_liststyle = 1
-
-" if exists('!!:packadd')
-"     packadd! justify
-" endif
+let g:no_google_python_indent = 1
