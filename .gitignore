@@ -2,5 +2,5 @@
 /plugged/*
 /config/before.vim
 /config/after.vim
+/.vim/*
 /tags
-/.vim
