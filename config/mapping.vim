@@ -443,10 +443,10 @@ nnoremap <leader>p= :set previewheight=10<cr>
 "     endfunction
 " endif
 
-nnoremap [t :tprevious<cr>
-nnoremap ]t :tnext<cr>
-nnoremap [T :tfirst<cr>
-nnoremap ]T :tlast<cr>
+nnoremap [t :-tabmove<cr>
+nnoremap ]t :+tabmove<cr>
+nnoremap [T :0tabmove<cr>
+nnoremap ]T :$tabmove<cr>
 nnoremap <leader>] <c-w>g}
 " nnoremap <C-LeftMouse> :execute 'ptag ' . expand('<lt>cword>')<cr>
 nnoremap <leader>[ <c-w>z
@@ -837,13 +837,21 @@ nnoremap <leader>bu :sun<cr>
 " Useful mappings for managing tabs
 nnoremap <leader>tn :tabnew<cr>
 nnoremap <leader>to :tabonly<cr>
+nnoremap <leader>tO :tabonly!<cr>
 nnoremap <leader>tx :tabclose<cr>
-nnoremap <leader>tm :tabmove<cr>
+nnoremap <leader>tX :tabclose!<cr>
 nnoremap <expr> <leader>tc ':tcd ' . GetVcsRoot() . "\<lt>cr>"
 nnoremap <leader>tC :tcd %:p:h<cr>
 
+nnoremap $gt :$tabnext<cr>
+
 " Let 'tl' toggle between this and the last accessed tab
 nnoremap <leader>tl :tablast<cr>
+nnoremap <expr> <leader>tl exists('g:lasttab') ? (':' . g:lasttab . "tabn\<lt>cr>") : ''
+augroup MyLastAccessedTab
+    autocmd!
+    au TabLeave * let g:lasttab = tabpagenr()
+augroup END
 
 nnoremap <leader>te :tabe<space>
 " Opens a new tab with the current buffer's path
