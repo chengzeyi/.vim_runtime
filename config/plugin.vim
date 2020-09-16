@@ -237,6 +237,8 @@ if get(g:, 'use_coc', 0)
             au ColorScheme * hi! link CocWarningHighlight SpellCap
             au ColorScheme * hi! link CocInfoHighlight SpellLocal
             au ColorScheme * hi! link CocHintHighlight Question
+
+            au ColorScheme * hi! link CocHighlightText ColorColumn
         augroup END
 
         nnoremap <leader>oa :ToggleCocAutoComplete<cr>
@@ -394,10 +396,13 @@ else
             augroup MyVimLsp
                 autocmd!
                 au User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+
                 au ColorScheme * hi! link LspErrorHighlight SpellBad
                 au ColorScheme * hi! link LspWarningHighlight SpellCap
                 au ColorScheme * hi! link LspInformationHighlight SpellLocal
                 au ColorScheme * hi! link LspHintHighlight SpellRare
+
+                au ColorScheme * hi! link lspReference ColorColumn
             augroup END
 
             function! s:on_lsp_buffer_enabled() abort
