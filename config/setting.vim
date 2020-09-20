@@ -269,8 +269,8 @@ set stal=1
 
 " Always show the status line
 set laststatus=2
-set statusline=%f%m%<
-set statusline+=%{StatuslineExtraLeft()}
+set statusline=%f%m
+set statusline+=%<%{StatuslineExtraLeft()}
 set statusline+=%=\ %{StatuslineExtraRight()}
 set statusline+=Ln\ %l/%L\ Col\ %c\ [%p%%]\ %{pathshorten(fnamemodify(getcwd(),':~'))}\ %y\ %{&fenc?&fenc:&enc}\ [%{&ff}\]
 

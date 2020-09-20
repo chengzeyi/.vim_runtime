@@ -1007,11 +1007,12 @@ inoremap <expr> ' I_Single_Quote()
 function! I_Single_Quote() abort
     let line = getline('.')
     let col = col('.')
-    if strpart(line, col - 3, 2) ==# "''"
-        return "'"
-    endif
     if strpart(line, col - 1, 1) ==# "'"
         return "\<c-g>U\<right>"
+    endif
+    if strpart(line, col - 3, 2) ==# "''"
+                \ || synIDattr(synID(line('.'), col, 1), 'name') =~? '\Vstring\|include'
+        return "'"
     endif
     if strpart(line, col - 2, 1) =~# '\V\w'
         return "'"
@@ -1024,11 +1025,12 @@ inoremap <expr> " I_Double_Quote()
 function! I_Double_Quote() abort
     let line = getline('.')
     let col = col('.')
-    if strpart(line, col - 3, 2) ==# '""'
-        return '"'
-    endif
     if strpart(line, col - 1, 1) ==# '"'
         return "\<c-g>U\<right>"
+    endif
+    if strpart(line, col - 3, 2) ==# '""'
+                \ || synIDattr(synID(line('.'), col, 1), 'name') =~? '\Vstring\|include'
+        return '"'
     endif
     return "\"\"\<c-g>U\<left>"
 endfunction
@@ -1038,11 +1040,12 @@ inoremap <expr> ` I_Back_Tick()
 function! I_Back_Tick() abort
     let line = getline('.')
     let col = col('.')
-    if strpart(line, col - 3, 2) ==# '``'
-        return '`'
-    endif
     if strpart(line, col - 1, 1) ==# '`'
         return "\<c-g>U\<right>"
+    endif
+    if strpart(line, col - 3, 2) ==# '``'
+                \ || synIDattr(synID(line('.'), col, 1), 'name') =~? '\Vstring\|include'
+        return '`'
     endif
     return "``\<c-g>U\<left>"
 endfunction
@@ -1066,7 +1069,7 @@ function! CloseParen() abort
         let [m_lnum, m_col] = searchpairpos("[\"'`]", '', "[\"'`]", 'nbW')
     else
         let [m_lnum, m_col] = searchpairpos('[[({]', '', '[\])}]', 'nbW',
-                    \ 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string\\|include"')
+                    \ 'synIDattr(synID(line("."), col("."), 0), "name") =~? "\\Vstring\\|include"')
     endif
 
     if (m_lnum != 0) && (m_col != 0)
@@ -1108,7 +1111,7 @@ command! -nargs=0 SynGroup call SynGroup()
 
 function! SynGroup() abort
     let s = synID(line('.'), col('.'), 1)
-    echo synIDattr(s, 'name') . ' -> ' . synIDattr(synIDtrans(s), 'name')
+    echo synIDattr(s, 'name') ' -> ' synIDattr(synID(line('.'), col('.'), 0), 'name') . ' -> ' . synIDattr(synIDtrans(s), 'name')
 endfunction
 
 augroup MyRolodexTab

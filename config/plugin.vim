@@ -10,7 +10,7 @@ function! UseFtplugin(ft) abort
         return 1
     endif
     if type(g:use_ftplugins) == type([])
-        for ft in g:useft_plugins
+        for ft in g:use_ftplugins
             if ft ==# a:ft
                 return 1
             endif
@@ -165,13 +165,45 @@ Plug 'kana/vim-textobj-entire'
 Plug 'guns/xterm-color-table.vim'
 Plug 'chrisbra/Colorizer'
 
-Plug 'chengzeyi/hydrangea-vim'
-Plug 'chengzeyi/space-vim-theme'
-Plug 'rakr/vim-one'
-Plug 'junegunn/seoul256.vim'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'cormacrelf/vim-colors-github'
-Plug 'arzg/vim-colors-xcode'
+function! UseColorScheme(name) abort
+    if !exists('g:use_colorschemes')
+        return 0
+    endif
+    if type(g:use_colorschemes) == type('') && g:use_colorschemes ==# 'all'
+        return 1
+    endif
+    if type(g:use_colorschemes) == type([])
+        for ft in g:use_colorschemes
+            if ft ==# a:ft
+                return 1
+            endif
+        endfor
+        return 0
+    endif
+    return 0
+endfunction
+
+if UseColorScheme('hydrangea')
+    Plug 'chengzeyi/hydrangea-vim'
+endif
+if UseColorScheme('embark')
+    Plug 'embark-theme/vim', {'as': 'embark'}
+endif
+if UseColorScheme('one')
+    Plug 'rakr/vim-one'
+endif
+if UseColorScheme('papercolor')
+    Plug 'NLKNguyen/papercolor-theme'
+endif
+if UseColorScheme('github')
+    Plug 'cormacrelf/vim-colors-github'
+endif
+if UseColorScheme('seoul256')
+    Plug 'junegunn/seoul256.vim'
+endif
+if UseColorScheme('xcode')
+    Plug 'arzg/vim-colors-xcode'
+endif
 
 call plug#end()
 
@@ -1138,10 +1170,3 @@ try
                 \ })
 catch
 endtry
-
-let g:space_vim_dark_background = 233
-
-let g:space_vim_italic = 1
-
-let g:github_colors_soft = 1
-let g:github_colors_block_diffmark = 1

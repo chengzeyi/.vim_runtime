@@ -3,13 +3,9 @@
 set -e
 
 echo '
-
 set runtimepath+=$HOME/.vim_runtime
-
 let g:installed_basic = 1
-
 source $HOME/.vim_runtime/config/core.vim
-
 ' > $HOME/.vimrc
 
 mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}/nvim
