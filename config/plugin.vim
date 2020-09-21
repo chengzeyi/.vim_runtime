@@ -192,17 +192,20 @@ endif
 if UseColorScheme('one')
     Plug 'rakr/vim-one'
 endif
+if UseColorScheme('gruvbox8')
+    Plug 'lifepillar/vim-gruvbox8'
+endif
 if UseColorScheme('papercolor')
     Plug 'NLKNguyen/papercolor-theme'
 endif
-if UseColorScheme('github')
-    Plug 'cormacrelf/vim-colors-github'
+if UseColorScheme('xcode')
+    Plug 'arzg/vim-colors-xcode'
 endif
 if UseColorScheme('seoul256')
     Plug 'junegunn/seoul256.vim'
 endif
-if UseColorScheme('xcode')
-    Plug 'arzg/vim-colors-xcode'
+if UseColorScheme('github')
+    Plug 'cormacrelf/vim-colors-github'
 endif
 
 call plug#end()
