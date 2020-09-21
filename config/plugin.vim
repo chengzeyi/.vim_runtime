@@ -522,7 +522,7 @@ if !get(g:, 'use_coc', 0) && get(g:, 'use_asyncomplete', 0)
 endif
 
 if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
-    nnoremap <silent> <leader>dd :Denite<space>
+    nnoremap <leader>dd :Denite<space>
     nnoremap <silent> <leader>dD :Denite directory_rec<cr>
     nnoremap <silent> <leader>db :Denite buffer<cr>
     nnoremap <silent> <leader>dc :Denite command<cr>
@@ -689,20 +689,20 @@ nnoremap <silent> <leader>gV :GV!<cr>
 xnoremap <silent> <leader>gv :GV<cr>
 xnoremap <silent> <leader>gV :GV?<cr>
 
-nnoremap <silent> <leader>gg :G<space>
-nnoremap <silent> <leader>gG :G grep!  <bar> botright cw <left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>gg :G<space>
+nnoremap <leader>gG :G grep!  <bar> botright cw <left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <silent> <leader>gb :G blame<cr>
-nnoremap <silent> <leader>gB :G blame<space>
+nnoremap <leader>gB :G blame<space>
 xnoremap <silent> <leader>gb :G blame<cr>
-xnoremap <silent> <leader>gB :G blame<space>
+xnoremap <leader>gB :G blame<space>
 nnoremap <silent> <leader>gc :G commit -v<cr>
-nnoremap <silent> <leader>gC :G checkout<space>
+nnoremap <leader>gC :G checkout<space>
 nnoremap <silent> <leader>gd :Gdiffsplit<cr>
 nnoremap <silent> <leader>gD :Gdiffsplit!<cr>
-nnoremap <silent> <leader>gm :G merge -v<space>
-nnoremap <silent> <leader>gM :GMove<space>
+nnoremap <leader>gm :G merge -v<space>
+nnoremap <leader>gM :GMove<space>
 nnoremap <silent> <leader>gl :G log<cr>
-nnoremap <silent> <leader>gL :G log<space>
+nnoremap <leader>gL :G log<space>
 nnoremap <silent> <leader>go :Gclog! <bar> cclose <bar> botright cw<cr>
 nnoremap <silent> <leader>gO :Gclog <bar> cclose <bar> botright cw<cr>
 nnoremap <silent> <leader>gh :0Gclog! <bar> cclose <bar> botright cw<cr>
@@ -713,13 +713,13 @@ nnoremap <silent> <leader>gf :G fetch -v<cr>
 nnoremap <silent> <leader>gp :G push<cr>
 nnoremap <silent> <leader>gP :G pull -v<cr>
 nnoremap <silent> <leader>gs :G<cr>
-nnoremap <silent> <leader>gS :G stash<space>
+nnoremap <leader>gS :G stash<space>
 nnoremap <silent> <leader>gr :Gread<cr>
-nnoremap <silent> <leader>gR :G rebase -i<space>
+nnoremap <leader>gR :G rebase -i<space>
 nnoremap <silent> <leader>ge :Gedit<cr>
-nnoremap <silent> <leader>gE :Gedit<space>
+nnoremap <leader>gE :Gedit<space>
 nnoremap <silent> <leader>gw :Gwrite<cr>
-nnoremap <silent> <leader>gW :Gwrite<space>
+nnoremap <leader>gW :Gwrite<space>
 
 augroup MyVinegarHighlight
     autocmd!
@@ -822,19 +822,19 @@ inoremap <silent> <expr> <c-x>r fzf#vim#complete(fzf#wrap({
             \ }))
 if has('unix')
     nnoremap <silent> <leader>fd :FZFDir<cr>
-    nnoremap <silent> <leader>Fd :FZFDir<space>
+    nnoremap <leader>Fd :FZFDir<space>
     command! -nargs=* -complete=dir -bang FZFDir call fzf#run(fzf#wrap({
                 \ 'source': 'find ' . (empty(<q-args>) ? '.' : <q-args>) . ' -type d',
                 \ 'options': '-m --prompt "Dir> " --preview "tree -L 3 -ughC {} || ls -Glh {}" --bind "?:toggle-preview"'
                 \ }, <bang>0))
 endif
 if has('mac')
-    nnoremap <silent> <leader>fs :FZFSpotlight<space>
+    nnoremap <leader>fs :FZFSpotlight<space>
     command! -nargs=+ -bang FZFSpotlight call fzf#run(fzf#wrap(s:p(<bang>0, {
                 \ 'source': 'mdfind -name ' . <q-args> . ' "NOT kind:folder"',
                 \ 'options': '-m --prompt "Spotlight> "'
                 \ })))
-    nnoremap <silent> <leader>fS :FZFSpotlightDir<space>
+    nnoremap <leader>fS :FZFSpotlightDir<space>
     command! -nargs=+ -bang FZFSpotlightDir call fzf#run(fzf#wrap({
                 \ 'source': 'mdfind -name ' . <q-args> . ' "kind:folder"',
                 \ 'options': '-m --prompt "SpotlightDir> " --preview "tree -L 3 -ughC {} || ls -Glh {}" --bind "?:toggle-preview"'
@@ -873,7 +873,7 @@ nnoremap <silent> <leader>fT :FZFTags<cr>
 nnoremap <silent> <leader>fm :FZFMarks<cr>
 nnoremap <silent> <leader>fM :FZFMaps<cr>
 nnoremap <silent> <leader>fw :FZFWindows<cr>
-nnoremap <silent> <leader>fe :FZFLocate<space>
+nnoremap <leader>fe :FZFLocate<space>
 nnoremap <silent> <leader>fh :FZFHistory<cr>
 nnoremap <silent> <leader>f/ :FZFHistory/<cr>
 nnoremap <silent> <leader>f: :FZFHistory:<cr>
@@ -883,18 +883,18 @@ nnoremap <silent> <leader>fG :FZFGGrep<cr>
 nnoremap <silent> <leader>fq :FZFQuickFix<cr>
 nnoremap <silent> <leader>fQ :FZFLocList<cr>
 
-nnoremap <silent> <leader>Ff :FZFFiles<space>
-nnoremap <silent> <leader>FF :FZFGFiles<space>
-nnoremap <silent> <leader>F? :FZFGFiles?<space>
-nnoremap <silent> <leader>Fb :FZFBuffers<space>
-nnoremap <silent> <leader>Fa :FZFAg<space>
-nnoremap <silent> <leader>Fr :FZFRg<space>
-nnoremap <silent> <leader>Fl :FZFBLines<space>
-nnoremap <silent> <leader>FL :FZFLines<space>
-nnoremap <silent> <leader>Ft :FZFBTags<space>
-nnoremap <silent> <leader>FT :FZFTags<space>
-nnoremap <silent> <leader>Fg :FZFGGrep<space>
-nnoremap <silent> <leader>FG :FZFGrep<space>
+nnoremap <leader>Ff :FZFFiles<space>
+nnoremap <leader>FF :FZFGFiles<space>
+nnoremap <leader>F? :FZFGFiles?<space>
+nnoremap <leader>Fb :FZFBuffers<space>
+nnoremap <leader>Fa :FZFAg<space>
+nnoremap <leader>Fr :FZFRg<space>
+nnoremap <leader>Fl :FZFBLines<space>
+nnoremap <leader>FL :FZFLines<space>
+nnoremap <leader>Ft :FZFBTags<space>
+nnoremap <leader>FT :FZFTags<space>
+nnoremap <leader>Fg :FZFGGrep<space>
+nnoremap <leader>FG :FZFGrep<space>
 
 nnoremap <silent> <c-g> :Grepper<cr>
 if !exists('g:grepper')
@@ -916,11 +916,11 @@ let g:startify_custom_header = [
             \ ]
 nnoremap <silent> <leader>st :Startify<cr>
 nnoremap <silent> <leader>sa :SSave<cr>
-nnoremap <silent> <leader>sA :SSave<space>
+nnoremap <leader>sA :SSave<space>
 nnoremap <silent> <leader>sd :SDelete<cr>
-nnoremap <silent> <leader>sD :SDelete<space>
+nnoremap <leader>sD :SDelete<space>
 nnoremap <silent> <leader>sl :SLoad<cr>
-nnoremap <silent> <leader>sL :SLoad<space>
+nnoremap <leader>sL :SLoad<space>
 nnoremap <silent> <leader>sc :SClose<cr>
 " augroup MyStartify
 "     autocmd!
@@ -974,7 +974,7 @@ let g:NERDTreeWinPos = 'right'
 " let NERDTreeDirArrowCollapsible="v"
 nnoremap <silent> <leader>nn :NERDTreeToggle<cr>
 nnoremap <silent> <leader>nN :NERDTreeToggleVCS<cr>
-nnoremap <silent> <leader>nb :NERDTreeFromBookmark<space>
+nnoremap <leader>nb :NERDTreeFromBookmark<space>
 nnoremap <silent> <leader>nf :NERDTreeFind<cr>
 nnoremap <silent> <leader>nF :NERDTreeFocus<cr>
 nnoremap <silent> <leader>nv :NERDTreeVCS<cr>
@@ -996,10 +996,10 @@ xnoremap <silent> <a-f> :Neoformat<cr>
 
 nnoremap <silent> <leader>aw :ArgWrap<cr>
 
-nnoremap <silent> <leader>rr :AsyncRun<space>
-xnoremap <silent> <leader>rr :AsyncRun<space>
-nnoremap <silent> <leader>rR :AsyncRun!<space>
-xnoremap <silent> <leader>rR :AsyncRun!<space>
+nnoremap <leader>rr :AsyncRun<space>
+xnoremap <leader>rr :AsyncRun<space>
+nnoremap <leader>rR :AsyncRun!<space>
+xnoremap <leader>rR :AsyncRun!<space>
 nnoremap <silent> <leader>rs :AsyncStop<cr>
 nnoremap <silent> <leader>rS :AsyncStop!<cr>
 let g:asyncrun_auto = ''
@@ -1018,11 +1018,11 @@ augroup END
 " augroup END
 
 nnoremap <silent> <leader>Tn :TestNearest<CR>
-nnoremap <silent> <leader>TN :TestNearest<Space>
+nnoremap <leader>TN :TestNearest<Space>
 nnoremap <silent> <leader>Tf :TestFile<CR>
-nnoremap <silent> <leader>TF :TestFile<Space>
+nnoremap <leader>TF :TestFile<Space>
 nnoremap <silent> <leader>Ts :TestSuite<CR>
-nnoremap <silent> <leader>TS :TestSuite<Space>
+nnoremap <leader>TS :TestSuite<Space>
 nnoremap <silent> <leader>Tl :TestLast<CR>
 nnoremap <silent> <leader>Tv :TestVisit<CR>
 let test#strategy = 'asyncrun'
@@ -1100,7 +1100,7 @@ endif
 
 if has('nvim') || has('job') || has('channel')
     nnoremap <silent> <leader>co :Codi!!<cr>
-    nnoremap <silent> <leader>cO :Codi!!<space>
+    nnoremap <leader>cO :Codi!!<space>
 endif
 
 nmap <silent> <leader>cc <Plug>Colorizer

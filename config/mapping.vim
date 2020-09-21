@@ -1,9 +1,3 @@
-" if has('menu')
-"     source $VIMRUNTIME/delmenu.vim
-"     source $VIMRUNTIME/menu.vim
-"     map <silent> <c-z> :emenu <c-z>
-" endif
-
 inoremap <silent> <c-b> <home>
 cnoremap <silent> <c-b> <home>
 if v:version >= 600
@@ -51,8 +45,8 @@ nnoremap <silent> <leader><tab> :leftabove sp<cr>
 nnoremap <silent> <leader><s-tab> :leftabove vs<cr>
 nnoremap <silent> <leader><c-\> :tab sp<cr>
 
-nnoremap <silent> <leader>ee :e<space>
-nnoremap <silent> <leader>eE :e <c-r>=fnameescape(expand('%:~:h'))<cr>/
+nnoremap <leader>ee :e<space>
+nnoremap <leader>eE :e <c-r>=fnameescape(expand('%:~:h'))<cr>/
 nnoremap <silent> <leader>en :enew<cr>
 
 nnoremap <silent> <leader>oo :set scrolloff=<c-r>=999 - &scrolloff<cr><cr>
@@ -125,33 +119,33 @@ if exists(':terminal')
     tnoremap <silent> <c-o> <c-\><c-n>
     if has('nvim')
         nnoremap <silent> <leader>ts :split <bar> terminal<cr>
-        nnoremap <silent> <leader>tS :split <bar> terminal<space>
+        nnoremap <leader>tS :split <bar> terminal<space>
         nnoremap <silent> <leader>tv :vsplit <bar> terminal<cr>
-        nnoremap <silent> <leader>tV :vsplit <bar> terminal<space>
+        nnoremap <leader>tV :vsplit <bar> terminal<space>
         nnoremap <silent> <leader>tt :tabnew <bar> terminal<cr>
-        nnoremap <silent> <leader>tT :tabnew <bar> terminal<space>
+        nnoremap <leader>tT :tabnew <bar> terminal<space>
         nnoremap <silent> <leader>tw :terminal<cr>
-        nnoremap <silent> <leader>tW :terminal<space>
+        nnoremap <leader>tW :terminal<space>
     else
         nnoremap <silent> <leader>ts :terminal ++close<cr>
-        nnoremap <silent> <leader>tS :terminal ++close<space>
+        nnoremap <leader>tS :terminal ++close<space>
         nnoremap <silent> <leader>tv :vert terminal ++close<cr>
-        nnoremap <silent> <leader>tV :vert terminal ++close<space>
+        nnoremap <leader>tV :vert terminal ++close<space>
         nnoremap <silent> <leader>tt :tab terminal ++close<cr>
-        nnoremap <silent> <leader>tT :tab terminal ++close<space>
+        nnoremap <leader>tT :tab terminal ++close<space>
         nnoremap <silent> <leader>tw :terminal ++curwin ++close<cr>
-        nnoremap <silent> <leader>tW :terminal ++curwin ++close<space>
+        nnoremap <leader>tW :terminal ++curwin ++close<space>
     endif
 endif
 
-nnoremap <silent> [I [I:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."[\t"<Bar>endif<CR>
-nnoremap <silent> ]I ]I:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."]\t"<Bar>endif<CR>
-nnoremap <silent> [D [D:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."[\<lt>c-d>"<Bar>endif<CR>
-nnoremap <silent> ]D ]D:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."]\<lt>c-d>"<Bar>endif<CR>
+nnoremap <silent> [I [I:let nr = input("Which one: ")<bar>if nr =~# '\v[0-9]+'<bar>exe "normal " . nr ."[\t"<bar>endif<cr>
+nnoremap <silent> ]I ]I:let nr = input("Which one: ")<bar>if nr =~# '\v[0-9]+'<bar>exe "normal " . nr ."]\t"<bar>endif<cr>
+nnoremap <silent> [D [D:let nr = input("Which one: ")<bar>if nr =~# '\v[0-9]+'<bar>exe "normal " . nr ."[\<lt>c-d>"<bar>endif<cr>
+nnoremap <silent> ]D ]D:let nr = input("Which one: ")<bar>if nr =~# '\v[0-9]+'<bar>exe "normal " . nr ."]\<lt>c-d>"<bar>endif<cr>
 
-nnoremap <silent> <leader>mm :make!  <bar> botright cw<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>mm :make!  <bar> botright cw<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <silent> <leader>mM :make! <bar> botright cw<cr>
-nnoremap <silent> <leader>ml :lmake!  <bar> botright cw<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>ml :lmake!  <bar> botright cw<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <silent> <leader>mL :lmake! <bar> botright cw<cr>
 nnoremap <silent> <leader>jj :call GotoJump()<cr>
 nnoremap <silent> <leader>jt :call GotoTag()<cr>
@@ -211,8 +205,8 @@ nnoremap <silent> <leader>W :wa<cr>
 nnoremap <silent> <leader>x :q<cr>
 nnoremap <silent> <leader>X :qa<cr>
 
-nnoremap <silent> <leader>" :registers<CR>
-nnoremap <silent> <leader>@ :registers<CR>
+nnoremap <silent> <leader>" :registers<cr>
+nnoremap <silent> <leader>@ :registers<cr>
 inoremap <silent> <c-r> <c-r>="\<lt>c-r>" . BetterRegister()<cr>
 if exists(':terminal')
     if !has('nvim')
@@ -242,8 +236,8 @@ function! BetterRegister()
     endwhile
 endfunction
 
-nnoremap <silent> <leader>' :marks<CR>
-nnoremap <silent> <leader>` :marks<CR>
+nnoremap <silent> <leader>' :marks<cr>
+nnoremap <silent> <leader>` :marks<cr>
 nnoremap <silent> <expr> ' "'" . BetterMark()
 nnoremap <silent> <expr> ` '`' . BetterMark()
 xnoremap <silent> <expr> ' "'" . BetterMark()
@@ -274,9 +268,9 @@ nnoremap <silent> <leader>g* g*``
 nnoremap <silent> c# #``cgn
 nnoremap <silent> c* *``cgn
 
-inoremap <silent> <F1> <C-O>za
+inoremap <silent> <F1> <c-o>za
 nnoremap <silent> <F1> za
-onoremap <silent> <F1> <C-C>za
+onoremap <silent> <F1> <c-c>za
 vnoremap <silent> <F1> zf
 nnoremap <silent> <leader>z0 :set foldlevel=0<cr>
 nnoremap <silent> <leader>z1 :set foldlevel=1<cr>
@@ -342,10 +336,10 @@ function! IndTxtObj(inner) abort
     endif
 endfunction
 
-nnoremap <silent> <a-t> :set opfunc=Trans<CR>g@iw
-xnoremap <silent> <a-t> :<C-U>call Trans(visualmode(), 1)<CR>
-nnoremap <silent> g<c-t> :set opfunc=Trans<CR>g@iw
-xnoremap <silent> g<c-t> :<C-U>call Trans(visualmode(), 1)<CR>
+nnoremap <silent> <a-t> :set opfunc=Trans<cr>g@iw
+xnoremap <silent> <a-t> :<c-u>call Trans(visualmode(), 1)<cr>
+nnoremap <silent> g<c-t> :set opfunc=Trans<cr>g@iw
+xnoremap <silent> g<c-t> :<c-u>call Trans(visualmode(), 1)<cr>
 command! -nargs=* Trans call DoTrans(<q-args>)
 
 function! Trans(type, ...) abort
@@ -424,7 +418,7 @@ nnoremap <silent> <leader>p+ :set previewheight+=1<cr>
 nnoremap <silent> <leader>p= :set previewheight=10<cr>
 
 " if has('win32') && executable('sh')
-"     nnoremap <silent> <leader>! :Sh<space>
+"     nnoremap <leader>! :Sh<space>
 "     command! -nargs=+ -complete=shellcmd Sh call Sh(<q-args>)
 "     function! Sh(cmd) abort
 "         let saved = [&shell, &shellcmdflag, &shellxquote]
@@ -474,10 +468,10 @@ nnoremap <silent> <leader>qu :cfdo up<cr>
 nnoremap <silent> <leader>lu :lfdo up<cr>
 nnoremap <silent> <leader>qU :cfdo up!<cr>
 nnoremap <silent> <leader>lU :lfdo up!<cr>
-nnoremap <silent> <leader>qd :cdo<space>
-nnoremap <silent> <leader>qD :cfdo<space>
-nnoremap <silent> <leader>ld :ldo<space>
-nnoremap <silent> <leader>lD :lfdo<space>
+nnoremap <leader>qd :cdo<space>
+nnoremap <leader>qD :cfdo<space>
+nnoremap <leader>ld :ldo<space>
+nnoremap <leader>lD :lfdo<space>
 nnoremap <silent> <leader>qr :cdo s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
 nnoremap <silent> <leader>lr :ldo s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
 nnoremap <silent> <leader>qs :cdo s/
@@ -486,10 +480,10 @@ nnoremap <silent> <leader>qS :cfdo %s/
 nnoremap <silent> <leader>lS :lfdo %s/
 
 if exists(':packadd')
-    nnoremap <silent> <leader>qf :packadd cfilter <bar> Cfilter<space>
-    nnoremap <silent> <leader>qF :packadd cfilter <bar> Cfilter!<space>
-    nnoremap <silent> <leader>lf :packadd cfilter <bar> Lfilter<space>
-    nnoremap <silent> <leader>lF :packadd cfilter <bar> Lfilter!<space>
+    nnoremap <leader>qf :packadd cfilter <bar> Cfilter<space>
+    nnoremap <leader>qF :packadd cfilter <bar> Cfilter!<space>
+    nnoremap <leader>lf :packadd cfilter <bar> Lfilter<space>
+    nnoremap <leader>lF :packadd cfilter <bar> Lfilter!<space>
 endif
 
 nnoremap <silent> <leader>qq :QToggle<cr>
@@ -544,20 +538,20 @@ function! BufferCount() abort
     return len(filter(range(1, bufnr('$')), 'bufwinnr(v:val) != -1'))
 endfunction
 
-nnoremap <silent> <leader>as :args<space>
+nnoremap <leader>as :args<space>
 nnoremap <silent> <leader>aS :args<cr>
-nnoremap <silent> <leader>aa :arga<space>
-nnoremap <silent> <leader>ae :arge<space>
-nnoremap <silent> <leader>ad :argdo<space>
-nnoremap <silent> <leader>aD :argdo!<space>
-nnoremap <silent> <leader>ar :argd<space>
+nnoremap <leader>aa :arga<space>
+nnoremap <leader>ae :arge<space>
+nnoremap <leader>ad :argdo<space>
+nnoremap <leader>aD :argdo!<space>
+nnoremap <leader>ar :argd<space>
 nnoremap <silent> <leader>aR :%argd<cr>
-nnoremap <silent> <leader>au :argu<space>
+nnoremap <leader>au :argu<space>
 nnoremap <silent> <leader>aU :argu<cr>
 nnoremap <silent> <leader>a<space> :argu<cr>
-nnoremap <silent> <leader>al :argl<space>
+nnoremap <leader>al :argl<space>
 nnoremap <silent> <leader>aL :argl<cr>
-nnoremap <silent> <leader>ag :argg<space>
+nnoremap <leader>ag :argg<space>
 nnoremap <silent> <leader>aG :argg<cr>
 nnoremap <silent> ]a :next<cr>
 nnoremap <silent> [a :prev<cr>
@@ -613,13 +607,13 @@ function! AlternateFile() abort
     endfor
 endfunction
 
-nnoremap <silent> <leader>ct :Ctags<space>
+nnoremap <leader>ct :Ctags<space>
 nnoremap <silent> <leader>cT :Ctags<cr>
 command! -complete=file -nargs=* Ctags !ctags
             \ -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q --excmd=number <args>
 
 if has('cscope')
-    nnoremap <silent> <leader>cs :Cscope<space>
+    nnoremap <leader>cs :Cscope<space>
     nnoremap <silent> <leader>cS :Cscope<cr>
     command! -complete=file -nargs=* Cscope !cscope
                 \ -RUbq <args>
@@ -627,7 +621,7 @@ if has('cscope')
     nnoremap <silent> <c-\><bs> :set invcst<cr>
     nnoremap <silent> <c-\><c-h> :set invcst<cr>
     nnoremap <silent> <c-\>\ :cs add .<cr>
-    nnoremap <silent> <c-\><bar> :cs add<space>
+    nnoremap <c-\><bar> :cs add<space>
     nnoremap <silent> <c-\><cr> :cs show<cr>
     nnoremap <silent> <c-\>h :cs help<cr>
     nnoremap <silent> <c-\>r :cs reset<cr>
@@ -641,15 +635,15 @@ if has('cscope')
     nnoremap <silent> <c-\>f :cs find f <c-r>=expand("<cfile>")<cr><cr>
     nnoremap <silent> <c-\>i :cs find i <c-r>=expand("<cfile>")<cr><cr>
     nnoremap <silent> <c-\>d :cs find d <c-r>=expand("<cword>")<cr><cr>
-    nnoremap <silent> <c-\>A :cs find a<space>
-    nnoremap <silent> <c-\>S :cs find s<space>
-    nnoremap <silent> <c-\>G :cs find g<space>
-    nnoremap <silent> <c-\>C :cs find c<space>
-    nnoremap <silent> <c-\>T :cs find t<space>
-    nnoremap <silent> <c-\>E :cs find e<space>
-    nnoremap <silent> <c-\>F :cs find f<space>
-    nnoremap <silent> <c-\>I :cs find i<space>
-    nnoremap <silent> <c-\>D :cs find d<space>
+    nnoremap <c-\>A :cs find a<space>
+    nnoremap <c-\>S :cs find s<space>
+    nnoremap <c-\>G :cs find g<space>
+    nnoremap <c-\>C :cs find c<space>
+    nnoremap <c-\>T :cs find t<space>
+    nnoremap <c-\>E :cs find e<space>
+    nnoremap <c-\>F :cs find f<space>
+    nnoremap <c-\>I :cs find i<space>
+    nnoremap <c-\>D :cs find d<space>
     nnoremap <silent> <c-\><c-\>a :scs find a <c-r>=expand("<cword>")<cr><cr>
     nnoremap <silent> <c-\><c-\>s :scs find s <c-r>=expand("<cword>")<cr><cr>
     nnoremap <silent> <c-\><c-\>g :scs find g <c-r>=expand("<cword>")<cr><cr>
@@ -659,18 +653,18 @@ if has('cscope')
     nnoremap <silent> <c-\><c-\>f :scs find f <c-r>=expand("<cfile>")<cr><cr>
     nnoremap <silent> <c-\><c-\>i :scs find i <c-r>=expand("<cfile>")<cr><cr>
     nnoremap <silent> <c-\><c-\>d :scs find d <c-r>=expand("<cword>")<cr><cr>
-    nnoremap <silent> <c-\><c-\>A :scs find a<space>
-    nnoremap <silent> <c-\><c-\>S :scs find s<space>
-    nnoremap <silent> <c-\><c-\>G :scs find g<space>
-    nnoremap <silent> <c-\><c-\>C :scs find c<space>
-    nnoremap <silent> <c-\><c-\>T :scs find t<space>
-    nnoremap <silent> <c-\><c-\>E :scs find e<space>
-    nnoremap <silent> <c-\><c-\>F :scs find f<space>
-    nnoremap <silent> <c-\><c-\>I :scs find i<space>
-    nnoremap <silent> <c-\><c-\>D :scs find d<space>
+    nnoremap <c-\><c-\>A :scs find a<space>
+    nnoremap <c-\><c-\>S :scs find s<space>
+    nnoremap <c-\><c-\>G :scs find g<space>
+    nnoremap <c-\><c-\>C :scs find c<space>
+    nnoremap <c-\><c-\>T :scs find t<space>
+    nnoremap <c-\><c-\>E :scs find e<space>
+    nnoremap <c-\><c-\>F :scs find f<space>
+    nnoremap <c-\><c-\>I :scs find i<space>
+    nnoremap <c-\><c-\>D :scs find d<space>
 endif
 
-nnoremap <silent> <leader>vv :VCS<space>
+nnoremap <leader>vv :VCS<space>
 command! -nargs=+ -complete=command VCS call VCS(<q-args>)
 
 function! VCS(cmd) abort
@@ -684,33 +678,30 @@ function! VCS(cmd) abort
     exe 'cd ' . saved
 endfunction
 
-nnoremap <silent> <leader>vg :vim //j % <bar> botright cw
+nnoremap <leader>vg :vim //j % <bar> botright cw
             \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <silent> <leader>vG :vim //j **/* <bar> botright cw
+nnoremap <leader>vG :vim //j **/* <bar> botright cw
             \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <silent> <leader>va :vima //j % <bar> botright cw
+nnoremap <leader>va :vima //j % <bar> botright cw
             \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <silent> <leader>vA :vima //j **/* <bar> botright cw
+nnoremap <leader>vA :vima //j **/* <bar> botright cw
             \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <silent> <leader>vl :lvim //j % <bar> lw<left><left><left><left><left><left><left><left><left>
-nnoremap <silent> <leader>vL :lvim //j **/* <bar> lw<left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <silent> <leader>vw :vim /<bslash>C<bslash><lt><bslash>>/j % <bar> botright cw
+nnoremap <leader>vl :lvim //j % <bar> lw<left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vL :lvim //j **/* <bar> lw<left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vw :vim /<bslash>C<bslash><lt><bslash>>/j % <bar> botright cw
             \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <silent> <leader>vW :vim /<bslash>C<bslash><lt><bslash>>/j **/* <bar> botright cw
+nnoremap <leader>vW :vim /<bslash>C<bslash><lt><bslash>>/j **/* <bar> botright cw
             \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <silent> <leader>ss :%s/
-xnoremap <silent> <leader>ss :s/
-nnoremap <silent> <leader>sS :%argd <bar> arga **/* <bar> argdo %s/
-nnoremap <silent> <leader>sr :%s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
-xnoremap <silent> <leader>sr :s/<bslash>C<bslash><lt><bslash>>/<left><left><left>
-nnoremap <silent> <leader>sR :%argd <bar> arga **/* <bar> argdo %s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
+nnoremap <leader>ss :%s/
+xnoremap <leader>ss :s/
+nnoremap <leader>sS :%argd <bar> arga **/* <bar> argdo %s/
+nnoremap <leader>sr :%s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
+xnoremap <leader>sr :s/<bslash>C<bslash><lt><bslash>>/<left><left><left>
+nnoremap <leader>sR :%argd <bar> arga **/* <bar> argdo %s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
 
 if !has('nvim')
     command! -nargs=0 W w !sudo tee % > /dev/null
 endif
-
-nnoremap <silent> <leader>ed :e <c-r>=fnameescape(expand('%:~:h'))<cr>/
-nnoremap <silent> <leader>eD :e <c-r>=GetVcsRoot()<cr>
 
 if executable('xxd')
     nnoremap <silent> <leader>eh :EditHex<cr>
@@ -799,17 +790,17 @@ nnoremap <silent> <leader>- :resize -5<cr>
 nnoremap <silent> <leader>> :vertical resize +10<cr>
 nnoremap <silent> <leader><lt> :vertical resize -10<cr>
 
-nnoremap <silent> <leader>bb :ls<cr>:b<space>
-nnoremap <silent> <leader>bB :ls<cr>:b!<space>
-nnoremap <silent> <leader>bf :filter //ls<left><left><left>
-nnoremap <silent> <leader>bF :filter //ls!<left><left><left><left>
-nnoremap <silent> <leader>bv :filter! //ls<left><left><left>
-nnoremap <silent> <leader>bV :filter! //ls!<left><left><left><left>
+nnoremap <leader>bb :ls<cr>:b<space>
+nnoremap <leader>bB :ls<cr>:b!<space>
+nnoremap <leader>bf :filter //ls<left><left><left>
+nnoremap <leader>bF :filter //ls!<left><left><left><left>
+nnoremap <leader>bv :filter! //ls<left><left><left>
+nnoremap <leader>bV :filter! //ls!<left><left><left><left>
 
-nnoremap <silent> <leader>bl :buffers<cr>:buffer<space>
-nnoremap <silent> <leader>bL :buffers!<cr>:buffer<space>
-nnoremap <silent> <leader>bd :bufdo<space>
-nnoremap <silent> <leader>bD :bufdo!<space>
+nnoremap <leader>bl :buffers<cr>:buffer<space>
+nnoremap <leader>bL :buffers!<cr>:buffer<space>
+nnoremap <leader>bd :bufdo<space>
+nnoremap <leader>bD :bufdo!<space>
 nnoremap <silent> <leader>bx :bd<cr>
 nnoremap <silent> <leader>bX :bd!<cr>
 " Close all the buffers
@@ -859,13 +850,13 @@ augroup MyLastAccessedTab
     au TabLeave * let g:lasttab = tabpagenr()
 augroup END
 
-nnoremap <silent> <leader>te :tabe<space>
+nnoremap <leader>te :tabe<space>
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
-nnoremap <silent> <leader>tE :tabe <c-r>=fnameescape(expand('%:~:h'))<cr>/
+nnoremap <leader>tE :tabe <c-r>=fnameescape(expand('%:~:h'))<cr>/
 
-nnoremap <silent> <leader>td :tabdo<space>
-nnoremap <silent> <leader>tD :tabdo!<space>
+nnoremap <leader>td :tabdo<space>
+nnoremap <leader>tD :tabdo!<space>
 
 nnoremap <silent> <leader>1 1gt
 nnoremap <silent> <leader>2 2gt
