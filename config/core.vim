@@ -20,7 +20,7 @@ function! MapEdit(configs, paths) abort
         else
             let key = config_name[0]
         endif
-        exe 'nnoremap <leader>e' . key . ' :e ' . fnameescape(path) . '<cr>'
+        exe 'nnoremap <silent> <leader>e' . key . ' :e ' . fnameescape(path) . '<cr>'
     endfor
 endfunction
 

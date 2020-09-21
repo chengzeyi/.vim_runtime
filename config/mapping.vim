@@ -1,19 +1,25 @@
-inoremap <c-b> <home>
-cnoremap <c-b> <home>
+" if has('menu')
+"     source $VIMRUNTIME/delmenu.vim
+"     source $VIMRUNTIME/menu.vim
+"     map <silent> <c-z> :emenu <c-z>
+" endif
+
+inoremap <silent> <c-b> <home>
+cnoremap <silent> <c-b> <home>
 if v:version >= 600
-    cnoremap <c-k> <end><c-u>
+    cnoremap <silent> <c-k> <end><c-u>
 else
-    cnoremap <c-k> <c-u>
+    cnoremap <silent> <c-k> <c-u>
 endif
 
-cnoremap <c-p> <up>
-cnoremap <c-n> <down>
+cnoremap <silent> <c-p> <up>
+cnoremap <silent> <c-n> <down>
 
 function! MapMotion(from, ...) abort
     let from = a:from
     let to = a:0 == 0 ? a:from : a:1
-    exec 'noremap <expr> ' . from . ' v:count == 0 ? "g' . to . '" : "' . to . '"'
-    exec 'noremap <expr> g' . from . ' v:count == 0 ? ' . '"' . to . '" : "g' . to . '"'
+    exec 'noremap <silent> <expr> ' . from . ' v:count == 0 ? "g' . to . '" : "' . to . '"'
+    exec 'noremap <silent> <expr> g' . from . ' v:count == 0 ? ' . '"' . to . '" : "g' . to . '"'
 endfunction
 
 call MapMotion('j')
@@ -21,60 +27,60 @@ call MapMotion('k')
 " call MapMotion('0', '^')
 " call MapMotion('^', '0')
 " call MapMotion('$')
-nnoremap 0 ^
-xnoremap 0 ^
-onoremap 0 ^
-nnoremap ^ 0
-xnoremap ^ 0
-onoremap ^ 0
-nnoremap Q @q
-xnoremap Q @q
-" noremap M `m
-nnoremap Y y$
-xnoremap Y y$
+nnoremap <silent> 0 ^
+xnoremap <silent> 0 ^
+onoremap <silent> 0 ^
+nnoremap <silent> ^ 0
+xnoremap <silent> ^ 0
+onoremap <silent> ^ 0
+nnoremap <silent> Q @q
+xnoremap <silent> Q @q
+" noremap <silent> M `m
+nnoremap <silent> Y y$
+xnoremap <silent> Y y$
 
-xnoremap g> >gv
-xnoremap g< <gv
+xnoremap <silent> g> >gv
+xnoremap <silent> g< <gv
 
-nnoremap ]<space> :<c-u>put =repeat(nr2char(10), v:count) <bar> execute "'[-1"<cr>
-nnoremap [<space> :<c-u>put!=repeat(nr2char(10), v:count) <bar> execute "']+1"<cr>
+nnoremap <silent> ]<space> :<c-u>put =repeat(nr2char(10), v:count) <bar> execute "'[-1"<cr>
+nnoremap <silent> [<space> :<c-u>put!=repeat(nr2char(10), v:count) <bar> execute "']+1"<cr>
 
-nnoremap <leader><bslash> :rightbelow sp<cr>
-nnoremap <leader><bar> :rightbelow vs<cr>
-nnoremap <leader><tab> :leftabove sp<cr>
-nnoremap <leader><s-tab> :leftabove vs<cr>
-nnoremap <leader><c-\> :tab sp<cr>
+nnoremap <silent> <leader><bslash> :rightbelow sp<cr>
+nnoremap <silent> <leader><bar> :rightbelow vs<cr>
+nnoremap <silent> <leader><tab> :leftabove sp<cr>
+nnoremap <silent> <leader><s-tab> :leftabove vs<cr>
+nnoremap <silent> <leader><c-\> :tab sp<cr>
 
-nnoremap <leader>ee :e<space>
-nnoremap <leader>eE :e <c-r>=fnameescape(expand('%:~:h'))<cr>/
-nnoremap <leader>en :enew<cr>
+nnoremap <silent> <leader>ee :e<space>
+nnoremap <silent> <leader>eE :e <c-r>=fnameescape(expand('%:~:h'))<cr>/
+nnoremap <silent> <leader>en :enew<cr>
 
-nnoremap <leader>oo :set scrolloff=<c-r>=999 - &scrolloff<cr><cr>
-nnoremap <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
-nnoremap <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
+nnoremap <silent> <leader>oo :set scrolloff=<c-r>=999 - &scrolloff<cr><cr>
+nnoremap <silent> <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
+nnoremap <silent> <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
 if has('nvim-0.4.4')
-    nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn ==# '0' ? 'auto:1' : '0'<cr><cr>
+    nnoremap <silent> <leader>of :set foldcolumn=<c-r>=&foldcolumn ==# '0' ? 'auto:1' : '0'<cr><cr>
 else
-    nnoremap <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? 1 : 0<cr><cr>
+    nnoremap <silent> <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? 1 : 0<cr><cr>
 endif
 if has('patch-8.1.1564')
-    nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn ==# 'no' ? 'number' : 'no'<cr><cr>
+    nnoremap <silent> <leader>os :set signcolumn=<c-r>=&signcolumn ==# 'no' ? 'number' : 'no'<cr><cr>
 else
-    nnoremap <leader>os :set signcolumn=<c-r>=&signcolumn ==# 'no' ? 'auto' : 'no'<cr><cr>
+    nnoremap <silent> <leader>os :set signcolumn=<c-r>=&signcolumn ==# 'no' ? 'auto' : 'no'<cr><cr>
 endif
 if has('patch-7.3.787')
-    nnoremap <leader>or :set invrelativenumber<cr>
+    nnoremap <silent> <leader>or :set invrelativenumber<cr>
 endif
-nnoremap <leader>on :set invnumber<cr>
+nnoremap <silent> <leader>on :set invnumber<cr>
 if has('termguicolors')
-    nnoremap <leader>og :set invtermguicolors<cr>
+    nnoremap <silent> <leader>og :set invtermguicolors<cr>
 endif
-nnoremap <leader>ow :set textwidth=<c-r>=&textwidth == 0 ? 79 : 0<cr><cr>
-nnoremap <leader>oc :set colorcolumn=<c-r>=empty(&colorcolumn) ? '+1' : ''<cr><cr>
-nnoremap <leader>oz :set foldclose=<c-r>=&foldclose !=# 'all' ? 'all' : ''<cr> foldopen=<c-r>=&foldopen !=# 'all' ? 'all' : ''<cr><cr>
-nnoremap <leader>ob :set background=<c-r>=&background ==# 'dark' ? 'light' : 'dark'<cr><cr>
-" nnoremap <leader>ot :set ttyscroll=<c-r>=999 - &ttyscroll<cr><cr>
-nnoremap <leader>ot :ToggleTransparent<cr>
+nnoremap <silent> <leader>ow :set textwidth=<c-r>=&textwidth == 0 ? 79 : 0<cr><cr>
+nnoremap <silent> <leader>oc :set colorcolumn=<c-r>=empty(&colorcolumn) ? '+1' : ''<cr><cr>
+nnoremap <silent> <leader>oz :set foldclose=<c-r>=&foldclose !=# 'all' ? 'all' : ''<cr> foldopen=<c-r>=&foldopen !=# 'all' ? 'all' : ''<cr><cr>
+nnoremap <silent> <leader>ob :set background=<c-r>=&background ==# 'dark' ? 'light' : 'dark'<cr><cr>
+" nnoremap <silent> <leader>ot :set ttyscroll=<c-r>=999 - &ttyscroll<cr><cr>
+nnoremap <silent> <leader>ot :ToggleTransparent<cr>
 command! -nargs=0 ToggleTransparent call ToggleTransparent()
 
 function! ToggleTransparent() abort
@@ -98,58 +104,58 @@ function! ReturnHighlightTerm(group, term) abort
 endfunction
 
 if has('patch-8.1.1880') && has('textprop')
-    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview,popup<cr>
+    nnoremap <silent> <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview,popup<cr>
 else
-    nnoremap <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview<cr>
+    nnoremap <silent> <leader>op :set completeopt<c-r>=&completeopt =~# 'preview' ? '-' : '+'<cr>=preview<cr>
 endif
 
-" nnoremap <c-]> g<c-]>
-" nnoremap g<c-]> <c-]>
-" xnoremap <c-]> g<c-]>
-" xnoremap g<c-]> <c-]>
-" nnoremap <c-w><c-]> <c-w>g<c-]>
-" nnoremap <c-w>g<c-]> <c-w><c-]>
-" xnoremap <c-w><c-]> <c-w>g<c-]>
-" xnoremap <c-w>g<c-]> <c-w><c-]>
-" nnoremap g<LeftMouse> <LeftMouse>g<c-]>
-" nnoremap <C-LeftMouse> <LeftMouse>g<c-]>
+" nnoremap <silent> <c-]> g<c-]>
+" nnoremap <silent> g<c-]> <c-]>
+" xnoremap <silent> <c-]> g<c-]>
+" xnoremap <silent> g<c-]> <c-]>
+" nnoremap <silent> <c-w><c-]> <c-w>g<c-]>
+" nnoremap <silent> <c-w>g<c-]> <c-w><c-]>
+" xnoremap <silent> <c-w><c-]> <c-w>g<c-]>
+" xnoremap <silent> <c-w>g<c-]> <c-w><c-]>
+" nnoremap <silent> g<LeftMouse> <LeftMouse>g<c-]>
+" nnoremap <silent> <C-LeftMouse> <LeftMouse>g<c-]>
 
 if exists(':terminal')
-    tnoremap <F1> <c-\><c-n>
-    tnoremap <c-o> <c-\><c-n>
+    tnoremap <silent> <F1> <c-\><c-n>
+    tnoremap <silent> <c-o> <c-\><c-n>
     if has('nvim')
-        nnoremap <leader>ts :split <bar> terminal<cr>
-        nnoremap <leader>tS :split <bar> terminal<space>
-        nnoremap <leader>tv :vsplit <bar> terminal<cr>
-        nnoremap <leader>tV :vsplit <bar> terminal<space>
-        nnoremap <leader>tt :tabnew <bar> terminal<cr>
-        nnoremap <leader>tT :tabnew <bar> terminal<space>
-        nnoremap <leader>tw :terminal<cr>
-        nnoremap <leader>tW :terminal<space>
+        nnoremap <silent> <leader>ts :split <bar> terminal<cr>
+        nnoremap <silent> <leader>tS :split <bar> terminal<space>
+        nnoremap <silent> <leader>tv :vsplit <bar> terminal<cr>
+        nnoremap <silent> <leader>tV :vsplit <bar> terminal<space>
+        nnoremap <silent> <leader>tt :tabnew <bar> terminal<cr>
+        nnoremap <silent> <leader>tT :tabnew <bar> terminal<space>
+        nnoremap <silent> <leader>tw :terminal<cr>
+        nnoremap <silent> <leader>tW :terminal<space>
     else
-        nnoremap <leader>ts :terminal ++close<cr>
-        nnoremap <leader>tS :terminal ++close<space>
-        nnoremap <leader>tv :vert terminal ++close<cr>
-        nnoremap <leader>tV :vert terminal ++close<space>
-        nnoremap <leader>tt :tab terminal ++close<cr>
-        nnoremap <leader>tT :tab terminal ++close<space>
-        nnoremap <leader>tw :terminal ++curwin ++close<cr>
-        nnoremap <leader>tW :terminal ++curwin ++close<space>
+        nnoremap <silent> <leader>ts :terminal ++close<cr>
+        nnoremap <silent> <leader>tS :terminal ++close<space>
+        nnoremap <silent> <leader>tv :vert terminal ++close<cr>
+        nnoremap <silent> <leader>tV :vert terminal ++close<space>
+        nnoremap <silent> <leader>tt :tab terminal ++close<cr>
+        nnoremap <silent> <leader>tT :tab terminal ++close<space>
+        nnoremap <silent> <leader>tw :terminal ++curwin ++close<cr>
+        nnoremap <silent> <leader>tW :terminal ++curwin ++close<space>
     endif
 endif
 
-nnoremap [I [I:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."[\t"<Bar>endif<CR>
-nnoremap ]I ]I:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."]\t"<Bar>endif<CR>
-nnoremap [D [D:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."[\<lt>c-d>"<Bar>endif<CR>
-nnoremap ]D ]D:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."]\<lt>c-d>"<Bar>endif<CR>
+nnoremap <silent> [I [I:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."[\t"<Bar>endif<CR>
+nnoremap <silent> ]I ]I:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."]\t"<Bar>endif<CR>
+nnoremap <silent> [D [D:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."[\<lt>c-d>"<Bar>endif<CR>
+nnoremap <silent> ]D ]D:let nr = input("Which one: ")<Bar>if nr =~# '\v[0-9]+'<Bar>exe "normal " . nr ."]\<lt>c-d>"<Bar>endif<CR>
 
-nnoremap <leader>mm :make!  <bar> botright cw<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>mM :make! <bar> botright cw<cr>
-nnoremap <leader>ml :lmake!  <bar> botright cw<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>mL :lmake! <bar> botright cw<cr>
-nnoremap <leader>jj :call GotoJump()<cr>
-nnoremap <leader>jt :call GotoTag()<cr>
-nnoremap <leader>js :tselect<cr>
+nnoremap <silent> <leader>mm :make!  <bar> botright cw<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <silent> <leader>mM :make! <bar> botright cw<cr>
+nnoremap <silent> <leader>ml :lmake!  <bar> botright cw<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <silent> <leader>mL :lmake! <bar> botright cw<cr>
+nnoremap <silent> <leader>jj :call GotoJump()<cr>
+nnoremap <silent> <leader>jt :call GotoTag()<cr>
+nnoremap <silent> <leader>js :tselect<cr>
 
 function! GotoJump() abort
     redraw!
@@ -173,10 +179,10 @@ function! GotoTag() abort
     endif
 endfunction
 
-nnoremap <leader>? :call LookUpMap(1, '', '')<cr>
-nnoremap <leader>/ :call LookUpMap(1, '', '<lt>leader>')<cr>
-nnoremap <localleader>? :map <lt>localleader><cr>
-nnoremap <localleader>/ :call LookUpMap(1, '', '<lt>localleader>')<cr>
+nnoremap <silent> <leader>? :call LookUpMap(1, '', '')<cr>
+nnoremap <silent> <leader>/ :call LookUpMap(1, '', '<lt>leader>')<cr>
+nnoremap <silent> <localleader>? :map <lt>localleader><cr>
+nnoremap <silent> <localleader>/ :call LookUpMap(1, '', '<lt>localleader>')<cr>
 
 function! LookUpMap(count, mode, prefix)
     let cmd = a:mode . 'map ' . a:prefix
@@ -200,23 +206,23 @@ function! LookUpMap(count, mode, prefix)
     execute cmd
 endfunction
 
-nnoremap <leader>w :w<cr>
-nnoremap <leader>W :wa<cr>
-nnoremap <leader>x :q<cr>
-nnoremap <leader>X :qa<cr>
+nnoremap <silent> <leader>w :w<cr>
+nnoremap <silent> <leader>W :wa<cr>
+nnoremap <silent> <leader>x :q<cr>
+nnoremap <silent> <leader>X :qa<cr>
 
-nnoremap <leader>" :registers<CR>
-nnoremap <leader>@ :registers<CR>
-inoremap <c-r> <c-r>="\<lt>c-r>" . BetterRegister()<cr>
+nnoremap <silent> <leader>" :registers<CR>
+nnoremap <silent> <leader>@ :registers<CR>
+inoremap <silent> <c-r> <c-r>="\<lt>c-r>" . BetterRegister()<cr>
 if exists(':terminal')
     if !has('nvim')
-        tnoremap <expr> <c-w>" "\<lt>c-w>\"" . BetterRegister()
+        tnoremap <silent> <expr> <c-w>" "\<lt>c-w>\"" . BetterRegister()
     endif
 endif
-nnoremap <expr> " '"' . BetterRegister()
-nnoremap <expr> @ '@' . BetterRegister()
-xnoremap <expr> " '"' . BetterRegister()
-xnoremap <expr> @ '@' . BetterRegister()
+nnoremap <silent> <expr> " '"' . BetterRegister()
+nnoremap <silent> <expr> @ '@' . BetterRegister()
+xnoremap <silent> <expr> " '"' . BetterRegister()
+xnoremap <silent> <expr> @ '@' . BetterRegister()
 
 function! BetterRegister()
     let more = &more
@@ -236,12 +242,12 @@ function! BetterRegister()
     endwhile
 endfunction
 
-nnoremap <leader>' :marks<CR>
-nnoremap <leader>` :marks<CR>
-nnoremap <expr> ' "'" . BetterMark()
-nnoremap <expr> ` '`' . BetterMark()
-xnoremap <expr> ' "'" . BetterMark()
-xnoremap <expr> ` '`' . BetterMark()
+nnoremap <silent> <leader>' :marks<CR>
+nnoremap <silent> <leader>` :marks<CR>
+nnoremap <silent> <expr> ' "'" . BetterMark()
+nnoremap <silent> <expr> ` '`' . BetterMark()
+xnoremap <silent> <expr> ' "'" . BetterMark()
+xnoremap <silent> <expr> ` '`' . BetterMark()
 
 function! BetterMark()
     let more = &more
@@ -261,44 +267,44 @@ function! BetterMark()
     endwhile
 endfunction
 
-nnoremap <leader># #``
-nnoremap <leader>* *``
-nnoremap <leader>g# g#``
-nnoremap <leader>g* g*``
-nnoremap c# #``cgn
-nnoremap c* *``cgn
+nnoremap <silent> <leader># #``
+nnoremap <silent> <leader>* *``
+nnoremap <silent> <leader>g# g#``
+nnoremap <silent> <leader>g* g*``
+nnoremap <silent> c# #``cgn
+nnoremap <silent> c* *``cgn
 
-inoremap <F1> <C-O>za
-nnoremap <F1> za
-onoremap <F1> <C-C>za
-vnoremap <F1> zf
-nnoremap <leader>z0 :set foldlevel=0<cr>
-nnoremap <leader>z1 :set foldlevel=1<cr>
-nnoremap <leader>z2 :set foldlevel=2<cr>
-nnoremap <leader>z3 :set foldlevel=3<cr>
-nnoremap <leader>z4 :set foldlevel=4<cr>
-nnoremap <leader>z5 :set foldlevel=5<cr>
-nnoremap <leader>z6 :set foldlevel=6<cr>
-nnoremap <leader>z7 :set foldlevel=7<cr>
-nnoremap <leader>z8 :set foldlevel=8<cr>
-nnoremap <leader>z9 :set foldlevel=9<cr>
-nnoremap <leader>z- :set foldlevel-=1<cr>
-nnoremap <leader>z+ :set foldlevel+=1<cr>
-nnoremap <leader>z= :set foldlevel=<c-r>=&foldlevel == 99 ? 0 : 99<cr><cr>
-" nnoremap <leader>f/ :setlocal foldexpr=getline(v:lnum)=~@/?0:1 foldmethod=
+inoremap <silent> <F1> <C-O>za
+nnoremap <silent> <F1> za
+onoremap <silent> <F1> <C-C>za
+vnoremap <silent> <F1> zf
+nnoremap <silent> <leader>z0 :set foldlevel=0<cr>
+nnoremap <silent> <leader>z1 :set foldlevel=1<cr>
+nnoremap <silent> <leader>z2 :set foldlevel=2<cr>
+nnoremap <silent> <leader>z3 :set foldlevel=3<cr>
+nnoremap <silent> <leader>z4 :set foldlevel=4<cr>
+nnoremap <silent> <leader>z5 :set foldlevel=5<cr>
+nnoremap <silent> <leader>z6 :set foldlevel=6<cr>
+nnoremap <silent> <leader>z7 :set foldlevel=7<cr>
+nnoremap <silent> <leader>z8 :set foldlevel=8<cr>
+nnoremap <silent> <leader>z9 :set foldlevel=9<cr>
+nnoremap <silent> <leader>z- :set foldlevel-=1<cr>
+nnoremap <silent> <leader>z+ :set foldlevel+=1<cr>
+nnoremap <silent> <leader>z= :set foldlevel=<c-r>=&foldlevel == 99 ? 0 : 99<cr><cr>
+" nnoremap <silent> <leader>f/ :setlocal foldexpr=getline(v:lnum)=~@/?0:1 foldmethod=
 "             \<c-r>=&foldmethod == 'expr' ? 'indent' : 'expr'<cr> foldlevel=
 "             \<c-r>=&foldmethod == 'expr' ? 99 : 0<cr><cr>
-xnoremap <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : ':<c-u>silent! normal! [zV]z<cr>'
+xnoremap <silent> <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : ':<c-u>silent! normal! [zV]z<cr>'
 
 " Changes to allow blank lines in blocks, and
 " Top level blocks (zero indent) separated by two or more blank lines.
 " Usage: source <thisfile> in pythonmode and
 " Press: vai, vii to select outer/inner python blocks by indetation.
 " Press: vii, yii, dii, cii to select/yank/delete/change an indented block.
-onoremap ai :<C-u>call IndTxtObj(0)<CR>
-onoremap ii :<C-u>call IndTxtObj(1)<CR>
-xnoremap ai <Esc>:call IndTxtObj(0)<CR><Esc>gv
-xnoremap ii <Esc>:call IndTxtObj(1)<CR><Esc>gv
+onoremap <silent> ai :<C-u>call IndTxtObj(0)<CR>
+onoremap <silent> ii :<C-u>call IndTxtObj(1)<CR>
+xnoremap <silent> ai <Esc>:call IndTxtObj(0)<CR><Esc>gv
+xnoremap <silent> ii <Esc>:call IndTxtObj(1)<CR><Esc>gv
 
 function! IndTxtObj(inner) abort
     let curcol = col('.')
@@ -336,10 +342,10 @@ function! IndTxtObj(inner) abort
     endif
 endfunction
 
-nnoremap <a-t> :set opfunc=Trans<CR>g@iw
-xnoremap <a-t> :<C-U>call Trans(visualmode(), 1)<CR>
-nnoremap g<c-t> :set opfunc=Trans<CR>g@iw
-xnoremap g<c-t> :<C-U>call Trans(visualmode(), 1)<CR>
+nnoremap <silent> <a-t> :set opfunc=Trans<CR>g@iw
+xnoremap <silent> <a-t> :<C-U>call Trans(visualmode(), 1)<CR>
+nnoremap <silent> g<c-t> :set opfunc=Trans<CR>g@iw
+xnoremap <silent> g<c-t> :<C-U>call Trans(visualmode(), 1)<CR>
 command! -nargs=* Trans call DoTrans(<q-args>)
 
 function! Trans(type, ...) abort
@@ -389,8 +395,7 @@ function! PV(cmd) abort
                     \ 'pos': 'botright',
                     \ 'maxheight': 15,
                     \ 'maxwidth': 78,
-                    \ 'padding': [0, 1, 0, 1],
-                    \ 'highlight': 'Pmenu',
+                    \ 'padding': [0, 1, 0, 1]
                     \ })
     elseif has('nvim-0.4.0')
         let out = systemlist(a:cmd)
@@ -402,7 +407,8 @@ function! PV(cmd) abort
                     \ 'width': 78,
                     \ 'row': 0,
                     \ 'col': 0,
-                    \ 'style': 'minimal'})
+                    \ 'style': 'minimal'
+                    \ })
         " Must use a delayed autocmd, otherwise the window will be closed as
         " soon as it has been created in visual mode.
         " This might be a bug of NeoVim?
@@ -413,12 +419,12 @@ function! PV(cmd) abort
     endif
 endfunction
 
-nnoremap <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? 0 : 1<cr><cr>
-nnoremap <leader>p+ :set previewheight+=1<cr>
-nnoremap <leader>p= :set previewheight=10<cr>
+nnoremap <silent> <leader>p- :set previewheight-=<c-r>=&previewheight <= 0 ? 0 : 1<cr><cr>
+nnoremap <silent> <leader>p+ :set previewheight+=1<cr>
+nnoremap <silent> <leader>p= :set previewheight=10<cr>
 
 " if has('win32') && executable('sh')
-"     nnoremap <leader>! :Sh<space>
+"     nnoremap <silent> <leader>! :Sh<space>
 "     command! -nargs=+ -complete=shellcmd Sh call Sh(<q-args>)
 "     function! Sh(cmd) abort
 "         let saved = [&shell, &shellcmdflag, &shellxquote]
@@ -443,74 +449,74 @@ nnoremap <leader>p= :set previewheight=10<cr>
 "     endfunction
 " endif
 
-nnoremap [t :-tabmove<cr>
-nnoremap ]t :+tabmove<cr>
-nnoremap [T :0tabmove<cr>
-nnoremap ]T :$tabmove<cr>
-nnoremap <leader>] <c-w>g}
-" nnoremap <C-LeftMouse> :execute 'ptag ' . expand('<lt>cword>')<cr>
-nnoremap <leader>[ <c-w>z
-" nnoremap <C-RightMouse> :pclose<cr>
-nnoremap [p :ptprevious<cr>
-nnoremap ]p :ptnext<cr>
-nnoremap [P :ptfirst<cr>
-nnoremap ]P :ptlast<cr>
-noremap [[ :call search('\V\^\[^ \t{]\[^{]\*\(\n\[^{]\+\)\*\n\?\zs{\ze\s\*\$', 'b', 1)<cr>
-noremap [] :call search('\V\^}', 'b', 1)<cr>
-noremap ]] :call search('\V\^\[^ \t{]\[^{]\*\(\n\[^{]\+\)\*\n\?\zs{\ze\s\*\$', '', line('$'))<cr>
-noremap ][ :call search('\V\^}', '', line('$'))<cr>
+nnoremap <silent> [t :-tabmove<cr>
+nnoremap <silent> ]t :+tabmove<cr>
+nnoremap <silent> [T :0tabmove<cr>
+nnoremap <silent> ]T :$tabmove<cr>
+nnoremap <silent> <leader>] <c-w>g}
+" nnoremap <silent> <C-LeftMouse> :execute 'ptag ' . expand('<lt>cword>')<cr>
+nnoremap <silent> <leader>[ <c-w>z
+" nnoremap <silent> <C-RightMouse> :pclose<cr>
+nnoremap <silent> [p :ptprevious<cr>
+nnoremap <silent> ]p :ptnext<cr>
+nnoremap <silent> [P :ptfirst<cr>
+nnoremap <silent> ]P :ptlast<cr>
+noremap <silent> [[ :call search('\V\^\[^ \t{]\[^{]\*\(\n\[^{]\+\)\*\n\?\zs{\ze\s\*\$', 'b', 1)<cr>
+noremap <silent> [] :call search('\V\^}', 'b', 1)<cr>
+noremap <silent> ]] :call search('\V\^\[^ \t{]\[^{]\*\(\n\[^{]\+\)\*\n\?\zs{\ze\s\*\$', '', line('$'))<cr>
+noremap <silent> ][ :call search('\V\^}', '', line('$'))<cr>
 
-nnoremap <leader>qw :cfdo w<cr>
-nnoremap <leader>lw :lfdo w<cr>
-nnoremap <leader>qW :cfdo w!<cr>
-nnoremap <leader>lW :lfdo w!<cr>
-nnoremap <leader>qu :cfdo up<cr>
-nnoremap <leader>lu :lfdo up<cr>
-nnoremap <leader>qU :cfdo up!<cr>
-nnoremap <leader>lU :lfdo up!<cr>
-nnoremap <leader>qd :cdo<space>
-nnoremap <leader>qD :cfdo<space>
-nnoremap <leader>ld :ldo<space>
-nnoremap <leader>lD :lfdo<space>
-nnoremap <leader>qr :cdo s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
-nnoremap <leader>lr :ldo s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
-nnoremap <leader>qs :cdo s/
-nnoremap <leader>ls :ldo s/
-nnoremap <leader>qS :cfdo %s/
-nnoremap <leader>lS :lfdo %s/
+nnoremap <silent> <leader>qw :cfdo w<cr>
+nnoremap <silent> <leader>lw :lfdo w<cr>
+nnoremap <silent> <leader>qW :cfdo w!<cr>
+nnoremap <silent> <leader>lW :lfdo w!<cr>
+nnoremap <silent> <leader>qu :cfdo up<cr>
+nnoremap <silent> <leader>lu :lfdo up<cr>
+nnoremap <silent> <leader>qU :cfdo up!<cr>
+nnoremap <silent> <leader>lU :lfdo up!<cr>
+nnoremap <silent> <leader>qd :cdo<space>
+nnoremap <silent> <leader>qD :cfdo<space>
+nnoremap <silent> <leader>ld :ldo<space>
+nnoremap <silent> <leader>lD :lfdo<space>
+nnoremap <silent> <leader>qr :cdo s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
+nnoremap <silent> <leader>lr :ldo s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
+nnoremap <silent> <leader>qs :cdo s/
+nnoremap <silent> <leader>ls :ldo s/
+nnoremap <silent> <leader>qS :cfdo %s/
+nnoremap <silent> <leader>lS :lfdo %s/
 
 if exists(':packadd')
-    nnoremap <leader>qf :packadd cfilter <bar> Cfilter<space>
-    nnoremap <leader>qF :packadd cfilter <bar> Cfilter!<space>
-    nnoremap <leader>lf :packadd cfilter <bar> Lfilter<space>
-    nnoremap <leader>lF :packadd cfilter <bar> Lfilter!<space>
+    nnoremap <silent> <leader>qf :packadd cfilter <bar> Cfilter<space>
+    nnoremap <silent> <leader>qF :packadd cfilter <bar> Cfilter!<space>
+    nnoremap <silent> <leader>lf :packadd cfilter <bar> Lfilter<space>
+    nnoremap <silent> <leader>lF :packadd cfilter <bar> Lfilter!<space>
 endif
 
-nnoremap <leader>qq :QToggle<cr>
-nnoremap <leader>ll :LToggle<cr>
-nnoremap <leader>qe :cexpr [] <bar> :cclose<cr>
-nnoremap <leader>le :lexpr [] <bar> :lclose<cr>
-nnoremap <leader>qb :cbuffer<cr>
-nnoremap <leader>lb :lbuffer<cr>
-nnoremap <leader>qo :colder<cr>
-nnoremap <leader>lo :lolder<cr>
-nnoremap <leader>qn :cnewer<cr>
-nnoremap <leader>ln :lnewer<cr>
-nnoremap <leader>qh :chistory<cr>
-nnoremap <leader>lh :lhistory<cr>
-nnoremap <leader>lt :ltag<cr>
-nnoremap <expr> <leader>lc ':lcd ' . GetVcsRoot() . "\<lt>cr>"
-nnoremap <leader>lC :lcd %:p:h<cr>
-nnoremap <leader>q<space> :cc<cr>
-nnoremap <leader>l<space> :ll<cr>
-nnoremap [q :cprev<cr>
-nnoremap ]q :cnext<cr>
-nnoremap [Q :cfirst<cr>
-nnoremap ]Q :clast<cr>
-nnoremap [l :lprev<cr>
-nnoremap ]l :lnext<cr>
-nnoremap [L :lfirst<cr>
-nnoremap ]L :llast<cr>
+nnoremap <silent> <leader>qq :QToggle<cr>
+nnoremap <silent> <leader>ll :LToggle<cr>
+nnoremap <silent> <leader>qe :cexpr [] <bar> :cclose<cr>
+nnoremap <silent> <leader>le :lexpr [] <bar> :lclose<cr>
+nnoremap <silent> <leader>qb :cbuffer<cr>
+nnoremap <silent> <leader>lb :lbuffer<cr>
+nnoremap <silent> <leader>qo :colder<cr>
+nnoremap <silent> <leader>lo :lolder<cr>
+nnoremap <silent> <leader>qn :cnewer<cr>
+nnoremap <silent> <leader>ln :lnewer<cr>
+nnoremap <silent> <leader>qh :chistory<cr>
+nnoremap <silent> <leader>lh :lhistory<cr>
+nnoremap <silent> <leader>lt :ltag<cr>
+nnoremap <silent> <expr> <leader>lc ':lcd ' . GetVcsRoot() . "\<lt>cr>"
+nnoremap <silent> <leader>lC :lcd %:p:h<cr>
+nnoremap <silent> <leader>q<space> :cc<cr>
+nnoremap <silent> <leader>l<space> :ll<cr>
+nnoremap <silent> [q :cprev<cr>
+nnoremap <silent> ]q :cnext<cr>
+nnoremap <silent> [Q :cfirst<cr>
+nnoremap <silent> ]Q :clast<cr>
+nnoremap <silent> [l :lprev<cr>
+nnoremap <silent> ]l :lnext<cr>
+nnoremap <silent> [L :lfirst<cr>
+nnoremap <silent> ]L :llast<cr>
 command! QToggle call QListToggle(10)
 command! LToggle call LListToggle(10)
 
@@ -538,27 +544,27 @@ function! BufferCount() abort
     return len(filter(range(1, bufnr('$')), 'bufwinnr(v:val) != -1'))
 endfunction
 
-nnoremap <leader>as :args<space>
-nnoremap <leader>aS :args<cr>
-nnoremap <leader>aa :arga<space>
-nnoremap <leader>ae :arge<space>
-nnoremap <leader>ad :argdo<space>
-nnoremap <leader>aD :argdo!<space>
-nnoremap <leader>ar :argd<space>
-nnoremap <leader>aR :%argd<cr>
-nnoremap <leader>au :argu<space>
-nnoremap <leader>aU :argu<cr>
-nnoremap <leader>a<space> :argu<cr>
-nnoremap <leader>al :argl<space>
-nnoremap <leader>aL :argl<cr>
-nnoremap <leader>ag :argg<space>
-nnoremap <leader>aG :argg<cr>
-nnoremap ]a :next<cr>
-nnoremap [a :prev<cr>
-nnoremap ]A :last<cr>
-nnoremap [A :first<cr>
+nnoremap <silent> <leader>as :args<space>
+nnoremap <silent> <leader>aS :args<cr>
+nnoremap <silent> <leader>aa :arga<space>
+nnoremap <silent> <leader>ae :arge<space>
+nnoremap <silent> <leader>ad :argdo<space>
+nnoremap <silent> <leader>aD :argdo!<space>
+nnoremap <silent> <leader>ar :argd<space>
+nnoremap <silent> <leader>aR :%argd<cr>
+nnoremap <silent> <leader>au :argu<space>
+nnoremap <silent> <leader>aU :argu<cr>
+nnoremap <silent> <leader>a<space> :argu<cr>
+nnoremap <silent> <leader>al :argl<space>
+nnoremap <silent> <leader>aL :argl<cr>
+nnoremap <silent> <leader>ag :argg<space>
+nnoremap <silent> <leader>aG :argg<cr>
+nnoremap <silent> ]a :next<cr>
+nnoremap <silent> [a :prev<cr>
+nnoremap <silent> ]A :last<cr>
+nnoremap <silent> [A :first<cr>
 
-nnoremap <leader>af :AlternateFile<cr>
+nnoremap <silent> <leader>af :AlternateFile<cr>
 command! -nargs=0 AlternateFile call AlternateFile()
 
 function! AlternateFile() abort
@@ -607,64 +613,64 @@ function! AlternateFile() abort
     endfor
 endfunction
 
-nnoremap <leader>ct :Ctags<space>
-nnoremap <leader>cT :Ctags<cr>
+nnoremap <silent> <leader>ct :Ctags<space>
+nnoremap <silent> <leader>cT :Ctags<cr>
 command! -complete=file -nargs=* Ctags !ctags
             \ -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q --excmd=number <args>
 
 if has('cscope')
-    nnoremap <leader>cs :Cscope<space>
-    nnoremap <leader>cS :Cscope<cr>
+    nnoremap <silent> <leader>cs :Cscope<space>
+    nnoremap <silent> <leader>cS :Cscope<cr>
     command! -complete=file -nargs=* Cscope !cscope
                 \ -RUbq <args>
-    nnoremap <c-\>q :set cscopequickfix=<c-r>=&cscopequickfix == '' ? 's-,g-,d-,c-,t-,e-,f-,i-,a-' : ''<cr><cr>
-    nnoremap <c-\><bs> :set invcst<cr>
-    nnoremap <c-\><c-h> :set invcst<cr>
-    nnoremap <c-\>\ :cs add .<cr>
-    nnoremap <c-\><bar> :cs add<space>
-    nnoremap <c-\><cr> :cs show<cr>
-    nnoremap <c-\>h :cs help<cr>
-    nnoremap <c-\>r :cs reset<cr>
-    nnoremap <c-\>k :cs kill -1<cr>
-    nnoremap <c-\>a :cs find a <c-r>=expand("<cword>")<cr><cr>
-    nnoremap <c-\>s :cs find s <c-r>=expand("<cword>")<cr><cr>
-    nnoremap <c-\>g :cs find g <c-r>=expand("<cword>")<cr><cr>
-    nnoremap <c-\>c :cs find c <c-r>=expand("<cword>")<cr><cr>
-    nnoremap <c-\>t :cs find t <c-r>=expand("<cword>")<cr><cr>
-    nnoremap <c-\>e :cs find e <c-r>=expand("<cword>")<cr><cr>
-    nnoremap <c-\>f :cs find f <c-r>=expand("<cfile>")<cr><cr>
-    nnoremap <c-\>i :cs find i <c-r>=expand("<cfile>")<cr><cr>
-    nnoremap <c-\>d :cs find d <c-r>=expand("<cword>")<cr><cr>
-    nnoremap <c-\>A :cs find a<space>
-    nnoremap <c-\>S :cs find s<space>
-    nnoremap <c-\>G :cs find g<space>
-    nnoremap <c-\>C :cs find c<space>
-    nnoremap <c-\>T :cs find t<space>
-    nnoremap <c-\>E :cs find e<space>
-    nnoremap <c-\>F :cs find f<space>
-    nnoremap <c-\>I :cs find i<space>
-    nnoremap <c-\>D :cs find d<space>
-    nnoremap <c-\><c-\>a :scs find a <c-r>=expand("<cword>")<cr><cr>
-    nnoremap <c-\><c-\>s :scs find s <c-r>=expand("<cword>")<cr><cr>
-    nnoremap <c-\><c-\>g :scs find g <c-r>=expand("<cword>")<cr><cr>
-    nnoremap <c-\><c-\>c :scs find c <c-r>=expand("<cword>")<cr><cr>
-    nnoremap <c-\><c-\>t :scs find t <c-r>=expand("<cword>")<cr><cr>
-    nnoremap <c-\><c-\>e :scs find e <c-r>=expand("<cword>")<cr><cr>
-    nnoremap <c-\><c-\>f :scs find f <c-r>=expand("<cfile>")<cr><cr>
-    nnoremap <c-\><c-\>i :scs find i <c-r>=expand("<cfile>")<cr><cr>
-    nnoremap <c-\><c-\>d :scs find d <c-r>=expand("<cword>")<cr><cr>
-    nnoremap <c-\><c-\>A :scs find a<space>
-    nnoremap <c-\><c-\>S :scs find s<space>
-    nnoremap <c-\><c-\>G :scs find g<space>
-    nnoremap <c-\><c-\>C :scs find c<space>
-    nnoremap <c-\><c-\>T :scs find t<space>
-    nnoremap <c-\><c-\>E :scs find e<space>
-    nnoremap <c-\><c-\>F :scs find f<space>
-    nnoremap <c-\><c-\>I :scs find i<space>
-    nnoremap <c-\><c-\>D :scs find d<space>
+    nnoremap <silent> <c-\>q :set cscopequickfix=<c-r>=&cscopequickfix == '' ? 's-,g-,d-,c-,t-,e-,f-,i-,a-' : ''<cr><cr>
+    nnoremap <silent> <c-\><bs> :set invcst<cr>
+    nnoremap <silent> <c-\><c-h> :set invcst<cr>
+    nnoremap <silent> <c-\>\ :cs add .<cr>
+    nnoremap <silent> <c-\><bar> :cs add<space>
+    nnoremap <silent> <c-\><cr> :cs show<cr>
+    nnoremap <silent> <c-\>h :cs help<cr>
+    nnoremap <silent> <c-\>r :cs reset<cr>
+    nnoremap <silent> <c-\>k :cs kill -1<cr>
+    nnoremap <silent> <c-\>a :cs find a <c-r>=expand("<cword>")<cr><cr>
+    nnoremap <silent> <c-\>s :cs find s <c-r>=expand("<cword>")<cr><cr>
+    nnoremap <silent> <c-\>g :cs find g <c-r>=expand("<cword>")<cr><cr>
+    nnoremap <silent> <c-\>c :cs find c <c-r>=expand("<cword>")<cr><cr>
+    nnoremap <silent> <c-\>t :cs find t <c-r>=expand("<cword>")<cr><cr>
+    nnoremap <silent> <c-\>e :cs find e <c-r>=expand("<cword>")<cr><cr>
+    nnoremap <silent> <c-\>f :cs find f <c-r>=expand("<cfile>")<cr><cr>
+    nnoremap <silent> <c-\>i :cs find i <c-r>=expand("<cfile>")<cr><cr>
+    nnoremap <silent> <c-\>d :cs find d <c-r>=expand("<cword>")<cr><cr>
+    nnoremap <silent> <c-\>A :cs find a<space>
+    nnoremap <silent> <c-\>S :cs find s<space>
+    nnoremap <silent> <c-\>G :cs find g<space>
+    nnoremap <silent> <c-\>C :cs find c<space>
+    nnoremap <silent> <c-\>T :cs find t<space>
+    nnoremap <silent> <c-\>E :cs find e<space>
+    nnoremap <silent> <c-\>F :cs find f<space>
+    nnoremap <silent> <c-\>I :cs find i<space>
+    nnoremap <silent> <c-\>D :cs find d<space>
+    nnoremap <silent> <c-\><c-\>a :scs find a <c-r>=expand("<cword>")<cr><cr>
+    nnoremap <silent> <c-\><c-\>s :scs find s <c-r>=expand("<cword>")<cr><cr>
+    nnoremap <silent> <c-\><c-\>g :scs find g <c-r>=expand("<cword>")<cr><cr>
+    nnoremap <silent> <c-\><c-\>c :scs find c <c-r>=expand("<cword>")<cr><cr>
+    nnoremap <silent> <c-\><c-\>t :scs find t <c-r>=expand("<cword>")<cr><cr>
+    nnoremap <silent> <c-\><c-\>e :scs find e <c-r>=expand("<cword>")<cr><cr>
+    nnoremap <silent> <c-\><c-\>f :scs find f <c-r>=expand("<cfile>")<cr><cr>
+    nnoremap <silent> <c-\><c-\>i :scs find i <c-r>=expand("<cfile>")<cr><cr>
+    nnoremap <silent> <c-\><c-\>d :scs find d <c-r>=expand("<cword>")<cr><cr>
+    nnoremap <silent> <c-\><c-\>A :scs find a<space>
+    nnoremap <silent> <c-\><c-\>S :scs find s<space>
+    nnoremap <silent> <c-\><c-\>G :scs find g<space>
+    nnoremap <silent> <c-\><c-\>C :scs find c<space>
+    nnoremap <silent> <c-\><c-\>T :scs find t<space>
+    nnoremap <silent> <c-\><c-\>E :scs find e<space>
+    nnoremap <silent> <c-\><c-\>F :scs find f<space>
+    nnoremap <silent> <c-\><c-\>I :scs find i<space>
+    nnoremap <silent> <c-\><c-\>D :scs find d<space>
 endif
 
-nnoremap <leader>vv :VCS<space>
+nnoremap <silent> <leader>vv :VCS<space>
 command! -nargs=+ -complete=command VCS call VCS(<q-args>)
 
 function! VCS(cmd) abort
@@ -678,37 +684,37 @@ function! VCS(cmd) abort
     exe 'cd ' . saved
 endfunction
 
-nnoremap <leader>vg :vim //j % <bar> botright cw
+nnoremap <silent> <leader>vg :vim //j % <bar> botright cw
             \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vG :vim //j **/* <bar> botright cw
+nnoremap <silent> <leader>vG :vim //j **/* <bar> botright cw
             \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>va :vima //j % <bar> botright cw
+nnoremap <silent> <leader>va :vima //j % <bar> botright cw
             \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vA :vima //j **/* <bar> botright cw
+nnoremap <silent> <leader>vA :vima //j **/* <bar> botright cw
             \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vl :lvim //j % <bar> lw<left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vL :lvim //j **/* <bar> lw<left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vw :vim /<bslash>C<bslash><lt><bslash>>/j % <bar> botright cw
+nnoremap <silent> <leader>vl :lvim //j % <bar> lw<left><left><left><left><left><left><left><left><left>
+nnoremap <silent> <leader>vL :lvim //j **/* <bar> lw<left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <silent> <leader>vw :vim /<bslash>C<bslash><lt><bslash>>/j % <bar> botright cw
             \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vW :vim /<bslash>C<bslash><lt><bslash>>/j **/* <bar> botright cw
+nnoremap <silent> <leader>vW :vim /<bslash>C<bslash><lt><bslash>>/j **/* <bar> botright cw
             \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>ss :%s/
-xnoremap <leader>ss :s/
-nnoremap <leader>sS :%argd <bar> arga **/* <bar> argdo %s/
-nnoremap <leader>sr :%s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
-xnoremap <leader>sr :s/<bslash>C<bslash><lt><bslash>>/<left><left><left>
-nnoremap <leader>sR :%argd <bar> arga **/* <bar> argdo %s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
+nnoremap <silent> <leader>ss :%s/
+xnoremap <silent> <leader>ss :s/
+nnoremap <silent> <leader>sS :%argd <bar> arga **/* <bar> argdo %s/
+nnoremap <silent> <leader>sr :%s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
+xnoremap <silent> <leader>sr :s/<bslash>C<bslash><lt><bslash>>/<left><left><left>
+nnoremap <silent> <leader>sR :%argd <bar> arga **/* <bar> argdo %s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
 
 if !has('nvim')
     command! -nargs=0 W w !sudo tee % > /dev/null
 endif
 
-nnoremap <leader>ed :e <c-r>=fnameescape(expand('%:~:h'))<cr>/
-nnoremap <leader>eD :e <c-r>=GetVcsRoot()<cr>
+nnoremap <silent> <leader>ed :e <c-r>=fnameescape(expand('%:~:h'))<cr>/
+nnoremap <silent> <leader>eD :e <c-r>=GetVcsRoot()<cr>
 
 if executable('xxd')
-    nnoremap <leader>eh :EditHex<cr>
-    nnoremap <leader>eH :vert EditHex<cr>
+    nnoremap <silent> <leader>eh :EditHex<cr>
+    nnoremap <silent> <leader>eH :vert EditHex<cr>
     command! -bang -complete=file -nargs=? EditHex call EditHex(<q-args>, <q-mods>)
 
     function! EditHex(file, mods) abort
@@ -759,56 +765,56 @@ if executable('xxd')
     endfunction
 endif
 
-nnoremap <expr> gV '`[' . strpart(getregtype(), 0, 1) . '`]'
+nnoremap <silent> <expr> gV '`[' . strpart(getregtype(), 0, 1) . '`]'
 
-" nnoremap gh H
-" nnoremap gm M
-" nnoremap gl L
+" nnoremap <silent> gh H
+" nnoremap <silent> gm M
+" nnoremap <silent> gl L
 
-nnoremap <c-p> :noautocmd exe "normal! \<lt>c-w>p"<cr>:noautocmd exe "normal! \<lt>c-y>"<cr>:noautocmd exe "normal! \<lt>c-w>p"<cr>
-nnoremap <c-n> :noautocmd exe "normal! \<lt>c-w>p"<cr>:noautocmd exe "normal! \<lt>c-e>"<cr>:noautocmd exe "normal! \<lt>c-w>p"<cr>
-" inoremap <a-y> <c-o><c-y>
-" inoremap <a-e> <c-o><c-e>
-" inoremap <a-h> <left>
-" inoremap <a-l> <right>
-" inoremap <a-j> <down>
-" inoremap <a-k> <up>
+nnoremap <silent> <c-p> :noautocmd exe "normal! \<lt>c-w>p"<cr>:noautocmd exe "normal! \<lt>c-y>"<cr>:noautocmd exe "normal! \<lt>c-w>p"<cr>
+nnoremap <silent> <c-n> :noautocmd exe "normal! \<lt>c-w>p"<cr>:noautocmd exe "normal! \<lt>c-e>"<cr>:noautocmd exe "normal! \<lt>c-w>p"<cr>
+" inoremap <silent> <a-y> <c-o><c-y>
+" inoremap <silent> <a-e> <c-o><c-e>
+" inoremap <silent> <a-h> <left>
+" inoremap <silent> <a-l> <right>
+" inoremap <silent> <a-j> <down>
+" inoremap <silent> <a-k> <up>
 " if exists(':terminal')
-"     tnoremap <a-k> <c-\><c-n>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>i
-"     tnoremap <a-j> <c-\><c-n>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>i
+"     tnoremap <silent> <a-k> <c-\><c-n>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>i
+"     tnoremap <silent> <a-j> <c-\><c-n>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>i
 " endif
 
-nnoremap <leader><bs> :nohls<cr>
-nnoremap <leader><c-h> :nohls<cr>
+nnoremap <silent> <leader><bs> :nohls<cr>
+nnoremap <silent> <leader><c-h> :nohls<cr>
 
 " Smart way to move between windows
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
+nnoremap <silent> <c-j> <c-w>j
+nnoremap <silent> <c-k> <c-w>k
+nnoremap <silent> <c-h> <c-w>h
+nnoremap <silent> <c-l> <c-w>l
 
-nnoremap <leader>= <c-w>=
-nnoremap <leader>+ :resize +5<cr>
-nnoremap <leader>- :resize -5<cr>
-nnoremap <leader>> :vertical resize +10<cr>
-nnoremap <leader><lt> :vertical resize -10<cr>
+nnoremap <silent> <leader>= <c-w>=
+nnoremap <silent> <leader>+ :resize +5<cr>
+nnoremap <silent> <leader>- :resize -5<cr>
+nnoremap <silent> <leader>> :vertical resize +10<cr>
+nnoremap <silent> <leader><lt> :vertical resize -10<cr>
 
-nnoremap <leader>bb :ls<cr>:b<space>
-nnoremap <leader>bB :ls<cr>:b!<space>
-nnoremap <leader>bf :filter //ls<left><left><left>
-nnoremap <leader>bF :filter //ls!<left><left><left><left>
-nnoremap <leader>bv :filter! //ls<left><left><left>
-nnoremap <leader>bV :filter! //ls!<left><left><left><left>
+nnoremap <silent> <leader>bb :ls<cr>:b<space>
+nnoremap <silent> <leader>bB :ls<cr>:b!<space>
+nnoremap <silent> <leader>bf :filter //ls<left><left><left>
+nnoremap <silent> <leader>bF :filter //ls!<left><left><left><left>
+nnoremap <silent> <leader>bv :filter! //ls<left><left><left>
+nnoremap <silent> <leader>bV :filter! //ls!<left><left><left><left>
 
-nnoremap <leader>bl :buffers<cr>:buffer<space>
-nnoremap <leader>bL :buffers!<cr>:buffer<space>
-nnoremap <leader>bd :bufdo<space>
-nnoremap <leader>bD :bufdo!<space>
-nnoremap <leader>bx :bd<cr>
-nnoremap <leader>bX :bd!<cr>
+nnoremap <silent> <leader>bl :buffers<cr>:buffer<space>
+nnoremap <silent> <leader>bL :buffers!<cr>:buffer<space>
+nnoremap <silent> <leader>bd :bufdo<space>
+nnoremap <silent> <leader>bD :bufdo!<space>
+nnoremap <silent> <leader>bx :bd<cr>
+nnoremap <silent> <leader>bX :bd!<cr>
 " Close all the buffers
-nnoremap <leader>bh :CloseHiddenBuffers<cr>
-nnoremap <leader>bH :CloseHiddenBuffers!<cr>
+nnoremap <silent> <leader>bh :CloseHiddenBuffers<cr>
+nnoremap <silent> <leader>bH :CloseHiddenBuffers!<cr>
 
 command! -nargs=0 -bang CloseHiddenBuffers call CloseHiddenBuffers(<bang>0)
 function! CloseHiddenBuffers(force) abort
@@ -825,56 +831,56 @@ function! CloseHiddenBuffers(force) abort
     endfor
 endfunction
 
-nnoremap [b :bp<cr>
-nnoremap ]b :bn<cr>
-nnoremap [B :bf<cr>
-nnoremap ]B :bl<cr>
-nnoremap <leader>ba :sba<cr>
-nnoremap <leader>bt :tab ba<cr>
-nnoremap <leader>bm :sbm<cr>
-nnoremap <leader>bu :sun<cr>
+nnoremap <silent> [b :bp<cr>
+nnoremap <silent> ]b :bn<cr>
+nnoremap <silent> [B :bf<cr>
+nnoremap <silent> ]B :bl<cr>
+nnoremap <silent> <leader>ba :sba<cr>
+nnoremap <silent> <leader>bt :tab ba<cr>
+nnoremap <silent> <leader>bm :sbm<cr>
+nnoremap <silent> <leader>bu :sun<cr>
 
 " Useful mappings for managing tabs
-nnoremap <leader>tn :tabnew<cr>
-nnoremap <leader>to :tabonly<cr>
-nnoremap <leader>tO :tabonly!<cr>
-nnoremap <leader>tx :tabclose<cr>
-nnoremap <leader>tX :tabclose!<cr>
-nnoremap <expr> <leader>tc ':tcd ' . GetVcsRoot() . "\<lt>cr>"
-nnoremap <leader>tC :tcd %:p:h<cr>
+nnoremap <silent> <leader>tn :tabnew<cr>
+nnoremap <silent> <leader>to :tabonly<cr>
+nnoremap <silent> <leader>tO :tabonly!<cr>
+nnoremap <silent> <leader>tx :tabclose<cr>
+nnoremap <silent> <leader>tX :tabclose!<cr>
+nnoremap <silent> <expr> <leader>tc ':tcd ' . GetVcsRoot() . "\<lt>cr>"
+nnoremap <silent> <leader>tC :tcd %:p:h<cr>
 
-nnoremap $gt :$tabnext<cr>
+nnoremap <silent> $gt :$tabnext<cr>
 
 " Let 'tl' toggle between this and the last accessed tab
-nnoremap <leader>tl :tablast<cr>
-nnoremap <expr> <leader>tl exists('g:lasttab') ? (':' . g:lasttab . "tabn\<lt>cr>") : ''
+nnoremap <silent> <leader>tl :tablast<cr>
+nnoremap <silent> <expr> <leader>tl exists('g:lasttab') ? (':' . g:lasttab . "tabn\<lt>cr>") : ''
 augroup MyLastAccessedTab
     autocmd!
     au TabLeave * let g:lasttab = tabpagenr()
 augroup END
 
-nnoremap <leader>te :tabe<space>
+nnoremap <silent> <leader>te :tabe<space>
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
-nnoremap <leader>tE :tabe <c-r>=fnameescape(expand('%:~:h'))<cr>/
+nnoremap <silent> <leader>tE :tabe <c-r>=fnameescape(expand('%:~:h'))<cr>/
 
-nnoremap <leader>td :tabdo<space>
-nnoremap <leader>tD :tabdo!<space>
+nnoremap <silent> <leader>td :tabdo<space>
+nnoremap <silent> <leader>tD :tabdo!<space>
 
-nnoremap <leader>1 1gt
-nnoremap <leader>2 2gt
-nnoremap <leader>3 3gt
-nnoremap <leader>4 4gt
-nnoremap <leader>5 5gt
-nnoremap <leader>6 6gt
-nnoremap <leader>7 7gt
-nnoremap <leader>8 8gt
-nnoremap <leader>9 9gt
-nnoremap <leader>$ :$tabnext<cr>
+nnoremap <silent> <leader>1 1gt
+nnoremap <silent> <leader>2 2gt
+nnoremap <silent> <leader>3 3gt
+nnoremap <silent> <leader>4 4gt
+nnoremap <silent> <leader>5 5gt
+nnoremap <silent> <leader>6 6gt
+nnoremap <silent> <leader>7 7gt
+nnoremap <silent> <leader>8 8gt
+nnoremap <silent> <leader>9 9gt
+nnoremap <silent> <leader>$ :$tabnext<cr>
 
-nnoremap <expr> <leader>cd ':cd ' . GetVcsRoot() . "\<lt>cr>"
+nnoremap <silent> <expr> <leader>cd ':cd ' . GetVcsRoot() . "\<lt>cr>"
 " Switch CWD to the directory of the open buffer
-nnoremap <leader>cD :cd %:p:h<cr>
+nnoremap <silent> <leader>cD :cd %:p:h<cr>
 
 function! GetVcsRoot(...) abort
     if empty(a:000)
@@ -891,24 +897,24 @@ function! GetVcsRoot(...) abort
     return empty(result) ? './' : result
 endfunction
 
-nnoremap <leader>sp :set invspell<cr>
+nnoremap <silent> <leader>sp :set invspell<cr>
 
-" inoremap <c-]> <c-x><c-]>
-" inoremap <c-f> <c-x><c-f>
-" inoremap <c-d> <c-x><c-d>
-" inoremap <c-l> <c-x><c-l>
-inoremap <expr> <tab> pumvisible() ? "\<c-n>" : RefreshPum("\<tab>", "\<c-n>")
-inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : RefreshPum("\<s-tab>", "\<c-p>")
-inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<down>"
-inoremap <expr> <up> pumvisible() ? "\<c-p>" : "\<up>"
-" inoremap <expr> <c-e> pumvisible() ? "\<c-e>" : "\<End>"
-inoremap <expr> <c-h> ICH()
-inoremap <expr> <bs> ICH()
+" inoremap <silent> <c-]> <c-x><c-]>
+" inoremap <silent> <c-f> <c-x><c-f>
+" inoremap <silent> <c-d> <c-x><c-d>
+" inoremap <silent> <c-l> <c-x><c-l>
+inoremap <silent> <expr> <tab> pumvisible() ? "\<c-n>" : RefreshPum("\<tab>", "\<c-n>")
+inoremap <silent> <expr> <s-tab> pumvisible() ? "\<c-p>" : RefreshPum("\<s-tab>", "\<c-p>")
+inoremap <silent> <expr> <down> pumvisible() ? "\<c-n>" : "\<down>"
+inoremap <silent> <expr> <up> pumvisible() ? "\<c-p>" : "\<up>"
+" inoremap <silent> <expr> <c-e> pumvisible() ? "\<c-e>" : "\<End>"
+inoremap <silent> <expr> <c-h> ICH()
+inoremap <silent> <expr> <bs> ICH()
 if exists('*complete_info')
-    inoremap <expr> <cr> complete_info()['selected'] != '-1' ?
+    inoremap <silent> <expr> <cr> complete_info()['selected'] != '-1' ?
                 \ "\<c-y>" : "\<c-g>u" . ICR()
 else
-    inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<c-g>u" . ICR()
+    inoremap <silent> <expr> <cr> pumvisible() ? "\<c-y>" : "\<c-g>u" . ICR()
 endif
 
 function! RefreshPum(old, new) abort
@@ -989,28 +995,28 @@ endfunction
 "     endif
 " endfunction
 
-inoremap <c-x>( )<c-g>U<left>(
-inoremap <c-x>) )<c-g>U<left>(
-inoremap <c-x>[ ]<c-g>U<left>[
-inoremap <c-x>] ]<c-g>U<left>[
-inoremap <c-x>{ }<c-g>U<left>{
-inoremap <c-x>] }<c-g>U<left>{
-inoremap <c-x><lt> ><c-g>U<left><lt>
-inoremap <c-x>> ><c-g>U<left><lt>
-inoremap <c-x>' '<c-g>U<left>'
-inoremap <c-x>" "<c-g>U<left>"
-inoremap <c-x>` `<c-g>U<left>"
+inoremap <silent> <c-x>( )<c-g>U<left>(
+inoremap <silent> <c-x>) )<c-g>U<left>(
+inoremap <silent> <c-x>[ ]<c-g>U<left>[
+inoremap <silent> <c-x>] ]<c-g>U<left>[
+inoremap <silent> <c-x>{ }<c-g>U<left>{
+inoremap <silent> <c-x>] }<c-g>U<left>{
+inoremap <silent> <c-x><lt> ><c-g>U<left><lt>
+inoremap <silent> <c-x>> ><c-g>U<left><lt>
+inoremap <silent> <c-x>' '<c-g>U<left>'
+inoremap <silent> <c-x>" "<c-g>U<left>"
+inoremap <silent> <c-x>` `<c-g>U<left>"
 
-inoremap ( )<c-g>U<left>(
-inoremap [ ]<c-g>U<left>[
-inoremap { }<c-g>U<left>{
-inoremap <expr> <lt> strpart(getline('.'), col('.') - 2, 1) !~# '\V\s\<bar>\[<lt>]' ? ">\<c-g>U\<left><lt>" : '<lt>'
-inoremap <expr> > strpart(getline('.'), col('.') - 1, 1) ==# '>' && strpart(getline('.'), col('.') - 2, 1) !~# '\V\s' ?
+inoremap <silent> ( )<c-g>U<left>(
+inoremap <silent> [ ]<c-g>U<left>[
+inoremap <silent> { }<c-g>U<left>{
+inoremap <silent> <expr> <lt> strpart(getline('.'), col('.') - 2, 1) !~# '\V\s\<bar>\[<lt>]' ? ">\<c-g>U\<left><lt>" : '<lt>'
+inoremap <silent> <expr> > strpart(getline('.'), col('.') - 1, 1) ==# '>' && strpart(getline('.'), col('.') - 2, 1) !~# '\V\s' ?
             \ "\<c-g>U\<right>" : '>'
-inoremap <expr> ) strpart(getline('.'), col('.') - 1, 1) ==# ')' ? "\<c-g>U\<right>" : ')'
-inoremap <expr> ] strpart(getline('.'), col('.') - 1, 1) ==# ']' ? "\<c-g>U\<right>" : ']'
-inoremap <expr> } strpart(getline('.'), col('.') - 1, 1) ==# '}' ? "\<c-g>U\<right>" : '}'
-inoremap <expr> ' I_Single_Quote()
+inoremap <silent> <expr> ) strpart(getline('.'), col('.') - 1, 1) ==# ')' ? "\<c-g>U\<right>" : ')'
+inoremap <silent> <expr> ] strpart(getline('.'), col('.') - 1, 1) ==# ']' ? "\<c-g>U\<right>" : ']'
+inoremap <silent> <expr> } strpart(getline('.'), col('.') - 1, 1) ==# '}' ? "\<c-g>U\<right>" : '}'
+inoremap <silent> <expr> ' I_Single_Quote()
 
 function! I_Single_Quote() abort
     let line = getline('.')
@@ -1028,7 +1034,7 @@ function! I_Single_Quote() abort
     return "''\<c-g>U\<left>"
 endfunction
 
-inoremap <expr> " I_Double_Quote()
+inoremap <silent> <expr> " I_Double_Quote()
 
 function! I_Double_Quote() abort
     let line = getline('.')
@@ -1043,7 +1049,7 @@ function! I_Double_Quote() abort
     return "\"\"\<c-g>U\<left>"
 endfunction
 
-inoremap <expr> ` I_Back_Tick()
+inoremap <silent> <expr> ` I_Back_Tick()
 
 function! I_Back_Tick() abort
     let line = getline('.')
@@ -1058,9 +1064,9 @@ function! I_Back_Tick() abort
     return "``\<c-g>U\<left>"
 endfunction
 
-inoremap <expr> <c-b> CloseParen()
-" inoremap <expr> <c-space> CloseParen()
-" inoremap <expr> <nul> CloseParen()
+inoremap <silent> <expr> <c-b> CloseParen()
+" inoremap <silent> <expr> <c-space> CloseParen()
+" inoremap <silent> <expr> <nul> CloseParen()
 
 function! CloseParen() abort
     let closepairs = {'(' : ')',
@@ -1087,10 +1093,10 @@ function! CloseParen() abort
     return ''
 endfun
 
-nnoremap <leader>cl :let @" = expand('%:p') . ':' . line('.')<cr>
+nnoremap <silent> <leader>cl :let @" = expand('%:p') . ':' . line('.')<cr>
 
 if exists(':terminal')
-    nnoremap <leader>rt :RunTermCmd<space>
+    nnoremap <silent> <leader>rt :RunTermCmd<space>
     command! -nargs=+ -complete=shellcmd RunTermCmd call RunTermCmd(<q-args>)
     function! RunTermCmd(cmd) abort
         botright split
@@ -1102,7 +1108,7 @@ if exists(':terminal')
     endfunction
 endif
 
-nnoremap g<c-w> :TrimWhiteSpace<cr>
+nnoremap <silent> g<c-w> :TrimWhiteSpace<cr>
 command! -nargs=0 TrimWhiteSpace call TrimWhiteSpace()
 
 function! TrimWhiteSpace() abort
@@ -1114,7 +1120,7 @@ function! TrimWhiteSpace() abort
     call winrestview(l:winview)
 endfunction
 
-nnoremap <leader>sg :SynGroup<cr>
+nnoremap <silent> <leader>sg :SynGroup<cr>
 command! -nargs=0 SynGroup call SynGroup()
 
 function! SynGroup() abort
@@ -1131,7 +1137,7 @@ augroup MyRolodexTab
     au TabEnter * call SetRolodexSettings()
 augroup END
 
-nnoremap <leader>ox :ToggleRolodexTab<cr>
+nnoremap <silent> <leader>ox :ToggleRolodexTab<cr>
 command! -nargs=0 ToggleRolodexTab call ToggleRolodexTab()
 
 "This function turns Rolodex Vim on or off for the current tab

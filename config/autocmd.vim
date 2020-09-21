@@ -12,8 +12,8 @@ augroup END
 
 augroup MyQuickFixEnhancement
     autocmd!
-    autocmd FileType qf nnoremap <buffer> <nowait> <tab> :RemoveQFItem<cr>
-    autocmd FileType qf nnoremap <buffer> <nowait> <s-tab> :UndoQFRemove<cr>
+    autocmd FileType qf nnoremap <silent> <buffer> <nowait> <tab> :RemoveQFItem<cr>
+    autocmd FileType qf nnoremap <silent> <buffer> <nowait> <s-tab> :UndoQFRemove<cr>
     " autocmd QuickFixCmdPost [^l]* call ShortenQuifkFixPath(0)
     " autocmd QuickFixCmdPost l* call ShortenQuifkFixPath(1)
     " autocmd FileType qf autocmd CursorMoved <buffer=abuf> call EchoQFBufName()
@@ -117,7 +117,7 @@ endfunction
 if has('nvim-0.4.0') || has('popupwin')
     augroup MyQuickFixPreview
         autocmd!
-        au FileType qf nnoremap <buffer> p :PreviewQuickFixEntry<cr>
+        au FileType qf nnoremap <silent> <buffer> p :PreviewQuickFixEntry<cr>
     augroup END
     command! PreviewQuickFixEntry call PreviewQuickFixEntry()
 

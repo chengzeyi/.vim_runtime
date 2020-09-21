@@ -209,7 +209,7 @@ call plug#end()
 
 augroup MyFZFVimTex
     autocmd!
-    au FileType tex nnoremap <buffer> <leader>fx :call vimtex#fzf#run()<cr>
+    au FileType tex nnoremap <silent> <buffer> <leader>fx :call vimtex#fzf#run()<cr>
 augroup END
 if !exists('g:vimtex_toc_config')
     let g:vimtex_toc_config = {}
@@ -273,7 +273,7 @@ if get(g:, 'use_coc', 0)
             au ColorScheme * hi! link CocHighlightText ColorColumn
         augroup END
 
-        nnoremap <leader>oa :ToggleCocAutoComplete<cr>
+        nnoremap <silent> <leader>oa :ToggleCocAutoComplete<cr>
         command! -nargs=0 ToggleCocAutoComplete call ToggleCocAutoComplete()
 
         function! ToggleCocAutoComplete() abort
@@ -289,69 +289,69 @@ if get(g:, 'use_coc', 0)
         endfunction
 
         let g:refresh_pum = ['coc#refresh', []]
-        inoremap <expr> <c-l> pumvisible() ? "\<c-l>" : coc#refresh()
-        inoremap <expr> <c-space> pumvisible() ? "\<c-e>" : coc#refresh()
-        inoremap <expr> <nul> pumvisible() ? "\<c-e>" : coc#refresh()
+        inoremap <silent> <expr> <c-l> pumvisible() ? "\<c-l>" : coc#refresh()
+        inoremap <silent> <expr> <c-space> pumvisible() ? "\<c-e>" : coc#refresh()
+        inoremap <silent> <expr> <nul> pumvisible() ? "\<c-e>" : coc#refresh()
 
-        nmap [g <Plug>(coc-diagnostic-prev)
-        nmap ]g <Plug>(coc-diagnostic-next)
-        nmap [e <Plug>(coc-diagnostic-prev-error)
-        nmap ]e <Plug>(coc-diagnostic-next-error)
-        nmap <expr> gl CocHasProvider('declaration') ? '<Plug>(coc-declaration)' : 'gl'
-        nmap <expr> gd CocHasProvider('definition') ? '<Plug>(coc-definition)' : 'gd'
-        nmap <expr> gy CocHasProvider('typeDefinition') ? '<Plug>(coc-type-definition)' : 'gy'
-        nmap <expr> gm CocHasProvider('implementation') ? '<Plug>(coc-implementation)' : 'gm'
-        nmap <expr> gr CocHasProvider('reference') ? '<Plug>(coc-references)' : 'gr'
-        nnoremap gL :<c-r>=CocHasProvider('declaration') ? 'call CocAction("jumpDeclaration", v:false)' : 'normal! gL'<cr><cr>
-        nnoremap gD :<c-r>=CocHasProvider('definition') ? 'call CocAction("jumpDefinition", v:false)' : 'normal! gD'<cr><cr>
-        nnoremap gY :<c-r>=CocHasProvider('typeDefinition') ? 'call CocAction("jumpTypeDefinition", v:false)' : 'normal! gY'<cr><cr>
-        nnoremap gM :<c-r>=CocHasProvider('implementation') ? 'call CocAction("jumpImplementatiIn", v:false)' : 'normal! gM'<cr><cr>
-        nnoremap gR :<c-r>=CocHasProvider('reference') ? 'call CocAction("jumpReferences", v:false)' : 'normal! gR'<cr><cr>
-        nmap <leader><cr>r <Plug>(coc-rename)
-        nmap <leader><cr>R <Plug>(coc-refactor)
-        nmap <leader><cr>q :CocFix<cr>
-        xmap <leader><cr>q :CocFix<cr>
-        nmap <leader><cr>Q <Plug>(coc-fix-current)
-        xmap <leader><cr>F <Plug>(coc-format-selected)
-        nmap <leader><cr>F <Plug>(coc-format-selected)
-        nmap <leader><cr>f <Plug>(coc-format)
-        xmap <leader><cr>A <Plug>(coc-codeaction-selected)
-        nmap <leader><cr>A <Plug>(coc-codeaction-selected)
-        nmap <leader><cr>a :CocAction<cr>
-        xmap <leader><cr>a :CocAction<cr>
-        nmap <leader><cr>l <Plug>(coc-codelens-action)
-        nmap <leader><cr>h :call CocActionAsync('showSignatureHelp')<cr>
-        imap <c-q> <c-o>:call CocActionAsync('showSignatureHelp')<cr>
-        xmap if <Plug>(coc-funcobj-i)
-        xmap af <Plug>(coc-funcobj-a)
-        omap if <Plug>(coc-funcobj-i)
-        omap af <Plug>(coc-funcobj-a)
-        xmap iF <Plug>(coc-classobj-i)
-        xmap aF <Plug>(coc-classobj-a)
-        omap iF <Plug>(coc-classobj-i)
-        omap aF <Plug>(coc-classobj-a)
-        nmap <leader><cr>] <Plug>(coc-range-select)
-        xmap <leader><cr>] <Plug>(coc-range-select)
-        nmap <leader><cr>[ <Plug>(coc-range-select-backward)
-        xmap <leader><cr>[ <Plug>(coc-range-select-backward)
+        nmap <silent> [g <Plug>(coc-diagnostic-prev)
+        nmap <silent> ]g <Plug>(coc-diagnostic-next)
+        nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
+        nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
+        nmap <silent> <expr> gl CocHasProvider('declaration') ? '<Plug>(coc-declaration)' : 'gl'
+        nmap <silent> <expr> gd CocHasProvider('definition') ? '<Plug>(coc-definition)' : 'gd'
+        nmap <silent> <expr> gy CocHasProvider('typeDefinition') ? '<Plug>(coc-type-definition)' : 'gy'
+        nmap <silent> <expr> gm CocHasProvider('implementation') ? '<Plug>(coc-implementation)' : 'gm'
+        nmap <silent> <expr> gr CocHasProvider('reference') ? '<Plug>(coc-references)' : 'gr'
+        nnoremap <silent> gL :<c-r>=CocHasProvider('declaration') ? 'call CocAction("jumpDeclaration", v:false)' : 'normal! gL'<cr><cr>
+        nnoremap <silent> gD :<c-r>=CocHasProvider('definition') ? 'call CocAction("jumpDefinition", v:false)' : 'normal! gD'<cr><cr>
+        nnoremap <silent> gY :<c-r>=CocHasProvider('typeDefinition') ? 'call CocAction("jumpTypeDefinition", v:false)' : 'normal! gY'<cr><cr>
+        nnoremap <silent> gM :<c-r>=CocHasProvider('implementation') ? 'call CocAction("jumpImplementatiIn", v:false)' : 'normal! gM'<cr><cr>
+        nnoremap <silent> gR :<c-r>=CocHasProvider('reference') ? 'call CocAction("jumpReferences", v:false)' : 'normal! gR'<cr><cr>
+        nmap <silent> <leader><cr>r <Plug>(coc-rename)
+        nmap <silent> <leader><cr>R <Plug>(coc-refactor)
+        nmap <silent> <leader><cr>q :CocFix<cr>
+        xmap <silent> <leader><cr>q :CocFix<cr>
+        nmap <silent> <leader><cr>Q <Plug>(coc-fix-current)
+        xmap <silent> <leader><cr>F <Plug>(coc-format-selected)
+        nmap <silent> <leader><cr>F <Plug>(coc-format-selected)
+        nmap <silent> <leader><cr>f <Plug>(coc-format)
+        xmap <silent> <leader><cr>A <Plug>(coc-codeaction-selected)
+        nmap <silent> <leader><cr>A <Plug>(coc-codeaction-selected)
+        nmap <silent> <leader><cr>a :CocAction<cr>
+        xmap <silent> <leader><cr>a :CocAction<cr>
+        nmap <silent> <leader><cr>l <Plug>(coc-codelens-action)
+        nmap <silent> <leader><cr>h :call CocActionAsync('showSignatureHelp')<cr>
+        imap <silent> <c-q> <c-o>:call CocActionAsync('showSignatureHelp')<cr>
+        xmap <silent> if <Plug>(coc-funcobj-i)
+        xmap <silent> af <Plug>(coc-funcobj-a)
+        omap <silent> if <Plug>(coc-funcobj-i)
+        omap <silent> af <Plug>(coc-funcobj-a)
+        xmap <silent> iF <Plug>(coc-classobj-i)
+        xmap <silent> aF <Plug>(coc-classobj-a)
+        omap <silent> iF <Plug>(coc-classobj-i)
+        omap <silent> aF <Plug>(coc-classobj-a)
+        nmap <silent> <leader><cr>] <Plug>(coc-range-select)
+        xmap <silent> <leader><cr>] <Plug>(coc-range-select)
+        nmap <silent> <leader><cr>[ <Plug>(coc-range-select-backward)
+        xmap <silent> <leader><cr>[ <Plug>(coc-range-select-backward)
         command! -nargs=0 CocFormat call CocAction('format')
         command! -nargs=? CocFold call CocAction('fold', <f-args>)
         command! -nargs=0 CocOrganize call CocAction('runCommand', 'editor.action.organizeImport')
-        nnoremap <leader><cr>O :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
-        nnoremap <leader><cr><cr> :CocList<cr>
-        nnoremap <leader><cr>p :CocListResume<cr>
-        nnoremap <leader><cr>d :CocList diagnostics<cr>
-        nmap <leader><cr>D <Plug>(coc-diagnostic-info)
-        nnoremap <leader><cr>e :CocList extensions<cr>
-        nnoremap <leader><cr>c :CocList commands<cr>
-        nnoremap <leader><cr>o :CocList outline<cr>
-        nnoremap <leader><cr>s :CocList -I symbols<cr>
-        nnoremap ]c :CocNext<cr>
-        nnoremap [c :CocPrev<cr>
-        nnoremap <expr><C-f> coc#util#has_float() ? coc#util#float_scroll(1) : "\<C-f>"
-        nnoremap <expr><C-b> coc#util#has_float() ? coc#util#float_scroll(0) : "\<C-b>"
+        nnoremap <silent> <leader><cr>O :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
+        nnoremap <silent> <leader><cr><cr> :CocList<cr>
+        nnoremap <silent> <leader><cr>p :CocListResume<cr>
+        nnoremap <silent> <leader><cr>d :CocList diagnostics<cr>
+        nmap <silent> <leader><cr>D <Plug>(coc-diagnostic-info)
+        nnoremap <silent> <leader><cr>e :CocList extensions<cr>
+        nnoremap <silent> <leader><cr>c :CocList commands<cr>
+        nnoremap <silent> <leader><cr>o :CocList outline<cr>
+        nnoremap <silent> <leader><cr>s :CocList -I symbols<cr>
+        nnoremap <silent> ]c :CocNext<cr>
+        nnoremap <silent> [c :CocPrev<cr>
+        nnoremap <silent> <expr><C-f> coc#util#has_float() ? coc#util#float_scroll(1) : "\<C-f>"
+        nnoremap <silent> <expr><C-b> coc#util#has_float() ? coc#util#float_scroll(0) : "\<C-b>"
 
-        nnoremap K :call <SID>show_documentation()<CR>
+        nnoremap <silent> K :call <SID>show_documentation()<CR>
 
         function! s:show_documentation() abort
             if (index(['vim', 'help'], &filetype) >= 0)
@@ -407,23 +407,23 @@ else
             let g:lsp_highlight_references_enabled = 1
             let g:lsp_fold_enabled = 0
 
-            nmap <leader><cr><cr> <Plug>(lsp-status)
-            nmap <leader><cr>] <Plug>(lsp-preview-focus)
-            nmap <leader><cr>[ <Plug>(lsp-preview-close)
-            nmap <leader><cr>a <Plug>(lsp-code-action)
-            nmap <leader><cr>l <Plug>(lsp-code-lens)
-            nmap <leader><cr>f <Plug>(lsp-document-format)
-            nmap <leader><cr>F <Plug>(lsp-document-range-format)
-            xmap <leader><cr>F <Plug>(lsp-document-range-format)
-            nmap <leader><cr>d <Plug>(lsp-document-diagnostics)
+            nmap <silent> <leader><cr><cr> <Plug>(lsp-status)
+            nmap <silent> <leader><cr>] <Plug>(lsp-preview-focus)
+            nmap <silent> <leader><cr>[ <Plug>(lsp-preview-close)
+            nmap <silent> <leader><cr>a <Plug>(lsp-code-action)
+            nmap <silent> <leader><cr>l <Plug>(lsp-code-lens)
+            nmap <silent> <leader><cr>f <Plug>(lsp-document-format)
+            nmap <silent> <leader><cr>F <Plug>(lsp-document-range-format)
+            xmap <silent> <leader><cr>F <Plug>(lsp-document-range-format)
+            nmap <silent> <leader><cr>d <Plug>(lsp-document-diagnostics)
 
-            nmap <leader><cr>h <Plug>(lsp-hover)
-            nmap <leader><cr>H <Plug>(lsp-signature-help)
+            nmap <silent> <leader><cr>h <Plug>(lsp-hover)
+            nmap <silent> <leader><cr>H <Plug>(lsp-signature-help)
 
-            nmap <leader><cr>t <Plug>(lsp-type-hierarchy)
-            nmap <leader><cr>r <Plug>(lsp-rename)
-            nmap <leader><cr>s <Plug>(lsp-document-symbol)
-            nmap <leader><cr>S <Plug>(lsp-workspace-symbol)
+            nmap <silent> <leader><cr>t <Plug>(lsp-type-hierarchy)
+            nmap <silent> <leader><cr>r <Plug>(lsp-rename)
+            nmap <silent> <leader><cr>s <Plug>(lsp-document-symbol)
+            nmap <silent> <leader><cr>S <Plug>(lsp-workspace-symbol)
 
             augroup MyVimLsp
                 autocmd!
@@ -440,26 +440,26 @@ else
             function! s:on_lsp_buffer_enabled() abort
                 setlocal omnifunc=lsp#complete
 
-                nmap <buffer> gL <Plug>(lsp-peek-declaration)
-                nmap <buffer> gl <Plug>(lsp-declaration)
-                nmap <buffer> gD <Plug>(lsp-peek-definition)
-                nmap <buffer> gd <Plug>(lsp-definition)
-                nmap <buffer> gI <Plug>(lsp-peek-implementation)
-                nmap <buffer> gi <Plug>(lsp-implementation)
-                nmap <buffer> gY <Plug>(lsp-peek-type-definition)
-                nmap <buffer> gy <Plug>(lsp-type-definition)
-                nmap <buffer> gr <Plug>(lsp-references)
+                nmap <silent> <buffer> gL <Plug>(lsp-peek-declaration)
+                nmap <silent> <buffer> gl <Plug>(lsp-declaration)
+                nmap <silent> <buffer> gD <Plug>(lsp-peek-definition)
+                nmap <silent> <buffer> gd <Plug>(lsp-definition)
+                nmap <silent> <buffer> gI <Plug>(lsp-peek-implementation)
+                nmap <silent> <buffer> gi <Plug>(lsp-implementation)
+                nmap <silent> <buffer> gY <Plug>(lsp-peek-type-definition)
+                nmap <silent> <buffer> gy <Plug>(lsp-type-definition)
+                nmap <silent> <buffer> gr <Plug>(lsp-references)
 
-                nmap ]g <Plug>(lsp-next-diagnostic)
-                nmap [g <Plug>(lsp-previous-diagnostic)
-                nmap ]e <Plug>(lsp-next-error)
-                nmap [e <Plug>(lsp-previous-error)
-                nmap ]w <Plug>(lsp-next-warning)
-                nmap [w <Plug>(lsp-previous-warning)
-                nmap ]r <Plug>(lsp-next-reference)
-                nmap [r <Plug>(lsp-previous-reference)
+                nmap <silent> ]g <Plug>(lsp-next-diagnostic)
+                nmap <silent> [g <Plug>(lsp-previous-diagnostic)
+                nmap <silent> ]e <Plug>(lsp-next-error)
+                nmap <silent> [e <Plug>(lsp-previous-error)
+                nmap <silent> ]w <Plug>(lsp-next-warning)
+                nmap <silent> [w <Plug>(lsp-previous-warning)
+                nmap <silent> ]r <Plug>(lsp-next-reference)
+                nmap <silent> [r <Plug>(lsp-previous-reference)
 
-                nnoremap <buffer> K :call <SID>show_documentation()<CR>
+                nnoremap <silent> <buffer> K :call <SID>show_documentation()<CR>
             endfunction
 
             function! s:show_documentation() abort
@@ -478,7 +478,7 @@ endif
 
 if !get(g:, 'use_coc', 0) && get(g:, 'use_asyncomplete', 0)
     if has('timers')
-        nnoremap <leader>oa :ToggleAsyncompleteAutoComplete<cr>
+        nnoremap <silent> <leader>oa :ToggleAsyncompleteAutoComplete<cr>
         command! -nargs=0 ToggleAsyncompleteAutoComplete call ToggleAsyncompleteAutoComplete()
 
         function! ToggleAsyncompleteAutoComplete() abort
@@ -491,14 +491,14 @@ if !get(g:, 'use_coc', 0) && get(g:, 'use_asyncomplete', 0)
         endfunction
 
         let g:refresh_pum = ['asyncomplete#force_refresh', []]
-        inoremap <expr> <c-l> pumvisible() ? "\<c-l>" : asyncomplete#force_refresh()
-        inoremap <expr> <c-space> pumvisible() ? "\<c-e>" : asyncomplete#force_refresh()
-        inoremap <expr> <nul> pumvisible() ? "\<c-e>" : asyncomplete#force_refresh()
+        inoremap <silent> <expr> <c-l> pumvisible() ? "\<c-l>" : asyncomplete#force_refresh()
+        inoremap <silent> <expr> <c-space> pumvisible() ? "\<c-e>" : asyncomplete#force_refresh()
+        inoremap <silent> <expr> <nul> pumvisible() ? "\<c-e>" : asyncomplete#force_refresh()
 
-        silent! iunmap <c-y>
-        inoremap <expr> <c-y> pumvisible() ? asyncomplete#close_popup() : "\<c-y>"
-        silent! iunmap <c-e>
-        inoremap <expr> <c-e> pumvisible() ? asyncomplete#cancel_popup() : "\<c-e>"
+        silent! iunmap <silent> <c-y>
+        inoremap <silent> <expr> <c-y> pumvisible() ? asyncomplete#close_popup() : "\<c-y>"
+        silent! iunmap <silent> <c-e>
+        inoremap <silent> <expr> <c-e> pumvisible() ? asyncomplete#cancel_popup() : "\<c-e>"
 
         au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
                     \ 'name': 'buffer',
@@ -522,29 +522,29 @@ if !get(g:, 'use_coc', 0) && get(g:, 'use_asyncomplete', 0)
 endif
 
 if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
-    nnoremap <leader>dd :Denite<space>
-    nnoremap <leader>dD :Denite directory_rec<cr>
-    nnoremap <leader>db :Denite buffer<cr>
-    nnoremap <leader>dc :Denite command<cr>
-    nnoremap <leader>dC :Denite colorscheme<cr>
-    nnoremap <leader>d: :Denite command_history<cr>
-    nnoremap <leader>de :Denite change<cr>
-    nnoremap <leader>dh :Denite file/old<cr>
-    nnoremap <leader>dH :Denite help<cr>
-    nnoremap <leader>df :Denite file/rec<cr>
-    nnoremap <leader>dF :Denite file<cr>
-    nnoremap <leader>dt :Denite tag<cr>
-    nnoremap <leader>dT :Denite filetype<cr>
-    nnoremap <leader>dg :Denite grep<cr>
-    nnoremap <leader>dj :Denite jump<cr>
-    nnoremap <leader>dl :Denite line<cr>
-    nnoremap <leader>dm :Denite mark<cr>
-    nnoremap <leader>dM :Denite menu<cr>
-    nnoremap <leader>do :Denite outline<cr>
-    nnoremap <leader>dr :Denite register<cr>
-    nnoremap <leader>ds :Denite source<cr>
-    nnoremap <leader>dS :Denite spell<cr>
-    " nnoremap <leader>dn :Denite neosnippet<cr>
+    nnoremap <silent> <leader>dd :Denite<space>
+    nnoremap <silent> <leader>dD :Denite directory_rec<cr>
+    nnoremap <silent> <leader>db :Denite buffer<cr>
+    nnoremap <silent> <leader>dc :Denite command<cr>
+    nnoremap <silent> <leader>dC :Denite colorscheme<cr>
+    nnoremap <silent> <leader>d: :Denite command_history<cr>
+    nnoremap <silent> <leader>de :Denite change<cr>
+    nnoremap <silent> <leader>dh :Denite file/old<cr>
+    nnoremap <silent> <leader>dH :Denite help<cr>
+    nnoremap <silent> <leader>df :Denite file/rec<cr>
+    nnoremap <silent> <leader>dF :Denite file<cr>
+    nnoremap <silent> <leader>dt :Denite tag<cr>
+    nnoremap <silent> <leader>dT :Denite filetype<cr>
+    nnoremap <silent> <leader>dg :Denite grep<cr>
+    nnoremap <silent> <leader>dj :Denite jump<cr>
+    nnoremap <silent> <leader>dl :Denite line<cr>
+    nnoremap <silent> <leader>dm :Denite mark<cr>
+    nnoremap <silent> <leader>dM :Denite menu<cr>
+    nnoremap <silent> <leader>do :Denite outline<cr>
+    nnoremap <silent> <leader>dr :Denite register<cr>
+    nnoremap <silent> <leader>ds :Denite source<cr>
+    nnoremap <silent> <leader>dS :Denite spell<cr>
+    " nnoremap <silent> <leader>dn :Denite neosnippet<cr>
     augroup MyDenite
         autocmd!
         autocmd FileType denite call s:denite_my_settings()
@@ -557,86 +557,86 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     augroup END
 
     function! s:denite_my_settings() abort
-        nnoremap <nowait><silent><buffer><expr> <c-\>
+        nnoremap <silent> <nowait><silent><buffer><expr> <c-\>
                     \ denite#do_map('choose_action')
-        nnoremap <nowait><silent><buffer><expr> <cr>
+        nnoremap <silent> <nowait><silent><buffer><expr> <cr>
                     \ denite#do_map('do_action')
-        nnoremap <nowait><silent><buffer><expr> a
+        nnoremap <silent> <nowait><silent><buffer><expr> a
                     \ denite#do_map('do_action', 'append')
-        nnoremap <nowait><silent><buffer><expr> r
+        nnoremap <silent> <nowait><silent><buffer><expr> r
                     \ denite#do_map('do_action', 'replace')
-        nnoremap <nowait><silent><buffer><expr> y
+        nnoremap <silent> <nowait><silent><buffer><expr> y
                     \ denite#do_map('do_action', 'yank')
-        nnoremap <nowait><silent><buffer><expr> d
+        nnoremap <silent> <nowait><silent><buffer><expr> d
                     \ denite#do_map('do_action', 'delete')
-        nnoremap <nowait><silent><buffer><expr> p
+        nnoremap <silent> <nowait><silent><buffer><expr> p
                     \ denite#do_map('do_action', 'preview')
-        nnoremap <nowait><silent><buffer><expr> h
+        nnoremap <silent> <nowait><silent><buffer><expr> h
                     \ denite#do_map('do_action', 'highlight')
-        nnoremap <nowait><silent><buffer><expr> t
+        nnoremap <silent> <nowait><silent><buffer><expr> t
                     \ denite#do_map('do_action', 'tabopen')
-        nnoremap <nowait><silent><buffer><expr> s
+        nnoremap <silent> <nowait><silent><buffer><expr> s
                     \ denite#do_map('do_action', 'split')
-        nnoremap <nowait><silent><buffer><expr> v
+        nnoremap <silent> <nowait><silent><buffer><expr> v
                     \ denite#do_map('do_action', 'vsplit')
-        nnoremap <nowait><silent><buffer><expr> R
+        nnoremap <silent> <nowait><silent><buffer><expr> R
                     \ denite#do_map('do_action', 'redraw')
-        nnoremap <nowait><silent><buffer><expr> '
+        nnoremap <silent> <nowait><silent><buffer><expr> '
                     \ denite#do_map('do_action', 'quick_move')
-        nnoremap <nowait><silent><buffer><expr> c
+        nnoremap <silent> <nowait><silent><buffer><expr> c
                     \ denite#do_map('do_action', 'cd')
-        nnoremap <nowait><silent><buffer><expr> e
+        nnoremap <silent> <nowait><silent><buffer><expr> e
                     \ denite#do_map('do_action', 'edit')
-        nnoremap <nowait><silent><buffer><expr> E
+        nnoremap <silent> <nowait><silent><buffer><expr> E
                     \ denite#do_map('do_action', 'echo')
-        nnoremap <nowait><silent><buffer><expr> o
+        nnoremap <silent> <nowait><silent><buffer><expr> o
                     \ denite#do_map('do_action', 'open')
-        nnoremap <nowait><silent><buffer><expr> q
+        nnoremap <silent> <nowait><silent><buffer><expr> q
                     \ denite#do_map('quit')
-        nnoremap <nowait><silent><buffer><expr> <esc>
+        nnoremap <silent> <nowait><silent><buffer><expr> <esc>
                     \ denite#do_map('quit')
-        nnoremap <nowait><silent><buffer><expr> <c-c>
+        nnoremap <silent> <nowait><silent><buffer><expr> <c-c>
                     \ denite#do_map('quit')
-        nnoremap <nowait><silent><buffer><expr> i
+        nnoremap <silent> <nowait><silent><buffer><expr> i
                     \ denite#do_map('open_filter_buffer')
-        nnoremap <nowait><silent><buffer><expr> /
+        nnoremap <silent> <nowait><silent><buffer><expr> /
                     \ denite#do_map('open_filter_buffer')
-        nnoremap <nowait><silent><buffer><expr> <space>
+        nnoremap <silent> <nowait><silent><buffer><expr> <space>
                     \ denite#do_map('toggle_select')
-        nnoremap <nowait><silent><buffer><expr> <tab>
+        nnoremap <silent> <nowait><silent><buffer><expr> <tab>
                     \ denite#do_map('toggle_select') . 'j'
-        nnoremap <nowait><silent><buffer><expr> <s-tab>
+        nnoremap <silent> <nowait><silent><buffer><expr> <s-tab>
                     \ denite#do_map('toggle_select') . 'k'
     endfunction
 
     function! s:denite_filter_my_settings() abort
-        imap <nowait><silent><buffer> <c-y>
+        imap <silent> <nowait><silent><buffer> <c-y>
                     \ <Plug>(denite_filter_update)
-        imap <nowait><silent><buffer> <esc>
+        imap <silent> <nowait><silent><buffer> <esc>
                     \ <Plug>(denite_filter_quit)
-        imap <nowait><silent><buffer> <c-o>
+        imap <silent> <nowait><silent><buffer> <c-o>
                     \ <Plug>(denite_filter_quit)
-        inoremap <nowait><silent><buffer><expr> <c-c>
+        inoremap <silent> <nowait><silent><buffer><expr> <c-c>
                     \ denite#do_map('quit')
-        inoremap <nowait><silent><buffer><expr> <cr>
+        inoremap <silent> <nowait><silent><buffer><expr> <cr>
                     \ denite#do_map('do_action')
-        inoremap <nowait><silent><buffer><expr> <c-\>
+        inoremap <silent> <nowait><silent><buffer><expr> <c-\>
                     \ denite#do_map('choose_action')
-        inoremap <nowait><silent><buffer><expr> <c-space>
+        inoremap <silent> <nowait><silent><buffer><expr> <c-space>
                     \ denite#do_map('toggle_select')
-        inoremap <nowait><silent><buffer><expr> <tab>
+        inoremap <silent> <nowait><silent><buffer><expr> <tab>
                     \ denite#do_map('toggle_select') .
                     \ "\<esc>\<c-w>p:call cursor(line('.')+1,0)\<cr>\<c-w>pA"
-        inoremap <nowait><silent><buffer><expr> <s-tab>
+        inoremap <silent> <nowait><silent><buffer><expr> <s-tab>
                     \ denite#do_map('toggle_select') .
                     \ "\<esc>\<c-w>p:call cursor(line('.')-1,0)\<cr>\<c-w>pA"
-        inoremap <nowait><silent><buffer> <c-n>
+        inoremap <silent> <nowait><silent><buffer> <c-n>
                     \ <esc><c-w>p:call cursor(line('.')+1,0)<cr><c-w>pA
-        inoremap <nowait><silent><buffer> <c-p>
+        inoremap <silent> <nowait><silent><buffer> <c-p>
                     \ <esc><c-w>p:call cursor(line('.')-1,0)<cr><c-w>pA
-        inoremap <nowait><silent><buffer> <down>
+        inoremap <silent> <nowait><silent><buffer> <down>
                     \ <esc><c-w>p:call cursor(line('.')+1,0)<cr><c-w>pA
-        inoremap <nowait><silent><buffer> <up>
+        inoremap <silent> <nowait><silent><buffer> <up>
                     \ <esc><c-w>p:call cursor(line('.')-1,0)<cr><c-w>pA
     endfunction
 
@@ -674,100 +674,100 @@ function! NeoSnippetExpand() abort
     return neosnippet#expand(trigger)
 endfunction
 
-inoremap <expr> <c-x>\ NeoSnippetExpand()
-imap <c-\> <Plug>(neosnippet_expand_or_jump)
-smap <c-\> <Plug>(neosnippet_expand_or_jump)
-xmap <c-\> <Plug>(neosnippet_expand_target)
-imap <c-]> <Plug>(neosnippet_jump_or_expand)
-smap <c-]> <Plug>(neosnippet_jump_or_expand)
+inoremap <silent> <expr> <c-x>\ NeoSnippetExpand()
+imap <silent> <c-\> <Plug>(neosnippet_expand_or_jump)
+smap <silent> <c-\> <Plug>(neosnippet_expand_or_jump)
+xmap <silent> <c-\> <Plug>(neosnippet_expand_target)
+imap <silent> <c-]> <Plug>(neosnippet_jump_or_expand)
+smap <silent> <c-]> <Plug>(neosnippet_jump_or_expand)
 let g:neosnippet#snippets_directory = '~/.vim_snippets'
 let g:neosnippet#expand_word_boundary = 1
 let g:neosnippet#disable_runtime_snippets = {'_': 1}
 
-nnoremap <leader>gv :GV<cr>
-nnoremap <leader>gV :GV!<cr>
-xnoremap <leader>gv :GV<cr>
-xnoremap <leader>gV :GV?<cr>
+nnoremap <silent> <leader>gv :GV<cr>
+nnoremap <silent> <leader>gV :GV!<cr>
+xnoremap <silent> <leader>gv :GV<cr>
+xnoremap <silent> <leader>gV :GV?<cr>
 
-nnoremap <leader>gg :G<space>
-nnoremap <leader>gG :G grep!  <bar> botright cw <left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>gb :G blame<cr>
-nnoremap <leader>gB :G blame<space>
-xnoremap <leader>gb :G blame<cr>
-xnoremap <leader>gB :G blame<space>
-nnoremap <leader>gc :G commit -v<cr>
-nnoremap <leader>gC :G checkout<space>
-nnoremap <leader>gd :Gdiffsplit<cr>
-nnoremap <leader>gD :Gdiffsplit!<cr>
-nnoremap <leader>gm :G merge -v<space>
-nnoremap <leader>gM :GMove<space>
-nnoremap <leader>gl :G log<cr>
-nnoremap <leader>gL :G log<space>
-nnoremap <leader>go :Gclog! <bar> cclose <bar> botright cw<cr>
-nnoremap <leader>gO :Gclog <bar> cclose <bar> botright cw<cr>
-nnoremap <leader>gh :0Gclog! <bar> cclose <bar> botright cw<cr>
-nnoremap <leader>gH :0Gclog <bar> cclose <bar> botright cw<cr>
-xnoremap <leader>gh :Gclog! <bar> cclose <bar> botright cw<cr>
-xnoremap <leader>gH :Gclog <bar> cclose <bar> botright cw<cr>
-nnoremap <leader>gf :G fetch -v<cr>
-nnoremap <leader>gp :G push<cr>
-nnoremap <leader>gP :G pull -v<cr>
-nnoremap <leader>gs :G<cr>
-nnoremap <leader>gS :G stash<space>
-nnoremap <leader>gr :Gread<cr>
-nnoremap <leader>gR :G rebase -i<space>
-nnoremap <leader>ge :Gedit<cr>
-nnoremap <leader>gE :Gedit<space>
-nnoremap <leader>gw :Gwrite<cr>
-nnoremap <leader>gW :Gwrite<space>
+nnoremap <silent> <leader>gg :G<space>
+nnoremap <silent> <leader>gG :G grep!  <bar> botright cw <left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <silent> <leader>gb :G blame<cr>
+nnoremap <silent> <leader>gB :G blame<space>
+xnoremap <silent> <leader>gb :G blame<cr>
+xnoremap <silent> <leader>gB :G blame<space>
+nnoremap <silent> <leader>gc :G commit -v<cr>
+nnoremap <silent> <leader>gC :G checkout<space>
+nnoremap <silent> <leader>gd :Gdiffsplit<cr>
+nnoremap <silent> <leader>gD :Gdiffsplit!<cr>
+nnoremap <silent> <leader>gm :G merge -v<space>
+nnoremap <silent> <leader>gM :GMove<space>
+nnoremap <silent> <leader>gl :G log<cr>
+nnoremap <silent> <leader>gL :G log<space>
+nnoremap <silent> <leader>go :Gclog! <bar> cclose <bar> botright cw<cr>
+nnoremap <silent> <leader>gO :Gclog <bar> cclose <bar> botright cw<cr>
+nnoremap <silent> <leader>gh :0Gclog! <bar> cclose <bar> botright cw<cr>
+nnoremap <silent> <leader>gH :0Gclog <bar> cclose <bar> botright cw<cr>
+xnoremap <silent> <leader>gh :Gclog! <bar> cclose <bar> botright cw<cr>
+xnoremap <silent> <leader>gH :Gclog <bar> cclose <bar> botright cw<cr>
+nnoremap <silent> <leader>gf :G fetch -v<cr>
+nnoremap <silent> <leader>gp :G push<cr>
+nnoremap <silent> <leader>gP :G pull -v<cr>
+nnoremap <silent> <leader>gs :G<cr>
+nnoremap <silent> <leader>gS :G stash<space>
+nnoremap <silent> <leader>gr :Gread<cr>
+nnoremap <silent> <leader>gR :G rebase -i<space>
+nnoremap <silent> <leader>ge :Gedit<cr>
+nnoremap <silent> <leader>gE :Gedit<space>
+nnoremap <silent> <leader>gw :Gwrite<cr>
+nnoremap <silent> <leader>gW :Gwrite<space>
 
 augroup MyVinegarHighlight
     autocmd!
     au ColorScheme * hi! link netrwSuffixes Comment
 augroup END
 
-nmap <c-_> <Plug>CommentaryLine
-xmap <c-_> <Plug>Commentary
+nmap <silent> <c-_> <Plug>CommentaryLine
+xmap <silent> <c-_> <Plug>Commentary
 
-nnoremap <leader>sv :%S/
-xnoremap <leader>sv :S/
+nnoremap <silent> <leader>sv :%S/
+xnoremap <silent> <leader>sv :S/
 
 let statusline_extra_right_0 = ['SleuthIndicator', []]
-nnoremap <leader>sh :Sleuth<cr>
+nnoremap <silent> <leader>sh :Sleuth<cr>
 
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = ''
-nnoremap <leader>pp :CtrlP<cr>
-nnoremap <leader>pc :CtrlPCurFile<cr>
-nnoremap <leader>pC :CtrlPCurWD<cr>
-nnoremap <leader>pr :CtrlPRoot<cr>
-nnoremap <leader>pR :CtrlPRTS<cr>
-nnoremap <leader>pb :CtrlPBuffer<cr>
-nnoremap <leader>pt :CtrlPTag<cr>
-nnoremap <leader>pl :CtrlPLine<cr>
-nnoremap <leader>pL :CtrlPLastMode<cr>
-nnoremap <leader>pq :CtrlPQuickfix<cr>
-nnoremap <leader>pm :CtrlPMRU<cr>
-nnoremap <leader>pM :CtrlPMixed<cr>
-nnoremap <leader>pu :CtrlPUndo<cr>
-nnoremap <leader>ph :CtrlPChange<cr>
-nnoremap <leader>pd :CtrlPDir<cr>
+nnoremap <silent> <leader>pp :CtrlP<cr>
+nnoremap <silent> <leader>pc :CtrlPCurFile<cr>
+nnoremap <silent> <leader>pC :CtrlPCurWD<cr>
+nnoremap <silent> <leader>pr :CtrlPRoot<cr>
+nnoremap <silent> <leader>pR :CtrlPRTS<cr>
+nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
+nnoremap <silent> <leader>pt :CtrlPTag<cr>
+nnoremap <silent> <leader>pl :CtrlPLine<cr>
+nnoremap <silent> <leader>pL :CtrlPLastMode<cr>
+nnoremap <silent> <leader>pq :CtrlPQuickfix<cr>
+nnoremap <silent> <leader>pm :CtrlPMRU<cr>
+nnoremap <silent> <leader>pM :CtrlPMixed<cr>
+nnoremap <silent> <leader>pu :CtrlPUndo<cr>
+nnoremap <silent> <leader>ph :CtrlPChange<cr>
+nnoremap <silent> <leader>pd :CtrlPDir<cr>
 
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 
-nnoremap <leader>pf :CtrlPFunky<cr>
+nnoremap <silent> <leader>pf :CtrlPFunky<cr>
 " narrow the list down with a word under cursor
-nnoremap <leader>pF :execute 'CtrlPFunky ' . expand('<cword>')<cr>
+nnoremap <silent> <leader>pF :execute 'CtrlPFunky ' . expand('<cword>')<cr>
 let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_funky_nolim = 1
 " let g:ctrlp_funky_matchtype = 'path'
 " let g:ctrlp_funky_multi_buffers = 1
 
-nmap ga <Plug>(EasyAlign)
-xmap ga <Plug>(EasyAlign)
-nmap gA <Plug>(LiveEasyAlign)
-xmap gA <Plug>(LiveEasyAlign)
+nmap <silent> ga <Plug>(EasyAlign)
+xmap <silent> ga <Plug>(EasyAlign)
+nmap <silent> gA <Plug>(LiveEasyAlign)
+xmap <silent> gA <Plug>(LiveEasyAlign)
 
 let g:fzf_command_prefix = 'FZF'
 " [Commands] --expect expression for directly executing the command
@@ -795,46 +795,46 @@ let g:fzf_colors = {
 " let g:fzf_layout = {'window': 'bot'.float2nr(0.4 * &lines).'new'}
 " let g:fzf_layout = {'down': '40%'}
 " Some workaround to fix the character deletion error at empty lines.
-imap <c-x>k <plug>(fzf-complete-word)
-imap <c-x>p <plug>(fzf-complete-path)
-imap <c-x>f <plug>(fzf-complete-file)
-imap <c-x>F <plug>(fzf-complete-file-ag)
-imap <c-x>l <plug>(fzf-complete-buffer-line)
-imap <c-x>L <plug>(fzf-complete-line)
-inoremap <expr> <c-x>g fzf#vim#complete(fzf#wrap({
+imap <silent> <c-x>k <plug>(fzf-complete-word)
+imap <silent> <c-x>p <plug>(fzf-complete-path)
+imap <silent> <c-x>f <plug>(fzf-complete-file)
+imap <silent> <c-x>F <plug>(fzf-complete-file-ag)
+imap <silent> <c-x>l <plug>(fzf-complete-buffer-line)
+imap <silent> <c-x>L <plug>(fzf-complete-line)
+inoremap <silent> <expr> <c-x>g fzf#vim#complete(fzf#wrap({
             \ 'prefix': '^.*$',
             \ 'source': 'grep -n --color=always -r .',
             \ 'options': '--ansi --delimiter : --nth 3..',
             \ 'reducer': {lines -> join(split(lines[0], ':\zs')[2:], '')}
             \ }))
-inoremap <expr> <c-x>G fzf#vim#complete(fzf#wrap({
+inoremap <silent> <expr> <c-x>G fzf#vim#complete(fzf#wrap({
             \ 'prefix': '^.*$',
             \ 'source': 'git grep -n --color=always ^',
             \ 'options': '--ansi --delimiter : --nth 3..',
             \ 'reducer': {lines -> join(split(lines[0], ':\zs')[2:], '')},
             \ 'dir': systemlist('git rev-parse --show-toplevel')[0]
             \ }))
-inoremap <expr> <c-x>r fzf#vim#complete(fzf#wrap({
+inoremap <silent> <expr> <c-x>r fzf#vim#complete(fzf#wrap({
             \ 'prefix': '^.*$',
             \ 'source': 'rg -n ^ --color always',
             \ 'options': '--ansi --delimiter : --nth 3..',
             \ 'reducer': {lines -> join(split(lines[0], ':\zs')[2:], '')}
             \ }))
 if has('unix')
-    nnoremap <leader>fd :FZFDir<cr>
-    nnoremap <leader>Fd :FZFDir<space>
+    nnoremap <silent> <leader>fd :FZFDir<cr>
+    nnoremap <silent> <leader>Fd :FZFDir<space>
     command! -nargs=* -complete=dir -bang FZFDir call fzf#run(fzf#wrap({
                 \ 'source': 'find ' . (empty(<q-args>) ? '.' : <q-args>) . ' -type d',
                 \ 'options': '-m --prompt "Dir> " --preview "tree -L 3 -ughC {} || ls -Glh {}" --bind "?:toggle-preview"'
                 \ }, <bang>0))
 endif
 if has('mac')
-    nnoremap <leader>fs :FZFSpotlight<space>
+    nnoremap <silent> <leader>fs :FZFSpotlight<space>
     command! -nargs=+ -bang FZFSpotlight call fzf#run(fzf#wrap(s:p(<bang>0, {
                 \ 'source': 'mdfind -name ' . <q-args> . ' "NOT kind:folder"',
                 \ 'options': '-m --prompt "Spotlight> "'
                 \ })))
-    nnoremap <leader>fS :FZFSpotlightDir<space>
+    nnoremap <silent> <leader>fS :FZFSpotlightDir<space>
     command! -nargs=+ -bang FZFSpotlightDir call fzf#run(fzf#wrap({
                 \ 'source': 'mdfind -name ' . <q-args> . ' "kind:folder"',
                 \ 'options': '-m --prompt "SpotlightDir> " --preview "tree -L 3 -ughC {} || ls -Glh {}" --bind "?:toggle-preview"'
@@ -849,54 +849,54 @@ function! s:p(bang, ...) abort
     return {}
 endfunction
 
-nnoremap <F3> :FZFCommands<cr>
-nnoremap <S-F3> :FZFCommands!<cr>
-nmap <F4> <plug>(fzf-maps-n)
-xmap <F4> <plug>(fzf-maps-x)
-omap <F4> <plug>(fzf-maps-o)
-imap <F4> <plug>(fzf-maps-i)
-nnoremap <leader>ff :FZFFiles<cr>
-nnoremap <leader>fF :FZFGFiles<cr>
-nnoremap <leader>fy :FZFFiletypes<cr>
-nnoremap <leader>f? :FZFGFiles?<cr>
-nnoremap <leader>fb :FZFBuffers<cr>
-nnoremap <leader>fo :FZFBCommits<cr>
-nnoremap <leader>fO :FZFCommits<cr>
-nnoremap <leader>fc :FZFCommands<cr>
-nnoremap <leader>fC :FZFColors<cr>
-nnoremap <leader>fa :FZFAg<cr>
-nnoremap <leader>fr :FZFRg<cr>
-nnoremap <leader>fl :FZFBLines<cr>
-nnoremap <leader>fL :FZFLines<cr>
-nnoremap <leader>ft :FZFBTags<cr>
-nnoremap <leader>fT :FZFTags<cr>
-nnoremap <leader>fm :FZFMarks<cr>
-nnoremap <leader>fM :FZFMaps<cr>
-nnoremap <leader>fw :FZFWindows<cr>
-nnoremap <leader>fe :FZFLocate<space>
-nnoremap <leader>fh :FZFHistory<cr>
-nnoremap <leader>f/ :FZFHistory/<cr>
-nnoremap <leader>f: :FZFHistory:<cr>
-nnoremap <leader>fH :FZFHelptags<cr>
-nnoremap <leader>fg :FZFGrep<cr>
-nnoremap <leader>fG :FZFGGrep<cr>
-nnoremap <leader>fq :FZFQuickFix<cr>
-nnoremap <leader>fQ :FZFLocList<cr>
+nnoremap <silent> <F3> :FZFCommands<cr>
+nnoremap <silent> <S-F3> :FZFCommands!<cr>
+nmap <silent> <F4> <plug>(fzf-maps-n)
+xmap <silent> <F4> <plug>(fzf-maps-x)
+omap <silent> <F4> <plug>(fzf-maps-o)
+imap <silent> <F4> <plug>(fzf-maps-i)
+nnoremap <silent> <leader>ff :FZFFiles<cr>
+nnoremap <silent> <leader>fF :FZFGFiles<cr>
+nnoremap <silent> <leader>fy :FZFFiletypes<cr>
+nnoremap <silent> <leader>f? :FZFGFiles?<cr>
+nnoremap <silent> <leader>fb :FZFBuffers<cr>
+nnoremap <silent> <leader>fo :FZFBCommits<cr>
+nnoremap <silent> <leader>fO :FZFCommits<cr>
+nnoremap <silent> <leader>fc :FZFCommands<cr>
+nnoremap <silent> <leader>fC :FZFColors<cr>
+nnoremap <silent> <leader>fa :FZFAg<cr>
+nnoremap <silent> <leader>fr :FZFRg<cr>
+nnoremap <silent> <leader>fl :FZFBLines<cr>
+nnoremap <silent> <leader>fL :FZFLines<cr>
+nnoremap <silent> <leader>ft :FZFBTags<cr>
+nnoremap <silent> <leader>fT :FZFTags<cr>
+nnoremap <silent> <leader>fm :FZFMarks<cr>
+nnoremap <silent> <leader>fM :FZFMaps<cr>
+nnoremap <silent> <leader>fw :FZFWindows<cr>
+nnoremap <silent> <leader>fe :FZFLocate<space>
+nnoremap <silent> <leader>fh :FZFHistory<cr>
+nnoremap <silent> <leader>f/ :FZFHistory/<cr>
+nnoremap <silent> <leader>f: :FZFHistory:<cr>
+nnoremap <silent> <leader>fH :FZFHelptags<cr>
+nnoremap <silent> <leader>fg :FZFGrep<cr>
+nnoremap <silent> <leader>fG :FZFGGrep<cr>
+nnoremap <silent> <leader>fq :FZFQuickFix<cr>
+nnoremap <silent> <leader>fQ :FZFLocList<cr>
 
-nnoremap <leader>Ff :FZFFiles<space>
-nnoremap <leader>FF :FZFGFiles<space>
-nnoremap <leader>F? :FZFGFiles?<space>
-nnoremap <leader>Fb :FZFBuffers<space>
-nnoremap <leader>Fa :FZFAg<space>
-nnoremap <leader>Fr :FZFRg<space>
-nnoremap <leader>Fl :FZFBLines<space>
-nnoremap <leader>FL :FZFLines<space>
-nnoremap <leader>Ft :FZFBTags<space>
-nnoremap <leader>FT :FZFTags<space>
-nnoremap <leader>Fg :FZFGGrep<space>
-nnoremap <leader>FG :FZFGrep<space>
+nnoremap <silent> <leader>Ff :FZFFiles<space>
+nnoremap <silent> <leader>FF :FZFGFiles<space>
+nnoremap <silent> <leader>F? :FZFGFiles?<space>
+nnoremap <silent> <leader>Fb :FZFBuffers<space>
+nnoremap <silent> <leader>Fa :FZFAg<space>
+nnoremap <silent> <leader>Fr :FZFRg<space>
+nnoremap <silent> <leader>Fl :FZFBLines<space>
+nnoremap <silent> <leader>FL :FZFLines<space>
+nnoremap <silent> <leader>Ft :FZFBTags<space>
+nnoremap <silent> <leader>FT :FZFTags<space>
+nnoremap <silent> <leader>Fg :FZFGGrep<space>
+nnoremap <silent> <leader>FG :FZFGrep<space>
 
-nnoremap <c-g> :Grepper<cr>
+nnoremap <silent> <c-g> :Grepper<cr>
 if !exists('g:grepper')
     let g:grepper = {}
 endif
@@ -914,14 +914,14 @@ let g:startify_custom_header = [
             \ '    \ \___/  \ \_\ \_\ \_\ \_\',
             \ '     \/__/    \/_/\/_/\/_/\/_/',
             \ ]
-nnoremap <leader>st :Startify<cr>
-nnoremap <leader>sa :SSave<cr>
-nnoremap <leader>sA :SSave<space>
-nnoremap <leader>sd :SDelete<cr>
-nnoremap <leader>sD :SDelete<space>
-nnoremap <leader>sl :SLoad<cr>
-nnoremap <leader>sL :SLoad<space>
-nnoremap <leader>sc :SClose<cr>
+nnoremap <silent> <leader>st :Startify<cr>
+nnoremap <silent> <leader>sa :SSave<cr>
+nnoremap <silent> <leader>sA :SSave<space>
+nnoremap <silent> <leader>sd :SDelete<cr>
+nnoremap <silent> <leader>sD :SDelete<space>
+nnoremap <silent> <leader>sl :SLoad<cr>
+nnoremap <silent> <leader>sL :SLoad<space>
+nnoremap <silent> <leader>sc :SClose<cr>
 " augroup MyStartify
 "     autocmd!
 "     if has('nvim')
@@ -957,10 +957,10 @@ nnoremap <leader>sc :SClose<cr>
 "     endif
 " augroup END
 
-nnoremap <leader>uu :UndotreeToggle<cr>
-nnoremap <leader>uf :UndotreeFocus<cr>
-nnoremap <leader>us :UndotreeShow<cr>
-nnoremap <leader>uh :UndotreeHide<cr>
+nnoremap <silent> <leader>uu :UndotreeToggle<cr>
+nnoremap <silent> <leader>uf :UndotreeFocus<cr>
+nnoremap <silent> <leader>us :UndotreeShow<cr>
+nnoremap <silent> <leader>uh :UndotreeHide<cr>
 let g:undotree_WindowLayout = 4
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_HelpLine = 0
@@ -972,15 +972,15 @@ let g:NERDTreeWinPos = 'right'
 " let g:NERDTreeWinSize = 30
 " let NERDTreeDirArrowExpandable=">"
 " let NERDTreeDirArrowCollapsible="v"
-nnoremap <leader>nn :NERDTreeToggle<cr>
-nnoremap <leader>nN :NERDTreeToggleVCS<cr>
-nnoremap <leader>nb :NERDTreeFromBookmark<space>
-nnoremap <leader>nf :NERDTreeFind<cr>
-nnoremap <leader>nF :NERDTreeFocus<cr>
-nnoremap <leader>nv :NERDTreeVCS<cr>
-nnoremap <leader>nc :NERDTreeCWD<cr>
-nnoremap <leader>nr :NERDTreeRefreshRoot<cr>
-nnoremap <leader>nm :NERDTreeMirror<cr>
+nnoremap <silent> <leader>nn :NERDTreeToggle<cr>
+nnoremap <silent> <leader>nN :NERDTreeToggleVCS<cr>
+nnoremap <silent> <leader>nb :NERDTreeFromBookmark<space>
+nnoremap <silent> <leader>nf :NERDTreeFind<cr>
+nnoremap <silent> <leader>nF :NERDTreeFocus<cr>
+nnoremap <silent> <leader>nv :NERDTreeVCS<cr>
+nnoremap <silent> <leader>nc :NERDTreeCWD<cr>
+nnoremap <silent> <leader>nr :NERDTreeRefreshRoot<cr>
+nnoremap <silent> <leader>nm :NERDTreeMirror<cr>
 augroup MyNERDTree
     autocmd!
     autocmd BufEnter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
@@ -989,19 +989,19 @@ augroup END
 let g:neoformat_basic_format_align = 1
 let g:neoformat_basic_format_retab = 1
 let g:neoformat_basic_format_trim = 1
-nnoremap g<c-f> :Neoformat<cr>
-xnoremap g<c-f> :Neoformat<cr>
-nnoremap <a-f> :Neoformat<cr>
-xnoremap <a-f> :Neoformat<cr>
+nnoremap <silent> g<c-f> :Neoformat<cr>
+xnoremap <silent> g<c-f> :Neoformat<cr>
+nnoremap <silent> <a-f> :Neoformat<cr>
+xnoremap <silent> <a-f> :Neoformat<cr>
 
-nnoremap <leader>aw :ArgWrap<cr>
+nnoremap <silent> <leader>aw :ArgWrap<cr>
 
-nnoremap <leader>rr :AsyncRun<space>
-xnoremap <leader>rr :AsyncRun<space>
-nnoremap <leader>rR :AsyncRun!<space>
-xnoremap <leader>rR :AsyncRun!<space>
-nnoremap <leader>rs :AsyncStop<cr>
-nnoremap <leader>rS :AsyncStop!<cr>
+nnoremap <silent> <leader>rr :AsyncRun<space>
+xnoremap <silent> <leader>rr :AsyncRun<space>
+nnoremap <silent> <leader>rR :AsyncRun!<space>
+xnoremap <silent> <leader>rR :AsyncRun!<space>
+nnoremap <silent> <leader>rs :AsyncStop<cr>
+nnoremap <silent> <leader>rS :AsyncStop!<cr>
 let g:asyncrun_auto = ''
 let g:asyncrun_open = 10
 " let g:asyncrun_bell = 1
@@ -1017,14 +1017,14 @@ augroup END
 "     au User AsyncRunStop copen | wincmd p
 " augroup END
 
-nnoremap <leader>Tn :TestNearest<CR>
-nnoremap <leader>TN :TestNearest<Space>
-nnoremap <leader>Tf :TestFile<CR>
-nnoremap <leader>TF :TestFile<Space>
-nnoremap <leader>Ts :TestSuite<CR>
-nnoremap <leader>TS :TestSuite<Space>
-nnoremap <leader>Tl :TestLast<CR>
-nnoremap <leader>Tv :TestVisit<CR>
+nnoremap <silent> <leader>Tn :TestNearest<CR>
+nnoremap <silent> <leader>TN :TestNearest<Space>
+nnoremap <silent> <leader>Tf :TestFile<CR>
+nnoremap <silent> <leader>TF :TestFile<Space>
+nnoremap <silent> <leader>Ts :TestSuite<CR>
+nnoremap <silent> <leader>TS :TestSuite<Space>
+nnoremap <silent> <leader>Tl :TestLast<CR>
+nnoremap <silent> <leader>Tv :TestVisit<CR>
 let test#strategy = 'asyncrun'
 
 function! GitStatus()
@@ -1037,22 +1037,22 @@ let g:gitgutter_map_keys = 0
 let g:gitgutter_override_sign_column_highlight = 0
 let g:gitgutter_use_location_list = 1
 let g:gitgutter_sign_priority = 0
-omap ih <Plug>(GitGutterTextObjectInnerPending)
-omap ah <Plug>(GitGutterTextObjectOuterPending)
-xmap ih <Plug>(GitGutterTextObjectInnerVisual)
-xmap ah <Plug>(GitGutterTextObjectOuterVisual)
-nmap ]h <Plug>(GitGutterNextHunk)
-nmap [h <Plug>(GitGutterPrevHunk)
-nmap <leader>hs <Plug>(GitGutterStageHunk)
-nmap <leader>hu <Plug>(GitGutterUndoHunk)
-nmap <leader>hp <Plug>(GitGutterPreviewHunk)
-nnoremap <leader>hh :GitGutterToggle<cr>
-nnoremap <leader>hs :GitGutterSignsToggle<cr>
-nnoremap <leader>hl :GitGutterLineHighlightsToggle<cr>
+omap <silent> ih <Plug>(GitGutterTextObjectInnerPending)
+omap <silent> ah <Plug>(GitGutterTextObjectOuterPending)
+xmap <silent> ih <Plug>(GitGutterTextObjectInnerVisual)
+xmap <silent> ah <Plug>(GitGutterTextObjectOuterVisual)
+nmap <silent> ]h <Plug>(GitGutterNextHunk)
+nmap <silent> [h <Plug>(GitGutterPrevHunk)
+nmap <silent> <leader>hs <Plug>(GitGutterStageHunk)
+nmap <silent> <leader>hu <Plug>(GitGutterUndoHunk)
+nmap <silent> <leader>hp <Plug>(GitGutterPreviewHunk)
+nnoremap <silent> <leader>hh :GitGutterToggle<cr>
+nnoremap <silent> <leader>hs :GitGutterSignsToggle<cr>
+nnoremap <silent> <leader>hl :GitGutterLineHighlightsToggle<cr>
 if has('nvim-0.3.2')
-    nnoremap <leader>hn :GitGutterLineNrHighlightsToggle<cr>
+    nnoremap <silent> <leader>hn :GitGutterLineNrHighlightsToggle<cr>
 endif
-nnoremap <leader>hq :GitGutterQuickFix<cr>
+nnoremap <silent> <leader>hq :GitGutterQuickFix<cr>
 
 if v:version >= 720
     " let g:indent_guides_enable_on_vim_startup = 1
@@ -1064,47 +1064,47 @@ endif
 
 if exists(':terminal')
     if has('nvim-0.4.0') || has('patch-8.2.191')
-        nmap <F12> <Plug>(Multiterm)
-        nmap <c-space> <Plug>(Multiterm)
-        nmap <nul> <Plug>(Multiterm)
-        tmap <F12> <Plug>(Multiterm)
-        tmap <c-space> <Plug>(Multiterm)
-        tmap <nul> <Plug>(Multiterm)
-        " xmap <F12> <Plug>(Multiterm)
-        " xmap <c-space> <Plug>(Multiterm)
-        " xmap <nul> <Plug>(Multiterm)
-        " imap <F12> <Plug>(Multiterm)
-        " imap <c-space> <Plug>(Multiterm)
-        " imap <nul> <Plug>(Multiterm)
+        nmap <silent> <F12> <Plug>(Multiterm)
+        nmap <silent> <c-space> <Plug>(Multiterm)
+        nmap <silent> <nul> <Plug>(Multiterm)
+        tmap <silent> <F12> <Plug>(Multiterm)
+        tmap <silent> <c-space> <Plug>(Multiterm)
+        tmap <silent> <nul> <Plug>(Multiterm)
+        " xmap <silent> <F12> <Plug>(Multiterm)
+        " xmap <silent> <c-space> <Plug>(Multiterm)
+        " xmap <silent> <nul> <Plug>(Multiterm)
+        " imap <silent> <F12> <Plug>(Multiterm)
+        " imap <silent> <c-space> <Plug>(Multiterm)
+        " imap <silent> <nul> <Plug>(Multiterm)
     elseif has('patch-8.0.1593') || has('nvim')
-        nnoremap <F12> :Nuake<cr>
-        nnoremap <c-space> :Nuake<cr>
-        nnoremap <nul> :Nuake<cr>
+        nnoremap <silent> <F12> :Nuake<cr>
+        nnoremap <silent> <c-space> :Nuake<cr>
+        nnoremap <silent> <nul> :Nuake<cr>
         if has('nvim')
-            tnoremap <F12> <c-\><c-n>:Nuake<cr>
-            tnoremap <c-space> <c-\><c-n>:Nuake<cr>
-            tnoremap <nul> <c-\><c-n>:Nuake<cr>
+            tnoremap <silent> <F12> <c-\><c-n>:Nuake<cr>
+            tnoremap <silent> <c-space> <c-\><c-n>:Nuake<cr>
+            tnoremap <silent> <nul> <c-\><c-n>:Nuake<cr>
         else
-            tnoremap <F12> <c-w>:Nuake<cr>
-            tnoremap <c-space> <c-w>:Nuake<cr>
-            tnoremap <nul> <c-w>:Nuake<cr>
+            tnoremap <silent> <F12> <c-w>:Nuake<cr>
+            tnoremap <silent> <c-space> <c-w>:Nuake<cr>
+            tnoremap <silent> <nul> <c-w>:Nuake<cr>
         endif
-        " xnoremap <F12> :<c-u>Nuake<cr>
-        " xnoremap <c-space> :<c-u>Nuake<cr>
-        " xnoremap <nul> :<c-u>Nuake<cr>
-        " inoremap <F12> <c-o>:Nuake<cr>
-        " inoremap <c-space> <c-o>:Nuake<cr>
-        " inoremap <nul> <c-o>:Nuake<cr>
+        " xnoremap <silent> <F12> :<c-u>Nuake<cr>
+        " xnoremap <silent> <c-space> :<c-u>Nuake<cr>
+        " xnoremap <silent> <nul> :<c-u>Nuake<cr>
+        " inoremap <silent> <F12> <c-o>:Nuake<cr>
+        " inoremap <silent> <c-space> <c-o>:Nuake<cr>
+        " inoremap <silent> <nul> <c-o>:Nuake<cr>
     endif
 endif
 
 if has('nvim') || has('job') || has('channel')
-    nnoremap <leader>co :Codi!!<cr>
-    nnoremap <leader>cO :Codi!!<space>
+    nnoremap <silent> <leader>co :Codi!!<cr>
+    nnoremap <silent> <leader>cO :Codi!!<space>
 endif
 
-nmap <leader>cc <Plug>Colorizer
-xmap <leader>cc <Plug>Colorizer
+nmap <silent> <leader>cc <Plug>Colorizer
+xmap <silent> <leader>cc <Plug>Colorizer
 
 try
     " call textobj#user#plugin('datetime', {

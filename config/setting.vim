@@ -128,12 +128,6 @@ set wildmenu
 set wildmode=longest:full,full
 set wildignorecase
 set wcm=<c-z>
-" if has('menu')
-"     " set langmenu=en
-"     source $VIMRUNTIME/delmenu.vim
-"     source $VIMRUNTIME/menu.vim
-"     map <c-z> :emenu <c-z>
-" endif
 
 set wildignore=*.o,*.obj,*~,*.pyc,tags,TAGS,cscope.*
 if has('win16') || has('win32')
