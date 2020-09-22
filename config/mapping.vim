@@ -599,7 +599,7 @@ function! AlternateFile(force) abort
     endif
     for file in alt_files
         try
-            execute 'find' . (a:force ? '!' : '') fnameescape(file)
+            execute 'find' . (a:force ? '!' : '') file
         catch
             continue
         endtry
