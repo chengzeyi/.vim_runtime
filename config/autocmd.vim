@@ -1,7 +1,7 @@
 " Return to last edit position when opening files (You want this!)
 augroup MyReturnToLastEditPosition
     autocmd!
-    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe 'normal!' "g'\"" | endif
 augroup END
 
 " augroup MyVimCursorColumn
@@ -155,7 +155,7 @@ if has('nvim-0.4.0') || has('popupwin')
             call nvim_set_current_win(winid)
             normal! zz
             call nvim_set_current_win(old_winid)
-            execute 'au CursorMoved * ++once call nvim_win_close(' . winid . ', 0)'
+            execute 'au' 'CursorMoved' '*' '++once' 'call nvim_win_close(' . winid . ', 0)'
         else
             let winid = popup_create(bufnr, {
                         \ 'minwidth': width,
@@ -180,7 +180,7 @@ endif
 " augroup END
 
 " function! AdjustWindowHeight(minheight, maxheight) abort
-"     exe max([min([line('$'), a:maxheight]), a:minheight]) . 'wincmd _'
+"     exe max([min([line('$'), a:maxheight]), a:minheight]) . 'wincmd' '_'
 " endfunction
 
 " function! AdjustWindowHeight(minheight, maxheight) abort
@@ -194,7 +194,7 @@ endif
 "         let n_lines += float2nr(ceil(line_width))
 "         let l += 1
 "     endw
-"     exe 'resize ' . max([min([n_lines, a:maxheight]), a:minheight])
+"     exe 'resize' max([min([n_lines, a:maxheight]), a:minheight])
 " endfunction
 
 if has('nvim')

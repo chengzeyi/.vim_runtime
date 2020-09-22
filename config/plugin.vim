@@ -359,7 +359,7 @@ if get(g:, 'use_coc', 0)
         function! s:show_documentation() abort
             if (index(['vim', 'help'], &filetype) >= 0)
                 try
-                    execute 'h '. expand('<cword>')
+                    execute 'h' expand('<cword>')
                     return
                 catch
                 endtry
@@ -381,7 +381,7 @@ if get(g:, 'use_coc', 0)
                         \ 'coc-neosnippet'
                         \ ]
             for ext in exts
-                execute 'CocInstall ' . ext
+                execute 'CocInstall' ext
             endfor
         endfunction
     endif
@@ -468,7 +468,7 @@ else
             function! s:show_documentation() abort
                 if (index(['vim', 'help'], &filetype) >= 0)
                     try
-                        execute 'h '. expand('<cword>')
+                        execute 'h' expand('<cword>')
                         return
                     catch
                     endtry
@@ -732,8 +732,8 @@ augroup END
 nmap <silent> <c-_> <Plug>CommentaryLine
 xmap <silent> <c-_> <Plug>Commentary
 
-nnoremap <silent> <leader>sv :%S/
-xnoremap <silent> <leader>sv :S/
+nnoremap <leader>sv :%S/
+xnoremap <leader>sv :S/
 
 let statusline_extra_right_0 = ['SleuthIndicator', []]
 nnoremap <silent> <leader>sh :Sleuth<cr>
@@ -746,22 +746,33 @@ nnoremap <silent> <leader>pC :CtrlPCurWD<cr>
 nnoremap <silent> <leader>pr :CtrlPRoot<cr>
 nnoremap <silent> <leader>pR :CtrlPRTS<cr>
 nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
-nnoremap <silent> <leader>pt :CtrlPTag<cr>
+nnoremap <silent> <leader>pt :CtrlPBufTag<cr>
+nnoremap <silent> <leader>pT :CtrlPTag<cr>
 nnoremap <silent> <leader>pl :CtrlPLine<cr>
 nnoremap <silent> <leader>pL :CtrlPLastMode<cr>
 nnoremap <silent> <leader>pq :CtrlPQuickfix<cr>
-nnoremap <silent> <leader>pm :CtrlPMRU<cr>
+nnoremap <silent> <leader>pm :CtrlPMRUFiles<cr>
 nnoremap <silent> <leader>pM :CtrlPMixed<cr>
 nnoremap <silent> <leader>pu :CtrlPUndo<cr>
 nnoremap <silent> <leader>ph :CtrlPChange<cr>
+nnoremap <silent> <leader>pH :CtrlPChangeAll<cr>
 nnoremap <silent> <leader>pd :CtrlPDir<cr>
+
+nnoremap <leader>Pp :CtrlP<space>
+nnoremap <leader>Pt :CtrlPBufTag<space>
+nnoremap <leader>Pl :CtrlPLine<space>
+nnoremap <leader>PL :CtrlPLastMode<space>
+nnoremap <leader>Pm :CtrlPMRUFiles<space>
+nnoremap <leader>Ph :CtrlPChange<space>
+nnoremap <leader>Pd :CtrlPDir<space>
 
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 
 nnoremap <silent> <leader>pf :CtrlPFunky<cr>
-" narrow the list down with a word under cursor
-nnoremap <silent> <leader>pF :execute 'CtrlPFunky ' . expand('<cword>')<cr>
+nnoremap <silent> <leader>pF :CtrlPFunkyMulti<cr>
+nnoremap <leader>Pf :CtrlPFunky<space>
+nnoremap <leader>PF :CtrlPFunkyMulti<space>
 let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_funky_nolim = 1
 " let g:ctrlp_funky_matchtype = 'path'

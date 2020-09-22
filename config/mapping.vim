@@ -48,6 +48,7 @@ nnoremap <silent> <leader><c-\> :tab sp<cr>
 nnoremap <leader>ee :e<space>
 nnoremap <leader>eE :e <c-r>=fnameescape(expand('%:~:h'))<cr>/
 nnoremap <silent> <leader>en :enew<cr>
+nnoremap <silent> <leader>eN :enew <bar> setlocal buftype=nofile bufhidden=hide noswapfile<cr>
 
 nnoremap <silent> <leader>oo :set scrolloff=<c-r>=999 - &scrolloff<cr><cr>
 nnoremap <silent> <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
@@ -79,7 +80,7 @@ command! -nargs=0 ToggleTransparent call ToggleTransparent()
 
 function! ToggleTransparent() abort
     if get(s:, 'transparent', 0)
-        exe 'hi Normal guibg=' . s:normal_guibg . ' ctermbg=' . s:normal_ctermbg
+        exe 'hi' 'Normal' 'guibg=' . s:normal_guibg 'ctermbg=' . s:normal_ctermbg
         let s:transparent = 0
     else
         let s:normal_guibg = ReturnHighlightTerm('Normal', 'guibg')
@@ -348,11 +349,11 @@ function! Trans(type, ...) abort
     let reg_save = @@
 
     if a:0  " Invoked from Visual mode, use gv command.
-        noautocmd silent exe 'normal! gvy'
+        noautocmd silent exe 'normal!' 'gvy'
     elseif a:type ==# 'line'
-        noautocmd silent exe "normal! '[V']y"
+        noautocmd silent exe 'normal!' "'[V']y"
     else
-        noautocmd silent exe 'normal! `[v`]y'
+        noautocmd silent exe 'normal!' '`[v`]y'
     endif
 
     call DoTrans(@@)
@@ -448,9 +449,7 @@ nnoremap <silent> ]t :+tabmove<cr>
 nnoremap <silent> [T :0tabmove<cr>
 nnoremap <silent> ]T :$tabmove<cr>
 nnoremap <silent> <leader>] <c-w>g}
-" nnoremap <silent> <C-LeftMouse> :execute 'ptag ' . expand('<lt>cword>')<cr>
 nnoremap <silent> <leader>[ <c-w>z
-" nnoremap <silent> <C-RightMouse> :pclose<cr>
 nnoremap <silent> [p :ptprevious<cr>
 nnoremap <silent> ]p :ptnext<cr>
 nnoremap <silent> [P :ptfirst<cr>
@@ -522,7 +521,7 @@ function! LListToggle(height) abort
     silent! lclose
 
     if BufferCount() == buffer_count_before && !empty(getloclist(0))
-        execute 'silent! lopen ' . a:height
+        execute 'silent!' 'lopen' a:height
     endif
 endfunction
 
@@ -531,7 +530,7 @@ function! QListToggle(height) abort
     silent! cclose
 
     if BufferCount() == buffer_count_before && !empty(getqflist())
-        execute 'silent! botright copen ' . a:height
+        execute 'silent!' 'botright' 'copen' a:height
     endif
 endfunction
 function! BufferCount() abort
@@ -559,9 +558,10 @@ nnoremap <silent> ]A :last<cr>
 nnoremap <silent> [A :first<cr>
 
 nnoremap <silent> <leader>af :AlternateFile<cr>
-command! -nargs=0 AlternateFile call AlternateFile()
+nnoremap <silent> <leader>aF :AlternateFile!<cr>
+command! -bang -nargs=0 AlternateFile call AlternateFile(<bang>0)
 
-function! AlternateFile() abort
+function! AlternateFile(force) abort
     let suffix = expand('%:e')
     if suffix ==# 'cpp' || suffix ==# 'cc'
         let alt_files = [
@@ -599,7 +599,7 @@ function! AlternateFile() abort
     endif
     for file in alt_files
         try
-            execute 'find ' . file
+            execute 'find' . (a:force ? '!' : '') fnameescape(file)
         catch
             continue
         endtry
@@ -669,13 +669,13 @@ command! -nargs=+ -complete=command VCS call VCS(<q-args>)
 
 function! VCS(cmd) abort
     let saved = getcwd()
-    exe 'cd ' . GetVcsRoot()
+    exe 'cd' GetVcsRoot()
     try
         exe a:cmd
     catch
         echohl ErrorMsg | echo v:exception | echohl None
     endtry
-    exe 'cd ' . saved
+    exe 'cd' saved
 endfunction
 
 nnoremap <leader>vg :vim //j % <bar> botright cw
@@ -715,7 +715,7 @@ if executable('xxd')
             return
         endif
         let hex_filepath = 'hex://' . file
-        exe a:mods . ' split ' . fnameescape(hex_filepath)
+        exe a:mods 'split' fnameescape(hex_filepath)
     endfunction
 
     augroup MyEditHex
@@ -739,7 +739,7 @@ if executable('xxd')
         set ft=xxd
         let makeep = &ma
         set ma
-        exe 'r !xxd ' . shellescape(fname, 1)
+        exe 'r' '!xxd' shellescape(fname, 1)
         keepj silent! 0d _
         let &ma = makeep
         set nomod
@@ -749,7 +749,7 @@ if executable('xxd')
     function WriteHex(file) abort
         let fname = substitute(a:file, '\V\^hex://', '', '')
         let v:errmsg = ''
-        exe 'w !xxd -r > ' . shellescape(fname)
+        exe 'w' '!xxd' '-r' '>' . shellescape(fname)
         if empty(v:errmsg)
             set nomod
         endif
@@ -833,6 +833,7 @@ nnoremap <silent> <leader>bu :sun<cr>
 
 " Useful mappings for managing tabs
 nnoremap <silent> <leader>tn :tabnew<cr>
+nnoremap <silent> <leader>tN :tabnew <bar> setlocal buftype=nofile bufhidden=hide noswapfile<cr>
 nnoremap <silent> <leader>to :tabonly<cr>
 nnoremap <silent> <leader>tO :tabonly!<cr>
 nnoremap <silent> <leader>tx :tabclose<cr>
@@ -1164,5 +1165,20 @@ function! SetRolodexSettings() abort
         let s:remember_hh = &helpheight
         set noequalalways winminheight=0 winheight=999 helpheight=999
 
+    endif
+endfunction
+
+command! -nargs=+ -complete=command BufMessage call BufMessage(<q-args>, <q-mods>)
+
+function! BufMessage(cmd, mods) abort
+    redir => message
+    silent execute a:cmd
+    redir END
+    if empty(message)
+        echoerr "No output"
+    else
+        exe a:mods 'new'
+        setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nomodified
+        silent put=message
     endif
 endfunction
