@@ -563,7 +563,7 @@ command! -bang -nargs=0 AlternateFile call AlternateFile(<bang>0)
 
 function! AlternateFile(force) abort
     let suffix = expand('%:e')
-    if suffix ==# 'cpp' || suffix ==# 'cc'
+    if suffix ==# 'cpp' || suffix ==# 'cc' || suffix ==# 'tcc'
         let alt_files = [
                     \ '%:t:r.hpp',
                     \ '%:t:r.h'
@@ -574,11 +574,13 @@ function! AlternateFile(force) abort
                     \ ]
     elseif suffix ==# 'hpp'
         let alt_files = [
+                    \ '%:t:r.tcc',
                     \ '%:t:r.cpp',
                     \ '%:t:r.cc'
                     \ ]
     elseif suffix ==# 'h'
         let alt_files = [
+                    \ '%:t:r.tcc',
                     \ '%:t:r.cpp',
                     \ '%:t:r.cc',
                     \ '%:t:r.c'
