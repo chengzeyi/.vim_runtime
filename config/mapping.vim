@@ -48,7 +48,19 @@ nnoremap <silent> <leader><c-\> :tab sp<cr>
 nnoremap <leader>ee :e<space>
 nnoremap <leader>eE :e <c-r>=fnameescape(expand('%:~:h'))<cr>/
 nnoremap <silent> <leader>en :enew<cr>
-nnoremap <silent> <leader>eN :enew <bar> setlocal buftype=nofile bufhidden=hide noswapfile<cr>
+nnoremap <silent> <leader>eN :enew!<cr>
+
+nnoremap <silent> <leader>et :Scratch<cr>
+nnoremap <silent> <leader>eT :vert Scratch<cr>
+command! -complete=command -nargs=* Scratch call Scratch(<q-args>, <q-mods>)
+
+function! Scratch(cmd, mods) abort
+    exe a:mods 'new'
+    setlocal buftype=nofile bufhidden=hide noswapfile
+    if !empty(a:cmd)
+        exe cmd
+    endif
+endfunction
 
 nnoremap <silent> <leader>oo :set scrolloff=<c-r>=999 - &scrolloff<cr><cr>
 nnoremap <silent> <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
@@ -708,7 +720,7 @@ endif
 if executable('xxd')
     nnoremap <silent> <leader>eh :EditHex<cr>
     nnoremap <silent> <leader>eH :vert EditHex<cr>
-    command! -bang -complete=file -nargs=? EditHex call EditHex(<q-args>, <q-mods>)
+    command! -complete=file -nargs=? EditHex call EditHex(<q-args>, <q-mods>)
 
     function! EditHex(file, mods) abort
         let file = empty(a:file) ? expand('%') : a:file
