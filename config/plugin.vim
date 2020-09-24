@@ -210,40 +210,50 @@ endif
 
 call plug#end()
 
-augroup MyFZFVimTex
-    autocmd!
-    au FileType tex nnoremap <silent> <buffer> <leader>fx :call vimtex#fzf#run()<cr>
-augroup END
-if !exists('g:vimtex_toc_config')
-    let g:vimtex_toc_config = {}
+if UseFtplugin('cpp')
+    let g:cpp_class_scope_highlight = 1
+    let g:cpp_class_decl_highlight = 1
+    let g:cpp_posix_standard = 1
+    " let g:cpp_experimental_simple_template_highlight = 1
+    " let g:cpp_experimental_template_highlight = 1
 endif
-let g:vimtex_toc_config.split_pos = 'vert rightbelow'
-let g:vimtex_imaps_enabled = 0
-let g:vimtex_quickfix_open_on_warning = 0
-let g:vimtex_quickfix_mode = 0
-let g:vimtex_format_enabled = 1
 
-let g:cpp_class_scope_highlight = 1
-let g:cpp_class_decl_highlight = 1
-let g:cpp_posix_standard = 1
-" let g:cpp_experimental_simple_template_highlight = 1
-" let g:cpp_experimental_template_highlight = 1
+if UseFtplugin('python')
+    let g:python_highlight_all = 1
+endif
 
-let g:python_highlight_all = 1
+if UseFtplugin('javascript')
+    let g:javascript_plugin_jsdoc = 1
+    let g:javascript_plugin_ngdoc = 1
+    let g:javascript_plugin_flow = 1
+endif
 
-let g:vim_markdown_conceal = 1
-let g:vim_markdown_conceal_code_blocks = 1
-let g:vim_markdown_fenced_languages = [
-            \ 'c++=cpp',
-            \ 'viml=vim',
-            \ 'bash=sh',
-            \ 'ini=dosini',
-            \ 'csharp=cs'
-            \ ]
+if UseFtplugin('markdown')
+    let g:vim_markdown_conceal = 1
+    let g:vim_markdown_conceal_code_blocks = 1
+    let g:vim_markdown_fenced_languages = [
+                \ 'c++=cpp',
+                \ 'viml=vim',
+                \ 'bash=sh',
+                \ 'ini=dosini',
+                \ 'csharp=cs'
+                \ ]
+endif
 
-let g:javascript_plugin_jsdoc = 1
-let g:javascript_plugin_ngdoc = 1
-let g:javascript_plugin_flow = 1
+if UseFtplugin('latex')
+    augroup MyFZFVimTex
+        autocmd!
+        au FileType tex nnoremap <silent> <buffer> <leader>fx :call vimtex#fzf#run()<cr>
+    augroup END
+    if !exists('g:vimtex_toc_config')
+        let g:vimtex_toc_config = {}
+    endif
+    let g:vimtex_toc_config.split_pos = 'vert rightbelow'
+    let g:vimtex_imaps_enabled = 0
+    let g:vimtex_quickfix_open_on_warning = 0
+    let g:vimtex_quickfix_mode = 0
+    let g:vimtex_format_enabled = 1
+endif
 
 if get(g:, 'use_coc', 0)
     if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
@@ -255,7 +265,7 @@ if get(g:, 'use_coc', 0)
         let g:statusline_extra_left_1 = ['coc#status', []]
         let g:statusline_extra_right_1 = ['CocCurrentFunction', []]
 
-        let g:coc_config_home = expand( '~/.vim_runtime/config')
+        let g:coc_config_home = expand('~/.vim_runtime/config')
 
         augroup MyCoc
             autocmd!
