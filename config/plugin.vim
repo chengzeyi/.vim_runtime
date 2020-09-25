@@ -315,11 +315,11 @@ if get(g:, 'use_coc', 0)
         nmap <silent> <expr> gy CocHasProvider('typeDefinition') ? '<Plug>(coc-type-definition)' : 'gy'
         nmap <silent> <expr> gm CocHasProvider('implementation') ? '<Plug>(coc-implementation)' : 'gm'
         nmap <silent> <expr> gr CocHasProvider('reference') ? '<Plug>(coc-references)' : 'gr'
-        nnoremap <silent> gL :<c-r>=CocHasProvider('declaration') ? 'call CocAction("jumpDeclaration", v:false)' : 'normal! gL'<cr><cr>
-        nnoremap <silent> gD :<c-r>=CocHasProvider('definition') ? 'call CocAction("jumpDefinition", v:false)' : 'normal! gD'<cr><cr>
-        nnoremap <silent> gY :<c-r>=CocHasProvider('typeDefinition') ? 'call CocAction("jumpTypeDefinition", v:false)' : 'normal! gY'<cr><cr>
-        nnoremap <silent> gM :<c-r>=CocHasProvider('implementation') ? 'call CocAction("jumpImplementatiIn", v:false)' : 'normal! gM'<cr><cr>
-        nnoremap <silent> gR :<c-r>=CocHasProvider('reference') ? 'call CocAction("jumpReferences", v:false)' : 'normal! gR'<cr><cr>
+        nnoremap <silent> gL :<c-r>=CocHasProvider('declaration') ? 'call CocActionAsync("jumpDeclaration", v:false)' : 'normal! gL'<cr><cr>
+        nnoremap <silent> gD :<c-r>=CocHasProvider('definition') ? 'call CocActionAsync("jumpDefinition", v:false)' : 'normal! gD'<cr><cr>
+        nnoremap <silent> gY :<c-r>=CocHasProvider('typeDefinition') ? 'call CocActionAsync("jumpTypeDefinition", v:false)' : 'normal! gY'<cr><cr>
+        nnoremap <silent> gM :<c-r>=CocHasProvider('implementation') ? 'call CocActionAsync("jumpImplementatiIn", v:false)' : 'normal! gM'<cr><cr>
+        nnoremap <silent> gR :<c-r>=CocHasProvider('reference') ? 'call CocActionAsync("jumpReferences", v:false)' : 'normal! gR'<cr><cr>
         nmap <silent> <leader><cr>r <Plug>(coc-rename)
         nmap <silent> <leader><cr>R <Plug>(coc-refactor)
         nmap <silent> <leader><cr>q :CocFix<cr>
@@ -349,7 +349,7 @@ if get(g:, 'use_coc', 0)
         xmap <silent> <leader><cr>[ <Plug>(coc-range-select-backward)
         command! -nargs=0 CocFormat call CocAction('format')
         command! -nargs=? CocFold call CocAction('fold', <f-args>)
-        command! -nargs=0 CocOrganize call CocAction('runCommand', 'editor.action.organizeImport')
+        command! -nargs=0 CocOR call CocAction('runCommand', 'editor.action.organizeImport')
         nnoremap <silent> <leader><cr>O :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
         nnoremap <silent> <leader><cr><cr> :CocList<cr>
         nnoremap <silent> <leader><cr>p :CocListResume<cr>
@@ -375,7 +375,7 @@ if get(g:, 'use_coc', 0)
                 endtry
             endif
             if CocHasProvider('hover')
-                call CocAction('doHover')
+                call CocActionAsync('doHover')
             else
                 normal! K
             endif
