@@ -855,8 +855,6 @@ nnoremap <silent> <leader>tX :tabclose!<cr>
 nnoremap <silent> <expr> <leader>tc ':tcd ' . GetVcsRoot() . "\<lt>cr>"
 nnoremap <silent> <leader>tC :tcd %:p:h<cr>
 
-nnoremap <silent> $gt :$tabnext<cr>
-
 " Let 'tl' toggle between this and the last accessed tab
 nnoremap <silent> <leader>tl :tablast<cr>
 nnoremap <silent> <expr> <leader>tl exists('g:lasttab') ? (':' . g:lasttab . "tabn\<lt>cr>") : ''

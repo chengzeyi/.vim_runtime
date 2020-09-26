@@ -946,40 +946,44 @@ nnoremap <leader>sD :SDelete<space>
 nnoremap <silent> <leader>sl :SLoad<cr>
 nnoremap <leader>sL :SLoad<space>
 nnoremap <silent> <leader>sc :SClose<cr>
-" augroup MyStartify
-"     autocmd!
-"     if has('nvim')
-"         autocmd TabNewEntered *
-"                     \ if empty(expand('%'))
-"                     \     && empty(&l:buftype)
-"                     \     && &l:modifiable |
-"                     \   Startify |
-"                     \ endif
-"     else
-"         if !exists(':terminal')
-"             autocmd BufWinEnter *
-"                         \ if !exists('t:startify_new_tab')
-"                         \     && empty(expand('%'))
-"                         \     && empty(&l:buftype)
-"                         \     && &l:modifiable |
-"                         \   let t:startify_new_tab = 1 |
-"                         \   Startify |
-"                         \ endif
-"         else
-"             if has('timers') && has('lambda')
-"                 autocmd BufWinEnter *
-"                             \ if !exists('t:startify_new_tab') |
-"                             \     let t:startify_new_tab = 1 |
-"                             \     call timer_start(50, {-> execute(
-"                             \         'if empty(expand("%")) && empty(&l:buftype) && &l:modifiable | ' .
-"                             \             'Startify | ' .
-"                             \         'endif'
-"                             \ )}) |
-"                             \ endif
-"             endif
-"         endif
-"     endif
-" augroup END
+augroup MyStartify
+    autocmd!
+    if has('nvim')
+        autocmd TabNewEntered *
+                    \ if empty(expand('%'))
+                    \         && empty(&l:buftype)
+                    \         && &l:modifiable |
+                    \     call timer_start(50, {-> execute(
+                    \         'if empty(expand("%")) && empty(&l:buftype) && &l:modifiable | ' .
+                    \             'Startify | ' .
+                    \         'endif'
+                    \     )}) |
+                    \ endif
+    else
+        if !exists(':terminal')
+            autocmd BufWinEnter *
+                        \ if !exists('t:startify_new_tab')
+                        \         && empty(expand('%'))
+                        \         && empty(&l:buftype)
+                        \         && &l:modifiable |
+                        \     let t:startify_new_tab = 1 |
+                        \     Startify |
+                        \ endif
+        else
+            if has('timers') && has('lambda')
+                autocmd BufWinEnter *
+                            \ if !exists('t:startify_new_tab') |
+                            \     let t:startify_new_tab = 1 |
+                            \     call timer_start(50, {-> execute(
+                            \         'if empty(expand("%")) && empty(&l:buftype) && &l:modifiable | ' .
+                            \             'Startify | ' .
+                            \         'endif'
+                            \     )}) |
+                            \ endif
+            endif
+        endif
+    endif
+augroup END
 
 nnoremap <silent> <leader>uu :UndotreeToggle<cr>
 nnoremap <silent> <leader>uf :UndotreeFocus<cr>
