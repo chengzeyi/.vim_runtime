@@ -322,16 +322,13 @@ if get(g:, 'use_coc', 0)
         nnoremap <silent> gR :<c-r>=CocHasProvider('reference') ? 'call CocActionAsync("jumpReferences", v:false)' : 'normal! gR'<cr><cr>
         nmap <silent> <leader><cr>r <Plug>(coc-rename)
         nmap <silent> <leader><cr>R <Plug>(coc-refactor)
-        nmap <silent> <leader><cr>q :CocFix<cr>
-        xmap <silent> <leader><cr>q :CocFix<cr>
-        nmap <silent> <leader><cr>Q <Plug>(coc-fix-current)
+        nmap <silent> <leader><cr>q <Plug>(coc-fix-current)
         xmap <silent> <leader><cr>F <Plug>(coc-format-selected)
         nmap <silent> <leader><cr>F <Plug>(coc-format-selected)
         nmap <silent> <leader><cr>f <Plug>(coc-format)
         xmap <silent> <leader><cr>A <Plug>(coc-codeaction-selected)
         nmap <silent> <leader><cr>A <Plug>(coc-codeaction-selected)
-        nmap <silent> <leader><cr>a :CocAction<cr>
-        xmap <silent> <leader><cr>a :CocAction<cr>
+        nmap <silent> <leader><cr>a <Plug>(coc-codeaction)
         nmap <silent> <leader><cr>l <Plug>(coc-codelens-action)
         nmap <silent> <leader><cr>h :call CocActionAsync('showSignatureHelp')<cr>
         imap <silent> <c-q> <c-o>:call CocActionAsync('showSignatureHelp')<cr>
