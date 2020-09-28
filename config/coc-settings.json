@@ -22,7 +22,7 @@
     "--suggest-missing-includes"
   ],
   // "clangd.semanticHighlighting": true,
-  // "clangd.disableSnippetCompletion": true,
+  "clangd.disableSnippetCompletion": true,
   "marketplace.npmsio": true,
   // "suggest.autoTrigger": "none",
   // "suggest.keepCompleteopt": true,
