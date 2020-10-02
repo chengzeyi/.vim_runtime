@@ -1176,16 +1176,3 @@ function! SetRolodexSettings() abort
 
     endif
 endfunction
-
-command! -nargs=+ -complete=command BufMessage call BufMessage(<q-args>, <q-mods>)
-
-function! BufMessage(cmd, mods) abort
-    let message = execute(a:cmd)
-    if empty(message)
-        echoerr "No output"
-    else
-        exe a:mods 'new'
-        setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nomodified
-        silent put=message
-    endif
-endfunction
