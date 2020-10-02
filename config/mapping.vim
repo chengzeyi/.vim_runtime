@@ -1173,6 +1173,5 @@ function! SetRolodexSettings() abort
         let s:remember_wmh = &winminheight
         let s:remember_hh = &helpheight
         set noequalalways winminheight=0 winheight=999 helpheight=999
-
     endif
 endfunction
