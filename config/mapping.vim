@@ -849,8 +849,6 @@ nnoremap <silent> <leader>tX :tabclose!<cr>
 nnoremap <silent> <expr> <leader>tc ':tcd ' . GetVcsRoot() . "\<lt>cr>"
 nnoremap <silent> <leader>tC :tcd %:p:h<cr>
 
-nnoremap <silent> $gt :$tabnext<cr>
-
 " Let 'tl' toggle between this and the last accessed tab
 nnoremap <silent> <leader>tl :tablast<cr>
 nnoremap <silent> <expr> <leader>tl exists('g:lasttab') ? (':' . g:lasttab . "tabn\<lt>cr>") : ''
@@ -1025,7 +1023,7 @@ function! I_Single_Quote() abort
         return "\<c-g>U\<right>"
     endif
     if strpart(line, col - 3, 2) ==# "''"
-                \ || synIDattr(synID(line('.'), col, 1), 'name') =~? '\Vstring\|include'
+                \ || GetRealSynName(line('.'), col) ==# 'String'
         return "'"
     endif
     if strpart(line, col - 2, 1) =~# '\V\w'
@@ -1043,7 +1041,7 @@ function! I_Double_Quote() abort
         return "\<c-g>U\<right>"
     endif
     if strpart(line, col - 3, 2) ==# '""'
-                \ || synIDattr(synID(line('.'), col, 1), 'name') =~? '\Vstring\|include'
+                \ || GetRealSynName(line('.'), col) ==# 'String'
         return '"'
     endif
     return "\"\"\<c-g>U\<left>"
@@ -1058,7 +1056,7 @@ function! I_Back_Tick() abort
         return "\<c-g>U\<right>"
     endif
     if strpart(line, col - 3, 2) ==# '``'
-                \ || synIDattr(synID(line('.'), col, 1), 'name') =~? '\Vstring\|include'
+                \ || GetRealSynName(line('.'), col) ==# 'String'
         return '`'
     endif
     return "``\<c-g>U\<left>"
@@ -1077,13 +1075,12 @@ function! CloseParen() abort
                 \ '`' : '`',
                 \ }
 
-    let attr = synIDattr(synID(line('.'), col('.') - 1, 0), 'name')
     let last = getline(line('.'))[col('.') - 2]
-    if attr =~? 'string\|include' && last !~# "[\"'`]"
+    if GetRealSynName(line('.'), col('.')) ==# 'String' && last !~# "[\"'`]"
         let [m_lnum, m_col] = searchpairpos("[\"'`]", '', "[\"'`]", 'nbW')
     else
         let [m_lnum, m_col] = searchpairpos('[[({]', '', '[\])}]', 'nbW',
-                    \ 'synIDattr(synID(line("."), col("."), 0), "name") =~? "\\Vstring\\|include"')
+                    \ 'GetRealSynName(line("."), col(".")) ==# "String"')
     endif
 
     if (m_lnum != 0) && (m_col != 0)
@@ -1125,7 +1122,11 @@ command! -nargs=0 SynGroup call SynGroup()
 
 function! SynGroup() abort
     let s = synID(line('.'), col('.'), 1)
-    echo synIDattr(s, 'name') ' -> ' synIDattr(synID(line('.'), col('.'), 0), 'name') . ' -> ' . synIDattr(synIDtrans(s), 'name')
+    echo synIDattr(s, 'name') ' -> ' synIDattr(synID(line('.'), col('.'), 0), 'name') . ' -> ' . GetRealSynName(line('.'), col('.'))
+endfunction
+
+function! GetRealSynName(line, col) abort
+    return synIDattr(synIDtrans(synID(a:line, a:col, 1)), 'name')
 endfunction
 
 augroup MyRolodexTab
