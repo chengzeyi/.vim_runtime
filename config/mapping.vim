@@ -1180,9 +1180,7 @@ endfunction
 command! -nargs=+ -complete=command BufMessage call BufMessage(<q-args>, <q-mods>)
 
 function! BufMessage(cmd, mods) abort
-    redir => message
-    silent execute a:cmd
-    redir END
+    let message = execute(a:cmd)
     if empty(message)
         echoerr "No output"
     else
