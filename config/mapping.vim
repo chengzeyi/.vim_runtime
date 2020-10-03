@@ -778,9 +778,12 @@ nnoremap <silent> <expr> gV '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 nnoremap <silent> <c-p> :noautocmd exe "normal! \<lt>c-w>p"<cr>:noautocmd exe "normal! \<lt>c-y>"<cr>:noautocmd exe "normal! \<lt>c-w>p"<cr>
 nnoremap <silent> <c-n> :noautocmd exe "normal! \<lt>c-w>p"<cr>:noautocmd exe "normal! \<lt>c-e>"<cr>:noautocmd exe "normal! \<lt>c-w>p"<cr>
-for c in map(range(char2nr('a'), char2nr('z')), 'nr2char(v:val)')
+" for c in map(range(char2nr('a'), char2nr('z')), 'nr2char(v:val)')
+for c in split('hjklwb', '\zs')
     exe 'imap' '<silent>' '<a-' . c . '>' '<c-o>' . c
-    exe 'nnoremap' '<silent>' '<a-' . c . '>' ':noautocmd exe "normal! \<lt>c-w>p"<cr>:noautocmd exe "normal ' . c . '"<cr>:noautocmd exe "normal! \<lt>c-w>p"<cr>'
+endfor
+for c in split('eyfbdu', '\zs')
+    exe 'imap' '<silent>' '<a-' . c . '>' '<c-o><c-' . c . '>'
 endfor
 
 nnoremap <silent> <leader><bs> :nohls<cr>
