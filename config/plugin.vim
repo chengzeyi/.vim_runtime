@@ -49,6 +49,10 @@ if UseFtplugin('latex')
     Plug 'lervag/vimtex'
 endif
 
+if get(g:, 'use_devicons', 0)
+    Plug 'ryanoasis/vim-devicons'
+endif
+
 if get(g:, 'use_coc', 0)
     if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -115,8 +119,8 @@ Plug 'mhinz/vim-startify'
 
 Plug 'mbbill/undotree'
 
-" Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'sbdchd/neoformat'
 
