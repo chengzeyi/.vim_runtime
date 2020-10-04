@@ -95,7 +95,7 @@ Plug 'chengzeyi/neosnippet-snippets', {'dir': '~/.vim_snippets'}
 
 Plug 'junegunn/gv.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-vinegar'
+" Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -735,10 +735,10 @@ nnoremap <leader>gE :Gedit<space>
 nnoremap <silent> <leader>gw :Gwrite<cr>
 nnoremap <leader>gW :Gwrite<space>
 
-augroup MyVinegarHighlight
-    autocmd!
-    au ColorScheme * hi! link netrwSuffixes Comment
-augroup END
+" augroup MyVinegarHighlight
+"     autocmd!
+"     au ColorScheme * hi! link netrwSuffixes Comment
+" augroup END
 
 nmap <silent> <c-_> <Plug>CommentaryLine
 xmap <silent> <c-_> <Plug>Commentary
@@ -995,7 +995,7 @@ let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_HelpLine = 0
 
 " let g:NERDTreeShowHidden = 1
-let g:NERDTreeHijackNetrw = 0
+" let g:NERDTreeHijackNetrw = 0
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeWinPos = 'right'
 " let g:NERDTreeWinSize = 30
