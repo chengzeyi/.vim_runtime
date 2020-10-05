@@ -354,12 +354,12 @@ if get(g:, 'use_coc', 0)
         nnoremap <silent> <leader><cr>O :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
         nnoremap <silent> <leader><cr><cr> :CocList<cr>
         nnoremap <silent> <leader><cr>p :CocListResume<cr>
-        nnoremap <silent> <leader><cr>d :CocList diagnostics<cr>
+        nnoremap <silent> <leader><cr>d :CocList --normal -A diagnostics<cr>
         nmap <silent> <leader><cr>D <Plug>(coc-diagnostic-info)
         nnoremap <silent> <leader><cr>e :CocList extensions<cr>
         nnoremap <silent> <leader><cr>c :CocList commands<cr>
-        nnoremap <silent> <leader><cr>o :CocList outline<cr>
-        nnoremap <silent> <leader><cr>s :CocList -I symbols<cr>
+        nnoremap <silent> go :<c-r>=CocHasProvider('documentSymbol') ? 'CocList -A outline' : 'normal! go'<cr><cr>
+        nnoremap <silent> gO :<c-r>=CocHasProvider('documentSymbol') ? 'CocList -I -A symbols' : 'normal! gO'<cr><cr>
         nnoremap <silent> ]c :CocNext<cr>
         nnoremap <silent> [c :CocPrev<cr>
         nnoremap <silent> <expr><C-f> coc#util#has_float() ? coc#util#float_scroll(1) : "\<C-f>"
@@ -436,8 +436,6 @@ else
 
             nmap <silent> <leader><cr>t <Plug>(lsp-type-hierarchy)
             nmap <silent> <leader><cr>r <Plug>(lsp-rename)
-            nmap <silent> <leader><cr>s <Plug>(lsp-document-symbol)
-            nmap <silent> <leader><cr>S <Plug>(lsp-workspace-symbol)
 
             augroup MyVimLsp
                 autocmd!
@@ -463,6 +461,8 @@ else
                 nmap <silent> <buffer> gY <Plug>(lsp-peek-type-definition)
                 nmap <silent> <buffer> gy <Plug>(lsp-type-definition)
                 nmap <silent> <buffer> gr <Plug>(lsp-references)
+                nmap <silent> <buffer> go <Plug>(lsp-document-symbol)
+                nmap <silent> <buffer> gO <Plug>(lsp-workspace-symbol)
 
                 nmap <silent> ]g <Plug>(lsp-next-diagnostic)
                 nmap <silent> [g <Plug>(lsp-previous-diagnostic)
