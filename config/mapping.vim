@@ -483,12 +483,12 @@ nnoremap <leader>qd :cdo<space>
 nnoremap <leader>qD :cfdo<space>
 nnoremap <leader>ld :ldo<space>
 nnoremap <leader>lD :lfdo<space>
-nnoremap <silent> <leader>qr :cdo s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
-nnoremap <silent> <leader>lr :ldo s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
-nnoremap <silent> <leader>qs :cdo s/
-nnoremap <silent> <leader>ls :ldo s/
-nnoremap <silent> <leader>qS :cfdo %s/
-nnoremap <silent> <leader>lS :lfdo %s/
+nnoremap <leader>qr :cdo s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
+nnoremap <leader>lr :ldo s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
+nnoremap <leader>qs :cdo s/
+nnoremap <leader>ls :ldo s/
+nnoremap <leader>qS :cfdo %s/
+nnoremap <leader>lS :lfdo %s/
 
 if exists(':packadd')
     nnoremap <leader>qf :packadd cfilter <bar> Cfilter<space>
