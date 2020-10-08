@@ -501,7 +501,7 @@ nnoremap <silent> <leader>qq :QToggle<cr>
 nnoremap <silent> <leader>ll :LToggle<cr>
 nnoremap <silent> <leader>qe :cexpr [] <bar> :cclose<cr>
 nnoremap <silent> <leader>le :lexpr [] <bar> :lclose<cr>
-nnoremap <silent> <leader>qeeeeeeb :cbuffer<cr>
+nnoremap <silent> <leader>qb :cbuffer<cr>
 nnoremap <silent> <leader>lb :lbuffer<cr>
 nnoremap <silent> <leader>qo :colder<cr>
 nnoremap <silent> <leader>lo :lolder<cr>
