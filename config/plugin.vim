@@ -49,6 +49,10 @@ if UseFtplugin('latex')
     Plug 'lervag/vimtex'
 endif
 
+if get(g:, 'use_devicons', 0)
+    Plug 'ryanoasis/vim-devicons'
+endif
+
 if get(g:, 'use_coc', 0)
     if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -91,7 +95,7 @@ Plug 'chengzeyi/neosnippet-snippets', {'dir': '~/.vim_snippets'}
 
 Plug 'junegunn/gv.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-vinegar'
+" Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -115,8 +119,8 @@ Plug 'mhinz/vim-startify'
 
 Plug 'mbbill/undotree'
 
-" Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'sbdchd/neoformat'
 
@@ -329,6 +333,7 @@ if get(g:, 'use_coc', 0)
         xmap <silent> <leader><cr>A <Plug>(coc-codeaction-selected)
         nmap <silent> <leader><cr>A <Plug>(coc-codeaction-selected)
         nmap <silent> <leader><cr>a <Plug>(coc-codeaction)
+        nmap <silent> <leader><cr>o <Plug>(coc-openlink)
         nmap <silent> <leader><cr>l <Plug>(coc-codelens-action)
         nmap <silent> <leader><cr>h :call CocActionAsync('showSignatureHelp')<cr>
         imap <silent> <c-q> <c-o>:call CocActionAsync('showSignatureHelp')<cr>
@@ -340,22 +345,22 @@ if get(g:, 'use_coc', 0)
         xmap <silent> aF <Plug>(coc-classobj-a)
         omap <silent> iF <Plug>(coc-classobj-i)
         omap <silent> aF <Plug>(coc-classobj-a)
-        nmap <silent> <leader><cr>] <Plug>(coc-range-select)
-        xmap <silent> <leader><cr>] <Plug>(coc-range-select)
-        nmap <silent> <leader><cr>[ <Plug>(coc-range-select-backward)
-        xmap <silent> <leader><cr>[ <Plug>(coc-range-select-backward)
+        nmap <silent> ]<cr> <Plug>(coc-range-select)
+        xmap <silent> ]<cr> <Plug>(coc-range-select)
+        nmap <silent> [<cr> <Plug>(coc-range-select-backward)
+        xmap <silent> [<cr> <Plug>(coc-range-select-backward)
         command! -nargs=0 CocFormat call CocAction('format')
         command! -nargs=? CocFold call CocAction('fold', <f-args>)
         command! -nargs=0 CocOR call CocAction('runCommand', 'editor.action.organizeImport')
         nnoremap <silent> <leader><cr>O :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
         nnoremap <silent> <leader><cr><cr> :CocList<cr>
         nnoremap <silent> <leader><cr>p :CocListResume<cr>
-        nnoremap <silent> <leader><cr>d :CocList diagnostics<cr>
+        nnoremap <silent> <leader><cr>d :CocList --normal -A diagnostics<cr>
         nmap <silent> <leader><cr>D <Plug>(coc-diagnostic-info)
         nnoremap <silent> <leader><cr>e :CocList extensions<cr>
         nnoremap <silent> <leader><cr>c :CocList commands<cr>
-        nnoremap <silent> <leader><cr>o :CocList outline<cr>
-        nnoremap <silent> <leader><cr>s :CocList -I symbols<cr>
+        nnoremap <silent> go :<c-r>=CocHasProvider('documentSymbol') ? 'CocList -A outline' : 'normal! go'<cr><cr>
+        nnoremap <silent> gO :<c-r>=CocHasProvider('documentSymbol') ? 'CocList -I -A symbols' : 'normal! gO'<cr><cr>
         nnoremap <silent> ]c :CocNext<cr>
         nnoremap <silent> [c :CocPrev<cr>
         nnoremap <silent> <expr><C-f> coc#util#has_float() ? coc#util#float_scroll(1) : "\<C-f>"
@@ -432,8 +437,6 @@ else
 
             nmap <silent> <leader><cr>t <Plug>(lsp-type-hierarchy)
             nmap <silent> <leader><cr>r <Plug>(lsp-rename)
-            nmap <silent> <leader><cr>s <Plug>(lsp-document-symbol)
-            nmap <silent> <leader><cr>S <Plug>(lsp-workspace-symbol)
 
             augroup MyVimLsp
                 autocmd!
@@ -459,6 +462,8 @@ else
                 nmap <silent> <buffer> gY <Plug>(lsp-peek-type-definition)
                 nmap <silent> <buffer> gy <Plug>(lsp-type-definition)
                 nmap <silent> <buffer> gr <Plug>(lsp-references)
+                nmap <silent> <buffer> go <Plug>(lsp-document-symbol)
+                nmap <silent> <buffer> gO <Plug>(lsp-workspace-symbol)
 
                 nmap <silent> ]g <Plug>(lsp-next-diagnostic)
                 nmap <silent> [g <Plug>(lsp-previous-diagnostic)
@@ -731,10 +736,10 @@ nnoremap <leader>gE :Gedit<space>
 nnoremap <silent> <leader>gw :Gwrite<cr>
 nnoremap <leader>gW :Gwrite<space>
 
-augroup MyVinegarHighlight
-    autocmd!
-    au ColorScheme * hi! link netrwSuffixes Comment
-augroup END
+" augroup MyVinegarHighlight
+"     autocmd!
+"     au ColorScheme * hi! link netrwSuffixes Comment
+" augroup END
 
 nmap <silent> <c-_> <Plug>CommentaryLine
 xmap <silent> <c-_> <Plug>Commentary
@@ -987,7 +992,7 @@ let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_HelpLine = 0
 
 " let g:NERDTreeShowHidden = 1
-let g:NERDTreeHijackNetrw = 0
+" let g:NERDTreeHijackNetrw = 0
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeWinPos = 'right'
 " let g:NERDTreeWinSize = 30

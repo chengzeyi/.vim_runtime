@@ -10,6 +10,7 @@ source $HOME/.vim_runtime/config/core.vim
 [[ ! -f $HOME/.vim_runtime/config/before.vim ]] && echo "
 \" let g:use_ftplugins = 'all'
 \" let g:use_colorschemes = 'all'
+\" let g:use_devicons = 1
 \" let g:use_coc = 1
 \" let g:use_vim_lsp = 1
 \" let g:use_asyncomplete = 1

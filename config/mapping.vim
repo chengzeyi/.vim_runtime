@@ -349,8 +349,8 @@ function! IndTxtObj(inner) abort
     endif
 endfunction
 
-nnoremap <silent> <a-t> :set opfunc=Trans<cr>g@iw
-xnoremap <silent> <a-t> :<c-u>call Trans(visualmode(), 1)<cr>
+" nnoremap <silent> <a-t> :set opfunc=Trans<cr>g@iw
+" xnoremap <silent> <a-t> :<c-u>call Trans(visualmode(), 1)<cr>
 nnoremap <silent> g<c-t> :set opfunc=Trans<cr>g@iw
 xnoremap <silent> g<c-t> :<c-u>call Trans(visualmode(), 1)<cr>
 command! -nargs=* Trans call DoTrans(<q-args>)
@@ -501,7 +501,7 @@ nnoremap <silent> <leader>qq :QToggle<cr>
 nnoremap <silent> <leader>ll :LToggle<cr>
 nnoremap <silent> <leader>qe :cexpr [] <bar> :cclose<cr>
 nnoremap <silent> <leader>le :lexpr [] <bar> :lclose<cr>
-nnoremap <silent> <leader>qb :cbuffer<cr>
+nnoremap <silent> <leader>qeeeeeeb :cbuffer<cr>
 nnoremap <silent> <leader>lb :lbuffer<cr>
 nnoremap <silent> <leader>qo :colder<cr>
 nnoremap <silent> <leader>lo :lolder<cr>
@@ -737,7 +737,7 @@ if executable('xxd')
         au BufReadCmd,FileReadCmd hex://* call ReadHex(expand('<amatch>'))
         au BufWriteCmd,FileWriteCmd hex://* call WriteHex(expand('<afile>'))
     augroup END
-    
+
     function ReadHex(file) abort
         let fname = substitute(a:file, '\V\^hex://', '', '')
         if !filereadable(fname)
@@ -778,16 +778,13 @@ nnoremap <silent> <expr> gV '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 nnoremap <silent> <c-p> :noautocmd exe "normal! \<lt>c-w>p"<cr>:noautocmd exe "normal! \<lt>c-y>"<cr>:noautocmd exe "normal! \<lt>c-w>p"<cr>
 nnoremap <silent> <c-n> :noautocmd exe "normal! \<lt>c-w>p"<cr>:noautocmd exe "normal! \<lt>c-e>"<cr>:noautocmd exe "normal! \<lt>c-w>p"<cr>
-" inoremap <silent> <a-y> <c-o><c-y>
-" inoremap <silent> <a-e> <c-o><c-e>
-" inoremap <silent> <a-h> <left>
-" inoremap <silent> <a-l> <right>
-" inoremap <silent> <a-j> <down>
-" inoremap <silent> <a-k> <up>
-" if exists(':terminal')
-"     tnoremap <silent> <a-k> <c-\><c-n>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-y>\<lt>C-w>p"<cr>i
-"     tnoremap <silent> <a-j> <c-\><c-n>:noautocmd exe "normal! \<lt>C-w>p\<lt>C-e>\<lt>C-w>p"<cr>i
-" endif
+" for c in map(range(char2nr('a'), char2nr('z')), 'nr2char(v:val)')
+for c in split('hjklwb', '\zs')
+    exe 'imap' '<silent>' '<a-' . c . '>' '<c-o>' . c
+endfor
+for c in split('eyfbdu', '\zs')
+    exe 'imap' '<silent>' '<a-' . c . '>' '<c-o><c-' . c . '>'
+endfor
 
 nnoremap <silent> <leader><bs> :nohls<cr>
 nnoremap <silent> <leader><c-h> :nohls<cr>
@@ -1179,21 +1176,5 @@ function! SetRolodexSettings() abort
         let s:remember_wmh = &winminheight
         let s:remember_hh = &helpheight
         set noequalalways winminheight=0 winheight=999 helpheight=999
-
-    endif
-endfunction
-
-command! -nargs=+ -complete=command BufMessage call BufMessage(<q-args>, <q-mods>)
-
-function! BufMessage(cmd, mods) abort
-    redir => message
-    silent execute a:cmd
-    redir END
-    if empty(message)
-        echoerr "No output"
-    else
-        exe a:mods 'new'
-        setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nomodified
-        silent put=message
     endif
 endfunction

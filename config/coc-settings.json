@@ -41,6 +41,7 @@
   // "diagnostic.refreshOnInsertMode": true,
   "signature.hideOnTextChange": true,
   "codeLens.enable": true,
+  "list.previewHighlightGroup": "ColorColumn",
   "list.insertMappings": {
     "<C-n>": "normal:j",
     "<C-p>": "normal:k",
@@ -48,10 +49,13 @@
     "<C-t>": "action:tabe",
     "<C-x>": "action:split",
     "<C-s>": "action:split",
-    "<C-v>": "action:vsplit"
+    "<C-v>": "action:vsplit",
+    "<C-q>": "action:quickfix"
   },
   "list.normalMappings": {
-    "v": "action:vsplit"
+    "d": "action:delete",
+    "v": "action:vsplit",
+    "q": "action:quickfix"
   },
   // "coc.source.around.enable": false,
   // "coc.source.buffer.enable": false,
