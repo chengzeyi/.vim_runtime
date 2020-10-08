@@ -947,15 +947,11 @@ augroup MyStartify
     autocmd!
     if has('nvim')
         autocmd TabNewEntered *
-                    \ if empty(expand('%'))
-                    \         && empty(&l:buftype)
-                    \         && &l:modifiable |
-                    \     call timer_start(50, {-> execute(
-                    \         'if empty(expand("%")) && empty(&l:buftype) && &l:modifiable | ' .
-                    \             'Startify | ' .
-                    \         'endif'
-                    \     )}) |
-                    \ endif
+                    \ call timer_start(50, {-> execute(
+                    \     'if empty(expand("%")) && empty(&l:buftype) && &l:modifiable | ' .
+                    \         'Startify | ' .
+                    \     'endif'
+                    \ )})
     else
         if !exists(':terminal')
             autocmd BufWinEnter *
@@ -969,7 +965,7 @@ augroup MyStartify
         else
             if has('timers') && has('lambda')
                 autocmd BufWinEnter *
-                            \ if !exists('t:startify_new_tab') |
+                            \ if !exists('t:startify_new_tab') && tabpagenr('$') > 1 |
                             \     let t:startify_new_tab = 1 |
                             \     call timer_start(50, {-> execute(
                             \         'if empty(expand("%")) && empty(&l:buftype) && &l:modifiable | ' .
