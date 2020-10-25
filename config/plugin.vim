@@ -55,6 +55,18 @@ endif
 
 if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
     Plug 'nvim-treesitter/nvim-treesitter'
+    Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+    Plug 'nvim-treesitter/nvim-treesitter-refactor'
+    Plug 'nvim-treesitter/playground'
+    Plug 'romgrk/nvim-treesitter-context'
+endif
+
+if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
+    Plug 'nvim-lua/completion-nvim'
+    Plug 'steelsojka/completion-buffers'
+    if get(g:, 'use_treesitter', 0)
+        Plug 'nvim-treesitter/completion-treesitter'
+    endif
 endif
 
 if get(g:, 'use_coc', 0)
@@ -130,7 +142,7 @@ Plug 'sbdchd/neoformat'
 
 Plug 'FooSoft/vim-argwrap'
 
-Plug 'AndrewRadev/splitjoin.vim'
+" Plug 'AndrewRadev/splitjoin.vim'
 
 Plug 'easymotion/vim-easymotion'
 
@@ -264,7 +276,6 @@ if UseFtplugin('latex')
 endif
 
 if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
-    Plug 'nvim-treesitter/nvim-treesitter'
 
     function! TreesitterStatusline(...) abort
         let status = ''
@@ -302,10 +313,10 @@ require'nvim-treesitter.configs'.setup {
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = "gs",
-      node_incremental = "gn",
-      scope_incremental = "gs",
-      node_decremental = "gN",
+      init_selection = "gss",
+      node_incremental = "gsn",
+      scope_incremental = "gss",
+      node_decremental = "gsN",
     },
   },
 }
@@ -314,9 +325,144 @@ require'nvim-treesitter.configs'.setup {
     enable = true
   }
 }
+require'nvim-treesitter.configs'.setup {
+  textobjects = {
+    select = {
+      enable = true,
+      keymaps = {
+        -- You can use the capture groups defined in textobjects.scm
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["aF"] = "@class.outer",
+        ["iF"] = "@class.inner",
+
+        -- Or you can define your own textobjects like this
+        -- ["iF"] = {
+          -- python = "(function_definition) @function",
+          -- cpp = "(function_definition) @function",
+          -- c = "(function_definition) @function",
+          -- java = "(method_declaration) @function",
+        -- },
+      },
+    },
+  },
+}
+require'nvim-treesitter.configs'.setup {
+  textobjects = {
+    swap = {
+      enable = true,
+      swap_next = {
+        ["]s"] = "@parameter.inner",
+      },
+      swap_previous = {
+        ["[s"] = "@parameter.inner",
+      },
+    },
+  },
+}
+require'nvim-treesitter.configs'.setup {
+  textobjects = {
+    move = {
+      enable = true,
+      goto_next_start = {
+        ["]f"] = "@function.outer",
+        ["]c"] = "@class.outer",
+      },
+      goto_next_end = {
+        ["]F"] = "@function.outer",
+        ["]C"] = "@class.outer",
+      },
+      goto_previous_start = {
+        ["[f"] = "@function.outer",
+        ["[c"] = "@class.outer",
+      },
+      goto_previous_end = {
+        ["[F"] = "@function.outer",
+        ["[C"] = "@class.outer",
+      },
+    },
+  },
+}
+require'nvim-treesitter.configs'.setup {
+  refactor = {
+    highlight_definitions = { enable = true },
+  },
+}
+require'nvim-treesitter.configs'.setup {
+  refactor = {
+    highlight_current_scope = { enable = true },
+  },
+}
+require'nvim-treesitter.configs'.setup {
+  refactor = {
+    smart_rename = {
+      enable = true,
+      keymaps = {
+        smart_rename = "gsr",
+      },
+    },
+  },
+}
+require'nvim-treesitter.configs'.setup {
+  refactor = {
+    navigation = {
+      enable = true,
+      keymaps = {
+        goto_definition = "gsd",
+        list_definitions = "gsD",
+        list_definitions_toc = "gso",
+        goto_next_usage = "]u",
+        goto_previous_usage = "[u",
+      },
+    },
+  },
+}
+require "nvim-treesitter.configs".setup {
+  playground = {
+    enable = true,
+    disable = {},
+    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+    persist_queries = false -- Whether the query persists across vim sessions
+  }
+}
 EOF
     catch
     endtry
+endif
+
+if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
+    augroup MyCompletionNvim
+        autocmd!
+        autocmd BufEnter * silent! lua require'completion'.on_attach()
+    augroup END
+
+    let g:completion_enable_snippet = 'neosnippet'
+    let g:completion_chain_complete_list = {
+          \ 'default' : [
+          \     {'complete_items': ['lsp', 'snippet', 'buffers']},
+          \     {'mode': '<c-p>'},
+          \     {'mode': '<c-n>'}
+          \ ]}
+
+    command! -nargs=0 ToggleCompletionNvim call ToggleCompletionNvim()
+    nnoremap <silent> <leader>oa :ToggleCompletionNvim<cr>
+
+    function! ToggleCompletionNvim() abort
+        let g:completion_enable_auto_popup = !get(g:, 'completion_enable_auto_popup', 1)
+        if g:completion_enable_auto_popup
+            set completeopt+=noinsert,noselect
+            let g:refresh_pum = ['copy', ["\<cmd>lua require'completion'.triggerCompletion()\<cr>"]]
+        else
+            set completeopt-=noinsert,noselect
+            unlet g:refresh_pum
+        endif
+    endfunction
+
+    set completeopt+=noinsert,noselect
+    let g:refresh_pum = ['copy', ["\<cmd>lua require'completion'.triggerCompletion()\<cr>"]]
+    inoremap <silent> <expr> <c-l> pumvisible() ? "\<c-l>" : "\<cmd>lua require'completion'.triggerCompletion()\<cr>"
+    inoremap <silent> <expr> <c-space> pumvisible() ? "\<c-e>" : "\<cmd>lua require'completion'.triggerCompletion()\<cr>"
+    inoremap <silent> <expr> <nul> pumvisible() ? "\<c-e>" : "\<cmd>lua require'completion'.triggerCompletion()\<cr>"
 endif
 
 if get(g:, 'use_coc', 0)
