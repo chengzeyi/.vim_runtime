@@ -1,13 +1,13 @@
 inoremap <silent> <c-b> <home>
-cnoremap <silent> <c-b> <home>
+cnoremap <c-b> <home>
 if v:version >= 600
-    cnoremap <silent> <c-k> <end><c-u>
+    cnoremap <c-k> <end><c-u>
 else
-    cnoremap <silent> <c-k> <c-u>
+    cnoremap <c-k> <c-u>
 endif
 
-cnoremap <silent> <c-p> <up>
-cnoremap <silent> <c-n> <down>
+cnoremap <c-p> <up>
+cnoremap <c-n> <down>
 
 function! MapMotion(from, ...) abort
     let from = a:from

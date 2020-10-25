@@ -19,7 +19,8 @@
   "clangd.arguments": [
     "--background-index",
     "--clang-tidy",
-    "--suggest-missing-includes"
+    "--suggest-missing-includes",
+    "--cross-file-rename"
   ],
   // "clangd.semanticHighlighting": true,
   "clangd.disableSnippetCompletion": true,

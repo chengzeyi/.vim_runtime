@@ -53,6 +53,10 @@ if get(g:, 'use_devicons', 0)
     Plug 'ryanoasis/vim-devicons'
 endif
 
+if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
+    Plug 'nvim-treesitter/nvim-treesitter'
+endif
+
 if get(g:, 'use_coc', 0)
     if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -259,6 +263,62 @@ if UseFtplugin('latex')
     let g:vimtex_format_enabled = 1
 endif
 
+if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
+    Plug 'nvim-treesitter/nvim-treesitter'
+
+    function! TreesitterStatusline(...) abort
+        let status = ''
+        try
+            let status = call('CocCurrentFunction', [])
+        catch
+        endtry
+        if empty(status)
+            return call('nvim_treesitter#statusline', a:000)
+        endif
+        return ''
+    endfunction
+
+    let g:statusline_extra_right_1 = ['TreesitterStatusline', []]
+    try
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "all",     -- one of "all", "language", or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    -- disable = { "c", "rust" },  -- list of language that will be disabled
+  },
+}
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    use_languagetree = false, -- Use this to enable language injection (this is very unstable)
+    custom_captures = {
+      -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
+      -- ["foo.bar"] = "Identifier",
+    },
+  },
+}
+require'nvim-treesitter.configs'.setup {
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gs",
+      node_incremental = "gn",
+      scope_incremental = "gs",
+      node_decremental = "gN",
+    },
+  },
+}
+require'nvim-treesitter.configs'.setup {
+  indent = {
+    enable = true
+  }
+}
+EOF
+    catch
+    endtry
+endif
+
 if get(g:, 'use_coc', 0)
     if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
 
@@ -267,7 +327,7 @@ if get(g:, 'use_coc', 0)
         endfunction
 
         let g:statusline_extra_left_1 = ['coc#status', []]
-        let g:statusline_extra_right_1 = ['CocCurrentFunction', []]
+        let g:statusline_extra_right_2 = ['CocCurrentFunction', []]
 
         let g:coc_config_home = expand('~/.vim_runtime/config')
 
@@ -310,6 +370,8 @@ if get(g:, 'use_coc', 0)
         inoremap <silent> <expr> <c-space> pumvisible() ? "\<c-e>" : coc#refresh()
         inoremap <silent> <expr> <nul> pumvisible() ? "\<c-e>" : coc#refresh()
 
+        nnoremap <silent> [r :call CocAction('runCommand', 'document.jumpToPrevSymbol')<cr>
+        nnoremap <silent> ]r :call CocAction('runCommand', 'document.jumpToNextSymbol')<cr>
         nmap <silent> [g <Plug>(coc-diagnostic-prev)
         nmap <silent> ]g <Plug>(coc-diagnostic-next)
         nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
@@ -345,10 +407,10 @@ if get(g:, 'use_coc', 0)
         xmap <silent> aF <Plug>(coc-classobj-a)
         omap <silent> iF <Plug>(coc-classobj-i)
         omap <silent> aF <Plug>(coc-classobj-a)
-        nmap <silent> ]<cr> <Plug>(coc-range-select)
-        xmap <silent> ]<cr> <Plug>(coc-range-select)
-        nmap <silent> [<cr> <Plug>(coc-range-select-backward)
-        xmap <silent> [<cr> <Plug>(coc-range-select-backward)
+        nmap <silent> ]s <Plug>(coc-range-select)
+        xmap <silent> ]s <Plug>(coc-range-select)
+        nmap <silent> [s <Plug>(coc-range-select-backward)
+        xmap <silent> [s <Plug>(coc-range-select-backward)
         command! -nargs=0 CocFormat call CocAction('format')
         command! -nargs=? CocFold call CocAction('fold', <f-args>)
         command! -nargs=0 CocOR call CocAction('runCommand', 'editor.action.organizeImport')
@@ -819,7 +881,7 @@ let g:fzf_colors = {
 "     let g:fzf_layout = {'window': {'width': 0.8, 'height': 0.8}}
 " endif
 " let g:fzf_layout = {'window': 'bot'.float2nr(0.4 * &lines).'new'}
-" let g:fzf_layout = {'down': '40%'}
+let g:fzf_layout = {'down': '40%'}
 " Some workaround to fix the character deletion error at empty lines.
 imap <silent> <c-x>k <plug>(fzf-complete-word)
 imap <silent> <c-x>p <plug>(fzf-complete-path)
