@@ -393,12 +393,12 @@ require'nvim-treesitter.configs'.setup {
 }
 require'nvim-treesitter.configs'.setup {
   refactor = {
-    highlight_definitions = { enable = false },
+    highlight_definitions = { enable = true },
   },
 }
 require'nvim-treesitter.configs'.setup {
   refactor = {
-    highlight_current_scope = { enable = false },
+    highlight_current_scope = { enable = true },
   },
 }
 require'nvim-treesitter.configs'.setup {
