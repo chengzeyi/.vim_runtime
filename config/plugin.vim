@@ -292,13 +292,13 @@ if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
     let g:statusline_extra_right_1 = ['TreesitterStatusline', []]
     try
 lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all",     -- one of "all", "language", or a list of languages
-  highlight = {
-    enable = true,              -- false will disable the whole extension
+-- require'nvim-treesitter.configs'.setup {
+  -- ensure_installed = "all",     -- one of "all", "language", or a list of languages
+  -- highlight = {
+    -- enable = true,              -- false will disable the whole extension
     -- disable = { "c", "rust" },  -- list of language that will be disabled
-  },
-}
+  -- },
+-- }
 require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true,
