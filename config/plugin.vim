@@ -61,6 +61,10 @@ if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
     Plug 'romgrk/nvim-treesitter-context'
 endif
 
+if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
+    Plug 'neovim/nvim-lspconfig'
+endif
+
 if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
     Plug 'nvim-lua/completion-nvim'
     Plug 'steelsojka/completion-buffers'
@@ -276,163 +280,205 @@ if UseFtplugin('latex')
 endif
 
 if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
-
-    function! TreesitterStatusline(...) abort
-        let status = ''
-        try
-            let status = call('CocCurrentFunction', [])
-        catch
-        endtry
-        if empty(status)
-            return call('nvim_treesitter#statusline', a:000)
-        endif
-        return ''
-    endfunction
-
-    let g:statusline_extra_right_1 = ['TreesitterStatusline', []]
+    let g:statusline_extra_right_1 = ['nvim_treesitter#statusline', []]
     try
 lua <<EOF
 -- require'nvim-treesitter.configs'.setup {
-  -- ensure_installed = "all",     -- one of "all", "language", or a list of languages
-  -- highlight = {
-    -- enable = true,              -- false will disable the whole extension
-    -- disable = { "c", "rust" },  -- list of language that will be disabled
-  -- },
+    -- ensure_installed = "all",     -- one of "all", "language", or a list of languages
+    -- highlight = {
+        -- enable = true,              -- false will disable the whole extension
+        -- disable = { "c", "rust" },  -- list of language that will be disabled
+    -- },
 -- }
 require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-    use_languagetree = false, -- Use this to enable language injection (this is very unstable)
-    custom_captures = {
-      -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
-      -- ["foo.bar"] = "Identifier",
+    highlight = {
+        enable = true,
+        use_languagetree = false, -- Use this to enable language injection (this is very unstable)
+        custom_captures = {
+        -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
+        -- ["foo.bar"] = "Identifier",
+        },
     },
-  },
 }
 require'nvim-treesitter.configs'.setup {
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "gss",
-      node_incremental = "gsn",
-      scope_incremental = "gss",
-      node_decremental = "gsN",
+    incremental_selection = {
+        enable = true,
+        keymaps = {
+            init_selection = "+",
+            node_incremental = "+",
+            scope_incremental = "-",
+            node_decremental = "_",
+        },
     },
-  },
 }
 require'nvim-treesitter.configs'.setup {
-  indent = {
-    enable = true
-  }
+    indent = {
+        enable = true
+    }
 }
 require'nvim-treesitter.configs'.setup {
-  textobjects = {
-    select = {
-      enable = true,
-      keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["aF"] = "@class.outer",
-        ["iF"] = "@class.inner",
-        ["is"] = "@parameter.inner",
-        ["as"] = "@statement.outer",
-        -- ["is"] = "@call.inner",
-        -- ["as"] = "@call.outer",
-        ["iS"] = "@block.inner",
-        ["aS"] = "@block.outer",
+    textobjects = {
+        select = {
+            enable = true,
+            keymaps = {
+                -- You can use the capture groups defined in textobjects.scm
+                ["af"] = "@function.outer",
+                ["if"] = "@function.inner",
+                ["aF"] = "@class.outer",
+                ["iF"] = "@class.inner",
+                ["is"] = "@parameter.inner",
+                ["as"] = "@statement.outer",
+                ["iS"] = "@block.inner",
+                ["aS"] = "@block.outer",
+                ["ia"] = "@call.inner",
+                ["aa"] = "@call.outer",
+                ["io"] = "@conditional.inner",
+                ["ao"] = "@conditional.outer",
+                ["iO"] = "@loop.inner",
+                ["aO"] = "@loop.outer",
+                ["aC"] = "@comment.outer"
 
-        -- Or you can define your own textobjects like this
-        -- ["iF"] = {
-          -- python = "(function_definition) @function",
-          -- cpp = "(function_definition) @function",
-          -- c = "(function_definition) @function",
-          -- java = "(method_declaration) @function",
-        -- },
-      },
+                -- Or you can define your own textobjects like this
+                -- ["iF"] = {
+                    -- python = "(function_definition) @function",
+                    -- cpp = "(function_definition) @function",
+                    -- c = "(function_definition) @function",
+                    -- java = "(method_declaration) @function",
+                -- },
+            },
+        },
     },
-  },
 }
 require'nvim-treesitter.configs'.setup {
-  textobjects = {
-    swap = {
-      enable = true,
-      swap_next = {
-        ["]s"] = "@parameter.inner",
-        ["]S"] = "@statement.outer",
-      },
-      swap_previous = {
-        ["[s"] = "@parameter.inner",
-        ["[S"] = "@statement.outer",
-      },
+    textobjects = {
+        swap = {
+            enable = true,
+            swap_next = {
+                ["]s"] = "@parameter.inner",
+                ["]S"] = "@statement.outer",
+            },
+            swap_previous = {
+                ["[s"] = "@parameter.inner",
+                ["[S"] = "@statement.outer",
+            },
+        },
     },
-  },
 }
 require'nvim-treesitter.configs'.setup {
-  textobjects = {
-    move = {
-      enable = true,
-      goto_next_start = {
-        ["]f"] = "@function.outer",
-        ["]c"] = "@class.outer",
-      },
-      goto_next_end = {
-        ["]F"] = "@function.outer",
-        ["]C"] = "@class.outer",
-      },
-      goto_previous_start = {
-        ["[f"] = "@function.outer",
-        ["[c"] = "@class.outer",
-      },
-      goto_previous_end = {
-        ["[F"] = "@function.outer",
-        ["[C"] = "@class.outer",
-      },
+    textobjects = {
+        move = {
+            enable = true,
+            goto_next_start = {
+                ["]f"] = "@function.outer",
+                ["]c"] = "@class.outer",
+            },
+            goto_next_end = {
+                ["]F"] = "@function.outer",
+                ["]C"] = "@class.outer",
+            },
+            goto_previous_start = {
+                ["[f"] = "@function.outer",
+                ["[c"] = "@class.outer",
+            },
+            goto_previous_end = {
+                ["[F"] = "@function.outer",
+                ["[C"] = "@class.outer",
+            },
+        },
     },
-  },
 }
 require'nvim-treesitter.configs'.setup {
-  refactor = {
-    highlight_definitions = { enable = true },
-  },
-}
-require'nvim-treesitter.configs'.setup {
-  refactor = {
-    highlight_current_scope = { enable = true },
-  },
-}
-require'nvim-treesitter.configs'.setup {
-  refactor = {
-    smart_rename = {
-      enable = true,
-      keymaps = {
-        smart_rename = "gsr",
-      },
+    refactor = {
+        highlight_definitions = { enable = true },
     },
-  },
 }
 require'nvim-treesitter.configs'.setup {
-  refactor = {
-    navigation = {
-      enable = true,
-      keymaps = {
-        goto_definition = "gsd",
-        list_definitions = "gsD",
-        list_definitions_toc = "gso",
-        goto_next_usage = "]u",
-        goto_previous_usage = "[u",
-      },
+    refactor = {
+        highlight_current_scope = { enable = true },
     },
-  },
 }
-require "nvim-treesitter.configs".setup {
-  playground = {
-    enable = true,
-    disable = {},
-    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-    persist_queries = false -- Whether the query persists across vim sessions
-  }
+require'nvim-treesitter.configs'.setup {
+    refactor = {
+        smart_rename = {
+            enable = true,
+            keymaps = {
+                smart_rename = "gsr",
+            },
+        },
+    },
 }
+require'nvim-treesitter.configs'.setup {
+    refactor = {
+        navigation = {
+            enable = true,
+            keymaps = {
+                goto_definition = "gsd",
+                list_definitions = "gsD",
+                list_definitions_toc = "gso",
+                goto_next_usage = "]u",
+                goto_previous_usage = "[u",
+            },
+        },
+    },
+}
+require 'nvim-treesitter.configs'.setup {
+    playground = {
+        enable = true,
+        disable = {},
+        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+        persist_queries = false, -- Whether the query persists across vim sessions
+    },
+}
+EOF
+    catch
+    endtry
+endif
+
+if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
+    try
+lua <<EOF
+local nvim_lsp = require'nvim_lsp'
+
+nvim_lsp.clangd.setup {
+    cmd = {
+        'clangd',
+        '--background-index',
+        '--clang-tidy',
+        '--suggest-missing-includes',
+        '--cross-file-rename',
+    },
+}
+
+local on_attach = function(_, bufnr)
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    -- require'diagnostic'.on_attach()
+    -- require'completion'.on_attach()
+
+    -- Mappings.
+    local opts = { noremap=true, silent=true }
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gm', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gh', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'go', '<cmd>lua vim.lsp.buf.document_symbol()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gO', '<cmd>lua vim.lsp.buf.workspace_symbol()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gl', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>a', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>r', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>f', '<cmd>lua vim.lsp.buf.formatting()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>c', '<cmd>lua vim.lsp.buf.incoming_calls()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>C', '<cmd>lua vim.lsp.buf.outgoing_calls()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>g', '<cmd>lua vim.lsp.util.show_line_diagnostics()<cr>', opts)
+end
+
+local available_servers = nvim_lsp.available_servers()
+for _, lsp in ipairs(available_servers) do
+    nvim_lsp[lsp].setup {
+        on_attach = on_attach,
+    }
+end
 EOF
     catch
     endtry
@@ -476,8 +522,18 @@ endif
 if get(g:, 'use_coc', 0)
     if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
 
-        function! CocCurrentFunction() abort
-            return get(b:, 'coc_current_function', '')
+        function! CocCurrentFunction(...) abort
+            let status = ''
+            if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
+                try
+                    let status = call('nvim_treesitter#statusline', a:000)
+                catch
+                endtry
+            endif
+            if empty(status)
+                return get(b:, 'coc_current_function', '')
+            endif
+            return ''
         endfunction
 
         let g:statusline_extra_left_1 = ['coc#status', []]
@@ -488,7 +544,9 @@ if get(g:, 'use_coc', 0)
         augroup MyCoc
             autocmd!
             au CmdwinEnter [:>] let b:coc_suggest_disable = 1
-            au CursorHold * silent! call CocActionAsync('highlight')
+            if !(get(g:, 'use_treesitter', 0) && has('nvim-0.5.0'))
+                au CursorHold * silent! call CocActionAsync('highlight')
+            endif
             au FileType typescript,json silent! setl formatexpr=CocAction('formatSelected')
             au User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 
@@ -635,7 +693,9 @@ else
             " let g:lsp_diagnostics_echo_cursor = 1
             let g:lsp_diagnostics_float_cursor = 1
             let g:lsp_virtual_text_prefix = "‣ "
-            let g:lsp_highlight_references_enabled = 1
+            if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
+                let g:lsp_highlight_references_enabled = 0
+            endif
             let g:lsp_fold_enabled = 0
 
             nmap <silent> <leader><cr><cr> <Plug>(lsp-status)

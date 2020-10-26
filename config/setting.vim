@@ -263,9 +263,10 @@ set stal=1
 
 " Always show the status line
 set laststatus=2
-set statusline=%f%m
-set statusline+=%<%{StatuslineExtraLeft()}
-set statusline+=%=\ %{StatuslineExtraRight()}
+set statusline=%f%m\ %<
+set statusline+=%{StatuslineExtraLeft()}
+set statusline+=%=
+set statusline+=%{StatuslineExtraRight()}
 set statusline+=Ln\ %l/%L\ Col\ %c\ [%p%%]\ %{pathshorten(fnamemodify(getcwd(),':~'))}\ %y\ %{&fenc?&fenc:&enc}\ [%{&ff}\]
 
 function! StatuslineExtraLeft() abort
@@ -283,7 +284,7 @@ function! StatuslineExtraLeft() abort
         if empty(status)
             continue
         endif
-        let statueline_left .= ' [' . status . ']'
+        let statueline_left .= '⟨' . status . ' '
     endfor
     return statueline_left
 endfunction
@@ -303,7 +304,7 @@ function! StatuslineExtraRight() abort
         if empty(status)
             continue
         endif
-        let statueline_right .= '[' . status . '] '
+        let statueline_right .= status . '⟩ '
     endfor
     return statueline_right
 endfunction
