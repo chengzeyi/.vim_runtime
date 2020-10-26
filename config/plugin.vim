@@ -455,7 +455,10 @@ local on_attach = function(_, bufnr)
     -- require'completion'.on_attach()
 
     -- Mappings.
-    local opts = { noremap=true, silent=true }
+    local opts = {
+        noremap=true,
+        silent=true,
+    }
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gm', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
@@ -493,7 +496,7 @@ if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
     let g:completion_enable_snippet = 'neosnippet'
     let g:completion_chain_complete_list = {
           \ 'default' : [
-          \     {'complete_items': ['lsp', 'snippet', 'buffers']},
+          \     {'complete_items': ['lsp', 'ts', 'snippet', 'buffers']},
           \     {'mode': '<c-p>'},
           \     {'mode': '<c-n>'}
           \ ]}
