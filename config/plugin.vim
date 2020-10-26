@@ -331,10 +331,10 @@ require'nvim-treesitter.configs'.setup {
       enable = true,
       keymaps = {
         -- You can use the capture groups defined in textobjects.scm
-        ["am"] = "@function.outer",
-        ["im"] = "@function.inner",
-        ["aM"] = "@class.outer",
-        ["iM"] = "@class.inner",
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["aF"] = "@class.outer",
+        ["iF"] = "@class.inner",
 
         -- Or you can define your own textobjects like this
         -- ["iF"] = {
@@ -353,9 +353,11 @@ require'nvim-treesitter.configs'.setup {
       enable = true,
       swap_next = {
         ["]s"] = "@parameter.inner",
+        ["]S"] = "@statement.outer",
       },
       swap_previous = {
         ["[s"] = "@parameter.inner",
+        ["[S"] = "@statement.outer",
       },
     },
   },
@@ -516,8 +518,6 @@ if get(g:, 'use_coc', 0)
         inoremap <silent> <expr> <c-space> pumvisible() ? "\<c-e>" : coc#refresh()
         inoremap <silent> <expr> <nul> pumvisible() ? "\<c-e>" : coc#refresh()
 
-        nnoremap <silent> [r :call CocAction('runCommand', 'document.jumpToPrevSymbol')<cr>
-        nnoremap <silent> ]r :call CocAction('runCommand', 'document.jumpToNextSymbol')<cr>
         nmap <silent> [g <Plug>(coc-diagnostic-prev)
         nmap <silent> ]g <Plug>(coc-diagnostic-next)
         nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
@@ -545,18 +545,20 @@ if get(g:, 'use_coc', 0)
         nmap <silent> <leader><cr>l <Plug>(coc-codelens-action)
         nmap <silent> <leader><cr>h :call CocActionAsync('showSignatureHelp')<cr>
         imap <silent> <c-q> <c-o>:call CocActionAsync('showSignatureHelp')<cr>
-        xmap <silent> if <Plug>(coc-funcobj-i)
-        xmap <silent> af <Plug>(coc-funcobj-a)
-        omap <silent> if <Plug>(coc-funcobj-i)
-        omap <silent> af <Plug>(coc-funcobj-a)
-        xmap <silent> iF <Plug>(coc-classobj-i)
-        xmap <silent> aF <Plug>(coc-classobj-a)
-        omap <silent> iF <Plug>(coc-classobj-i)
-        omap <silent> aF <Plug>(coc-classobj-a)
-        nmap <silent> ]s <Plug>(coc-range-select)
-        xmap <silent> ]s <Plug>(coc-range-select)
-        nmap <silent> [s <Plug>(coc-range-select-backward)
-        xmap <silent> [s <Plug>(coc-range-select-backward)
+        xmap <silent> im <Plug>(coc-funcobj-i)
+        xmap <silent> am <Plug>(coc-funcobj-a)
+        omap <silent> im <Plug>(coc-funcobj-i)
+        omap <silent> am <Plug>(coc-funcobj-a)
+        xmap <silent> iM <Plug>(coc-classobj-i)
+        xmap <silent> aM <Plug>(coc-classobj-a)
+        omap <silent> iM <Plug>(coc-classobj-i)
+        omap <silent> aM <Plug>(coc-classobj-a)
+        nmap <silent> ]R <Plug>(coc-range-select)
+        xmap <silent> ]R <Plug>(coc-range-select)
+        nmap <silent> [R <Plug>(coc-range-select-backward)
+        xmap <silent> [R <Plug>(coc-range-select-backward)
+        nnoremap <silent> [r :call CocAction('runCommand', 'document.jumpToPrevSymbol')<cr>
+        nnoremap <silent> ]r :call CocAction('runCommand', 'document.jumpToNextSymbol')<cr>
         command! -nargs=0 CocFormat call CocAction('format')
         command! -nargs=? CocFold call CocAction('fold', <f-args>)
         command! -nargs=0 CocOR call CocAction('runCommand', 'editor.action.organizeImport')
