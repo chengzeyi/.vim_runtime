@@ -337,10 +337,10 @@ require'nvim-treesitter.configs'.setup {
         ["iF"] = "@class.inner",
         ["is"] = "@parameter.inner",
         ["as"] = "@statement.outer",
+        -- ["is"] = "@call.inner",
+        -- ["as"] = "@call.outer",
         ["iS"] = "@block.inner",
         ["aS"] = "@block.outer",
-        ["iC"] = "@call.inner",
-        ["aC"] = "@call.outer",
 
         -- Or you can define your own textobjects like this
         -- ["iF"] = {
@@ -551,14 +551,14 @@ if get(g:, 'use_coc', 0)
         nmap <silent> <leader><cr>l <Plug>(coc-codelens-action)
         nmap <silent> <leader><cr>h :call CocActionAsync('showSignatureHelp')<cr>
         imap <silent> <c-q> <c-o>:call CocActionAsync('showSignatureHelp')<cr>
-        xmap <silent> im <Plug>(coc-funcobj-i)
-        xmap <silent> am <Plug>(coc-funcobj-a)
-        omap <silent> im <Plug>(coc-funcobj-i)
-        omap <silent> am <Plug>(coc-funcobj-a)
-        xmap <silent> iM <Plug>(coc-classobj-i)
-        xmap <silent> aM <Plug>(coc-classobj-a)
-        omap <silent> iM <Plug>(coc-classobj-i)
-        omap <silent> aM <Plug>(coc-classobj-a)
+        xmap <silent> if <Plug>(coc-funcobj-i)
+        xmap <silent> af <Plug>(coc-funcobj-a)
+        omap <silent> if <Plug>(coc-funcobj-i)
+        omap <silent> af <Plug>(coc-funcobj-a)
+        xmap <silent> iF <Plug>(coc-classobj-i)
+        xmap <silent> aF <Plug>(coc-classobj-a)
+        omap <silent> iF <Plug>(coc-classobj-i)
+        omap <silent> aF <Plug>(coc-classobj-a)
         nmap <silent> ]R <Plug>(coc-range-select)
         xmap <silent> ]R <Plug>(coc-range-select)
         nmap <silent> [R <Plug>(coc-range-select-backward)
