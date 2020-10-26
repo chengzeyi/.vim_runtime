@@ -335,6 +335,12 @@ require'nvim-treesitter.configs'.setup {
         ["if"] = "@function.inner",
         ["aF"] = "@class.outer",
         ["iF"] = "@class.inner",
+        ["is"] = "@parameter.inner",
+        ["as"] = "@statement.outer",
+        ["iS"] = "@block.inner",
+        ["aS"] = "@block.outer",
+        ["iC"] = "@call.inner",
+        ["aC"] = "@call.outer",
 
         -- Or you can define your own textobjects like this
         -- ["iF"] = {
