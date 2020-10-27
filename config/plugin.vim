@@ -562,7 +562,7 @@ if get(g:, 'use_coc', 0)
             au ColorScheme * hi! link CocInfoHighlight SpellLocal
             au ColorScheme * hi! link CocHintHighlight Question
 
-            au ColorScheme * hi! link CocHighlightText ColorColumn
+            au ColorScheme * hi! link CocHighlightText Visual
         augroup END
 
         nnoremap <silent> <leader>oa :ToggleCocAutoComplete<cr>
@@ -726,7 +726,7 @@ else
                 au ColorScheme * hi! link LspInformationHighlight SpellLocal
                 au ColorScheme * hi! link LspHintHighlight SpellRare
 
-                au ColorScheme * hi! link lspReference ColorColumn
+                au ColorScheme * hi! link lspReference Visual
             augroup END
 
             function! s:on_lsp_buffer_enabled() abort
