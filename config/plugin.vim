@@ -213,6 +213,9 @@ endif
 if UseColorScheme('embark')
     Plug 'embark-theme/vim', {'as': 'embark'}
 endif
+if UseColorScheme('dracula')
+    Plug 'dracula/vim', {'as': 'dracula'}
+endif
 if UseColorScheme('one')
     Plug 'rakr/vim-one'
 endif
@@ -322,21 +325,24 @@ require'nvim-treesitter.configs'.setup {
             enable = true,
             keymaps = {
                 -- You can use the capture groups defined in textobjects.scm
-                ["af"] = "@function.outer",
-                ["if"] = "@function.inner",
-                ["aF"] = "@class.outer",
-                ["iF"] = "@class.inner",
-                ["is"] = "@parameter.inner",
-                ["as"] = "@statement.outer",
-                ["iS"] = "@block.inner",
-                ["aS"] = "@block.outer",
-                ["ia"] = "@call.inner",
-                ["aa"] = "@call.outer",
-                ["io"] = "@conditional.inner",
-                ["ao"] = "@conditional.outer",
-                ["iO"] = "@loop.inner",
-                ["aO"] = "@loop.outer",
-                ["aC"] = "@comment.outer"
+                ["agf"] = "@function.outer",
+                ["igf"] = "@function.inner",
+                ["agF"] = "@class.outer",
+                ["igF"] = "@class.inner",
+                ["igp"] = "@parameter.inner",
+                ["agp"] = "@parameter.inner",
+                ["igs"] = "@statement.outer",
+                ["ags"] = "@statement.outer",
+                ["igb"] = "@block.inner",
+                ["agb"] = "@block.outer",
+                ["igc"] = "@call.inner",
+                ["agc"] = "@call.outer",
+                ["igi"] = "@conditional.inner",
+                ["agi"] = "@conditional.outer",
+                ["igl"] = "@loop.inner",
+                ["agl"] = "@loop.outer",
+                ["igC"] = "@comment.outer"
+                ["agC"] = "@comment.outer"
 
                 -- Or you can define your own textobjects like this
                 -- ["iF"] = {
@@ -398,16 +404,16 @@ require'nvim-treesitter.configs'.setup {
         },
     },
 }
-require'nvim-treesitter.configs'.setup {
-    refactor = {
-        highlight_definitions = { enable = true },
-    },
-}
-require'nvim-treesitter.configs'.setup {
-    refactor = {
-        highlight_current_scope = { enable = true },
-    },
-}
+-- require'nvim-treesitter.configs'.setup {
+    -- refactor = {
+        -- highlight_definitions = { enable = true },
+    -- },
+-- }
+-- require'nvim-treesitter.configs'.setup {
+    -- refactor = {
+        -- highlight_current_scope = { enable = true },
+    -- },
+-- }
 require'nvim-treesitter.configs'.setup {
     refactor = {
         smart_rename = {
@@ -537,17 +543,18 @@ if get(g:, 'use_coc', 0)
     if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
 
         function! CocCurrentFunction(...) abort
-            let status = ''
-            if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
-                try
-                    let status = call('nvim_treesitter#statusline', a:000)
-                catch
-                endtry
-            endif
-            if empty(status)
-                return get(b:, 'coc_current_function', '')
-            endif
-            return ''
+            " let status = ''
+            " if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
+            "     try
+            "         let status = call('nvim_treesitter#statusline', a:000)
+            "     catch
+            "     endtry
+            " endif
+            " if empty(status)
+            "     return get(b:, 'coc_current_function', '')
+            " endif
+            " return ''
+            return get(b:, 'coc_current_function', '')
         endfunction
 
         let g:statusline_extra_left_1 = ['coc#status', []]
@@ -558,11 +565,12 @@ if get(g:, 'use_coc', 0)
         augroup MyCoc
             autocmd!
             au CmdwinEnter [:>] let b:coc_suggest_disable = 1
-            if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
-                au CursorHold * if !exists('#NvimTreesitterUsages_' . bufnr()) | silent! call CocActionAsync('highlight') | endif
-            else
-                au CursorHold * silent! call CocActionAsync('highlight')
-            endif
+            " if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
+            "     au CursorHold * if !exists('#NvimTreesitterUsages_' . bufnr()) | silent! call CocActionAsync('highlight') | endif
+            " else
+            "     au CursorHold * silent! call CocActionAsync('highlight')
+            " endif
+            au CursorHold * silent! call CocActionAsync('highlight')
             au FileType typescript,json silent! setl formatexpr=CocAction('formatSelected')
             au User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 
@@ -709,10 +717,10 @@ else
             " let g:lsp_diagnostics_echo_cursor = 1
             let g:lsp_diagnostics_float_cursor = 1
             let g:lsp_virtual_text_prefix = "‣ "
-            if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
-                au CursorHold * let g:lsp_highlight_references_enabled = !exists('#NvimTreesitterUsages_' . bufnr())
-            endif
-            let g:lsp_fold_enabled = 0
+            " if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
+            "     au CursorHold * let g:lsp_highlight_references_enabled = !exists('#NvimTreesitterUsages_' . bufnr())
+            " endif
+            " let g:lsp_fold_enabled = 0
 
             nmap <silent> <leader><cr><cr> <Plug>(lsp-status)
             nmap <silent> <leader><cr>] <Plug>(lsp-preview-focus)
