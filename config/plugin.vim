@@ -146,7 +146,7 @@ Plug 'sbdchd/neoformat'
 
 Plug 'FooSoft/vim-argwrap'
 
-" Plug 'AndrewRadev/splitjoin.vim'
+Plug 'AndrewRadev/splitjoin.vim'
 
 Plug 'easymotion/vim-easymotion'
 
@@ -402,7 +402,7 @@ require'nvim-treesitter.configs'.setup {
         smart_rename = {
             enable = true,
             keymaps = {
-                smart_rename = "gsr",
+                smart_rename = "yr",
             },
         },
     },
@@ -412,9 +412,9 @@ require'nvim-treesitter.configs'.setup {
         navigation = {
             enable = true,
             keymaps = {
-                goto_definition = "gsd",
-                list_definitions = "gsD",
-                list_definitions_toc = "gso",
+                goto_definition = "yd",
+                list_definitions = "yD",
+                list_definitions_toc = "yo",
                 goto_next_usage = "]u",
                 goto_previous_usage = "[u",
             },
