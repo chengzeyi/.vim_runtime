@@ -58,7 +58,7 @@ if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
     Plug 'nvim-treesitter/nvim-treesitter-refactor'
     Plug 'nvim-treesitter/playground'
-    " Plug 'romgrk/nvim-treesitter-context'
+    Plug 'romgrk/nvim-treesitter-context'
 endif
 
 if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
@@ -283,7 +283,7 @@ if UseFtplugin('latex')
 endif
 
 if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
-    let g:statusline_extra_right_1 = ['nvim_treesitter#statusline', []]
+    " let g:statusline_extra_right_1 = ['nvim_treesitter#statusline', []]
     try
 lua <<EOF
 -- require'nvim-treesitter.configs'.setup {
@@ -341,8 +341,8 @@ require'nvim-treesitter.configs'.setup {
                 ["agi"] = "@conditional.outer",
                 ["igl"] = "@loop.inner",
                 ["agl"] = "@loop.outer",
-                ["igC"] = "@comment.outer"
-                ["agC"] = "@comment.outer"
+                ["igC"] = "@comment.outer",
+                ["agC"] = "@comment.outer",
 
                 -- Or you can define your own textobjects like this
                 -- ["iF"] = {
@@ -558,7 +558,7 @@ if get(g:, 'use_coc', 0)
         endfunction
 
         let g:statusline_extra_left_1 = ['coc#status', []]
-        let g:statusline_extra_right_2 = ['CocCurrentFunction', []]
+        let g:statusline_extra_right_1 = ['CocCurrentFunction', []]
 
         let g:coc_config_home = expand('~/.vim_runtime/config')
 

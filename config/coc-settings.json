@@ -42,7 +42,7 @@
   // "diagnostic.refreshOnInsertMode": true,
   "signature.hideOnTextChange": true,
   "codeLens.enable": true,
-  "list.previewHighlightGroup": "ColorColumn",
+  "list.previewHighlightGroup": "Visual",
   "list.insertMappings": {
     "<C-n>": "normal:j",
     "<C-p>": "normal:k",
