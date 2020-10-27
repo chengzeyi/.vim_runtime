@@ -547,7 +547,9 @@ if get(g:, 'use_coc', 0)
         augroup MyCoc
             autocmd!
             au CmdwinEnter [:>] let b:coc_suggest_disable = 1
-            if !(get(g:, 'use_treesitter', 0) && has('nvim-0.5.0'))
+            if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
+                au CursorHold * if !exists('#NvimTreesitterUsages_' . bufnr()) | silent! call CocActionAsync('highlight') | endif
+            else
                 au CursorHold * silent! call CocActionAsync('highlight')
             endif
             au FileType typescript,json silent! setl formatexpr=CocAction('formatSelected')
@@ -697,7 +699,7 @@ else
             let g:lsp_diagnostics_float_cursor = 1
             let g:lsp_virtual_text_prefix = "‣ "
             if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
-                let g:lsp_highlight_references_enabled = 0
+                au CursorHold * let g:lsp_highlight_references_enabled = !exists('#NvimTreesitterUsages_' . bufnr())
             endif
             let g:lsp_fold_enabled = 0
 
