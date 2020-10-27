@@ -58,7 +58,7 @@ if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
     Plug 'nvim-treesitter/nvim-treesitter-refactor'
     Plug 'nvim-treesitter/playground'
-    Plug 'romgrk/nvim-treesitter-context'
+    " Plug 'romgrk/nvim-treesitter-context'
 endif
 
 if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
@@ -295,8 +295,8 @@ require'nvim-treesitter.configs'.setup {
         enable = true,
         use_languagetree = false, -- Use this to enable language injection (this is very unstable)
         custom_captures = {
-        -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
-        -- ["foo.bar"] = "Identifier",
+            -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
+            -- ["foo.bar"] = "Identifier",
         },
     },
 }
@@ -388,6 +388,17 @@ require'nvim-treesitter.configs'.setup {
     },
 }
 require'nvim-treesitter.configs'.setup {
+    textobjects = {
+        lsp_interop = {
+            enable = true,
+            peek_definition_code = {
+                ["gsf"] = "@function.outer",
+                ["gsF"] = "@class.outer",
+            },
+        },
+    },
+}
+require'nvim-treesitter.configs'.setup {
     refactor = {
         highlight_definitions = { enable = true },
     },
@@ -402,7 +413,7 @@ require'nvim-treesitter.configs'.setup {
         smart_rename = {
             enable = true,
             keymaps = {
-                smart_rename = "yr",
+                smart_rename = "gsr",
             },
         },
     },
@@ -412,9 +423,9 @@ require'nvim-treesitter.configs'.setup {
         navigation = {
             enable = true,
             keymaps = {
-                goto_definition = "yd",
-                list_definitions = "yD",
-                list_definitions_toc = "yo",
+                goto_definition = "gsd",
+                list_definitions = "gso",
+                list_definitions_toc = "gsO",
                 goto_next_usage = "]u",
                 goto_previous_usage = "[u",
             },
@@ -1066,7 +1077,7 @@ nnoremap <silent> <leader>pf :CtrlPFunky<cr>
 nnoremap <silent> <leader>pF :CtrlPFunkyMulti<cr>
 nnoremap <leader>Pf :CtrlPFunky<space>
 nnoremap <leader>PF :CtrlPFunkyMulti<space>
-let g:ctrlp_funky_syntax_highlight = 1
+" let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_funky_nolim = 1
 " let g:ctrlp_funky_matchtype = 'path'
 " let g:ctrlp_funky_multi_buffers = 1

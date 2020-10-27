@@ -45,7 +45,17 @@ nnoremap <silent> <leader><tab> :leftabove sp<cr>
 nnoremap <silent> <leader><s-tab> :leftabove vs<cr>
 nnoremap <silent> <leader><c-\> :tab sp<cr>
 
-nnoremap <leader>ee :e<space>
+nnoremap <leader>te :tabe <c-r>=GetVcsRoot()<cr>/
+" Opens a new tab with the current buffer's path
+" Super useful when editing files in the same directory
+nnoremap <leader>tE :tabe <c-r>=fnameescape(expand('%:~:h'))<cr>/
+
+nnoremap <leader>se :sp <c-r>=GetVcsRoot()<cr>/
+nnoremap <leader>sE :sp <c-r>=fnameescape(expand('%:~:h'))<cr>/
+nnoremap <leader>ve :vs <c-r>=GetVcsRoot()<cr>/
+nnoremap <leader>vE :vs <c-r>=fnameescape(expand('%:~:h'))<cr>/
+
+nnoremap <leader>ee :e <c-r>=GetVcsRoot()<cr>/
 nnoremap <leader>eE :e <c-r>=fnameescape(expand('%:~:h'))<cr>/
 nnoremap <silent> <leader>en :enew<cr>
 nnoremap <silent> <leader>eN :enew!<cr>
@@ -860,11 +870,6 @@ augroup MyLastAccessedTab
     au TabLeave * let g:lasttab = tabpagenr()
 augroup END
 
-nnoremap <leader>te :tabe<space>
-" Opens a new tab with the current buffer's path
-" Super useful when editing files in the same directory
-nnoremap <leader>tE :tabe <c-r>=fnameescape(expand('%:~:h'))<cr>/
-
 nnoremap <leader>td :tabdo<space>
 nnoremap <leader>tD :tabdo!<space>
 
@@ -894,8 +899,8 @@ function! GetVcsRoot(...) abort
         let wd = call('find' . (mkr =~# '/$' ? 'dir' : 'file'), [mkr, cph . ';'])
         if !empty(wd) | let &acd = 0 | brea | en
     endfor
-    let result = fnameescape(empty(wd) ? cph : substitute(wd, mkr . '$', '', ''))
-    return empty(result) ? './' : result
+    let result = fnameescape(empty(wd) ? cph : fnamemodify(substitute(wd, mkr . '$', '', '') . '/', ':h'))
+    return empty(result) ? '.' : result
 endfunction
 
 nnoremap <silent> <leader>sp :set invspell<cr>
