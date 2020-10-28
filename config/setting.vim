@@ -3,7 +3,7 @@ set encoding=utf8
 filetype plugin on
 filetype indent on
 
-set sessionoptions-=blank,folds
+set sessionoptions-=blank,buffers,folds
 
 set notimeout
 " set timeoutlen=2000
