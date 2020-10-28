@@ -1298,6 +1298,7 @@ let g:NERDTreeWinPos = 'right'
 " let g:NERDTreeWinSize = 30
 " let NERDTreeDirArrowExpandable=">"
 " let NERDTreeDirArrowCollapsible="v"
+let g:NERDTreeNaturalSort = 1
 nnoremap <silent> <leader>nn :NERDTreeToggle<cr>
 nnoremap <silent> <leader>nN :NERDTreeToggleVCS<cr>
 nnoremap <leader>nb :NERDTreeFromBookmark<space>
