@@ -144,6 +144,8 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'sbdchd/neoformat'
 
+Plug 'lfilho/cosco.vim'
+
 Plug 'FooSoft/vim-argwrap'
 
 Plug 'AndrewRadev/splitjoin.vim'
@@ -1325,6 +1327,13 @@ nnoremap <silent> g<c-f> :Neoformat<cr>
 xnoremap <silent> g<c-f> :Neoformat<cr>
 nnoremap <silent> <a-f> :Neoformat<cr>
 xnoremap <silent> <a-f> :Neoformat<cr>
+
+nmap <silent> <a-;> <Plug>(cosco-commaOrSemiColon)
+imap <silent> <a-;> <c-o><Plug>(cosco-commaOrSemiColon)
+nmap <silent> <a-,> <Plug>(cosco-commaOrSemiColon)
+imap <silent> <a-,> <c-o><Plug>(cosco-commaOrSemiColon)
+nmap <silent> <a-cr> <Plug>(cosco-commaOrSemiColon):put =nr2char(10)<cr>
+imap <silent> <a-cr> <c-o><Plug>(cosco-commaOrSemiColon)<c-o>o
 
 nnoremap <silent> <leader>aw :ArgWrap<cr>
 
