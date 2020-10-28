@@ -1046,6 +1046,10 @@ xmap <silent> <c-_> <Plug>Commentary
 
 nnoremap <leader>sv :%S/
 xnoremap <leader>sv :S/
+nnoremap <leader>qv :cdo .S/
+nnoremap <leader>qV :cfdo %S/
+nnoremap <leader>lv :ldo .S/
+nnoremap <leader>lV :lfdo %S/
 
 let statusline_extra_right_0 = ['SleuthIndicator', []]
 nnoremap <silent> <leader>sh :Sleuth<cr>
