@@ -660,8 +660,8 @@ if get(g:, 'use_coc', 0)
         nnoremap <silent> <leader><cr>c :CocList commands<cr>
         nnoremap <silent> go :<c-r>=CocHasProvider('documentSymbol') ? 'CocList -A outline' : 'normal! go'<cr><cr>
         nnoremap <silent> gO :<c-r>=CocHasProvider('documentSymbol') ? 'CocList -I -A symbols' : 'normal! gO'<cr><cr>
-        nnoremap <silent> ]c :CocNext<cr>
-        nnoremap <silent> [c :CocPrev<cr>
+        nnoremap <silent> ]<cr> :CocNext<cr>
+        nnoremap <silent> [<cr> :CocPrev<cr>
         nnoremap <silent> <expr><C-f> coc#util#has_float() ? coc#util#float_scroll(1) : "\<C-f>"
         nnoremap <silent> <expr><C-b> coc#util#has_float() ? coc#util#float_scroll(0) : "\<C-b>"
 
