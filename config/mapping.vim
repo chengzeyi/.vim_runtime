@@ -36,8 +36,8 @@ xnoremap <silent> Y y$
 xnoremap <silent> g> >gv
 xnoremap <silent> g< <gv
 
-nnoremap <silent> ]<cr> :<c-u>put =repeat(nr2char(10), v:count) <bar> execute "'[-1"<cr>
-nnoremap <silent> [<cr> :<c-u>put !=repeat(nr2char(10), v:count) <bar> execute "']+1"<cr>
+nnoremap <silent> ]<space> :<c-u>put =repeat(nr2char(10), v:count) <bar> execute "'[-1"<cr>
+nnoremap <silent> [<space> :<c-u>put !=repeat(nr2char(10), v:count) <bar> execute "']+1"<cr>
 
 nnoremap <silent> <leader><bslash> :rightbelow sp<cr>
 nnoremap <silent> <leader><bar> :rightbelow vs<cr>
