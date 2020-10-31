@@ -899,8 +899,8 @@ function! GetVcsRoot(...) abort
         let wd = call('find' . (mkr =~# '/$' ? 'dir' : 'file'), [mkr, cph . ';'])
         if !empty(wd) | let &acd = 0 | brea | en
     endfor
-    let result = fnameescape(empty(wd) ? cph : fnamemodify(substitute(wd, mkr . '$', '', '') . '/', ':h'))
-    return empty(result) ? '.' : result
+    let result = empty(wd) ? cph : substitute(wd, mkr . '$', '', '')
+    return empty(result) ? '.' : fnameescape(fnamemodify(result . '/', ':h'))
 endfunction
 
 nnoremap <silent> <leader>sp :set invspell<cr>
