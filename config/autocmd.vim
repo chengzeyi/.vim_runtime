@@ -18,7 +18,7 @@ augroup MyQuickFixEnhancement
     " autocmd QuickFixCmdPost l* call ShortenQuifkFixPath(1)
     " autocmd FileType qf autocmd CursorMoved <buffer=abuf> call EchoQFBufName()
     autocmd FileType qf setl nobuflisted nowrap nonumber norelativenumber foldcolumn=0
-    autocmd FileType qf if getwininfo(win_getid())[0]['quickfix'] | wincmd J | endif
+    autocmd FileType qf if getwininfo(win_getid())[0]['quickfix'] && !getwininfo(win_getid())[0]['loclist'] | wincmd J | endif
     autocmd BufEnter * if winnr('$') == 1 &&
                 \ &filetype ==# 'qf'
                 \ | q | endif
