@@ -338,14 +338,14 @@ require'nvim-treesitter.configs'.setup {
                 ["ags"] = "@statement.outer",
                 ["igb"] = "@block.inner",
                 ["agb"] = "@block.outer",
-                ["igc"] = "@call.inner",
-                ["agc"] = "@call.outer",
+                ["igC"] = "@call.inner",
+                ["agC"] = "@call.outer",
                 ["igi"] = "@conditional.inner",
                 ["agi"] = "@conditional.outer",
                 ["igl"] = "@loop.inner",
                 ["agl"] = "@loop.outer",
-                ["igC"] = "@comment.outer",
-                ["agC"] = "@comment.outer",
+                ["igc"] = "@comment.outer",
+                ["agc"] = "@comment.outer",
 
                 -- Or you can define your own textobjects like this
                 -- ["iF"] = {
@@ -493,7 +493,7 @@ local on_attach = function(_, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>f', '<cmd>lua vim.lsp.buf.formatting()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>c', '<cmd>lua vim.lsp.buf.incoming_calls()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>C', '<cmd>lua vim.lsp.buf.outgoing_calls()<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>g', '<cmd>lua vim.lsp.util.show_line_diagnostics()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>d', '<cmd>lua vim.lsp.util.show_line_diagnostics()<cr>', opts)
 end
 
 local available_servers = nvim_lsp.available_servers()
@@ -634,6 +634,8 @@ if get(g:, 'use_coc', 0)
         nmap <silent> <leader><cr>a <Plug>(coc-codeaction)
         nmap <silent> <leader><cr>o <Plug>(coc-openlink)
         nmap <silent> <leader><cr>l <Plug>(coc-codelens-action)
+        nmap <silent> <leader><cr>[ <Plug>(coc-float-hide)
+        nmap <silent> <leader><cr>] <Plug>(coc-float-jump)
         nmap <silent> <leader><cr>h :call CocActionAsync('showSignatureHelp')<cr>
         imap <silent> <c-q> <c-o>:call CocActionAsync('showSignatureHelp')<cr>
         xmap <silent> if <Plug>(coc-funcobj-i)
@@ -662,10 +664,12 @@ if get(g:, 'use_coc', 0)
         nnoremap <silent> <leader><cr>c :CocList commands<cr>
         nnoremap <silent> go :<c-r>=CocHasProvider('documentSymbol') ? 'CocList -A outline' : 'normal! go'<cr><cr>
         nnoremap <silent> gO :<c-r>=CocHasProvider('documentSymbol') ? 'CocList -I -A symbols' : 'normal! gO'<cr><cr>
-        nnoremap <silent> ]<cr> :CocNext<cr>
-        nnoremap <silent> [<cr> :CocPrev<cr>
-        nnoremap <silent> <expr><C-f> coc#util#has_float() ? coc#util#float_scroll(1) : "\<C-f>"
-        nnoremap <silent> <expr><C-b> coc#util#has_float() ? coc#util#float_scroll(0) : "\<C-b>"
+        nnoremap <silent> ]o :CocNext<cr>
+        nnoremap <silent> [o :CocPrev<cr>
+        nnoremap <silent> ]O :CocLast<cr>
+        nnoremap <silent> [O :CocFirst<cr>
+        nnoremap <silent> <expr><c-f> coc#util#has_float() ? coc#util#float_scroll(1) : "\<c-f>"
+        nnoremap <silent> <expr><c-b> coc#util#has_float() ? coc#util#float_scroll(0) : "\<c-b>"
 
         nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -1008,7 +1012,7 @@ xnoremap <silent> <leader>gv :GV<cr>
 xnoremap <silent> <leader>gV :GV?<cr>
 
 nnoremap <leader>gg :G<space>
-nnoremap <leader>gG :G grep!  <bar> botright cw <left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>gG :G! grep  <bar> cw <left><left><left><left><left><left>
 nnoremap <silent> <leader>gb :G blame<cr>
 nnoremap <leader>gB :G blame<space>
 xnoremap <silent> <leader>gb :G blame<cr>
@@ -1021,12 +1025,12 @@ nnoremap <leader>gm :G merge -v<space>
 nnoremap <leader>gM :GMove<space>
 nnoremap <silent> <leader>gl :G log<cr>
 nnoremap <leader>gL :G log<space>
-nnoremap <silent> <leader>go :Gclog! <bar> cclose <bar> botright cw<cr>
-nnoremap <silent> <leader>gO :Gclog <bar> cclose <bar> botright cw<cr>
-nnoremap <silent> <leader>gh :0Gclog! <bar> cclose <bar> botright cw<cr>
-nnoremap <silent> <leader>gH :0Gclog <bar> cclose <bar> botright cw<cr>
-xnoremap <silent> <leader>gh :Gclog! <bar> cclose <bar> botright cw<cr>
-xnoremap <silent> <leader>gH :Gclog <bar> cclose <bar> botright cw<cr>
+nnoremap <silent> <leader>go :Gclog!<cr>
+nnoremap <silent> <leader>gO :Gclog<cr>
+nnoremap <silent> <leader>gh :0Gclog!<cr>
+nnoremap <silent> <leader>gH :0Gclog<cr>
+xnoremap <silent> <leader>gh :Gclog!<cr>
+xnoremap <silent> <leader>gH :Gclog<cr>
 nnoremap <silent> <leader>gf :G fetch -v<cr>
 nnoremap <silent> <leader>gp :G push<cr>
 nnoremap <silent> <leader>gP :G pull -v<cr>

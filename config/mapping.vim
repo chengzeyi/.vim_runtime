@@ -62,7 +62,7 @@ nnoremap <silent> <leader>eN :enew!<cr>
 
 nnoremap <silent> <leader>et :Scratch<cr>
 nnoremap <silent> <leader>eT :vert Scratch<cr>
-command! -complete=command -nargs=* Scratch call Scratch(<q-args>, <q-mods>)
+command! -nargs=* -complete=command Scratch call Scratch(<q-args>, <q-mods>)
 
 function! Scratch(cmd, mods) abort
     exe a:mods 'new'
@@ -161,15 +161,15 @@ if exists(':terminal')
     endif
 endif
 
-nnoremap <silent> [I [I:let nr = input("Which one: ")<bar>if nr =~# '\v[0-9]+'<bar>exe "normal " . nr ."[\t"<bar>endif<cr>
-nnoremap <silent> ]I ]I:let nr = input("Which one: ")<bar>if nr =~# '\v[0-9]+'<bar>exe "normal " . nr ."]\t"<bar>endif<cr>
-nnoremap <silent> [D [D:let nr = input("Which one: ")<bar>if nr =~# '\v[0-9]+'<bar>exe "normal " . nr ."[\<lt>c-d>"<bar>endif<cr>
-nnoremap <silent> ]D ]D:let nr = input("Which one: ")<bar>if nr =~# '\v[0-9]+'<bar>exe "normal " . nr ."]\<lt>c-d>"<bar>endif<cr>
+nnoremap <silent> [I [I:let nr = input("Which one: ")<bar>if nr =~# '\v[0-9]+'<bar>exe 'normal ' . nr ."[\t"<bar>endif<cr>
+nnoremap <silent> ]I ]I:let nr = input("Which one: ")<bar>if nr =~# '\v[0-9]+'<bar>exe 'normal ' . nr ."]\t"<bar>endif<cr>
+nnoremap <silent> [D [D:let nr = input("Which one: ")<bar>if nr =~# '\v[0-9]+'<bar>exe 'normal ' . nr ."[\<lt>c-d>"<bar>endif<cr>
+nnoremap <silent> ]D ]D:let nr = input("Which one: ")<bar>if nr =~# '\v[0-9]+'<bar>exe 'normal ' . nr ."]\<lt>c-d>"<bar>endif<cr>
 
-nnoremap <leader>mm :make!  <bar> botright cw<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <silent> <leader>mM :make! <bar> botright cw<cr>
-nnoremap <leader>ml :lmake!  <bar> botright cw<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <silent> <leader>mL :lmake! <bar> botright cw<cr>
+nnoremap <leader>mm :make!  <bar> cw<left><left><left><left><left>
+nnoremap <silent> <leader>mM :make! <bar> cw<cr>
+nnoremap <leader>ml :lmake!  <bar> cw<left><left><left><left><left>
+nnoremap <silent> <leader>mL :lmake! <bar> cw<cr>
 nnoremap <silent> <leader>jj :call GotoJump()<cr>
 nnoremap <silent> <leader>jt :call GotoTag()<cr>
 nnoremap <silent> <leader>js :tselect<cr>
@@ -177,7 +177,7 @@ nnoremap <silent> <leader>js :tselect<cr>
 function! GotoJump() abort
     redraw!
     jumps
-    let j = input('Please select your jump ([count]j|k): ')
+    let j = input('Which one ([count]j|k): ')
     if j =~# '\v[0-9]+j'
         execute 'normal! ' . j[0:-2] . "\<c-i>"
     elseif j =~# '\v[0-9]+k'
@@ -188,7 +188,7 @@ endfunction
 function! GotoTag() abort
     redraw!
     tags
-    let j = input('Please select your tag ([count]j|k): ')
+    let j = input('Which one ([count]j|k): ')
     if j =~# '\v[0-9]+j'
         execute j[0:-2] . 'tag'
     elseif j =~# '\v[0-9]+k'
@@ -552,7 +552,7 @@ function! QListToggle(height) abort
     silent! cclose
 
     if BufferCount() == buffer_count_before && !empty(getqflist())
-        execute 'silent!' 'botright' 'copen' a:height
+        execute 'silent!' 'copen' a:height
     endif
 endfunction
 function! BufferCount() abort
@@ -702,20 +702,20 @@ function! VCS(cmd) abort
     exe 'cd' saved
 endfunction
 
-nnoremap <leader>vg :vim //j % <bar> botright cw
-            \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vG :vim //j **/* <bar> botright cw
-            \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>va :vima //j % <bar> botright cw
-            \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vA :vima //j **/* <bar> botright cw
-            \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vg :vim //j % <bar> cw
+            \<left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vG :vim //j **/* <bar> cw
+            \<left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>va :vima //j % <bar> cw
+            \<left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vA :vima //j **/* <bar> cw
+            \<left><left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>vl :lvim //j % <bar> lw<left><left><left><left><left><left><left><left><left>
 nnoremap <leader>vL :lvim //j **/* <bar> lw<left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vw :vim /<bslash>C<bslash><lt><bslash>>/j % <bar> botright cw
-            \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-nnoremap <leader>vW :vim /<bslash>C<bslash><lt><bslash>>/j **/* <bar> botright cw
-            \<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vw :vim /<bslash>C<bslash><lt><bslash>>/j % <bar> cw
+            \<left><left><left><left><left><left><left><left><left><left><left>
+nnoremap <leader>vW :vim /<bslash>C<bslash><lt><bslash>>/j **/* <bar> cw
+            \<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
 nnoremap <leader>ss :%s/
 xnoremap <leader>ss :s/
 nnoremap <leader>sS :%argd <bar> arga **/* <bar> argdo %s/
@@ -1101,14 +1101,15 @@ endfun
 nnoremap <silent> <leader>cl :let @" = expand('%:p') . ':' . line('.')<cr>
 
 if exists(':terminal')
-    nnoremap <silent> <leader>rt :RunTermCmd<space>
-    command! -nargs=+ -complete=shellcmd RunTermCmd call RunTermCmd(<q-args>)
-    function! RunTermCmd(cmd) abort
-        botright split
+    nnoremap <leader>rt :RunTermCmd<space>
+    nnoremap <leader>rT :vert RunTermCmd<space>
+    command! -nargs=+ -complete=shellcmd RunTermCmd call RunTermCmd(<q-args>, <q-mods>)
+    function! RunTermCmd(cmd, mods) abort
+        exe a:mods 'new'
         if has('nvim')
             execute 'terminal ' . a:cmd
         else
-            execute 'terminal ++close ++curwin ' . a:cmd
+            execute 'terminal ++curwin ' . a:cmd
         endif
     endfunction
 endif
