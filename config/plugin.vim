@@ -873,7 +873,7 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
         autocmd!
         autocmd FileType denite call s:denite_my_settings()
         autocmd FileType denite-filter call s:denite_filter_my_settings()
-        autocmd User denite-preview setlocal nonumber norelativenumber
+        " autocmd User denite-preview setlocal nonumber norelativenumber
         autocmd FileType denite-filter let b:coc_suggest_disable = 1
         autocmd FileType denite-filter let g:asyncomplete_auto_popup = 0
         autocmd FileType denite-filter autocmd BufEnter <buffer> let g:asyncomplete_auto_popup = 0
