@@ -49,10 +49,6 @@ if UseFtplugin('latex')
     Plug 'lervag/vimtex'
 endif
 
-if get(g:, 'use_devicons', 0)
-    Plug 'ryanoasis/vim-devicons'
-endif
-
 if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
     Plug 'nvim-treesitter/nvim-treesitter'
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -235,6 +231,10 @@ if UseColorScheme('seoul256')
 endif
 if UseColorScheme('github')
     Plug 'cormacrelf/vim-colors-github'
+endif
+
+if get(g:, 'use_devicons', 0)
+    Plug 'ryanoasis/vim-devicons'
 endif
 
 call plug#end()
