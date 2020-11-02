@@ -856,13 +856,15 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     nnoremap <silent> <leader>df :Denite file/rec<cr>
     nnoremap <silent> <leader>dF :Denite file<cr>
     nnoremap <silent> <leader>dt :Denite tag<cr>
-    nnoremap <silent> <leader>dT :Denite filetype<cr>
+    nnoremap <silent> <leader>dy :Denite filetype<cr>
     nnoremap <silent> <leader>dg :Denite grep<cr>
     nnoremap <silent> <leader>dj :Denite jump<cr>
     nnoremap <silent> <leader>dl :Denite line<cr>
+    nnoremap <silent> <leader>dl :Denite line/external<cr>
     nnoremap <silent> <leader>dm :Denite mark<cr>
     nnoremap <silent> <leader>dM :Denite menu<cr>
     nnoremap <silent> <leader>do :Denite outline<cr>
+    nnoremap <leader>dO :Denite output:
     nnoremap <silent> <leader>dr :Denite register<cr>
     nnoremap <silent> <leader>ds :Denite source<cr>
     nnoremap <silent> <leader>dS :Denite spell<cr>
