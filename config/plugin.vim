@@ -858,6 +858,7 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     nnoremap <silent> <leader>dt :Denite tag<cr>
     nnoremap <silent> <leader>dy :Denite filetype<cr>
     nnoremap <silent> <leader>dg :Denite grep<cr>
+    nnoremap <silent> <leader>dG :Denite file/rec/git<cr>
     nnoremap <silent> <leader>dj :Denite jump<cr>
     nnoremap <silent> <leader>dl :Denite line<cr>
     nnoremap <silent> <leader>dl :Denite line/external<cr>
@@ -874,10 +875,9 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
         autocmd FileType denite call s:denite_my_settings()
         autocmd FileType denite-filter call s:denite_filter_my_settings()
         " autocmd User denite-preview setlocal nonumber norelativenumber
-        autocmd FileType denite-filter let b:coc_suggest_disable = 1
-        autocmd FileType denite-filter let g:asyncomplete_auto_popup = 0
-        autocmd FileType denite-filter autocmd BufEnter <buffer> let g:asyncomplete_auto_popup = 0
-        autocmd FileType denite-filter autocmd BufLeave <buffer> let g:asyncomplete_auto_popup = 1
+        " autocmd FileType denite-filter let b:coc_suggest_disable = 1
+        " autocmd FileType denite-filter autocmd BufEnter <buffer> let g:asyncomplete_auto_popup = 0
+        " autocmd FileType denite-filter autocmd BufLeave <buffer> let g:asyncomplete_auto_popup = 1
     augroup END
 
     function! s:denite_my_settings() abort
@@ -970,7 +970,7 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
                     \ 'auto_resume': 1,
                     \ 'statusline': 0,
                     \ 'smartcase': 1,
-                    \ 'max_dynamic_update_candidates': 50000
+                    \ 'max_dynamic_update_candidates': 100000
                     \ })
         if has('nvim-0.4.0')
             call denite#custom#option('_', {
@@ -978,6 +978,12 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
         endif
         call denite#custom#source('grep',
                     \ 'converters', ['converter/abbr_word'])
+        call denite#custom#source('file/rec',
+                    \ 'matchers', ['matcher/hide_hidden_files', 'matcher/fuzzy'])
+
+        call denite#custom#alias('source', 'file/rec/git', 'file/rec')
+        call denite#custom#var('file/rec/git', 'command',
+                    \ ['git', 'ls-files', '-co', '--exclude-standard'])
     catch
     endtry
 endif
