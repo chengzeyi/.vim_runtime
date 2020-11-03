@@ -521,6 +521,9 @@ if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
           \     {'mode': '<c-n>'}
           \ ]}
 
+    imap <c-j> <Plug>(completion_next_source)
+    imap <c-k> <Plug>(completion_prev_source)
+
     command! -nargs=0 ToggleCompletionNvim call ToggleCompletionNvim()
     nnoremap <silent> <leader>oa :ToggleCompletionNvim<cr>
 
