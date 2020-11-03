@@ -407,16 +407,16 @@ require'nvim-treesitter.configs'.setup {
         },
     },
 }
--- require'nvim-treesitter.configs'.setup {
-    -- refactor = {
-        -- highlight_definitions = { enable = true },
-    -- },
--- }
--- require'nvim-treesitter.configs'.setup {
-    -- refactor = {
-        -- highlight_current_scope = { enable = true },
-    -- },
--- }
+require'nvim-treesitter.configs'.setup {
+    refactor = {
+        highlight_definitions = { enable = true },
+    },
+}
+require'nvim-treesitter.configs'.setup {
+    refactor = {
+        highlight_current_scope = { enable = true },
+    },
+}
 require'nvim-treesitter.configs'.setup {
     refactor = {
         smart_rename = {
