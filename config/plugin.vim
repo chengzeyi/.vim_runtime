@@ -856,12 +856,14 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     nnoremap <silent> <leader>de :Denite change<cr>
     nnoremap <silent> <leader>dh :Denite file/old<cr>
     nnoremap <silent> <leader>dH :Denite help<cr>
-    nnoremap <silent> <leader>df :Denite file/rec<cr>
-    nnoremap <silent> <leader>dF :Denite file<cr>
+    nnoremap <silent> <leader>df :Denite file<cr>
+    nnoremap <silent> <leader>dF :Denite file/point<cr>
     nnoremap <silent> <leader>dt :Denite tag<cr>
     nnoremap <silent> <leader>dy :Denite filetype<cr>
     nnoremap <silent> <leader>dg :Denite grep<cr>
-    nnoremap <silent> <leader>dG :Denite file/rec/git<cr>
+    nnoremap <silent> <leader>dG :Denite grep/git<cr>
+    nnoremap <silent> <leader>dr :Denite file/rec<cr>
+    nnoremap <silent> <leader>dR :Denite file/rec/git<cr>
     nnoremap <silent> <leader>dj :Denite jump<cr>
     nnoremap <silent> <leader>dl :Denite line<cr>
     nnoremap <silent> <leader>dl :Denite line/external<cr>
@@ -983,6 +985,12 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
                     \ 'converters', ['converter/abbr_word'])
         call denite#custom#source('file/rec',
                     \ 'matchers', ['matcher/hide_hidden_files', 'matcher/fuzzy'])
+
+        call denite#custom#alias('source', 'grep/git', 'grep')
+        call denite#custom#var('grep/git', 'command',
+                    \ ['git', 'grep'])
+        call denite#custom#var('grep/git', 'default_opts',
+                    \ ['-I', '--line-number', '--color=never'])
 
         call denite#custom#alias('source', 'file/rec/git', 'file/rec')
         call denite#custom#var('file/rec/git', 'command',
