@@ -848,6 +848,7 @@ endif
 
 if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     nnoremap <leader>dd :Denite<space>
+    nnoremap <leader>dp :Denite -resume<cr>
     nnoremap <silent> <leader>dD :Denite directory_rec<cr>
     nnoremap <silent> <leader>db :Denite buffer<cr>
     nnoremap <silent> <leader>dc :Denite command<cr>
@@ -872,6 +873,7 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     nnoremap <silent> <leader>do :Denite outline<cr>
     nnoremap <leader>dO :Denite output:
     nnoremap <silent> <leader>d" :Denite register<cr>
+    nnoremap <silent> <leader>d@ :Denite register<cr>
     nnoremap <silent> <leader>ds :Denite source<cr>
     nnoremap <silent> <leader>dS :Denite spell<cr>
     nnoremap <silent> <leader>dn :Denite neosnippet<cr>
@@ -975,7 +977,8 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
                     \ 'auto_resume': 1,
                     \ 'statusline': 0,
                     \ 'smartcase': 1,
-                    \ 'max_dynamic_update_candidates': 100000
+                    \ 'max_dynamic_update_candidates': 100000,
+                    \ 'filter_updatetime': 500
                     \ })
         if has('nvim-0.4.0')
             call denite#custom#option('_', {
@@ -983,8 +986,12 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
         endif
         call denite#custom#source('grep',
                     \ 'converters', ['converter/abbr_word'])
-        call denite#custom#source('file/rec',
-                    \ 'matchers', ['matcher/hide_hidden_files', 'matcher/fuzzy'])
+        " call denite#custom#source('file/rec',
+        "             \ 'matchers', ['matcher/fuzzy', 'matcher/hide_hidden_files', 'matcher/project_files'])
+
+        call denite#custom#alias('source', 'file/rec/py', 'file/rec')
+        call denite#custom#var('file/rec/py', 'command',
+                    \ ['scantree.py', '--path', ':directory'])
 
         call denite#custom#alias('source', 'grep/git', 'grep')
         call denite#custom#var('grep/git', 'command',
