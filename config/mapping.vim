@@ -466,10 +466,14 @@ nnoremap <silent> <leader>p= :set previewheight=10<cr>
 "     endfunction
 " endif
 
-nnoremap <silent> [t :-tabmove<cr>
-nnoremap <silent> ]t :+tabmove<cr>
-nnoremap <silent> [T :0tabmove<cr>
-nnoremap <silent> ]T :$tabmove<cr>
+" nnoremap <silent> [t :-tabmove<cr>
+" nnoremap <silent> ]t :+tabmove<cr>
+" nnoremap <silent> [T :0tabmove<cr>
+" nnoremap <silent> ]T :$tabmove<cr>
+nnoremap <silent> [t :tp<cr>
+nnoremap <silent> ]t :tn<cr>
+nnoremap <silent> [T :tf<cr>
+nnoremap <silent> ]T :tl<cr>
 nnoremap <silent> <leader>] <c-w>g}
 nnoremap <silent> <leader>[ <c-w>z
 nnoremap <silent> [p :ptprevious<cr>
