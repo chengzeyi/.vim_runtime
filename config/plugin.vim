@@ -848,7 +848,7 @@ endif
 
 if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     nnoremap <leader>dd :Denite<space>
-    nnoremap <leader>dp :Denite -resume<cr>
+    nnoremap <silent> <leader>dp :Denite -resume<cr>
     nnoremap <silent> <leader>dD :Denite directory_rec<cr>
     nnoremap <silent> <leader>db :Denite buffer<cr>
     nnoremap <silent> <leader>dc :Denite command<cr>
@@ -857,26 +857,38 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     nnoremap <silent> <leader>de :Denite change<cr>
     nnoremap <silent> <leader>dh :Denite file/old<cr>
     nnoremap <silent> <leader>dH :Denite help<cr>
-    nnoremap <silent> <leader>df :Denite file<cr>
-    nnoremap <silent> <leader>dF :Denite file/point<cr>
-    nnoremap <silent> <leader>dt :Denite tag<cr>
+    nnoremap <silent> <leader>dv :Denite file<cr>
+    nnoremap <silent> <leader>dV :Denite file/point<cr>
+    nnoremap <silent> <leader>df :Denite file/rec<cr>
+    nnoremap <silent> <leader>dF :Denite file/rec/git<cr>
+    nnoremap <silent> <leader>dt :Denite outline<cr>
+    nnoremap <silent> <leader>dT :Denite tag<cr>
     nnoremap <silent> <leader>dy :Denite filetype<cr>
     nnoremap <silent> <leader>dg :Denite grep<cr>
     nnoremap <silent> <leader>dG :Denite grep/git<cr>
-    nnoremap <silent> <leader>dr :Denite file/rec<cr>
-    nnoremap <silent> <leader>dR :Denite file/rec/git<cr>
     nnoremap <silent> <leader>dj :Denite jump<cr>
     nnoremap <silent> <leader>dl :Denite line<cr>
     nnoremap <silent> <leader>dL :Denite line/external<cr>
     nnoremap <silent> <leader>dm :Denite mark<cr>
     nnoremap <silent> <leader>dM :Denite menu<cr>
-    nnoremap <silent> <leader>do :Denite outline<cr>
-    nnoremap <leader>dO :Denite output:
-    nnoremap <silent> <leader>d" :Denite register<cr>
-    nnoremap <silent> <leader>d@ :Denite register<cr>
+    nnoremap <leader>do :Denite output:
+    nnoremap <silent> <leader>dr :Denite register<cr>
     nnoremap <silent> <leader>ds :Denite source<cr>
     nnoremap <silent> <leader>dS :Denite spell<cr>
     nnoremap <silent> <leader>dn :Denite neosnippet<cr>
+
+    nnoremap <leader>DD :Denite directory_rec:
+    nnoremap <leader>Db :Denite buffer:
+    nnoremap <leader>Dv :Denite file:
+    nnoremap <leader>Df :Denite file/rec:
+    nnoremap <leader>DF :Denite file/rec/git:
+    nnoremap <leader>Dt :Denite outline:
+    nnoremap <leader>Dg :Denite grep:
+    nnoremap <leader>DG :Denite grep/git:
+    nnoremap <leader>Dl :Denite line:
+    nnoremap <leader>DM :Denite menu:
+    nnoremap <leader>DS :Denite spell:
+
     augroup MyDenite
         autocmd!
         autocmd FileType denite call s:denite_my_settings()
@@ -975,7 +987,6 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
         call denite#custom#option('_', {
                     \ 'prompt': '❯',
                     \ 'auto_resume': 1,
-                    \ 'statusline': 0,
                     \ 'smartcase': 1,
                     \ 'max_dynamic_update_candidates': 100000,
                     \ 'filter_updatetime': 500
@@ -989,10 +1000,6 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
         " call denite#custom#source('file/rec',
         "             \ 'matchers', ['matcher/fuzzy', 'matcher/hide_hidden_files', 'matcher/project_files'])
 
-        call denite#custom#alias('source', 'file/rec/py', 'file/rec')
-        call denite#custom#var('file/rec/py', 'command',
-                    \ ['scantree.py', '--path', ':directory'])
-
         call denite#custom#alias('source', 'grep/git', 'grep')
         call denite#custom#var('grep/git', 'command',
                     \ ['git', 'grep'])
@@ -1002,6 +1009,9 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
         call denite#custom#alias('source', 'file/rec/git', 'file/rec')
         call denite#custom#var('file/rec/git', 'command',
                     \ ['git', 'ls-files', '-co', '--exclude-standard'])
+        call denite#custom#alias('source', 'file/rec/py', 'file/rec')
+        call denite#custom#var('file/rec/py', 'command',
+                    \ ['scantree.py', '--path', ':directory'])
     catch
     endtry
 endif
