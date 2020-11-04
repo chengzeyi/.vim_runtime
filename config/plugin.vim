@@ -866,13 +866,17 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     nnoremap <silent> <leader>dy :Denite filetype<cr>
     nnoremap <silent> <leader>dg :Denite grep<cr>
     nnoremap <silent> <leader>dG :Denite grep/git<cr>
+    nnoremap <silent> <leader>dr :Denite grep/rg<cr>
+    nnoremap <silent> <leader>da :Denite grep/ag<cr>
+    nnoremap <silent> <leader>dA :Denite grep/ack<cr>
     nnoremap <silent> <leader>dj :Denite jump<cr>
     nnoremap <silent> <leader>dl :Denite line<cr>
     nnoremap <silent> <leader>dL :Denite line/external<cr>
     nnoremap <silent> <leader>dm :Denite mark<cr>
     nnoremap <silent> <leader>dM :Denite menu<cr>
     nnoremap <leader>do :Denite output:
-    nnoremap <silent> <leader>dr :Denite register<cr>
+    nnoremap <silent> <leader>d" :Denite register<cr>
+    nnoremap <silent> <leader>d@ :Denite register<cr>
     nnoremap <silent> <leader>ds :Denite source<cr>
     nnoremap <silent> <leader>dS :Denite spell<cr>
     nnoremap <silent> <leader>dn :Denite neosnippet<cr>
@@ -885,6 +889,9 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
     nnoremap <leader>Dt :Denite outline:
     nnoremap <leader>Dg :Denite grep:
     nnoremap <leader>DG :Denite grep/git:
+    nnoremap <leader>Dr :Denite grep/rg:
+    nnoremap <leader>Da :Denite grep/ag:
+    nnoremap <leader>DA :Denite grep/ack:
     nnoremap <leader>Dl :Denite line:
     nnoremap <leader>DM :Denite menu:
     nnoremap <leader>DS :Denite spell:
@@ -997,8 +1004,16 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
         endif
         call denite#custom#source('grep',
                     \ 'converters', ['converter/abbr_word'])
-        " call denite#custom#source('file/rec',
-        "             \ 'matchers', ['matcher/fuzzy', 'matcher/hide_hidden_files', 'matcher/project_files'])
+        call denite#custom#source('file/rec',
+                    \ 'matchers', ['matcher/hide_hidden_files', 'matcher/project_files', 'matcher/fuzzy'])
+
+        call denite#custom#alias('source', 'file/rec/git', 'file/rec')
+        call denite#custom#var('file/rec/git', 'command',
+                    \ ['git', 'ls-files', '-c', '--exclude-standard'])
+
+        call denite#custom#alias('source', 'file/rec/py', 'file/rec')
+        call denite#custom#var('file/rec/py', 'command',
+                    \ ['scantree.py', '--path', ':directory'])
 
         call denite#custom#alias('source', 'grep/git', 'grep')
         call denite#custom#var('grep/git', 'command',
@@ -1006,12 +1021,38 @@ if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
         call denite#custom#var('grep/git', 'default_opts',
                     \ ['-I', '--line-number', '--color=never'])
 
-        call denite#custom#alias('source', 'file/rec/git', 'file/rec')
-        call denite#custom#var('file/rec/git', 'command',
-                    \ ['git', 'ls-files', '-co', '--exclude-standard'])
-        call denite#custom#alias('source', 'file/rec/py', 'file/rec')
-        call denite#custom#var('file/rec/py', 'command',
-                    \ ['scantree.py', '--path', ':directory'])
+        call denite#custom#alias('source', 'grep/rg', 'grep')
+        call denite#custom#var('grep/rg', {
+                    \ 'command': ['rg'],
+                    \ 'default_opts': ['-i', '--vimgrep', '--no-heading'],
+                    \ 'recursive_opts': [],
+                    \ 'pattern_opt': ['--regexp'],
+                    \ 'separator': ['--'],
+                    \ 'final_opts': [],
+                    \ })
+
+        call denite#custom#alias('source', 'grep/ag', 'grep')
+        call denite#custom#var('grep/ag', {
+                    \ 'command': ['ag'],
+                    \ 'default_opts': ['-i', '--vimgrep'],
+                    \ 'recursive_opts': [],
+                    \ 'pattern_opt': [],
+                    \ 'separator': ['--'],
+                    \ 'final_opts': [],
+                    \ })
+
+        call denite#custom#alias('source', 'grep/ack', 'grep')
+        call denite#custom#var('grep/ack', {
+                    \ 'command': ['ack'],
+                    \ 'default_opts': [
+                    \   '--ackrc', $HOME.'/.ackrc', '-H', '-i',
+                    \   '--nopager', '--nocolor', '--nogroup', '--column'
+                    \ ],
+                    \ 'recursive_opts': [],
+                    \ 'pattern_opt': ['--match'],
+                    \ 'separator': ['--'],
+                    \ 'final_opts': [],
+                    \ })
     catch
     endtry
 endif
