@@ -144,7 +144,7 @@ Plug 'lfilho/cosco.vim'
 
 Plug 'FooSoft/vim-argwrap'
 
-Plug 'AndrewRadev/splitjoin.vim'
+" Plug 'AndrewRadev/splitjoin.vim'
 
 Plug 'easymotion/vim-easymotion'
 
@@ -1350,7 +1350,7 @@ augroup MyStartify
         autocmd TabNewEntered *
                     \ call timer_start(50, {-> execute(
                     \     'if empty(expand("%")) && empty(&l:buftype) && &l:modifiable | ' .
-                    \         'Startify | ' .
+                    \         'silent! Startify | ' .
                     \     'endif'
                     \ )})
     else
@@ -1361,7 +1361,7 @@ augroup MyStartify
                         \         && empty(&l:buftype)
                         \         && &l:modifiable |
                         \     let t:startify_new_tab = 1 |
-                        \     Startify |
+                        \     silent! Startify |
                         \ endif
         else
             if has('timers') && has('lambda')
@@ -1370,7 +1370,7 @@ augroup MyStartify
                             \     let t:startify_new_tab = 1 |
                             \     call timer_start(50, {-> execute(
                             \         'if empty(expand("%")) && empty(&l:buftype) && &l:modifiable | ' .
-                            \             'Startify | ' .
+                            \             'silent! Startify | ' .
                             \         'endif'
                             \     )}) |
                             \ endif
