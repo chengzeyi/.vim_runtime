@@ -863,6 +863,8 @@ nnoremap <silent> <leader>to :tabonly<cr>
 nnoremap <silent> <leader>tO :tabonly!<cr>
 nnoremap <silent> <leader>tx :tabclose<cr>
 nnoremap <silent> <leader>tX :tabclose!<cr>
+nnoremap <silent> <leader>tm :+tabmove<cr>
+nnoremap <silent> <leader>tM :-tabmove<cr>
 nnoremap <silent> <expr> <leader>tc ':tcd ' . GetVcsRoot() . "\<lt>cr>"
 nnoremap <silent> <leader>tC :tcd %:p:h<cr>
 

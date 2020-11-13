@@ -661,16 +661,19 @@ if get(g:, 'use_coc', 0)
         nnoremap <silent> <leader><cr>O :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
         nnoremap <silent> <leader><cr><cr> :CocList<cr>
         nnoremap <silent> <leader><cr>p :CocListResume<cr>
+        nnoremap <silent> <leader><cr>P :CocListCancel<cr>
         nnoremap <silent> <leader><cr>d :CocList --normal -A diagnostics<cr>
         nmap <silent> <leader><cr>D <Plug>(coc-diagnostic-info)
         nnoremap <silent> <leader><cr>e :CocList extensions<cr>
         nnoremap <silent> <leader><cr>c :CocList commands<cr>
         nnoremap <silent> go :<c-r>=CocHasProvider('documentSymbol') ? 'CocList -A outline' : 'normal! go'<cr><cr>
         nnoremap <silent> gO :<c-r>=CocHasProvider('documentSymbol') ? 'CocList -I -A symbols' : 'normal! gO'<cr><cr>
-        nnoremap <silent> ]o :CocNext<cr>
-        nnoremap <silent> [o :CocPrev<cr>
-        nnoremap <silent> ]O :CocLast<cr>
-        nnoremap <silent> [O :CocFirst<cr>
+        nnoremap <silent> ]<cr> :CocNext<cr>
+        nnoremap <silent> [<cr> :CocPrev<cr>
+        nnoremap <silent> ]<bs> :CocLast<cr>
+        nnoremap <silent> ]<c-h> :CocLast<cr>
+        nnoremap <silent> [<bs> :CocFirst<cr>
+        nnoremap <silent> [<c-h> :CocFirst<cr>
         nnoremap <silent> <expr><c-f> coc#util#has_float() ? coc#util#float_scroll(1) : "\<c-f>"
         nnoremap <silent> <expr><c-b> coc#util#has_float() ? coc#util#float_scroll(0) : "\<c-b>"
 
