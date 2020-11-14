@@ -68,7 +68,7 @@ function! Scratch(cmd, mods) abort
     exe a:mods 'new'
     setlocal buftype=nofile bufhidden=hide noswapfile
     if !empty(a:cmd)
-        exe cmd
+        exe a:cmd
     endif
 endfunction
 
