@@ -73,6 +73,7 @@ function! Scratch(cmd, mods) abort
 endfunction
 
 nnoremap <silent> <leader>oo :set scrolloff=<c-r>=999 - &scrolloff<cr><cr>
+nnoremap <silent> <leader>oO :set sidescrolloff=<c-r>=999 - &sidescrolloff<cr><cr>
 nnoremap <silent> <leader>oj :set scrolljump=<c-r>=&scrolljump == 1 ? 5 : 1<cr><cr>
 nnoremap <silent> <leader>om :set mouse=<c-r>=&mouse == '' ? 'a' : ''<cr><cr>
 if has('nvim-0.4.4')
