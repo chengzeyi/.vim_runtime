@@ -695,8 +695,10 @@ if get(g:, 'use_coc', 0)
         nnoremap <silent> ]<c-h> :CocLast<cr>
         nnoremap <silent> [<bs> :CocFirst<cr>
         nnoremap <silent> [<c-h> :CocFirst<cr>
-        nnoremap <silent> <expr><c-f> coc#util#has_float() ? coc#util#float_scroll(1) : "\<c-f>"
-        nnoremap <silent> <expr><c-b> coc#util#has_float() ? coc#util#float_scroll(0) : "\<c-b>"
+        if has('nvim-0.4.0') || has('patch-8.2.0750')
+          nnoremap <silent> <expr> <c-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<c-f>"
+          nnoremap <silent> <expr> <c-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<c-b>"
+        endif
 
         nnoremap <silent> K :call <SID>show_documentation()<CR>
 
