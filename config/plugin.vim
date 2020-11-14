@@ -290,7 +290,7 @@ if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
     try
 lua <<EOF
 -- require'nvim-treesitter.configs'.setup {
-    -- ensure_installed = "all",     -- one of "all", "language", or a list of languages
+  -- ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     -- highlight = {
         -- enable = true,              -- false will disable the whole extension
         -- disable = { "c", "rust" },  -- list of language that will be disabled
@@ -320,6 +320,27 @@ require'nvim-treesitter.configs'.setup {
 require'nvim-treesitter.configs'.setup {
     indent = {
         enable = true
+    }
+}
+local queries = require "nvim-treesitter.query"
+require'nvim-treesitter'.define_modules {
+    my_auto_enable_fold = {
+        enable = true,
+        attach = function(bufnr, lang)
+            vim.api.nvim_command(string.format('tabdo windo if winbufnr(0) == %d | let w:saved_fd = [&fdm, &fde] | setl fdm=expr fde=nvim_treesitter#foldexpr() | endif', bufnr))
+            vim.api.nvim_command(string.format('augroup MyAutoEnableFold_%d', bufnr))
+            vim.api.nvim_command(string.format('au BufEnter <buffer=%d> if !exists("w:saved_fd") | let w:saved_fd = [&fdm, &fde] | setl fdm=expr fde=nvim_treesitter#foldexpr() | endif', bufnr))
+            vim.api.nvim_command(string.format('au BufLeave <buffer=%d> if exists("w:saved_fd") | let &l:fdm = w:saved_fd[0] | let &l:fde = w:saved_fd[1] | unlet w:saved_fd | endif', bufnr))
+            vim.api.nvim_command('augroup END')
+        end,
+        detach = function(bufnr)
+            vim.api.nvim_command(string.format('tabdo windo if exists("w:saved_fd") && winbufnr(0) == %d | let &l:fdm = w:saved_fd[0] | let &l:fde = w:saved_fd[1] | unlet w:saved_fd | endif', bufnr))
+            vim.api.nvim_command(string.format('augroup MyAutoEnableFold_%d', bufnr))
+            vim.api.nvim_command('au!')
+            vim.api.nvim_command('augroup END')
+            vim.api.nvim_command(string.format('augroup! MyAutoEnableFold_%d', bufnr))
+        end,
+        is_supported = queries.has_folds
     }
 }
 require'nvim-treesitter.configs'.setup {
