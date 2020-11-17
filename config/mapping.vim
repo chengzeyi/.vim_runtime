@@ -140,7 +140,7 @@ endif
 
 if exists(':terminal')
     tnoremap <silent> <F1> <c-\><c-n>
-    tnoremap <silent> <c-o> <c-\><c-n>
+    " tnoremap <silent> <c-o> <c-\><c-n>
     if has('nvim')
         nnoremap <silent> <leader>ts :split <bar> terminal<cr>
         nnoremap <leader>tS :split <bar> terminal<space>
