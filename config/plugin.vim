@@ -327,14 +327,14 @@ require'nvim-treesitter'.define_modules {
     my_auto_enable_fold = {
         enable = true,
         attach = function(bufnr, lang)
-            -- vim.api.nvim_command(string.format('tabdo windo if winbufnr(0) == %d | let w:saved_fd = [&fdm, &fde] | setl fdm=expr fde=nvim_treesitter#foldexpr() | endif', bufnr))
+            vim.api.nvim_command(string.format('if winbufnr(0) == %d | let w:saved_fd = [&fdm, &fde] | setl fdm=expr fde=nvim_treesitter#foldexpr() | endif', bufnr))
             vim.api.nvim_command(string.format('augroup MyAutoEnableFold_%d', bufnr))
             vim.api.nvim_command(string.format('au BufEnter <buffer=%d> if !exists("w:saved_fd") | let w:saved_fd = [&fdm, &fde] | setl fdm=expr fde=nvim_treesitter#foldexpr() | endif', bufnr))
             vim.api.nvim_command(string.format('au BufLeave <buffer=%d> if exists("w:saved_fd") | let &l:fdm = w:saved_fd[0] | let &l:fde = w:saved_fd[1] | unlet w:saved_fd | endif', bufnr))
             vim.api.nvim_command('augroup END')
         end,
         detach = function(bufnr)
-            -- vim.api.nvim_command(string.format('tabdo windo if exists("w:saved_fd") && winbufnr(0) == %d | let &l:fdm = w:saved_fd[0] | let &l:fde = w:saved_fd[1] | unlet w:saved_fd | endif', bufnr))
+            vim.api.nvim_command(string.format('if exists("w:saved_fd") && winbufnr(0) == %d | let &l:fdm = w:saved_fd[0] | let &l:fde = w:saved_fd[1] | unlet w:saved_fd | endif', bufnr))
             vim.api.nvim_command(string.format('augroup MyAutoEnableFold_%d', bufnr))
             vim.api.nvim_command('au!')
             vim.api.nvim_command('augroup END')
