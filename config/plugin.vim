@@ -354,7 +354,7 @@ require'nvim-treesitter.configs'.setup {
                 ["agF"] = "@class.outer",
                 ["igF"] = "@class.inner",
                 ["igp"] = "@parameter.inner",
-                ["agp"] = "@parameter.inner",
+                ["agp"] = "@parameter.outer",
                 ["igs"] = "@statement.outer",
                 ["ags"] = "@statement.outer",
                 ["igb"] = "@block.inner",
