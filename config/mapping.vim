@@ -104,11 +104,19 @@ command! -nargs=0 ToggleTransparent call ToggleTransparent()
 function! ToggleTransparent() abort
     if get(s:, 'transparent', 0)
         exe 'hi' 'Normal' 'guibg=' . s:normal_guibg 'ctermbg=' . s:normal_ctermbg
+        if has('nvim')
+            exe 'hi' 'NormalNC' 'guibg=' . s:normalnc_guibg 'ctermbg=' . s:normalnc_ctermbg
+        endif
         let s:transparent = 0
     else
         let s:normal_guibg = ReturnHighlightTerm('Normal', 'guibg')
         let s:normal_ctermbg = ReturnHighlightTerm('Normal', 'ctermbg')
         hi Normal guibg=NONE ctermbg=NONE
+        if has('nvim')
+            let s:normalnc_guibg = ReturnHighlightTerm('NormalNC', 'guibg')
+            let s:normalnc_ctermbg = ReturnHighlightTerm('NormalNC', 'ctermbg')
+            hi NormalNC guibg=NONE ctermbg=NONE
+        endif
         let s:transparent = 1
     endif
 endfunction
