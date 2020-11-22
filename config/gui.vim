@@ -21,19 +21,20 @@ if has('gui_running')
 endif
 
 if has('nvim-0.4.0')
-    augroup MyUIEnter
+    augroup MyNeovimGui
         autocmd!
         autocmd UIEnter * call SetNeovimGui()
     augroup END
+
+    function! SetNeovimGui() abort
+        if exists('g:GuiLoaded')
+            try
+                GuiTabline 0
+                GuiPopupmenu 0
+            catch
+            endtry
+            nnoremap <S-Up> :call GuiFont(substitute(g:GuiFont, ':h\zs\d\+', '\=eval(submatch(0) + 1)', 'g'))<cr>
+            nnoremap <S-Down> :call GuiFont(substitute(g:GuiFont, ':h\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g'))<cr>
+        endif
+    endfunction
 endif
-function! SetNeovimGui() abort
-    if exists('g:GuiLoaded')
-        try
-            GuiTabline 0
-            GuiPopupmenu 0
-        catch
-        endtry
-        nnoremap <S-Up> :call GuiFont(substitute(g:GuiFont, ':h\zs\d\+', '\=eval(submatch(0) + 1)', 'g'))<cr>
-        nnoremap <S-Down> :call GuiFont(substitute(g:GuiFont, ':h\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g'))<cr>
-    endif
-endfunction

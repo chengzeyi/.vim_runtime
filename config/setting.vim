@@ -104,7 +104,7 @@ set foldlevel=99
 set foldlevelstart=99
 " set foldnestmax=3
 " set nofoldenable
-if has('nvim-0.4.4')
+if has('nvim-0.5.0')
     set foldcolumn=auto:1
 else
     set foldcolumn=1
@@ -368,7 +368,7 @@ if has('balloon_eval')
             " the tool tip will contain a few suggestions.
             let suggestions = spellsuggest(spellbadword(v:beval_text)[0], 5, 0)
             if empty(suggestions)
-                let lines = ['[' . v:beval_lnum . ':' . v:beval_col . '] ' . synIDattr(synID(v:beval_lnum, v:beval_col, 0), 'name')]
+                " let lines = ['[' . v:beval_lnum . ':' . v:beval_col . '] ' . synIDattr(synID(v:beval_lnum, v:beval_col, 0), 'name')]
             else
                 let lines = suggestions
             endif

@@ -290,7 +290,7 @@ if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
     try
 lua <<EOF
 -- require'nvim-treesitter.configs'.setup {
-  -- ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    -- ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     -- highlight = {
         -- enable = true,              -- false will disable the whole extension
         -- disable = { "c", "rust" },  -- list of language that will be disabled
@@ -700,9 +700,9 @@ if get(g:, 'use_coc', 0)
           nnoremap <silent> <expr> <c-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<c-b>"
         endif
 
-        nnoremap <silent> K :call <SID>show_documentation()<CR>
+        nnoremap <silent> K :call <SID>show_documentation(v:count)<CR>
 
-        function! s:show_documentation() abort
+        function! s:show_documentation(count) abort
             if (index(['vim', 'help'], &filetype) >= 0)
                 try
                     execute 'h' expand('<cword>')
@@ -713,7 +713,7 @@ if get(g:, 'use_coc', 0)
             if CocHasProvider('hover')
                 call CocActionAsync('doHover')
             else
-                normal! K
+                exe 'normal!' a:count 'K'
             endif
         endfunction
 
@@ -1241,7 +1241,7 @@ let g:fzf_colors = {
 "     let g:fzf_layout = {'window': {'width': 0.8, 'height': 0.8}}
 " endif
 " let g:fzf_layout = {'window': 'bot'.float2nr(0.4 * &lines).'new'}
-let g:fzf_layout = {'down': '40%'}
+" let g:fzf_layout = {'down': '40%'}
 " Some workaround to fix the character deletion error at empty lines.
 imap <silent> <c-x>k <plug>(fzf-complete-word)
 imap <silent> <c-x>p <plug>(fzf-complete-path)
