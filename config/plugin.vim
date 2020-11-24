@@ -713,7 +713,7 @@ if get(g:, 'use_coc', 0)
             if CocHasProvider('hover')
                 call CocActionAsync('doHover')
             else
-                exe 'normal!' a:count 'K'
+                exe 'normal!' (a:count > 0 ? a:count : '') 'K'
             endif
         endfunction
 
