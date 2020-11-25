@@ -1236,7 +1236,8 @@ let g:fzf_colors = {
             \ 'pointer': ['fg', 'Exception'],
             \ 'marker':  ['fg', 'Keyword'],
             \ 'spinner': ['fg', 'Label'],
-            \ 'header':  ['fg', 'Comment'] }
+            \ 'header':  ['fg', 'Comment']
+            \ }
 " if has('nvim-0.4.0') || has('patch-8.2.191')
 "     let g:fzf_layout = {'window': {'width': 0.8, 'height': 0.8}}
 " endif
