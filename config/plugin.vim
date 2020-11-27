@@ -687,7 +687,7 @@ if get(g:, 'use_coc', 0)
         nmap <silent> <leader><cr>D <Plug>(coc-diagnostic-info)
         nnoremap <silent> <leader><cr>e :CocList extensions<cr>
         nnoremap <silent> <leader><cr>c :CocList commands<cr>
-        nnoremap <silent> go :<c-r>=CocHasProvider('documentSymbol') ? 'CocList -A outline' : 'normal! go'<cr><cr>
+        nnoremap <silent> go :<c-r>=CocHasProvider('documentSymbol') ? 'CocList -A outline' : 'normal! ' . (v:count == 0 ? '' : v:count) . 'go'<cr><cr>
         nnoremap <silent> gO :<c-r>=CocHasProvider('documentSymbol') ? 'CocList -I -A symbols' : 'normal! gO'<cr><cr>
         nnoremap <silent> ]<cr> :CocNext<cr>
         nnoremap <silent> [<cr> :CocPrev<cr>
@@ -1556,6 +1556,13 @@ if exists(':terminal')
 endif
 
 if has('nvim') || has('job') || has('channel')
+    if executable('python3')
+        let g:codi#interpreters = {
+                    \     'python': {
+                    \         'bin': 'python3'
+                    \     }
+                    \ }
+    endif
     nnoremap <silent> <leader>co :Codi!!<cr>
     nnoremap <leader>cO :Codi!!<space>
 endif
@@ -1565,70 +1572,70 @@ xmap <silent> <leader>cc <Plug>Colorizer
 
 try
     " call textobj#user#plugin('datetime', {
-    "             \   'date': {
-    "             \     'pattern': '\<\d\d\d\d-\d\d-\d\d\>',
-    "             \     'select': ['ad', 'id'],
-    "             \   },
+    "             \     'date': {
+    "             \         'pattern': '\<\d\d\d\d-\d\d-\d\d\>',
+    "             \         'select': ['ad', 'id']
+    "             \     }
     "             \ })
     call textobj#user#plugin('line', {
-                \   'line-a': {
-                \     'pattern': '\v^.*$',
-                \     'select': 'al',
-                \     'scan': 'line',
-                \   },
-                \   'line-i': {
-                \     'pattern': '\v^\s*\zs.{-}\ze\s*$',
-                \     'select': 'il',
-                \     'scan': 'line',
-                \   },
+                \     'line-a': {
+                \         'pattern': '\v^.*$',
+                \         'select': 'al',
+                \         'scan': 'line'
+                \     },
+                \     'line-i': {
+                \         'pattern': '\v^\s*\zs.{-}\ze\s*$',
+                \         'select': 'il',
+                \         'scan': 'line'
+                \     }
                 \ })
     call textobj#user#plugin('underscore', {
-                \   'underscore-a': {
-                \     'pattern': '\v_*[a-zA-Z0-9]*',
-                \     'select': ['a_'],
-                \     'scan': 'line',
-                \   },
-                \   'underscore-i': {
-                \     'pattern': '\v_*\zs[a-zA-Z0-9]*\ze',
-                \     'select': ['i_'],
-                \     'scan': 'line',
-                \   },
+                \     'underscore-a': {
+                \         'pattern': '\v_*[a-zA-Z0-9]*',
+                \         'select': ['a_'],
+                \         'scan': 'line'
+                \     },
+                \     'underscore-i': {
+                \         'pattern': '\v_*\zs[a-zA-Z0-9]*\ze',
+                \         'select': ['i_'],
+                \         'scan': 'line'
+                \     }
                 \ })
     " call textobj#user#plugin('comma', {
-    "             \   'comma-a': {
-    "             \     'pattern': '\v(,[^,]+)|((\(|\[|\{)\zs[^,([{]*,\s*\ze)|(\zs,[^,]{-}\ze(\)|\]|\}))',
-    "             \     'select': 'a,',
-    "             \     'scan': 'line',
-    "             \   },
-    "             \   'comma-i': {
-    "             \     'pattern': '\v(,\zs[^,)\]}]*\ze)|((\(|\[\{)\zs[^,([{]*\ze,)|(,\zs[^,]{-}\ze(\)\]\}))',
-    "             \     'select': 'i,',
-    "             \     'scan': 'line',
-    "             \   },
+    "             \     'comma-a': {
+    "             \         'pattern': '\v(,[^,]+)|((\(|\[|\{)\zs[^,([{]*,\s*\ze)|(\zs,[^,]{-}\ze(\)|\]|\}))',
+    "             \         'select': 'a,',
+    "             \         'scan': 'line'
+    "             \     },
+    "             \     'comma-i': {
+    "             \         'pattern': '\v(,\zs[^,)\]}]*\ze)|((\(|\[\{)\zs[^,([{]*\ze,)|(,\zs[^,]{-}\ze(\)\]\}))',
+    "             \         'select': 'i,',
+    "             \         'scan': 'line'
+    "             \     }
     "             \ })
     call textobj#user#plugin('semicolon', {
-                \   'semicolon-a': {
-                \     'pattern': '\v(^\s*)=\zs[^;]*;\ze',
-                \     'select': 'a;',
-                \     'scan': 'cursor',
-                \   },
-                \   'semicolon-i': {
-                \     'pattern': '\v(^\s*)=\zs[^;]*\ze;',
-                \     'select': 'i;',
-                \     'scan': 'cursor',
-                \   },
+                \     'semicolon-a': {
+                \         'pattern': '\v(^\s*)=\zs[^;]*;\ze',
+                \         'select': 'a;',
+                \         'scan': 'cursor'
+                \     },
+                \     'semicolon-i': {
+                \         'pattern': '\v(^\s*)=\zs[^;]*\ze;',
+                \         'select': 'i;',
+                \         'scan': 'cursor'
+                \     }
                 \ })
     call textobj#user#plugin('camel', {
-                \   'camel-a': {
-                \     'pattern': '\v([A-Z]+[a-z]*)|[0-9]+|[a-z]+',
-                \     'select': ['a~'],
-                \     'scan': 'cursor',
-                \   },
-                \   'camel-i': {
-                \     'pattern': '\v([A-Z][a-z]*)|[0-9]+|[a-z]+',
-                \     'select': ['i~'],
-                \     'scan': 'cursor',
-                \   },
+                \     'camel-a': {
+                \         'pattern': '\v([A-Z]+[a-z]*)|[0-9]+|[a-z]+',
+                \         'select': ['a~'],
+                \         'scan': 'cursor'
+                \     },
+                \     'camel-i': {
+                \         'pattern': '\v([A-Z][a-z]*)|[0-9]+|[a-z]+',
+                \         'select': ['i~'],
+                \         'scan': 'cursor'
+                \     }
                 \ })
 catch
 endtry
