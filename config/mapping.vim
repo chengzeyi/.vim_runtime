@@ -191,8 +191,11 @@ command! -nargs=0 GotoJump call GotoJump()
 command! -nargs=0 GotoTag call GotoTag()
 
 function! GotoJump() abort
+    let more = &more
+    set nomore
     redraw!
     jumps
+    let &more = more
     let j = input('Which one ([count]j|k): ')
     if j =~# '\v[0-9]*j'
         execute 'normal! ' . j[0:-2] . "\<c-i>"
@@ -202,8 +205,11 @@ function! GotoJump() abort
 endfunction
 
 function! GotoTag() abort
+    let more = &more
+    set nomore
     redraw!
     tags
+    let &more = more
     let j = input('Which one ([count]j|k): ')
     if j =~# '\v[0-9]*j'
         execute j[0:-2] . 'tag'
