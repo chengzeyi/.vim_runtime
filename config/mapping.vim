@@ -9,6 +9,8 @@ endif
 cnoremap <c-p> <up>
 cnoremap <c-n> <down>
 
+nnoremap <s-tab> <c-o>
+
 function! MapMotion(from, ...) abort
     let from = a:from
     let to = a:0 == 0 ? a:from : a:1
@@ -33,8 +35,10 @@ xnoremap <silent> Q @q
 nnoremap <silent> Y y$
 xnoremap <silent> Y y$
 
-xnoremap <silent> g> >gv
-xnoremap <silent> g< <gv
+xnoremap <silent> > >gv
+xnoremap <silent> < <gv
+xnoremap <silent> g> >
+xnoremap <silent> g< <
 
 nnoremap <silent> ]<space> :<c-u>put =repeat(nr2char(10), v:count) <bar> execute "'[-1"<cr>
 nnoremap <silent> [<space> :<c-u>put !=repeat(nr2char(10), v:count) <bar> execute "']+1"<cr>
@@ -179,17 +183,20 @@ nnoremap <leader>mm :make!  <bar> cw<left><left><left><left><left>
 nnoremap <silent> <leader>mM :make! <bar> cw<cr>
 nnoremap <leader>ml :lmake!  <bar> cw<left><left><left><left><left>
 nnoremap <silent> <leader>mL :lmake! <bar> cw<cr>
-nnoremap <silent> <leader>jj :call GotoJump()<cr>
-nnoremap <silent> <leader>jt :call GotoTag()<cr>
+nnoremap <silent> <leader>jj :GotoJump<cr>
+nnoremap <silent> <leader>jt :GotoTag<cr>
 nnoremap <silent> <leader>js :tselect<cr>
+
+command! -nargs=0 GotoJump call GotoJump()
+command! -nargs=0 GotoTag call GotoTag()
 
 function! GotoJump() abort
     redraw!
     jumps
     let j = input('Which one ([count]j|k): ')
-    if j =~# '\v[0-9]+j'
+    if j =~# '\v[0-9]*j'
         execute 'normal! ' . j[0:-2] . "\<c-i>"
-    elseif j =~# '\v[0-9]+k'
+    elseif j =~# '\v[0-9]*k'
         execute 'normal! ' . j[0:-2] . "\<c-o>"
     endif
 endfunction
@@ -198,9 +205,9 @@ function! GotoTag() abort
     redraw!
     tags
     let j = input('Which one ([count]j|k): ')
-    if j =~# '\v[0-9]+j'
+    if j =~# '\v[0-9]*j'
         execute j[0:-2] . 'tag'
-    elseif j =~# '\v[0-9]+k'
+    elseif j =~# '\v[0-9]*k'
         execute j[0:-2] . 'pop'
     endif
 endfunction
@@ -255,7 +262,7 @@ function! BetterRegister()
     set nomore
     redraw!
     registers
-    echohl Question | echon "\nPlease press the register name" | echohl None
+    echohl Question | echon "\nWhich one" | echohl None
     let &more = more
     while 1
         let ch = getchar()
@@ -280,7 +287,7 @@ function! BetterMark()
     set nomore
     redraw!
     marks
-    echohl Question | echon "\nPlease press the mark name" | echohl None
+    echohl Question | echon "\nWhich one" | echohl None
     let &more = more
     while 1
         let ch = getchar()
@@ -1085,35 +1092,35 @@ function! I_Back_Tick() abort
     return "``\<c-g>U\<left>"
 endfunction
 
-inoremap <silent> <expr> <c-b> CloseParen()
+" inoremap <silent> <expr> <c-b> CloseParen()
 " inoremap <silent> <expr> <c-space> CloseParen()
 " inoremap <silent> <expr> <nul> CloseParen()
 
-function! CloseParen() abort
-    let closepairs = {'(' : ')',
-                \ '[' : ']',
-                \ '{' : '}',
-                \ '"' : '"',
-                \ "'" : "'",
-                \ '`' : '`',
-                \ }
+" function! CloseParen() abort
+"     let closepairs = {'(' : ')',
+"                 \ '[' : ']',
+"                 \ '{' : '}',
+"                 \ '"' : '"',
+"                 \ "'" : "'",
+"                 \ '`' : '`',
+"                 \ }
 
-    let last = getline(line('.'))[col('.') - 2]
-    if GetRealSynName(line('.'), col('.')) ==# 'String' && last !~# "[\"'`]"
-        let [m_lnum, m_col] = searchpairpos("[\"'`]", '', "[\"'`]", 'nbW')
-    else
-        let [m_lnum, m_col] = searchpairpos('[[({]', '', '[\])}]', 'nbW',
-                    \ 'GetRealSynName(line("."), col(".")) ==# "String"')
-    endif
+"     let last = getline(line('.'))[col('.') - 2]
+"     if GetRealSynName(line('.'), col('.')) ==# 'String' && last !~# "[\"'`]"
+"         let [m_lnum, m_col] = searchpairpos("[\"'`]", '', "[\"'`]", 'nbW')
+"     else
+"         let [m_lnum, m_col] = searchpairpos('[[({]', '', '[\])}]', 'nbW',
+"                     \ 'GetRealSynName(line("."), col(".")) ==# "String"')
+"     endif
 
-    if (m_lnum != 0) && (m_col != 0)
-        let c = getline(m_lnum)[m_col - 1]
-        return closepairs[c]
-    endif
-    return ''
-endfun
+"     if (m_lnum != 0) && (m_col != 0)
+"         let c = getline(m_lnum)[m_col - 1]
+"         return closepairs[c]
+"     endif
+"     return ''
+" endfun
 
-nnoremap <silent> <leader>cl :let @" = expand('%:p') . ':' . line('.')<cr>
+" nnoremap <silent> <leader>cl :let @" = expand('%:p') . ':' . line('.')<cr>
 
 if exists(':terminal')
     nnoremap <leader>rt :RunTermCmd<space>

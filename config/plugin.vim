@@ -589,6 +589,21 @@ if get(g:, 'use_coc', 0)
 
         let g:coc_config_home = expand('~/.vim_runtime/config')
 
+        if exists('+tagfunc')
+            set tagfunc=MyTagFunc
+
+            function! MyTagFunc(pattern, flags, info) abort
+                let result = CocTagFunc(a:pattern, a:flags, a:info)
+                if !empty(result)
+                    return result
+                endif
+                if !empty(tagfiles())
+                    return taglist(a:pattern, a:info.buf_ffname)
+                endif
+                return []
+            endfunc
+        endif
+
         augroup MyCoc
             autocmd!
             au CmdwinEnter [:>] let b:coc_suggest_disable = 1
@@ -698,6 +713,10 @@ if get(g:, 'use_coc', 0)
         if has('nvim-0.4.0') || has('patch-8.2.0750')
           nnoremap <silent> <expr> <c-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<c-f>"
           nnoremap <silent> <expr> <c-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<c-b>"
+          inoremap <silent> <expr> <c-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<c-f>"
+          inoremap <silent> <expr> <c-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<c-b>"
+          vnoremap <silent> <expr> <c-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<c-f>"
+          vnoremap <silent> <expr> <c-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<c-b>"
         endif
 
         nnoremap <silent> K :call <SID>show_documentation(v:count)<CR>
@@ -789,6 +808,10 @@ else
             function! s:on_lsp_buffer_enabled() abort
                 setlocal omnifunc=lsp#complete
 
+                if exists('+tagfunc')
+                    setl tagfunc=MyTagFunc
+                endif
+
                 nmap <silent> <buffer> gL <Plug>(lsp-peek-declaration)
                 nmap <silent> <buffer> gl <Plug>(lsp-declaration)
                 nmap <silent> <buffer> gD <Plug>(lsp-peek-definition)
@@ -812,6 +835,19 @@ else
 
                 nnoremap <silent> <buffer> K :call <SID>show_documentation()<CR>
             endfunction
+
+            if exists('+tagfunc')
+                function! MyTagFunc(pattern, flags, info) abort
+                    let result = lsp#tagfunc(a:pattern, a:flags, a:info)
+                    if !empty(result)
+                        return result
+                    endif
+                    if !empty(tagfiles())
+                        return taglist(a:pattern, a:info.buf_ffname)
+                    endif
+                    return []
+                endfunc
+            endif
 
             function! s:show_documentation() abort
                 if (index(['vim', 'help'], &filetype) >= 0)
