@@ -104,11 +104,12 @@ set foldlevel=99
 set foldlevelstart=99
 " set foldnestmax=3
 " set nofoldenable
-if has('nvim-0.5.0')
-    set foldcolumn=auto:1
-else
-    set foldcolumn=1
-endif
+set foldcolumn=1
+" if has('nvim-0.5.0')
+"     set foldcolumn=auto:1
+" else
+    " set foldcolumn=1
+" endif
 
 set display+=lastline
 
