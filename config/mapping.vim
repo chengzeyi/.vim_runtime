@@ -832,10 +832,10 @@ nnoremap <silent> <c-h> <c-w>h
 nnoremap <silent> <c-l> <c-w>l
 
 nnoremap <silent> <leader>= <c-w>=
-nnoremap <silent> <leader>+ :resize +5<cr>
-nnoremap <silent> <leader>- :resize -5<cr>
-nnoremap <silent> <leader>> :vertical resize +10<cr>
-nnoremap <silent> <leader><lt> :vertical resize -10<cr>
+nnoremap <silent> <s-up> :resize +1<cr>
+nnoremap <silent> <s-down> :resize -1<cr>
+nnoremap <silent> <s-right> :vertical resize +1<cr>
+nnoremap <silent> <s-left> :vertical resize -1<cr>
 
 nnoremap <leader>bb :ls<cr>:b<space>
 nnoremap <leader>bB :ls<cr>:b!<space>

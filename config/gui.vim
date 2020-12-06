@@ -15,8 +15,8 @@ if has('gui_running')
     " endif
 
     if exists('+gfn')
-        nnoremap <s-up> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) + 1)', 'g')<cr>
-        nnoremap <s-down> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g')<cr>
+        nnoremap <a-up> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) + 1)', 'g')<cr>
+        nnoremap <a-down> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g')<cr>
     endif
 endif
 
@@ -33,8 +33,8 @@ if has('nvim-0.4.0')
                 GuiPopupmenu 0
             catch
             endtry
-            nnoremap <s-up> :call GuiFont(substitute(g:GuiFont, ':h\zs\d\+', '\=eval(submatch(0) + 1)', 'g'))<cr>
-            nnoremap <s-down> :call GuiFont(substitute(g:GuiFont, ':h\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g'))<cr>
+            nnoremap <a-up> :call GuiFont(substitute(g:GuiFont, ':h\zs\d\+', '\=eval(submatch(0) + 1)', 'g'))<cr>
+            nnoremap <a-down> :call GuiFont(substitute(g:GuiFont, ':h\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g'))<cr>
         endif
     endfunction
 endif
