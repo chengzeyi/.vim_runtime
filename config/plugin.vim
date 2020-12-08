@@ -562,13 +562,14 @@ if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
         autocmd BufEnter * silent! lua require'completion'.on_attach()
     augroup END
 
-    let g:completion_enable_snippet = 'neosnippet'
+    let g:completion_enable_snippet = 'Neosnippet'
     let g:completion_chain_complete_list = {
           \ 'default' : [
           \     {'complete_items': ['lsp', 'ts', 'snippet', 'buffers']},
           \     {'mode': '<c-p>'},
           \     {'mode': '<c-n>'}
           \ ]}
+    let g:completion_trigger_on_delete = 1
 
     imap <c-j> <Plug>(completion_next_source)
     imap <c-k> <Plug>(completion_prev_source)
