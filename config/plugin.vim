@@ -490,7 +490,7 @@ local on_attach = function(_, bufnr)
     }
 
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>call ShowDocumentation()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gm', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gh', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
@@ -542,6 +542,17 @@ EOF
             let sl = ''
         endif
         return sl
+    endfunction
+
+    function! ShowDocumentation() abort
+        if (index(['vim', 'help'], &filetype) >= 0)
+            try
+                execute 'h' expand('<cword>')
+                return
+            catch
+            endtry
+        endif
+        lua vim.lsp.buf.hover()
     endfunction
 endif
 
@@ -719,7 +730,7 @@ if get(g:, 'use_coc', 0)
         nmap <silent> <leader><cr>D <Plug>(coc-diagnostic-info)
         nnoremap <silent> <leader><cr>e :CocList extensions<cr>
         nnoremap <silent> <leader><cr>c :CocList commands<cr>
-        nnoremap <silent> go :<c-r>=CocHasProvider('documentSymbol') ? 'CocList -A outline' : 'normal! ' . (v:count == 0 ? '' : v:count) . 'go'<cr><cr>
+        nnoremap <silent> go :<c-u><c-r>=CocHasProvider('documentSymbol') ? 'CocList -A outline' : 'normal! ' . (v:count == 0 ? '' : v:count) . 'go'<cr><cr>
         nnoremap <silent> gO :<c-r>=CocHasProvider('documentSymbol') ? 'CocList -I -A symbols' : 'normal! gO'<cr><cr>
         nnoremap <silent> ]<cr> :CocNext<cr>
         nnoremap <silent> [<cr> :CocPrev<cr>
@@ -736,9 +747,9 @@ if get(g:, 'use_coc', 0)
           vnoremap <silent> <expr> <c-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<c-b>"
         endif
 
-        nnoremap <silent> K :call <SID>show_documentation(v:count)<CR>
+        nnoremap <silent> K :<c-u>call showdocumentation(v:count)<cr>
 
-        function! s:show_documentation(count) abort
+        function! ShowDocumentation(count) abort
             if (index(['vim', 'help'], &filetype) >= 0)
                 try
                     execute 'h' expand('<cword>')
@@ -850,7 +861,7 @@ else
                 nmap <silent> ]r <Plug>(lsp-next-reference)
                 nmap <silent> [r <Plug>(lsp-previous-reference)
 
-                nnoremap <silent> <buffer> K :call <SID>show_documentation()<CR>
+                nnoremap <silent> <buffer> K :call ShowDocumentation()<cr>
             endfunction
 
             if exists('+tagfunc')
@@ -866,7 +877,7 @@ else
                 endfunc
             endif
 
-            function! s:show_documentation() abort
+            function! ShowDocumentation() abort
                 if (index(['vim', 'help'], &filetype) >= 0)
                     try
                         execute 'h' expand('<cword>')
