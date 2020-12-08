@@ -300,10 +300,10 @@ require'nvim-treesitter.configs'.setup {
     highlight = {
         enable = true,
         use_languagetree = false, -- Use this to enable language injection (this is very unstable)
-        custom_captures = {
+        -- custom_captures = {
             -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
             -- ["foo.bar"] = "Identifier",
-        },
+        -- },
     },
 }
 require'nvim-treesitter.configs'.setup {
@@ -478,18 +478,6 @@ endif
 if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
     try
 lua <<EOF
-local nvim_lsp = require'nvim_lsp'
-
-nvim_lsp.clangd.setup {
-    cmd = {
-        'clangd',
-        '--background-index',
-        '--clang-tidy',
-        '--suggest-missing-includes',
-        '--cross-file-rename',
-    },
-}
-
 local on_attach = function(_, bufnr)
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
     -- require'diagnostic'.on_attach()
@@ -500,6 +488,7 @@ local on_attach = function(_, bufnr)
         noremap=true,
         silent=true,
     }
+
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gm', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
@@ -509,23 +498,51 @@ local on_attach = function(_, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'go', '<cmd>lua vim.lsp.buf.document_symbol()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gO', '<cmd>lua vim.lsp.buf.workspace_symbol()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gl', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[e', '<cmd>lua vim.lsp.diagnostic.goto_prev({severity = "Error"})<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']e', '<cmd>lua vim.lsp.diagnostic.goto_next({severity = "Error"})<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[w', '<cmd>lua vim.lsp.diagnostic.goto_prev({severity = "Warning"})<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']w', '<cmd>lua vim.lsp.diagnostic.goto_next({severity = "Warning"})<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>a', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>r', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'x', '<leader><cr>a', '<cmd>lua vim.lsp.buf.range_code_action()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>f', '<cmd>lua vim.lsp.buf.formatting()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'x', '<leader><cr>f', '<cmd>lua vim.lsp.buf.range_formatting()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>r', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>c', '<cmd>lua vim.lsp.buf.incoming_calls()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>C', '<cmd>lua vim.lsp.buf.outgoing_calls()<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>d', '<cmd>lua vim.lsp.util.show_line_diagnostics()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>d', '<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>D', '<cmd>lua vim.lsp.util.show_line_diagnostics()<cr>', opts)
+
+    vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
+    vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
+    vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
 end
 
-local available_servers = nvim_lsp.available_servers()
-for _, lsp in ipairs(available_servers) do
-    nvim_lsp[lsp].setup {
-        on_attach = on_attach,
-    }
-end
+local lspconfig = require'lspconfig'
+lspconfig.util.default_config = vim.tbl_extend(
+    'force',
+    lspconfig.util.default_config,
+    { on_attach = on_attach }
+)
 EOF
     catch
     endtry
+
+    let g:statusline_extra_left_1 = ['LspStatus', []]
+
+    function! LspStatus() abort
+        let sl = ''
+        if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
+            let sl = 'E'
+            let sl .= luaeval('vim.lsp.diagnostic.get_count([[Error]])')
+            let sl .= ' W'
+            let sl .= luaeval('vim.lsp.diagnostic.get_count([[Warning]])')
+        else
+            let sl = ''
+        endif
+        return sl
+    endfunction
 endif
 
 if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
