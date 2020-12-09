@@ -73,16 +73,16 @@ if get(g:, 'use_coc', 0)
     if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
     endif
-else
-    if get(g:, 'use_vim_lsp', 0)
-        if has('timers') && has('lambda')
-            Plug 'mattn/vim-lsp-settings'
-            Plug 'prabirshrestha/vim-lsp'
-        endif
+endif
+
+if get(g:, 'use_vim_lsp', 0)
+    if has('timers') && has('lambda')
+        Plug 'mattn/vim-lsp-settings'
+        Plug 'prabirshrestha/vim-lsp'
     endif
 endif
 
-if !get(g:, 'use_coc', 0) && get(g:, 'use_asyncomplete', 0)
+if get(g:, 'use_asyncomplete', 0)
     if has('timers')
         Plug 'prabirshrestha/asyncomplete.vim'
         if get(g:, 'use_vim_lsp', 0)
@@ -505,9 +505,9 @@ local on_attach = function(_, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '[w', '<cmd>lua vim.lsp.diagnostic.goto_prev({severity = "Warning"})<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', ']w', '<cmd>lua vim.lsp.diagnostic.goto_next({severity = "Warning"})<cr>', opts)
 
-    vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
-    vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
-    vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
+    vim.api.nvim_command [[autocmd CursorHold  <buffer> silent! lua vim.lsp.buf.document_highlight()]]
+    vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
+    vim.api.nvim_command [[autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()]]
 end
 
 local lspconfig = require'lspconfig'
@@ -525,12 +525,10 @@ EOF
     function! LspStatus() abort
         let sl = ''
         if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
-            let sl = 'E'
+            let sl .= 'E'
             let sl .= luaeval('vim.lsp.diagnostic.get_count([[Error]])')
             let sl .= ' W'
             let sl .= luaeval('vim.lsp.diagnostic.get_count([[Warning]])')
-        else
-            let sl = ''
         endif
         return sl
     endfunction
@@ -539,9 +537,10 @@ EOF
         if (index(['vim', 'help'], &filetype) >= 0)
             try
                 execute 'h' expand('<cword>')
-                return
             catch
+                echohl ErrorMsg | echo v:exception | echohl None
             endtry
+            return
         endif
         lua vim.lsp.buf.hover()
     endfunction
@@ -555,12 +554,14 @@ EOF
     nnoremap <silent> <leader><cr>C :lua vim.lsp.buf.outgoing_calls()<cr>
     nnoremap <silent> <leader><cr>d :lua vim.lsp.diagnostic.set_loclist()<cr>
     nnoremap <silent> <leader><cr>D :lua vim.lsp.util.show_line_diagnostics()<cr>
+
+    command! -nargs=0 LspStop lua vim.lsp.stop_client(vim.lsp.get_active_clients())
 endif
 
 if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
     augroup MyCompletionNvim
         autocmd!
-        autocmd BufEnter * silent! lua require'completion'.on_attach()
+        autocmd BufEnter * if win_gettype() !=# 'command' | silent! exe 'lua require"completion".on_attach()' | endif
     augroup END
 
     let g:completion_enable_snippet = 'Neosnippet'
@@ -755,9 +756,10 @@ if get(g:, 'use_coc', 0)
             if (index(['vim', 'help'], &filetype) >= 0)
                 try
                     execute 'h' expand('<cword>')
-                    return
                 catch
+                    echohl ErrorMsg | echo v:exception | echohl None
                 endtry
+                return
             endif
             if CocHasProvider('hover')
                 call CocActionAsync('doHover')
@@ -780,120 +782,121 @@ if get(g:, 'use_coc', 0)
             endfor
         endfunction
     endif
-else
-    if get(g:, 'use_vim_lsp', 0)
-        if has('timers') && has('lambda')
-            let statusline_extra_left_1 = ['VimLspDiagnostics', []]
-            function! VimLspDiagnostics() abort
-                let counts = lsp#get_buffer_diagnostics_counts()
-                return printf('E%d W%d I%d H%d',
-                            \ counts['error'],
-                            \ counts['warning'],
-                            \ counts['information'],
-                            \ counts['hint'],
-                            \ )
-            endfunction
+endif
 
-            augroup MyLspDiagnostics
-                autocmd!
-                au InsertEnter * let g:lsp_diagnostics_enabled = 0
-                au InsertLeave * let g:lsp_diagnostics_enabled = 1
-            augroup END
-            " let g:lsp_diagnostics_echo_cursor = 1
-            let g:lsp_diagnostics_float_cursor = 1
-            let g:lsp_virtual_text_prefix = "‣ "
-            " if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
-            "     au CursorHold * let g:lsp_highlight_references_enabled = !exists('#NvimTreesitterUsages_' . bufnr())
-            " endif
-            " let g:lsp_fold_enabled = 0
+if get(g:, 'use_vim_lsp', 0)
+    if has('timers') && has('lambda')
+        let statusline_extra_left_1 = ['VimLspDiagnostics', []]
+        function! VimLspDiagnostics() abort
+            let counts = lsp#get_buffer_diagnostics_counts()
+            return printf('E%d W%d I%d H%d',
+                        \ counts['error'],
+                        \ counts['warning'],
+                        \ counts['information'],
+                        \ counts['hint'],
+                        \ )
+        endfunction
 
-            nmap <silent> <leader><cr><cr> <Plug>(lsp-status)
-            nmap <silent> <leader><cr>] <Plug>(lsp-preview-focus)
-            nmap <silent> <leader><cr>[ <Plug>(lsp-preview-close)
-            nmap <silent> <leader><cr>a <Plug>(lsp-code-action)
-            nmap <silent> <leader><cr>l <Plug>(lsp-code-lens)
-            nmap <silent> <leader><cr>f <Plug>(lsp-document-format)
-            nmap <silent> <leader><cr>F <Plug>(lsp-document-range-format)
-            xmap <silent> <leader><cr>F <Plug>(lsp-document-range-format)
-            nmap <silent> <leader><cr>d <Plug>(lsp-document-diagnostics)
+        augroup MyLspDiagnostics
+            autocmd!
+            au InsertEnter * let g:lsp_diagnostics_enabled = 0
+            au InsertLeave * let g:lsp_diagnostics_enabled = 1
+        augroup END
+        " let g:lsp_diagnostics_echo_cursor = 1
+        let g:lsp_diagnostics_float_cursor = 1
+        let g:lsp_virtual_text_prefix = "‣ "
+        " if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
+        "     au CursorHold * let g:lsp_highlight_references_enabled = !exists('#NvimTreesitterUsages_' . bufnr())
+        " endif
+        " let g:lsp_fold_enabled = 0
 
-            nmap <silent> <leader><cr>h <Plug>(lsp-hover)
-            nmap <silent> <leader><cr>H <Plug>(lsp-signature-help)
+        nmap <silent> <leader><cr><cr> <Plug>(lsp-status)
+        nmap <silent> <leader><cr>] <Plug>(lsp-preview-focus)
+        nmap <silent> <leader><cr>[ <Plug>(lsp-preview-close)
+        nmap <silent> <leader><cr>a <Plug>(lsp-code-action)
+        nmap <silent> <leader><cr>l <Plug>(lsp-code-lens)
+        nmap <silent> <leader><cr>f <Plug>(lsp-document-format)
+        nmap <silent> <leader><cr>F <Plug>(lsp-document-range-format)
+        xmap <silent> <leader><cr>F <Plug>(lsp-document-range-format)
+        nmap <silent> <leader><cr>d <Plug>(lsp-document-diagnostics)
 
-            nmap <silent> <leader><cr>t <Plug>(lsp-type-hierarchy)
-            nmap <silent> <leader><cr>r <Plug>(lsp-rename)
+        nmap <silent> <leader><cr>h <Plug>(lsp-hover)
+        nmap <silent> <leader><cr>H <Plug>(lsp-signature-help)
 
-            augroup MyVimLsp
-                autocmd!
-                au User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+        nmap <silent> <leader><cr>t <Plug>(lsp-type-hierarchy)
+        nmap <silent> <leader><cr>r <Plug>(lsp-rename)
 
-                au ColorScheme * hi! link LspErrorHighlight SpellBad
-                au ColorScheme * hi! link LspWarningHighlight SpellCap
-                au ColorScheme * hi! link LspInformationHighlight SpellLocal
-                au ColorScheme * hi! link LspHintHighlight SpellRare
+        augroup MyVimLsp
+            autocmd!
+            au User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 
-                au ColorScheme * hi! link lspReference Visual
-            augroup END
+            au ColorScheme * hi! link LspErrorHighlight SpellBad
+            au ColorScheme * hi! link LspWarningHighlight SpellCap
+            au ColorScheme * hi! link LspInformationHighlight SpellLocal
+            au ColorScheme * hi! link LspHintHighlight SpellRare
 
-            function! s:on_lsp_buffer_enabled() abort
-                setlocal omnifunc=lsp#complete
+            au ColorScheme * hi! link lspReference Visual
+        augroup END
 
-                if exists('+tagfunc')
-                    setl tagfunc=MyTagFunc
-                endif
-
-                nmap <silent> <buffer> gL <Plug>(lsp-peek-declaration)
-                nmap <silent> <buffer> gl <Plug>(lsp-declaration)
-                nmap <silent> <buffer> gD <Plug>(lsp-peek-definition)
-                nmap <silent> <buffer> gd <Plug>(lsp-definition)
-                nmap <silent> <buffer> gI <Plug>(lsp-peek-implementation)
-                nmap <silent> <buffer> gi <Plug>(lsp-implementation)
-                nmap <silent> <buffer> gY <Plug>(lsp-peek-type-definition)
-                nmap <silent> <buffer> gy <Plug>(lsp-type-definition)
-                nmap <silent> <buffer> gr <Plug>(lsp-references)
-                nmap <silent> <buffer> go <Plug>(lsp-document-symbol)
-                nmap <silent> <buffer> gO <Plug>(lsp-workspace-symbol)
-
-                nmap <silent> ]g <Plug>(lsp-next-diagnostic)
-                nmap <silent> [g <Plug>(lsp-previous-diagnostic)
-                nmap <silent> ]e <Plug>(lsp-next-error)
-                nmap <silent> [e <Plug>(lsp-previous-error)
-                nmap <silent> ]w <Plug>(lsp-next-warning)
-                nmap <silent> [w <Plug>(lsp-previous-warning)
-                nmap <silent> ]r <Plug>(lsp-next-reference)
-                nmap <silent> [r <Plug>(lsp-previous-reference)
-
-                nnoremap <silent> <buffer> K :call ShowDocumentation()<cr>
-            endfunction
+        function! s:on_lsp_buffer_enabled() abort
+            setlocal omnifunc=lsp#complete
 
             if exists('+tagfunc')
-                function! MyTagFunc(pattern, flags, info) abort
-                    let result = lsp#tagfunc(a:pattern, a:flags, a:info)
-                    if !empty(result)
-                        return result
-                    endif
-                    if !empty(tagfiles())
-                        return taglist(a:pattern, a:info.buf_ffname)
-                    endif
-                    return []
-                endfunc
+                setl tagfunc=MyTagFunc
             endif
 
-            function! ShowDocumentation() abort
-                if (index(['vim', 'help'], &filetype) >= 0)
-                    try
-                        execute 'h' expand('<cword>')
-                        return
-                    catch
-                    endtry
+            nmap <silent> <buffer> gL <Plug>(lsp-peek-declaration)
+            nmap <silent> <buffer> gl <Plug>(lsp-declaration)
+            nmap <silent> <buffer> gD <Plug>(lsp-peek-definition)
+            nmap <silent> <buffer> gd <Plug>(lsp-definition)
+            nmap <silent> <buffer> gI <Plug>(lsp-peek-implementation)
+            nmap <silent> <buffer> gi <Plug>(lsp-implementation)
+            nmap <silent> <buffer> gY <Plug>(lsp-peek-type-definition)
+            nmap <silent> <buffer> gy <Plug>(lsp-type-definition)
+            nmap <silent> <buffer> gr <Plug>(lsp-references)
+            nmap <silent> <buffer> go <Plug>(lsp-document-symbol)
+            nmap <silent> <buffer> gO <Plug>(lsp-workspace-symbol)
+
+            nmap <silent> ]g <Plug>(lsp-next-diagnostic)
+            nmap <silent> [g <Plug>(lsp-previous-diagnostic)
+            nmap <silent> ]e <Plug>(lsp-next-error)
+            nmap <silent> [e <Plug>(lsp-previous-error)
+            nmap <silent> ]w <Plug>(lsp-next-warning)
+            nmap <silent> [w <Plug>(lsp-previous-warning)
+            nmap <silent> ]r <Plug>(lsp-next-reference)
+            nmap <silent> [r <Plug>(lsp-previous-reference)
+
+            nnoremap <silent> <buffer> K :call ShowDocumentation()<cr>
+        endfunction
+
+        if exists('+tagfunc')
+            function! MyTagFunc(pattern, flags, info) abort
+                let result = lsp#tagfunc(a:pattern, a:flags, a:info)
+                if !empty(result)
+                    return result
                 endif
-                LspHover
-            endfunction
+                if !empty(tagfiles())
+                    return taglist(a:pattern, a:info.buf_ffname)
+                endif
+                return []
+            endfunc
         endif
+
+        function! ShowDocumentation() abort
+            if (index(['vim', 'help'], &filetype) >= 0)
+                try
+                    execute 'h' expand('<cword>')
+                catch
+                    echohl ErrorMsg | echo v:exception | echohl None
+                endtry
+                return
+            endif
+            LspHover
+        endfunction
     endif
 endif
 
-if !get(g:, 'use_coc', 0) && get(g:, 'use_asyncomplete', 0)
+if get(g:, 'use_asyncomplete', 0)
     if has('timers')
         nnoremap <silent> <leader>oa :ToggleAsyncompleteAutoComplete<cr>
         command! -nargs=0 ToggleAsyncompleteAutoComplete call ToggleAsyncompleteAutoComplete()
@@ -906,6 +909,11 @@ if !get(g:, 'use_coc', 0) && get(g:, 'use_asyncomplete', 0)
                 unlet g:refresh_pum
             endif
         endfunction
+
+        augroup MyVimLsp
+            autocmd!
+            au CmdwinEnter [:>] let b:asyncomplete_enable = 0
+        augroup END
 
         let g:refresh_pum = ['asyncomplete#force_refresh', []]
         inoremap <silent> <expr> <c-l> pumvisible() ? "\<c-l>" : asyncomplete#force_refresh()
