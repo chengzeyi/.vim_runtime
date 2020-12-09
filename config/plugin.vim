@@ -750,7 +750,7 @@ if get(g:, 'use_coc', 0)
           vnoremap <silent> <expr> <c-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<c-b>"
         endif
 
-        nnoremap <silent> K :<c-u>call showdocumentation(v:count)<cr>
+        nnoremap <silent> K :<c-u>call ShowDocumentation(v:count)<cr>
 
         function! ShowDocumentation(count) abort
             if (index(['vim', 'help'], &filetype) >= 0)
