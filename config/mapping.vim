@@ -98,6 +98,7 @@ if has('termguicolors')
     nnoremap <silent> <leader>og :set invtermguicolors<cr>
 endif
 nnoremap <silent> <leader>ow :set textwidth=<c-r>=&textwidth == 0 ? 79 : 0<cr><cr>
+nnoremap <silent> <leader>oW :set invwrap<cr>
 nnoremap <silent> <leader>oc :set colorcolumn=<c-r>=empty(&colorcolumn) ? '+1' : ''<cr><cr>
 nnoremap <silent> <leader>oz :set foldclose=<c-r>=&foldclose !=# 'all' ? 'all' : ''<cr> foldopen=<c-r>=&foldopen !=# 'all' ? 'all' : ''<cr><cr>
 nnoremap <silent> <leader>ob :set background=<c-r>=&background ==# 'dark' ? 'light' : 'dark'<cr><cr>

@@ -504,15 +504,6 @@ local on_attach = function(_, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', ']e', '<cmd>lua vim.lsp.diagnostic.goto_next({severity = "Error"})<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '[w', '<cmd>lua vim.lsp.diagnostic.goto_prev({severity = "Warning"})<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', ']w', '<cmd>lua vim.lsp.diagnostic.goto_next({severity = "Warning"})<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>a', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'x', '<leader><cr>a', '<cmd>lua vim.lsp.buf.range_code_action()<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>f', '<cmd>lua vim.lsp.buf.formatting()<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'x', '<leader><cr>f', '<cmd>lua vim.lsp.buf.range_formatting()<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>r', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>c', '<cmd>lua vim.lsp.buf.incoming_calls()<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>C', '<cmd>lua vim.lsp.buf.outgoing_calls()<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>d', '<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader><cr>D', '<cmd>lua vim.lsp.util.show_line_diagnostics()<cr>', opts)
 
     vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
     vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
@@ -554,6 +545,16 @@ EOF
         endif
         lua vim.lsp.buf.hover()
     endfunction
+
+    nnoremap <silent> <leader><cr>a :lua vim.lsp.buf.code_action()<cr>
+    nnoremap <silent> <leader><cr>a :lua vim.lsp.buf.range_code_action()<cr>
+    nnoremap <silent> <leader><cr>f :lua vim.lsp.buf.formatting()<cr>
+    nnoremap <silent> <leader><cr>f :lua vim.lsp.buf.range_formatting()<cr>
+    nnoremap <silent> <leader><cr>r :lua vim.lsp.buf.rename()<cr>
+    nnoremap <silent> <leader><cr>c :lua vim.lsp.buf.incoming_calls()<cr>
+    nnoremap <silent> <leader><cr>C :lua vim.lsp.buf.outgoing_calls()<cr>
+    nnoremap <silent> <leader><cr>d :lua vim.lsp.diagnostic.set_loclist()<cr>
+    nnoremap <silent> <leader><cr>D :lua vim.lsp.util.show_line_diagnostics()<cr>
 endif
 
 if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
