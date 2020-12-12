@@ -40,8 +40,10 @@ xnoremap <silent> < <gv
 xnoremap <silent> g> >
 xnoremap <silent> g< <
 
+map <silent> <c-c> "*y
+
 nnoremap <silent> ]<space> :<c-u>put =repeat(nr2char(10), v:count) <bar> execute "'[-1"<cr>
-nnoremap <silent> [<space> :<c-u>put !=repeat(nr2char(10), v:count) <bar> execute "']+1"<cr>
+nnoremap <silent> [<space> :<c-u>put! =repeat(nr2char(10), v:count) <bar> execute "']+1"<cr>
 
 nnoremap <silent> <leader><bslash> :rightbelow sp<cr>
 nnoremap <silent> <leader><bar> :rightbelow vs<cr>
@@ -97,6 +99,7 @@ nnoremap <silent> <leader>on :set invnumber<cr>
 if has('termguicolors')
     nnoremap <silent> <leader>og :set invtermguicolors<cr>
 endif
+nnoremap <silent> <leader>ol :set invlist<cr>
 nnoremap <silent> <leader>ow :set textwidth=<c-r>=&textwidth == 0 ? 79 : 0<cr><cr>
 nnoremap <silent> <leader>oW :set invwrap<cr>
 nnoremap <silent> <leader>oc :set colorcolumn=<c-r>=empty(&colorcolumn) ? '+1' : ''<cr><cr>
@@ -253,10 +256,10 @@ nnoremap <silent> <leader>X :qa<cr>
 
 nnoremap <silent> <leader>" :registers<cr>
 nnoremap <silent> <leader>@ :registers<cr>
-" inoremap <silent> <c-r> <c-r>="\<lt>c-r>" . BetterRegister()<cr>
+" inoremap <expr> <c-r> '<c-r>' . BetterRegister()
 " if exists(':terminal')
 "     if !has('nvim')
-"         tnoremap <silent> <expr> <c-w>" "\<lt>c-w>\"" . BetterRegister()
+"         tnoremap <silent> <expr> <c-w>" '<c-w>"' . BetterRegister()
 "     endif
 " endif
 " nnoremap <silent> <expr> " '"' . BetterRegister()
@@ -264,23 +267,23 @@ nnoremap <silent> <leader>@ :registers<cr>
 " xnoremap <silent> <expr> " '"' . BetterRegister()
 " xnoremap <silent> <expr> @ '@' . BetterRegister()
 
-" function! BetterRegister()
-"     let more = &more
-"     set nomore
-"     redraw!
-"     registers
-"     echohl Question | echon "\nWhich one" | echohl None
-"     let &more = more
-"     while 1
-"         let ch = getchar()
-"         if ch !~# '\v[0-9]+'
-"             continue
-"         else
-"             redraw!
-"             return nr2char(ch)
-"         endif
-"     endwhile
-" endfunction
+function! BetterRegister()
+    let more = &more
+    set nomore
+    redraw!
+    registers
+    echohl Question | echon "\nWhich one" | echohl None
+    let &more = more
+    while 1
+        let ch = getchar()
+        if ch !~# '\v[0-9]+'
+            continue
+        else
+            redraw!
+            return nr2char(ch)
+        endif
+    endwhile
+endfunction
 
 nnoremap <silent> <leader>' :marks<cr>
 nnoremap <silent> <leader>` :marks<cr>
@@ -313,11 +316,21 @@ nnoremap <silent> <leader>g# g#``
 nnoremap <silent> <leader>g* g*``
 nnoremap <silent> c# #``cgn
 nnoremap <silent> c* *``cgn
+nnoremap <silent> cg# g#``cgn
+nnoremap <silent> cg* g*``cgn
+nnoremap <silent> d# #``dgn
+nnoremap <silent> d* *``dgn
+nnoremap <silent> dg# g#``dgn
+nnoremap <silent> dg* g*``dgn
 
-inoremap <silent> <F1> <c-o>za
-nnoremap <silent> <F1> za
-onoremap <silent> <F1> <c-c>za
-vnoremap <silent> <F1> zf
+nnoremap <F1> :h<space>
+inoremap <silent> <F3> <c-o>za
+nnoremap <silent> <F3> za
+onoremap <silent> <F3> <c-c>za
+vnoremap <silent> <F3> zf
+inoremap <F4> <c-o>:emenu <c-z>
+noremap <F4> :emenu <c-z>
+
 nnoremap <silent> <leader>z0 :set foldlevel=0<cr>
 nnoremap <silent> <leader>z1 :set foldlevel=1<cr>
 nnoremap <silent> <leader>z2 :set foldlevel=2<cr>
@@ -330,53 +343,54 @@ nnoremap <silent> <leader>z8 :set foldlevel=8<cr>
 nnoremap <silent> <leader>z9 :set foldlevel=9<cr>
 nnoremap <silent> <leader>z- :set foldlevel-=1<cr>
 nnoremap <silent> <leader>z+ :set foldlevel+=1<cr>
+
 nnoremap <silent> <leader>z= :set foldlevel=<c-r>=&foldlevel == 99 ? 0 : 99<cr><cr>
 " nnoremap <silent> <leader>f/ :setlocal foldexpr=getline(v:lnum)=~@/?0:1 foldmethod=
 "             \<c-r>=&foldmethod == 'expr' ? 'indent' : 'expr'<cr> foldlevel=
 "             \<c-r>=&foldmethod == 'expr' ? 99 : 0<cr><cr>
-xnoremap <silent> <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? 'a'.expand('<lt>cword>') : ':<c-u>silent! normal! [zV]z<cr>'
+xnoremap <silent> <expr> . expand('<lt>cword>') =~# '[(){}\[\]]' ? ('a' . expand('<lt>cword>')) : '[zoV]z'
 
 " Changes to allow blank lines in blocks, and
 " Top level blocks (zero indent) separated by two or more blank lines.
 " Usage: source <thisfile> in pythonmode and
 " Press: vai, vii to select outer/inner python blocks by indetation.
 " Press: vii, yii, dii, cii to select/yank/delete/change an indented block.
-onoremap <silent> ai :<C-u>call IndTxtObj(0)<CR>
-onoremap <silent> ii :<C-u>call IndTxtObj(1)<CR>
-xnoremap <silent> ai <Esc>:call IndTxtObj(0)<CR><Esc>gv
-xnoremap <silent> ii <Esc>:call IndTxtObj(1)<CR><Esc>gv
+onoremap <silent> ai :<c-u>call IndTxtObj(0)<cr>
+onoremap <silent> ii :<c-u>call IndTxtObj(1)<cr>
+xnoremap <silent> ai <esc>:call IndTxtObj(0)<cr><esc>gv
+xnoremap <silent> ii <esc>:call IndTxtObj(1)<cr><esc>gv
 
 function! IndTxtObj(inner) abort
     let curcol = col('.')
     let curline = line('.')
     let lastline = line('$')
     let i = indent(line('.'))
-    if getline('.') !~ "^\\s*$"
+    if getline('.') !~ '^\s*$'
         let p = line('.') - 1
         let pp = line('.') - 2
-        let nextblank = getline(p) =~ "^\\s*$"
-        let nextnextblank = getline(pp) =~ "^\\s*$"
+        let nextblank = getline(p) =~ '^\s*$'
+        let nextnextblank = getline(pp) =~ '^\s*$'
         while p > 0 && ((i == 0 && (!nextblank || (pp > 0 && !nextnextblank))) ||
                     \ (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
             -
             let p = line('.') - 1
             let pp = line('.') - 2
-            let nextblank = getline(p) =~ "^\\s*$"
-            let nextnextblank = getline(pp) =~ "^\\s*$"
+            let nextblank = getline(p) =~ '^\s*$'
+            let nextnextblank = getline(pp) =~ '^\s*$'
         endwhile
         normal! 0V
         call cursor(curline, curcol)
         let p = line('.') + 1
         let pp = line('.') + 2
-        let nextblank = getline(p) =~ "^\\s*$"
-        let nextnextblank = getline(pp) =~ "^\\s*$"
+        let nextblank = getline(p) =~ '^\s*$'
+        let nextnextblank = getline(pp) =~ '^\s*$'
         while p <= lastline && ((i == 0 && (!nextblank || pp < lastline && !nextnextblank)) ||
                     \ (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
             +
             let p = line('.') + 1
             let pp = line('.') + 2
-            let nextblank = getline(p) =~ "^\\s*$"
-            let nextnextblank = getline(pp) =~ "^\\s*$"
+            let nextblank = getline(p) =~ '^\s*$'
+            let nextnextblank = getline(pp) =~ '^\s*$'
         endwhile
         normal! $
     endif
@@ -547,7 +561,7 @@ nnoremap <silent> <leader>ln :lnewer<cr>
 nnoremap <silent> <leader>qh :chistory<cr>
 nnoremap <silent> <leader>lh :lhistory<cr>
 nnoremap <silent> <leader>lt :ltag<cr>
-nnoremap <silent> <expr> <leader>lc ':lcd ' . GetVcsRoot() . "\<lt>cr>"
+nnoremap <silent> <expr> <leader>lc ':lcd ' . GetVcsRoot() . '<cr>'
 nnoremap <silent> <leader>lC :lcd %:p:h<cr>
 nnoremap <silent> <leader>q<space> :cc<cr>
 nnoremap <silent> <leader>l<space> :ll<cr>
@@ -888,12 +902,12 @@ nnoremap <silent> <leader>tx :tabclose<cr>
 nnoremap <silent> <leader>tX :tabclose!<cr>
 nnoremap <silent> <leader>tm :+tabmove<cr>
 nnoremap <silent> <leader>tM :-tabmove<cr>
-nnoremap <silent> <expr> <leader>tc ':tcd ' . GetVcsRoot() . "\<lt>cr>"
+nnoremap <silent> <expr> <leader>tc ':tcd ' . GetVcsRoot() . '<cr>'
 nnoremap <silent> <leader>tC :tcd %:p:h<cr>
 
 " Let 'tl' toggle between this and the last accessed tab
 nnoremap <silent> <leader>tl :tablast<cr>
-nnoremap <silent> <expr> <leader>tl exists('g:lasttab') ? (':' . g:lasttab . "tabn\<lt>cr>") : ''
+nnoremap <silent> <expr> <leader>tl exists('g:lasttab') ? (':' . g:lasttab . 'tabn<cr>') : ''
 augroup MyLastAccessedTab
     autocmd!
     au TabLeave * let g:lasttab = tabpagenr()
@@ -913,7 +927,7 @@ nnoremap <silent> <leader>8 8gt
 nnoremap <silent> <leader>9 9gt
 nnoremap <silent> <leader>$ :$tabnext<cr>
 
-nnoremap <silent> <expr> <leader>cd ':cd ' . GetVcsRoot() . "\<lt>cr>"
+nnoremap <silent> <expr> <leader>cd ':cd ' . GetVcsRoot() . '<cr>'
 " Switch CWD to the directory of the open buffer
 nnoremap <silent> <leader>cD :cd %:p:h<cr>
 
@@ -938,18 +952,18 @@ nnoremap <silent> <leader>sp :set invspell<cr>
 " inoremap <silent> <c-f> <c-x><c-f>
 " inoremap <silent> <c-d> <c-x><c-d>
 " inoremap <silent> <c-l> <c-x><c-l>
-inoremap <silent> <expr> <tab> pumvisible() ? "\<c-n>" : RefreshPum("\<tab>", "\<c-n>")
-inoremap <silent> <expr> <s-tab> pumvisible() ? "\<c-p>" : RefreshPum("\<s-tab>", "\<c-p>")
-inoremap <silent> <expr> <down> pumvisible() ? "\<c-n>" : "\<down>"
-inoremap <silent> <expr> <up> pumvisible() ? "\<c-p>" : "\<up>"
-" inoremap <silent> <expr> <c-e> pumvisible() ? "\<c-e>" : "\<End>"
+inoremap <silent> <expr> <tab> pumvisible() ? '<c-n>' : RefreshPum('<tab>', '<c-n>')
+inoremap <silent> <expr> <s-tab> pumvisible() ? '<c-p>' : RefreshPum('<s-tab>', '<c-p>')
+inoremap <silent> <expr> <down> pumvisible() ? '<c-n>' : '<down>'
+inoremap <silent> <expr> <up> pumvisible() ? '<c-p>' : '<up>'
+" inoremap <silent> <expr> <c-e> pumvisible() ? '<c-e>' : '<End>'
 inoremap <silent> <expr> <c-h> ICH()
 inoremap <silent> <expr> <bs> ICH()
 if exists('*complete_info')
     inoremap <silent> <expr> <cr> complete_info()['selected'] != '-1' ?
-                \ "\<c-y>" : "\<c-g>u" . ICR()
+                \ '<c-y>' : '<c-g>u' . ICR()
 else
-    inoremap <silent> <expr> <cr> pumvisible() ? "\<c-y>" : "\<c-g>u" . ICR()
+    inoremap <silent> <expr> <cr> pumvisible() ? '<c-y>' : '<c-g>u' . ICR()
 endif
 
 function! RefreshPum(old, new) abort
@@ -977,16 +991,16 @@ function! ICH() abort
     let col = col('.')
     let previous = thisline[col - 2]
     if empty(previous)
-        return "\<C-H>"
+        return "\<c-h>"
     endif
     let next = thisline[col - 1]
     if empty(next)
-        return "\<C-H>"
+        return "\<c-h>"
     endif
     let idxp = stridx("{[(<'\"`", previous)
     let idxn = stridx("}])>'\"`", next)
     if idxp >= 0 && idxp ==# idxn
-        return "\<DEL>\<C-H>"
+        return "\<del>\<c-h>"
     endif
     " if previous ==# '>' && next ==# '<'
     "     let left = thisline[: col - 2]
@@ -995,10 +1009,10 @@ function! ICH() abort
     "     let rname = matchstr(right, '\V\^</\zs\[^>[:blank:]]\+\ze\[[:blank:]]\*>')
     "     echomsg left . '()' . right
     "     if lname ==# rname
-    "         return "\<C-O>dat"
+    "         return "\<c-o>dat"
     "     endif
     " endif
-    return "\<C-H>"
+    return "\<c-h>"
 endfunction
 
 " tries to make <CR> a little smarter in insert mode:
@@ -1014,9 +1028,9 @@ function! ICR()
     let next = getline('.')[col('.') - 1]
     let idx = stridx('{[(', previous)
     if previous !=# '' && idx >= 0 && idx == stridx('}])', next)
-        return "\<CR>\<ESC>==O"
+        return "\<cr>\<esc>==o"
     else
-        return "\<CR>"
+        return "\<cr>"
     endif
 endfunction
 
@@ -1045,12 +1059,12 @@ inoremap <silent> <c-x>` `<c-g>U<left>"
 inoremap <silent> ( )<c-g>U<left>(
 inoremap <silent> [ ]<c-g>U<left>[
 inoremap <silent> { }<c-g>U<left>{
-inoremap <silent> <expr> <lt> strpart(getline('.'), col('.') - 2, 1) !~# '\V\s\<bar>\[<lt>]' ? ">\<c-g>U\<left><lt>" : '<lt>'
+inoremap <silent> <expr> <lt> strpart(getline('.'), col('.') - 2, 1) !~# '\V\s\<bar>\[<lt>]' ? '><c-g>U<left><lt>' : '<lt>'
 inoremap <silent> <expr> > strpart(getline('.'), col('.') - 1, 1) ==# '>' && strpart(getline('.'), col('.') - 2, 1) !~# '\V\s' ?
-            \ "\<c-g>U\<right>" : '>'
-inoremap <silent> <expr> ) strpart(getline('.'), col('.') - 1, 1) ==# ')' ? "\<c-g>U\<right>" : ')'
-inoremap <silent> <expr> ] strpart(getline('.'), col('.') - 1, 1) ==# ']' ? "\<c-g>U\<right>" : ']'
-inoremap <silent> <expr> } strpart(getline('.'), col('.') - 1, 1) ==# '}' ? "\<c-g>U\<right>" : '}'
+            \ '<c-g>U<right>' : '>'
+inoremap <silent> <expr> ) strpart(getline('.'), col('.') - 1, 1) ==# ')' ? '<c-g>U<right>' : ')'
+inoremap <silent> <expr> ] strpart(getline('.'), col('.') - 1, 1) ==# ']' ? '<c-g>U<right>' : ']'
+inoremap <silent> <expr> } strpart(getline('.'), col('.') - 1, 1) ==# '}' ? '<c-g>U<right>' : '}'
 inoremap <silent> <expr> ' I_Single_Quote()
 
 function! I_Single_Quote() abort

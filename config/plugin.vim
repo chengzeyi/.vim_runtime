@@ -592,9 +592,9 @@ if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
 
     set completeopt+=noinsert,noselect
     let g:refresh_pum = ['copy', ["\<cmd>lua require'completion'.triggerCompletion()\<cr>"]]
-    inoremap <silent> <expr> <c-l> pumvisible() ? "\<c-l>" : "\<cmd>lua require'completion'.triggerCompletion()\<cr>"
-    inoremap <silent> <expr> <c-space> pumvisible() ? "\<c-e>" : "\<cmd>lua require'completion'.triggerCompletion()\<cr>"
-    inoremap <silent> <expr> <nul> pumvisible() ? "\<c-e>" : "\<cmd>lua require'completion'.triggerCompletion()\<cr>"
+    inoremap <silent> <expr> <c-l> pumvisible() ? '<c-l>' : '<cmd>lua require'completion'.triggerCompletion()<cr>'
+    inoremap <silent> <expr> <c-space> pumvisible() ? '<c-e>' : '<cmd>lua require'completion'.triggerCompletion()<cr>'
+    inoremap <silent> <expr> <nul> pumvisible() ? '<c-e>' : '<cmd>lua require'completion'.triggerCompletion()<cr>'
 endif
 
 if get(g:, 'use_coc', 0)
@@ -675,9 +675,9 @@ if get(g:, 'use_coc', 0)
         endfunction
 
         let g:refresh_pum = ['coc#refresh', []]
-        inoremap <silent> <expr> <c-l> pumvisible() ? "\<c-l>" : coc#refresh()
-        inoremap <silent> <expr> <c-space> pumvisible() ? "\<c-e>" : coc#refresh()
-        inoremap <silent> <expr> <nul> pumvisible() ? "\<c-e>" : coc#refresh()
+        inoremap <silent> <expr> <c-l> pumvisible() ? '<c-l>' : coc#refresh()
+        inoremap <silent> <expr> <c-space> pumvisible() ? '<c-e>' : coc#refresh()
+        inoremap <silent> <expr> <nul> pumvisible() ? '<c-e>' : coc#refresh()
 
         nmap <silent> [g <Plug>(coc-diagnostic-prev)
         nmap <silent> ]g <Plug>(coc-diagnostic-next)
@@ -742,12 +742,12 @@ if get(g:, 'use_coc', 0)
         nnoremap <silent> [<bs> :CocFirst<cr>
         nnoremap <silent> [<c-h> :CocFirst<cr>
         if has('nvim-0.4.0') || has('patch-8.2.0750')
-          nnoremap <silent> <expr> <c-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<c-f>"
-          nnoremap <silent> <expr> <c-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<c-b>"
-          inoremap <silent> <expr> <c-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<c-f>"
-          inoremap <silent> <expr> <c-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<c-b>"
-          vnoremap <silent> <expr> <c-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<c-f>"
-          vnoremap <silent> <expr> <c-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<c-b>"
+          nnoremap <silent> <expr> <c-f> coc#float#has_scroll() ? coc#float#scroll(1) : '<c-f>'
+          nnoremap <silent> <expr> <c-b> coc#float#has_scroll() ? coc#float#scroll(0) : '<c-b>'
+          inoremap <silent> <expr> <c-f> coc#float#has_scroll() ? '<c-r>=coc#float#scroll(1)<cr>' : '<c-f>'
+          inoremap <silent> <expr> <c-b> coc#float#has_scroll() ? '<c-r>=coc#float#scroll(0)<cr>' : '<c-b>'
+          vnoremap <silent> <expr> <c-f> coc#float#has_scroll() ? coc#float#scroll(1) : '<c-f>'
+          vnoremap <silent> <expr> <c-b> coc#float#has_scroll() ? coc#float#scroll(0) : '<c-b>'
         endif
 
         nnoremap <silent> K :<c-u>call ShowDocumentation(v:count)<cr>
@@ -916,14 +916,14 @@ if get(g:, 'use_asyncomplete', 0)
         augroup END
 
         let g:refresh_pum = ['asyncomplete#force_refresh', []]
-        inoremap <silent> <expr> <c-l> pumvisible() ? "\<c-l>" : asyncomplete#force_refresh()
-        inoremap <silent> <expr> <c-space> pumvisible() ? "\<c-e>" : asyncomplete#force_refresh()
-        inoremap <silent> <expr> <nul> pumvisible() ? "\<c-e>" : asyncomplete#force_refresh()
+        inoremap <silent> <expr> <c-l> pumvisible() ? '<c-l>' : asyncomplete#force_refresh()
+        inoremap <silent> <expr> <c-space> pumvisible() ? '<c-e>' : asyncomplete#force_refresh()
+        inoremap <silent> <expr> <nul> pumvisible() ? '<c-e>' : asyncomplete#force_refresh()
 
         silent! iunmap <silent> <c-y>
-        inoremap <silent> <expr> <c-y> pumvisible() ? asyncomplete#close_popup() : "\<c-y>"
+        inoremap <silent> <expr> <c-y> pumvisible() ? asyncomplete#close_popup() : '<c-y>'
         silent! iunmap <silent> <c-e>
-        inoremap <silent> <expr> <c-e> pumvisible() ? asyncomplete#cancel_popup() : "\<c-e>"
+        inoremap <silent> <expr> <c-e> pumvisible() ? asyncomplete#cancel_popup() : '<c-e>'
 
         au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
                     \ 'name': 'buffer',
@@ -1372,12 +1372,10 @@ function! s:p(bang, ...) abort
     return {}
 endfunction
 
-nnoremap <silent> <F3> :FZFCommands<cr>
-nnoremap <silent> <S-F3> :FZFCommands!<cr>
-nmap <silent> <F4> <plug>(fzf-maps-n)
-xmap <silent> <F4> <plug>(fzf-maps-x)
-omap <silent> <F4> <plug>(fzf-maps-o)
-imap <silent> <F4> <plug>(fzf-maps-i)
+nmap <silent> g<c-m> <plug>(fzf-maps-n)
+xmap <silent> g<c-m> <plug>(fzf-maps-x)
+omap <silent> g<c-m> <plug>(fzf-maps-o)
+imap <silent> g<c-m> <plug>(fzf-maps-i)
 nnoremap <silent> <leader>ff :FZFFiles<cr>
 nnoremap <silent> <leader>fF :FZFGFiles<cr>
 nnoremap <silent> <leader>fy :FZFFiletypes<cr>
@@ -1595,37 +1593,28 @@ endif
 
 if exists(':terminal')
     if has('nvim-0.4.0') || has('patch-8.2.191')
-        nmap <silent> <F12> <Plug>(Multiterm)
         nmap <silent> <c-space> <Plug>(Multiterm)
         nmap <silent> <nul> <Plug>(Multiterm)
-        tmap <silent> <F12> <Plug>(Multiterm)
         tmap <silent> <c-space> <Plug>(Multiterm)
         tmap <silent> <nul> <Plug>(Multiterm)
-        " xmap <silent> <F12> <Plug>(Multiterm)
-        " xmap <silent> <c-space> <Plug>(Multiterm)
-        " xmap <silent> <nul> <Plug>(Multiterm)
-        " imap <silent> <F12> <Plug>(Multiterm)
-        " imap <silent> <c-space> <Plug>(Multiterm)
-        " imap <silent> <nul> <Plug>(Multiterm)
+        vmap <silent> <c-space> <Plug>(Multiterm)
+        vmap <silent> <nul> <Plug>(Multiterm)
+        imap <silent> <c-space> <Plug>(Multiterm)
+        imap <silent> <nul> <Plug>(Multiterm)
     elseif has('patch-8.0.1593') || has('nvim')
-        nnoremap <silent> <F12> :Nuake<cr>
         nnoremap <silent> <c-space> :Nuake<cr>
         nnoremap <silent> <nul> :Nuake<cr>
         if has('nvim')
-            tnoremap <silent> <F12> <c-\><c-n>:Nuake<cr>
             tnoremap <silent> <c-space> <c-\><c-n>:Nuake<cr>
             tnoremap <silent> <nul> <c-\><c-n>:Nuake<cr>
         else
-            tnoremap <silent> <F12> <c-w>:Nuake<cr>
             tnoremap <silent> <c-space> <c-w>:Nuake<cr>
             tnoremap <silent> <nul> <c-w>:Nuake<cr>
         endif
-        " xnoremap <silent> <F12> :<c-u>Nuake<cr>
-        " xnoremap <silent> <c-space> :<c-u>Nuake<cr>
-        " xnoremap <silent> <nul> :<c-u>Nuake<cr>
-        " inoremap <silent> <F12> <c-o>:Nuake<cr>
-        " inoremap <silent> <c-space> <c-o>:Nuake<cr>
-        " inoremap <silent> <nul> <c-o>:Nuake<cr>
+        vnoremap <silent> <c-space> :<c-u>Nuake<cr>
+        vnoremap <silent> <nul> :<c-u>Nuake<cr>
+        inoremap <silent> <c-space> <c-o>:Nuake<cr>
+        inoremap <silent> <nul> <c-o>:Nuake<cr>
     endif
 endif
 

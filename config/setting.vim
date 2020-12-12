@@ -63,7 +63,7 @@ set cursorline
 set splitbelow
 set splitright
 
-set history=500
+set history=10000
 
 set autoread
 
@@ -171,11 +171,11 @@ set showmatch
 " How many tenths of a second to blink when matching brackets
 set mat=2
 
-if has('7.4.793')
-    set belloff=all
+if has('patch-7.4.793')
+    set belloff=
 endif
-" set novisualbell
-set noerrorbells
+set novisualbell
+set errorbells
 
 if has('nvim-0.3.1')
     let &fillchars = 'eob: '
