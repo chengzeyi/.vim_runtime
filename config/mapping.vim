@@ -40,7 +40,7 @@ xnoremap <silent> < <gv
 xnoremap <silent> g> >
 xnoremap <silent> g< <
 
-map <silent> <c-c> "*y
+noremap <expr> <c-c> win_gettype() ==# 'command' ? '<c-c>' : '"*y'
 
 nnoremap <silent> ]<space> :<c-u>put =repeat(nr2char(10), v:count) <bar> execute "'[-1"<cr>
 nnoremap <silent> [<space> :<c-u>put! =repeat(nr2char(10), v:count) <bar> execute "']+1"<cr>
