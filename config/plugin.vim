@@ -1448,7 +1448,7 @@ augroup MyStartify
     if has('nvim')
         autocmd TabNewEntered *
                     \ call timer_start(50, {-> execute(
-                    \     'if empty(expand("%")) && empty(&l:buftype) && &l:modifiable | ' .
+                    \     'if empty(expand("%")) && empty(&l:buftype) && &l:modifiable && line("$") == 1 && empty(getline(1)) | ' .
                     \         'silent! Startify | ' .
                     \     'endif'
                     \ )})
@@ -1468,7 +1468,7 @@ augroup MyStartify
                             \ if !exists('t:startify_new_tab') && tabpagenr('$') > 1 |
                             \     let t:startify_new_tab = 1 |
                             \     call timer_start(50, {-> execute(
-                            \         'if empty(expand("%")) && empty(&l:buftype) && &l:modifiable | ' .
+                            \         'if empty(expand("%")) && empty(&l:buftype) && &l:modifiable && line("$") == 1 && empty(getline(1)) | ' .
                             \             'silent! Startify | ' .
                             \         'endif'
                             \     )}) |
