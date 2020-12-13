@@ -203,7 +203,7 @@ endif
 
 " Enable 256 colors palette in Gnome Terminal
 " if $COLORTERM == 'gnome-terminal'
-" set t_Co=256
+"     set t_Co=256
 " endif
 " if !has('nvim') && has('cursorshape') && &term =~? 'xterm'
 "     let &t_SI = "\<Esc>]6 q"
