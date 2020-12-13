@@ -520,6 +520,10 @@ EOF
     catch
     endtry
 
+    for config in get(g:, 'use_nvim_lsp_configs', [])
+        exe 'lua' 'require"lspconfig".' . config . '.setup{}'
+    endfor
+
     let g:statusline_extra_left_1 = ['LspStatus', []]
 
     function! LspStatus() abort
@@ -910,7 +914,7 @@ if get(g:, 'use_asyncomplete', 0)
             endif
         endfunction
 
-        augroup MyVimLsp
+        augroup MyAsyncomplete
             autocmd!
             au CmdwinEnter [:>] let b:asyncomplete_enable = 0
         augroup END
@@ -1365,17 +1369,26 @@ if has('mac')
 endif
 
 function! s:p(bang, ...) abort
-    let preview_window = get(g:, 'fzf_preview_window', a:bang && &columns >= 80 || &columns >= 120 ? 'right': 'up')
-    if len(preview_window)
-        return call('fzf#vim#with_preview', a:000 + [preview_window, '?'])
+    let preview_args = get(g:, 'fzf_preview_window', [a:bang && &columns >= 80 || &columns >= 120 ? 'right': 'up', 'ctrl-/'])
+    if empty(preview_args)
+        return { 'options': ['--preview-window', 'hidden'] }
     endif
-    return {}
+
+    " For backward-compatiblity
+    if type(preview_args) == type('')
+        let preview_args = [preview_args]
+    endif
+    return call('fzf#vim#with_preview', extend(copy(a:000), preview_args))
 endfunction
 
+nmap <silent> <a-m> <plug>(fzf-maps-n)
+xmap <silent> <a-m> <plug>(fzf-maps-x)
+omap <silent> <a-m> <plug>(fzf-maps-o)
+imap <silent> <a-m> <plug>(fzf-maps-i)
 nmap <silent> g<c-m> <plug>(fzf-maps-n)
 xmap <silent> g<c-m> <plug>(fzf-maps-x)
 omap <silent> g<c-m> <plug>(fzf-maps-o)
-imap <silent> g<c-m> <plug>(fzf-maps-i)
+imap <silent> <c-g><c-m> <plug>(fzf-maps-i)
 nnoremap <silent> <leader>ff :FZFFiles<cr>
 nnoremap <silent> <leader>fF :FZFGFiles<cr>
 nnoremap <silent> <leader>fy :FZFFiletypes<cr>

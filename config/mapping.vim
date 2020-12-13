@@ -267,23 +267,23 @@ nnoremap <silent> <leader>@ :registers<cr>
 " xnoremap <silent> <expr> " '"' . BetterRegister()
 " xnoremap <silent> <expr> @ '@' . BetterRegister()
 
-function! BetterRegister()
-    let more = &more
-    set nomore
-    redraw!
-    registers
-    echohl Question | echon "\nWhich one" | echohl None
-    let &more = more
-    while 1
-        let ch = getchar()
-        if ch !~# '\v[0-9]+'
-            continue
-        else
-            redraw!
-            return nr2char(ch)
-        endif
-    endwhile
-endfunction
+" function! BetterRegister()
+"     let more = &more
+"     set nomore
+"     redraw!
+"     registers
+"     echohl Question | echon "\nWhich one" | echohl None
+"     let &more = more
+"     while 1
+"         let ch = getchar()
+"         if ch !~# '\v[0-9]+'
+"             continue
+"         else
+"             redraw!
+"             return nr2char(ch)
+"         endif
+"     endwhile
+" endfunction
 
 nnoremap <silent> <leader>' :marks<cr>
 nnoremap <silent> <leader>` :marks<cr>
@@ -324,6 +324,7 @@ nnoremap <silent> dg# g#``dgn
 nnoremap <silent> dg* g*``dgn
 
 nnoremap <F1> :h<space>
+nnoremap <s-F1> :helpg<space>
 inoremap <silent> <F3> <c-o>za
 nnoremap <silent> <F3> za
 onoremap <silent> <F3> <c-c>za
@@ -396,8 +397,8 @@ function! IndTxtObj(inner) abort
     endif
 endfunction
 
-" nnoremap <silent> <a-t> :set opfunc=Trans<cr>g@iw
-" xnoremap <silent> <a-t> :<c-u>call Trans(visualmode(), 1)<cr>
+nnoremap <silent> <a-t> :set opfunc=Trans<cr>g@iw
+xnoremap <silent> <a-t> :<c-u>call Trans(visualmode(), 1)<cr>
 nnoremap <silent> g<c-t> :set opfunc=Trans<cr>g@iw
 xnoremap <silent> g<c-t> :<c-u>call Trans(visualmode(), 1)<cr>
 command! -nargs=* Trans call DoTrans(<q-args>)
@@ -1056,9 +1057,9 @@ inoremap <silent> <c-x>' '<c-g>U<left>'
 inoremap <silent> <c-x>" "<c-g>U<left>"
 inoremap <silent> <c-x>` `<c-g>U<left>"
 
-inoremap <silent> ( )<c-g>U<left>(
-inoremap <silent> [ ]<c-g>U<left>[
-inoremap <silent> { }<c-g>U<left>{
+inoremap <silent> ( ()<c-g>U<left>
+inoremap <silent> [ []<c-g>U<left>
+inoremap <silent> { {}<c-g>U<left>
 inoremap <silent> <expr> <lt> strpart(getline('.'), col('.') - 2, 1) !~# '\V\s\<bar>\[<lt>]' ? '><c-g>U<left><lt>' : '<lt>'
 inoremap <silent> <expr> > strpart(getline('.'), col('.') - 1, 1) ==# '>' && strpart(getline('.'), col('.') - 2, 1) !~# '\V\s' ?
             \ '<c-g>U<right>' : '>'
@@ -1157,6 +1158,7 @@ if exists(':terminal')
     endfunction
 endif
 
+nnoremap <silent> <a-w> :TrimWhiteSpace<cr>
 nnoremap <silent> g<c-w> :TrimWhiteSpace<cr>
 command! -nargs=0 TrimWhiteSpace call TrimWhiteSpace()
 

@@ -1,4 +1,8 @@
-if has('gui_running')
+if !has('nvim') && has('gui_running')
+    set lines=999 columns=999
+
+    let &guifont = get(g:, 'guifont', &guifont)
+
     set guioptions-=e  "tab pages
     set guioptions-=m  "menu bar
     set guioptions-=r  "scrollbar
@@ -8,16 +12,16 @@ if has('gui_running')
     " set guioptions-=b  "scrollbar
     " set guioptions-=R  "scrollbar
     " set guioptions-=l  "scrollbar
-    set guitablabel=%M\ %t
+    " set guitablabel=%M\ %t
 
-    " if has('balloon_eval')
-    "     set ballooneval
-    " endif
-
-    if exists('+gfn')
-        nnoremap <a-up> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) + 1)', 'g')<cr>
-        nnoremap <a-down> :let &gfn = substitute(&gfn, '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g')<cr>
+    if has('balloon_eval')
+        set ballooneval
     endif
+
+    nnoremap <silent> <F5> :let &gfn = substitute(&gfn,
+                \ '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g')<cr>
+    nnoremap <silent> <F6> :let &gfn = substitute(&gfn,
+                \ '\(:h\<bar> \)\zs\d\+', '\=eval(submatch(0) + 1)', 'g')<cr>
 endif
 
 if has('nvim-0.4.0')
@@ -28,13 +32,16 @@ if has('nvim-0.4.0')
 
     function! SetNeovimGui() abort
         if exists('g:GuiLoaded')
+            let &guifont = get(g:, 'guifont', &guifont)
             try
                 GuiTabline 0
                 GuiPopupmenu 0
             catch
             endtry
-            nnoremap <a-up> :call GuiFont(substitute(g:GuiFont, ':h\zs\d\+', '\=eval(submatch(0) + 1)', 'g'))<cr>
-            nnoremap <a-down> :call GuiFont(substitute(g:GuiFont, ':h\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g'))<cr>
+            nnoremap <silent> <F5> :call GuiFont(substitute(g:GuiFont,
+                        \ ':h\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g'))<cr>
+            nnoremap <silent> <F6> :call GuiFont(substitute(g:GuiFont,
+                        \ ':h\zs\d\+', '\=eval(submatch(0) + 1)', 'g'))<cr>
         endif
     endfunction
 endif

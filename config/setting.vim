@@ -240,10 +240,10 @@ set shiftwidth=4
 set tabstop=4
 set softtabstop=-1
 
-set cink+=*<Return>
+set cink+=*<cr>
 set cino+=l1,g0,N-s,E-s,(0
 
-set indentkeys+=*<Return>
+set indentkeys+=*<cr>
 
 set ai "Auto indent
 set si "Smart indent
@@ -350,44 +350,46 @@ if has('conceal')
     set concealcursor=nc
 endif
 
-if has('balloondelay')
-    set balloondelay=200
-endif
-if has('balloon_eval_term')
-    set balloonevalterm
-endif
 if has('balloon_eval')
     " Returns either the contents of a fold or spelling suggestions.
     function! BalloonExpr() abort
-        let foldStart = foldclosed(v:beval_lnum )
-        let foldEnd = foldclosedend(v:beval_lnum)
-        let lines = []
-        if foldStart < 0
+        let fold_start = foldclosed(v:beval_lnum)
+        if fold_start < 0
             " We're not in a fold.
             " If 'spell' is on and the word pointed to is incorrectly spelled,
             " the tool tip will contain a few suggestions.
-            let suggestions = spellsuggest(spellbadword(v:beval_text)[0], 5, 0)
-            if empty(suggestions)
-                " let lines = ['[' . v:beval_lnum . ':' . v:beval_col . '] ' . synIDattr(synID(v:beval_lnum, v:beval_col, 0), 'name')]
+            if &spell
+                let suggestions = spellsuggest(spellbadword(v:beval_text)[0], 6, 0)
+                if empty(suggestions)
+                    let lines = []
+                    " let lines = ['[' . v:beval_lnum . ':' . v:beval_col . '] ' . synIDattr(synID(v:beval_lnum, v:beval_col, 0), 'name')]
+                else
+                    let lines = suggestions
+                endif
             else
-                let lines = suggestions
+                let lines = []
             endif
         else
-            let numLines = foldEnd - foldStart + 1
+            let fold_end = foldclosedend(v:beval_lnum)
+            let numLines = fold_end - fold_start + 1
             " Up to 31 lines get shown okay; beyond that, only 30 lines are shown with
             " ellipsis in between to indicate too much. The reason why 31 get shown ok
             " is that 30 lines plus one of ellipsis is 31 anyway.
-            if (numLines > 31)
-                let lines = getline(foldStart, foldStart + 14)
-                let lines += ['-- Snipped ' . (numLines - 30) . ' lines --']
-                let lines += getline(foldEnd - 14, foldEnd)
+            if numLines > 31
+                let lines = getline(fold_start, fold_start + 14)
+                call add(lines, '-- Snipped ' . (numLines - 30) . ' lines --')
+                let lines += getline(fold_end - 14, fold_end)
             else
-                let lines = getline(foldStart, foldEnd)
+                let lines = getline(fold_start, fold_end)
             endif
         endif
         return join(lines, has('balloon_multiline') ? "\n" : ' ')
     endfunction
     set balloonexpr=BalloonExpr()
+    set balloondelay=200
+endif
+if has('balloon_eval_term')
+    set balloonevalterm
 endif
 
 if has('cscope')
@@ -420,7 +422,7 @@ let g:tex_flavor = 'latex'
 
 " let g:vim_json_conceal = 0
 
-let java_highlight_all = 1
-let java_highlight_functions = 'style'
+let g:java_highlight_all = 1
+let g:java_highlight_functions = 'style'
 
 let g:no_google_python_indent = 1
