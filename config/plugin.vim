@@ -612,7 +612,6 @@ endif
 
 if get(g:, 'use_coc', 0)
     if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
-
         function! CocCurrentFunction(...) abort
             " let status = ''
             " if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
@@ -1582,6 +1581,7 @@ function! GitStatus()
     let [a,m,r] = GitGutterGetHunkSummary()
     return printf('+%d ~%d -%d', a, m, r)
 endfunction
+
 let g:statusline_extra_left_0 = ['GitStatus', []]
 " let g:gitgutter_highlight_lines = 1
 let g:gitgutter_map_keys = 0
