@@ -25,12 +25,12 @@ if !has('nvim') && has('gui_running')
 endif
 
 if has('nvim-0.4.0')
-    augroup MyNeovimGui
+    augroup MyNvimGui
         autocmd!
-        autocmd UIEnter * call SetNeovimGui()
+        autocmd UIEnter * call SetNvimGui()
     augroup END
 
-    function! SetNeovimGui() abort
+    function! SetNvimGui() abort
         if exists('g:GuiLoaded')
             let &guifont = get(g:, 'guifont', &guifont)
             try

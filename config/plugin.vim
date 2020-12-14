@@ -476,7 +476,12 @@ EOF
 endif
 
 if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
-    try
+    augroup MyNvimLsp
+        autocmd!
+        au VimEnter * if exists('g:lspconfig') | call InitNvimLsp() | endif
+    augroup END
+
+    function! InitNvimLsp() abort
 lua <<EOF
 local on_attach = function(_, bufnr)
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -517,12 +522,10 @@ lspconfig.util.default_config = vim.tbl_extend(
     { on_attach = on_attach }
 )
 EOF
-    catch
-    endtry
-
-    for config in get(g:, 'use_nvim_lsp_configs', [])
-        exe 'lua' 'require"lspconfig".' . config . '.setup{}'
-    endfor
+        for config in get(g:, 'use_nvim_lsp_configs', [])
+            exe 'lua' 'require"lspconfig".' . config . '.setup{}'
+        endfor
+    endfunction
 
     let g:statusline_extra_left_1 = ['LspStatus', []]
 
@@ -549,6 +552,7 @@ EOF
         lua vim.lsp.buf.hover()
     endfunction
 
+    nnoremap <silent> <leader><cr><cr> :lua print(vim.inspect(vim.lsp.buf_get_clients()))<cr>
     nnoremap <silent> <leader><cr>a :lua vim.lsp.buf.code_action()<cr>
     nnoremap <silent> <leader><cr>a :lua vim.lsp.buf.range_code_action()<cr>
     nnoremap <silent> <leader><cr>f :lua vim.lsp.buf.formatting()<cr>
@@ -587,18 +591,23 @@ if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
         let g:completion_enable_auto_popup = !get(g:, 'completion_enable_auto_popup', 1)
         if g:completion_enable_auto_popup
             set completeopt+=noinsert,noselect
-            let g:refresh_pum = ['copy', ["\<cmd>lua require'completion'.triggerCompletion()\<cr>"]]
+            let g:refresh_pum = ['TriggerCompletion', []]
         else
             set completeopt-=noinsert,noselect
             unlet g:refresh_pum
         endif
     endfunction
 
+    function! TriggerCompletion() abort
+        call feedkeys("\<Plug>(completion_trigger)")
+        return ''
+    endfunction
+
     set completeopt+=noinsert,noselect
-    let g:refresh_pum = ['copy', ["\<cmd>lua require'completion'.triggerCompletion()\<cr>"]]
-    inoremap <silent> <expr> <c-l> pumvisible() ? '<c-l>' : '<cmd>lua require'completion'.triggerCompletion()<cr>'
-    inoremap <silent> <expr> <c-space> pumvisible() ? '<c-e>' : '<cmd>lua require'completion'.triggerCompletion()<cr>'
-    inoremap <silent> <expr> <nul> pumvisible() ? '<c-e>' : '<cmd>lua require'completion'.triggerCompletion()<cr>'
+    let g:refresh_pum = ['TriggerCompletion', []]
+    inoremap <silent> <expr> <c-l> pumvisible() ? '<c-l>' : TriggerCompletion()
+    inoremap <silent> <expr> <c-Space> pumvisible() ? '<c-e>' : TriggerCompletion()
+    inoremap <silent> <expr> <nul> pumvisible() ? '<c-e>' : TriggerCompletion()
 endif
 
 if get(g:, 'use_coc', 0)
@@ -1612,8 +1621,8 @@ if exists(':terminal')
         tmap <silent> <nul> <Plug>(Multiterm)
         vmap <silent> <c-space> <Plug>(Multiterm)
         vmap <silent> <nul> <Plug>(Multiterm)
-        imap <silent> <c-space> <Plug>(Multiterm)
-        imap <silent> <nul> <Plug>(Multiterm)
+        " imap <silent> <c-space> <Plug>(Multiterm)
+        " imap <silent> <nul> <Plug>(Multiterm)
     elseif has('patch-8.0.1593') || has('nvim')
         nnoremap <silent> <c-space> :Nuake<cr>
         nnoremap <silent> <nul> :Nuake<cr>
@@ -1626,8 +1635,8 @@ if exists(':terminal')
         endif
         vnoremap <silent> <c-space> :<c-u>Nuake<cr>
         vnoremap <silent> <nul> :<c-u>Nuake<cr>
-        inoremap <silent> <c-space> <c-o>:Nuake<cr>
-        inoremap <silent> <nul> <c-o>:Nuake<cr>
+        " inoremap <silent> <c-space> <c-o>:Nuake<cr>
+        " inoremap <silent> <nul> <c-o>:Nuake<cr>
     endif
 endif
 
