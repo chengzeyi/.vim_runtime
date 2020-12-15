@@ -1,5 +1,4 @@
 inoremap <silent> <c-b> <home>
-cnoremap <c-b> <home>
 if v:version >= 600
     cnoremap <c-k> <end><c-u>
 else
@@ -1227,7 +1226,7 @@ command! -nargs=0 ToggleRolodexTab call ToggleRolodexTab()
 function! ToggleRolodexTab() abort
     if exists('t:rolodex_tab')
         call ClearRolodexSettings()
-        execute "normal! \<C-W>="
+        execute "normal! \<c-w>="
         unlet t:rolodex_tab
     else
         let t:rolodex_tab = 1
@@ -1248,7 +1247,7 @@ endfunction
 
 "This function set the Rolodex Vim settings and remembers the previous values for later
 function! SetRolodexSettings() abort
-    if exists("t:rolodex_tab")
+    if exists('t:rolodex_tab')
         let s:remember_ea = &equalalways
         let s:remember_wh = &winheight
         let s:remember_wmh = &winminheight
