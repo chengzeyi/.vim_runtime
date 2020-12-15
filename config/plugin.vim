@@ -96,15 +96,15 @@ if get(g:, 'use_asyncomplete', 0)
     endif
 endif
 
-if (has('nvim-0.3.0') || v:version >= 800) && has('python3')
-    if has('nvim')
-        Plug 'Shougo/denite.nvim', {'do': ':UpdateRemotePlugins'}
-    else
-        Plug 'Shougo/denite.nvim'
-        Plug 'roxma/nvim-yarp'
-        Plug 'roxma/vim-hug-neovim-rpc'
-    endif
-endif
+" if (has('nvim-0.3.0') || v:version >= 800) && has('python3')
+"     if has('nvim')
+"         Plug 'Shougo/denite.nvim', {'do': ':UpdateRemotePlugins'}
+"     else
+"         Plug 'Shougo/denite.nvim'
+"         Plug 'roxma/nvim-yarp'
+"         Plug 'roxma/vim-hug-neovim-rpc'
+"     endif
+" endif
 
 Plug 'Shougo/neosnippet.vim'
 Plug 'chengzeyi/neosnippet-snippets', {'dir': '~/.vim_snippets'}
@@ -958,224 +958,224 @@ if get(g:, 'use_asyncomplete', 0)
     endif
 endif
 
-if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
-    nnoremap <leader>dd :Denite<space>
-    nnoremap <silent> <leader>dp :Denite -resume<cr>
-    nnoremap <silent> <leader>dD :Denite directory_rec<cr>
-    nnoremap <silent> <leader>db :Denite buffer<cr>
-    nnoremap <silent> <leader>dc :Denite command<cr>
-    nnoremap <silent> <leader>dC :Denite colorscheme<cr>
-    nnoremap <silent> <leader>d: :Denite command_history<cr>
-    nnoremap <silent> <leader>de :Denite change<cr>
-    nnoremap <silent> <leader>dh :Denite file/old<cr>
-    nnoremap <silent> <leader>dH :Denite help<cr>
-    nnoremap <silent> <leader>dv :Denite file<cr>
-    nnoremap <silent> <leader>dV :Denite file/point<cr>
-    nnoremap <silent> <leader>df :Denite file/rec<cr>
-    nnoremap <silent> <leader>dF :Denite file/rec/git<cr>
-    nnoremap <silent> <leader>dt :Denite outline<cr>
-    nnoremap <silent> <leader>dT :Denite tag<cr>
-    nnoremap <silent> <leader>dy :Denite filetype<cr>
-    nnoremap <silent> <leader>dg :Denite grep<cr>
-    nnoremap <silent> <leader>dG :Denite grep/git<cr>
-    nnoremap <silent> <leader>dr :Denite grep/rg<cr>
-    nnoremap <silent> <leader>da :Denite grep/ag<cr>
-    nnoremap <silent> <leader>dA :Denite grep/ack<cr>
-    nnoremap <silent> <leader>dj :Denite jump<cr>
-    nnoremap <silent> <leader>dl :Denite line<cr>
-    nnoremap <silent> <leader>dL :Denite line/external<cr>
-    nnoremap <silent> <leader>dm :Denite mark<cr>
-    nnoremap <silent> <leader>dM :Denite menu<cr>
-    nnoremap <leader>do :Denite output:
-    nnoremap <silent> <leader>d" :Denite register<cr>
-    nnoremap <silent> <leader>d@ :Denite register<cr>
-    nnoremap <silent> <leader>ds :Denite source<cr>
-    nnoremap <silent> <leader>dS :Denite spell<cr>
-    nnoremap <silent> <leader>dn :Denite neosnippet<cr>
+" if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
+"     nnoremap <leader>dd :Denite<space>
+"     nnoremap <silent> <leader>dp :Denite -resume<cr>
+"     nnoremap <silent> <leader>dD :Denite directory_rec<cr>
+"     nnoremap <silent> <leader>db :Denite buffer<cr>
+"     nnoremap <silent> <leader>dc :Denite command<cr>
+"     nnoremap <silent> <leader>dC :Denite colorscheme<cr>
+"     nnoremap <silent> <leader>d: :Denite command_history<cr>
+"     nnoremap <silent> <leader>de :Denite change<cr>
+"     nnoremap <silent> <leader>dh :Denite file/old<cr>
+"     nnoremap <silent> <leader>dH :Denite help<cr>
+"     nnoremap <silent> <leader>dv :Denite file<cr>
+"     nnoremap <silent> <leader>dV :Denite file/point<cr>
+"     nnoremap <silent> <leader>df :Denite file/rec<cr>
+"     nnoremap <silent> <leader>dF :Denite file/rec/git<cr>
+"     nnoremap <silent> <leader>dt :Denite outline<cr>
+"     nnoremap <silent> <leader>dT :Denite tag<cr>
+"     nnoremap <silent> <leader>dy :Denite filetype<cr>
+"     nnoremap <silent> <leader>dg :Denite grep<cr>
+"     nnoremap <silent> <leader>dG :Denite grep/git<cr>
+"     nnoremap <silent> <leader>dr :Denite grep/rg<cr>
+"     nnoremap <silent> <leader>da :Denite grep/ag<cr>
+"     nnoremap <silent> <leader>dA :Denite grep/ack<cr>
+"     nnoremap <silent> <leader>dj :Denite jump<cr>
+"     nnoremap <silent> <leader>dl :Denite line<cr>
+"     nnoremap <silent> <leader>dL :Denite line/external<cr>
+"     nnoremap <silent> <leader>dm :Denite mark<cr>
+"     nnoremap <silent> <leader>dM :Denite menu<cr>
+"     nnoremap <leader>do :Denite output:
+"     nnoremap <silent> <leader>d" :Denite register<cr>
+"     nnoremap <silent> <leader>d@ :Denite register<cr>
+"     nnoremap <silent> <leader>ds :Denite source<cr>
+"     nnoremap <silent> <leader>dS :Denite spell<cr>
+"     nnoremap <silent> <leader>dn :Denite neosnippet<cr>
 
-    nnoremap <leader>DD :Denite directory_rec:
-    nnoremap <leader>Db :Denite buffer:
-    nnoremap <leader>Dv :Denite file:
-    nnoremap <leader>Df :Denite file/rec:
-    nnoremap <leader>DF :Denite file/rec/git:
-    nnoremap <leader>Dt :Denite outline:
-    nnoremap <leader>Dg :Denite grep:
-    nnoremap <leader>DG :Denite grep/git:
-    nnoremap <leader>Dr :Denite grep/rg:
-    nnoremap <leader>Da :Denite grep/ag:
-    nnoremap <leader>DA :Denite grep/ack:
-    nnoremap <leader>Dl :Denite line:
-    nnoremap <leader>DM :Denite menu:
-    nnoremap <leader>DS :Denite spell:
+"     nnoremap <leader>DD :Denite directory_rec:
+"     nnoremap <leader>Db :Denite buffer:
+"     nnoremap <leader>Dv :Denite file:
+"     nnoremap <leader>Df :Denite file/rec:
+"     nnoremap <leader>DF :Denite file/rec/git:
+"     nnoremap <leader>Dt :Denite outline:
+"     nnoremap <leader>Dg :Denite grep:
+"     nnoremap <leader>DG :Denite grep/git:
+"     nnoremap <leader>Dr :Denite grep/rg:
+"     nnoremap <leader>Da :Denite grep/ag:
+"     nnoremap <leader>DA :Denite grep/ack:
+"     nnoremap <leader>Dl :Denite line:
+"     nnoremap <leader>DM :Denite menu:
+"     nnoremap <leader>DS :Denite spell:
 
-    augroup MyDenite
-        autocmd!
-        autocmd FileType denite call s:denite_my_settings()
-        autocmd FileType denite-filter call s:denite_filter_my_settings()
-        " autocmd User denite-preview setlocal nonumber norelativenumber
-        " autocmd FileType denite-filter let b:coc_suggest_disable = 1
-        " autocmd FileType denite-filter autocmd BufEnter <buffer> let g:asyncomplete_auto_popup = 0
-        " autocmd FileType denite-filter autocmd BufLeave <buffer> let g:asyncomplete_auto_popup = 1
-    augroup END
+"     augroup MyDenite
+"         autocmd!
+"         autocmd FileType denite call s:denite_my_settings()
+"         autocmd FileType denite-filter call s:denite_filter_my_settings()
+"         " autocmd User denite-preview setlocal nonumber norelativenumber
+"         " autocmd FileType denite-filter let b:coc_suggest_disable = 1
+"         " autocmd FileType denite-filter autocmd BufEnter <buffer> let g:asyncomplete_auto_popup = 0
+"         " autocmd FileType denite-filter autocmd BufLeave <buffer> let g:asyncomplete_auto_popup = 1
+"     augroup END
 
-    function! s:denite_my_settings() abort
-        nnoremap <silent> <nowait><silent><buffer><expr> <c-\>
-                    \ denite#do_map('choose_action')
-        nnoremap <silent> <nowait><silent><buffer><expr> <cr>
-                    \ denite#do_map('do_action')
-        nnoremap <silent> <nowait><silent><buffer><expr> a
-                    \ denite#do_map('do_action', 'append')
-        nnoremap <silent> <nowait><silent><buffer><expr> r
-                    \ denite#do_map('do_action', 'replace')
-        nnoremap <silent> <nowait><silent><buffer><expr> y
-                    \ denite#do_map('do_action', 'yank')
-        nnoremap <silent> <nowait><silent><buffer><expr> d
-                    \ denite#do_map('do_action', 'delete')
-        nnoremap <silent> <nowait><silent><buffer><expr> p
-                    \ denite#do_map('do_action', 'preview')
-        nnoremap <silent> <nowait><silent><buffer><expr> h
-                    \ denite#do_map('do_action', 'highlight')
-        nnoremap <silent> <nowait><silent><buffer><expr> t
-                    \ denite#do_map('do_action', 'tabopen')
-        nnoremap <silent> <nowait><silent><buffer><expr> s
-                    \ denite#do_map('do_action', 'split')
-        nnoremap <silent> <nowait><silent><buffer><expr> v
-                    \ denite#do_map('do_action', 'vsplit')
-        nnoremap <silent> <nowait><silent><buffer><expr> R
-                    \ denite#do_map('do_action', 'redraw')
-        nnoremap <silent> <nowait><silent><buffer><expr> '
-                    \ denite#do_map('do_action', 'quick_move')
-        nnoremap <silent> <nowait><silent><buffer><expr> c
-                    \ denite#do_map('do_action', 'cd')
-        nnoremap <silent> <nowait><silent><buffer><expr> e
-                    \ denite#do_map('do_action', 'edit')
-        nnoremap <silent> <nowait><silent><buffer><expr> E
-                    \ denite#do_map('do_action', 'echo')
-        nnoremap <silent> <nowait><silent><buffer><expr> o
-                    \ denite#do_map('do_action', 'open')
-        nnoremap <silent> <nowait><silent><buffer><expr> q
-                    \ denite#do_map('quit')
-        nnoremap <silent> <nowait><silent><buffer><expr> <esc>
-                    \ denite#do_map('quit')
-        nnoremap <silent> <nowait><silent><buffer><expr> <c-c>
-                    \ denite#do_map('quit')
-        nnoremap <silent> <nowait><silent><buffer><expr> i
-                    \ denite#do_map('open_filter_buffer')
-        nnoremap <silent> <nowait><silent><buffer><expr> /
-                    \ denite#do_map('open_filter_buffer')
-        nnoremap <silent> <nowait><silent><buffer><expr> <space>
-                    \ denite#do_map('toggle_select')
-        nnoremap <silent> <nowait><silent><buffer><expr> <tab>
-                    \ denite#do_map('toggle_select') . 'j'
-        nnoremap <silent> <nowait><silent><buffer><expr> <s-tab>
-                    \ denite#do_map('toggle_select') . 'k'
-    endfunction
+"     function! s:denite_my_settings() abort
+"         nnoremap <silent> <nowait><silent><buffer><expr> <c-\>
+"                     \ denite#do_map('choose_action')
+"         nnoremap <silent> <nowait><silent><buffer><expr> <cr>
+"                     \ denite#do_map('do_action')
+"         nnoremap <silent> <nowait><silent><buffer><expr> a
+"                     \ denite#do_map('do_action', 'append')
+"         nnoremap <silent> <nowait><silent><buffer><expr> r
+"                     \ denite#do_map('do_action', 'replace')
+"         nnoremap <silent> <nowait><silent><buffer><expr> y
+"                     \ denite#do_map('do_action', 'yank')
+"         nnoremap <silent> <nowait><silent><buffer><expr> d
+"                     \ denite#do_map('do_action', 'delete')
+"         nnoremap <silent> <nowait><silent><buffer><expr> p
+"                     \ denite#do_map('do_action', 'preview')
+"         nnoremap <silent> <nowait><silent><buffer><expr> h
+"                     \ denite#do_map('do_action', 'highlight')
+"         nnoremap <silent> <nowait><silent><buffer><expr> t
+"                     \ denite#do_map('do_action', 'tabopen')
+"         nnoremap <silent> <nowait><silent><buffer><expr> s
+"                     \ denite#do_map('do_action', 'split')
+"         nnoremap <silent> <nowait><silent><buffer><expr> v
+"                     \ denite#do_map('do_action', 'vsplit')
+"         nnoremap <silent> <nowait><silent><buffer><expr> R
+"                     \ denite#do_map('do_action', 'redraw')
+"         nnoremap <silent> <nowait><silent><buffer><expr> '
+"                     \ denite#do_map('do_action', 'quick_move')
+"         nnoremap <silent> <nowait><silent><buffer><expr> c
+"                     \ denite#do_map('do_action', 'cd')
+"         nnoremap <silent> <nowait><silent><buffer><expr> e
+"                     \ denite#do_map('do_action', 'edit')
+"         nnoremap <silent> <nowait><silent><buffer><expr> E
+"                     \ denite#do_map('do_action', 'echo')
+"         nnoremap <silent> <nowait><silent><buffer><expr> o
+"                     \ denite#do_map('do_action', 'open')
+"         nnoremap <silent> <nowait><silent><buffer><expr> q
+"                     \ denite#do_map('quit')
+"         nnoremap <silent> <nowait><silent><buffer><expr> <esc>
+"                     \ denite#do_map('quit')
+"         nnoremap <silent> <nowait><silent><buffer><expr> <c-c>
+"                     \ denite#do_map('quit')
+"         nnoremap <silent> <nowait><silent><buffer><expr> i
+"                     \ denite#do_map('open_filter_buffer')
+"         nnoremap <silent> <nowait><silent><buffer><expr> /
+"                     \ denite#do_map('open_filter_buffer')
+"         nnoremap <silent> <nowait><silent><buffer><expr> <space>
+"                     \ denite#do_map('toggle_select')
+"         nnoremap <silent> <nowait><silent><buffer><expr> <tab>
+"                     \ denite#do_map('toggle_select') . 'j'
+"         nnoremap <silent> <nowait><silent><buffer><expr> <s-tab>
+"                     \ denite#do_map('toggle_select') . 'k'
+"     endfunction
 
-    function! s:denite_filter_my_settings() abort
-        imap <silent> <nowait><silent><buffer> <c-y>
-                    \ <Plug>(denite_filter_update)
-        imap <silent> <nowait><silent><buffer> <esc>
-                    \ <Plug>(denite_filter_quit)
-        imap <silent> <nowait><silent><buffer> <c-o>
-                    \ <Plug>(denite_filter_quit)
-        inoremap <silent> <nowait><silent><buffer><expr> <c-c>
-                    \ denite#do_map('quit')
-        inoremap <silent> <nowait><silent><buffer><expr> <cr>
-                    \ denite#do_map('do_action')
-        inoremap <silent> <nowait><silent><buffer><expr> <c-\>
-                    \ denite#do_map('choose_action')
-        inoremap <silent> <nowait><silent><buffer><expr> <c-space>
-                    \ denite#do_map('toggle_select')
-        inoremap <silent> <nowait><silent><buffer><expr> <tab>
-                    \ denite#do_map('toggle_select') .
-                    \ "\<esc>\<c-w>p:call cursor(line('.')+1,0)\<cr>\<c-w>pA"
-        inoremap <silent> <nowait><silent><buffer><expr> <s-tab>
-                    \ denite#do_map('toggle_select') .
-                    \ "\<esc>\<c-w>p:call cursor(line('.')-1,0)\<cr>\<c-w>pA"
-        inoremap <silent> <nowait><silent><buffer> <c-n>
-                    \ <esc><c-w>p:call cursor(line('.')+1,0)<cr><c-w>pA
-        inoremap <silent> <nowait><silent><buffer> <c-p>
-                    \ <esc><c-w>p:call cursor(line('.')-1,0)<cr><c-w>pA
-        inoremap <silent> <nowait><silent><buffer> <down>
-                    \ <esc><c-w>p:call cursor(line('.')+1,0)<cr><c-w>pA
-        inoremap <silent> <nowait><silent><buffer> <up>
-                    \ <esc><c-w>p:call cursor(line('.')-1,0)<cr><c-w>pA
-    endfunction
+"     function! s:denite_filter_my_settings() abort
+"         imap <silent> <nowait><silent><buffer> <c-y>
+"                     \ <Plug>(denite_filter_update)
+"         imap <silent> <nowait><silent><buffer> <esc>
+"                     \ <Plug>(denite_filter_quit)
+"         imap <silent> <nowait><silent><buffer> <c-o>
+"                     \ <Plug>(denite_filter_quit)
+"         inoremap <silent> <nowait><silent><buffer><expr> <c-c>
+"                     \ denite#do_map('quit')
+"         inoremap <silent> <nowait><silent><buffer><expr> <cr>
+"                     \ denite#do_map('do_action')
+"         inoremap <silent> <nowait><silent><buffer><expr> <c-\>
+"                     \ denite#do_map('choose_action')
+"         inoremap <silent> <nowait><silent><buffer><expr> <c-space>
+"                     \ denite#do_map('toggle_select')
+"         inoremap <silent> <nowait><silent><buffer><expr> <tab>
+"                     \ denite#do_map('toggle_select') .
+"                     \ "\<esc>\<c-w>p:call cursor(line('.')+1,0)\<cr>\<c-w>pA"
+"         inoremap <silent> <nowait><silent><buffer><expr> <s-tab>
+"                     \ denite#do_map('toggle_select') .
+"                     \ "\<esc>\<c-w>p:call cursor(line('.')-1,0)\<cr>\<c-w>pA"
+"         inoremap <silent> <nowait><silent><buffer> <c-n>
+"                     \ <esc><c-w>p:call cursor(line('.')+1,0)<cr><c-w>pA
+"         inoremap <silent> <nowait><silent><buffer> <c-p>
+"                     \ <esc><c-w>p:call cursor(line('.')-1,0)<cr><c-w>pA
+"         inoremap <silent> <nowait><silent><buffer> <down>
+"                     \ <esc><c-w>p:call cursor(line('.')+1,0)<cr><c-w>pA
+"         inoremap <silent> <nowait><silent><buffer> <up>
+"                     \ <esc><c-w>p:call cursor(line('.')-1,0)<cr><c-w>pA
+"     endfunction
 
-    try
-        call denite#custom#option('_', {
-                    \ 'prompt': '❯',
-                    \ 'auto_resume': 1,
-                    \ 'smartcase': 1,
-                    \ 'max_dynamic_update_candidates': 100000,
-                    \ 'filter_updatetime': 500,
-                    \ 'empty': 0
-                    \ })
-        if has('nvim-0.4.0')
-            call denite#custom#option('_', {
-                        \ 'split': 'floating'
-                        \ })
-            " call denite#custom#option('_', {
-            "             \ 'split': 'floating',
-            "             \ 'vertical_preview': 1,
-            "             \ 'floating_preview': 1
-            "             \ })
-        endif
+"     try
+"         call denite#custom#option('_', {
+"                     \ 'prompt': '❯',
+"                     \ 'auto_resume': 1,
+"                     \ 'smartcase': 1,
+"                     \ 'max_dynamic_update_candidates': 100000,
+"                     \ 'filter_updatetime': 500,
+"                     \ 'empty': 0
+"                     \ })
+"         if has('nvim-0.4.0')
+"             call denite#custom#option('_', {
+"                         \ 'split': 'floating'
+"                         \ })
+"             " call denite#custom#option('_', {
+"             "             \ 'split': 'floating',
+"             "             \ 'vertical_preview': 1,
+"             "             \ 'floating_preview': 1
+"             "             \ })
+"         endif
 
-        call denite#custom#source('grep',
-                    \ 'converters', ['converter/abbr_word'])
-        call denite#custom#source('file/rec',
-                    \ 'matchers', ['matcher/hide_hidden_files', 'matcher/project_files', 'matcher/fuzzy'])
+"         call denite#custom#source('grep',
+"                     \ 'converters', ['converter/abbr_word'])
+"         call denite#custom#source('file/rec',
+"                     \ 'matchers', ['matcher/hide_hidden_files', 'matcher/project_files', 'matcher/fuzzy'])
 
-        call denite#custom#alias('source', 'file/rec/git', 'file/rec')
-        call denite#custom#var('file/rec/git', 'command',
-                    \ ['git', 'ls-files', '-c', '--exclude-standard'])
+"         call denite#custom#alias('source', 'file/rec/git', 'file/rec')
+"         call denite#custom#var('file/rec/git', 'command',
+"                     \ ['git', 'ls-files', '-c', '--exclude-standard'])
 
-        call denite#custom#alias('source', 'file/rec/py', 'file/rec')
-        call denite#custom#var('file/rec/py', 'command',
-                    \ ['scantree.py', '--path', ':directory'])
+"         call denite#custom#alias('source', 'file/rec/py', 'file/rec')
+"         call denite#custom#var('file/rec/py', 'command',
+"                     \ ['scantree.py', '--path', ':directory'])
 
-        call denite#custom#alias('source', 'grep/git', 'grep')
-        call denite#custom#var('grep/git', 'command',
-                    \ ['git', 'grep'])
-        call denite#custom#var('grep/git', 'default_opts',
-                    \ ['-I', '--line-number', '--color=never'])
+"         call denite#custom#alias('source', 'grep/git', 'grep')
+"         call denite#custom#var('grep/git', 'command',
+"                     \ ['git', 'grep'])
+"         call denite#custom#var('grep/git', 'default_opts',
+"                     \ ['-I', '--line-number', '--color=never'])
 
-        call denite#custom#alias('source', 'grep/rg', 'grep')
-        call denite#custom#var('grep/rg', {
-                    \ 'command': ['rg'],
-                    \ 'default_opts': ['-i', '--vimgrep', '--no-heading'],
-                    \ 'recursive_opts': [],
-                    \ 'pattern_opt': ['--regexp'],
-                    \ 'separator': ['--'],
-                    \ 'final_opts': [],
-                    \ })
+"         call denite#custom#alias('source', 'grep/rg', 'grep')
+"         call denite#custom#var('grep/rg', {
+"                     \ 'command': ['rg'],
+"                     \ 'default_opts': ['-i', '--vimgrep', '--no-heading'],
+"                     \ 'recursive_opts': [],
+"                     \ 'pattern_opt': ['--regexp'],
+"                     \ 'separator': ['--'],
+"                     \ 'final_opts': [],
+"                     \ })
 
-        call denite#custom#alias('source', 'grep/ag', 'grep')
-        call denite#custom#var('grep/ag', {
-                    \ 'command': ['ag'],
-                    \ 'default_opts': ['-i', '--vimgrep'],
-                    \ 'recursive_opts': [],
-                    \ 'pattern_opt': [],
-                    \ 'separator': ['--'],
-                    \ 'final_opts': [],
-                    \ })
+"         call denite#custom#alias('source', 'grep/ag', 'grep')
+"         call denite#custom#var('grep/ag', {
+"                     \ 'command': ['ag'],
+"                     \ 'default_opts': ['-i', '--vimgrep'],
+"                     \ 'recursive_opts': [],
+"                     \ 'pattern_opt': [],
+"                     \ 'separator': ['--'],
+"                     \ 'final_opts': [],
+"                     \ })
 
-        call denite#custom#alias('source', 'grep/ack', 'grep')
-        call denite#custom#var('grep/ack', {
-                    \ 'command': ['ack'],
-                    \ 'default_opts': [
-                    \   '--ackrc', $HOME.'/.ackrc', '-H', '-i',
-                    \   '--nopager', '--nocolor', '--nogroup', '--column'
-                    \ ],
-                    \ 'recursive_opts': [],
-                    \ 'pattern_opt': ['--match'],
-                    \ 'separator': ['--'],
-                    \ 'final_opts': [],
-                    \ })
-    catch
-    endtry
-endif
+"         call denite#custom#alias('source', 'grep/ack', 'grep')
+"         call denite#custom#var('grep/ack', {
+"                     \ 'command': ['ack'],
+"                     \ 'default_opts': [
+"                     \   '--ackrc', $HOME.'/.ackrc', '-H', '-i',
+"                     \   '--nopager', '--nocolor', '--nogroup', '--column'
+"                     \ ],
+"                     \ 'recursive_opts': [],
+"                     \ 'pattern_opt': ['--match'],
+"                     \ 'separator': ['--'],
+"                     \ 'final_opts': [],
+"                     \ })
+"     catch
+"     endtry
+" endif
 
 function! NeoSnippetCompleteSnippets(arglead, cmdline, cursorpos) abort
     return map(filter(values(neosnippet#helpers#get_snippets()),
@@ -1193,7 +1193,8 @@ function! NeoSnippetExpand() abort
     return neosnippet#expand(trigger)
 endfunction
 
-inoremap <silent> <expr> <c-x>\ NeoSnippetExpand()
+inoremap <silent> <expr> <c-x><c-\> NeoSnippetExpand()
+inoremap <silent> <expr> <c-x><bslash> NeoSnippetExpand()
 imap <silent> <c-\> <Plug>(neosnippet_expand_or_jump)
 smap <silent> <c-\> <Plug>(neosnippet_expand_or_jump)
 xmap <silent> <c-\> <Plug>(neosnippet_expand_target)
