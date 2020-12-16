@@ -423,13 +423,13 @@ function! IndTxtObj(inner) abort
     endif
 endfunction
 
-nnoremap <silent> <a-t> :set opfunc=Trans<cr>g@iw
-xnoremap <silent> <a-t> :<c-u>call Trans(visualmode(), 1)<cr>
-nnoremap <silent> g<c-t> :set opfunc=Trans<cr>g@iw
-xnoremap <silent> g<c-t> :<c-u>call Trans(visualmode(), 1)<cr>
-command! -nargs=* Trans call DoTrans(<q-args>)
+nnoremap <silent> <a-t> :Trans<cr>
+nnoremap <silent> g<c-t> :Trans<cr>
+xnoremap <silent> <a-t> :<c-u>call TransOp(visualmode(), 1)<cr>
+xnoremap <silent> g<c-t> :<c-u>call TransOp(visualmode(), 1)<cr>
+command! -nargs=* Trans call Trans(<q-args>)
 
-function! Trans(type, ...) abort
+function! GetSelectionText(type, ...) abort
     let sel_save = &selection
     let &selection = 'inclusive'
     let reg_save = @@
@@ -442,13 +442,19 @@ function! Trans(type, ...) abort
         noautocmd silent exe 'normal!' '`[v`]y'
     endif
 
-    call DoTrans(@@)
+    let selection_text = @@
 
     let &selection = sel_save
     let @@ = reg_save
+
+    return selection_text
 endfunction
 
-function! DoTrans(text) abort
+function! TransOp(type, ...) abort
+    call Trans(GetSelectionText(a:type, a:000))
+endfunction
+
+function! Trans(text) abort
     let text = empty(a:text) ? expand('<cword>') : a:text
     let text = substitute(text, '\V\n', ' ', 'g')
     if executable('trans')
@@ -475,8 +481,7 @@ function! PV(cmd) abort
         call popup_atcursor(out, {
                     \ 'pos': 'botright',
                     \ 'maxheight': 15,
-                    \ 'maxwidth': 78,
-                    \ 'padding': [0, 1, 0, 1]
+                    \ 'maxwidth': 80
                     \ })
     elseif has('nvim-0.4.0')
         let out = systemlist(a:cmd)
@@ -484,8 +489,8 @@ function! PV(cmd) abort
         call nvim_buf_set_lines(buf, 0, 0, v:false, out)
         let win = nvim_open_win(buf, v:false, {
                     \ 'relative': 'cursor',
-                    \ 'height': 15,
-                    \ 'width': 78,
+                    \ 'height': min([len(out), 15]),
+                    \ 'width': 80,
                     \ 'row': 0,
                     \ 'col': 0,
                     \ 'style': 'minimal'
@@ -1253,5 +1258,50 @@ function! SetRolodexSettings() abort
         let s:remember_wmh = &winminheight
         let s:remember_hh = &helpheight
         set noequalalways winminheight=0 winheight=999 helpheight=999
+    endif
+endfunction
+
+nnoremap <silent> gK :DD<cr>
+nnoremap <silent> g<c-k> :DD!<cr>
+nnoremap <silent> <a-k> :DD!<cr>
+xnoremap <silent> gK :<c-u>call DDOp(visualmode(), 1)<cr>
+xnoremap <silent> g<c-k> :<c-u>call DDBangOp(visualmode(), 1)<cr>
+xnoremap <silent> <a-k> :<c-u>call DDBangOp(visualmode(), 1)<cr>
+
+command! -bang -nargs=* DD call DD(<bang>0, <q-args>)
+
+function! DDOp(type, ...) abort
+    call DD(0, GetSelectionText(a:type, a:000))
+endfunction
+
+function! DDBangOp(type, ...) abort
+    call DD(1, GetSelectionText(a:type, a:000))
+endfunction
+
+function! DD(bang, args) abort
+    if empty(split(a:args, ' '))
+        let cword = expand('<cword>')
+        if empty(cword)
+            echohl ErrorMsg | echo 'Empty word under the cursor' | echohl None
+        endif
+        let query = (a:bang || empty(&filetype) ? '' : (&filetype . '%20')) . expand('<cword>')
+    elseif len(split(a:args, ' ')) == 1
+        let query = (a:bang || empty(&filetype) ? '' : (&filetype . '%20')) . a:args
+    else
+        let query = substitute(a:args, '\s\+', '%20', 'g')
+    endif
+
+    let url = 'https://devdocs.io/#q=' . query
+    " Windows (and WSL)
+    if executable('cmd.exe')
+        call system(['cmd.exe', '/c', 'start', '/b', url])
+    " Linux/BSD
+    elseif executable('xdg-open')
+        call system(['xdg-open', url])
+    " MacOS
+    elseif executable('open')
+        call system(['open', url])
+    else
+        echohl ErrorMsg | echo 'No way to open URL' | echohl None
     endif
 endfunction
