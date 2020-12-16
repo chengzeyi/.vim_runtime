@@ -1279,28 +1279,58 @@ function! DDBangOp(type, ...) abort
 endfunction
 
 function! DD(bang, args) abort
-    if empty(split(a:args, ' '))
-        let cword = expand('<cword>')
-        if empty(cword)
+    if empty(a:args)
+        let raw_query = expand('<cword>')
+        if empty(raw_query)
             echohl ErrorMsg | echo 'Empty word under the cursor' | echohl None
+            return
         endif
-        let query = (a:bang || empty(&filetype) ? '' : (&filetype . '%20')) . expand('<cword>')
-    elseif len(split(a:args, ' ')) == 1
-        let query = (a:bang || empty(&filetype) ? '' : (&filetype . '%20')) . a:args
     else
-        let query = substitute(a:args, '\s\+', '%20', 'g')
+        let raw_query = a:args
     endif
 
-    let url = 'https://devdocs.io/#q=' . query
+    let query = (a:bang || empty(&filetype) ? '' : (&filetype . '%20')) . substitute(raw_query, '\V\[[:space:]]\+', '%20', 'g')
+
+    call Open('https://devdocs.io/%35q=' . query)
+endfunction
+
+nnoremap <silent> gG :GG<cr>
+xnoremap <silent> gG :<c-u>call GGOp(visualmode(), 1)<cr>
+
+command! -nargs=* GG call GG(<q-args>)
+
+function! GGOp(type, ...) abort
+    call GG(GetSelectionText(a:type, a:000))
+endfunction
+
+function! GG(args) abort
+    if empty(a:args)
+        let raw_query = expand('<cword>')
+        if empty(raw_query)
+            echohl ErrorMsg | echo 'Empty word under the cursor' | echohl None
+            return
+        endif
+    else
+        let raw_query = a:args
+    endif
+
+    let query = substitute(raw_query, '\V\[[:space:]]\+', '%20', 'g')
+
+    call Open('https://www.google.com/search?q=' . query)
+endfunction
+
+command! -nargs=* -complete=file Open call Open(<q-args>)
+
+function! Open(url) abort
     " Windows (and WSL)
     if executable('cmd.exe')
-        call system(['cmd.exe', '/c', 'start', '/b', url])
+        call system(['cmd.exe', '/c', 'start', '/b', a:url])
     " Linux/BSD
     elseif executable('xdg-open')
-        call system(['xdg-open', url])
+        call system(['xdg-open', a:url])
     " MacOS
     elseif executable('open')
-        call system(['open', url])
+        echomsg system(['open', a:url])
     else
         echohl ErrorMsg | echo 'No way to open URL' | echohl None
     endif
