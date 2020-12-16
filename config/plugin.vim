@@ -695,11 +695,11 @@ if get(g:, 'use_coc', 0)
         nmap <silent> ]g <Plug>(coc-diagnostic-next)
         nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
         nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
-        nnoremap <silent> <expr> gl CocHasProvider('declaration') ? '<Plug>(coc-declaration)' : 'gl'
-        nnoremap <silent> <expr> gd CocHasProvider('definition') ? '<Plug>(coc-definition)' : 'gd'
-        nnoremap <silent> <expr> gy CocHasProvider('typeDefinition') ? '<Plug>(coc-type-definition)' : 'gy'
-        nnoremap <silent> <expr> gm CocHasProvider('implementation') ? '<Plug>(coc-implementation)' : 'gm'
-        nnoremap <silent> <expr> gr CocHasProvider('reference') ? '<Plug>(coc-references)' : 'gr'
+        nmap <silent> <expr> gl CocHasProvider('declaration') ? '<Plug>(coc-declaration)' : 'gl'
+        nmap <silent> <expr> gd CocHasProvider('definition') ? '<Plug>(coc-definition)' : 'gd'
+        nmap <silent> <expr> gy CocHasProvider('typeDefinition') ? '<Plug>(coc-type-definition)' : 'gy'
+        nmap <silent> <expr> gm CocHasProvider('implementation') ? '<Plug>(coc-implementation)' : 'gm'
+        nmap <silent> <expr> gr CocHasProvider('reference') ? '<Plug>(coc-references)' : 'gr'
         nnoremap <silent> gL :<c-r>=CocHasProvider('declaration') ? 'call CocActionAsync("jumpDeclaration", v:false)' : 'normal! gL'<cr><cr>
         nnoremap <silent> gD :<c-r>=CocHasProvider('definition') ? 'call CocActionAsync("jumpDefinition", v:false)' : 'normal! gD'<cr><cr>
         nnoremap <silent> gY :<c-r>=CocHasProvider('typeDefinition') ? 'call CocActionAsync("jumpTypeDefinition", v:false)' : 'normal! gY'<cr><cr>

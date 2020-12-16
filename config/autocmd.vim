@@ -247,6 +247,7 @@ augroup MyFileType
     " autocmd FileType cpp compiler gcc
     " autocmd FileType go compiler go
     autocmd FileType go set noexpandtab
+    autocmd FileType python if executable('pydoc3') | set keywordprg=pydoc3 | endif
     autocmd Filetype *
                 \ if empty(&omnifunc) |
                 \     setlocal omnifunc=syntaxcomplete#Complete |
