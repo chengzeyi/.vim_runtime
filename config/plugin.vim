@@ -495,9 +495,9 @@ local on_attach = function(_, bufnr)
     }
 
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>call ShowDocumentation()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gh', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gH', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gm', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gh', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'go', '<cmd>lua vim.lsp.buf.document_symbol()<cr>', opts)
@@ -540,17 +540,17 @@ EOF
         return sl
     endfunction
 
-    function! ShowDocumentation() abort
-        if (index(['vim', 'help'], &filetype) >= 0)
-            try
-                execute 'h' expand('<cword>')
-            catch
-                echohl ErrorMsg | echo v:exception | echohl None
-            endtry
-            return
-        endif
-        lua vim.lsp.buf.hover()
-    endfunction
+    " function! ShowDocumentation() abort
+    "     if (index(['vim', 'help'], &filetype) >= 0)
+    "         try
+    "             execute 'h' expand('<cword>')
+    "         catch
+    "             echohl ErrorMsg | echo v:exception | echohl None
+    "         endtry
+    "         return
+    "     endif
+    "     lua vim.lsp.buf.hover()
+    " endfunction
 
     nnoremap <silent> <leader><cr><cr> :lua print(vim.inspect(vim.lsp.buf_get_clients()))<cr>
     nnoremap <silent> <leader><cr>a :lua vim.lsp.buf.code_action()<cr>
@@ -695,11 +695,11 @@ if get(g:, 'use_coc', 0)
         nmap <silent> ]g <Plug>(coc-diagnostic-next)
         nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
         nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
-        nmap <silent> <expr> gl CocHasProvider('declaration') ? '<Plug>(coc-declaration)' : 'gl'
-        nmap <silent> <expr> gd CocHasProvider('definition') ? '<Plug>(coc-definition)' : 'gd'
-        nmap <silent> <expr> gy CocHasProvider('typeDefinition') ? '<Plug>(coc-type-definition)' : 'gy'
-        nmap <silent> <expr> gm CocHasProvider('implementation') ? '<Plug>(coc-implementation)' : 'gm'
-        nmap <silent> <expr> gr CocHasProvider('reference') ? '<Plug>(coc-references)' : 'gr'
+        nnoremap <silent> <expr> gl CocHasProvider('declaration') ? '<Plug>(coc-declaration)' : 'gl'
+        nnoremap <silent> <expr> gd CocHasProvider('definition') ? '<Plug>(coc-definition)' : 'gd'
+        nnoremap <silent> <expr> gy CocHasProvider('typeDefinition') ? '<Plug>(coc-type-definition)' : 'gy'
+        nnoremap <silent> <expr> gm CocHasProvider('implementation') ? '<Plug>(coc-implementation)' : 'gm'
+        nnoremap <silent> <expr> gr CocHasProvider('reference') ? '<Plug>(coc-references)' : 'gr'
         nnoremap <silent> gL :<c-r>=CocHasProvider('declaration') ? 'call CocActionAsync("jumpDeclaration", v:false)' : 'normal! gL'<cr><cr>
         nnoremap <silent> gD :<c-r>=CocHasProvider('definition') ? 'call CocActionAsync("jumpDefinition", v:false)' : 'normal! gD'<cr><cr>
         nnoremap <silent> gY :<c-r>=CocHasProvider('typeDefinition') ? 'call CocActionAsync("jumpTypeDefinition", v:false)' : 'normal! gY'<cr><cr>
@@ -718,8 +718,6 @@ if get(g:, 'use_coc', 0)
         nmap <silent> <leader><cr>l <Plug>(coc-codelens-action)
         nmap <silent> <leader><cr>[ <Plug>(coc-float-hide)
         nmap <silent> <leader><cr>] <Plug>(coc-float-jump)
-        nmap <silent> <leader><cr>h :call CocActionAsync('showSignatureHelp')<cr>
-        imap <silent> <c-q> <c-o>:call CocActionAsync('showSignatureHelp')<cr>
         xmap <silent> if <Plug>(coc-funcobj-i)
         xmap <silent> af <Plug>(coc-funcobj-a)
         omap <silent> if <Plug>(coc-funcobj-i)
@@ -754,31 +752,32 @@ if get(g:, 'use_coc', 0)
         nnoremap <silent> [<bs> :CocFirst<cr>
         nnoremap <silent> [<c-h> :CocFirst<cr>
         if has('nvim-0.4.0') || has('patch-8.2.0750')
-          nnoremap <silent> <expr> <c-f> coc#float#has_scroll() ? coc#float#scroll(1) : '<c-f>'
-          nnoremap <silent> <expr> <c-b> coc#float#has_scroll() ? coc#float#scroll(0) : '<c-b>'
-          inoremap <silent> <expr> <c-f> coc#float#has_scroll() ? '<c-r>=coc#float#scroll(1)<cr>' : '<c-f>'
-          inoremap <silent> <expr> <c-b> coc#float#has_scroll() ? '<c-r>=coc#float#scroll(0)<cr>' : '<c-b>'
-          vnoremap <silent> <expr> <c-f> coc#float#has_scroll() ? coc#float#scroll(1) : '<c-f>'
-          vnoremap <silent> <expr> <c-b> coc#float#has_scroll() ? coc#float#scroll(0) : '<c-b>'
+            nnoremap <silent> <expr> <c-f> coc#float#has_scroll() ? coc#float#scroll(1) : '<c-f>'
+            nnoremap <silent> <expr> <c-b> coc#float#has_scroll() ? coc#float#scroll(0) : '<c-b>'
+            inoremap <silent> <expr> <c-f> coc#float#has_scroll() ? '<c-r>=coc#float#scroll(1)<cr>' : '<c-f>'
+            inoremap <silent> <expr> <c-b> coc#float#has_scroll() ? '<c-r>=coc#float#scroll(0)<cr>' : '<c-b>'
+            vnoremap <silent> <expr> <c-f> coc#float#has_scroll() ? coc#float#scroll(1) : '<c-f>'
+            vnoremap <silent> <expr> <c-b> coc#float#has_scroll() ? coc#float#scroll(0) : '<c-b>'
         endif
 
-        nnoremap <silent> K :<c-u>call ShowDocumentation(v:count)<cr>
+        nnoremap <silent> gh :call CocActionAsync('doHover')<cr>
+        nnoremap <silent> gH :call CocActionAsync('showSignatureHelp')<cr>
 
-        function! ShowDocumentation(count) abort
-            if (index(['vim', 'help'], &filetype) >= 0)
-                try
-                    execute 'h' expand('<cword>')
-                catch
-                    echohl ErrorMsg | echo v:exception | echohl None
-                endtry
-                return
-            endif
-            if CocHasProvider('hover')
-                call CocActionAsync('doHover')
-            else
-                exe 'normal!' (a:count > 0 ? a:count : '') 'K'
-            endif
-        endfunction
+        " function! ShowDocumentation(count) abort
+        "     if (index(['vim', 'help'], &filetype) >= 0)
+        "         try
+        "             execute 'h' expand('<cword>')
+        "         catch
+        "             echohl ErrorMsg | echo v:exception | echohl None
+        "         endtry
+        "         return
+        "     endif
+        "     if CocHasProvider('hover')
+        "         call CocActionAsync('doHover')
+        "     else
+        "         exe 'normal!' (a:count > 0 ? a:count : '') 'K'
+        "     endif
+        " endfunction
 
         command! -nargs=0 CocInstallBasic call CocInstallBasic()
 
@@ -832,10 +831,6 @@ if get(g:, 'use_vim_lsp', 0)
         xmap <silent> <leader><cr>F <Plug>(lsp-document-range-format)
         nmap <silent> <leader><cr>d <Plug>(lsp-document-diagnostics)
 
-        nmap <silent> <leader><cr>h <Plug>(lsp-hover)
-        nmap <silent> <leader><cr>H <Plug>(lsp-signature-help)
-
-        nmap <silent> <leader><cr>t <Plug>(lsp-type-hierarchy)
         nmap <silent> <leader><cr>r <Plug>(lsp-rename)
 
         augroup MyVimLsp
@@ -869,6 +864,10 @@ if get(g:, 'use_vim_lsp', 0)
             nmap <silent> <buffer> go <Plug>(lsp-document-symbol)
             nmap <silent> <buffer> gO <Plug>(lsp-workspace-symbol)
 
+            nmap <silent> <buffer> gh <Plug>(lsp-hover)
+            nmap <silent> <buffer> gH <Plug>(lsp-signature-help)
+            nmap <silent> <buffer> g<c-h> <Plug>(lsp-type-hierarchy)
+
             nmap <silent> ]g <Plug>(lsp-next-diagnostic)
             nmap <silent> [g <Plug>(lsp-previous-diagnostic)
             nmap <silent> ]e <Plug>(lsp-next-error)
@@ -877,8 +876,6 @@ if get(g:, 'use_vim_lsp', 0)
             nmap <silent> [w <Plug>(lsp-previous-warning)
             nmap <silent> ]r <Plug>(lsp-next-reference)
             nmap <silent> [r <Plug>(lsp-previous-reference)
-
-            nnoremap <silent> <buffer> K :call ShowDocumentation()<cr>
         endfunction
 
         if exists('+tagfunc')
@@ -894,17 +891,17 @@ if get(g:, 'use_vim_lsp', 0)
             endfunc
         endif
 
-        function! ShowDocumentation() abort
-            if (index(['vim', 'help'], &filetype) >= 0)
-                try
-                    execute 'h' expand('<cword>')
-                catch
-                    echohl ErrorMsg | echo v:exception | echohl None
-                endtry
-                return
-            endif
-            LspHover
-        endfunction
+        " function! ShowDocumentation() abort
+        "     if (index(['vim', 'help'], &filetype) >= 0)
+        "         try
+        "             execute 'h' expand('<cword>')
+        "         catch
+        "             echohl ErrorMsg | echo v:exception | echohl None
+        "         endtry
+        "         return
+        "     endif
+        "     LspHover
+        " endfunction
     endif
 endif
 
