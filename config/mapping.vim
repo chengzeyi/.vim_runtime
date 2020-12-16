@@ -1021,7 +1021,7 @@ endfunction
 " - expands <tag>|</tag> 'correctly'
 function! ICR()
     " specific case: beware of the cmdline window
-    if &buftype ==# 'quickfix' || &buftype ==# 'nofile'
+    if &buftype ==# 'quickfix' || win_gettype() ==# 'command'
         return "\<CR>"
     endif
     " generic case
@@ -1029,7 +1029,7 @@ function! ICR()
     let next = getline('.')[col('.') - 1]
     let idx = stridx('{[(', previous)
     if previous !=# '' && idx >= 0 && idx == stridx('}])', next)
-        return "\<cr>\<esc>==o"
+        return "\<cr>\<esc>==O"
     else
         return "\<cr>"
     endif
