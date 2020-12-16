@@ -1,5 +1,4 @@
 inoremap <silent> <c-b> <home>
-cnoremap <c-b> <home>
 if v:version >= 600
     cnoremap <c-k> <end><c-u>
 else
@@ -40,7 +39,11 @@ xnoremap <silent> < <gv
 xnoremap <silent> g> >
 xnoremap <silent> g< <
 
+nnoremap <silent> & :&&<cr>
+xnoremap <silent> & :&&<cr>
+
 noremap <expr> <c-c> win_gettype() ==# 'command' ? '<c-c>' : '"*y'
+onoremap <expr><c-c> v:register == '*' && v:operator ==# 'y' ? 'y' : '<c-c>'
 
 nnoremap <silent> ]<space> :<c-u>put =repeat(nr2char(10), v:count) <bar> execute "'[-1"<cr>
 nnoremap <silent> [<space> :<c-u>put! =repeat(nr2char(10), v:count) <bar> execute "']+1"<cr>
@@ -76,6 +79,29 @@ function! Scratch(cmd, mods) abort
     if !empty(a:cmd)
         exe a:cmd
     endif
+endfunction
+
+nnoremap <leader>dd :diffsplit<space>
+nnoremap <leader>dD :vert diffsplit<space>
+nnoremap <silent> <leader>dt :diffthis<cr>
+nnoremap <leader>dp :diffpatch<space>
+nnoremap <leader>dP :vert diffpatch<space>
+nnoremap <silent> <leader>do :diffoff<cr>
+nnoremap <silent> <leader>dO :diffoff!<cr>
+nnoremap <silent> <leader>du :diffupdate<cr>
+nnoremap <silent> <leader>dU :diffupdate!<cr>
+nnoremap <silent> <leader>dg :DiffOrig<cr>
+nnoremap <silent> <leader>dG :vert DiffOrig<cr>
+command! -nargs=0 DiffOrig call DiffOrig(<q-mods>)
+
+function! DiffOrig(mods) abort
+    let ft = &filetype
+    diffthis
+    exe a:mods 'new' '+set\ filetype=' . ft
+    set buftype=nofile
+    read ++edit #
+    0d_
+    diffthis
 endfunction
 
 nnoremap <silent> <leader>oo :set scrolloff=<c-r>=999 - &scrolloff<cr><cr>
@@ -1045,17 +1071,17 @@ endfunction
 "     endif
 " endfunction
 
-inoremap <silent> <c-x>( )<c-g>U<left>(
-inoremap <silent> <c-x>) )<c-g>U<left>(
-inoremap <silent> <c-x>[ ]<c-g>U<left>[
-inoremap <silent> <c-x>] ]<c-g>U<left>[
-inoremap <silent> <c-x>{ }<c-g>U<left>{
-inoremap <silent> <c-x>] }<c-g>U<left>{
-inoremap <silent> <c-x><lt> ><c-g>U<left><lt>
-inoremap <silent> <c-x>> ><c-g>U<left><lt>
-inoremap <silent> <c-x>' '<c-g>U<left>'
-inoremap <silent> <c-x>" "<c-g>U<left>"
-inoremap <silent> <c-x>` `<c-g>U<left>"
+inoremap <silent> <c-x>( ()<c-g>U<left>
+inoremap <silent> <c-x>) ()<c-g>U<left>
+inoremap <silent> <c-x>[ []<c-g>U<left>
+inoremap <silent> <c-x>] []<c-g>U<left>
+inoremap <silent> <c-x>{ {}<c-g>U<left>
+inoremap <silent> <c-x>} {}<c-g>U<left>
+inoremap <silent> <c-x><lt> <lt>><c-g>U<left>
+inoremap <silent> <c-x>> <lt>><c-g>U<left>
+inoremap <silent> <c-x>' ''<c-g>U<left>
+inoremap <silent> <c-x>" ""<c-g>U<left>
+inoremap <silent> <c-x>` ``<c-g>U<left>
 
 inoremap <silent> ( ()<c-g>U<left>
 inoremap <silent> [ []<c-g>U<left>
@@ -1132,7 +1158,7 @@ endfunction
 "         let [m_lnum, m_col] = searchpairpos("[\"'`]", '', "[\"'`]", 'nbW')
 "     else
 "         let [m_lnum, m_col] = searchpairpos('[[({]', '', '[\])}]', 'nbW',
-"                     \ 'GetRealSynName(line("."), col(".")) ==# "String"')
+"                     \ 'GetRealSynName(line('.'), col('.')) ==# 'String'')
 "     endif
 
 "     if (m_lnum != 0) && (m_col != 0)
@@ -1200,7 +1226,7 @@ command! -nargs=0 ToggleRolodexTab call ToggleRolodexTab()
 function! ToggleRolodexTab() abort
     if exists('t:rolodex_tab')
         call ClearRolodexSettings()
-        execute "normal! \<C-W>="
+        execute "normal! \<c-w>="
         unlet t:rolodex_tab
     else
         let t:rolodex_tab = 1
@@ -1221,7 +1247,7 @@ endfunction
 
 "This function set the Rolodex Vim settings and remembers the previous values for later
 function! SetRolodexSettings() abort
-    if exists("t:rolodex_tab")
+    if exists('t:rolodex_tab')
         let s:remember_ea = &equalalways
         let s:remember_wh = &winheight
         let s:remember_wmh = &winminheight
