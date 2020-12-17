@@ -791,9 +791,7 @@ if get(g:, 'use_coc', 0)
                         \ 'coc-vimlsp',
                         \ 'coc-neosnippet'
                         \ ]
-            for ext in exts
-                execute 'CocInstall' ext
-            endfor
+            execute 'CocInstall' join(exts)
         endfunction
     endif
 endif
