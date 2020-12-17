@@ -87,6 +87,7 @@ endfunction
 nnoremap <leader>dd :diffsplit<space>
 nnoremap <leader>dD :vert diffsplit<space>
 nnoremap <silent> <leader>dt :diffthis<cr>
+nnoremap <silent> <leader>dT :windo diffthis<cr>
 nnoremap <leader>dp :diffpatch<space>
 nnoremap <leader>dP :vert diffpatch<space>
 nnoremap <silent> <leader>do :diffoff<cr>
