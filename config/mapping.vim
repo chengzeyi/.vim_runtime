@@ -456,7 +456,7 @@ endfunction
 
 function! Trans(text) abort
     let text = empty(a:text) ? expand('<cword>') : a:text
-    let text = substitute(text, '\V\n', ' ', 'g')
+    let text = substitute(text, '\V\[[:space:]]\+', ' ', 'g')
     if executable('trans')
         let cmd = [
                     \ 'trans',
@@ -489,7 +489,7 @@ function! PV(cmd) abort
         call nvim_buf_set_lines(buf, 0, 0, v:false, out)
         let win = nvim_open_win(buf, v:false, {
                     \ 'relative': 'cursor',
-                    \ 'height': min([len(out), 15]),
+                    \ 'height': max([min([len(out), 15]), 1]),
                     \ 'width': 80,
                     \ 'row': 0,
                     \ 'col': 0,
