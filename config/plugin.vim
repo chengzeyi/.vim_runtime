@@ -497,6 +497,8 @@ local on_attach = function(_, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gh', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gH', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<s-leftmouse>', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<s-rightmouse>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gm', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
@@ -700,11 +702,11 @@ if get(g:, 'use_coc', 0)
         nmap <silent> <expr> gy CocHasProvider('typeDefinition') ? '<Plug>(coc-type-definition)' : 'gy'
         nmap <silent> <expr> gm CocHasProvider('implementation') ? '<Plug>(coc-implementation)' : 'gm'
         nmap <silent> <expr> gr CocHasProvider('reference') ? '<Plug>(coc-references)' : 'gr'
-        nnoremap <silent> gL :<c-r>=CocHasProvider('declaration') ? 'call CocActionAsync("jumpDeclaration", v:false)' : 'normal! gL'<cr><cr>
-        nnoremap <silent> gD :<c-r>=CocHasProvider('definition') ? 'call CocActionAsync("jumpDefinition", v:false)' : 'normal! gD'<cr><cr>
-        nnoremap <silent> gY :<c-r>=CocHasProvider('typeDefinition') ? 'call CocActionAsync("jumpTypeDefinition", v:false)' : 'normal! gY'<cr><cr>
-        nnoremap <silent> gM :<c-r>=CocHasProvider('implementation') ? 'call CocActionAsync("jumpImplementatiIn", v:false)' : 'normal! gM'<cr><cr>
-        nnoremap <silent> gR :<c-r>=CocHasProvider('reference') ? 'call CocActionAsync("jumpReferences", v:false)' : 'normal! gR'<cr><cr>
+        nnoremap <expr> <silent> gL CocHasProvider('declaration') ? ':call CocActionAsync("jumpDeclaration", v:false)<cr>' : 'gL'
+        nnoremap <expr> <silent> gD CocHasProvider('definition') ? ':call CocActionAsync("jumpDefinition", v:false)<cr>' : 'gD'
+        nnoremap <expr> <silent> gY CocHasProvider('typeDefinition') ? ':call CocActionAsync("jumpTypeDefinition", v:false)<cr>' : 'gY'
+        nnoremap <expr> <silent> gM CocHasProvider('implementation') ? ':call CocActionAsync("jumpImplementatiIn", v:false)<cr>' : 'gM'
+        nnoremap <expr> <silent> gR CocHasProvider('reference') ? ':call CocActionAsync("jumpReferences", v:false)<cr>' : 'gR'
         nmap <silent> <leader><cr>r <Plug>(coc-rename)
         nmap <silent> <leader><cr>R <Plug>(coc-refactor)
         nmap <silent> <leader><cr>q <Plug>(coc-fix-current)
@@ -743,8 +745,8 @@ if get(g:, 'use_coc', 0)
         nmap <silent> <leader><cr>D <Plug>(coc-diagnostic-info)
         nnoremap <silent> <leader><cr>e :CocList extensions<cr>
         nnoremap <silent> <leader><cr>c :CocList commands<cr>
-        nnoremap <silent> go :<c-u><c-r>=CocHasProvider('documentSymbol') ? 'CocList -A outline' : 'normal! ' . (v:count == 0 ? '' : v:count) . 'go'<cr><cr>
-        nnoremap <silent> gO :<c-r>=CocHasProvider('documentSymbol') ? 'CocList -I -A symbols' : 'normal! gO'<cr><cr>
+        nnoremap <expr> <silent> go CocHasProvider('documentSymbol') ? ':CocList -A outline<cr>' : (v:count == 0 ? '' : v:count) . 'go'
+        nnoremap <expr> <silent> gO CocHasProvider('workspaceSymbols') ? ':CocList -I -A symbols<cr>' : 'gO'
         nnoremap <silent> ]<cr> :CocNext<cr>
         nnoremap <silent> [<cr> :CocPrev<cr>
         nnoremap <silent> ]<bs> :CocLast<cr>
@@ -760,8 +762,10 @@ if get(g:, 'use_coc', 0)
             vnoremap <silent> <expr> <c-b> coc#float#has_scroll() ? coc#float#scroll(0) : '<c-b>'
         endif
 
-        nnoremap <silent> gh :call CocActionAsync('doHover')<cr>
-        nnoremap <silent> gH :call CocActionAsync('showSignatureHelp')<cr>
+        nnoremap <expr> <silent> gh CocHasProvider('hover') ? ':call CocActionAsync("doHover")<cr>' : 'gh'
+        nnoremap <expr> <silent> gH CocHasProvider('signature') ? ':call CocActionAsync("showSignatureHelp")<cr>' : 'gH'
+        nnoremap <expr> <silent> <s-leftmouse> CocHasProvider('hover') ? ':call CocActionAsync("doHover")<cr>' : 'gh'
+        nnoremap <expr> <silent> <s-rightmouse> CocHasProvider('signature') ? ':call CocActionAsync("showSignatureHelp")<cr>' : 'gH'
 
         " function! ShowDocumentation(count) abort
         "     if (index(['vim', 'help'], &filetype) >= 0)
@@ -867,6 +871,8 @@ if get(g:, 'use_vim_lsp', 0)
 
             nmap <silent> <buffer> gh <Plug>(lsp-hover)
             nmap <silent> <buffer> gH <Plug>(lsp-signature-help)
+            nmap <silent> <buffer> <s-leftmouse> <Plug>(lsp-hover)
+            nmap <silent> <buffer> <s-rightmouse> <Plug>(lsp-signature-help)
 
             nmap <silent> ]g <Plug>(lsp-next-diagnostic)
             nmap <silent> [g <Plug>(lsp-previous-diagnostic)
