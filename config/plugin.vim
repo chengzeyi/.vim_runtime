@@ -764,9 +764,8 @@ if get(g:, 'use_coc', 0)
 
         nnoremap <expr> <silent> gh CocHasProvider('hover') ? ':call CocActionAsync("doHover")<cr>' : 'gh'
         nnoremap <expr> <silent> gH CocHasProvider('signature') ? ':call CocActionAsync("showSignatureHelp")<cr>' : 'gH'
-        nnoremap <expr> <silent> <s-leftmouse> CocHasProvider('hover') ? ':call CocActionAsync("doHover")<cr>' : 'gh'
-        nnoremap <expr> <silent> <s-rightmouse> CocHasProvider('signature') ? ':call CocActionAsync("showSignatureHelp")<cr>' : 'gH'
-
+        nnoremap <expr> <silent> <s-leftmouse> '<leftmouse>' . (CocHasProvider('hover') ? ':call CocActionAsync("doHover")<cr>' : '<s-leftmouse>')
+        nnoremap <expr> <silent> <s-rightmouse> '<leftmouse>' . (CocHasProvider('signature') ? ':call CocActionAsync("showSignatureHelp")<cr>' : '<s-rightmouse>')
         " function! ShowDocumentation(count) abort
         "     if (index(['vim', 'help'], &filetype) >= 0)
         "         try

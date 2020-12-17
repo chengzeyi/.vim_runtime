@@ -10,6 +10,9 @@ cnoremap <c-n> <down>
 
 nnoremap <s-tab> <c-o>
 
+nnoremap <s-leftmouse> <leftmouse><s-leftmouse>
+nnoremap <s-rightmouse> <leftmouse><s-rightmouse>
+
 function! MapMotion(from, ...) abort
     let from = a:from
     let to = a:0 == 0 ? a:from : a:1

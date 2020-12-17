@@ -23,7 +23,7 @@ if exists('+ttymouse')
         set ttymouse=xterm2
     endif
 endif
-" set mousemodel=popup_setpos
+set mousemodel=popup_setpos
 
 " set path+=**
 
