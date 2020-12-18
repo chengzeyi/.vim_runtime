@@ -610,7 +610,7 @@ endif
 if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
     augroup MyCompletionNvim
         autocmd!
-        autocmd BufEnter * if win_gettype() !=# 'command' | silent! exe 'lua require"completion".on_attach()' | endif
+        autocmd BufEnter * if exists('*win_gettype') && win_gettype() !=# 'command' | silent! exe 'lua require"completion".on_attach()' | endif
     augroup END
 
     let g:completion_enable_snippet = 'Neosnippet'

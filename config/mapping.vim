@@ -45,7 +45,7 @@ xnoremap <silent> g< <
 nnoremap <silent> & :&&<cr>
 xnoremap <silent> & :&&<cr>
 
-noremap <expr> <c-c> win_gettype() ==# 'command' ? '<c-c>' : '"*y'
+noremap <expr> <c-c> !exists('*win_gettype') <bar><bar> win_gettype() ==# 'command' ? '<c-c>' : '"*y'
 onoremap <expr><c-c> v:register == '*' && v:operator ==# 'y' ? 'y' : '<c-c>'
 
 nnoremap <silent> ]<space> :<c-u>put =repeat(nr2char(10), v:count) <bar> execute "'[-1"<cr>
@@ -1056,7 +1056,7 @@ endfunction
 " - expands <tag>|</tag> 'correctly'
 function! ICR()
     " specific case: beware of the cmdline window
-    if &buftype ==# 'quickfix' || win_gettype() ==# 'command'
+    if &buftype ==# 'quickfix' || exists('*win_gettype') && win_gettype() ==# 'command'
         return "\<CR>"
     endif
     " generic case
