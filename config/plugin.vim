@@ -596,6 +596,9 @@ EOF
     nnoremap <silent> <leader><cr>r :lua vim.lsp.buf.rename()<cr>
     nnoremap <silent> <leader><cr>d :lua vim.lsp.diagnostic.set_loclist()<cr>
     nnoremap <silent> <leader><cr>D :lua vim.lsp.util.show_line_diagnostics()<cr>
+    nnoremap <silent> <leader><cr>w :lua vim.lsp.buf.add_workspace_folder()<cr>
+    nnoremap <silent> <leader><cr>W :lua vim.lsp.buf.remove_workspace_folder()<cr>
+    nnoremap <silent> <leader><cr><c-w> :lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>
 
     command! -nargs=0 LspStop lua vim.lsp.stop_client(vim.lsp.get_active_clients())
 endif
