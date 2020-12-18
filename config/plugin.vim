@@ -510,7 +510,11 @@ endif
 if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
     augroup MyNvimLsp
         autocmd!
-        au VimEnter * if exists('g:lspconfig') | call InitNvimLsp() | endif
+        if v:vim_did_enter
+            if exists('g:lspconfig') | call InitNvimLsp() | endif
+        else
+            au VimEnter * if exists('g:lspconfig') | call InitNvimLsp() | endif
+        endif
     augroup END
 
     function! InitNvimLsp() abort
