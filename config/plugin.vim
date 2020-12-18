@@ -537,6 +537,8 @@ local on_attach = function(_, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'go', '<cmd>lua vim.lsp.buf.document_symbol()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gO', '<cmd>lua vim.lsp.buf.workspace_symbol()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gl', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'g(', '<cmd>lua vim.lsp.buf.incoming_calls()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'g)', '<cmd>lua vim.lsp.buf.outgoing_calls()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '[e', '<cmd>lua vim.lsp.diagnostic.goto_prev({severity = "Error"})<cr>', opts)
@@ -592,8 +594,6 @@ EOF
     nnoremap <silent> <leader><cr>f :lua vim.lsp.buf.formatting()<cr>
     nnoremap <silent> <leader><cr>f :lua vim.lsp.buf.range_formatting()<cr>
     nnoremap <silent> <leader><cr>r :lua vim.lsp.buf.rename()<cr>
-    nnoremap <silent> <leader><cr>c :lua vim.lsp.buf.incoming_calls()<cr>
-    nnoremap <silent> <leader><cr>C :lua vim.lsp.buf.outgoing_calls()<cr>
     nnoremap <silent> <leader><cr>d :lua vim.lsp.diagnostic.set_loclist()<cr>
     nnoremap <silent> <leader><cr>D :lua vim.lsp.util.show_line_diagnostics()<cr>
 
