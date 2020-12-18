@@ -667,18 +667,18 @@ if get(g:, 'use_coc', 0)
         let g:coc_config_home = expand('~/.vim_runtime/config')
 
         if exists('+tagfunc')
-            set tagfunc=MyTagFunc
+            set tagfunc=CocTagFunc
 
-            function! MyTagFunc(pattern, flags, info) abort
-                let result = CocTagFunc(a:pattern, a:flags, a:info)
-                if !empty(result)
-                    return result
-                endif
-                if !empty(tagfiles())
-                    return taglist(a:pattern, a:info.buf_ffname)
-                endif
-                return []
-            endfunc
+            " function! MyTagFunc(pattern, flags, info) abort
+            "     let result = CocTagFunc(a:pattern, a:flags, a:info)
+            "     if !empty(result)
+            "         return result
+            "     endif
+            "     if !empty(tagfiles())
+            "         return taglist(a:pattern, a:info.buf_ffname)
+            "     endif
+            "     return []
+            " endfunc
         endif
 
         augroup MyCoc
@@ -882,7 +882,7 @@ if get(g:, 'use_vim_lsp', 0)
             setlocal omnifunc=lsp#complete
 
             if exists('+tagfunc')
-                setl tagfunc=MyTagFunc
+                setl tagfunc=lsp#tagfunc
             endif
 
             nmap <silent> <buffer> gL <Plug>(lsp-peek-declaration)
@@ -913,18 +913,18 @@ if get(g:, 'use_vim_lsp', 0)
             nmap <silent> [r <Plug>(lsp-previous-reference)
         endfunction
 
-        if exists('+tagfunc')
-            function! MyTagFunc(pattern, flags, info) abort
-                let result = lsp#tagfunc(a:pattern, a:flags, a:info)
-                if !empty(result)
-                    return result
-                endif
-                if !empty(tagfiles())
-                    return taglist(a:pattern, a:info.buf_ffname)
-                endif
-                return []
-            endfunc
-        endif
+        " if exists('+tagfunc')
+        "     function! MyTagFunc(pattern, flags, info) abort
+        "         let result = lsp#tagfunc(a:pattern, a:flags, a:info)
+        "         if !empty(result)
+        "             return result
+        "         endif
+        "         if !empty(tagfiles())
+        "             return taglist(a:pattern, a:info.buf_ffname)
+        "         endif
+        "         return []
+        "     endfunc
+        " endif
 
         " function! ShowDocumentation() abort
         "     if (index(['vim', 'help'], &filetype) >= 0)
