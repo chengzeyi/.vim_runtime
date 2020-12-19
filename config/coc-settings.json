@@ -38,7 +38,7 @@
   // "suggest.fixInsertedWord": false,
   "diagnostic.checkCurrentLine": true,
   // "diagnostic.messageTarget": "echo",
-  "diagnostic.virtualText": true,
+  // "diagnostic.virtualText": true,
   "diagnostic.virtualTextCurrentLineOnly": false,
   "diagnostic.virtualTextPrefix": "‣ ",
   // "diagnostic.refreshOnInsertMode": true,

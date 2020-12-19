@@ -553,6 +553,7 @@ local on_attach = function(_, bufnr)
     vim.api.nvim_command [[autocmd CursorHold  <buffer> silent! lua vim.lsp.buf.document_highlight()]]
     vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
     vim.api.nvim_command [[autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()]]
+    vim.api.nvim_command [[autocmd CursorHold  <buffer> silent! lua vim.lsp.diagnostic.show_line_diagnostics({show_header = false})]]
 end
 
 local lspconfig = require'lspconfig'
@@ -560,6 +561,13 @@ lspconfig.util.default_config = vim.tbl_extend(
     'force',
     lspconfig.util.default_config,
     { on_attach = on_attach }
+)
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+        -- Disable virtual_text
+        virtual_text = false
+    }
 )
 EOF
         for config in get(g:, 'use_nvim_lsp_configs', [])
@@ -599,7 +607,7 @@ EOF
     nnoremap <silent> <leader><cr>f :lua vim.lsp.buf.range_formatting()<cr>
     nnoremap <silent> <leader><cr>r :lua vim.lsp.buf.rename()<cr>
     nnoremap <silent> <leader><cr>d :lua vim.lsp.diagnostic.set_loclist()<cr>
-    nnoremap <silent> <leader><cr>D :lua vim.lsp.util.show_line_diagnostics()<cr>
+    nnoremap <silent> <leader><cr>D :lua vim.lsp.diagnostic.show_line_diagnostics({show_header = false})<cr>
     nnoremap <silent> <leader><cr>w :lua vim.lsp.buf.add_workspace_folder()<cr>
     nnoremap <silent> <leader><cr>W :lua vim.lsp.buf.remove_workspace_folder()<cr>
     nnoremap <silent> <leader><cr><c-w> :lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>
@@ -855,6 +863,7 @@ if get(g:, 'use_vim_lsp', 0)
         augroup END
         " let g:lsp_diagnostics_echo_cursor = 1
         let g:lsp_diagnostics_float_cursor = 1
+        let g:lsp_virtual_text_enabled = 0
         let g:lsp_virtual_text_prefix = "‣ "
         " if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
         "     au CursorHold * let g:lsp_highlight_references_enabled = !exists('#NvimTreesitterUsages_' . bufnr())
