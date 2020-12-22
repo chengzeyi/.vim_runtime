@@ -1,4 +1,18 @@
 {
+  "languageserver": {
+    "bash": {
+      "command": "bash-language-server",
+      "args": [
+        "start"
+      ],
+      "filetypes": [
+        "sh"
+      ],
+      "ignoredRootPaths": [
+        "~"
+      ]
+    }
+  },
   "python.jediEnabled": false,
   "java.completion.guessMethodArguments": true,
   "java.signatureHelp.enabled": true,
@@ -24,7 +38,7 @@
   ],
   // "clangd.semanticHighlighting": true,
   "clangd.disableSnippetCompletion": true,
-  "marketplace.npmsio": true,
+  // "marketplace.npmsio": true,
   // "suggest.autoTrigger": "none",
   // "suggest.keepCompleteopt": true,
   // "suggest.minTriggerInputLength": 2,
