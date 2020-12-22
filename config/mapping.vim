@@ -863,8 +863,13 @@ nnoremap <silent> <expr> gV '`[' . strpart(getregtype(), 0, 1) . '`]'
 " nnoremap <silent> gm M
 " nnoremap <silent> gl L
 
-nnoremap <silent> <c-p> :<c-u>noautocmd exe "normal! \<lt>c-w>p" <bar> noautocmd exe "normal! <c-r>=v:count == 0 ? '' : v:count<cr>\<lt>c-y>" <bar> noautocmd exe "normal! \<lt>c-w>p"<cr>
-nnoremap <silent> <c-n> :<c-u>noautocmd exe "normal! \<lt>c-w>p" <bar> noautocmd exe "normal! <c-r>=v:count == 0 ? '' : v:count<cr>\<lt>c-e>" <bar> noautocmd exe "normal! \<lt>c-w>p"<cr>
+nnoremap <silent> <c-p> :<c-u>noautocmd silent! exe "normal! \<lt>c-w>p" <bar>
+            \ noautocmd exe "normal! <c-r>=v:count == 0 ? '' : v:count<cr>\<lt>c-y>" <bar>
+            \ noautocmd silent! exe "normal! \<lt>c-w>p"<cr>
+nnoremap <silent> <c-n> :<c-u>noautocmd silent! exe "normal! \<lt>c-w>p" <bar>
+            \ noautocmd exe "normal! <c-r>=v:count == 0 ? '' : v:count<cr>\<lt>c-e>" <bar>
+            \ noautocmd silent! exe "normal! \<lt>c-w>p"<cr>
+
 " for c in map(range(char2nr('a'), char2nr('z')), 'nr2char(v:val)')
 for c in split('hjklwb', '\zs')
     exe 'imap' '<silent>' '<a-' . c . '>' '<c-o>' . c
