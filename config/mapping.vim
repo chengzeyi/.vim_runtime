@@ -1295,7 +1295,7 @@ function! DD(bang, args) abort
 
     let query = (a:bang || empty(&filetype) ? '' : (&filetype . '%20')) . substitute(raw_query, '\V\[[:space:]]\+', '%20', 'g')
 
-    call Open('https://devdocs.io/%35q=' . query)
+    call Open('https://devdocs.io/#q=' . query)
 endfunction
 
 nnoremap <silent> gG :GG<cr>
