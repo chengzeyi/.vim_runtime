@@ -1464,7 +1464,9 @@ nnoremap <silent> <leader>fT :FZFTags<cr>
 nnoremap <silent> <leader>fm :FZFMarks<cr>
 nnoremap <silent> <leader>fM :FZFMaps<cr>
 nnoremap <silent> <leader>fw :FZFWindows<cr>
-nnoremap <leader>fe :FZFLocate<space>
+if executable('locate')
+    nnoremap <leader>fe :FZFLocate<space>
+endif
 nnoremap <silent> <leader>fh :FZFHistory<cr>
 nnoremap <silent> <leader>f/ :FZFHistory/<cr>
 nnoremap <silent> <leader>f: :FZFHistory:<cr>
