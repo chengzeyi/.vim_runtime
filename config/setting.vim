@@ -110,7 +110,10 @@ else
     set foldcolumn=1
 endif
 
-set display+=lastline
+set display+=lastline,uhex
+if has('nvim-0.3.0')
+    set display+=msgsep
+endif
 
 " set re=1
 
@@ -269,7 +272,7 @@ set statusline=%f%m⟩%<
 set statusline+=%{StatuslineExtraLeft()}
 set statusline+=%=
 set statusline+=%{StatuslineExtraRight()}
-set statusline+=⟨Ln\ %l/%L\ Col\ %c\ [%p%%]\ %{pathshorten(fnamemodify(getcwd(),':~'))}\ %y\ %{&fenc?&fenc:&enc}%{&bomb?'[BOM]':''}\ [%{&ff}\]
+set statusline+=⟨Ln\ %l/%L\ Col\ %c\ [%p%%]\ %{pathshorten(fnamemodify(getcwd(),':~'))}\ %y\ %{!empty(&fenc)?&fenc:&enc}%{&bomb?'[BOM]':''}\ [%{&ff}\]
 
 function! StatuslineExtraLeft() abort
     let statueline_left = ''
