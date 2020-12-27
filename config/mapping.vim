@@ -189,13 +189,13 @@ if exists(':terminal')
     tnoremap <silent> <F1> <c-\><c-n>
     " tnoremap <silent> <c-o> <c-\><c-n>
     if has('nvim')
-        nnoremap <silent> <leader>ts :split <bar> terminal<cr>
+        nnoremap <silent> <leader>ts <cmd>split <bar> terminal<cr>
         nnoremap <leader>tS :split <bar> terminal<space>
-        nnoremap <silent> <leader>tv :vsplit <bar> terminal<cr>
+        nnoremap <silent> <leader>tv <cmd>vsplit <bar> terminal<cr>
         nnoremap <leader>tV :vsplit <bar> terminal<space>
-        nnoremap <silent> <leader>tt :tabnew <bar> terminal<cr>
+        nnoremap <silent> <leader>tt <cmd>tabnew <bar> terminal<cr>
         nnoremap <leader>tT :tabnew <bar> terminal<space>
-        nnoremap <silent> <leader>tw :terminal<cr>
+        nnoremap <silent> <leader>tw <cmd>terminal<cr>
         nnoremap <leader>tW :terminal<space>
     else
         nnoremap <silent> <leader>ts :terminal ++close<cr>

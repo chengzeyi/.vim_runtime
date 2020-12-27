@@ -169,7 +169,7 @@ endif
 if exists(':terminal')
     if has('nvim-0.4.0') || has('patch-8.2.191')
         Plug 'chengzeyi/multiterm.vim'
-    elseif has('patch-8.0.1593') || has('nvim')
+    elseif has('nvim') || has('patch-8.0.1593')
         Plug 'Lenovsky/nuake'
     endif
 endif
@@ -600,17 +600,17 @@ EOF
     "     lua vim.lsp.buf.hover()
     " endfunction
 
-    nnoremap <silent> <leader><cr><cr> :lua print(vim.inspect(vim.lsp.buf_get_clients()))<cr>
-    nnoremap <silent> <leader><cr>a :lua vim.lsp.buf.code_action()<cr>
-    nnoremap <silent> <leader><cr>a :lua vim.lsp.buf.range_code_action()<cr>
-    nnoremap <silent> <leader><cr>f :lua vim.lsp.buf.formatting()<cr>
-    nnoremap <silent> <leader><cr>f :lua vim.lsp.buf.range_formatting()<cr>
-    nnoremap <silent> <leader><cr>r :lua vim.lsp.buf.rename()<cr>
-    nnoremap <silent> <leader><cr>d :lua vim.lsp.diagnostic.set_loclist()<cr>
-    nnoremap <silent> <leader><cr>D :lua vim.lsp.diagnostic.show_line_diagnostics({show_header = false})<cr>
-    nnoremap <silent> <leader><cr>w :lua vim.lsp.buf.add_workspace_folder()<cr>
-    nnoremap <silent> <leader><cr>W :lua vim.lsp.buf.remove_workspace_folder()<cr>
-    nnoremap <silent> <leader><cr><c-w> :lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>
+    nnoremap <silent> <leader><cr><cr> <cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()))<cr>
+    nnoremap <silent> <leader><cr>a <cmd>lua vim.lsp.buf.code_action()<cr>
+    nnoremap <silent> <leader><cr>a <cmd>lua vim.lsp.buf.range_code_action()<cr>
+    nnoremap <silent> <leader><cr>f <cmd>lua vim.lsp.buf.formatting()<cr>
+    nnoremap <silent> <leader><cr>f <cmd>lua vim.lsp.buf.range_formatting()<cr>
+    nnoremap <silent> <leader><cr>r <cmd>lua vim.lsp.buf.rename()<cr>
+    nnoremap <silent> <leader><cr>d <cmd>lua vim.lsp.diagnostic.set_loclist()<cr>
+    nnoremap <silent> <leader><cr>D <cmd>lua vim.lsp.diagnostic.show_line_diagnostics({show_header = false})<cr>
+    nnoremap <silent> <leader><cr>w <cmd>lua vim.lsp.buf.add_workspace_folder()<cr>
+    nnoremap <silent> <leader><cr>W <cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>
+    nnoremap <silent> <leader><cr><c-w> <cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>
 
     command! -nargs=0 LspStop lua vim.lsp.stop_client(vim.lsp.get_active_clients())
 endif
@@ -1652,7 +1652,7 @@ nnoremap <silent> <leader>hh :GitGutterToggle<cr>
 nnoremap <silent> <leader>hs :GitGutterSignsToggle<cr>
 nnoremap <silent> <leader>hl :GitGutterLineHighlightsToggle<cr>
 if has('nvim-0.3.2')
-    nnoremap <silent> <leader>hn :GitGutterLineNrHighlightsToggle<cr>
+    nnoremap <silent> <leader>hn <cmd>GitGutterLineNrHighlightsToggle<cr>
 endif
 nnoremap <silent> <leader>hq :GitGutterQuickFix<cr>
 
@@ -1674,12 +1674,12 @@ if exists(':terminal')
         vmap <silent> <nul> <Plug>(Multiterm)
         " imap <silent> <c-space> <Plug>(Multiterm)
         " imap <silent> <nul> <Plug>(Multiterm)
-    elseif has('patch-8.0.1593') || has('nvim')
+    elseif has('nvim') || has('patch-8.0.1593')
         nnoremap <silent> <c-space> :Nuake<cr>
         nnoremap <silent> <nul> :Nuake<cr>
         if has('nvim')
-            tnoremap <silent> <c-space> <c-\><c-n>:Nuake<cr>
-            tnoremap <silent> <nul> <c-\><c-n>:Nuake<cr>
+            tnoremap <silent> <c-space> <cmd>Nuake<cr>
+            tnoremap <silent> <nul> <cmd>Nuake<cr>
         else
             tnoremap <silent> <c-space> <c-w>:Nuake<cr>
             tnoremap <silent> <nul> <c-w>:Nuake<cr>
