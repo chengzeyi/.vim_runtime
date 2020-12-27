@@ -946,8 +946,10 @@ nnoremap <silent> <leader>tx :tabclose<cr>
 nnoremap <silent> <leader>tX :tabclose!<cr>
 nnoremap <silent> <leader>tm :+tabmove<cr>
 nnoremap <silent> <leader>tM :-tabmove<cr>
-nnoremap <silent> <expr> <leader>tc ':tcd ' . GetVcsRoot() . '<cr>'
-nnoremap <silent> <leader>tC :tcd %:p:h<cr>
+if has('nvim') || has('patch-8.1.1218')
+    nnoremap <silent> <expr> <leader>tc ':tcd ' . GetVcsRoot() . '<cr>'
+    nnoremap <silent> <leader>tC :tcd %:p:h<cr>
+endif
 
 " Let 'tl' toggle between this and the last accessed tab
 nnoremap <silent> <leader>tl :tablast<cr>
