@@ -135,6 +135,7 @@ nnoremap <silent> <leader>oW :set invwrap<cr>
 nnoremap <silent> <leader>oc :set colorcolumn=<c-r>=empty(&colorcolumn) ? '+1' : ''<cr><cr>
 nnoremap <silent> <leader>oz :set foldclose=<c-r>=&foldclose !=# 'all' ? 'all' : ''<cr> foldopen=<c-r>=&foldopen !=# 'all' ? 'all' : ''<cr><cr>
 nnoremap <silent> <leader>ob :set background=<c-r>=&background ==# 'dark' ? 'light' : 'dark'<cr><cr>
+nnoremap <silent> <leader>oB :set invbomb<cr>
 " nnoremap <silent> <leader>ot :set ttyscroll=<c-r>=999 - &ttyscroll<cr><cr>
 nnoremap <silent> <leader>ot :ToggleTransparent<cr>
 command! -nargs=0 ToggleTransparent call ToggleTransparent()

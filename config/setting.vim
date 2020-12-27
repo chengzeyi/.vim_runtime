@@ -269,7 +269,7 @@ set statusline=%f%m⟩%<
 set statusline+=%{StatuslineExtraLeft()}
 set statusline+=%=
 set statusline+=%{StatuslineExtraRight()}
-set statusline+=⟨Ln\ %l/%L\ Col\ %c\ [%p%%]\ %{pathshorten(fnamemodify(getcwd(),':~'))}\ %y\ %{&fenc?&fenc:&enc}\ [%{&ff}\]
+set statusline+=⟨Ln\ %l/%L\ Col\ %c\ [%p%%]\ %{pathshorten(fnamemodify(getcwd(),':~'))}\ %y\ %{&fenc?&fenc:&enc}%{&bomb?'[BOM]':''}\ [%{&ff}\]
 
 function! StatuslineExtraLeft() abort
     let statueline_left = ''
