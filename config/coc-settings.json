@@ -1,19 +1,4 @@
 {
-  "languageserver": {
-    "bash": {
-      "command": "bash-language-server",
-      "args": [
-        "start"
-      ],
-      "filetypes": [
-        "sh"
-      ],
-      "ignoredRootPaths": [
-        "~"
-      ]
-    }
-  },
-  "python.jediEnabled": false,
   "java.completion.guessMethodArguments": true,
   "java.signatureHelp.enabled": true,
   "java.referencesCodeLens.enabled": true,
@@ -37,7 +22,7 @@
     "--cross-file-rename"
   ],
   // "clangd.semanticHighlighting": true,
-  "clangd.disableSnippetCompletion": true,
+  // "clangd.disableSnippetCompletion": true,
   // "marketplace.npmsio": true,
   // "suggest.autoTrigger": "none",
   // "suggest.keepCompleteopt": true,
