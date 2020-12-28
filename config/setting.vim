@@ -110,7 +110,7 @@ else
     set foldcolumn=1
 endif
 
-set display+=lastline,uhex
+set display+=lastline
 if has('nvim-0.3.0')
     set display+=msgsep
 endif
