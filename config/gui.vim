@@ -40,7 +40,7 @@ if has('nvim-0.4.0')
             endtry
             nnoremap <silent> <rightmouse> <cmd>call GuiShowContextMenu()<cr>
             inoremap <silent> <rightmouse> <cmd>call GuiShowContextMenu()<cr>
-            vnoremap <silent> <rightmouse> <cmd>call GuiShowContextMenu()<cr>gv
+            vnoremap <silent> <rightmouse> <cmd>call GuiShowContextMenu()<cr>
             nnoremap <silent> <F5> <cmd>call GuiFont(substitute(g:GuiFont,
                         \ ':h\zs\d\+', '\=eval(submatch(0) > 1 ? submatch(0) - 1 : submatch(0))', 'g'))<cr>
             nnoremap <silent> <F6> <cmd>call GuiFont(substitute(g:GuiFont,

@@ -1359,7 +1359,7 @@ let g:fzf_command_prefix = 'FZF'
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 let g:fzf_tags_command = 'ctags -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q'
 " let g:fzf_prefer_tmux = 1
-" let g:fzf_preview_window = 'right:60%'
+let g:fzf_preview_window = ['right:50%', '?']
 let g:fzf_colors = {
             \ 'fg':      ['fg', 'Normal'],
             \ 'bg':      ['bg', 'Normal'],
@@ -1427,6 +1427,16 @@ if has('mac')
                 \ }, <bang>0))
 endif
 
+command! -nargs=* -bang FZFRG call RipgrepFzf(<q-args>, <bang>0)
+
+function! RipgrepFzf(query, fullscreen)
+    let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+    let initial_command = printf(command_fmt, shellescape(a:query))
+    let reload_command = printf(command_fmt, '{q}')
+    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
 function! s:p(bang, ...) abort
     let preview_args = get(g:, 'fzf_preview_window', [a:bang && &columns >= 80 || &columns >= 120 ? 'right': 'up', 'ctrl-/'])
     if empty(preview_args)
@@ -1459,6 +1469,7 @@ nnoremap <silent> <leader>fc :FZFCommands<cr>
 nnoremap <silent> <leader>fC :FZFColors<cr>
 nnoremap <silent> <leader>fa :FZFAg<cr>
 nnoremap <silent> <leader>fr :FZFRg<cr>
+nnoremap <silent> <leader>fR :FZFRG<cr>
 nnoremap <silent> <leader>fl :FZFBLines<cr>
 nnoremap <silent> <leader>fL :FZFLines<cr>
 nnoremap <silent> <leader>ft :FZFBTags<cr>
@@ -1484,6 +1495,7 @@ nnoremap <leader>F? :FZFGFiles?<space>
 nnoremap <leader>Fb :FZFBuffers<space>
 nnoremap <leader>Fa :FZFAg<space>
 nnoremap <leader>Fr :FZFRg<space>
+nnoremap <leader>FR :FZFRG<space>
 nnoremap <leader>Fl :FZFBLines<space>
 nnoremap <leader>FL :FZFLines<space>
 nnoremap <leader>Ft :FZFBTags<space>
