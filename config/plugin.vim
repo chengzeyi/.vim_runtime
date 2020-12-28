@@ -1295,7 +1295,9 @@ nnoremap <leader>gW :Gwrite<space>
 " augroup END
 
 nmap <silent> <c-_> <Plug>CommentaryLine
-xmap <silent> <c-_> <Plug>Commentary
+vmap <silent> <c-_> <Plug>Commentary
+nmap <silent> <c-/> <Plug>CommentaryLine
+vmap <silent> <c-/> <Plug>Commentary
 
 nnoremap <leader>sv :%S/
 xnoremap <leader>sv :S/
