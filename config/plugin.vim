@@ -1359,7 +1359,7 @@ let g:fzf_command_prefix = 'FZF'
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 let g:fzf_tags_command = 'ctags -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q'
 " let g:fzf_prefer_tmux = 1
-let g:fzf_preview_window = ['right:50%', '?']
+let g:fzf_preview_window = ['right:50%', 'ctrl-^']
 let g:fzf_colors = {
             \ 'fg':      ['fg', 'Normal'],
             \ 'bg':      ['bg', 'Normal'],
@@ -1434,11 +1434,43 @@ function! RipgrepFzf(query, fullscreen)
     let initial_command = printf(command_fmt, shellescape(a:query))
     let reload_command = printf(command_fmt, '{q}')
     let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+    call fzf#vim#grep(initial_command, 1, s:p(a:fullscreen, spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang FZFAG call AgFzf(<q-args>, <bang>0)
+
+function! AgFzf(query, fullscreen)
+    let command_fmt = 'ag --column --numbers --noheading --color --smart-case -- "$([[ -z %s ]] && echo "^(?=.)" || echo %s)" || true'
+    let initial_command = printf(command_fmt, shellescape(a:query), shellescape(a:query))
+    let reload_command = printf(command_fmt, '{q}', '{q}')
+    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+    call fzf#vim#grep(initial_command, 1, s:p(a:fullscreen, spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang FZFGREP call GrepFzf(<q-args>, <bang>0)
+
+function! GrepFzf(query, fullscreen)
+    let command_fmt = 'grep -I --line-number --color=always -r -- %s . || true'
+    let initial_command = printf(command_fmt, shellescape(a:query))
+    let reload_command = printf(command_fmt, '{q}')
+    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command, '--delimiter=:', '--nth=3..']}
+    call fzf#vim#grep(initial_command, 0, s:p(a:fullscreen, spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang FZFGGREP call GGrepFzf(<q-args>, <bang>0)
+
+function! GGrepFzf(query, fullscreen)
+    let command_fmt = 'git grep -I --line-number --color=always -- %s || true'
+    let initial_command = printf(command_fmt, shellescape(a:query))
+    let reload_command = printf(command_fmt, '{q}')
+    let spec = {'options': [
+                \ '--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command, '--delimiter=:', '--nth=3..'
+                \ ], 'dir': systemlist('git rev-parse --show-toplevel')[0]}
+    call fzf#vim#grep(initial_command, 0, s:p(a:fullscreen, spec), a:fullscreen)
 endfunction
 
 function! s:p(bang, ...) abort
-    let preview_args = get(g:, 'fzf_preview_window', [a:bang && &columns >= 80 || &columns >= 120 ? 'right': 'up', 'ctrl-/'])
+    let preview_args = get(g:, 'fzf_preview_window', ['right:%50', 'ctrl-/'])
     if empty(preview_args)
         return { 'options': ['--preview-window', 'hidden'] }
     endif
@@ -1468,6 +1500,7 @@ nnoremap <silent> <leader>fO :FZFCommits<cr>
 nnoremap <silent> <leader>fc :FZFCommands<cr>
 nnoremap <silent> <leader>fC :FZFColors<cr>
 nnoremap <silent> <leader>fa :FZFAg<cr>
+nnoremap <silent> <leader>fA :FZFAG<cr>
 nnoremap <silent> <leader>fr :FZFRg<cr>
 nnoremap <silent> <leader>fR :FZFRG<cr>
 nnoremap <silent> <leader>fl :FZFBLines<cr>
@@ -1485,7 +1518,9 @@ nnoremap <silent> <leader>f/ :FZFHistory/<cr>
 nnoremap <silent> <leader>f: :FZFHistory:<cr>
 nnoremap <silent> <leader>fH :FZFHelptags<cr>
 nnoremap <silent> <leader>fg :FZFGrep<cr>
-nnoremap <silent> <leader>fG :FZFGGrep<cr>
+nnoremap <silent> <leader>fG :FZFGREP<cr>
+nnoremap <silent> <leader>fp :FZFGGrep<cr>
+nnoremap <silent> <leader>fP :FZFGGREP<cr>
 nnoremap <silent> <leader>fq :FZFQuickFix<cr>
 nnoremap <silent> <leader>fQ :FZFLocList<cr>
 
@@ -1494,14 +1529,17 @@ nnoremap <leader>FF :FZFGFiles<space>
 nnoremap <leader>F? :FZFGFiles?<space>
 nnoremap <leader>Fb :FZFBuffers<space>
 nnoremap <leader>Fa :FZFAg<space>
+nnoremap <leader>FA :FZFAG<space>
 nnoremap <leader>Fr :FZFRg<space>
 nnoremap <leader>FR :FZFRG<space>
 nnoremap <leader>Fl :FZFBLines<space>
 nnoremap <leader>FL :FZFLines<space>
 nnoremap <leader>Ft :FZFBTags<space>
 nnoremap <leader>FT :FZFTags<space>
-nnoremap <leader>Fg :FZFGGrep<space>
-nnoremap <leader>FG :FZFGrep<space>
+nnoremap <leader>Fg :FZFGrep<space>
+nnoremap <leader>FG :FZFGREP<space>
+nnoremap <leader>Fp :FZFGGrep<space>
+nnoremap <leader>FP :FZFGGREP<space>
 
 nnoremap <silent> <c-g> :Grepper<cr>
 if !exists('g:grepper')
