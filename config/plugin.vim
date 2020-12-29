@@ -1623,8 +1623,10 @@ let g:NERDTreeWinPos = 'right'
 " let NERDTreeDirArrowExpandable=">"
 " let NERDTreeDirArrowCollapsible="v"
 let g:NERDTreeNaturalSort = 1
-nnoremap <silent> <leader>nn :NERDTreeToggle<cr>
-nnoremap <silent> <leader>nN :NERDTreeToggleVCS<cr>
+nnoremap <silent> <leader>nn :NERDTreeToggleVCS<cr>
+nnoremap <silent> <leader>nN :NERDTreeToggle<cr>
+nnoremap <silent> <leader>nt :NERDTree<cr>
+nnoremap <silent> <leader>nT :NERDTreeClose<cr>
 nnoremap <leader>nb :NERDTreeFromBookmark<space>
 nnoremap <silent> <leader>nf :NERDTreeFind<cr>
 nnoremap <silent> <leader>nF :NERDTreeFocus<cr>
