@@ -805,7 +805,7 @@ if !has('nvim')
     command! -nargs=0 W w !sudo tee % > /dev/null
 endif
 
-nnoremap <leader>eb :e ++enc=ascii +set\ nowrap<space>
+nnoremap <leader>eb :e ++enc=ascii +set\ bin\ nowrap<space>
 
 if executable('xxd')
     nnoremap <silent> <leader>eh :EditHex<cr>
