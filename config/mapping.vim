@@ -771,13 +771,13 @@ command! -nargs=+ -complete=command VCS call VCS(<q-args>)
 
 function! VCS(cmd) abort
     let saved = getcwd()
-    exe 'cd' GetVcsRoot()
+    exe 'lcd' GetVcsRoot()
     try
         exe a:cmd
     catch
         echohl ErrorMsg | echo v:exception | echohl None
     endtry
-    exe 'cd' saved
+    exe 'lcd' saved
 endfunction
 
 nnoremap <leader>vg :vim //j % <bar> cw
