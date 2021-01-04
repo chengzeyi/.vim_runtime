@@ -46,7 +46,7 @@ nnoremap <silent> & :&&<cr>
 xnoremap <silent> & :&&<cr>
 
 noremap <expr> <c-c> !exists('*win_gettype') <bar><bar> win_gettype() ==# 'command' ? '<c-c>' : '"*y'
-onoremap <expr><c-c> v:register == '*' && v:operator ==# 'y' ? 'y' : '<c-c>'
+onoremap <expr> <c-c> v:register == '*' && v:operator ==# 'y' ? 'y' : '<c-c>'
 
 nnoremap <silent> ]<space> :<c-u>put =repeat(nr2char(10), v:count) <bar> execute "'[-1"<cr>
 nnoremap <silent> [<space> :<c-u>put! =repeat(nr2char(10), v:count) <bar> execute "']+1"<cr>
@@ -986,7 +986,8 @@ function! GetVcsRoot(...) abort
     if cph =~# '^.\+://' | retu | en
     for mkr in ['.git/', '.hg/', '.svn/', '.bzr/', '_darcs/', '.vimprojects']
         let wd = call('find' . (mkr =~# '/$' ? 'dir' : 'file'), [mkr, cph . ';'])
-        if !empty(wd) | let &acd = 0 | brea | en
+        if !empty(wd) | break | endif
+        " if !empty(wd) | let &acd = 0 | break | endif
     endfor
     let result = empty(wd) ? cph : substitute(wd, mkr . '$', '', '')
     return empty(result) ? '.' : fnameescape(fnamemodify(result . '/', ':h'))
@@ -1190,15 +1191,15 @@ endfunction
 " nnoremap <silent> <leader>cl :let @" = expand('%:p') . ':' . line('.')<cr>
 
 if exists(':terminal')
-    nnoremap <leader>rt :RunTermCmd<space>
-    nnoremap <leader>rT :vert RunTermCmd<space>
-    command! -nargs=+ -complete=shellcmd RunTermCmd call RunTermCmd(<q-args>, <q-mods>)
-    function! RunTermCmd(cmd, mods) abort
+    nnoremap <leader>rt :RunTerm<space>
+    nnoremap <leader>rT :vert RunTerm<space>
+    command! -nargs=* -complete=shellcmd RunTerm call RunTerm(<q-args>, <q-mods>)
+    function! RunTerm(cmd, mods) abort
         exe a:mods 'new'
         if has('nvim')
-            execute 'terminal ' . a:cmd
+            execute 'terminal' a:cmd
         else
-            execute 'terminal ++curwin ' . a:cmd
+            execute 'terminal' '++curwin' a:cmd
         endif
     endfunction
 endif
