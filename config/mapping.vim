@@ -802,7 +802,7 @@ xnoremap <leader>sr :s/<bslash>C<bslash><lt><bslash>>/<left><left><left>
 nnoremap <leader>sR :%argd <bar> arga **/* <bar> argdo %s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
 
 if !has('nvim')
-    command! -nargs=0 W w !sudo tee % > /dev/null
+    command! -nargs=0 W w !sudo tee % >/dev/null
 endif
 
 nnoremap <leader>eb :e ++enc=ascii +set\ bin<space>
