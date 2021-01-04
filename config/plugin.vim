@@ -1611,7 +1611,7 @@ nnoremap <silent> <leader>uu :UndotreeToggle<cr>
 nnoremap <silent> <leader>uf :UndotreeFocus<cr>
 nnoremap <silent> <leader>us :UndotreeShow<cr>
 nnoremap <silent> <leader>uh :UndotreeHide<cr>
-let g:undotree_WindowLayout = 4
+" let g:undotree_WindowLayout = 4
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_HelpLine = 0
 
