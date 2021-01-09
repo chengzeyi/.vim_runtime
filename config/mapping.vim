@@ -45,8 +45,8 @@ xnoremap <silent> g< <
 nnoremap <silent> & :&&<cr>
 xnoremap <silent> & :&&<cr>
 
-noremap <expr> <c-c> !exists('*win_gettype') <bar><bar> win_gettype() ==# 'command' ? '<c-c>' : '"*y'
-onoremap <expr> <c-c> v:register == '*' && v:operator ==# 'y' ? 'y' : '<c-c>'
+" noremap <expr> <c-c> !exists('*win_gettype') <bar><bar> win_gettype() ==# 'command' ? '<c-c>' : '"*y'
+" onoremap <expr> <c-c> v:register == '*' && v:operator ==# 'y' ? 'y' : '<c-c>'
 
 nnoremap <silent> ]<space> :<c-u>put =repeat(nr2char(10), v:count) <bar> execute "'[-1"<cr>
 nnoremap <silent> [<space> :<c-u>put! =repeat(nr2char(10), v:count) <bar> execute "']+1"<cr>

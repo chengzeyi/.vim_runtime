@@ -322,27 +322,29 @@ require'nvim-treesitter.configs'.setup {
         enable = true
     }
 }
--- local queries = require "nvim-treesitter.query"
--- require'nvim-treesitter'.define_modules {
-    -- my_auto_enable_fold = {
-        -- enable = true,
-        -- attach = function(bufnr, lang)
-            -- vim.api.nvim_command(string.format('if winbufnr(0) == %d | let w:saved_fd = [&fdm, &fde] | setl fdm=expr fde=nvim_treesitter#foldexpr() | endif', bufnr))
+
+local queries = require "nvim-treesitter.query"
+require'nvim-treesitter'.define_modules {
+    my_auto_enable_fold = {
+        enable = true,
+        attach = function(bufnr, lang)
+            vim.api.nvim_command('if !exists("b:saved_fd") | let b:saved_fd = [&l:fdm, &l:fde] | setl fdm=expr fde=nvim_treesitter#foldexpr() | endif')
             -- vim.api.nvim_command(string.format('augroup MyAutoEnableFold_%d', bufnr))
             -- vim.api.nvim_command(string.format('au BufEnter <buffer=%d> if !exists("w:saved_fd") | let w:saved_fd = [&fdm, &fde] | setl fdm=expr fde=nvim_treesitter#foldexpr() | endif', bufnr))
             -- vim.api.nvim_command(string.format('au BufLeave <buffer=%d> if exists("w:saved_fd") | let &l:fdm = w:saved_fd[0] | let &l:fde = w:saved_fd[1] | unlet w:saved_fd | endif', bufnr))
             -- vim.api.nvim_command('augroup END')
-        -- end,
-        -- detach = function(bufnr)
-            -- vim.api.nvim_command(string.format('if exists("w:saved_fd") && winbufnr(0) == %d | let &l:fdm = w:saved_fd[0] | let &l:fde = w:saved_fd[1] | unlet w:saved_fd | endif', bufnr))
+        end,
+        detach = function(bufnr)
+            vim.api.nvim_command('if exists("b:saved_fd") | let [&l:fdm, &l:fde] = b:saved_fd | unlet b:saved_fd | endif')
             -- vim.api.nvim_command(string.format('augroup MyAutoEnableFold_%d', bufnr))
             -- vim.api.nvim_command('au!')
             -- vim.api.nvim_command('augroup END')
             -- vim.api.nvim_command(string.format('augroup! MyAutoEnableFold_%d', bufnr))
-        -- end,
-        -- is_supported = queries.has_folds
-    -- }
--- }
+        end,
+        is_supported = queries.has_folds
+    }
+}
+
 require'nvim-treesitter.configs'.setup {
     textobjects = {
         select = {
@@ -519,7 +521,7 @@ if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
 
     function! InitNvimLsp() abort
 lua <<EOF
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
     -- require'diagnostic'.on_attach()
     -- require'completion'.on_attach()
@@ -550,9 +552,17 @@ local on_attach = function(_, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '[w', '<cmd>lua vim.lsp.diagnostic.goto_prev({severity = "Warning"})<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', ']w', '<cmd>lua vim.lsp.diagnostic.goto_next({severity = "Warning"})<cr>', opts)
 
-    vim.api.nvim_command [[autocmd CursorHold  <buffer> silent! lua vim.lsp.buf.document_highlight()]]
-    vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
-    vim.api.nvim_command [[autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()]]
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gL', '<cmd>lua require"lsp_ext".peek_declaration()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua require"lsp_ext".peek_definition()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gY', '<cmd>lua require"lsp_ext".peek_type_definition()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gM', '<cmd>lua require"lsp_ext".peek_implementation()<cr>', opts)
+
+    if client.resolved_capabilities.document_highlight then
+        vim.api.nvim_command [[autocmd CursorHold  <buffer> silent! lua vim.lsp.buf.document_highlight()]]
+        vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
+        vim.api.nvim_command [[autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()]]
+    end
+
     vim.api.nvim_command [[autocmd CursorHold  <buffer> silent! lua vim.lsp.diagnostic.show_line_diagnostics({show_header = false})]]
 end
 
@@ -602,9 +612,9 @@ EOF
 
     nnoremap <silent> <leader><cr><cr> <cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()))<cr>
     nnoremap <silent> <leader><cr>a <cmd>lua vim.lsp.buf.code_action()<cr>
-    nnoremap <silent> <leader><cr>a <cmd>lua vim.lsp.buf.range_code_action()<cr>
+    nnoremap <silent> <leader><cr>A <cmd>lua vim.lsp.buf.range_code_action()<cr>
     nnoremap <silent> <leader><cr>f <cmd>lua vim.lsp.buf.formatting()<cr>
-    nnoremap <silent> <leader><cr>f <cmd>lua vim.lsp.buf.range_formatting()<cr>
+    nnoremap <silent> <leader><cr>F <cmd>lua vim.lsp.buf.range_formatting()<cr>
     nnoremap <silent> <leader><cr>r <cmd>lua vim.lsp.buf.rename()<cr>
     nnoremap <silent> <leader><cr>d <cmd>lua vim.lsp.diagnostic.set_loclist()<cr>
     nnoremap <silent> <leader><cr>D <cmd>lua vim.lsp.diagnostic.show_line_diagnostics({show_header = false})<cr>
@@ -613,6 +623,8 @@ EOF
     nnoremap <silent> <leader><cr><c-w> <cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>
 
     command! -nargs=0 LspStop lua vim.lsp.stop_client(vim.lsp.get_active_clients())
+    command! -nargs=0 LspDebug lua vim.lsp.set_log_level('debug')
+    command! -nargs=0 LspOpenLog lua vim.cmd('e'..vim.lsp.get_log_path())
 endif
 
 if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
@@ -629,6 +641,8 @@ if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
           \     {'mode': '<c-n>'}
           \ ]}
     let g:completion_trigger_on_delete = 1
+    let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
+    let g:completion_matching_smart_case = 1
 
     imap <c-j> <Plug>(completion_next_source)
     imap <c-k> <Plug>(completion_prev_source)

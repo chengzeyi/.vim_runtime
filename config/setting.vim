@@ -71,20 +71,32 @@ set autoread
 "     return strlen(matchstr(a:line, '\V\^\s\+'))
 " endfunction
 
-" function! MyFoldExpr()
-"     if empty(getline(v:lnum))
-"         return -1
-"     endif
-"     for char in split(&foldignore, '\zs')
-"         if char ==? getline(v:lnum)[indent(v:lnum)]
-"             return '='
-"         endif
-"     endfor
-"     let shiftwidth = &shiftwidth
-"     let ind = (indent(v:lnum) + shiftwidth - 1) / shiftwidth
-"     let indNext = (indent(v:lnum + 1) + shiftwidth - 1) / shiftwidth
-"     return (ind < indNext) ? ('>' . (indNext)) : ind
-" endfunction
+if exists('*shiftwidth')
+    function SW() abort
+        return shiftwidth()
+    endfunction
+else
+    function SW() abort
+        return &l:sw
+    endfunction
+endif
+
+function! MyFoldExpr()
+    let currline = getline(v:lnum)
+    if empty(currline)
+        return -1
+    endif
+    let currind = indent(v:lnum)
+    for char in split(&l:foldignore, '\zs')
+        if char ==# currline[currind]
+            return '='
+        endif
+    endfor
+    let shiftwidth = SW()
+    let ind = (currind + shiftwidth - 1) / shiftwidth
+    let indNext = (indent(v:lnum + 1) + shiftwidth - 1) / shiftwidth
+    return (ind < indNext) ? ('>' . (indNext)) : ind
+endfunction
 
 function! MyFoldText()
     " Foldtext ignores tabstop and shows tabs as one space,
@@ -96,10 +108,9 @@ function! MyFoldText()
     return fline . numLinesStr
 endfunction
 
-" set foldmethod=expr
-" set foldexpr=MyFoldExpr()
+set foldmethod=expr
+set foldexpr=MyFoldExpr()
 set foldtext=MyFoldText()
-set foldmethod=indent
 set foldlevel=99
 set foldlevelstart=99
 " set foldnestmax=3
