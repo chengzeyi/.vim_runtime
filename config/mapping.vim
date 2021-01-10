@@ -600,8 +600,8 @@ nnoremap <silent> <leader>lh :lhistory<cr>
 nnoremap <silent> <leader>lt :ltag<cr>
 nnoremap <silent> <expr> <leader>lc ':lcd ' . GetVcsRoot() . '<cr>'
 nnoremap <silent> <leader>lC :lcd %:p:h<cr>
-nnoremap <silent> <leader>q<space> :cc<cr>
-nnoremap <silent> <leader>l<space> :ll<cr>
+nnoremap <silent> <leader>Q :cc<cr>
+nnoremap <silent> <leader>L :ll<cr>
 nnoremap <silent> [q :cprev<cr>
 nnoremap <silent> ]q :cnext<cr>
 nnoremap <silent> [Q :cfirst<cr>

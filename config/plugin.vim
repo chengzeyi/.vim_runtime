@@ -42,9 +42,9 @@ endif
 if UseFtplugin('html')
     Plug 'othree/html5.vim'
 endif
-if UseFtplugin('markdown')
-    Plug 'plasticboy/vim-markdown'
-endif
+" if UseFtplugin('markdown')
+"     Plug 'plasticboy/vim-markdown'
+" endif
 if UseFtplugin('latex')
     Plug 'lervag/vimtex'
 endif
@@ -64,9 +64,9 @@ endif
 if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
     Plug 'nvim-lua/completion-nvim'
     Plug 'steelsojka/completion-buffers'
-    if get(g:, 'use_treesitter', 0)
-        Plug 'nvim-treesitter/completion-treesitter'
-    endif
+    " if get(g:, 'use_treesitter', 0)
+    "     Plug 'nvim-treesitter/completion-treesitter'
+    " endif
 endif
 
 if get(g:, 'use_coc', 0)
@@ -285,9 +285,7 @@ if UseFtplugin('latex')
 endif
 
 if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
-    " let g:statusline_extra_right_1 = ['nvim_treesitter#statusline', []]
-    nnoremap gss :echo nvim_treesitter#statusline()<cr>
-    try
+    function! InitTS() abort
 lua <<EOF
 -- require'nvim-treesitter.configs'.setup {
     -- ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
@@ -317,11 +315,12 @@ require'nvim-treesitter.configs'.setup {
         },
     },
 }
-require'nvim-treesitter.configs'.setup {
-    indent = {
-        enable = true
-    }
-}
+-- This dose not correctly handle 'shiftwidth'
+-- require'nvim-treesitter.configs'.setup {
+    -- indent = {
+        -- enable = true
+    -- }
+-- }
 
 local queries = require "nvim-treesitter.query"
 require'nvim-treesitter'.define_modules {
@@ -462,16 +461,18 @@ require'nvim-treesitter.configs'.setup {
         },
     },
 }
-require'nvim-treesitter.configs'.setup {
-    refactor = {
-        highlight_definitions = { enable = true },
-    },
-}
-require'nvim-treesitter.configs'.setup {
-    refactor = {
-        highlight_current_scope = { enable = true },
-    },
-}
+-- This has some performance issues and is duplicated by lsp's same functionality
+-- require'nvim-treesitter.configs'.setup {
+    -- refactor = {
+        -- highlight_definitions = { enable = true },
+    -- },
+-- }
+-- This might be slow and is disturbing
+-- require'nvim-treesitter.configs'.setup {
+    -- refactor = {
+        -- highlight_current_scope = { enable = true },
+    -- },
+-- }
 require'nvim-treesitter.configs'.setup {
     refactor = {
         smart_rename = {
@@ -505,8 +506,20 @@ require 'nvim-treesitter.configs'.setup {
     },
 }
 EOF
-    catch
-    endtry
+    endfunction
+
+    augroup MyNvimTreesitter
+        autocmd!
+        if v:vim_did_enter
+            if exists('g:loaded_nvim_treesitter') | call InitTS() | endif
+        else
+            au VimEnter * if exists('loaded_nvim_treesitter') | call InitTS() | endif
+        endif
+    augroup END
+
+
+    " let g:statusline_extra_right_1 = ['nvim_treesitter#statusline', []]
+    nnoremap gss <cmd>echo nvim_treesitter#statusline()<cr>
 endif
 
 if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
@@ -535,6 +548,8 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gh', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gH', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'i', '<c-g>h', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'i', '<c-g><c-h>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<s-leftmouse>', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<s-rightmouse>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gm', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
@@ -570,7 +585,10 @@ local lspconfig = require'lspconfig'
 lspconfig.util.default_config = vim.tbl_extend(
     'force',
     lspconfig.util.default_config,
-    { on_attach = on_attach }
+    {
+        on_attach = on_attach,
+        -- handlers = { ['textDocument/signatureHelp'] = require'lsp_ext'.signature_help }
+    }
 )
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -635,14 +653,16 @@ if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
 
     let g:completion_enable_snippet = 'Neosnippet'
     let g:completion_chain_complete_list = {
-          \ 'default' : [
-          \     {'complete_items': ['lsp', 'ts', 'snippet', 'buffers']},
-          \     {'mode': '<c-p>'},
-          \     {'mode': '<c-n>'}
-          \ ]}
+                \ 'default' : [
+                \     {'complete_items': ['lsp', 'snippet', 'buffer']},
+                \     {'complete_items': ['path'], 'triggered_only': ['/']},
+                \     {'mode': '<c-p>'},
+                \     {'mode': '<c-n>'}
+                \ ]}
+    let g:completion_timer_cycle = 200
     let g:completion_trigger_on_delete = 1
-    let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
-    let g:completion_matching_smart_case = 1
+    " let g:completion_enable_auto_signature = 0
+    let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
     imap <c-j> <Plug>(completion_next_source)
     imap <c-k> <Plug>(completion_prev_source)
@@ -825,6 +845,8 @@ if get(g:, 'use_coc', 0)
 
         nnoremap <expr> <silent> gh CocHasProvider('hover') ? ':call CocActionAsync("doHover")<cr>' : 'gh'
         nnoremap <expr> <silent> gH CocHasProvider('signature') ? ':call CocActionAsync("showSignatureHelp")<cr>' : 'gH'
+        inoremap <expr> <silent> <c-g>h CocHasProvider('signature') ? ':call CocActionAsync("showSignatureHelp")<cr>' : '<c-g>h'
+        inoremap <expr> <silent> <c-g><c-h> CocHasProvider('signature') ? ':call CocActionAsync("showSignatureHelp")<cr>' : '<c-g><c-h>'
         nnoremap <expr> <silent> <s-leftmouse> '<leftmouse>' . (CocHasProvider('hover') ? ':call CocActionAsync("doHover")<cr>' : '<s-leftmouse>')
         nnoremap <expr> <silent> <s-rightmouse> '<leftmouse>' . (CocHasProvider('signature') ? ':call CocActionAsync("showSignatureHelp")<cr>' : '<s-rightmouse>')
         " function! ShowDocumentation(count) abort
@@ -930,6 +952,8 @@ if get(g:, 'use_vim_lsp', 0)
 
             nmap <silent> <buffer> gh <Plug>(lsp-hover)
             nmap <silent> <buffer> gH <Plug>(lsp-signature-help)
+            imap <silent> <buffer> <c-g>h <c-o><Plug>(lsp-signature-help)
+            imap <silent> <buffer> <c-g><c-h> <c-o><Plug>(lsp-signature-help)
             nmap <silent> <buffer> <s-leftmouse> <Plug>(lsp-hover)
             nmap <silent> <buffer> <s-rightmouse> <Plug>(lsp-signature-help)
 
@@ -1503,6 +1527,7 @@ imap <silent> <a-m> <plug>(fzf-maps-i)
 nmap <silent> g<c-m> <plug>(fzf-maps-n)
 xmap <silent> g<c-m> <plug>(fzf-maps-x)
 omap <silent> g<c-m> <plug>(fzf-maps-o)
+imap <silent> <c-g>m <plug>(fzf-maps-i)
 imap <silent> <c-g><c-m> <plug>(fzf-maps-i)
 nnoremap <silent> <leader>ff :FZFFiles<cr>
 nnoremap <silent> <leader>fF :FZFGFiles<cr>

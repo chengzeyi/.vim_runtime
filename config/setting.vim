@@ -72,30 +72,30 @@ set autoread
 " endfunction
 
 if exists('*shiftwidth')
-    function SW() abort
+    function! SW() abort
         return shiftwidth()
     endfunction
 else
-    function SW() abort
+    function! SW() abort
         return &l:sw
     endfunction
 endif
 
 function! MyFoldExpr()
-    let currline = getline(v:lnum)
-    if empty(currline)
+    let curline = getline(v:lnum)
+    if empty(curline)
         return -1
     endif
-    let currind = indent(v:lnum)
-    for char in split(&l:foldignore, '\zs')
-        if char ==# currline[currind]
+    let curind = indent(v:lnum)
+    for char in split(&l:fdi, '\zs')
+        if char ==# curline[curind]
             return '='
         endif
     endfor
-    let shiftwidth = SW()
-    let ind = (currind + shiftwidth - 1) / shiftwidth
-    let indNext = (indent(v:lnum + 1) + shiftwidth - 1) / shiftwidth
-    return (ind < indNext) ? ('>' . (indNext)) : ind
+    let sw = SW()
+    let ind = (curind + sw - 1) / sw
+    let nextind = (indent(v:lnum + 1) + sw - 1) / sw
+    return (ind < nextind) ? ('>' . (nextind)) : ind
 endfunction
 
 function! MyFoldText()
@@ -115,11 +115,14 @@ set foldlevel=99
 set foldlevelstart=99
 " set foldnestmax=3
 " set nofoldenable
-if has('nvim-0.5.0')
-    set foldcolumn=auto:1
-else
-    set foldcolumn=1
-endif
+
+set foldcolumn=1
+" The current implementation of foldcolumn auto option is slow
+" if has('nvim-0.5.0')
+"     set foldcolumn=auto:1
+" else
+"     set foldcolumn=1
+" endif
 
 set display+=lastline
 if has('nvim-0.3.0')
@@ -197,7 +200,12 @@ else
     set fillchars=
 endif
 if !has('nvim-0.3.0')
-    set fillchars+=vert:│,fold:·
+    " set fillchars+=vert:│,fold:·
+    set fillchars+=vert:│
+endif
+set fillchars+=diff:░,fold:░
+if has('nvim-0.4.4')
+    set fillchars+=foldopen:▾,foldclose:▸
 endif
 " let &showbreak = "\u21aa "
 let &showbreak = '↪ '
@@ -250,14 +258,16 @@ set expandtab
 set smarttab
 
 " 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
+" set tabstop=4
 set softtabstop=-1
+set shiftwidth=4
 
 set cink+=*<cr>
 set cino+=l1,g0,N-s,E-s,(0
 
 set indentkeys+=*<cr>
+
+set commentstring=//\ %s
 
 set ai "Auto indent
 set si "Smart indent
