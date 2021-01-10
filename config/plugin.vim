@@ -1587,8 +1587,8 @@ endif
 let g:grepper.prompt_mapping_tool = '<c-g>'
 
 " This is 'lcd', not what I want.
-" let g:startify_change_to_dir = 0
-let g:startify_change_to_vcs_root = 1
+let g:startify_change_to_dir = 0
+" let g:startify_change_to_vcs_root = 1
 " if has('nvim') || has('patch-8.1.1218')
 "     let g:startify_change_cmd = 'tcd'
 " else
