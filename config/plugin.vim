@@ -42,9 +42,9 @@ endif
 if UseFtplugin('html')
     Plug 'othree/html5.vim'
 endif
-" if UseFtplugin('markdown')
-"     Plug 'plasticboy/vim-markdown'
-" endif
+if UseFtplugin('markdown')
+    Plug 'plasticboy/vim-markdown'
+endif
 if UseFtplugin('latex')
     Plug 'lervag/vimtex'
 endif
@@ -587,7 +587,7 @@ lspconfig.util.default_config = vim.tbl_extend(
     lspconfig.util.default_config,
     {
         on_attach = on_attach,
-        -- handlers = { ['textDocument/signatureHelp'] = require'lsp_ext'.signature_help }
+        handlers = { ['textDocument/signatureHelp'] = require'lsp_ext'.signature_help }
     }
 )
 
