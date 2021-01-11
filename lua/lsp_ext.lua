@@ -17,7 +17,8 @@ function M.signature_help(_, method, result)
   end
   util.focusable_float(method, function()
     local bufnr, winnr = util.fancy_floating_markdown(lines, {
-      pad_left = 1; pad_right = 1;
+      -- pad_left = 1; pad_right = 1;
+      max_height = math.max(12, math.floor(vim.o.lines / 4));
     })
     util.close_preview_autocmd({'CursorMoved', 'BufHidden', 'InsertCharPre'}, winnr)
     return bufnr, winnr
