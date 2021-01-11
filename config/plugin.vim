@@ -658,6 +658,12 @@ if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
                 \     {'complete_items': ['path'], 'triggered_only': ['/']},
                 \     {'mode': '<c-p>'},
                 \     {'mode': '<c-n>'}
+                \ ],
+                \ '' : [
+                \     {'complete_items': ['snippet']},
+                \     {'complete_items': ['path'], 'triggered_only': ['/']},
+                \     {'mode': '<c-p>'},
+                \     {'mode': '<c-n>'}
                 \ ]}
     let g:completion_timer_cycle = 200
     let g:completion_trigger_on_delete = 1
