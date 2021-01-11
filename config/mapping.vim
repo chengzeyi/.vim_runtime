@@ -939,7 +939,7 @@ nnoremap <silent> <leader>bu :sun<cr>
 
 " Useful mappings for managing tabs
 nnoremap <silent> <leader>tn :tabnew<cr>
-nnoremap <leader>tN :tabnew<home>
+nnoremap <leader>tN :-tabnew<cr>
 nnoremap <silent> <leader>to :tabonly<cr>
 nnoremap <silent> <leader>tO :tabonly!<cr>
 nnoremap <silent> <leader>tx :tabclose<cr>
