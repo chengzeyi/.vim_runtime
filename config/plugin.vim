@@ -1407,6 +1407,18 @@ let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 let g:fzf_tags_command = 'ctags -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q'
 " let g:fzf_prefer_tmux = 1
 let g:fzf_preview_window = ['right:50%', 'ctrl-^']
+
+function! s:build_quickfix_list(lines)
+    call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+    copen
+    cc
+endfunction
+
+let g:fzf_action = {
+            \ 'ctrl-q': function('s:build_quickfix_list'),
+            \ 'ctrl-t': 'tab split',
+            \ 'ctrl-x': 'split',
+            \ 'ctrl-v': 'vsplit' }
 let g:fzf_colors = {
             \ 'fg':      ['fg', 'Normal'],
             \ 'bg':      ['bg', 'Normal'],
@@ -1427,7 +1439,8 @@ let g:fzf_colors = {
 " endif
 " let g:fzf_layout = {'window': 'bot'.float2nr(0.4 * &lines).'new'}
 " let g:fzf_layout = {'down': '40%'}
-" Some workaround to fix the character deletion error at empty lines.
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+
 imap <silent> <c-x>k <plug>(fzf-complete-word)
 imap <silent> <c-x>p <plug>(fzf-complete-path)
 imap <silent> <c-x>f <plug>(fzf-complete-file)
