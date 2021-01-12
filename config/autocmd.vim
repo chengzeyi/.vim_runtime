@@ -23,13 +23,13 @@ augroup END
 
 augroup MyQuickFixEnhancement
     autocmd!
+    autocmd FileType qf if getwininfo(win_getid())[0]['quickfix'] && !getwininfo(win_getid())[0]['loclist'] | wincmd J | endif
     autocmd FileType qf nnoremap <silent> <buffer> <nowait> <tab> :RemoveQFItem<cr>
     autocmd FileType qf nnoremap <silent> <buffer> <nowait> <s-tab> :UndoQFRemove<cr>
     " autocmd QuickFixCmdPost [^l]* call ShortenQuifkFixPath(0)
     " autocmd QuickFixCmdPost l* call ShortenQuifkFixPath(1)
     " autocmd FileType qf autocmd CursorMoved <buffer=abuf> call EchoQFBufName()
     autocmd FileType qf setl nobuflisted nowrap nonumber norelativenumber foldcolumn=0
-    autocmd FileType qf if getwininfo(win_getid())[0]['quickfix'] && !getwininfo(win_getid())[0]['loclist'] | wincmd J | endif
     autocmd BufEnter * if winnr('$') == 1 &&
                 \ &filetype ==# 'qf'
                 \ | q | endif
@@ -248,8 +248,4 @@ augroup MyFileType
     " autocmd FileType go compiler go
     autocmd FileType go set noexpandtab
     autocmd FileType python if executable('pydoc3') | set keywordprg=pydoc3 | endif
-    autocmd Filetype *
-                \ if empty(&omnifunc) |
-                \     setlocal omnifunc=syntaxcomplete#Complete |
-                \ endif
 augroup END

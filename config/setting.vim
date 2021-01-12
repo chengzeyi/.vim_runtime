@@ -346,6 +346,7 @@ endif
 "     endif
 " endif
 
+set omnifunc=syntaxcomplete#Complete
 set completeopt-=preview
 set completeopt+=menuone
 " if has('patch-7.4.775')
