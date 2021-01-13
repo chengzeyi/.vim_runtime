@@ -12,16 +12,14 @@ function M.foldexpr()
   end
   local curr_ind = vim.fn.indent(lnum)
   local fdi = vim.wo.fdi
-  if fdi ~= '' then
-    if fdi:find(non_blank_c) then
-      return -1
-    end
+  if fdi ~= '' and fdi:find(non_blank_c) then
+    return -1
   end
   local sw = vim.fn.shiftwidth()
   local sw_1 = sw - 1
   local ind = math.floor((curr_ind + sw_1) / sw)
   local next_ind = math.floor((vim.fn.indent(lnum + 1) + sw_1) / sw)
-  return math.max(ind, next_ind)
+  return ind < next_ind and '>' .. next_ind or ind
 end
 
 return M
