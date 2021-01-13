@@ -216,7 +216,7 @@ if !has('nvim-0.3.0')
     set fillchars+=vert:│
 endif
 set fillchars+=diff:░,fold:░
-if has('nvim-0.4.4')
+if has('nvim-0.5.0')
     set fillchars+=foldopen:▾,foldclose:▸
 endif
 " let &showbreak = "\u21aa "
