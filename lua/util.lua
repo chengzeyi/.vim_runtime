@@ -11,7 +11,6 @@ function M.foldexpr()
     return -1
   end
   local curr_ind = vim.fn.indent(lnum)
-  local curr_ind_1 = curr_ind + 1
   local fdi = vim.wo.fdi
   if fdi ~= '' then
     if fdi:find(non_blank_c) then
