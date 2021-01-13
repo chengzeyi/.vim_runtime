@@ -97,15 +97,14 @@ else
             return -1
         endif
         let curr_ind = indent(lnum)
-        let fdi = &l:fdi
-        if stridx(fdi, curr_line[non_blank_c_idx]) != -1
+        if stridx(&l:fdi, curr_line[non_blank_c_idx]) != -1
             return -1
         endif
         let sw = SW()
         let sw_1 = sw - 1
         let ind = (curr_ind + sw_1) / sw
         let next_ind = (indent(lnum + 1) + sw_1) / sw
-        return ind > next_ind ? ind : next_ind
+        return ind < next_ind ? '>' . next_ind : ind
     endfunction
 endif
 
