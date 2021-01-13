@@ -15,7 +15,7 @@ function M.foldexpr()
   local fdi = vim.wo.fdi
   if fdi ~= '' then
     if fdi:find(non_blank_c) then
-      return '='
+      return -1
     end
   end
   local sw = vim.fn.shiftwidth()

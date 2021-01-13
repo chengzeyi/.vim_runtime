@@ -99,7 +99,7 @@ else
         let curr_ind = indent(lnum)
         let fdi = &l:fdi
         if stridx(fdi, curr_line[non_blank_c_idx]) != -1
-            return '='
+            return -1
         endif
         let sw = SW()
         let sw_1 = sw - 1
