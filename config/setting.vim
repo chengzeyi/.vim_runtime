@@ -71,39 +71,51 @@ set autoread
 "     return strlen(matchstr(a:line, '\V\^\s\+'))
 " endfunction
 
-if exists('*shiftwidth')
-    function! SW() abort
-        return shiftwidth()
+if has('nvim-0.4.0')
+    function! MyFoldExpr() abort
+        return luaeval('require"util".foldexpr()')
     endfunction
 else
-    function! SW() abort
-        return &l:sw
-    endfunction
-endif
-
-function! MyFoldExpr()
-    let curline = getline(v:lnum)
-    if empty(curline)
-        return -1
+    if exists('*shiftwidth')
+        function! SW() abort
+            return shiftwidth()
+        endfunction
+    else
+        function! SW() abort
+            return &l:sw
+        endfunction
     endif
-    let curind = indent(v:lnum)
-    for char in split(&l:fdi, '\zs')
-        if char ==# curline[curind]
+
+    function! MyFoldExpr()
+        let lnum = v:lnum
+        let curr_line = getline(lnum)
+        if empty(curr_line)
+            return -1
+        endif
+        let non_blank_c_idx = match(curr_line, '\V\S')
+        if non_blank_c_idx == -1
+            return -1
+        endif
+        let curr_ind = indent(lnum)
+        let fdi = &l:fdi
+        if stridx(fdi, curr_line[non_blank_c_idx]) != -1
             return '='
         endif
-    endfor
-    let sw = SW()
-    let ind = (curind + sw - 1) / sw
-    let nextind = (indent(v:lnum + 1) + sw - 1) / sw
-    return (ind < nextind) ? ('>' . (nextind)) : ind
-endfunction
+        let sw = SW()
+        let sw_1 = sw - 1
+        let ind = (curr_ind + sw_1) / sw
+        let next_ind = (indent(lnum + 1) + sw_1) / sw
+        return ind > next_ind ? ind : next_ind
+    endfunction
+endif
 
 function! MyFoldText()
     " Foldtext ignores tabstop and shows tabs as one space,
     " so convert tabs to 'tabstop' spaces so text lines up
-    let ts = repeat(' ', &tabstop)
-    let fline = substitute(getline(v:foldstart), '\V\t', ts, 'g')
-    let numLines = v:foldend - v:foldstart + 1
+    let fs = v:foldstart
+    let ts = repeat(' ', &l:tabstop)
+    let fline = substitute(getline(fs), '\V\t', ts, 'g')
+    let numLines = v:foldend - fs + 1
     let numLinesStr = ' [' . numLines . ' lines]'
     return fline . numLinesStr
 endfunction

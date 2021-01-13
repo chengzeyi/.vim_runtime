@@ -249,3 +249,8 @@ augroup MyFileType
     autocmd FileType go set noexpandtab
     autocmd FileType python if executable('pydoc3') | set keywordprg=pydoc3 | endif
 augroup END
+
+augroup MyOpenLargeFile
+    autocmd!
+    autocmd BufReadPre * if getfsize(expand('<afile>')) > 1024 * 1024 * 10 | setlocal foldmethod=manual | endif
+augroup END
