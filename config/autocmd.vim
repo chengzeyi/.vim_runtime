@@ -252,5 +252,5 @@ augroup END
 
 augroup MyOpenLargeFile
     autocmd!
-    autocmd BufReadPre * if getfsize(expand('<afile>')) > 1024 * 1024 * 10 | setlocal foldmethod=manual | endif
+    autocmd BufReadPre * if getfsize(expand('<afile>')) > 1024 * 1024 * 10 | setlocal foldmethod=indent | endif
 augroup END
