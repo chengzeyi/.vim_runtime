@@ -18,6 +18,7 @@ set shortmess+=atT
 set mouse=nvi
 if exists('+ttymouse')
     if has('mouse_sgr')
+
         set ttymouse=sgr
     else
         set ttymouse=xterm2
@@ -90,15 +91,15 @@ else
         let lnum = v:lnum
         let curr_line = getline(lnum)
         if empty(curr_line)
-            return -1
+            return '='
         endif
         let non_blank_c_idx = match(curr_line, '\V\S')
         if non_blank_c_idx == -1
-            return -1
+            return '='
         endif
         let curr_ind = indent(lnum)
         if stridx(&l:fdi, curr_line[non_blank_c_idx]) != -1
-            return -1
+            return '='
         endif
         let sw = SW()
         let sw_1 = sw - 1
@@ -113,10 +114,10 @@ function! MyFoldText()
     " so convert tabs to 'tabstop' spaces so text lines up
     let fs = v:foldstart
     let ts = repeat(' ', &l:tabstop)
-    let fline = substitute(getline(fs), '\V\t', ts, 'g')
+    let fsline = substitute(getline(fs), '\V\t', ts, 'g')
     let numLines = v:foldend - fs + 1
     let numLinesStr = ' [' . numLines . ' lines]'
-    return fline . numLinesStr
+    return fsline . numLinesStr
 endfunction
 
 set foldmethod=expr
