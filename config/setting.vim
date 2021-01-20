@@ -72,21 +72,21 @@ set autoread
 "     return strlen(matchstr(a:line, '\V\^\s\+'))
 " endfunction
 
+if exists('*shiftwidth')
+    function! SW() abort
+        return shiftwidth()
+    endfunction
+else
+    function! SW() abort
+        return &l:sw
+    endfunction
+endif
+
 if has('nvim-0.4.0')
     function! MyFoldExpr() abort
         return luaeval('require"util".foldexpr()')
     endfunction
 else
-    if exists('*shiftwidth')
-        function! SW() abort
-            return shiftwidth()
-        endfunction
-    else
-        function! SW() abort
-            return &l:sw
-        endfunction
-    endif
-
     function! MyFoldExpr()
         let lnum = v:lnum
         let curr_line = getline(lnum)
@@ -305,7 +305,7 @@ set statusline=%f%m⟩%<
 set statusline+=%{StatuslineExtraLeft()}
 set statusline+=%=
 set statusline+=%{StatuslineExtraRight()}
-set statusline+=⟨Ln\ %l/%L\ Col\ %c\ [%p%%]\ %{pathshorten(fnamemodify(getcwd(),':~'))}\ %y\ %{(!empty(&fenc)?&fenc:&enc).(&bomb?'\ BOM':'')}\ [%{&ff}\]
+set statusline+=⟨Ln\ %l/%L\ Col\ %c\ [%p%%]\ %{(&l:et?'et':'noet').':'.SW()}\ %y\ %{(!empty(&l:fenc)?&l:fenc:&enc).(&l:bomb?'\ BOM':'')}\ [%{&l:ff}\]\ %{pathshorten(fnamemodify(getcwd(),':~'))}
 
 function! StatuslineExtraLeft() abort
     let statueline_left = ''
