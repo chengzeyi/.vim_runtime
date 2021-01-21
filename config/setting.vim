@@ -128,13 +128,13 @@ set foldlevelstart=99
 " set foldnestmax=3
 " set nofoldenable
 
-set foldcolumn=1
+" set foldcolumn=1
 " The current implementation of foldcolumn auto option is slow
-" if has('nvim-0.5.0')
-"     set foldcolumn=auto:1
-" else
-"     set foldcolumn=1
-" endif
+if has('nvim-0.5.0')
+    set foldcolumn=auto:1
+else
+    set foldcolumn=1
+endif
 
 set display+=lastline
 if has('nvim-0.3.0')

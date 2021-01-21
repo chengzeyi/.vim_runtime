@@ -253,4 +253,7 @@ augroup END
 augroup MyOpenLargeFile
     autocmd!
     autocmd BufReadPre * if getfsize(expand('<afile>')) > 1024 * 1024 * 10 | setlocal foldmethod=indent | endif
+    if has('nvim-0.5.0')
+        autocmd BufReadPre * if getfsize(expand('<afile>')) > 1024 * 1024 * 10 | setlocal foldcolumn=1 | endif
+    endif
 augroup END
