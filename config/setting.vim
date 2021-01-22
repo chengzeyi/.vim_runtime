@@ -215,7 +215,7 @@ if !has('nvim-0.3.0')
     " set fillchars+=vert:│,fold:·
     set fillchars+=vert:│
 endif
-set fillchars+=fold:░
+set fillchars+=diff:░,fold:░
 if has('nvim-0.5.0')
     set fillchars+=foldopen:▾,foldclose:▸
 endif
