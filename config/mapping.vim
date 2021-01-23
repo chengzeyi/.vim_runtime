@@ -999,8 +999,10 @@ nnoremap <silent> <leader>sp :set invspell<cr>
 " inoremap <silent> <c-f> <c-x><c-f>
 " inoremap <silent> <c-d> <c-x><c-d>
 " inoremap <silent> <c-l> <c-x><c-l>
-inoremap <silent> <expr> <tab> pumvisible() ? '<c-n>' : RefreshPum('<tab>', '<c-n>')
-inoremap <silent> <expr> <s-tab> pumvisible() ? '<c-p>' : RefreshPum('<s-tab>', '<c-p>')
+inoremap <silent> <expr> <tab> pumvisible() ? '<c-n>' : '<tab>'
+inoremap <silent> <expr> <s-tab> pumvisible() ? '<c-p>' '<s-tab>'
+" inoremap <silent> <expr> <tab> pumvisible() ? '<c-n>' : RefreshPum('<tab>', '<c-n>')
+" inoremap <silent> <expr> <s-tab> pumvisible() ? '<c-p>' : RefreshPum('<s-tab>', '<c-p>')
 inoremap <silent> <expr> <down> pumvisible() ? '<c-n>' : '<down>'
 inoremap <silent> <expr> <up> pumvisible() ? '<c-p>' : '<up>'
 " inoremap <silent> <expr> <c-e> pumvisible() ? '<c-e>' : '<End>'
@@ -1013,20 +1015,20 @@ else
     inoremap <silent> <expr> <cr> pumvisible() ? '<c-y>' : '<c-g>u' . ICR()
 endif
 
-function! RefreshPum(old, new) abort
-    if CheckBS()
-        return a:old
-    endif
-    let refresh_pum = get(g:, 'refresh_pum', [])
-    if empty(refresh_pum)
-        return a:new
-    endif
-    try
-        return call(refresh_pum[0], refresh_pum[1])
-    catch
-        return a:new
-    endtry
-endfunction
+" function! RefreshPum(old, new) abort
+"     if CheckBS()
+"         return a:old
+"     endif
+"     let refresh_pum = get(g:, 'refresh_pum', [])
+"     if empty(refresh_pum)
+"         return a:new
+"     endif
+"     try
+"         return call(refresh_pum[0], refresh_pum[1])
+"     catch
+"         return a:new
+"     endtry
+" endfunction
 
 function! CheckBS() abort
     let col = col('.') - 1
