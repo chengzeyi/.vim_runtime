@@ -710,23 +710,12 @@ endif
 
 if get(g:, 'use_coc', 0)
     if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
-        function! CocCurrentFunction(...) abort
-            " let status = ''
-            " if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
-            "     try
-            "         let status = call('nvim_treesitter#statusline', a:000)
-            "     catch
-            "     endtry
-            " endif
-            " if empty(status)
-            "     return get(b:, 'coc_current_function', '')
-            " endif
-            " return ''
-            return get(b:, 'coc_current_function', '')
-        endfunction
-
         let g:statusline_extra_left_1 = ['coc#status', []]
         let g:statusline_extra_right_1 = ['CocCurrentFunction', []]
+
+        function! CocCurrentFunction(...) abort
+            return get(b:, 'coc_current_function', '')
+        endfunction
 
         let g:coc_config_home = expand('~/.vim_runtime/config')
 
