@@ -64,9 +64,9 @@ endif
 if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
     Plug 'nvim-lua/completion-nvim'
     Plug 'steelsojka/completion-buffers'
-    " if get(g:, 'use_treesitter', 0)
-    "     Plug 'nvim-treesitter/completion-treesitter'
-    " endif
+    if get(g:, 'use_treesitter', 0)
+        Plug 'nvim-treesitter/completion-treesitter'
+    endif
 endif
 
 if get(g:, 'use_coc', 0)
@@ -662,17 +662,15 @@ if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
     let g:completion_enable_snippet = 'Neosnippet'
     let g:completion_chain_complete_list = {
                 \ 'default' : [
-                \     {'complete_items': ['lsp', 'snippet', 'buffer']},
+                \     {'complete_items': ['lsp', 'ts', 'buffer', 'snippet']},
                 \     {'complete_items': ['path'], 'triggered_only': ['/']},
                 \     {'mode': '<c-p>'},
                 \     {'mode': '<c-n>'}
                 \ ],
-                \ '' : [
-                \     {'complete_items': ['snippet']},
-                \     {'complete_items': ['path'], 'triggered_only': ['/']},
-                \     {'mode': '<c-p>'},
-                \     {'mode': '<c-n>'}
-                \ ]}
+                \ '' : []}
+
+    let g:completion_trigger_character = ['.', '::']
+
     " let g:completion_timer_cycle = 200
     let g:completion_trigger_on_delete = 1
     " let g:completion_enable_auto_signature = 0
