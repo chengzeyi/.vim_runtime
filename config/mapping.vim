@@ -5,8 +5,15 @@ else
     cnoremap <c-k> <c-u>
 endif
 
-cnoremap <c-p> <up>
-cnoremap <c-n> <down>
+if exists('*wildmenumode')
+    cnoremap <expr> <c-p> wildmenumode() ? '<left>' : '<up>'
+    cnoremap <expr> <c-n> wildmenumode() ? '<right>' : '<down>'
+    cnoremap <expr> <left> wildmenumode() ? '<space><bs><left>' : '<left>'
+    cnoremap <expr> <right> wildmenumode() ? '<space><bs><right>' : '<right>'
+else
+    cnoremap <left> <space><bs><left>
+    cnoremap <right> <space><bs><right>
+endif
 
 nnoremap <s-tab> <c-o>
 
