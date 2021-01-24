@@ -42,9 +42,9 @@ endif
 if UseFtplugin('html')
     Plug 'othree/html5.vim'
 endif
-if UseFtplugin('markdown')
-    Plug 'plasticboy/vim-markdown'
-endif
+" if UseFtplugin('markdown')
+"     Plug 'plasticboy/vim-markdown'
+" endif
 if UseFtplugin('latex')
     Plug 'lervag/vimtex'
 endif
@@ -54,6 +54,7 @@ if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
     Plug 'nvim-treesitter/nvim-treesitter-refactor'
     Plug 'nvim-treesitter/playground'
+    Plug 'chengzeyi/nvim-treesitter-complete-current-statement'
     " Plug 'romgrk/nvim-treesitter-context'
 endif
 
@@ -164,7 +165,7 @@ if exists('##TextYankPost')
     Plug 'machakann/vim-highlightedyank'
 endif
 
-" Plug 'editorconfig/editorconfig-vim'
+Plug 'editorconfig/editorconfig-vim'
 
 if exists(':terminal')
     if has('nvim-0.4.0') || has('patch-8.2.191')
@@ -322,7 +323,7 @@ require'nvim-treesitter.configs'.setup {
     -- }
 -- }
 
-local queries = require "nvim-treesitter.query"
+local queries = require 'nvim-treesitter.query'
 require'nvim-treesitter'.define_modules {
     my_auto_enable_fold = {
         enable = true,
@@ -597,7 +598,7 @@ lspconfig.util.default_config = vim.tbl_extend(
     lspconfig.util.default_config,
     {
         on_attach = on_attach,
-        handlers = { ['textDocument/signatureHelp'] = require'lsp_ext'.signature_help }
+        -- handlers = { ['textDocument/signatureHelp'] = require'lsp_ext'.signature_help }
     }
 )
 
@@ -689,13 +690,13 @@ if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
 
     function! ToggleCompletionNvim() abort
         let g:completion_enable_auto_popup = !get(g:, 'completion_enable_auto_popup', 1)
-        if g:completion_enable_auto_popup
-            set completeopt+=noinsert,noselect
-            " let g:refresh_pum = ['TriggerCompletion', []]
-        else
-            set completeopt-=noinsert,noselect
-            " unlet g:refresh_pum
-        endif
+        " if g:completion_enable_auto_popup
+        "     set completeopt+=noinsert,noselect
+        "     let g:refresh_pum = ['TriggerCompletion', []]
+        " else
+        "     set completeopt-=noinsert,noselect
+        "     unlet g:refresh_pum
+        " endif
     endfunction
 
     function! TriggerCompletion() abort
@@ -1005,11 +1006,11 @@ if get(g:, 'use_asyncomplete', 0)
 
         function! ToggleAsyncompleteAutoComplete() abort
             let g:asyncomplete_auto_popup = !get(g:, 'asyncomplete_auto_popup', 1)
-            if g:asyncomplete_auto_popup
-                " let g:refresh_pum = ['asyncomplete#force_refresh', []]
-            else
-                " unlet g:refresh_pum
-            endif
+            " if g:asyncomplete_auto_popup
+            "     let g:refresh_pum = ['asyncomplete#force_refresh', []]
+            " else
+            "     unlet g:refresh_pum
+            " endif
         endfunction
 
         augroup MyAsyncomplete
@@ -1293,6 +1294,9 @@ smap <silent> <c-]> <Plug>(neosnippet_jump_or_expand)
 let g:neosnippet#snippets_directory = '~/.vim_snippets'
 let g:neosnippet#expand_word_boundary = 1
 let g:neosnippet#disable_runtime_snippets = {'_': 1}
+
+nnoremap <silent> <leader>ne :NeoSnippetEdit<cr>
+nnoremap <leader>nE :NeoSnippetEdit<space>
 
 nnoremap <silent> <leader>gv :GV<cr>
 nnoremap <silent> <leader>gV :GV!<cr>
@@ -1751,8 +1755,7 @@ endfunction
 let g:statusline_extra_left_0 = ['GitStatus', []]
 " let g:gitgutter_highlight_lines = 1
 let g:gitgutter_map_keys = 0
-let g:gitgutter_override_sign_column_highlight = 0
-let g:gitgutter_use_location_list = 1
+" let g:gitgutter_use_location_list = 1
 let g:gitgutter_sign_priority = 0
 omap <silent> ih <Plug>(GitGutterTextObjectInnerPending)
 omap <silent> ah <Plug>(GitGutterTextObjectOuterPending)
@@ -1764,8 +1767,8 @@ nmap <silent> <leader>hs <Plug>(GitGutterStageHunk)
 nmap <silent> <leader>hu <Plug>(GitGutterUndoHunk)
 nmap <silent> <leader>hp <Plug>(GitGutterPreviewHunk)
 nnoremap <silent> <leader>hh :GitGutterToggle<cr>
-nnoremap <silent> <leader>hs :GitGutterSignsToggle<cr>
-nnoremap <silent> <leader>hl :GitGutterLineHighlightsToggle<cr>
+nnoremap <silent> <leader>hq :GitGutterQuickFix <bar> cw<cr>
+nnoremap <silent> <leader>hf :GitGutterFold<cr>
 if has('nvim-0.3.2')
     nnoremap <silent> <leader>hn <cmd>GitGutterLineNrHighlightsToggle<cr>
 endif
@@ -1777,7 +1780,14 @@ if v:version >= 720
     let g:indent_guides_start_level = 2
 endif
 
-" let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+nnoremap <silent> <leader>er :EditorConfigReload<cr>
+nnoremap <silent> <expr> <leader>ec ':e ' . GetVcsRoot() . '/.eidtorconfig<cr>'
+nnoremap <silent> <leader>eC :e %:p:h/.editorconfig<cr>
+augroup MyEditorConfig
+    autocmd!
+    au FileType gitcommit let b:EditorConfig_disable = 1
+augroup END
 
 if exists(':terminal')
     if has('nvim-0.4.0') || has('patch-8.2.191')

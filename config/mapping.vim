@@ -896,8 +896,8 @@ nnoremap <silent> <s-down> :resize -1<cr>
 nnoremap <silent> <s-right> :vertical resize +1<cr>
 nnoremap <silent> <s-left> :vertical resize -1<cr>
 
-nnoremap <leader>bb :ls<cr>:b<space>
-nnoremap <leader>bB :ls<cr>:b!<space>
+nnoremap <leader>bb :b <c-z>
+nnoremap <leader>bB :b! <c-z>
 nnoremap <leader>bf :filter //ls<left><left><left>
 nnoremap <leader>bF :filter //ls!<left><left><left><left>
 nnoremap <leader>bv :filter! //ls<left><left><left>
@@ -1000,7 +1000,7 @@ nnoremap <silent> <leader>sp :set invspell<cr>
 " inoremap <silent> <c-d> <c-x><c-d>
 " inoremap <silent> <c-l> <c-x><c-l>
 inoremap <silent> <expr> <tab> pumvisible() ? '<c-n>' : '<tab>'
-inoremap <silent> <expr> <s-tab> pumvisible() ? '<c-p>' '<s-tab>'
+inoremap <silent> <expr> <s-tab> pumvisible() ? '<c-p>' : '<s-tab>'
 " inoremap <silent> <expr> <tab> pumvisible() ? '<c-n>' : RefreshPum('<tab>', '<c-n>')
 " inoremap <silent> <expr> <s-tab> pumvisible() ? '<c-p>' : RefreshPum('<s-tab>', '<c-p>')
 inoremap <silent> <expr> <down> pumvisible() ? '<c-n>' : '<down>'

@@ -1,7 +1,7 @@
 if get(g:, 'installed_basic', 0)
-    let s:configs = ['core', 'before', 'gui', 'setting', 'autocmd', 'mapping', 'extra', 'after']
+    let s:configs = ['before', 'gui', 'setting', 'autocmd', 'mapping', 'extra', 'after']
 else
-    let s:configs = ['core', 'before', 'gui', 'setting', 'autocmd', 'mapping', 'plugin', 'after']
+    let s:configs = ['before', 'gui', 'setting', 'autocmd', 'mapping', 'plugin', 'after']
 endif
 
 let s:paths = []
@@ -20,29 +20,27 @@ function! MapEdit(configs, paths) abort
         else
             let key = config_name[0]
         endif
-        exe 'nnoremap <silent> <leader>e' . key . ' :e ' . fnameescape(path) . '<cr>'
+        exe 'nnoremap' '<silent>' '<leader>e' . key ':e ' . fnameescape(path) . '<cr>'
     endfor
 endfunction
 
 function! AutoSource(paths) abort
     let name = expand('%:t:r')
     let camel_name = toupper(name[0]) . name[1:]
-    exe 'augroup My' . camel_name
+    exe 'augroup' 'My' . camel_name
     augroup MyBasic
         autocmd!
         for path in a:paths
             let path = fnameescape(path)
-            exe 'au ' . 'BufWritePost ' . path . ' source ' . path
+            exe 'au' 'BufWritePost' path 'source' path
         endfor
     augroup END
 endfunction
 
 function! Source(paths) abort
-    let paths = copy(a:paths)
-    call remove(paths, 0)
-    for path in paths
+    for path in a:paths
         if filereadable(path)
-            exe 'source ' . fnameescape(path)
+            exe 'source' fnameescape(path)
         endif
     endfor
 endfunction

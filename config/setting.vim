@@ -369,8 +369,8 @@ if has('patch-8.1.1882') && has('textprop')
     set completepopup=height:20,width:80,align:menu,border:off,highlight:Pmenu
 endif
 set pumheight=12
-" if has('nvim-0.4.0')
-"     set pumblend=15
+" if exists('&pumblend')
+"     set pumblend=10
 "     augroup MyPumBlend
 "         autocmd!
 "         autocmd ColorScheme * hi PmenuSel blend=0
