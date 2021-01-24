@@ -54,7 +54,6 @@ if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
     Plug 'nvim-treesitter/nvim-treesitter-refactor'
     Plug 'nvim-treesitter/playground'
-    Plug 'chengzeyi/nvim-treesitter-complete-current-statement'
     " Plug 'romgrk/nvim-treesitter-context'
 endif
 
