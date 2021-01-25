@@ -156,7 +156,8 @@ if filereadable('/usr/share/dict/words')
 endif
 
 set wildmenu
-set wildmode=longest:full,full
+set wildmode=full
+" set wildmode=longest:full,full
 set wildignorecase
 set wcm=<c-z>
 

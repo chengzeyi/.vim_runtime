@@ -689,13 +689,13 @@ if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
 
     function! ToggleCompletionNvim() abort
         let g:completion_enable_auto_popup = !get(g:, 'completion_enable_auto_popup', 1)
-        " if g:completion_enable_auto_popup
-        "     set completeopt+=noinsert,noselect
-        "     let g:refresh_pum = ['TriggerCompletion', []]
-        " else
-        "     set completeopt-=noinsert,noselect
-        "     unlet g:refresh_pum
-        " endif
+        if g:completion_enable_auto_popup
+            " set completeopt+=noinsert,noselect
+            let g:refresh_pum = ['TriggerCompletion', []]
+        else
+            " set completeopt-=noinsert,noselect
+            unlet g:refresh_pum
+        endif
     endfunction
 
     function! TriggerCompletion() abort
@@ -704,7 +704,7 @@ if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
     endfunction
 
     set completeopt+=noinsert,noselect
-    " let g:refresh_pum = ['TriggerCompletion', []]
+    let g:refresh_pum = ['TriggerCompletion', []]
     inoremap <silent> <expr> <c-l> pumvisible() ? '<c-l>' : TriggerCompletion()
     inoremap <silent> <expr> <c-Space> pumvisible() ? '<c-e>' : TriggerCompletion()
     inoremap <silent> <expr> <nul> pumvisible() ? '<c-e>' : TriggerCompletion()
@@ -767,15 +767,15 @@ if get(g:, 'use_coc', 0)
             let s:coc_suggest_auto_trigger = get(s:, 'coc_suggest_auto_trigger', 'always')
             if s:coc_suggest_auto_trigger ==# 'none'
                 let s:coc_suggest_auto_trigger = 'always'
-                " let g:refresh_pum = ['coc#refresh', []]
+                let g:refresh_pum = ['coc#refresh', []]
             else
                 let s:coc_suggest_auto_trigger = 'none'
-                " unlet g:refresh_pum
+                unlet g:refresh_pum
             endif
             call coc#config('suggest.autoTrigger', s:coc_suggest_auto_trigger)
         endfunction
 
-        " let g:refresh_pum = ['coc#refresh', []]
+        let g:refresh_pum = ['coc#refresh', []]
         inoremap <silent> <expr> <c-l> pumvisible() ? '<c-l>' : coc#refresh()
         inoremap <silent> <expr> <c-space> pumvisible() ? '<c-e>' : coc#refresh()
         inoremap <silent> <expr> <nul> pumvisible() ? '<c-e>' : coc#refresh()
@@ -1005,11 +1005,11 @@ if get(g:, 'use_asyncomplete', 0)
 
         function! ToggleAsyncompleteAutoComplete() abort
             let g:asyncomplete_auto_popup = !get(g:, 'asyncomplete_auto_popup', 1)
-            " if g:asyncomplete_auto_popup
-            "     let g:refresh_pum = ['asyncomplete#force_refresh', []]
-            " else
-            "     unlet g:refresh_pum
-            " endif
+            if g:asyncomplete_auto_popup
+                let g:refresh_pum = ['asyncomplete#force_refresh', []]
+            else
+                unlet g:refresh_pum
+            endif
         endfunction
 
         augroup MyAsyncomplete
@@ -1017,7 +1017,7 @@ if get(g:, 'use_asyncomplete', 0)
             au CmdwinEnter [:>] let b:asyncomplete_enable = 0
         augroup END
 
-        " let g:refresh_pum = ['asyncomplete#force_refresh', []]
+        let g:refresh_pum = ['asyncomplete#force_refresh', []]
         inoremap <silent> <expr> <c-l> pumvisible() ? '<c-l>' : asyncomplete#force_refresh()
         inoremap <silent> <expr> <c-space> pumvisible() ? '<c-e>' : asyncomplete#force_refresh()
         inoremap <silent> <expr> <nul> pumvisible() ? '<c-e>' : asyncomplete#force_refresh()
@@ -1404,7 +1404,7 @@ let g:fzf_command_prefix = 'FZF'
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 let g:fzf_tags_command = 'ctags -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q'
 " let g:fzf_prefer_tmux = 1
-let g:fzf_preview_window = ['right:50%', 'ctrl-^']
+let g:fzf_preview_window = ['right:50%', 'ctrl-/', 'ctrl-^']
 
 function! s:build_quickfix_list(lines)
     call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
