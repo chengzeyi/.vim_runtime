@@ -140,7 +140,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'sbdchd/neoformat'
 
-Plug 'lfilho/cosco.vim'
+" Plug 'lfilho/cosco.vim'
 
 Plug 'FooSoft/vim-argwrap'
 
@@ -152,7 +152,7 @@ Plug 'deris/vim-shot-f'
 
 Plug 'skywind3000/asyncrun.vim'
 
-Plug 'janko/vim-test'
+" Plug 'janko/vim-test'
 
 Plug 'airblade/vim-gitgutter'
 
@@ -174,9 +174,9 @@ if exists(':terminal')
     endif
 endif
 
-if (has('job') && has('channel')) || has('nvim')
-    Plug 'metakirby5/codi.vim'
-endif
+" if (has('job') && has('channel')) || has('nvim')
+"     Plug 'metakirby5/codi.vim'
+" endif
 
 Plug 'kana/vim-textobj-fold'
 Plug 'kana/vim-textobj-user'
@@ -195,8 +195,8 @@ function! UseColorScheme(name) abort
         return 1
     endif
     if type(g:use_colorschemes) == type([])
-        for ft in g:use_colorschemes
-            if ft ==# a:ft
+        for name in g:use_colorschemes
+            if name ==# a:name
                 return 1
             endif
         endfor
@@ -690,11 +690,11 @@ if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
     function! ToggleCompletionNvim() abort
         let g:completion_enable_auto_popup = !get(g:, 'completion_enable_auto_popup', 1)
         if g:completion_enable_auto_popup
-            " set completeopt+=noinsert,noselect
-            let g:refresh_pum = ['TriggerCompletion', []]
+            set completeopt+=noinsert,noselect
+            " let g:refresh_pum = ['TriggerCompletion', []]
         else
-            " set completeopt-=noinsert,noselect
-            unlet g:refresh_pum
+            set completeopt-=noinsert,noselect
+            " unlet g:refresh_pum
         endif
     endfunction
 
@@ -767,10 +767,12 @@ if get(g:, 'use_coc', 0)
             let s:coc_suggest_auto_trigger = get(s:, 'coc_suggest_auto_trigger', 'always')
             if s:coc_suggest_auto_trigger ==# 'none'
                 let s:coc_suggest_auto_trigger = 'always'
-                let g:refresh_pum = ['coc#refresh', []]
+                call coc#config('suggest.keepCompleteopt', v:false)
+                " let g:refresh_pum = ['coc#refresh', []]
             else
                 let s:coc_suggest_auto_trigger = 'none'
-                unlet g:refresh_pum
+                call coc#config('suggest.keepCompleteopt', v:true)
+                " unlet g:refresh_pum
             endif
             call coc#config('suggest.autoTrigger', s:coc_suggest_auto_trigger)
         endfunction
@@ -1006,9 +1008,11 @@ if get(g:, 'use_asyncomplete', 0)
         function! ToggleAsyncompleteAutoComplete() abort
             let g:asyncomplete_auto_popup = !get(g:, 'asyncomplete_auto_popup', 1)
             if g:asyncomplete_auto_popup
-                let g:refresh_pum = ['asyncomplete#force_refresh', []]
+                set completeopt+=noinsert,noselect
+                " let g:refresh_pum = ['asyncomplete#force_refresh', []]
             else
-                unlet g:refresh_pum
+                set completeopt-=noinsert,noselect
+                " unlet g:refresh_pum
             endif
         endfunction
 
@@ -1017,7 +1021,9 @@ if get(g:, 'use_asyncomplete', 0)
             au CmdwinEnter [:>] let b:asyncomplete_enable = 0
         augroup END
 
+        set completeopt+=noinsert,noselect
         let g:refresh_pum = ['asyncomplete#force_refresh', []]
+        let g:asyncomplete_auto_completeopt = 0
         inoremap <silent> <expr> <c-l> pumvisible() ? '<c-l>' : asyncomplete#force_refresh()
         inoremap <silent> <expr> <c-space> pumvisible() ? '<c-e>' : asyncomplete#force_refresh()
         inoremap <silent> <expr> <nul> pumvisible() ? '<c-e>' : asyncomplete#force_refresh()
@@ -1706,12 +1712,12 @@ xnoremap <silent> g<c-f> :Neoformat<cr>
 nnoremap <silent> <a-f> :Neoformat<cr>
 xnoremap <silent> <a-f> :Neoformat<cr>
 
-nmap <silent> <a-;> <Plug>(cosco-commaOrSemiColon)
-imap <silent> <a-;> <c-o><Plug>(cosco-commaOrSemiColon)
-nmap <silent> <a-,> <Plug>(cosco-commaOrSemiColon)
-imap <silent> <a-,> <c-o><Plug>(cosco-commaOrSemiColon)
-nmap <silent> <a-cr> <Plug>(cosco-commaOrSemiColon):put =nr2char(10)<cr>
-imap <silent> <a-cr> <c-o><Plug>(cosco-commaOrSemiColon)<c-o>o
+" nmap <silent> <a-;> <Plug>(cosco-commaOrSemiColon)
+" imap <silent> <a-;> <c-o><Plug>(cosco-commaOrSemiColon)
+" nmap <silent> <a-,> <Plug>(cosco-commaOrSemiColon)
+" imap <silent> <a-,> <c-o><Plug>(cosco-commaOrSemiColon)
+" nmap <silent> <a-cr> <Plug>(cosco-commaOrSemiColon):put =nr2char(10)<cr>
+" imap <silent> <a-cr> <c-o><Plug>(cosco-commaOrSemiColon)<c-o>o
 
 nnoremap <silent> <leader>aw :ArgWrap<cr>
 
@@ -1736,15 +1742,15 @@ augroup END
 "     au User AsyncRunStop copen | wincmd p
 " augroup END
 
-nnoremap <silent> <leader>Tn :TestNearest<CR>
-nnoremap <leader>TN :TestNearest<Space>
-nnoremap <silent> <leader>Tf :TestFile<CR>
-nnoremap <leader>TF :TestFile<Space>
-nnoremap <silent> <leader>Ts :TestSuite<CR>
-nnoremap <leader>TS :TestSuite<Space>
-nnoremap <silent> <leader>Tl :TestLast<CR>
-nnoremap <silent> <leader>Tv :TestVisit<CR>
-let test#strategy = 'asyncrun'
+" nnoremap <silent> <leader>Tn :TestNearest<CR>
+" nnoremap <leader>TN :TestNearest<Space>
+" nnoremap <silent> <leader>Tf :TestFile<CR>
+" nnoremap <leader>TF :TestFile<Space>
+" nnoremap <silent> <leader>Ts :TestSuite<CR>
+" nnoremap <leader>TS :TestSuite<Space>
+" nnoremap <silent> <leader>Tl :TestLast<CR>
+" nnoremap <silent> <leader>Tv :TestVisit<CR>
+" let test#strategy = 'asyncrun'
 
 function! GitStatus()
     let [a,m,r] = GitGutterGetHunkSummary()
@@ -1815,20 +1821,17 @@ if exists(':terminal')
     endif
 endif
 
-if has('nvim') || has('job') || has('channel')
-    if executable('python3')
-        let g:codi#interpreters = {
-                    \     'python': {
-                    \         'bin': 'python3'
-                    \     }
-                    \ }
-    endif
-    nnoremap <silent> <leader>co :Codi!!<cr>
-    nnoremap <leader>cO :Codi!!<space>
-endif
-
-nmap <silent> <leader>cc <Plug>Colorizer
-xmap <silent> <leader>cc <Plug>Colorizer
+" if has('nvim') || has('job') || has('channel')
+"     if executable('python3')
+"         let g:codi#interpreters = {
+"                     \     'python': {
+"                     \         'bin': 'python3'
+"                     \     }
+"                     \ }
+"     endif
+"     nnoremap <silent> <leader>co :Codi!!<cr>
+"     nnoremap <leader>cO :Codi!!<space>
+" endif
 
 try
     " call textobj#user#plugin('datetime', {
@@ -1899,3 +1902,8 @@ try
                 \ })
 catch
 endtry
+
+nnoremap <leader>cx :XtermColorTable<cr>
+
+nmap <silent> <leader>cc <Plug>Colorizer
+xmap <silent> <leader>cc <Plug>Colorizer
