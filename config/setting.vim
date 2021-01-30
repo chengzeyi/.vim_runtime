@@ -270,10 +270,10 @@ set expandtab
 " Be smart when using tabs ;)
 set smarttab
 
-" 1 tab == 4 spaces
-" set tabstop=4
-set softtabstop=-1
 set shiftwidth=4
+" 1 tab == 4 spaces
+set tabstop=4
+set softtabstop=-1
 
 set cink+=*<cr>
 set cino+=l1,g0,N-s,E-s,(0
@@ -444,7 +444,7 @@ let g:netrw_altfile = 1
 let g:netrw_liststyle = 1
 let g:netrw_banner = 0
 " let g:netrw_special_syntax = 1
-let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+" let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 
 " if exists('!!:packadd')
 "     packadd! justify

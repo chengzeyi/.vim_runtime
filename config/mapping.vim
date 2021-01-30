@@ -1357,3 +1357,5 @@ function! Open(url) abort
         echohl ErrorMsg | echo 'No way to open URL' | echohl None
     endif
 endfunction
+
+nnoremap <expr> - &l:buftype ==# 'nofile' ? '-' : ':e ' . fnameescape(expand('%:h')) . '<cr>'
