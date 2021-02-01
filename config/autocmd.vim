@@ -250,10 +250,19 @@ augroup MyFileType
     autocmd FileType python if executable('pydoc3') | set keywordprg=pydoc3 | endif
 augroup END
 
-augroup MyOpenLargeFile
-    autocmd!
-    autocmd BufReadPre * if getfsize(expand('<afile>')) > 1024 * 1024 | setlocal foldmethod=indent | endif
-    if has('nvim-0.5.0')
-        autocmd BufReadPre * if getfsize(expand('<afile>')) > 1024 * 1024 | setlocal foldcolumn=1 | endif
-    endif
-augroup END
+" augroup MyOpenLargeFile
+"     autocmd!
+"     autocmd BufReadPre * if getfsize(expand('<afile>')) > 1024 * 1024 | setlocal foldmethod=indent | endif
+"     if has('nvim-0.5.0')
+"         autocmd BufReadPre * if getfsize(expand('<afile>')) > 1024 * 1024 | setlocal foldcolumn=1 | endif
+"     endif
+" augroup END
+
+" if has('nvim-0.4.0')
+"     augroup MyNeovimGitLens
+"         autocmd!
+"         autocmd CursorHold * lua require'util'.blame_virt_text()
+"         autocmd CursorMoved * lua require'util'.clear_blame_virt_text()
+"         autocmd CursorMovedI * lua require'util'.clear_blame_virt_text()
+"     augroup END
+" endif
