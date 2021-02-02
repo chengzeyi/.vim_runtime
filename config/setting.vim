@@ -18,7 +18,6 @@ set shortmess+=atT
 set mouse=nvi
 if exists('+ttymouse')
     if has('mouse_sgr')
-
         set ttymouse=sgr
     else
         set ttymouse=xterm2
