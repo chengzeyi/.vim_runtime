@@ -82,32 +82,32 @@ else
     endfunction
 endif
 
-if has('nvim-0.4.0')
-    function! MyFoldExpr() abort
-        return luaeval('require"util".foldexpr()')
-    endfunction
-else
-    function! MyFoldExpr()
-        let lnum = v:lnum
-        let curr_line = getline(lnum)
-        if empty(curr_line)
-            return '='
-        endif
-        let non_blank_c_idx = match(curr_line, '\V\S')
-        if non_blank_c_idx == -1
-            return '='
-        endif
-        let curr_ind = indent(lnum)
-        if stridx(&l:fdi, curr_line[non_blank_c_idx]) != -1
-            return '='
-        endif
-        let sw = SW()
-        let sw_1 = sw - 1
-        let ind = (curr_ind + sw_1) / sw
-        let next_ind = (indent(lnum + 1) + sw_1) / sw
-        return ind < next_ind ? '>' . next_ind : ind
-    endfunction
-endif
+" if has('nvim-0.4.0')
+"     function! MyFoldExpr() abort
+"         return luaeval('require"util".foldexpr()')
+"     endfunction
+" else
+"     function! MyFoldExpr()
+"         let lnum = v:lnum
+"         let curr_line = getline(lnum)
+"         if empty(curr_line)
+"             return '='
+"         endif
+"         let non_blank_c_idx = match(curr_line, '\V\S')
+"         if non_blank_c_idx == -1
+"             return '='
+"         endif
+"         let curr_ind = indent(lnum)
+"         if stridx(&l:fdi, curr_line[non_blank_c_idx]) != -1
+"             return '='
+"         endif
+"         let sw = SW()
+"         let sw_1 = sw - 1
+"         let ind = (curr_ind + sw_1) / sw
+"         let next_ind = (indent(lnum + 1) + sw_1) / sw
+"         return ind < next_ind ? '>' . next_ind : ind
+"     endfunction
+" endif
 
 function! MyFoldText()
     " Foldtext ignores tabstop and shows tabs as one space,
@@ -120,21 +120,22 @@ function! MyFoldText()
     return fsline . numLinesStr
 endfunction
 
-set foldmethod=expr
-set foldexpr=MyFoldExpr()
+set foldmethod=indent
+" set foldmethod=expr
+" set foldexpr=MyFoldExpr()
 set foldtext=MyFoldText()
 set foldlevel=99
 set foldlevelstart=99
 " set foldnestmax=3
 " set nofoldenable
 
-" set foldcolumn=1
+set foldcolumn=1
 " The current implementation of foldcolumn auto option is slow
-if has('nvim-0.5.0')
-    set foldcolumn=auto:1
-else
-    set foldcolumn=1
-endif
+" if has('nvim-0.5.0')
+"     set foldcolumn=auto:1
+" else
+"     set foldcolumn=1
+" endif
 
 set display+=lastline
 if has('nvim-0.3.0')

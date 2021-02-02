@@ -325,7 +325,7 @@ require'nvim-treesitter.configs'.setup {
 local queries = require 'nvim-treesitter.query'
 require'nvim-treesitter'.define_modules {
     my_auto_enable_fold = {
-        enable = true,
+        enable = false,
         attach = function(bufnr, lang)
             vim.api.nvim_command('if !exists("b:saved_fd") | let b:saved_fd = [&l:fdm, &l:fde] | setl fdm=expr fde=nvim_treesitter#foldexpr() | endif')
             -- vim.api.nvim_command(string.format('augroup MyAutoEnableFold_%d', bufnr))
@@ -354,8 +354,8 @@ require'nvim-treesitter.configs'.setup {
                 ["af"] = "@function.outer",
                 ["iF"] = "@class.inner",
                 ["aF"] = "@class.outer",
-                ["i,"] = "@parameter.inner",
-                ["a,"] = "@parameter.outer",
+                -- ["i,"] = "@parameter.inner",
+                -- ["a,"] = "@parameter.outer",
                 -- ["igf"] = "@function.inner",
                 -- ["agf"] = "@function.outer",
                 -- ["igF"] = "@class.inner",

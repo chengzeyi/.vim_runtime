@@ -131,7 +131,7 @@ if has('nvim-0.4.0') || has('popupwin')
         autocmd!
         au FileType qf nnoremap <silent> <buffer> p :PreviewQuickfixEntry<cr>
     augroup END
-    command! PreviewQuickfixEntry call PreviewQuickFixEntry()
+    command! PreviewQuickfixEntry call PreviewQuickfixEntry()
 
     function! PreviewQuickfixEntry() abort
         let all = GetQuickfixAll()
