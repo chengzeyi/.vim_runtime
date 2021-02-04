@@ -1,4 +1,7 @@
 inoremap <silent> <c-b> <home>
+inoremap <c-u> <c-g>u<c-u>
+inoremap <c-w> <c-g>u<c-w>
+
 if v:version >= 600
     cnoremap <c-k> <end><c-u>
 else
