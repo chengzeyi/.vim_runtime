@@ -76,9 +76,16 @@ nnoremap <leader>se :sp <c-r>=GetVcsRoot()<cr>/
 nnoremap <leader>sE :sp <c-r>=fnameescape(expand('%:~:h'))<cr>/
 nnoremap <leader>ve :vs <c-r>=GetVcsRoot()<cr>/
 nnoremap <leader>vE :vs <c-r>=fnameescape(expand('%:~:h'))<cr>/
-
 nnoremap <leader>ee :e <c-r>=GetVcsRoot()<cr>/
 nnoremap <leader>eE :e <c-r>=fnameescape(expand('%:~:h'))<cr>/
+
+nnoremap <leader>sf :sp <c-r>=GetVcsRoot()<cr>/**/*
+nnoremap <leader>sF :sp <c-r>=fnameescape(expand('%:~:h'))<cr>/**/*
+nnoremap <leader>vf :vs <c-r>=GetVcsRoot()<cr>/**/*
+nnoremap <leader>vF :vs <c-r>=fnameescape(expand('%:~:h'))<cr>/**/*
+nnoremap <leader>ef :e <c-r>=GetVcsRoot()<cr>/**/*
+nnoremap <leader>eF :e <c-r>=fnameescape(expand('%:~:h'))<cr>/**/*
+
 nnoremap <silent> <leader>en :enew<cr>
 nnoremap <silent> <leader>eN :enew!<cr>
 
@@ -906,8 +913,8 @@ nnoremap <silent> <s-down> :resize -1<cr>
 nnoremap <silent> <s-right> :vertical resize +1<cr>
 nnoremap <silent> <s-left> :vertical resize -1<cr>
 
-nnoremap <leader>bb :b <c-z>
-nnoremap <leader>bB :b! <c-z>
+nnoremap <leader>bb :ls<cr>:b<space>
+nnoremap <leader>bB :ls<cr>:b!<space>
 nnoremap <leader>bf :filter //ls<left><left><left>
 nnoremap <leader>bF :filter //ls!<left><left><left><left>
 nnoremap <leader>bv :filter! //ls<left><left><left>
