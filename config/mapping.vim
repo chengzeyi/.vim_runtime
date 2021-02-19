@@ -1367,4 +1367,4 @@ function! Open(url) abort
     endif
 endfunction
 
-nnoremap <expr> - &l:buftype ==# 'nofile' ? '-' : ':e ' . fnameescape(expand('%:h')) . '<cr>'
+nnoremap <expr> - empty(expand('%:h')) ? ':e .<cr>' : ':e ' . fnameescape(expand('%:h')) . '<cr>'
