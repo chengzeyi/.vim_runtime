@@ -206,23 +206,23 @@ if exists(':terminal')
     tnoremap <silent> <F1> <c-\><c-n>
     " tnoremap <silent> <c-o> <c-\><c-n>
     if has('nvim')
-        nnoremap <silent> <leader>ts <cmd>split <bar> terminal<cr>
-        nnoremap <leader>tS :split <bar> terminal<space>
-        nnoremap <silent> <leader>tv <cmd>vsplit <bar> terminal<cr>
-        nnoremap <leader>tV :vsplit <bar> terminal<space>
-        nnoremap <silent> <leader>tt <cmd>tabnew <bar> terminal<cr>
-        nnoremap <leader>tT :tabnew <bar> terminal<space>
-        nnoremap <silent> <leader>tw <cmd>terminal<cr>
-        nnoremap <leader>tW :terminal<space>
+        nnoremap <silent> <leader>is <cmd>split <bar> terminal<cr>
+        nnoremap <leader>iS :split <bar> terminal<space>
+        nnoremap <silent> <leader>iv <cmd>vsplit <bar> terminal<cr>
+        nnoremap <leader>iV :vsplit <bar> terminal<space>
+        nnoremap <silent> <leader>it <cmd>tabnew <bar> terminal<cr>
+        nnoremap <leader>iT :tabnew <bar> terminal<space>
+        nnoremap <silent> <leader>iw <cmd>terminal<cr>
+        nnoremap <leader>iW :terminal<space>
     else
-        nnoremap <silent> <leader>ts :terminal ++close<cr>
-        nnoremap <leader>tS :terminal ++close<space>
-        nnoremap <silent> <leader>tv :vert terminal ++close<cr>
-        nnoremap <leader>tV :vert terminal ++close<space>
-        nnoremap <silent> <leader>tt :tab terminal ++close<cr>
-        nnoremap <leader>tT :tab terminal ++close<space>
-        nnoremap <silent> <leader>tw :terminal ++curwin ++close<cr>
-        nnoremap <leader>tW :terminal ++curwin ++close<space>
+        nnoremap <silent> <leader>is :terminal ++close<cr>
+        nnoremap <leader>iS :terminal ++close<space>
+        nnoremap <silent> <leader>iv :vert terminal ++close<cr>
+        nnoremap <leader>iV :vert terminal ++close<space>
+        nnoremap <silent> <leader>it :tab terminal ++close<cr>
+        nnoremap <leader>iT :tab terminal ++close<space>
+        nnoremap <silent> <leader>iw :terminal ++curwin ++close<cr>
+        nnoremap <leader>iW :terminal ++curwin ++close<space>
     endif
 endif
 
@@ -650,6 +650,7 @@ function! QListToggle(height) abort
         execute 'silent!' 'copen' a:height
     endif
 endfunction
+
 function! BufferCount() abort
     return len(filter(range(1, bufnr('$')), 'bufwinnr(v:val) != -1'))
 endfunction
@@ -845,7 +846,7 @@ if executable('xxd')
         au BufWriteCmd,FileWriteCmd hex://* call WriteHex(expand('<afile>'))
     augroup END
 
-    function ReadHex(file) abort
+    function! ReadHex(file) abort
         let fname = substitute(a:file, '\V\^hex://', '', '')
         if !filereadable(fname)
             echohl ErrorMsg | echo 'File is not readable' | echohl None
@@ -867,7 +868,7 @@ if executable('xxd')
         let &report = repkeep
     endfunction
 
-    function WriteHex(file) abort
+    function! WriteHex(file) abort
         let fname = substitute(a:file, '\V\^hex://', '', '')
         let v:errmsg = ''
         exe 'w' '!xxd' '-r' '>' . shellescape(fname)
@@ -914,14 +915,8 @@ nnoremap <silent> <s-right> :vertical resize +1<cr>
 nnoremap <silent> <s-left> :vertical resize -1<cr>
 
 nnoremap <leader>bb :ls<cr>:b<space>
-nnoremap <leader>bB :ls<cr>:b!<space>
-nnoremap <leader>bf :filter //ls<left><left><left>
-nnoremap <leader>bF :filter //ls!<left><left><left><left>
-nnoremap <leader>bv :filter! //ls<left><left><left>
-nnoremap <leader>bV :filter! //ls!<left><left><left><left>
+nnoremap <leader>bB :ls!<cr>:b<space>
 
-nnoremap <leader>bl :buffers<cr>:buffer<space>
-nnoremap <leader>bL :buffers!<cr>:buffer<space>
 nnoremap <leader>bd :bufdo<space>
 nnoremap <leader>bD :bufdo!<space>
 nnoremap <silent> <leader>bx :bd<cr>
@@ -940,7 +935,7 @@ function! CloseHiddenBuffers(force) abort
 
     for num in range(1, bufnr('$') + 1)
         if bufexists(num) && index(open_buffers, num) == -1
-            try | exec 'bunload' . (a:force ? '! ' : ' ') . num | catch | endtry
+            try | exec 'bdelete' . (a:force ? '!' : '') num | catch | endtry
         endif
     endfor
 endfunction
@@ -949,18 +944,24 @@ nnoremap <silent> [b :bp<cr>
 nnoremap <silent> ]b :bn<cr>
 nnoremap <silent> [B :bf<cr>
 nnoremap <silent> ]B :bl<cr>
+nnoremap <silent> <leader>bf :sbf<cr>
+nnoremap <silent> <leader>bl :sbl<cr>
 nnoremap <silent> <leader>ba :sba<cr>
-nnoremap <silent> <leader>bt :tab ba<cr>
 nnoremap <silent> <leader>bm :sbm<cr>
 nnoremap <silent> <leader>bu :sun<cr>
+nnoremap <leader>bF :sbf<space>
+nnoremap <leader>bL :sbl<space>
+nnoremap <leader>bA :sba<space>
+nnoremap <leader>bM :sbm<space>
+nnoremap <leader>bU :sun<space>
 
 " Useful mappings for managing tabs
 nnoremap <silent> <leader>tn :tabnew<cr>
 nnoremap <leader>tN :-tabnew<cr>
 nnoremap <silent> <leader>to :tabonly<cr>
-nnoremap <silent> <leader>tO :tabonly!<cr>
+nnoremap <leader>tO :tabonly<space>
 nnoremap <silent> <leader>tx :tabclose<cr>
-nnoremap <silent> <leader>tX :tabclose!<cr>
+nnoremap <leader>tX :tabclose<space>
 nnoremap <silent> <leader>tm :+tabmove<cr>
 nnoremap <silent> <leader>tM :-tabmove<cr>
 if has('nvim') || has('patch-8.1.1218')
@@ -977,7 +978,6 @@ augroup MyLastAccessedTab
 augroup END
 
 nnoremap <leader>td :tabdo<space>
-nnoremap <leader>tD :tabdo!<space>
 
 nnoremap <silent> <leader>1 1gt
 nnoremap <silent> <leader>2 2gt
@@ -1221,17 +1221,16 @@ if exists(':terminal')
     endfunction
 endif
 
-nnoremap <silent> <a-w> :TrimWhiteSpace<cr>
-nnoremap <silent> g<c-w> :TrimWhiteSpace<cr>
+nnoremap <silent> <leader>tw :TrimWhiteSpace<cr>
 command! -nargs=0 TrimWhiteSpace call TrimWhiteSpace()
 
 function! TrimWhiteSpace() abort
-    let l:winview = winsaveview()
+    let winview = winsaveview()
     try
         %s/\V\s\+\$//
     catch
     endtry
-    call winrestview(l:winview)
+    call winrestview(winview)
 endfunction
 
 nnoremap <silent> <leader>sg :SynGroup<cr>
