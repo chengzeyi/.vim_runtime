@@ -1806,6 +1806,10 @@ if exists(':terminal')
         " imap <silent> <c-space> <Plug>(Multiterm)
         " imap <silent> <nul> <Plug>(Multiterm)
     elseif has('nvim') || has('patch-8.0.1593')
+        let g:nuake_position = 'top'
+        " let g:nuake_size = 0.2
+        let g:nuake_per_tab = 1
+
         nnoremap <silent> <c-space> :Nuake<cr>
         nnoremap <silent> <nul> :Nuake<cr>
         if has('nvim')
