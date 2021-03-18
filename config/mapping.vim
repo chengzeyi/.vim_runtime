@@ -823,7 +823,8 @@ if !has('nvim')
     command! -nargs=0 W w !sudo tee % >/dev/null
 endif
 
-nnoremap <leader>eb :e ++enc=ascii +set\ bin<space>
+nnoremap <leader>eb :e ++enc=latin1 +set\ bin <c-r>=GetVcsRoot()<cr>/
+nnoremap <leader>eB :e ++enc=latin1 +set\ bin <c-r>=fnameescape(expand('%:~:h'))<cr>/
 
 if executable('xxd')
     nnoremap <silent> <leader>eh :EditHex<cr>
