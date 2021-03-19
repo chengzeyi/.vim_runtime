@@ -586,12 +586,12 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gM', '<cmd>lua require"lsp_ext".peek_implementation()<cr>', opts)
 
     if client.resolved_capabilities.document_highlight then
-        vim.api.nvim_command [[autocmd CursorHold  <buffer> silent! lua vim.lsp.buf.document_highlight()]]
+        vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()]]
     end
 
-    vim.api.nvim_command [[autocmd CursorHold  <buffer> silent! lua vim.lsp.diagnostic.show_line_diagnostics({show_header = false})]]
+    -- vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.diagnostic.show_line_diagnostics({show_header = false})]]
 end
 
 local lspconfig = require'lspconfig'
@@ -604,12 +604,12 @@ lspconfig.util.default_config = vim.tbl_extend(
     }
 )
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-        -- Disable virtual_text
-        virtual_text = false
-    }
-)
+-- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    -- vim.lsp.diagnostic.on_publish_diagnostics, {
+        -- -- Disable virtual_text
+        -- virtual_text = false
+    -- }
+-- )
 EOF
         for config in get(g:, 'use_nvim_lsp_configs', [])
             exe 'lua' 'require"lspconfig".' . config . '.setup{}'
