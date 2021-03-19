@@ -129,6 +129,9 @@ Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf', {'dir': '~/.fzf'}
 Plug 'junegunn/fzf.vim'
 Plug 'chengzeyi/fzf-preview.vim'
+if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
+    Plug 'gfanto/fzf-lsp.nvim'
+endif
 
 Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-startify'
@@ -523,7 +526,7 @@ EOF
         if v:vim_did_enter
             if exists('g:loaded_nvim_treesitter') | call InitTS() | endif
         else
-            au VimEnter * if exists('loaded_nvim_treesitter') | call InitTS() | endif
+            au VimEnter * if exists('g:loaded_nvim_treesitter') | call InitTS() | endif
         endif
     augroup END
 
@@ -1606,6 +1609,23 @@ nnoremap <leader>Fg :FZFGrep<space>
 nnoremap <leader>FG :FZFGREP<space>
 nnoremap <leader>Fp :FZFGGrep<space>
 nnoremap <leader>FP :FZFGGREP<space>
+
+if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
+    function! InitFzfLsp() abort
+lua <<EOF
+require'fzf_lsp'.setup()
+EOF
+    endfunction
+
+    augroup MyFzfLsp
+        autocmd!
+        if v:vim_did_enter
+            if exists('g:loaded_fzf_lsp') | call InitFzfLsp() | endif
+        else
+            au VimEnter * if exists('g:loaded_fzf_lsp') | call InitFzfLsp() | endif
+        endif
+    augroup END
+endif
 
 nnoremap <silent> <c-g> :Grepper<cr>
 if !exists('g:grepper')
