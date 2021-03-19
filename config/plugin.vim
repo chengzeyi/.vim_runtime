@@ -667,8 +667,7 @@ if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
     let g:completion_enable_snippet = 'Neosnippet'
     let g:completion_chain_complete_list = {
                 \ 'default' : [
-                \     {'complete_items': ['lsp', 'buffer', 'snippet']},
-                \     {'complete_items': ['path'], 'triggered_only': ['/']},
+                \     {'complete_items': ['lsp', 'path', 'buffer', 'snippet']},
                 \     {'mode': '<c-p>'},
                 \     {'mode': '<c-n>'}
                 \ ],
