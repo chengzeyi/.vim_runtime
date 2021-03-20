@@ -264,6 +264,9 @@ set formatoptions+=tcromMqj
 
 set nojoinspaces
 
+set copyindent
+set preserveindent
+
 " Use spaces instead of tabs
 set expandtab
 
