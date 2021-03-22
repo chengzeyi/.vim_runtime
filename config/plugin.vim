@@ -679,7 +679,7 @@ if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
     let g:completion_trigger_on_delete = 1
     " let g:completion_enable_auto_signature = 0
     let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-    " let g:completion_sorting = 'none'
+    let g:completion_sorting = 'length'
 
     let g:completion_word_ignored_ft = ['']
 
