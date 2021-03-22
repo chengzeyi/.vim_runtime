@@ -20,7 +20,7 @@ function M.signature_help(_, method, result)
             -- pad_left = 1; pad_right = 1;
             max_height = math.max(12, math.floor(vim.o.lines / 4));
         })
-        util.close_preview_autocmd({'CursorMoved', 'BufHidden', 'InsertCharPre'}, winnr)
+        util.close_preview_autocmd({'CursorMoved', 'CursorMovedI', 'BufHidden', 'BufLeave'}, winnr)
         return bufnr, winnr
         -- return util.open_floating_preview(lines, '')
     end)

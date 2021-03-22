@@ -600,7 +600,7 @@ lspconfig.util.default_config = vim.tbl_extend(
     lspconfig.util.default_config,
     {
         on_attach = on_attach,
-        -- handlers = { ['textDocument/signatureHelp'] = require'lsp_ext'.signature_help }
+        handlers = { ['textDocument/signatureHelp'] = require'lsp_ext'.signature_help }
     }
 )
 
@@ -857,6 +857,7 @@ if get(g:, 'use_coc', 0)
         inoremap <expr> <silent> <c-g><c-h> CocHasProvider('signature') ? ':call CocActionAsync("showSignatureHelp")<cr>' : '<c-g><c-h>'
         nnoremap <expr> <silent> <s-leftmouse> '<leftmouse>' . (CocHasProvider('hover') ? ':call CocActionAsync("doHover")<cr>' : '<s-leftmouse>')
         nnoremap <expr> <silent> <s-rightmouse> '<leftmouse>' . (CocHasProvider('signature') ? ':call CocActionAsync("showSignatureHelp")<cr>' : '<s-rightmouse>')
+
         " function! ShowDocumentation(count) abort
         "     if (index(['vim', 'help'], &filetype) >= 0)
         "         try
