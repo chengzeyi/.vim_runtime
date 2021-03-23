@@ -61,12 +61,8 @@ if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
     Plug 'neovim/nvim-lspconfig'
 endif
 
-if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
-    Plug 'nvim-lua/completion-nvim'
-    Plug 'steelsojka/completion-buffers'
-    " if get(g:, 'use_treesitter', 0)
-    "     Plug 'nvim-treesitter/completion-treesitter'
-    " endif
+if get(g:, 'use_nvim_compe', 0) && has('nvim-0.5.0')
+    Plug 'hrsh7th/nvim-compe'
 endif
 
 if get(g:, 'use_coc', 0)
@@ -586,11 +582,12 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gM', '<cmd>lua require"lsp_ext".peek_implementation()<cr>', opts)
 
     if client.resolved_capabilities.document_highlight then
-        vim.api.nvim_command [[augroup MyNvimLspDocumentHighlight]]
+        vim.api.nvim_command [[augroup MyNvimLspBuffer]]
         vim.api.nvim_command [[autocmd! * <buffer>]]
         vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()]]
+        vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.signature_help()]]
         vim.api.nvim_command [[augroup END]]
     end
 
@@ -661,42 +658,37 @@ EOF
     command! -nargs=0 LspOpenLog lua vim.cmd('e'..vim.lsp.get_log_path())
 endif
 
-if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
-    augroup MyCompletionNvim
-        autocmd!
-        autocmd BufEnter * if exists('*win_gettype') && win_gettype() !=# 'command' | silent! exe 'lua require"completion".on_attach()' | endif
-    augroup END
+if get(g:, 'use_nvim_compe', 0) && has('nvim-0.5.0')
+    if !exists('g:compe')
+        let g:compe = {}
+    endif
+    let g:compe.enabled = v:true
+    let g:compe.autocomplete = v:true
+    let g:compe.debug = v:false
+    let g:compe.min_length = 1
+    let g:compe.preselect = 'enable'
+    let g:compe.throttle_time = 80
+    let g:compe.source_timeout = 200
+    let g:compe.incomplete_delay = 400
+    let g:compe.max_abbr_width = 100
+    let g:compe.max_kind_width = 100
+    let g:compe.max_menu_width = 100
+    let g:compe.documentation = v:true
+    let g:compe.source = {
+                \ 'nvim_lsp': v:true,
+                \ 'nvim_lua': v:true,
+                \ 'path': v:true,
+                \ 'buffer': v:true,
+                \ 'spell': v:true,
+                \ 'calc': v:true,
+                \ }
 
-    let g:completion_enable_snippet = 'Neosnippet'
-    let g:completion_chain_complete_list = {
-                \ 'default' : [
-                \     {'complete_items': ['lsp', 'path', 'buffer', 'snippet']},
-                \     {'mode': '<c-p>'},
-                \     {'mode': '<c-n>'}
-                \ ],
-                \ '' : [
-                \     {'complete_items': ['path', 'snippet']},
-                \ ]}
+    command! -nargs=0 ToggleNvimCompe call ToggleNvimCompe()
+    nnoremap <silent> <leader>oa :ToggleNvimCompe<cr>
 
-    let g:completion_trigger_character = ['.', '::']
-
-    " let g:completion_timer_cycle = 200
-    let g:completion_trigger_on_delete = 1
-    " let g:completion_enable_auto_signature = 0
-    let g:completion_matching_strategy_list = ['exact', 'substring']
-    let g:completion_sorting = 'none'
-
-    let g:completion_word_ignored_ft = ['']
-
-    imap <c-j> <Plug>(completion_next_source)
-    imap <c-k> <Plug>(completion_prev_source)
-
-    command! -nargs=0 ToggleCompletionNvim call ToggleCompletionNvim()
-    nnoremap <silent> <leader>oa :ToggleCompletionNvim<cr>
-
-    function! ToggleCompletionNvim() abort
-        let g:completion_enable_auto_popup = !get(g:, 'completion_enable_auto_popup', 1)
-        if g:completion_enable_auto_popup
+    function! ToggleNvimCompe() abort
+        let g:compe.autocomplete = !get(g:compe, 'autocomplete', v:true)
+        if g:compe.autocomplete
             set completeopt+=noinsert,noselect
             " let g:refresh_pum = ['TriggerCompletion', []]
         else
@@ -705,16 +697,21 @@ if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
         endif
     endfunction
 
-    function! TriggerCompletion() abort
-        call feedkeys("\<Plug>(completion_trigger)")
-        return ''
-    endfunction
-
     set completeopt+=noinsert,noselect
-    let g:refresh_pum = ['TriggerCompletion', []]
-    inoremap <silent> <expr> <c-l> pumvisible() ? '<c-l>' : TriggerCompletion()
-    inoremap <silent> <expr> <c-Space> pumvisible() ? '<c-e>' : TriggerCompletion()
-    inoremap <silent> <expr> <nul> pumvisible() ? '<c-e>' : TriggerCompletion()
+    let g:refresh_pum = ['compe#complete', []]
+    inoremap <silent> <expr> <c-l> pumvisible() ? '<c-l>' : compe#complete()
+    inoremap <silent> <expr> <c-Space> pumvisible() ? '<c-e>' : compe#complete()
+    inoremap <silent> <expr> <nul> pumvisible() ? '<c-e>' : compe#complete()
+
+    silent! iunmap <silent> <c-y>
+    inoremap <silent> <expr> <c-y> pumvisible() ? compe#confirm('<c-y>') : '<c-y>'
+    silent! iunmap <silent> <cr>
+    inoremap <silent> <expr> <cr> pumvisible() ? compe#confirm('<cr>') : '<cr>'
+    silent! iunmap <silent> <c-e>
+    inoremap <silent> <expr> <c-e> pumvisible() ? compe#close('<c-e>') : '<c-e>'
+
+    inoremap <silent> <expr> <c-f> pumvisible() ? compe#scroll({'delta': 4}) : '<c-f>'
+    inoremap <silent> <expr> <c-b> pumvisible() ? compe#scroll({'delta': -4}) : '<c-b>'
 endif
 
 if get(g:, 'use_coc', 0)
@@ -1038,6 +1035,8 @@ if get(g:, 'use_asyncomplete', 0)
 
         silent! iunmap <silent> <c-y>
         inoremap <silent> <expr> <c-y> pumvisible() ? asyncomplete#close_popup() : '<c-y>'
+        silent! iunmap <silent> <cr>
+        inoremap <silent> <expr> <cr> pumvisible() ? asyncomplete#close_popup() . '<cr>' : '<cr>'
         silent! iunmap <silent> <c-e>
         inoremap <silent> <expr> <c-e> pumvisible() ? asyncomplete#cancel_popup() : '<c-e>'
 

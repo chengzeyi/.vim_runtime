@@ -18,7 +18,7 @@ source $HOME/.vim_runtime/config/core.vim
 \" let g:use_treesitter = 1
 \" let g:use_nvim_lsp = 1
 \" let g:use_nvim_lsp_configs = []
-\" let g:use_completion_nvim = 1
+\" let g:use_nvim_compe = 1
 \" let g:use_coc = 1
 \" let g:use_vim_lsp = 1
 \" let g:use_asyncomplete = 1
