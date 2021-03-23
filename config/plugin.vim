@@ -586,9 +586,12 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gM', '<cmd>lua require"lsp_ext".peek_implementation()<cr>', opts)
 
     if client.resolved_capabilities.document_highlight then
+        vim.api.nvim_command [[augroup MyNvimLspDocumentHighlight]]
+        vim.api.nvim_command [[autocmd! * <buffer>]]
         vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()]]
+        vim.api.nvim_command [[augroup END]]
     end
 
     -- vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.diagnostic.show_line_diagnostics({show_header = false})]]
@@ -671,7 +674,9 @@ if get(g:, 'use_completion_nvim', 0) && has('nvim-0.5.0')
                 \     {'mode': '<c-p>'},
                 \     {'mode': '<c-n>'}
                 \ ],
-                \ '' : []}
+                \ '' : [
+                \     {'complete_items': ['path', 'snippet']},
+                \ ]}
 
     let g:completion_trigger_character = ['.', '::']
 
