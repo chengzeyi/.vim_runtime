@@ -15,15 +15,18 @@ function M.signature_help(_, method, result)
         print('No signature help available')
         return
     end
-    util.focusable_float(method, function()
-        local bufnr, winnr = util.fancy_floating_markdown(lines, {
-            -- pad_left = 1; pad_right = 1;
-            max_height = math.max(12, math.floor(vim.o.lines / 4));
-        })
-        util.close_preview_autocmd({'CursorMoved', 'CursorMovedI', 'BufHidden', 'InsertCharPre'}, winnr)
-        return bufnr, winnr
-        -- return util.open_floating_preview(lines, '')
-    end)
+    util.open_floating_preview(lines, util.try_trim_markdown_code_blocks(lines))
+
+    -- util.focusable_float(method, function()
+    --     local bufnr, winnr = util.fancy_floating_markdown(lines, {
+    --         -- pad_left = 1; pad_right = 1;
+    --         max_height = math.max(12, math.floor(vim.o.lines / 4));
+    --     })
+    --     util.close_preview_autocmd({'CursorMoved', 'CursorMovedI', 'BufHidden', 'InsertCharPre'}, winnr)
+    --     return bufnr, winnr
+    --     -- return util.open_floating_preview(lines, '')
+    -- end)
+
     -- util.focusable_preview(method, function()
     --     return lines, util.try_trim_markdown_code_blocks(lines)
     -- end)

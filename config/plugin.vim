@@ -589,6 +589,7 @@ local on_attach = function(client, bufnr)
         vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()]]
         vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.signature_help()]]
+        vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua vim.lsp.buf.signature_help()]]
         vim.api.nvim_command [[augroup END]]
     end
 
@@ -607,7 +608,8 @@ lspconfig.util.default_config = vim.tbl_extend(
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
         -- Disable virtual_text
-        virtual_text = false
+        virtual_text = false,
+        update_in_insert = false
     }
 )
 EOF
@@ -703,11 +705,8 @@ if get(g:, 'use_nvim_compe', 0) && has('nvim-0.5.0')
     inoremap <silent> <expr> <c-Space> pumvisible() ? '<c-e>' : compe#complete()
     inoremap <silent> <expr> <nul> pumvisible() ? '<c-e>' : compe#complete()
 
-    silent! iunmap <silent> <c-y>
+    inoremap <silent> <expr> <cr> pumvisible() ? compe#confirm('<c-g>u' . ICR()) : '<c-g>u' . ICR()
     inoremap <silent> <expr> <c-y> pumvisible() ? compe#confirm('<c-y>') : '<c-y>'
-    silent! iunmap <silent> <cr>
-    inoremap <silent> <expr> <cr> pumvisible() ? compe#confirm('<cr>') : '<cr>'
-    silent! iunmap <silent> <c-e>
     inoremap <silent> <expr> <c-e> pumvisible() ? compe#close('<c-e>') : '<c-e>'
 
     inoremap <silent> <expr> <c-f> pumvisible() ? compe#scroll({'delta': 4}) : '<c-f>'
@@ -1033,11 +1032,12 @@ if get(g:, 'use_asyncomplete', 0)
         inoremap <silent> <expr> <c-space> pumvisible() ? '<c-e>' : asyncomplete#force_refresh()
         inoremap <silent> <expr> <nul> pumvisible() ? '<c-e>' : asyncomplete#force_refresh()
 
-        silent! iunmap <silent> <c-y>
+        if exists('*complete_info')
+            inoremap <silent> <expr> <cr> complete_info()['selected'] != '-1' ? asyncomplete#close_popup() : '<c-g>u' . ICR()
+        else
+            inoremap <silent> <expr> <cr> pumvisible() ? asyncomplete#close_popup() : '<c-g>u' . ICR()
+        endif
         inoremap <silent> <expr> <c-y> pumvisible() ? asyncomplete#close_popup() : '<c-y>'
-        silent! iunmap <silent> <cr>
-        inoremap <silent> <expr> <cr> pumvisible() ? asyncomplete#close_popup() . '<cr>' : '<cr>'
-        silent! iunmap <silent> <c-e>
         inoremap <silent> <expr> <c-e> pumvisible() ? asyncomplete#cancel_popup() : '<c-e>'
 
         au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
