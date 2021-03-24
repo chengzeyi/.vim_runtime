@@ -586,7 +586,7 @@ local on_attach = function(client, bufnr)
         vim.api.nvim_command [[autocmd! * <buffer>]]
         -- vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.diagnostic.show_line_diagnostics()]]
         vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.buf.document_highlight()]]
-        vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
+        -- vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()]]
         vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.signature_help()]]
         vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua vim.lsp.buf.signature_help()]]
