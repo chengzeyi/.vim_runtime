@@ -584,7 +584,7 @@ local on_attach = function(client, bufnr)
     if client.resolved_capabilities.document_highlight then
         vim.api.nvim_command [[augroup MyNvimLspBuffer]]
         vim.api.nvim_command [[autocmd! * <buffer>]]
-        -- vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.diagnostic.show_line_diagnostics({show_header = false})]]
+        -- vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.diagnostic.show_line_diagnostics()]]
         vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()]]
@@ -650,7 +650,7 @@ EOF
     nnoremap <silent> <leader><cr>F <cmd>lua vim.lsp.buf.range_formatting()<cr>
     nnoremap <silent> <leader><cr>r <cmd>lua vim.lsp.buf.rename()<cr>
     nnoremap <silent> <leader><cr>d <cmd>lua vim.lsp.diagnostic.set_loclist()<cr>
-    nnoremap <silent> <leader><cr>D <cmd>lua vim.lsp.diagnostic.show_line_diagnostics({show_header = false})<cr>
+    nnoremap <silent> <leader><cr>D <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>
     nnoremap <silent> <leader><cr>w <cmd>lua vim.lsp.buf.add_workspace_folder()<cr>
     nnoremap <silent> <leader><cr>W <cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>
     nnoremap <silent> <leader><cr><c-w> <cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>
