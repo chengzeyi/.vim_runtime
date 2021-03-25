@@ -657,7 +657,7 @@ EOF
 
     command! -nargs=0 LspStop lua vim.lsp.stop_client(vim.lsp.get_active_clients())
     command! -nargs=0 LspDebug lua vim.lsp.set_log_level('debug')
-    command! -nargs=0 LspOpenLog lua vim.cmd('e '..vim.lsp.get_log_path())
+    command! -nargs=0 LspOpenLog lua vim.cmd('e '..vim.fn.fnameescape(vim.lsp.get_log_path()))
 endif
 
 if get(g:, 'use_nvim_compe', 0) && has('nvim-0.5.0')
