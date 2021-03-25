@@ -125,9 +125,9 @@ Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf', {'dir': '~/.fzf'}
 Plug 'junegunn/fzf.vim'
 Plug 'chengzeyi/fzf-preview.vim'
-if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
-    Plug 'gfanto/fzf-lsp.nvim'
-endif
+" if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
+"     Plug 'gfanto/fzf-lsp.nvim'
+" endif
 
 Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-startify'
@@ -657,7 +657,7 @@ EOF
 
     command! -nargs=0 LspStop lua vim.lsp.stop_client(vim.lsp.get_active_clients())
     command! -nargs=0 LspDebug lua vim.lsp.set_log_level('debug')
-    command! -nargs=0 LspOpenLog lua vim.cmd('e'..vim.lsp.get_log_path())
+    command! -nargs=0 LspOpenLog lua vim.cmd('e '..vim.lsp.get_log_path())
 endif
 
 if get(g:, 'use_nvim_compe', 0) && has('nvim-0.5.0')
@@ -1614,22 +1614,22 @@ nnoremap <leader>FG :FZFGREP<space>
 nnoremap <leader>Fp :FZFGGrep<space>
 nnoremap <leader>FP :FZFGGREP<space>
 
-if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
-    function! InitFzfLsp() abort
-lua <<EOF
-require'fzf_lsp'.setup()
-EOF
-    endfunction
+" if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
+"     function! InitFzfLsp() abort
+" lua <<EOF
+" require'fzf_lsp'.setup()
+" EOF
+"     endfunction
 
-    augroup MyFzfLsp
-        autocmd!
-        if v:vim_did_enter
-            if exists('g:loaded_fzf_lsp') | call InitFzfLsp() | endif
-        else
-            au VimEnter * if exists('g:loaded_fzf_lsp') | call InitFzfLsp() | endif
-        endif
-    augroup END
-endif
+"     augroup MyFzfLsp
+"         autocmd!
+"         if v:vim_did_enter
+"             if exists('g:loaded_fzf_lsp') | call InitFzfLsp() | endif
+"         else
+"             au VimEnter * if exists('g:loaded_fzf_lsp') | call InitFzfLsp() | endif
+"         endif
+"     augroup END
+" endif
 
 nnoremap <silent> <c-g> :Grepper<cr>
 if !exists('g:grepper')

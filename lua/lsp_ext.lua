@@ -6,13 +6,13 @@ function M.signature_help(_, method, result)
     -- When use `autocmd CompleteDone <silent><buffer> lua vim.lsp.buf.signature_help()` to call signatureHelp handler
     -- If the completion item doesn't have signatures It will make noise. Change to use `print` that can use `<silent>` to ignore
     if not (result and result.signatures and result.signatures[1]) then
-        print('No signature help available')
+        -- print('No signature help available')
         return
     end
     local lines = util.convert_signature_help_to_markdown_lines(result)
     lines = util.trim_empty_lines(lines)
     if vim.tbl_isempty(lines) then
-        print('No signature help available')
+        -- print('No signature help available')
         return
     end
     util.open_floating_preview(lines, util.try_trim_markdown_code_blocks(lines))
