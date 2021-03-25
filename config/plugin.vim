@@ -624,9 +624,9 @@ EOF
         let sl = ''
         if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
             let sl .= 'E'
-            let sl .= luaeval('vim.lsp.diagnostic.get_count([[Error]])')
+            let sl .= luaeval('vim.lsp.diagnostic.get_count(0, [[Error]])')
             let sl .= ' W'
-            let sl .= luaeval('vim.lsp.diagnostic.get_count([[Warning]])')
+            let sl .= luaeval('vim.lsp.diagnostic.get_count(0, [[Warning]])')
         endif
         return sl
     endfunction
