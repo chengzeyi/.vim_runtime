@@ -125,9 +125,9 @@ Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf', {'dir': '~/.fzf'}
 Plug 'junegunn/fzf.vim'
 Plug 'chengzeyi/fzf-preview.vim'
-" if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
-"     Plug 'gfanto/fzf-lsp.nvim'
-" endif
+if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
+    Plug 'gfanto/fzf-lsp.nvim'
+endif
 
 Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-startify'
@@ -1420,7 +1420,6 @@ let g:fzf_command_prefix = 'FZF'
 " [Commands] --expect expression for directly executing the command
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 let g:fzf_tags_command = 'ctags -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q'
-" let g:fzf_prefer_tmux = 1
 let g:fzf_preview_window = ['right:50%', 'ctrl-/', 'ctrl-^']
 
 function! s:build_quickfix_list(lines)
@@ -1453,8 +1452,7 @@ let g:fzf_colors = {
 " if has('nvim-0.4.0') || has('patch-8.2.191')
 "     let g:fzf_layout = {'window': {'width': 0.8, 'height': 0.8}}
 " endif
-" let g:fzf_layout = {'window': 'bot'.float2nr(0.4 * &lines).'new'}
-" let g:fzf_layout = {'down': '40%'}
+let g:fzf_layout = {'down': '40%'}
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 imap <silent> <c-x>k <plug>(fzf-complete-word)
@@ -1618,22 +1616,27 @@ nnoremap <leader>FG :FZFGREP<space>
 nnoremap <leader>Fp :FZFGGrep<space>
 nnoremap <leader>FP :FZFGGREP<space>
 
-" if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
-"     function! InitFzfLsp() abort
-" lua <<EOF
-" require'fzf_lsp'.setup()
-" EOF
-"     endfunction
+if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
+    function! InitFzfLsp() abort
+        try
+            call fzf#exec()
+        catch
+            return
+        endtry
+lua <<EOF
+require'fzf_lsp'.setup()
+EOF
+    endfunction
 
-"     augroup MyFzfLsp
-"         autocmd!
-"         if v:vim_did_enter
-"             if exists('g:loaded_fzf_lsp') | call InitFzfLsp() | endif
-"         else
-"             au VimEnter * if exists('g:loaded_fzf_lsp') | call InitFzfLsp() | endif
-"         endif
-"     augroup END
-" endif
+    augroup MyFzfLsp
+        autocmd!
+        if v:vim_did_enter
+            if exists('g:loaded_fzf_lsp') | call InitFzfLsp() | endif
+        else
+            au VimEnter * if exists('g:loaded_fzf_lsp') | call InitFzfLsp() | endif
+        endif
+    augroup END
+endif
 
 nnoremap <silent> <c-g> :Grepper<cr>
 if !exists('g:grepper')
