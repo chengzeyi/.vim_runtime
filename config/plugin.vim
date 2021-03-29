@@ -615,7 +615,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 EOF
         for config in get(g:, 'use_nvim_lsp_configs', [])
             if config ==# 'clangd'
-                exe 'lua' 'require"lspconfig".' . config . '.setup{ filetypes = { "c", "cpp", "objc", "objcpp", "cuda" } }'
+                exe 'lua' 'require"lspconfig".' . config . '.setup{ filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "arduino" } }'
             else
                 exe 'lua' 'require"lspconfig".' . config . '.setup{}'
             endif
