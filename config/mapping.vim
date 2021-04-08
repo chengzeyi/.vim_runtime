@@ -79,12 +79,14 @@ nnoremap <leader>vE :vs <c-r>=fnameescape(expand('%:~:h'))<cr>/
 nnoremap <leader>ee :e <c-r>=GetVcsRoot()<cr>/
 nnoremap <leader>eE :e <c-r>=fnameescape(expand('%:~:h'))<cr>/
 
-nnoremap <leader>sf :sp <c-r>=GetVcsRoot()<cr>/**/*
-nnoremap <leader>sF :sp <c-r>=fnameescape(expand('%:~:h'))<cr>/**/*
-nnoremap <leader>vf :vs <c-r>=GetVcsRoot()<cr>/**/*
-nnoremap <leader>vF :vs <c-r>=fnameescape(expand('%:~:h'))<cr>/**/*
-nnoremap <leader>ef :e <c-r>=GetVcsRoot()<cr>/**/*
-nnoremap <leader>eF :e <c-r>=fnameescape(expand('%:~:h'))<cr>/**/*
+nnoremap <leader>tf :tab sfind<space>
+nnoremap <leader>tF :tab sfind **/**<left>
+nnoremap <leader>sf :sfind<space>
+nnoremap <leader>sF :sfind **/**<left>
+nnoremap <leader>vf :vert sfind<space>
+nnoremap <leader>vF :vert sfind **/**<left>
+nnoremap <leader>ef :find<space>
+nnoremap <leader>eF :find **/**<left>
 
 nnoremap <silent> <leader>en :enew<cr>
 nnoremap <silent> <leader>eN :enew!<cr>

@@ -25,7 +25,7 @@ if exists('+ttymouse')
 endif
 set mousemodel=popup_setpos
 
-" set path+=**
+set path+=**
 
 set tags+=./tags;
 " set tags+=./.tags
@@ -163,9 +163,9 @@ set wcm=<c-z>
 
 set wildignore=*.o,*.obj,*~,*.pyc,tags,TAGS,cscope.*
 if has('win16') || has('win32')
-    set wildignore+=.git\*,.hg\*,.svn\*
+    set wildignore+=.git\*,.hg\*,.svn\*,node_modules\*,build\*
 else
-    set wildignore+=.git/*,.hg/*,.svn/*
+    set wildignore+=.git/*,.hg/*,.svn/*,node_modules/*,build/*
     if has('mac')
         set wildignore+=.DS_Store
     endif
