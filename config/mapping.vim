@@ -301,64 +301,64 @@ endfunction
 
 nnoremap <silent> <leader>w :w<cr>
 nnoremap <silent> <leader>W :wa<cr>
-nnoremap <silent> <leader>x :q<cr>
-nnoremap <silent> <leader>X :qa<cr>
+nnoremap <silent> <leader>x :close<cr>
+nnoremap <silent> <leader>X :confirm qa<cr>
+
+nnoremap <silent> ZC :close!<cr>
 
 nnoremap <silent> <leader>" :registers<cr>
 nnoremap <silent> <leader>@ :registers<cr>
-" inoremap <expr> <c-r> '<c-r>' . BetterRegister()
-" if exists(':terminal')
-"     if !has('nvim')
-"         tnoremap <silent> <expr> <c-w>" '<c-w>"' . BetterRegister()
-"     endif
-" endif
-" nnoremap <silent> <expr> " '"' . BetterRegister()
-" nnoremap <silent> <expr> @ '@' . BetterRegister()
-" xnoremap <silent> <expr> " '"' . BetterRegister()
-" xnoremap <silent> <expr> @ '@' . BetterRegister()
+inoremap <expr> <c-r> '<c-r>' . BetterRegister()
+if exists(':terminal')
+    if !has('nvim')
+        tnoremap <silent> <expr> <c-w>" '<c-w>"' . BetterRegister()
+    endif
+endif
+nnoremap <silent> <expr> " '"' . BetterRegister()
+nnoremap <silent> <expr> @ '@' . BetterRegister()
+xnoremap <silent> <expr> " '"' . BetterRegister()
+xnoremap <silent> <expr> @ '@' . BetterRegister()
 
-" function! BetterRegister()
-"     let more = &more
-"     set nomore
-"     redraw!
-"     registers
-"     echohl Question | echon "\nWhich one" | echohl None
-"     let &more = more
-"     while 1
-"         let ch = getchar()
-"         if ch !~# '\v[0-9]+'
-"             continue
-"         else
-"             redraw!
-"             return nr2char(ch)
-"         endif
-"     endwhile
-" endfunction
+function! BetterRegister()
+    let more = &more
+    set nomore
+    redraw!
+    registers
+    echohl Question | echon "\nWhich one" | echohl None
+    let &more = more
+    while 1
+        let ch = getchar()
+        if ch !~# '\v[0-9]+'
+            continue
+        endif
+        redraw!
+        return nr2char(ch)
+    endwhile
+endfunction
 
 nnoremap <silent> <leader>' :marks<cr>
 nnoremap <silent> <leader>` :marks<cr>
-" nnoremap <silent> <expr> ' "'" . BetterMark()
-" nnoremap <silent> <expr> ` '`' . BetterMark()
-" xnoremap <silent> <expr> ' "'" . BetterMark()
-" xnoremap <silent> <expr> ` '`' . BetterMark()
+nnoremap <silent> <expr> ' "'" . BetterMark()
+nnoremap <silent> <expr> ` '`' . BetterMark()
+xnoremap <silent> <expr> ' "'" . BetterMark()
+xnoremap <silent> <expr> ` '`' . BetterMark()
 
-" function! BetterMark()
-"     let more = &more
-"     set nomore
-"     redraw!
-"     marks
-"     echohl Question | echon "\nWhich one" | echohl None
-"     let &more = more
-"     while 1
-"         let ch = getchar()
-"         if ch !~# '\v[0-9]+'
-"             continue
-"         else
-"             redraw!
-"             return nr2char(ch)
-"         endif
-"     endwhile
-" endfunction
+function! BetterMark()
+    let more = &more
+    set nomore
+    redraw!
+    marks
+    echohl Question | echon "\nWhich one" | echohl None
+    let &more = more
+    while 1
+        let ch = getchar()
+        if ch !~# '\v[0-9]+'
+            continue
+        endif
+        redraw!
+        return nr2char(ch)
+    endwhile
+endfunction
 
 nnoremap <silent> <leader># #``
 nnoremap <silent> <leader>* *``
