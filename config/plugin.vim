@@ -843,10 +843,12 @@ if get(g:, 'use_coc', 0)
         nnoremap <silent> <leader><cr>c :CocList commands<cr>
         nnoremap <expr> <silent> go CocHasProvider('documentSymbol') ? ':CocList -A outline<cr>' : (v:count == 0 ? '' : v:count) . 'go'
         nnoremap <expr> <silent> gO CocHasProvider('workspaceSymbols') ? ':CocList -I -A symbols<cr>' : 'gO'
-        nnoremap <silent> ]c :CocNext<cr>
-        nnoremap <silent> [c :CocPrev<cr>
-        nnoremap <silent> ]C :CocLast<cr>
-        nnoremap <silent> [C :CocFirst<cr>
+        nnoremap <silent> ]<cr> :CocNext<cr>
+        nnoremap <silent> [<cr> :CocPrev<cr>
+        nnoremap <silent> ]<bs> :CocLast<cr>
+        nnoremap <silent> ]<c-h> :CocLast<cr>
+        nnoremap <silent> [<bs> :CocFirst<cr>
+        nnoremap <silent> [<c-h> :CocFirst<cr>
         if has('nvim-0.4.0') || has('patch-8.2.0750')
             nnoremap <silent> <expr> <c-f> coc#float#has_scroll() ? coc#float#scroll(1) : '<c-f>'
             nnoremap <silent> <expr> <c-b> coc#float#has_scroll() ? coc#float#scroll(0) : '<c-b>'
