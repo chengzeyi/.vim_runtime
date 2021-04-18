@@ -821,8 +821,17 @@ nnoremap <leader>sr :%s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bsla
 xnoremap <leader>sr :s/<bslash>C<bslash><lt><bslash>>/<left><left><left>
 nnoremap <leader>sR :%argd <bar> arga **/* <bar> argdo %s/<bslash>C<bslash><lt><c-r>=expand('<lt>cword>')<cr><bslash>>/<c-r>=expand('<lt>cword>')<cr>
 
+command! -bang -nargs=? -complete=file E e<bang> <args>
+command! -range=% -bang -nargs=? -complete=file W <line1>,<line2>w<bang> <args>
+command! -range=% -bang -nargs=? -complete=file Wq <line1>,<line2>wq<bang> <args>
+command! -range=% -bang -nargs=? -complete=file WQ <line1>,<line2>wq<bang> <args>
+command! -bang Wa wa<bang>
+command! -bang WA wa<bang>
+command! -bang Q q<bang>
+command! -bang QA qa<bang>
+command! -bang Qa qa<bang>
 if !has('nvim')
-    command! -nargs=0 W w !sudo tee % >/dev/null
+    command! -range=% -nargs=? SW <line1>,<line2>w <args> !sudo tee % >/dev/null
 endif
 
 nnoremap <leader>eb :e ++enc=latin1 +set\ bin <c-r>=GetVcsRoot()<cr>/
