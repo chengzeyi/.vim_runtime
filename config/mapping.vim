@@ -685,47 +685,48 @@ function! AlternateFile(force) abort
     let suffix = expand('%:e')
     if suffix ==# 'cpp' || suffix ==# 'cc' || suffix ==# 'tcc'
         let alt_files = [
-                    \ '%:t:r.hpp',
-                    \ '%:t:r.h'
+                    \ expand('%:t:r') . '.hpp',
+                    \ expand('%:t:r') . '.h'
                     \ ]
     elseif suffix ==# 'c'
         let alt_files = [
-                    \ '%:t:r.h'
+                    \ expand('%:t:r') . '.h'
                     \ ]
     elseif suffix ==# 'hpp'
         let alt_files = [
-                    \ '%:t:r.tcc',
-                    \ '%:t:r.cpp',
-                    \ '%:t:r.cc'
+                    \ expand('%:t:r') . '.tcc',
+                    \ expand('%:t:r') . '.cpp',
+                    \ expand('%:t:r') . '.cc'
                     \ ]
     elseif suffix ==# 'h'
         let alt_files = [
-                    \ '%:t:r.tcc',
-                    \ '%:t:r.cpp',
-                    \ '%:t:r.cc',
-                    \ '%:t:r.c'
+                    \ expand('%:t:r') . '.tcc',
+                    \ expand('%:t:r') . '.cpp',
+                    \ expand('%:t:r') . '.cc',
+                    \ expand('%:t:r') . '.c'
                     \ ]
     elseif suffix ==# 'go'
         if expand('%:t:r') =~# '_test$'
             let alt_files = [
-                        \ '%:t:r:s?\V_test\$??.go'
+                        \ expand('%:t:r:s?\V_test\$??') . '.go'
                         \ ]
         else
             let alt_files = [
-                        \ '%:t:r_test.go'
+                        \ expand('%:t:r_test' ). '.go'
                         \ ]
         endif
     endif
     if !exists('alt_files')
         return
     endif
-    for file in alt_files
-        try
-            execute 'find' . (a:force ? '!' : '') file
-        catch
-            continue
-        endtry
-        break
+    for path in split(&path, '\V,')
+        for file in alt_files
+            let full_path = findfile(file, path)
+            if !empty(full_path)
+                execute 'edit' . (a:force ? '!' : '') fnameescape(full_path)
+                return
+            endif
+        endfor
     endfor
 endfunction
 
@@ -1359,10 +1360,10 @@ function! Open(url) abort
     " Windows (and WSL)
     if executable('cmd.exe')
         call system(['cmd.exe', '/c', 'start', '/b', a:url])
-    " Linux/BSD
+        " Linux/BSD
     elseif executable('xdg-open')
         call system(['xdg-open', a:url])
-    " MacOS
+        " MacOS
     elseif executable('open')
         echomsg system(['open', a:url])
     else
