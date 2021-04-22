@@ -126,7 +126,7 @@ Plug 'junegunn/fzf', {'dir': '~/.fzf'}
 Plug 'junegunn/fzf.vim'
 Plug 'chengzeyi/fzf-preview.vim'
 if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
-    Plug 'gfanto/fzf-lsp.nvim'
+    Plug 'ojroques/nvim-lspfuzzy'
 endif
 
 Plug 'mhinz/vim-grepper'
@@ -1619,23 +1619,27 @@ nnoremap <leader>Fp :FZFGGrep<space>
 nnoremap <leader>FP :FZFGGREP<space>
 
 if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
-    function! InitFzfLsp() abort
+    function! InitLspFuzzy() abort
         try
             call fzf#exec()
         catch
             return
         endtry
 lua <<EOF
-require'fzf_lsp'.setup()
+require'lspfuzzy'.setup {
+    fzf_preview = {
+        'up:50%:+{2}-/2', 'ctrl-/', 'ctrl-^'
+    },
+}
 EOF
     endfunction
 
-    augroup MyFzfLsp
+    augroup MyLspFuzzy
         autocmd!
         if v:vim_did_enter
-            if exists('g:loaded_fzf_lsp') | call InitFzfLsp() | endif
+            if exists('g:loaded_lspfuzzy') | call InitLspFuzzy() | endif
         else
-            au VimEnter * if exists('g:loaded_fzf_lsp') | call InitFzfLsp() | endif
+            au VimEnter * if exists('g:loaded_lspfuzzy') | call InitLspFuzzy() | endif
         endif
     augroup END
 endif
