@@ -297,7 +297,7 @@ if has('patch-7.4.338')
 endif
 
 " Specify the behavior when switching between buffers
-set switchbuf=useopen,usetab
+set switchbuf=useopen
 if has('patch-8.1.2315') || has('nvim-0.5.0')
     set switchbuf+=uselast
 endif
