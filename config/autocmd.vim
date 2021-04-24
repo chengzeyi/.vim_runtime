@@ -236,6 +236,11 @@ elseif exists(':terminal')
     augroup END
 endif
 
+augroup MyCmdWin
+    autocmd!
+    autocmd CmdwinEnter * setlocal foldcolumn=0 signcolumn=no
+augroup END
+
 augroup MyFileType
     autocmd!
     " autocmd FileType c,cpp,cs,java,json setlocal commentstring=//\ %s

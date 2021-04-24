@@ -689,6 +689,11 @@ if get(g:, 'use_nvim_compe', 0) && has('nvim-0.5.0')
                 \ 'calc': v:true,
                 \ }
 
+    augroup MyNvimCompe
+        autocmd!
+        au CmdwinEnter [:>] silent! call compe#setup({ 'enabled': v:false }, 0)
+    augroup END
+
     command! -nargs=0 ToggleNvimCompe call ToggleNvimCompe()
     nnoremap <silent> <leader>oa :ToggleNvimCompe<cr>
 
@@ -705,16 +710,16 @@ if get(g:, 'use_nvim_compe', 0) && has('nvim-0.5.0')
 
     set completeopt+=noinsert,noselect
     let g:refresh_pum = ['compe#complete', []]
-    inoremap <silent> <expr> <c-l> pumvisible() ? '<c-l>' : compe#complete()
-    inoremap <silent> <expr> <c-Space> pumvisible() ? '<c-e>' : compe#complete()
-    inoremap <silent> <expr> <nul> pumvisible() ? '<c-e>' : compe#complete()
+    inoremap <silent> <expr> <c-l> pumvisible() && getcmdwintype() =~# '\V:>' ? '<c-l>' : compe#complete()
+    inoremap <silent> <expr> <c-Space> pumvisible() && getcmdwintype() =~# '\V:>' ? '<c-e>' : compe#complete()
+    inoremap <silent> <expr> <nul> pumvisible() && getcmdwintype() =~# '\V:>' ? '<c-e>' : compe#complete()
 
-    inoremap <silent> <expr> <cr> pumvisible() ? compe#confirm('<c-g>u' . ICR()) : '<c-g>u' . ICR()
-    inoremap <silent> <expr> <c-y> pumvisible() ? compe#confirm('<c-y>') : '<c-y>'
-    inoremap <silent> <expr> <c-e> pumvisible() ? compe#close('<c-e>') : '<c-e>'
+    inoremap <silent> <expr> <cr> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#confirm('<c-g>u' . ICR()) : '<c-g>u' . ICR()
+    inoremap <silent> <expr> <c-y> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#confirm('<c-y>') : '<c-y>'
+    inoremap <silent> <expr> <c-e> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#close('<c-e>') : '<c-e>'
 
-    inoremap <silent> <expr> <c-f> pumvisible() ? compe#scroll({'delta': 4}) : '<c-f>'
-    inoremap <silent> <expr> <c-b> pumvisible() ? compe#scroll({'delta': -4}) : '<c-b>'
+    inoremap <silent> <expr> <c-f> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#scroll({'delta': 4}) : '<c-f>'
+    inoremap <silent> <expr> <c-b> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#scroll({'delta': -4}) : '<c-b>'
 endif
 
 if get(g:, 'use_coc', 0)
