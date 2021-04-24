@@ -659,7 +659,7 @@ EOF
     nnoremap <silent> <leader><cr>W <cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>
     nnoremap <silent> <leader><cr><c-w> <cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>
 
-    command! -nargs=0 LspStop lua vim.lsp.stop_client(vim.lsp.get_active_clients())
+    " command! -nargs=0 LspStop lua vim.lsp.stop_client(vim.lsp.get_active_clients())
     command! -nargs=0 LspDebug lua vim.lsp.set_log_level('debug')
     command! -nargs=0 LspOpenLog lua vim.cmd('e '..vim.fn.fnameescape(vim.lsp.get_log_path()))
 endif
