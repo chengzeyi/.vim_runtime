@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 set encoding=utf-8
 
 filetype plugin on
@@ -50,9 +52,6 @@ set number
 " if has('patch-7.3.787')
 "     set relativenumber
 " endif
-if has('patch-8.1.1564')
-    set signcolumn=number
-endif
 
 set exrc
 set secure

@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 " let g:plug_url_format = 'https://github.com/%s.git'
 
 call plug#begin('~/.vim_runtime/plugged')
@@ -237,6 +239,10 @@ if get(g:, 'use_devicons', 0)
 endif
 
 call plug#end()
+
+if has('patch-7.4.2201')
+    set signcolumn=yes
+endif
 
 if UseFtplugin('cpp')
     let g:cpp_class_scope_highlight = 1
@@ -1804,7 +1810,21 @@ let g:statusline_extra_left_0 = ['GitStatus', []]
 " let g:gitgutter_highlight_lines = 1
 let g:gitgutter_map_keys = 0
 " let g:gitgutter_use_location_list = 1
-let g:gitgutter_sign_priority = 0
+" let g:gitgutter_sign_added = '█|'
+" let g:gitgutter_sign_modified = '█⫶'
+" let g:gitgutter_sign_removed = '█▁'
+" let g:gitgutter_sign_removed_first_line = '█▔'
+" let g:gitgutter_sign_modified_removed = "█▟"
+let g:gitgutter_sign_added = '⏽'
+let g:gitgutter_sign_modified = '⏽'
+let g:gitgutter_sign_removed = '◢'
+let g:gitgutter_sign_removed_first_line = '◥'
+let g:gitgutter_sign_modified_removed = '◢'
+" let g:gitgutter_sign_added = "\u00a0┃"
+" let g:gitgutter_sign_modified = "\u00a0┃"
+" let g:gitgutter_sign_removed = "\u00a0◢"
+" let g:gitgutter_sign_removed_first_line = "\u00a0◥"
+" let g:gitgutter_sign_modified_removed = "\u00a0◢"
 omap <silent> ih <Plug>(GitGutterTextObjectInnerPending)
 omap <silent> ah <Plug>(GitGutterTextObjectOuterPending)
 xmap <silent> ih <Plug>(GitGutterTextObjectInnerVisual)

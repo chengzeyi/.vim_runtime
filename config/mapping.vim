@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 inoremap <silent> <c-b> <home>
 inoremap <c-u> <c-g>u<c-u>
 inoremap <c-w> <c-g>u<c-w>
@@ -136,11 +138,12 @@ if has('nvim-0.4.4')
 else
     nnoremap <silent> <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? 1 : 0<cr><cr>
 endif
-if has('patch-8.1.1564')
-    nnoremap <silent> <leader>os :set signcolumn=<c-r>=&signcolumn ==# 'no' ? 'number' : 'no'<cr><cr>
-else
-    nnoremap <silent> <leader>os :set signcolumn=<c-r>=&signcolumn ==# 'no' ? 'auto' : 'no'<cr><cr>
-endif
+" if has('patch-8.1.1564')
+"     nnoremap <silent> <leader>os :set signcolumn=<c-r>=&signcolumn ==# 'no' ? 'number' : 'no'<cr><cr>
+" else
+"     nnoremap <silent> <leader>os :set signcolumn=<c-r>=&signcolumn ==# 'no' ? 'auto' : 'no'<cr><cr>
+" endif
+nnoremap <silent> <leader> os :set invspell<cr>
 if has('patch-7.3.787')
     nnoremap <silent> <leader>or :set invrelativenumber<cr>
 endif
@@ -1023,7 +1026,7 @@ function! GetVcsRoot(...) abort
     return empty(result) ? '.' : fnameescape(fnamemodify(result . '/', ':h'))
 endfunction
 
-nnoremap <silent> <leader>sp :set invspell<cr>
+" nnoremap <silent> <leader>sp :set invspell<cr>
 
 " inoremap <silent> <c-]> <c-x><c-]>
 " inoremap <silent> <c-f> <c-x><c-f>

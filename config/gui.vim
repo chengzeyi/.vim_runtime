@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 if !has('nvim') && has('gui_running')
     set lines=999 columns=999
 

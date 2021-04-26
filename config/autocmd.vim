@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 " Return to last edit position when opening files (You want this!)
 augroup MyReturnToLastEditPosition
     autocmd!

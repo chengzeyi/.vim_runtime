@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 if get(g:, 'installed_basic', 0)
     let s:configs = ['before', 'gui', 'setting', 'autocmd', 'mapping', 'extra', 'after']
 else
