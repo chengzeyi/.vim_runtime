@@ -63,9 +63,9 @@ if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
     Plug 'neovim/nvim-lspconfig'
 endif
 
-if get(g:, 'use_nvim_compe', 0) && has('nvim-0.5.0')
-    Plug 'hrsh7th/nvim-compe'
-endif
+" if get(g:, 'use_nvim_compe', 0) && has('nvim-0.5.0')
+"     Plug 'hrsh7th/nvim-compe'
+" endif
 
 if get(g:, 'use_coc', 0)
     if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
@@ -551,13 +551,18 @@ if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
 lua <<EOF
 local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    vim.api.nvim_buf_set_keymap(bufnr, 'i', '<c-o>', 'complete_info(["mode"])["mode"] ==# "eval" ? "<c-n>" : "<c-o>"', {
+        noremap = true,
+        silent = true,
+        expr = true,
+    })
     -- require'diagnostic'.on_attach()
     -- require'completion'.on_attach()
 
     -- Mappings.
     local opts = {
-        noremap=true,
-        silent=true,
+        noremap = true,
+        silent = true,
     }
 
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
@@ -594,8 +599,8 @@ local on_attach = function(client, bufnr)
         vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         -- vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()]]
-        vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.signature_help()]]
-        vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua vim.lsp.buf.signature_help()]]
+        vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua require"lsp_ext".signature_help()]]
+        vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua require"lsp_ext".signature_help()]]
         vim.api.nvim_command [[augroup END]]
     end
 
@@ -607,7 +612,7 @@ lspconfig.util.default_config = vim.tbl_extend(
     lspconfig.util.default_config,
     {
         on_attach = on_attach,
-        handlers = { ['textDocument/signatureHelp'] = require'lsp_ext'.signature_help }
+        -- handlers = { ['textDocument/signatureHelp'] = require'lsp_ext'.signature_help }
     }
 )
 
@@ -670,63 +675,63 @@ EOF
     command! -nargs=0 LspOpenLog lua vim.cmd('e '..vim.fn.fnameescape(vim.lsp.get_log_path()))
 endif
 
-if get(g:, 'use_nvim_compe', 0) && has('nvim-0.5.0')
-    if !exists('g:compe')
-        let g:compe = {}
-    endif
-    let g:compe.enabled = v:true
-    let g:compe.autocomplete = v:true
-    let g:compe.debug = v:false
-    let g:compe.min_length = 1
-    let g:compe.preselect = 'enable'
-    let g:compe.throttle_time = 80
-    let g:compe.source_timeout = 200
-    let g:compe.incomplete_delay = 400
-    let g:compe.max_abbr_width = 100
-    let g:compe.max_kind_width = 100
-    let g:compe.max_menu_width = 100
-    let g:compe.documentation = v:true
-    let g:compe.source = {
-                \ 'nvim_lsp': v:true,
-                \ 'nvim_lua': v:true,
-                \ 'path': v:true,
-                \ 'buffer': v:true,
-                \ 'spell': v:true,
-                \ 'calc': v:true,
-                \ }
+" if get(g:, 'use_nvim_compe', 0) && has('nvim-0.5.0')
+"     if !exists('g:compe')
+"         let g:compe = {}
+"     endif
+"     let g:compe.enabled = v:true
+"     let g:compe.autocomplete = v:true
+"     let g:compe.debug = v:false
+"     let g:compe.min_length = 1
+"     let g:compe.preselect = 'enable'
+"     let g:compe.throttle_time = 80
+"     let g:compe.source_timeout = 200
+"     let g:compe.incomplete_delay = 400
+"     let g:compe.max_abbr_width = 100
+"     let g:compe.max_kind_width = 100
+"     let g:compe.max_menu_width = 100
+"     let g:compe.documentation = v:true
+"     let g:compe.source = {
+"                 \ 'nvim_lsp': v:true,
+"                 \ 'nvim_lua': v:true,
+"                 \ 'path': v:true,
+"                 \ 'buffer': v:true,
+"                 \ 'spell': v:true,
+"                 \ 'calc': v:true,
+"                 \ }
 
-    augroup MyNvimCompe
-        autocmd!
-        au CmdwinEnter [:>] silent! call compe#setup({ 'enabled': v:false }, 0)
-    augroup END
+"     augroup MyNvimCompe
+"         autocmd!
+"         au CmdwinEnter [:>] silent! call compe#setup({ 'enabled': v:false }, 0)
+"     augroup END
 
-    command! -nargs=0 ToggleNvimCompe call ToggleNvimCompe()
-    nnoremap <silent> <leader>oa :ToggleNvimCompe<cr>
+"     command! -nargs=0 ToggleNvimCompe call ToggleNvimCompe()
+"     nnoremap <silent> <leader>oa :ToggleNvimCompe<cr>
 
-    function! ToggleNvimCompe() abort
-        let g:compe.autocomplete = !get(g:compe, 'autocomplete', v:true)
-        if g:compe.autocomplete
-            set completeopt+=noinsert,noselect
-            " let g:refresh_pum = ['TriggerCompletion', []]
-        else
-            set completeopt-=noinsert,noselect
-            " unlet g:refresh_pum
-        endif
-    endfunction
+"     function! ToggleNvimCompe() abort
+"         let g:compe.autocomplete = !get(g:compe, 'autocomplete', v:true)
+"         if g:compe.autocomplete
+"             set completeopt+=noinsert,noselect
+"             " let g:refresh_pum = ['TriggerCompletion', []]
+"         else
+"             set completeopt-=noinsert,noselect
+"             " unlet g:refresh_pum
+"         endif
+"     endfunction
 
-    set completeopt+=noinsert,noselect
-    let g:refresh_pum = ['compe#complete', []]
-    inoremap <silent> <expr> <c-l> pumvisible() && getcmdwintype() =~# '\V:>' ? '<c-l>' : compe#complete()
-    inoremap <silent> <expr> <c-Space> pumvisible() && getcmdwintype() =~# '\V:>' ? '<c-e>' : compe#complete()
-    inoremap <silent> <expr> <nul> pumvisible() && getcmdwintype() =~# '\V:>' ? '<c-e>' : compe#complete()
+"     set completeopt+=noinsert,noselect
+"     let g:refresh_pum = ['compe#complete', []]
+"     inoremap <silent> <expr> <c-l> pumvisible() && getcmdwintype() =~# '\V:>' ? '<c-l>' : compe#complete()
+"     inoremap <silent> <expr> <c-Space> pumvisible() && getcmdwintype() =~# '\V:>' ? '<c-e>' : compe#complete()
+"     inoremap <silent> <expr> <nul> pumvisible() && getcmdwintype() =~# '\V:>' ? '<c-e>' : compe#complete()
 
-    inoremap <silent> <expr> <cr> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#confirm('<c-g>u' . ICR()) : '<c-g>u' . ICR()
-    inoremap <silent> <expr> <c-y> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#confirm('<c-y>') : '<c-y>'
-    inoremap <silent> <expr> <c-e> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#close('<c-e>') : '<c-e>'
+"     inoremap <silent> <expr> <cr> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#confirm('<c-g>u' . ICR()) : '<c-g>u' . ICR()
+"     inoremap <silent> <expr> <c-y> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#confirm('<c-y>') : '<c-y>'
+"     inoremap <silent> <expr> <c-e> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#close('<c-e>') : '<c-e>'
 
-    inoremap <silent> <expr> <c-f> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#scroll({'delta': 4}) : '<c-f>'
-    inoremap <silent> <expr> <c-b> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#scroll({'delta': -4}) : '<c-b>'
-endif
+"     inoremap <silent> <expr> <c-f> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#scroll({'delta': 4}) : '<c-f>'
+"     inoremap <silent> <expr> <c-b> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#scroll({'delta': -4}) : '<c-b>'
+" endif
 
 if get(g:, 'use_coc', 0)
     if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')

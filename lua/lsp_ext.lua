@@ -2,7 +2,45 @@ local util = require 'vim.lsp.util'
 
 M = {}
 
-function M.signature_help(_, method, result)
+function M.signature_help()
+    local clients = vim.lsp.buf_get_clients(0)
+    if clients == nil then
+        return
+    end
+    local pos = nil
+    local line
+    local line_to_cursor
+    for _, client in pairs(clients) do
+        if client.resolved_capabilities.signature_help == false or
+            client.server_capabilities.signatureHelpProvider == nil then
+            -- do nothing
+        else
+            if pos == nil then
+                pos = vim.api.nvim_win_get_cursor(0)
+                line = vim.api.nvim_get_current_line()
+                line_to_cursor = vim.trim(line:sub(1, pos[2]))
+            end
+            if M.check_trigger_character(line_to_cursor, client.server_capabilities.signatureHelpProvider.triggerCharacters) then
+                local params = vim.lsp.util.make_position_params()
+                vim.lsp.buf_request(0, 'textDocument/signatureHelp', params, M.signature_help_callback)
+                return
+            end
+        end
+    end
+end
+
+function M.check_trigger_character(line_to_cursor, trigger_character)
+    if trigger_character == nil then return end
+    for _, ch in ipairs(trigger_character) do
+        local current_char = string.sub(line_to_cursor, #line_to_cursor-#ch+1, #line_to_cursor)
+        if current_char == ch then
+            return true
+        end
+    end
+    return false
+end
+
+function M.signature_help_callback(_, method, result)
     -- When use `autocmd CompleteDone <silent><buffer> lua vim.lsp.buf.signature_help()` to call signatureHelp handler
     -- If the completion item doesn't have signatures It will make noise. Change to use `print` that can use `<silent>` to ignore
     if not (result and result.signatures and result.signatures[1]) then
@@ -15,7 +53,10 @@ function M.signature_help(_, method, result)
         -- print('No signature help available')
         return
     end
-    util.open_floating_preview(lines, util.try_trim_markdown_code_blocks(lines))
+    util.open_floating_preview(lines, util.try_trim_markdown_code_blocks(lines), {
+        -- pad_left = 1; pad_right = 1;
+        max_height = math.max(12, math.floor(vim.o.lines / 4));
+    })
 
     -- util.focusable_float(method, function()
     --     local bufnr, winnr = util.fancy_floating_markdown(lines, {

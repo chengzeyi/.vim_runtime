@@ -143,7 +143,7 @@ endif
 " else
 "     nnoremap <silent> <leader>os :set signcolumn=<c-r>=&signcolumn ==# 'no' ? 'auto' : 'no'<cr><cr>
 " endif
-nnoremap <silent> <leader> os :set invspell<cr>
+nnoremap <silent> <leader>os :set invspell<cr>
 if has('patch-7.3.787')
     nnoremap <silent> <leader>or :set invrelativenumber<cr>
 endif
