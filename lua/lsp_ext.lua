@@ -2,6 +2,22 @@ local util = require 'vim.lsp.util'
 
 M = {}
 
+function M.on_complete_done()
+    local completed_item = vim.api.nvim_get_vvar('completed_item')
+    if not completed_item or not completed_item.user_data or not completed_item.user_data.nvim or not completed_item.user_data.nvim.lsp then
+        return
+    end
+    local item = completed_item.user_data.nvim.lsp.completion_item
+    if item.additionalTextEdits then
+        local lnum, col = unpack(vim.api.nvim_win_get_cursor(0))
+        local bufnr = vim.api.nvim_get_current_buf()
+        -- Text edit in the same line would mess with the cursor position
+        local edits = vim.tbl_filter(function(x) return x.range.start.line ~= (lnum - 1) end, item.additionalTextEdits)
+        vim.api.nvim_set_option('ul', vim.api.nvim_get_option('ul'))
+        vim.lsp.util.apply_text_edits(edits, bufnr)
+    end
+end
+
 function M.signature_help()
     local clients = vim.lsp.buf_get_clients(0)
     if clients == nil then

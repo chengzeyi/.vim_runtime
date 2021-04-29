@@ -556,6 +556,7 @@ local on_attach = function(client, bufnr)
         silent = true,
         expr = true,
     })
+    vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua require"lsp_ext".on_complete_done()]]
     -- require'diagnostic'.on_attach()
     -- require'completion'.on_attach()
 
@@ -603,7 +604,6 @@ local on_attach = function(client, bufnr)
         vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua require"lsp_ext".signature_help()]]
         vim.api.nvim_command [[augroup END]]
     end
-
 end
 
 local lspconfig = require'lspconfig'
