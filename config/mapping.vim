@@ -311,57 +311,57 @@ nnoremap <silent> ZC :close!<cr>
 
 nnoremap <silent> <leader>" :registers<cr>
 nnoremap <silent> <leader>@ :registers<cr>
-inoremap <expr> <c-r> '<c-r>' . BetterRegister()
-if exists(':terminal')
-    if !has('nvim')
-        tnoremap <silent> <expr> <c-w>" '<c-w>"' . BetterRegister()
-    endif
-endif
-nnoremap <silent> <expr> " '"' . BetterRegister()
-nnoremap <silent> <expr> @ '@' . BetterRegister()
-xnoremap <silent> <expr> " '"' . BetterRegister()
-xnoremap <silent> <expr> @ '@' . BetterRegister()
+" inoremap <expr> <c-r> '<c-r>' . BetterRegister()
+" if exists(':terminal')
+"     if !has('nvim')
+"         tnoremap <silent> <expr> <c-w>" '<c-w>"' . BetterRegister()
+"     endif
+" endif
+" nnoremap <silent> <expr> " '"' . BetterRegister()
+" nnoremap <silent> <expr> @ '@' . BetterRegister()
+" xnoremap <silent> <expr> " '"' . BetterRegister()
+" xnoremap <silent> <expr> @ '@' . BetterRegister()
 
-function! BetterRegister()
-    let more = &more
-    set nomore
-    redraw!
-    registers
-    echohl Question | echon "\nWhich one" | echohl None
-    let &more = more
-    while 1
-        let ch = getchar()
-        if ch !~# '\v[0-9]+'
-            continue
-        endif
-        redraw!
-        return nr2char(ch)
-    endwhile
-endfunction
+" function! BetterRegister()
+"     let more = &more
+"     set nomore
+"     redraw!
+"     registers
+"     echohl Question | echon "\nWhich one" | echohl None
+"     let &more = more
+"     while 1
+"         let ch = getchar()
+"         if ch !~# '\v[0-9]+'
+"             continue
+"         endif
+"         redraw!
+"         return nr2char(ch)
+"     endwhile
+" endfunction
 
 nnoremap <silent> <leader>' :marks<cr>
 nnoremap <silent> <leader>` :marks<cr>
-nnoremap <silent> <expr> ' "'" . BetterMark()
-nnoremap <silent> <expr> ` '`' . BetterMark()
-xnoremap <silent> <expr> ' "'" . BetterMark()
-xnoremap <silent> <expr> ` '`' . BetterMark()
+" nnoremap <silent> <expr> ' "'" . BetterMark()
+" nnoremap <silent> <expr> ` '`' . BetterMark()
+" xnoremap <silent> <expr> ' "'" . BetterMark()
+" xnoremap <silent> <expr> ` '`' . BetterMark()
 
-function! BetterMark()
-    let more = &more
-    set nomore
-    redraw!
-    marks
-    echohl Question | echon "\nWhich one" | echohl None
-    let &more = more
-    while 1
-        let ch = getchar()
-        if ch !~# '\v[0-9]+'
-            continue
-        endif
-        redraw!
-        return nr2char(ch)
-    endwhile
-endfunction
+" function! BetterMark()
+"     let more = &more
+"     set nomore
+"     redraw!
+"     marks
+"     echohl Question | echon "\nWhich one" | echohl None
+"     let &more = more
+"     while 1
+"         let ch = getchar()
+"         if ch !~# '\v[0-9]+'
+"             continue
+"         endif
+"         redraw!
+"         return nr2char(ch)
+"     endwhile
+" endfunction
 
 nnoremap <silent> <leader># #``
 nnoremap <silent> <leader>* *``
@@ -1291,9 +1291,11 @@ function! ClearRolodexSettings() abort
     "Assume if one exists they all will
     if exists('t:rolodex_tab')
         let &equalalways = s:remember_ea
-        let &winheight = s:remember_wh
         let &winminheight = s:remember_wmh
+        let &winheight = s:remember_wh
         let &helpheight = s:remember_hh
+        let &winminwidth = s:remember_wmw
+        let &winwidth = s:remember_ww
     endif
 endfunction
 
@@ -1301,10 +1303,12 @@ endfunction
 function! SetRolodexSettings() abort
     if exists('t:rolodex_tab')
         let s:remember_ea = &equalalways
-        let s:remember_wh = &winheight
         let s:remember_wmh = &winminheight
+        let s:remember_wh = &winheight
         let s:remember_hh = &helpheight
-        set noequalalways winminheight=0 winheight=999 helpheight=999
+        let s:remember_wmw = &winminwidth
+        let s:remember_ww = &winwidth
+        set noequalalways winminheight=0 winheight=999 helpheight=999 winminwidth=0 winwidth=999
     endif
 endfunction
 
