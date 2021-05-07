@@ -2,6 +2,8 @@ scriptencoding utf-8
 
 set encoding=utf-8
 
+language en_US
+
 filetype plugin on
 filetype indent on
 
@@ -278,7 +280,7 @@ set tabstop=4
 set softtabstop=-1
 
 set cink+=*<cr>
-set cino+=l1,g0,N-s,E-s,(0
+set cino+=l1,g0,N-s,E-s,(0,Ws
 
 set indentkeys+=*<cr>
 

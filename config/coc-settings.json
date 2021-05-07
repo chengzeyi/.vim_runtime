@@ -33,7 +33,8 @@
     "--background-index",
     "--clang-tidy",
     "--suggest-missing-includes",
-    "--cross-file-rename"
+    "--cross-file-rename",
+    "--all-scopes-completion"
   ],
   // "clangd.semanticHighlighting": true,
   // "clangd.disableSnippetCompletion": true,
