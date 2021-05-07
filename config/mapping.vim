@@ -72,14 +72,14 @@ nnoremap <silent> <leader><c-\> :tab sp<cr>
 nnoremap <leader>te :tabe <c-r>=GetVcsRoot()<cr>/
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
-nnoremap <leader>tE :tabe <c-r>=fnameescape(expand('%:~:h'))<cr>/
+nnoremap <leader>tE :tabe <c-r>=fnameescape(empty(@%) ? '.' : expand('%:h'))<cr>/
 
 nnoremap <leader>se :sp <c-r>=GetVcsRoot()<cr>/
-nnoremap <leader>sE :sp <c-r>=fnameescape(expand('%:~:h'))<cr>/
+nnoremap <leader>sE :sp <c-r>=fnameescape(empty(@%) ? '.' : expand('%:h'))<cr>/
 nnoremap <leader>ve :vs <c-r>=GetVcsRoot()<cr>/
-nnoremap <leader>vE :vs <c-r>=fnameescape(expand('%:~:h'))<cr>/
+nnoremap <leader>vE :vs <c-r>=fnameescape(empty(@%) ? '.' : expand('%:h'))<cr>/
 nnoremap <leader>ee :e <c-r>=GetVcsRoot()<cr>/
-nnoremap <leader>eE :e <c-r>=fnameescape(expand('%:~:h'))<cr>/
+nnoremap <leader>eE :e <c-r>=fnameescape(empty(@%) ? '.' : expand('%:h'))<cr>/
 
 nnoremap <leader>tf :tab sfind<space>
 nnoremap <leader>tF :tab sfind **/**<left>
@@ -839,7 +839,7 @@ if !has('nvim')
 endif
 
 nnoremap <leader>eb :e ++enc=latin1 +set\ bin <c-r>=GetVcsRoot()<cr>/
-nnoremap <leader>eB :e ++enc=latin1 +set\ bin <c-r>=fnameescape(expand('%:~:h'))<cr>/
+nnoremap <leader>eB :e ++enc=latin1 +set\ bin <c-r>=fnameescape(empty(@%) ? '.' : expand('%:h:.'))<cr>/
 
 if executable('xxd')
     nnoremap <silent> <leader>eh :EditHex<cr>
@@ -1387,4 +1387,4 @@ function! Open(url) abort
     endif
 endfunction
 
-nnoremap <expr> - empty(expand('%:h')) ? ':e .<cr>' : ':e ' . fnameescape(expand('%:h')) . '<cr>'
+nnoremap <expr> - empty(@%) ? ':e .<cr>' : ':e ' . fnameescape(expand('%:h')) . '<cr>'
