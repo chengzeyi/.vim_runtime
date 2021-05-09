@@ -1,5 +1,6 @@
 /autoload/plug.vim.old
 /temp_dirs/undodir/*
+/temp_dirs/undodir2/*
 /plugged/*
 /config/before.vim
 /config/after.vim

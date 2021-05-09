@@ -87,7 +87,7 @@ endif
 "         return luaeval('require"util".foldexpr()')
 "     endfunction
 " else
-"     function! MyFoldExpr()
+"     function! MyFoldExpr() abort
 "         let lnum = v:lnum
 "         let curr_line = getline(lnum)
 "         if empty(curr_line)
@@ -109,7 +109,7 @@ endif
 "     endfunction
 " endif
 
-function! MyFoldText()
+function! MyFoldText() abort
     " Foldtext ignores tabstop and shows tabs as one space,
     " so convert tabs to 'tabstop' spaces so text lines up
     let fs = v:foldstart
@@ -208,7 +208,7 @@ endif
 set novisualbell
 set errorbells
 
-if has('nvim-0.3.1')
+if has('nvim-0.3.1') || has('patch-8.2.2508')
     let &fillchars = 'eob: '
 else
     set fillchars=
@@ -353,15 +353,22 @@ function! StatuslineExtraRight() abort
 endfunction
 
 if has('persistent_undo')
-    set undodir=~/.vim_runtime/temp_dirs/undodir
+    if has('nvim-0.5')
+        " New format in https://github.com/neovim/neovim/pull/13973 (f42e932,
+        " 2021-04-13).
+        set undodir=~/.vim_runtime/temp_dirs/undodir2
+    else
+        set undodir=~/.vim_runtime/temp_dirs/undodir
+    endif
     set undofile
 endif
 
-" if has('diff')
-"     if has('patch-8.1.0360') || has('nvim-0.3.2')
-"         set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram
-"     endif
-" endif
+if has('diff')
+    set diffopt+=context:3,foldcolumn:1
+    if has('patch-8.1.0360') || has('nvim-0.3.2')
+        set diffopt+=internal,filler,indent-heuristic,algorithm:histogram
+    endif
+endif
 
 set omnifunc=syntaxcomplete#Complete
 set completeopt-=preview
