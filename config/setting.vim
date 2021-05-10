@@ -2,7 +2,7 @@ scriptencoding utf-8
 
 set encoding=utf-8
 
-language en_US
+try | language en_US | catch | endtry
 
 filetype plugin on
 filetype indent on
