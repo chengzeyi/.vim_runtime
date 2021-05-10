@@ -12,8 +12,8 @@ augroup MyColorScheme
         let &background = get(g:, 'background', &background)
         exe 'colorscheme' get(g:, 'colorscheme', get(g:, 'colors_name', 'default'))
     else
-        au VimEnter * ++nested let &background = get(g:, 'background', &background)
-        au VimEnter * ++nested exe 'colorscheme' get(g:, 'colorscheme', get(g:, 'colors_name', 'default'))
+        au VimEnter * nested let &background = get(g:, 'background', &background)
+        au VimEnter * nested exe 'colorscheme' get(g:, 'colorscheme', get(g:, 'colors_name', 'default'))
     endif
 augroup END
 
