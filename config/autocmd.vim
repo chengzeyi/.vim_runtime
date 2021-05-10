@@ -8,7 +8,7 @@ augroup END
 
 augroup MyColorScheme
     autocmd!
-    if v:vim_did_enter
+    if get(v:, 'vim_did_enter', 0)
         let &background = get(g:, 'background', &background)
         exe 'colorscheme' get(g:, 'colorscheme', get(g:, 'colors_name', 'default'))
     else
