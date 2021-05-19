@@ -1333,7 +1333,7 @@ function! DD(bang, args) abort
     if empty(a:args)
         let raw_query = expand('<cword>')
         if empty(raw_query)
-            echohl ErrorMsg | echo 'Empty word under the cursor' | echohl None
+            echohl ErrorMsg | echo 'Empty word under cursor' | echohl None
             return
         endif
     else
