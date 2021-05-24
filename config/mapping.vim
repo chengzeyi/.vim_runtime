@@ -1270,7 +1270,7 @@ augroup MyRolodexTab
     au TabEnter * call SetRolodexSettings()
 augroup END
 
-nnoremap <silent> <leader>ox :ToggleRolodexTab<cr>
+nnoremap <silent> <leader>zz :ToggleRolodexTab<cr>
 command! -nargs=0 ToggleRolodexTab call ToggleRolodexTab()
 
 "This function turns Rolodex Vim on or off for the current tab
