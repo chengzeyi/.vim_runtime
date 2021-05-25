@@ -207,6 +207,21 @@ endif
 " nnoremap <silent> g<LeftMouse> <LeftMouse>g<c-]>
 " nnoremap <silent> <C-LeftMouse> <LeftMouse>g<c-]>
 
+if has('nvim')
+    tnoremap <expr> <c-\><c-r> NvimTerminalPaste()
+    function! NvimTerminalPaste() abort
+        let ch = getchar()
+        if ch !~# '\v[0-9]+'
+            return ''
+        endif
+        let ch = nr2char(ch)
+        if eval('empty(@' . ch . ')')
+            return ''
+        endif
+        return "\<c-\>\<c-n>\"" . ch . 'pi'
+    endfunction
+endif
+
 if exists(':terminal')
     tnoremap <silent> <F1> <c-\><c-n>
     " tnoremap <silent> <c-o> <c-\><c-n>
