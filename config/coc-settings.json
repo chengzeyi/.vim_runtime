@@ -31,9 +31,9 @@
   },
   "clangd.arguments": [
     "--background-index",
-    "--clang-tidy",
-    "--suggest-missing-includes",
-    "--cross-file-rename",
+    // "--clang-tidy",
+    // "--suggest-missing-includes",
+    // "--cross-file-rename",
     "--all-scopes-completion"
   ],
   // "clangd.semanticHighlighting": true,
