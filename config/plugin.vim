@@ -745,18 +745,18 @@ if get(g:, 'use_coc', 0)
         let g:coc_config_home = expand('~/.vim_runtime/config')
 
         if exists('+tagfunc')
-            set tagfunc=CocTagFunc
+            set tagfunc=MyTagFunc
 
-            " function! MyTagFunc(pattern, flags, info) abort
-            "     let result = CocTagFunc(a:pattern, a:flags, a:info)
-            "     if !empty(result)
-            "         return result
-            "     endif
-            "     if !empty(tagfiles())
-            "         return taglist(a:pattern, a:info.buf_ffname)
-            "     endif
-            "     return []
-            " endfunc
+            function! MyTagFunc(pattern, flags, info) abort
+                try
+                    let result = CocTagFunc(a:pattern, a:flags, a:info)
+                    if !empty(result)
+                        return result
+                    endif
+                catch
+                endtry
+                return v:null
+            endfunc
         endif
 
         augroup MyCoc
