@@ -748,13 +748,10 @@ if get(g:, 'use_coc', 0)
             set tagfunc=MyTagFunc
 
             function! MyTagFunc(pattern, flags, info) abort
-                try
-                    let result = CocTagFunc(a:pattern, a:flags, a:info)
-                    if !empty(result)
-                        return result
-                    endif
-                catch
-                endtry
+                silent! let result = CocTagFunc(a:pattern, a:flags, a:info)
+                if !empty(result)
+                    return result
+                endif
                 return v:null
             endfunc
         endif
