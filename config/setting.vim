@@ -284,7 +284,7 @@ set cino+=l1,g0,N-s,E-s,(0,Ws
 
 set indentkeys+=*<cr>
 
-set commentstring=//\ %s
+" set commentstring=//\ %s
 
 set ai "Auto indent
 set si "Smart indent
@@ -451,9 +451,9 @@ set pastetoggle=<F2>
 let mapleader = ' '
 let maplocalleader = '\'
 
-let g:netrw_altfile = 1
-let g:netrw_liststyle = 1
-let g:netrw_banner = 0
+" let g:netrw_altfile = 1
+" let g:netrw_liststyle = 1
+" let g:netrw_banner = 0
 " let g:netrw_special_syntax = 1
 " let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 

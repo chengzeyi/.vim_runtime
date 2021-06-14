@@ -1403,3 +1403,6 @@ function! Open(url) abort
 endfunction
 
 nnoremap <expr> - empty(@%) ? ':e .<cr>' : ':e ' . fnameescape(expand('%:h')) . '<cr>'
+
+" nnoremap <silent> <leader>nn :Lexplore<cr>
+" nnoremap <leader>nN :Lexplore<space>
