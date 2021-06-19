@@ -370,6 +370,8 @@ if has('diff')
     endif
 endif
 
+set complete-=i
+
 set omnifunc=syntaxcomplete#Complete
 set completeopt-=preview
 set completeopt+=menuone

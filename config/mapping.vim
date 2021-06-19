@@ -585,8 +585,10 @@ nnoremap <silent> [t :tp<cr>
 nnoremap <silent> ]t :tn<cr>
 nnoremap <silent> [T :tf<cr>
 nnoremap <silent> ]T :tl<cr>
-nnoremap <silent> <leader>] <c-w>g}
-nnoremap <silent> <leader>[ <c-w>z
+nnoremap <leader>[ :ijump<space>
+nnoremap <leader>] :tjump<space>
+nnoremap <leader>{ :psearch<space>
+nnoremap <leader>} :ptjump<space>
 nnoremap <silent> [p :ptprevious<cr>
 nnoremap <silent> ]p :ptnext<cr>
 nnoremap <silent> [P :ptfirst<cr>
