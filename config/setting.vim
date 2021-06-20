@@ -29,6 +29,9 @@ if exists('+ttymouse')
 endif
 set mousemodel=popup_setpos
 
+if has('unix')
+    set path+=/usr/local/include
+endif
 set path+=**
 
 set tags+=./tags;
@@ -370,7 +373,7 @@ if has('diff')
     endif
 endif
 
-set complete-=i
+" set complete-=i
 
 set omnifunc=syntaxcomplete#Complete
 set completeopt-=preview
