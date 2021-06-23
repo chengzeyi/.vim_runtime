@@ -138,11 +138,11 @@ if has('nvim-0.4.4')
 else
     nnoremap <silent> <leader>of :set foldcolumn=<c-r>=&foldcolumn == 0 ? 1 : 0<cr><cr>
 endif
-" if has('patch-8.1.1564')
-"     nnoremap <silent> <leader>os :set signcolumn=<c-r>=&signcolumn ==# 'no' ? 'number' : 'no'<cr><cr>
-" else
-"     nnoremap <silent> <leader>os :set signcolumn=<c-r>=&signcolumn ==# 'no' ? 'auto' : 'no'<cr><cr>
-" endif
+if has('patch-8.1.1564') || has('nvim-0.5.0')
+    nnoremap <silent> <leader>os :set signcolumn=<c-r>=&signcolumn ==# 'no' ? 'number' : 'no'<cr><cr>
+else
+    nnoremap <silent> <leader>os :set signcolumn=<c-r>=&signcolumn ==# 'no' ? 'auto' : 'no'<cr><cr>
+endif
 nnoremap <silent> <leader>os :set invspell<cr>
 if has('patch-7.3.787')
     nnoremap <silent> <leader>or :set invrelativenumber<cr>

@@ -240,9 +240,9 @@ endif
 
 call plug#end()
 
-if has('patch-7.4.2201')
-    set signcolumn=yes
-endif
+" if has('patch-7.4.2201')
+"     set signcolumn=yes
+" endif
 
 if UseFtplugin('cpp')
     let g:cpp_class_scope_highlight = 1
