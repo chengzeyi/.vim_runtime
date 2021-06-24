@@ -115,7 +115,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
-" Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-sleuth'
 if has('unix')
     Plug 'tpope/vim-eunuch'
 endif
@@ -1384,7 +1384,7 @@ nnoremap <leader>lv :ldo .S/
 nnoremap <leader>lV :lfdo %S/
 
 " let statusline_extra_right_0 = ['SleuthIndicator', []]
-" nnoremap <silent> <leader>sh :Sleuth<cr>
+nnoremap <silent> <leader>sh :Sleuth<cr>
 
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = ''
@@ -1852,7 +1852,7 @@ endif
 
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 nnoremap <silent> <leader>er :EditorConfigReload<cr>
-nnoremap <silent> <expr> <leader>ec ':e ' . GetVcsRoot() . '/.eidtorconfig<cr>'
+nnoremap <silent> <leader>ec :e <c-r>=GetVcsRoot()<cr>/.eidtorconfig<cr>
 nnoremap <silent> <leader>eC :e %:p:h/.editorconfig<cr>
 augroup MyEditorConfig
     autocmd!

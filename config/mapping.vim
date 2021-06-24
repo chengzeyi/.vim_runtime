@@ -637,7 +637,7 @@ nnoremap <silent> <leader>ln :lnewer<cr>
 nnoremap <silent> <leader>qh :chistory<cr>
 nnoremap <silent> <leader>lh :lhistory<cr>
 nnoremap <silent> <leader>lt :ltag<cr>
-nnoremap <silent> <expr> <leader>lc ':lcd ' . GetVcsRoot() . '<cr>'
+nnoremap <silent> <leader>lc :lcd <c-r>=GetVcsRoot()<cr><cr>
 nnoremap <silent> <leader>lC :lcd %:p:h<cr>
 nnoremap <silent> <leader>Q :cc<cr>
 nnoremap <silent> <leader>L :ll<cr>
@@ -998,7 +998,7 @@ nnoremap <leader>tX :tabclose<space>
 nnoremap <silent> <leader>tm :+tabmove<cr>
 nnoremap <silent> <leader>tM :-tabmove<cr>
 if has('nvim') || has('patch-8.1.1218')
-    nnoremap <silent> <expr> <leader>tc ':tcd ' . GetVcsRoot() . '<cr>'
+    nnoremap <silent> <leader>tc :tcd <c-r>=GetVcsRoot()<cr><cr>
     nnoremap <silent> <leader>tC :tcd %:p:h<cr>
 endif
 
@@ -1023,7 +1023,7 @@ nnoremap <silent> <leader>8 8gt
 nnoremap <silent> <leader>9 9gt
 nnoremap <silent> <leader>$ :$tabnext<cr>
 
-nnoremap <silent> <expr> <leader>cd ':cd ' . GetVcsRoot() . '<cr>'
+nnoremap <silent> <leader>cd :cd <c-r>=GetVcsRoot()<cr><cr>
 " Switch CWD to the directory of the open buffer
 nnoremap <silent> <leader>cD :cd %:p:h<cr>
 
