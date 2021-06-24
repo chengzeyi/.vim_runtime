@@ -34,6 +34,10 @@ if has('unix')
 endif
 set path+=**
 
+if exists('&jumpoptions')
+    set jumpoptions+=stack
+endif
+
 set tags+=./tags;
 " set tags+=./.tags
 " set tags+=../.tags

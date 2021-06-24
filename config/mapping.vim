@@ -257,7 +257,7 @@ nnoremap <leader>ml :lmake!  <bar> cw<left><left><left><left><left>
 nnoremap <silent> <leader>mL :lmake! <bar> cw<cr>
 nnoremap <silent> <leader>jj :GotoJump<cr>
 nnoremap <silent> <leader>jt :GotoTag<cr>
-nnoremap <silent> <leader>js :tselect<cr>
+" nnoremap <silent> <leader>js :tselect<cr>
 
 command! -nargs=0 GotoJump call GotoJump()
 command! -nargs=0 GotoTag call GotoTag()
@@ -270,9 +270,9 @@ function! GotoJump() abort
     let &more = more
     let j = input('Which one ([count]j|k): ')
     if j =~# '\v[0-9]*j'
-        execute 'normal! ' . j[0:-2] . "\<c-i>"
+        execute 'normal!'  j[0:-2] . "\<c-i>"
     elseif j =~# '\v[0-9]*k'
-        execute 'normal! ' . j[0:-2] . "\<c-o>"
+        execute 'normal!'  j[0:-2] . "\<c-o>"
     endif
 endfunction
 
@@ -585,9 +585,9 @@ nnoremap <silent> [t :tp<cr>
 nnoremap <silent> ]t :tn<cr>
 nnoremap <silent> [T :tf<cr>
 nnoremap <silent> ]T :tl<cr>
-nnoremap <leader>[ :ijump<space>
+nnoremap <leader>[ :tselect<space>
 nnoremap <leader>] :tjump<space>
-nnoremap <leader>{ :psearch<space>
+nnoremap <leader>{ :ptselect<space>
 nnoremap <leader>} :ptjump<space>
 nnoremap <silent> [p :ptprevious<cr>
 nnoremap <silent> ]p :ptnext<cr>
