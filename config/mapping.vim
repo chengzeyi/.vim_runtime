@@ -712,18 +712,25 @@ function! AlternateFile(force) abort
         let alt_files = [
                     \ expand('%:t:r') . '.h'
                     \ ]
+    elseif suffix ==# 'cu'
+        let alt_files = [
+                    \ expand('%:t:r') . '.hpp',
+                    \ expand('%:t:r') . '.h'
+                    \ ]
     elseif suffix ==# 'hpp'
         let alt_files = [
                     \ expand('%:t:r') . '.tcc',
                     \ expand('%:t:r') . '.cpp',
-                    \ expand('%:t:r') . '.cc'
+                    \ expand('%:t:r') . '.cc',
+                    \ expand('%:t:r') . '.cu'
                     \ ]
     elseif suffix ==# 'h'
         let alt_files = [
                     \ expand('%:t:r') . '.tcc',
                     \ expand('%:t:r') . '.cpp',
                     \ expand('%:t:r') . '.cc',
-                    \ expand('%:t:r') . '.c'
+                    \ expand('%:t:r') . '.c',
+                    \ expand('%:t:r') . '.cu'
                     \ ]
     elseif suffix ==# 'go'
         if expand('%:t:r') =~# '_test$'

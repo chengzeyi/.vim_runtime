@@ -477,17 +477,17 @@ require'nvim-treesitter.configs'.setup {
     },
 }
 -- This has some performance issues and is duplicated by lsp's same functionality
--- require'nvim-treesitter.configs'.setup {
-    -- refactor = {
-        -- highlight_definitions = { enable = true },
-    -- },
--- }
+require'nvim-treesitter.configs'.setup {
+    refactor = {
+        highlight_definitions = { enable = false },
+    },
+}
 -- This might be slow and is disturbing
--- require'nvim-treesitter.configs'.setup {
-    -- refactor = {
-        -- highlight_current_scope = { enable = true },
-    -- },
--- }
+require'nvim-treesitter.configs'.setup {
+    refactor = {
+        highlight_current_scope = { enable = false },
+    },
+}
 require'nvim-treesitter.configs'.setup {
     refactor = {
         smart_rename = {

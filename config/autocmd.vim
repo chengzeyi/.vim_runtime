@@ -214,13 +214,15 @@ endif
 if has('nvim')
     augroup NeovimTerminal
         autocmd!
-        autocmd TermOpen * startinsert
+        autocmd TermOpen * setlocal statusline=%{b:term_title}%<%=
+        autocmd TermOpen * setlocal statusline+=⟨Ln\ %l/%L\ Col\ %c\ [%p%%]
         autocmd TermOpen * setlocal foldcolumn=0
         autocmd TermOpen * setlocal signcolumn=no
         autocmd TermOpen * setlocal nonumber
         if has('patch-7.3.787')
             autocmd TermOpen * setlocal norelativenumber
         endif
+        autocmd TermOpen * startinsert
         " autocmd TermClose *
         "             \ if expand('<afile>') !~# 'fzf' && expand('<afile>') !~# 'coc' |
         "             \     bdelete! |
