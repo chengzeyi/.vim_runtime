@@ -1540,7 +1540,7 @@ command! -nargs=* -bang FZFGREP call GrepFzf(<q-args>, <bang>0)
 
 function! GrepFzf(query, fullscreen)
     let command_fmt = 'grep -I --line-number --color=always -r -- %s . || true'
-    let initial_command = printf(command_fmt, shellescape(a:query))
+    let initial_command = printf(command_fmt, shellescape(empty(a:query) ? '^' : a:query))
     let reload_command = printf(command_fmt, '{q}')
     let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command, '--delimiter=:', '--nth=3..']}
     call fzf#vim#grep(initial_command, 0, s:p(a:fullscreen, spec), a:fullscreen)
@@ -1550,7 +1550,7 @@ command! -nargs=* -bang FZFGGREP call GGrepFzf(<q-args>, <bang>0)
 
 function! GGrepFzf(query, fullscreen)
     let command_fmt = 'git grep -I --line-number --color=always -- %s || true'
-    let initial_command = printf(command_fmt, shellescape(a:query))
+    let initial_command = printf(command_fmt, shellescape(empty(a:query) ? '^' : a:query))
     let reload_command = printf(command_fmt, '{q}')
     let spec = {'options': [
                 \ '--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command, '--delimiter=:', '--nth=3..'
