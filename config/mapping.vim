@@ -956,6 +956,8 @@ nnoremap <silent> <s-left> :vertical resize -1<cr>
 
 nnoremap <leader>bb :ls<cr>:b<space>
 nnoremap <leader>bB :ls!<cr>:b<space>
+nnoremap <leader>bs :ls<cr>:sb<space>
+nnoremap <leader>bS :ls!<cr>:sb<space>
 
 nnoremap <leader>bd :bufdo<space>
 nnoremap <leader>bD :bufdo!<space>

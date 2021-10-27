@@ -872,9 +872,9 @@ if get(g:, 'use_coc', 0)
         endif
 
         nnoremap <expr> <silent> gh CocHasProvider('hover') ? ':call CocActionAsync("doHover")<cr>' : 'gh'
-        nnoremap <expr> <silent> gH CocHasProvider('signature') ? ':call CocActionAsync("showSignatureHelp")<cr>' : 'gH'
-        inoremap <expr> <silent> <c-g>h CocHasProvider('signature') ? ':call CocActionAsync("showSignatureHelp")<cr>' : '<c-g>h'
-        inoremap <expr> <silent> <c-g><c-h> CocHasProvider('signature') ? ':call CocActionAsync("showSignatureHelp")<cr>' : '<c-g><c-h>'
+        nnoremap <expr> <silent> gH CocHasProvider('definitionHover') ? ':call CocActionAsync("definitionHover")<cr>' : 'gH'
+        inoremap <expr> <silent> <c-g>h CocHasProvider('signature') ? '<cmd>call CocActionAsync("showSignatureHelp")<cr>' : '<c-g>h'
+        inoremap <expr> <silent> <c-g><c-h> CocHasProvider('signature') ? '<cmd>call CocActionAsync("showSignatureHelp")<cr>' : '<c-g><c-h>'
         nnoremap <expr> <silent> <s-leftmouse> '<leftmouse>' . (CocHasProvider('hover') ? ':call CocActionAsync("doHover")<cr>' : '<s-leftmouse>')
         nnoremap <expr> <silent> <s-rightmouse> '<leftmouse>' . (CocHasProvider('signature') ? ':call CocActionAsync("showSignatureHelp")<cr>' : '<s-rightmouse>')
 
