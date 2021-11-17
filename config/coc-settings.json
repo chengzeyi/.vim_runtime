@@ -36,6 +36,11 @@
     // "--cross-file-rename",
     "--all-scopes-completion"
   ],
+  "jedi.executable.command": "jedi-language-server",
+  "jedi.jediSettings.autoImportModules": [
+    "numpy",
+    "cv2"
+  ],
   // "clangd.semanticHighlighting": true,
   // "clangd.disableSnippetCompletion": true,
   // "marketplace.npmsio": true,
