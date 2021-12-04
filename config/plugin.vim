@@ -302,6 +302,10 @@ lua << EOF
 require'nvim-treesitter.configs'.setup {
     highlight = {
         enable = true,
+        disable = function(lang, bufnr)
+            local size = vim.fn.getfsize(vim.api.nvim_buf_get_name(0))
+            return size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000
+        end,
         use_languagetree = false, -- Use this to enable language injection (this is very unstable)
         -- custom_captures = {
             -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
@@ -479,13 +483,25 @@ require'nvim-treesitter.configs'.setup {
 -- This has some performance issues and is duplicated by lsp's same functionality
 require'nvim-treesitter.configs'.setup {
     refactor = {
-        highlight_definitions = { enable = false },
+        highlight_definitions = {
+            enable = true,
+            disable = function(lang, bufnr)
+                local size = vim.fn.getfsize(vim.api.nvim_buf_get_name(0))
+                return size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000
+            end,
+        },
     },
 }
 -- This might be slow and is disturbing
 require'nvim-treesitter.configs'.setup {
     refactor = {
-        highlight_current_scope = { enable = false },
+        highlight_current_scope = {
+            enable = true,
+            disable = function(lang, bufnr)
+                local size = vim.fn.getfsize(vim.api.nvim_buf_get_name(0))
+                return size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000
+            end,
+        },
     },
 }
 require'nvim-treesitter.configs'.setup {

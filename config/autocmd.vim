@@ -259,11 +259,30 @@ augroup MyFileType
     autocmd FileType python if executable('pydoc3') | set keywordprg=pydoc3 | endif
 augroup END
 
+function! IsLargeFile(file) abort
+    let size = getfsize(a:file)
+    return size == -2 || size > 1024 * 1024
+endfunction
+
 " if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
 "     function! DisableTSForCurrentBuf() abort
+"         if !luaeval('pcall(require, "nvim-treesitter")')
+"             return
+"         endif
 " lua << EOF
 "         for _, m in pairs(require'nvim-treesitter.configs'.available_modules()) do
-"             require'nvim-treesitter.configs'.detach_module(m)
+"             require'nvim-treesitter.configs'.get_module(m).enable = false
+"         end
+" EOF
+"     endfunction
+
+"     function! EnableTSForCurrentBuf() abort
+"         if !luaeval('pcall(require, "nvim-treesitter")')
+"             return
+"         endif
+" lua << EOF
+"         for _, m in pairs(require'nvim-treesitter.configs'.available_modules()) do
+"             require'nvim-treesitter.configs'.get_module(m).enable = true
 "         end
 " EOF
 "     endfunction
@@ -271,23 +290,16 @@ augroup END
 
 augroup MyOpenLargeFile
     autocmd!
-    autocmd BufReadPre * let size = getfsize(expand('<afile>')) | if size > 1024 * 1024 || size == -2
+    autocmd BufReadPre * if IsLargeFile(expand('<afile>'))
                 \ |     setlocal noundofile
                 \ |     setlocal noswapfile
-                \ |     setlocal noloadplugins
-                \ |     setlocal eventignore+=FileType
                 \ | endif
-    autocmd BufEnter * let size = getfsize(expand('<afile>')) | if size > 1024 * 1024 || size == -2
-                \ |     setlocal loadplugins
-                \ |     setlocal eventignore-=FileType
-                \ | endif
-    " autocmd BufReadPre * if getfsize(expand('<afile>')) > 1024 * 1024 | setlocal foldmethod=indent | endif
-    " if has('nvim-0.5.0')
-    "     autocmd BufReadPre * if getfsize(expand('<afile>')) > 1024 * 1024 | setlocal foldcolumn=1 | endif
-    " endif
     " if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
-    "     autocmd BufReadPre * if getfsize(expand('<afile>')) > 1024 * 1024
+    "     autocmd BufReadPre * if IsLargeFile(expand('<afile>'))
     "                 \ | call DisableTSForCurrentBuf()
+    "                 \ | endif
+    "     autocmd BufEnter * if IsLargeFile(expand('<afile>'))
+    "                 \ | call EnableTSForCurrentBuf()
     "                 \ | endif
     " endif
 augroup END
