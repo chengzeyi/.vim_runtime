@@ -259,13 +259,38 @@ augroup MyFileType
     autocmd FileType python if executable('pydoc3') | set keywordprg=pydoc3 | endif
 augroup END
 
-" augroup MyOpenLargeFile
-"     autocmd!
-"     autocmd BufReadPre * if getfsize(expand('<afile>')) > 1024 * 1024 | setlocal foldmethod=indent | endif
-"     if has('nvim-0.5.0')
-"         autocmd BufReadPre * if getfsize(expand('<afile>')) > 1024 * 1024 | setlocal foldcolumn=1 | endif
-"     endif
-" augroup END
+" if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
+"     function! DisableTSForCurrentBuf() abort
+" lua << EOF
+"         for _, m in pairs(require'nvim-treesitter.configs'.available_modules()) do
+"             require'nvim-treesitter.configs'.detach_module(m)
+"         end
+" EOF
+"     endfunction
+" endif
+
+augroup MyOpenLargeFile
+    autocmd!
+    autocmd BufReadPre * let size = getfsize(expand('<afile>')) | if size > 1024 * 1024 || size == -2
+                \ |     setlocal noundofile
+                \ |     setlocal noswapfile
+                \ |     setlocal noloadplugins
+                \ |     setlocal eventignore+=FileType
+                \ | endif
+    autocmd BufEnter * let size = getfsize(expand('<afile>')) | if size > 1024 * 1024 || size == -2
+                \ |     setlocal loadplugins
+                \ |     setlocal eventignore-=FileType
+                \ | endif
+    " autocmd BufReadPre * if getfsize(expand('<afile>')) > 1024 * 1024 | setlocal foldmethod=indent | endif
+    " if has('nvim-0.5.0')
+    "     autocmd BufReadPre * if getfsize(expand('<afile>')) > 1024 * 1024 | setlocal foldcolumn=1 | endif
+    " endif
+    " if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
+    "     autocmd BufReadPre * if getfsize(expand('<afile>')) > 1024 * 1024
+    "                 \ | call DisableTSForCurrentBuf()
+    "                 \ | endif
+    " endif
+augroup END
 
 " if has('nvim-0.4.0')
 "     augroup MyNeovimGitLens

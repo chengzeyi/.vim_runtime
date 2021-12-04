@@ -291,7 +291,7 @@ endif
 
 if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
     function! InitTS() abort
-lua <<EOF
+lua << EOF
 -- require'nvim-treesitter.configs'.setup {
     -- ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     -- highlight = {
@@ -540,15 +540,20 @@ endif
 if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
     augroup MyNvimLsp
         autocmd!
-        if v:vim_did_enter
-            if exists('g:lspconfig') | call InitNvimLsp() | endif
-        else
-            au VimEnter * if exists('g:lspconfig') | call InitNvimLsp() | endif
-        endif
+        " if v:vim_did_enter
+        "     if exists('g:lspconfig') | call InitNvimLsp() | endif
+        " else
+        "     au VimEnter * if exists('g:lspconfig') | call InitNvimLsp() | endif
+        " endif
+        " autocmd User LspProgressUpdate redrawstatus
+        " autocmd User LspRequest redrawstatus
     augroup END
 
     function! InitNvimLsp() abort
-lua <<EOF
+        if !luaeval('pcall(require, "lspconfig")')
+            return
+        endif
+lua << EOF
 local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
     vim.api.nvim_buf_set_keymap(bufnr, 'i', '<c-o>', 'complete_info(["mode"])["mode"] ==# "eval" ? "<c-n>" : "<c-o>"', {
@@ -593,17 +598,17 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gY', '<cmd>lua require"lsp_ext".peek_type_definition()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gM', '<cmd>lua require"lsp_ext".peek_implementation()<cr>', opts)
 
+    vim.api.nvim_command [[augroup MyNvimLspBuffer]]
     if client.resolved_capabilities.document_highlight then
-        vim.api.nvim_command [[augroup MyNvimLspBuffer]]
         vim.api.nvim_command [[autocmd! * <buffer>]]
         -- vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.diagnostic.show_line_diagnostics()]]
         vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         -- vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()]]
-        vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua require"lsp_ext".signature_help()]]
-        vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua require"lsp_ext".signature_help()]]
-        vim.api.nvim_command [[augroup END]]
     end
+    vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua require"lsp_ext".signature_help()]]
+    vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua require"lsp_ext".signature_help()]]
+    vim.api.nvim_command [[augroup END]]
 end
 
 local lspconfig = require'lspconfig'
@@ -633,6 +638,8 @@ EOF
         endfor
     endfunction
 
+    call InitNvimLsp()
+
     let g:statusline_extra_left_1 = ['LspStatus', []]
 
     function! LspStatus() abort
@@ -642,6 +649,11 @@ EOF
             let sl .= luaeval('vim.lsp.diagnostic.get_count(0, [[Error]])')
             let sl .= ' W'
             let sl .= luaeval('vim.lsp.diagnostic.get_count(0, [[Warning]])')
+            let progress = luaeval('require"lsp_ext".lsp_progress()')
+            if !empty(progress)
+                let sl .= ' '
+                let sl .= progress
+            endif
         endif
         return sl
     endfunction
@@ -1638,7 +1650,7 @@ if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
         catch
             return
         endtry
-lua <<EOF
+lua << EOF
 require'lspfuzzy'.setup {
     fzf_preview = {
         'up:50%:+{2}-/2', 'ctrl-/', 'ctrl-^'

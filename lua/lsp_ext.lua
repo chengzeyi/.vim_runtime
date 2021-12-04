@@ -1,6 +1,15 @@
+local validate = vim.validate
 local util = require 'vim.lsp.util'
 
 M = {}
+
+function M.request(method, params, handler)
+    validate {
+        method = {method, 's'};
+        handler = {handler, 'f', true};
+    }
+    return vim.lsp.buf_request(0, method, params, handler)
+end
 
 function M.on_complete_done()
     local completed_item = vim.api.nvim_get_vvar('completed_item')
@@ -38,7 +47,8 @@ function M.signature_help()
             end
             if M.check_trigger_character(line_to_cursor, client.server_capabilities.signatureHelpProvider.triggerCharacters) then
                 local params = vim.lsp.util.make_position_params()
-                vim.lsp.buf_request(0, 'textDocument/signatureHelp', params, M.signature_help_callback)
+                -- M.request('textDocument/signatureHelp', params)
+                M.request('textDocument/signatureHelp', params, M.signature_help_callback)
                 return
             end
         end
@@ -56,7 +66,7 @@ function M.check_trigger_character(line_to_cursor, trigger_character)
     return false
 end
 
-function M.signature_help_callback(_, method, result)
+function M.signature_help_callback(_, result, ctx, config)
     -- When use `autocmd CompleteDone <silent><buffer> lua vim.lsp.buf.signature_help()` to call signatureHelp handler
     -- If the completion item doesn't have signatures It will make noise. Change to use `print` that can use `<silent>` to ignore
     if not (result and result.signatures and result.signatures[1]) then
@@ -123,7 +133,7 @@ function M.switch_header_source()
     )
 end
 
-function M.preview_location_callback(_, method, result)
+function M.preview_location_callback(_, result, ctx, _)
     local context = 15
     if result == nil or vim.tbl_isempty(result) then
         vim.lsp.log.info(method, 'No location found')
@@ -154,6 +164,32 @@ end
 function M.peek_implementation()
     local params = vim.lsp.util.make_position_params()
     return vim.lsp.buf_request(0, 'textDocument/implementation', params, M.preview_location_callback)
+end
+
+function M.lsp_progress()
+    local messages = vim.lsp.util.get_progress_messages()
+    if #messages == 0 then
+        return ''
+    end
+    local status = {}
+    for _, msg in pairs(messages) do
+        table.insert(status, (msg.percentage or 0) .. '%% ' .. (msg.title or ''))
+    end
+    local spinners = {
+        '⠋',
+        '⠙',
+        '⠹',
+        '⠸',
+        '⠼',
+        '⠴',
+        '⠦',
+        '⠧',
+        '⠇',
+        '⠏',
+    }
+    local ms = vim.loop.hrtime() / 1000000
+    local frame = math.floor(ms / 120) % #spinners
+    return table.concat(status, ' | ') .. ' ' .. spinners[frame + 1]
 end
 
 return M
