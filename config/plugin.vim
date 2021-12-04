@@ -625,6 +625,10 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua require"lsp_ext".signature_help()]]
     vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua require"lsp_ext".signature_help()]]
     vim.api.nvim_command [[augroup END]]
+
+    if vim.lsp.tagfunc then
+        vim.cmd [[setl tagfunc=v:lua.vim.lsp.tagfunc]]
+    end
 end
 
 local lspconfig = require'lspconfig'
@@ -773,9 +777,9 @@ if get(g:, 'use_coc', 0)
         let g:coc_config_home = expand('~/.vim_runtime/config')
 
         if exists('+tagfunc')
-            set tagfunc=MyTagFunc
+            set tagfunc=MyCocTagFunc
 
-            function! MyTagFunc(pattern, flags, info) abort
+            function! MyCocTagFunc(pattern, flags, info) abort
                 silent! let result = CocTagFunc(a:pattern, a:flags, a:info)
                 if !empty(result)
                     return result
