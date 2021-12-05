@@ -60,6 +60,9 @@ function M.on_complete_done()
 end
 
 function M.signature_help()
+    if vim.fn.pumvisible() ~= 0 then
+        return
+    end
     local clients = vim.lsp.buf_get_clients(0)
     if clients == nil then
         return
@@ -98,11 +101,16 @@ function M.check_trigger_character(line_to_cursor, trigger_character)
     return false
 end
 
-M.signature_help_callback = vim.lsp.with(vim.lsp.handlers.signature_help, {
+M.signature_help_callback_inner = vim.lsp.with(vim.lsp.handlers.signature_help, {
     silent = true,
     max_height = math.max(12, math.floor(vim.o.lines / 4)),
-    border = "single"
+    border = "single",
+    focusable = false
 })
+
+function M.signature_help_callback(err, result, ctx, config)
+    M.signature_help_callback_inner(err, result, ctx, config)
+end
 
 function M.preview_location(location, context, before_context)
     -- location may be LocationLink or Location (more useful for the former)
