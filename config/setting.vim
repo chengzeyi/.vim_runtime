@@ -52,7 +52,7 @@ endif
 
 set showfulltag
 
-set updatetime=200
+set updatetime=500
 
 " Rsetting this can cause highlight issues
 " set background=dark
