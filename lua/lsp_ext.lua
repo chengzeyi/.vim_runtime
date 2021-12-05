@@ -11,6 +11,38 @@ function M.request(method, params, handler)
     return vim.lsp.buf_request(0, method, params, handler)
 end
 
+function M.show_completion_popup(result)
+    if not result or not result.documentation then
+        return
+    end
+    local lines = util.convert_input_to_markdown_lines(result.documentation)
+    lines = util.trim_empty_lines(lines)
+    if vim.tbl_isempty(lines) then
+        return
+    end
+    util.open_floating_preview(lines, util.try_trim_markdown_code_blocks(lines), {
+        border = "single"
+    })
+end
+
+function M.on_complete_changed()
+    local completed_item = vim.api.nvim_get_vvar('completed_item')
+    if not completed_item or not completed_item.user_data or not completed_item.user_data.nvim or not completed_item.user_data.nvim.lsp then
+        return
+    end
+    local item = completed_item.user_data.nvim.lsp.completion_item
+    local bufnr = vim.api.nvim_get_current_buf()
+    succ = pcall(vim.lsp.buf_request, bufnr, "completionItem/resolve", item, function(err, result, ctx, config)
+        M.show_completion_popup(result)
+    end)
+    if succ then
+        return
+    end
+    vim.schedule(function()
+        M.show_completion_popup(item)
+    end)
+end
+
 function M.on_complete_done()
     local completed_item = vim.api.nvim_get_vvar('completed_item')
     if not completed_item or not completed_item.user_data or not completed_item.user_data.nvim or not completed_item.user_data.nvim.lsp then
@@ -66,38 +98,11 @@ function M.check_trigger_character(line_to_cursor, trigger_character)
     return false
 end
 
-function M.signature_help_callback(_, result, ctx, config)
-    -- When use `autocmd CompleteDone <silent><buffer> lua vim.lsp.buf.signature_help()` to call signatureHelp handler
-    -- If the completion item doesn't have signatures It will make noise. Change to use `print` that can use `<silent>` to ignore
-    if not (result and result.signatures and result.signatures[1]) then
-        -- print('No signature help available')
-        return
-    end
-    local lines = util.convert_signature_help_to_markdown_lines(result)
-    lines = util.trim_empty_lines(lines)
-    if vim.tbl_isempty(lines) then
-        -- print('No signature help available')
-        return
-    end
-    util.open_floating_preview(lines, util.try_trim_markdown_code_blocks(lines), {
-        -- pad_left = 1; pad_right = 1;
-        max_height = math.max(12, math.floor(vim.o.lines / 4));
-    })
-
-    -- util.focusable_float(method, function()
-    --     local bufnr, winnr = util.fancy_floating_markdown(lines, {
-    --         -- pad_left = 1; pad_right = 1;
-    --         max_height = math.max(12, math.floor(vim.o.lines / 4));
-    --     })
-    --     util.close_preview_autocmd({'CursorMoved', 'CursorMovedI', 'BufHidden', 'InsertCharPre'}, winnr)
-    --     return bufnr, winnr
-    --     -- return util.open_floating_preview(lines, '')
-    -- end)
-
-    -- util.focusable_preview(method, function()
-    --     return lines, util.try_trim_markdown_code_blocks(lines)
-    -- end)
-end
+M.signature_help_callback = vim.lsp.with(vim.lsp.handlers.signature_help, {
+    silent = true,
+    max_height = math.max(12, math.floor(vim.o.lines / 4)),
+    border = "single"
+})
 
 function M.preview_location(location, context, before_context)
     -- location may be LocationLink or Location (more useful for the former)
@@ -123,7 +128,7 @@ function M.switch_header_source()
     0,
     'textDocument/switchSourceHeader',
     vim.lsp.util.make_text_document_params(),
-    function(err, _, result, _, _)
+    function(err, result, ctx, config)
         if err then
             print(err)
         else
@@ -133,11 +138,13 @@ function M.switch_header_source()
     )
 end
 
-function M.preview_location_callback(_, result, ctx, _)
+function M.preview_location_callback(err, result, ctx, config)
     local context = 15
     if result == nil or vim.tbl_isempty(result) then
-        vim.lsp.log.info(method, 'No location found')
-        return nil
+        if config.silent ~= true then
+          print('No location found')
+        end
+        return
     end
     if vim.tbl_islist(result) then
         M.preview_location(result[1], context)

@@ -16,6 +16,7 @@ source $HOME/.vim_runtime/config/core.vim
 \" let g:use_colorschemes = 'all'
 \" let g:use_devicons = 1
 \" let g:use_treesitter = 1
+\" let g:use_nvim_cmp = 1
 \" let g:use_nvim_lsp = 1
 \" let g:use_nvim_lsp_configs = []
 \" let g:use_coc = 1

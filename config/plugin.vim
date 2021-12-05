@@ -59,13 +59,29 @@ if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
     " Plug 'romgrk/nvim-treesitter-context'
 endif
 
+if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
+    if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
+        Plug 'hrsh7th/cmp-nvim-lsp'
+        Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+    endif
+
+    Plug 'hrsh7th/cmp-vsnip'
+    Plug 'hrsh7th/vim-vsnip'
+    Plug 'hrsh7th/vim-vsnip-integ'
+    
+    Plug 'hrsh7th/cmp-buffer'
+    Plug 'hrsh7th/cmp-path'
+    Plug 'hrsh7th/cmp-cmdline'
+
+    Plug 'uga-rosa/cmp-dictionary'
+    Plug 'quangnguyen30192/cmp-nvim-tags'
+
+    Plug 'hrsh7th/nvim-cmp'
+endif
+
 if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
     Plug 'neovim/nvim-lspconfig'
 endif
-
-" if get(g:, 'use_nvim_compe', 0) && has('nvim-0.5.0')
-"     Plug 'hrsh7th/nvim-compe'
-" endif
 
 if get(g:, 'use_coc', 0)
     if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
@@ -553,6 +569,148 @@ EOF
     nnoremap gss <cmd>echo nvim_treesitter#statusline()<cr>
 endif
 
+if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
+    imap <expr> <c-j> vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<c-j>'
+    smap <expr> <c-j> vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<c-j>'
+    imap <expr> <c-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<c-k>'
+    smap <expr> <c-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<c-k>'
+
+    function! InitNvimCmp() abort
+        if !luaeval('pcall(require, "cmp")')
+            return
+        endif
+lua << EOF
+-- Setup nvim-cmp.
+local cmp = require'cmp'
+
+local has_words_before = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+local feedkey = function(key, mode)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+end
+
+local kind_icons = {
+    Text = "",
+    Method = "",
+    Function = "",
+    Constructor = "",
+    Field = "",
+    Variable = "",
+    Class = "ﴯ",
+    Interface = "",
+    Module = "",
+    Property = "ﰠ",
+    Unit = "",
+    Value = "",
+    Enum = "",
+    Keyword = "",
+    Snippet = "",
+    Color = "",
+    File = "",
+    Reference = "",
+    Folder = "",
+    EnumMember = "",
+    Constant = "",
+    Struct = "",
+    Event = "",
+    Operator = "",
+    TypeParameter = ""
+}
+
+cmp.setup({
+    snippet = {
+        -- REQUIRED - you must specify a snippet engine
+        expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+            -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+            -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+            -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
+        end,
+    },
+    mapping = {
+        ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+        ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+        ['<C-y>'] = cmp.mapping(cmp.mapping.close(), { 'i', 'c' }),
+        -- ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+        ['<C-e>'] = cmp.mapping({
+            i = cmp.mapping.abort(),
+            c = cmp.mapping.close(),
+        }),
+        ['<CR>'] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
+        ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            -- elseif vim.fn["vsnip#available"](1) == 1 then
+                -- feedkey("<Plug>(vsnip-expand-or-jump)", "")
+            elseif has_words_before() then
+                cmp.complete()
+            else
+                fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+            end
+        end, { "i", "s" }),
+
+        ["<S-Tab>"] = cmp.mapping(function()
+            if cmp.visible() then
+                cmp.select_prev_item()
+            -- elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+                -- feedkey("<Plug>(vsnip-jump-prev)", "")
+            end
+        end, { "i", "s" }),
+    },
+    sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        { name = 'nvim_lsp_signature_help' },
+        { name = 'vsnip' }, -- For vsnip users.
+        -- { name = 'luasnip' }, -- For luasnip users.
+        -- { name = 'ultisnips' }, -- For ultisnips users.
+        -- { name = 'snippy' }, -- For snippy users.
+        { name = 'path', max_item_count = 16 },
+        { name = 'buffer', max_item_count = 16 },
+        { name = 'dictionary', keyword_length = 2, max_item_count = 16 },
+        { name = 'tags', max_item_count = 16 },
+    }),
+    formatting = {
+        format = function(entry, vim_item)
+            -- Kind icons
+            vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind] or "", vim_item.kind) -- This concatonates the icons with the name of the item kind
+            -- Source
+            vim_item.menu = ({
+                buffer = "[Buffer]",
+                nvim_lsp = "[LSP]",
+                luasnip = "[LuaSnip]",
+                nvim_lua = "[Lua]",
+                latex_symbols = "[LaTeX]",
+            })[entry.source.name] or ""
+            return vim_item
+        end
+    },
+})
+
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline('/', {
+    sources = {
+        { name = 'buffer' }
+    }
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+    sources = cmp.config.sources({
+        { name = 'path' }
+    }, {
+        { name = 'cmdline' }
+    })
+})
+EOF
+    endfunction
+
+    call InitNvimCmp()
+endif
+
 if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
     augroup MyNvimLsp
         autocmd!
@@ -577,7 +735,6 @@ local on_attach = function(client, bufnr)
         silent = true,
         expr = true,
     })
-    vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua require"lsp_ext".on_complete_done()]]
     -- require'diagnostic'.on_attach()
     -- require'completion'.on_attach()
 
@@ -602,12 +759,12 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gl', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'g(', '<cmd>lua vim.lsp.buf.incoming_calls()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'g)', '<cmd>lua vim.lsp.buf.outgoing_calls()<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[e', '<cmd>lua vim.lsp.diagnostic.goto_prev({severity = "Error"})<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']e', '<cmd>lua vim.lsp.diagnostic.goto_next({severity = "Error"})<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[w', '<cmd>lua vim.lsp.diagnostic.goto_prev({severity = "Warning"})<cr>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']w', '<cmd>lua vim.lsp.diagnostic.goto_next({severity = "Warning"})<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[g', '<cmd>lua vim.diagnostic.goto_prev()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']g', '<cmd>lua vim.diagnostic.goto_next()<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[e', '<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']e', '<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[w', '<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.WARN})<cr>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']w', '<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.WARN})<cr>', opts)
 
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gL', '<cmd>lua require"lsp_ext".peek_declaration()<cr>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua require"lsp_ext".peek_definition()<cr>', opts)
@@ -619,11 +776,14 @@ local on_attach = function(client, bufnr)
         vim.api.nvim_command [[autocmd! * <buffer>]]
         -- vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.diagnostic.show_line_diagnostics()]]
         vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.buf.document_highlight()]]
-        -- vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
+        vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()]]
+        vim.api.nvim_command [[autocmd BufEnter,CursorHold,InsertLeave <buffer> silent! lua vim.lsp.codelens.refresh()]]
+        -- vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua require"lsp_ext".on_complete_done()]]
+        -- vim.api.nvim_command [[autocmd CompleteChanged <buffer> lua require"lsp_ext".on_complete_changed()]]
     end
-    vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua require"lsp_ext".signature_help()]]
-    vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua require"lsp_ext".signature_help()]]
+    -- vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.signature_help()]]
+    -- vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua vim.lsp.buf.signature_help()]]
     vim.api.nvim_command [[augroup END]]
 
     if vim.lsp.tagfunc then
@@ -637,7 +797,7 @@ lspconfig.util.default_config = vim.tbl_extend(
     lspconfig.util.default_config,
     {
         on_attach = on_attach,
-        -- handlers = { ['textDocument/signatureHelp'] = require'lsp_ext'.signature_help }
+        -- handlers = { ['textDocument/signatureHelp'] = require'lsp_ext'.signature_help_callback }
     }
 )
 
@@ -648,14 +808,26 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
         update_in_insert = false
     }
 )
+
+local capabilities
+if pcall(require, 'cmp_nvim_lsp') then
+    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+else
+    capabilities = nil
+end
+for _, server in ipairs(vim.g.use_nvim_lsp_configs or {}) do
+    config = {}
+    if server == 'clangd' then
+        config['filetypes'] = {
+            'c', 'cpp', 'objc', 'objcpp', 'cuda', 'arduino'
+        }
+    end
+    if capabilities then
+        config['capabilities'] = capabilities
+    end
+    require'lspconfig'[server].setup(config)
+end
 EOF
-        for config in get(g:, 'use_nvim_lsp_configs', [])
-            if config ==# 'clangd'
-                exe 'lua' 'require"lspconfig".' . config . '.setup{ filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "arduino" } }'
-            else
-                exe 'lua' 'require"lspconfig".' . config . '.setup{}'
-            endif
-        endfor
     endfunction
 
     call InitNvimLsp()
@@ -696,8 +868,8 @@ EOF
     nnoremap <silent> <leader><cr>f <cmd>lua vim.lsp.buf.formatting()<cr>
     nnoremap <silent> <leader><cr>F <cmd>lua vim.lsp.buf.range_formatting()<cr>
     nnoremap <silent> <leader><cr>r <cmd>lua vim.lsp.buf.rename()<cr>
-    nnoremap <silent> <leader><cr>d <cmd>lua vim.lsp.diagnostic.set_loclist()<cr>
-    nnoremap <silent> <leader><cr>D <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>
+    nnoremap <silent> <leader><cr>d <cmd>lua vim.diagnostic.setloclist()<cr>
+    nnoremap <silent> <leader><cr>D <cmd>lua vim.diagnostic.open_float()<cr>
     nnoremap <silent> <leader><cr>w <cmd>lua vim.lsp.buf.add_workspace_folder()<cr>
     nnoremap <silent> <leader><cr>W <cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>
     nnoremap <silent> <leader><cr><c-w> <cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>
@@ -706,64 +878,6 @@ EOF
     command! -nargs=0 LspDebug lua vim.lsp.set_log_level('debug')
     command! -nargs=0 LspOpenLog lua vim.cmd('e '..vim.fn.fnameescape(vim.lsp.get_log_path()))
 endif
-
-" if get(g:, 'use_nvim_compe', 0) && has('nvim-0.5.0')
-"     if !exists('g:compe')
-"         let g:compe = {}
-"     endif
-"     let g:compe.enabled = v:true
-"     let g:compe.autocomplete = v:true
-"     let g:compe.debug = v:false
-"     let g:compe.min_length = 1
-"     let g:compe.preselect = 'enable'
-"     let g:compe.throttle_time = 80
-"     let g:compe.source_timeout = 200
-"     let g:compe.incomplete_delay = 400
-"     let g:compe.max_abbr_width = 100
-"     let g:compe.max_kind_width = 100
-"     let g:compe.max_menu_width = 100
-"     let g:compe.documentation = v:true
-"     let g:compe.source = {
-"                 \ 'nvim_lsp': v:true,
-"                 \ 'nvim_lua': v:true,
-"                 \ 'path': v:true,
-"                 \ 'buffer': v:true,
-"                 \ 'spell': v:true,
-"                 \ 'calc': v:true,
-"                 \ }
-
-"     augroup MyNvimCompe
-"         autocmd!
-"         au CmdwinEnter [:>] silent! call compe#setup({ 'enabled': v:false }, 0)
-"     augroup END
-
-"     command! -nargs=0 ToggleNvimCompe call ToggleNvimCompe()
-"     nnoremap <silent> <leader>oa :ToggleNvimCompe<cr>
-
-"     function! ToggleNvimCompe() abort
-"         let g:compe.autocomplete = !get(g:compe, 'autocomplete', v:true)
-"         if g:compe.autocomplete
-"             set completeopt+=noinsert,noselect
-"             " let g:refresh_pum = ['TriggerCompletion', []]
-"         else
-"             set completeopt-=noinsert,noselect
-"             " unlet g:refresh_pum
-"         endif
-"     endfunction
-
-"     set completeopt+=noinsert,noselect
-"     let g:refresh_pum = ['compe#complete', []]
-"     inoremap <silent> <expr> <c-l> pumvisible() && getcmdwintype() =~# '\V:>' ? '<c-l>' : compe#complete()
-"     inoremap <silent> <expr> <c-Space> pumvisible() && getcmdwintype() =~# '\V:>' ? '<c-e>' : compe#complete()
-"     inoremap <silent> <expr> <nul> pumvisible() && getcmdwintype() =~# '\V:>' ? '<c-e>' : compe#complete()
-
-"     inoremap <silent> <expr> <cr> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#confirm('<c-g>u' . ICR()) : '<c-g>u' . ICR()
-"     inoremap <silent> <expr> <c-y> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#confirm('<c-y>') : '<c-y>'
-"     inoremap <silent> <expr> <c-e> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#close('<c-e>') : '<c-e>'
-
-"     inoremap <silent> <expr> <c-f> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#scroll({'delta': 4}) : '<c-f>'
-"     inoremap <silent> <expr> <c-b> pumvisible() && getcmdwintype() =~# '\V:>' ? compe#scroll({'delta': -4}) : '<c-b>'
-" endif
 
 if get(g:, 'use_coc', 0)
     if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
