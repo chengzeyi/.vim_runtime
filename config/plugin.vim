@@ -65,6 +65,10 @@ if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
         Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
     endif
 
+    if get(g:, 'use_tabnine', 0)
+        Plug 'tzachar/cmp-tabnine'
+    end
+
     Plug 'hrsh7th/cmp-vsnip'
     Plug 'hrsh7th/vim-vsnip'
     Plug 'hrsh7th/vim-vsnip-integ'
@@ -583,6 +587,21 @@ lua << EOF
 -- Setup nvim-cmp.
 local cmp = require'cmp'
 
+if pcall(require, 'cmp_tabnine.config') then
+    local tabnine = require('cmp_tabnine.config')
+    tabnine:setup({
+        max_lines = 1000;
+        max_num_results = 20;
+        sort = true;
+        run_on_every_keystroke = true;
+        snippet_placeholder = '..';
+        ignored_file_types = { -- default is not to ignore
+        -- uncomment to ignore in lua:
+        -- lua = true
+        };
+    })
+end
+
 local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
@@ -624,6 +643,7 @@ local source_names = {
     buffer = "[Buffer]",
     nvim_lsp = "[LSP]",
     nvim_lsp_signature_help = "[Signature]",
+    cmp_tabnine = "[Tabnine]",
     vsnip = "[Vsnip]",
     luasnip = "[LuaSnip]",
     nvim_lua = "[Lua]",
@@ -677,6 +697,7 @@ cmp.setup({
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'nvim_lsp_signature_help' },
+        { name = 'cmp_tabnine' },
         { name = 'vsnip' }, -- For vsnip users.
         -- { name = 'luasnip' }, -- For luasnip users.
         -- { name = 'ultisnips' }, -- For ultisnips users.
