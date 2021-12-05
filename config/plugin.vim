@@ -620,6 +620,19 @@ local kind_icons = {
     TypeParameter = ""
 }
 
+local source_names = {
+    buffer = "[Buffer]",
+    nvim_lsp = "[LSP]",
+    nvim_lsp_signature_help = "[Signature]",
+    vsnip = "[Vsnip]",
+    luasnip = "[LuaSnip]",
+    nvim_lua = "[Lua]",
+    latex_symbols = "[LaTeX]",
+    tags = "[Tag]",
+    path = "[Path]",
+    dictionary = "[Dict]",
+}
+
 cmp.setup({
     snippet = {
         -- REQUIRED - you must specify a snippet engine
@@ -668,23 +681,17 @@ cmp.setup({
         -- { name = 'luasnip' }, -- For luasnip users.
         -- { name = 'ultisnips' }, -- For ultisnips users.
         -- { name = 'snippy' }, -- For snippy users.
+        { name = 'tags', max_item_count = 16 },
         { name = 'path', max_item_count = 16 },
         { name = 'buffer', max_item_count = 16 },
         { name = 'dictionary', keyword_length = 2, max_item_count = 16 },
-        { name = 'tags', max_item_count = 16 },
     }),
     formatting = {
         format = function(entry, vim_item)
             -- Kind icons
             vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind] or "", vim_item.kind) -- This concatonates the icons with the name of the item kind
             -- Source
-            vim_item.menu = ({
-                buffer = "[Buffer]",
-                nvim_lsp = "[LSP]",
-                luasnip = "[LuaSnip]",
-                nvim_lua = "[Lua]",
-                latex_symbols = "[LaTeX]",
-            })[entry.source.name] or ""
+            vim_item.menu = source_names[entry.source.name] or ""
             return vim_item
         end
     },
