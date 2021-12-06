@@ -589,17 +589,18 @@ local cmp = require'cmp'
 
 if pcall(require, 'cmp_tabnine.config') then
     local tabnine = require('cmp_tabnine.config')
-    tabnine:setup({
-        max_lines = 1000;
-        max_num_results = 20;
-        sort = true;
-        run_on_every_keystroke = true;
-        snippet_placeholder = '..';
-        ignored_file_types = { -- default is not to ignore
-        -- uncomment to ignore in lua:
-        -- lua = true
-        };
-    })
+    tabnine:setup({})
+    -- tabnine:setup({
+    --     max_lines = 1000;
+    --     max_num_results = 20;
+    --     sort = true;
+    --     run_on_every_keystroke = true;
+    --     snippet_placeholder = '..';
+    --     ignored_file_types = { -- default is not to ignore
+    --         -- uncomment to ignore in lua:
+    --         -- lua = true
+    --     };
+    -- })
 end
 
 local kind_icons = {
@@ -634,7 +635,7 @@ local source_names = {
     buffer = "[Buffer]",
     nvim_lsp = "[LSP]",
     nvim_lsp_signature_help = "[Signature]",
-    cmp_tabnine = "[Tabnine]",
+    cmp_tabnine = "[TN]",
     vsnip = "[Vsnip]",
     luasnip = "[LuaSnip]",
     nvim_lua = "[Lua]",
