@@ -933,6 +933,12 @@ vim.g.symbols_outline = {
     width = 30
 }
 EOF
+
+    augroup MySymbolsOutline
+        autocmd!
+        autocmd BufEnter * if (winnr('$') == 1 && &filetype ==# 'Outline') | q | endif
+    augroup END
+
     nnoremap <silent> <leader>tt <cmd>SymbolsOutline<cr>
 endif
 
