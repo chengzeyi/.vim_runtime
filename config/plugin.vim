@@ -504,7 +504,7 @@ require'nvim-treesitter.configs'.setup {
 require'nvim-treesitter.configs'.setup {
     refactor = {
         highlight_definitions = {
-            enable = true,
+            -- enable = true,
             disable = function(lang, bufnr)
                 local size = vim.fn.getfsize(vim.api.nvim_buf_get_name(0))
                 return size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000
@@ -516,7 +516,7 @@ require'nvim-treesitter.configs'.setup {
 require'nvim-treesitter.configs'.setup {
     refactor = {
         highlight_current_scope = {
-            enable = true,
+            -- enable = true,
             disable = function(lang, bufnr)
                 local size = vim.fn.getfsize(vim.api.nvim_buf_get_name(0))
                 return size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000
@@ -602,15 +602,6 @@ if pcall(require, 'cmp_tabnine.config') then
     })
 end
 
-local has_words_before = function()
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-
-local feedkey = function(key, mode)
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-end
-
 local kind_icons = {
     Text = "",
     Method = "",
@@ -653,6 +644,29 @@ local source_names = {
     dictionary = "[Dict]",
 }
 
+local has_words_before = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+local feedkey = function(key, mode)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+end
+
+local get_bufnrs = function()
+    local bufs = {}
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local bufnr = vim.api.nvim_win_get_buf(win)
+        local bufname = vim.api.nvim_buf_get_name(0)
+        local size = vim.fn.getfsize(bufname)
+        if size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000 then
+            return
+        end
+        bufs[vim.api.nvim_win_get_buf(win)] = true
+    end
+    return vim.tbl_keys(bufs)
+end
+
 cmp.setup({
     snippet = {
         -- REQUIRED - you must specify a snippet engine
@@ -673,7 +687,8 @@ cmp.setup({
             i = cmp.mapping.abort(),
             c = cmp.mapping.close(),
         }),
-        ['<CR>'] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
+        ['<CR>'] = cmp.mapping.confirm(),
+        -- ['<CR>'] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
         ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
@@ -702,22 +717,10 @@ cmp.setup({
         -- { name = 'luasnip' }, -- For luasnip users.
         -- { name = 'ultisnips' }, -- For ultisnips users.
         -- { name = 'snippy' }, -- For snippy users.
-        -- { name = 'tags', max_item_count = 16 },
-        { name = 'path', max_item_count = 16 },
-        { name = 'buffer', max_item_count = 16, get_bufnrs = function()
-            local bufs = {}
-            for _, win in ipairs(vim.api.nvim_list_wins()) do
-                local bufnr = vim.api.nvim_win_get_buf(win)
-                local bufname = vim.api.nvim_buf_get_name(0)
-                local size = vim.fn.getfsize(bufname)
-                if size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000 then
-                    return
-                end
-                bufs[vim.api.nvim_win_get_buf(win)] = true
-            end
-            return vim.tbl_keys(bufs)
-        end },
-        { name = 'dictionary', keyword_length = 2, max_item_count = 16 },
+        -- { name = 'tags' },
+        { name = 'path' },
+        { name = 'buffer', get_bufnrs = get_bufnrs },
+        { name = 'dictionary', keyword_length = 2 },
     }),
     formatting = {
         format = function(entry, vim_item)
@@ -733,7 +736,7 @@ cmp.setup({
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline('/', {
     sources = {
-        { name = 'buffer' }
+        { name = 'buffer', get_bufnrs = get_bufnrs }
     }
 })
 
@@ -845,7 +848,7 @@ lspconfig.util.default_config = vim.tbl_extend(
 --     vim.lsp.diagnostic.on_publish_diagnostics, {
 --         -- Disable virtual_text
 --         -- virtual_text = false,
---         update_in_insert = false
+--         update_in_insert = true,
 --     }
 -- )
 
