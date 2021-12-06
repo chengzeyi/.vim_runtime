@@ -62,7 +62,7 @@ endif
 if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
     if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
         Plug 'hrsh7th/cmp-nvim-lsp'
-        Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+        " Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
     endif
 
     if get(g:, 'use_tabnine', 0)
@@ -78,7 +78,7 @@ if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
     Plug 'hrsh7th/cmp-cmdline'
 
     Plug 'uga-rosa/cmp-dictionary'
-    Plug 'quangnguyen30192/cmp-nvim-tags'
+    " Plug 'quangnguyen30192/cmp-nvim-tags'
 
     Plug 'hrsh7th/nvim-cmp'
 endif
@@ -351,27 +351,27 @@ require'nvim-treesitter.configs'.setup {
     -- }
 -- }
 
-local queries = require 'nvim-treesitter.query'
-require'nvim-treesitter'.define_modules {
-    my_auto_enable_fold = {
-        enable = false,
-        attach = function(bufnr, lang)
-            vim.api.nvim_command('if !exists("b:saved_fd") | let b:saved_fd = [&l:fdm, &l:fde] | setl fdm=expr fde=nvim_treesitter#foldexpr() | endif')
-            -- vim.api.nvim_command(string.format('augroup MyAutoEnableFold_%d', bufnr))
-            -- vim.api.nvim_command(string.format('au BufEnter <buffer=%d> if !exists("w:saved_fd") | let w:saved_fd = [&fdm, &fde] | setl fdm=expr fde=nvim_treesitter#foldexpr() | endif', bufnr))
-            -- vim.api.nvim_command(string.format('au BufLeave <buffer=%d> if exists("w:saved_fd") | let &l:fdm = w:saved_fd[0] | let &l:fde = w:saved_fd[1] | unlet w:saved_fd | endif', bufnr))
-            -- vim.api.nvim_command('augroup END')
-        end,
-        detach = function(bufnr)
-            vim.api.nvim_command('if exists("b:saved_fd") | let [&l:fdm, &l:fde] = b:saved_fd | unlet b:saved_fd | endif')
-            -- vim.api.nvim_command(string.format('augroup MyAutoEnableFold_%d', bufnr))
-            -- vim.api.nvim_command('au!')
-            -- vim.api.nvim_command('augroup END')
-            -- vim.api.nvim_command(string.format('augroup! MyAutoEnableFold_%d', bufnr))
-        end,
-        is_supported = queries.has_folds
-    }
-}
+-- local queries = require 'nvim-treesitter.query'
+-- require'nvim-treesitter'.define_modules {
+--     my_auto_enable_fold = {
+--         enable = false,
+--         attach = function(bufnr, lang)
+--             vim.api.nvim_command('if !exists("b:saved_fd") | let b:saved_fd = [&l:fdm, &l:fde] | setl fdm=expr fde=nvim_treesitter#foldexpr() | endif')
+--             -- vim.api.nvim_command(string.format('augroup MyAutoEnableFold_%d', bufnr))
+--             -- vim.api.nvim_command(string.format('au BufEnter <buffer=%d> if !exists("w:saved_fd") | let w:saved_fd = [&fdm, &fde] | setl fdm=expr fde=nvim_treesitter#foldexpr() | endif', bufnr))
+--             -- vim.api.nvim_command(string.format('au BufLeave <buffer=%d> if exists("w:saved_fd") | let &l:fdm = w:saved_fd[0] | let &l:fde = w:saved_fd[1] | unlet w:saved_fd | endif', bufnr))
+--             -- vim.api.nvim_command('augroup END')
+--         end,
+--         detach = function(bufnr)
+--             vim.api.nvim_command('if exists("b:saved_fd") | let [&l:fdm, &l:fde] = b:saved_fd | unlet b:saved_fd | endif')
+--             -- vim.api.nvim_command(string.format('augroup MyAutoEnableFold_%d', bufnr))
+--             -- vim.api.nvim_command('au!')
+--             -- vim.api.nvim_command('augroup END')
+--             -- vim.api.nvim_command(string.format('augroup! MyAutoEnableFold_%d', bufnr))
+--         end,
+--         is_supported = queries.has_folds
+--     }
+-- }
 
 require'nvim-treesitter.configs'.setup {
     textobjects = {
@@ -696,15 +696,27 @@ cmp.setup({
     },
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        { name = 'nvim_lsp_signature_help' },
+        -- { name = 'nvim_lsp_signature_help' },
         { name = 'cmp_tabnine' },
         { name = 'vsnip' }, -- For vsnip users.
         -- { name = 'luasnip' }, -- For luasnip users.
         -- { name = 'ultisnips' }, -- For ultisnips users.
         -- { name = 'snippy' }, -- For snippy users.
-        { name = 'tags', max_item_count = 16 },
+        -- { name = 'tags', max_item_count = 16 },
         { name = 'path', max_item_count = 16 },
-        { name = 'buffer', max_item_count = 16 },
+        { name = 'buffer', max_item_count = 16, get_bufnrs = function()
+            local bufs = {}
+            for _, win in ipairs(vim.api.nvim_list_wins()) do
+                local bufnr = vim.api.nvim_win_get_buf(win)
+                local bufname = vim.api.nvim_buf_get_name(0)
+                local size = vim.fn.getfsize(bufname)
+                if size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000 then
+                    return
+                end
+                bufs[vim.api.nvim_win_get_buf(win)] = true
+            end
+            return vim.tbl_keys(bufs)
+        end },
         { name = 'dictionary', keyword_length = 2, max_item_count = 16 },
     }),
     formatting = {
@@ -810,8 +822,8 @@ local on_attach = function(client, bufnr)
         -- vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua require"lsp_ext".on_complete_done()]]
         -- vim.api.nvim_command [[autocmd CompleteChanged <buffer> lua require"lsp_ext".on_complete_changed()]]
     end
-    -- vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.signature_help()]]
-    -- vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua vim.lsp.buf.signature_help()]]
+    vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.signature_help()]]
+    vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua vim.lsp.buf.signature_help()]]
     vim.api.nvim_command [[augroup END]]
 
     if vim.lsp.tagfunc then
@@ -825,7 +837,7 @@ lspconfig.util.default_config = vim.tbl_extend(
     lspconfig.util.default_config,
     {
         on_attach = on_attach,
-        -- handlers = { ['textDocument/signatureHelp'] = require'lsp_ext'.signature_help_callback }
+        handlers = { ['textDocument/signatureHelp'] = require'lsp_ext'.signature_help_callback }
     }
 )
 

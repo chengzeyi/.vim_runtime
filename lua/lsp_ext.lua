@@ -109,6 +109,12 @@ M.signature_help_callback_inner = vim.lsp.with(vim.lsp.handlers.signature_help, 
 })
 
 function M.signature_help_callback(err, result, ctx, config)
+    if vim.fn.pumvisible() ~= 0 then
+        return
+    end
+    if pcall(require, 'cmp') and require'cmp'.visible() then
+        return
+    end
     M.signature_help_callback_inner(err, result, ctx, config)
 end
 
