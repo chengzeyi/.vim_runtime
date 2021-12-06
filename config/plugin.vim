@@ -86,6 +86,7 @@ endif
 
 if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
     Plug 'neovim/nvim-lspconfig'
+    Plug 'simrat39/symbols-outline.nvim'
 endif
 
 if get(g:, 'use_coc', 0)
@@ -926,6 +927,13 @@ EOF
     " command! -nargs=0 LspStop lua vim.lsp.stop_client(vim.lsp.get_active_clients())
     command! -nargs=0 LspDebug lua vim.lsp.set_log_level('debug')
     command! -nargs=0 LspOpenLog lua vim.cmd('e '..vim.fn.fnameescape(vim.lsp.get_log_path()))
+
+lua << EOF
+vim.g.symbols_outline = {
+    width = 30
+}
+EOF
+    nnoremap <silent> <leader>tt <cmd>SymbolsOutline<cr>
 endif
 
 if get(g:, 'use_coc', 0)
