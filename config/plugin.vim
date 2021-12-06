@@ -73,6 +73,7 @@ if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
     Plug 'hrsh7th/vim-vsnip'
     Plug 'hrsh7th/vim-vsnip-integ'
     
+    Plug 'hrsh7th/cmp-nvim-lua'
     Plug 'hrsh7th/cmp-buffer'
     Plug 'hrsh7th/cmp-path'
     Plug 'hrsh7th/cmp-cmdline'
@@ -658,11 +659,14 @@ local get_bufnrs = function()
     local bufs = {}
     for _, win in ipairs(vim.api.nvim_list_wins()) do
         local bufnr = vim.api.nvim_win_get_buf(win)
-        local bufname = vim.api.nvim_buf_get_name(0)
-        local size = vim.fn.getfsize(bufname)
-        if size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000 then
+        if vim.api.nvim_buf_line_count(bufnr) > 50000 then
             return
         end
+        -- local bufname = vim.api.nvim_buf_get_name(0)
+        -- local size = vim.fn.getfsize(bufname)
+        -- if size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000 then
+            -- return
+        -- end
         bufs[vim.api.nvim_win_get_buf(win)] = true
     end
     return vim.tbl_keys(bufs)
@@ -712,6 +716,7 @@ cmp.setup({
     },
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
+        { name = 'nvim_lua' },
         -- { name = 'nvim_lsp_signature_help' },
         { name = 'cmp_tabnine' },
         { name = 'vsnip' }, -- For vsnip users.
