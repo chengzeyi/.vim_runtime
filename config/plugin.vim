@@ -814,7 +814,7 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_command [[augroup MyNvimLspBuffer]]
     if client.resolved_capabilities.document_highlight then
         vim.api.nvim_command [[autocmd! * <buffer>]]
-        vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.diagnostic.open_float(nil, { focusable = false })()]]
+        vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.diagnostic.open_float(nil, { focusable = false, scope = "line" })()]]
         vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()]]
