@@ -51,6 +51,10 @@ if UseFtplugin('latex')
     Plug 'lervag/vimtex'
 endif
 
+if has('nvim-0.5.0')
+    Plug 'stevearc/aerial.nvim'
+endif
+
 if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
     Plug 'nvim-treesitter/nvim-treesitter'
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -62,6 +66,7 @@ endif
 if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
     if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
         Plug 'hrsh7th/cmp-nvim-lsp'
+        Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
         " Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
     endif
 
@@ -86,7 +91,7 @@ endif
 
 if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
     Plug 'neovim/nvim-lspconfig'
-    Plug 'simrat39/symbols-outline.nvim'
+    " Plug 'simrat39/symbols-outline.nvim'
 endif
 
 if get(g:, 'use_coc', 0)
@@ -309,6 +314,28 @@ if UseFtplugin('latex')
     let g:vimtex_quickfix_open_on_warning = 0
     let g:vimtex_quickfix_mode = 0
     let g:vimtex_format_enabled = 1
+endif
+
+if luaeval('pcall(require, "aerial")')
+lua << EOF
+local aerial = require'aerial'
+
+aerial.register_attach_cb(function(bufnr)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>tt', '<cmd>AerialToggle!<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>tT', '<cmd>AerialToggle<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '(', '<cmd>AerialPrev<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ')', '<cmd>AerialNext<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<cmd>AerialPrevUp<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '}', '<cmd>AerialNextUp<CR>', {})
+end)
+
+vim.g.aerial = {
+    max_width = 30,
+    min_width = 30,
+    close_behavior = 'global',
+    placement_editor_edge = true,
+}
+EOF
 endif
 
 if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
@@ -673,6 +700,15 @@ local get_bufnrs = function()
     return vim.tbl_keys(bufs)
 end
 
+local cmd_get_bufnrs = function()
+    local bufs = {}
+    local bufnr = vim.api.nvim_get_current_buf()
+    if vim.api.nvim_buf_line_count(bufnr) <= 50000 then
+        bufs[bufnr] = true
+    end
+    return vim.tbl_keys(bufs)
+end
+
 cmp.setup({
     snippet = {
         -- REQUIRED - you must specify a snippet engine
@@ -726,8 +762,11 @@ cmp.setup({
         -- { name = 'snippy' }, -- For snippy users.
         -- { name = 'tags' },
         { name = 'path' },
-        { name = 'buffer', get_bufnrs = get_bufnrs },
-        { name = 'dictionary', keyword_length = 2 },
+        { name = 'buffer', option = {
+                get_bufnrs = get_bufnrs 
+            }
+        },
+        -- { name = 'dictionary', keyword_length = 2 },
     }),
     formatting = {
         format = function(entry, vim_item)
@@ -742,9 +781,14 @@ cmp.setup({
 
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline('/', {
-    sources = {
-        { name = 'buffer', get_bufnrs = get_bufnrs }
-    }
+    sources = cmp.config.sources({
+        { name = 'nvim_lsp_document_symbol' }
+    }, {
+        { name = 'buffer', option = {
+                get_bufnrs = cmd_get_bufnrs
+            }
+        }
+    })
 })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
@@ -779,6 +823,10 @@ if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
         endif
 lua << EOF
 local on_attach = function(client, bufnr)
+    -- if pcall(require, 'aerial') then
+    --     require'aerial'.on_attach(client, bufnr, { preserve_callback = true })
+    -- end
+
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
     vim.api.nvim_buf_set_keymap(bufnr, 'i', '<c-o>', 'complete_info(["mode"])["mode"] ==# "eval" ? "<c-n>" : "<c-o>"', {
         noremap = true,
@@ -824,7 +872,6 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_command [[augroup MyNvimLspBuffer]]
     if client.resolved_capabilities.document_highlight then
         vim.api.nvim_command [[autocmd! * <buffer>]]
-        vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.diagnostic.open_float(nil, { focusable = false, scope = "line" })()]]
         vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()]]
@@ -841,14 +888,24 @@ local on_attach = function(client, bufnr)
     end
 end
 
+local config = {
+    on_attach = on_attach,
+    handlers = { ['textDocument/signatureHelp'] = require'lsp_ext'.signature_help_callback }
+}
+if capabilities then
+    config['capabilities'] = capabilities
+end
+
+local capabilities = nil
+if pcall(require, 'cmp_nvim_lsp') then
+    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+end
+
 local lspconfig = require'lspconfig'
 lspconfig.util.default_config = vim.tbl_extend(
     'force',
     lspconfig.util.default_config,
-    {
-        on_attach = on_attach,
-        handlers = { ['textDocument/signatureHelp'] = require'lsp_ext'.signature_help_callback }
-    }
+    config
 )
 
 -- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -859,21 +916,17 @@ lspconfig.util.default_config = vim.tbl_extend(
 --     }
 -- )
 
-local capabilities
+local capabilities = nil
 if pcall(require, 'cmp_nvim_lsp') then
     capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-else
-    capabilities = nil
 end
+
 for _, server in ipairs(vim.g.use_nvim_lsp_configs or {}) do
-    config = {}
+    local config = {}
     if server == 'clangd' then
         config['filetypes'] = {
             'c', 'cpp', 'objc', 'objcpp', 'cuda', 'arduino'
         }
-    end
-    if capabilities then
-        config['capabilities'] = capabilities
     end
     require'lspconfig'[server].setup(config)
 end
@@ -918,8 +971,16 @@ EOF
     nnoremap <silent> <leader><cr>f <cmd>lua vim.lsp.buf.formatting()<cr>
     nnoremap <silent> <leader><cr>F <cmd>lua vim.lsp.buf.range_formatting()<cr>
     nnoremap <silent> <leader><cr>r <cmd>lua vim.lsp.buf.rename()<cr>
+    nnoremap <silent> <leader><cr>e <cmd>lua vim.diagnostic.enable()<cr>
+    nnoremap <silent> <leader><cr>E <cmd>lua vim.diagnostic.disable()<cr>
+    nnoremap <silent> [G <cmd>lua vim.diagnostic.open_float(nil, { scope = "line" })<cr>
+    nnoremap <silent> ]G <cmd>lua vim.diagnostic.open_float(nil, { scope = "line" })<cr>
+    nnoremap <silent> [E <cmd>lua vim.diagnostic.open_float(nil, { scope = "line", severity = vim.diagnostic.severity.ERROR })<cr>
+    nnoremap <silent> ]E <cmd>lua vim.diagnostic.open_float(nil, { scope = "line", severity = vim.diagnostic.severity.ERROR })<cr>
+    nnoremap <silent> [W <cmd>lua vim.diagnostic.open_float(nil, { scope = "line", severity = vim.diagnostic.severity.WARN })<cr>
+    nnoremap <silent> ]W <cmd>lua vim.diagnostic.open_float(nil, { scope = "line", severity = vim.diagnostic.severity.WARN })<cr>
     nnoremap <silent> <leader><cr>d <cmd>lua vim.diagnostic.setloclist()<cr>
-    nnoremap <silent> <leader><cr>D <cmd>lua vim.diagnostic.open_float()<cr>
+    nnoremap <silent> <leader><cr>D <cmd>lua vim.diagnostic.setqflist()<cr>
     nnoremap <silent> <leader><cr>w <cmd>lua vim.lsp.buf.add_workspace_folder()<cr>
     nnoremap <silent> <leader><cr>W <cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>
     nnoremap <silent> <leader><cr><c-w> <cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>
@@ -928,18 +989,18 @@ EOF
     command! -nargs=0 LspDebug lua vim.lsp.set_log_level('debug')
     command! -nargs=0 LspOpenLog lua vim.cmd('e '..vim.fn.fnameescape(vim.lsp.get_log_path()))
 
-lua << EOF
-vim.g.symbols_outline = {
-    width = 30
-}
-EOF
+" lua << EOF
+" vim.g.symbols_outline = {
+"     width = 30
+" }
+" EOF
 
-    augroup MySymbolsOutline
-        autocmd!
-        autocmd BufEnter * if (winnr('$') == 1 && &filetype ==# 'Outline') | q | endif
-    augroup END
+"     augroup MySymbolsOutline
+"         autocmd!
+"         autocmd BufEnter * if (winnr('$') == 1 && &filetype ==# 'Outline') | q | endif
+"     augroup END
 
-    nnoremap <silent> <leader>tt <cmd>SymbolsOutline<cr>
+"     nnoremap <silent> <leader>tt <cmd>SymbolsOutline<cr>
 endif
 
 if get(g:, 'use_coc', 0)
@@ -1687,7 +1748,7 @@ imap <silent> <c-x>l <plug>(fzf-complete-buffer-line)
 imap <silent> <c-x>L <plug>(fzf-complete-line)
 inoremap <silent> <expr> <c-x>g fzf#vim#complete(fzf#wrap({
             \ 'prefix': '^.*$',
-            \ 'source': 'grep -n --color=always -r .',
+            \ 'source': 'grep -n --color=always -r ^ .',
             \ 'options': '--ansi --delimiter : --nth 3..',
             \ 'reducer': {lines -> join(split(lines[0], ':\zs')[2:], '')}
             \ }))
@@ -1848,11 +1909,13 @@ if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
             return
         endtry
 lua << EOF
-require'lspfuzzy'.setup {
-    fzf_preview = {
-        'up:50%:+{2}-/2', 'ctrl-/', 'ctrl-^'
-    },
-}
+if pcall(require, 'lspfuzzy') then
+    require'lspfuzzy'.setup {
+        fzf_preview = {
+            'up:50%:+{2}-/2', 'ctrl-/', 'ctrl-^'
+        },
+    }
+end
 EOF
     endfunction
 
