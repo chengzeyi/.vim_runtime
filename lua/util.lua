@@ -1,5 +1,18 @@
 M = {}
 
+if pcall(require, 'nvim-treesitter') then
+    -- local transform_fn = function(line)
+    --     return line:gsub('%s*[%[%(%{]*[^%[%(%{]*$', '')
+    -- end
+
+    function M.treesitter_statusline()
+        return require'nvim-treesitter'.statusline {
+            -- transform_fn = transform_fn,
+            separator = ' ❱ ',
+        }
+    end
+end
+
 function M.foldexpr()
     local lnum = vim.v.lnum
     local curr_line = vim.fn.getline(lnum)

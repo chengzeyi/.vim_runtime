@@ -51,9 +51,9 @@ if UseFtplugin('latex')
     Plug 'lervag/vimtex'
 endif
 
-if has('nvim-0.5.0')
-    Plug 'stevearc/aerial.nvim'
-endif
+" if has('nvim-0.5.0')
+"     Plug 'stevearc/aerial.nvim'
+" endif
 
 if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
     Plug 'nvim-treesitter/nvim-treesitter'
@@ -83,7 +83,7 @@ if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
     Plug 'hrsh7th/cmp-path'
     Plug 'hrsh7th/cmp-cmdline'
 
-    Plug 'uga-rosa/cmp-dictionary'
+    " Plug 'uga-rosa/cmp-dictionary'
     " Plug 'quangnguyen30192/cmp-nvim-tags'
 
     Plug 'hrsh7th/nvim-cmp'
@@ -91,7 +91,7 @@ endif
 
 if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
     Plug 'neovim/nvim-lspconfig'
-    " Plug 'simrat39/symbols-outline.nvim'
+    Plug 'simrat39/symbols-outline.nvim'
 endif
 
 if get(g:, 'use_coc', 0)
@@ -316,31 +316,44 @@ if UseFtplugin('latex')
     let g:vimtex_format_enabled = 1
 endif
 
-if luaeval('pcall(require, "aerial")')
-lua << EOF
-local aerial = require'aerial'
+" if has('nvim-0.5.0')
+"     if luaeval('pcall(require, "aerial")')
+"     lua << EOF
+"     local aerial = require'aerial'
 
-aerial.register_attach_cb(function(bufnr)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>tt', '<cmd>AerialToggle!<CR>', {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>tT', '<cmd>AerialToggle<CR>', {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '(', '<cmd>AerialPrev<CR>', {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', ')', '<cmd>AerialNext<CR>', {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<cmd>AerialPrevUp<CR>', {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '}', '<cmd>AerialNextUp<CR>', {})
-end)
+"     aerial.register_attach_cb(function(bufnr)
+"         vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>tt', '<cmd>AerialToggle!<CR>', {})
+"         vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>tT', '<cmd>AerialToggle<CR>', {})
+"         vim.api.nvim_buf_set_keymap(bufnr, 'n', '(', '<cmd>AerialPrev<CR>', {})
+"         vim.api.nvim_buf_set_keymap(bufnr, 'n', ')', '<cmd>AerialNext<CR>', {})
+"         vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<cmd>AerialPrevUp<CR>', {})
+"         vim.api.nvim_buf_set_keymap(bufnr, 'n', '}', '<cmd>AerialNextUp<CR>', {})
+"     end)
 
-vim.g.aerial = {
-    max_width = 30,
-    min_width = 30,
-    close_behavior = 'global',
-    placement_editor_edge = true,
-}
-EOF
-endif
+"     vim.g.aerial = {
+"         max_width = 30,
+"         min_width = 30,
+"         close_behavior = 'global',
+"         placement_editor_edge = true,
+"     }
+"     EOF
+"     endif
+" endif
 
 if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
     function! InitTS() abort
 lua << EOF
+for _, key in ipairs(require'nvim-treesitter.configs'.available_modules()) do
+    require'nvim-treesitter.configs'.setup {
+        [key] = {
+            disable = function(lang, bufnr)
+                local size = vim.fn.getfsize(vim.api.nvim_buf_get_name(0))
+                return size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000
+            end,
+        }
+    }
+end
+
 -- require'nvim-treesitter.configs'.setup {
     -- ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     -- highlight = {
@@ -351,10 +364,6 @@ lua << EOF
 require'nvim-treesitter.configs'.setup {
     highlight = {
         enable = true,
-        disable = function(lang, bufnr)
-            local size = vim.fn.getfsize(vim.api.nvim_buf_get_name(0))
-            return size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000
-        end,
         use_languagetree = false, -- Use this to enable language injection (this is very unstable)
         -- custom_captures = {
             -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
@@ -379,6 +388,28 @@ require'nvim-treesitter.configs'.setup {
         -- enable = true
     -- }
 -- }
+
+local queries = require 'nvim-treesitter.query'
+require'nvim-treesitter'.define_modules {
+    my_statusline = {
+        enable = true,
+        attach = function(bufnr, lang)
+            if vim.g.statusline_extra_left_2 then
+                return
+            end
+            vim.b.statusline_extra_left_2 = {
+                "luaeval",
+                {
+                    "require'util'.treesitter_statusline()"
+                }
+            }
+        end,
+        detach = function(bufnr)
+            vim.b.statusline_extra_left_2 = nil
+        end,
+        is_supported = queries.has_locals
+    }
+}
 
 -- local queries = require 'nvim-treesitter.query'
 -- require'nvim-treesitter'.define_modules {
@@ -534,10 +565,6 @@ require'nvim-treesitter.configs'.setup {
     refactor = {
         highlight_definitions = {
             -- enable = true,
-            disable = function(lang, bufnr)
-                local size = vim.fn.getfsize(vim.api.nvim_buf_get_name(0))
-                return size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000
-            end,
         },
     },
 }
@@ -546,10 +573,6 @@ require'nvim-treesitter.configs'.setup {
     refactor = {
         highlight_current_scope = {
             -- enable = true,
-            disable = function(lang, bufnr)
-                local size = vim.fn.getfsize(vim.api.nvim_buf_get_name(0))
-                return size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000
-            end,
         },
     },
 }
@@ -580,7 +603,6 @@ require'nvim-treesitter.configs'.setup {
 require 'nvim-treesitter.configs'.setup {
     playground = {
         enable = true,
-        disable = {},
         updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
         persist_queries = false, -- Whether the query persists across vim sessions
     },
@@ -598,7 +620,7 @@ EOF
     augroup END
 
 
-    " let g:statusline_extra_right_1 = ['nvim_treesitter#statusline', []]
+    " let g:statusline_extra_left_2 = ['nvim_treesitter#statusline', []]
     nnoremap gss <cmd>echo nvim_treesitter#statusline()<cr>
 endif
 
@@ -612,6 +634,34 @@ if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
         if !luaeval('pcall(require, "cmp")')
             return
         endif
+
+        nnoremap <silent> <leader>oa :ToggleCmpAutoComplete<cr>
+        command! -nargs=0 ToggleCmpAutoComplete call ToggleCmpAutoComplete()
+
+        function! ToggleCmpAutoComplete() abort
+            if luaeval('require"cmp.config".get().completion.autocomplete == false')
+lua << EOF
+local cmp = require'cmp'
+
+cmp.setup {
+    completion = {
+        autocomplete = require'cmp.config.default'().completion.autocomplete
+    }
+}
+EOF
+            else
+lua << EOF
+local cmp = require'cmp'
+
+cmp.setup {
+    completion = {
+        autocomplete = false
+    }
+}
+EOF
+            endif
+        endfunction
+
 lua << EOF
 -- Setup nvim-cmp.
 local cmp = require'cmp'
@@ -779,17 +829,20 @@ cmp.setup({
     },
 })
 
--- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline('/', {
-    sources = cmp.config.sources({
+local cmdline_search_configs = {
+    {
         { name = 'nvim_lsp_document_symbol' }
     }, {
         { name = 'buffer', option = {
                 get_bufnrs = cmd_get_bufnrs
             }
         }
-    })
-})
+    }
+}
+
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline('/', unpack(cmdline_search_configs))
+cmp.setup.cmdline('?', unpack(cmdline_search_configs))
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(':', {
@@ -968,8 +1021,10 @@ EOF
     nnoremap <silent> <leader><cr><cr> <cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()))<cr>
     nnoremap <silent> <leader><cr>a <cmd>lua vim.lsp.buf.code_action()<cr>
     nnoremap <silent> <leader><cr>A <cmd>lua vim.lsp.buf.range_code_action()<cr>
+    xnoremap <silent> <leader><cr>A <cmd>lua vim.lsp.buf.range_code_action()<cr>
     nnoremap <silent> <leader><cr>f <cmd>lua vim.lsp.buf.formatting()<cr>
     nnoremap <silent> <leader><cr>F <cmd>lua vim.lsp.buf.range_formatting()<cr>
+    xnoremap <silent> <leader><cr>F <cmd>lua vim.lsp.buf.range_formatting()<cr>
     nnoremap <silent> <leader><cr>r <cmd>lua vim.lsp.buf.rename()<cr>
     nnoremap <silent> <leader><cr>e <cmd>lua vim.diagnostic.enable()<cr>
     nnoremap <silent> <leader><cr>E <cmd>lua vim.diagnostic.disable()<cr>
@@ -989,24 +1044,25 @@ EOF
     command! -nargs=0 LspDebug lua vim.lsp.set_log_level('debug')
     command! -nargs=0 LspOpenLog lua vim.cmd('e '..vim.fn.fnameescape(vim.lsp.get_log_path()))
 
-" lua << EOF
-" vim.g.symbols_outline = {
-"     width = 30
-" }
-" EOF
+lua << EOF
+vim.g.symbols_outline = {
+    width = 30
+}
+EOF
 
-"     augroup MySymbolsOutline
-"         autocmd!
-"         autocmd BufEnter * if (winnr('$') == 1 && &filetype ==# 'Outline') | q | endif
-"     augroup END
+    augroup MySymbolsOutline
+        autocmd!
+        autocmd BufEnter * if (winnr('$') == 1 && &filetype ==# 'Outline') | q | endif
+        autocmd FileType Outline setl nowrap
+    augroup END
 
-"     nnoremap <silent> <leader>tt <cmd>SymbolsOutline<cr>
+    nnoremap <silent> <leader>tt <cmd>SymbolsOutline<cr>
 endif
 
 if get(g:, 'use_coc', 0)
     if (has('patch-8.0.1453') || has('nvim-0.3.1')) && executable('npm')
         let g:statusline_extra_left_1 = ['coc#status', []]
-        let g:statusline_extra_right_1 = ['CocCurrentFunction', []]
+        let g:statusline_extra_left_2 = ['CocCurrentFunction']
 
         function! CocCurrentFunction(...) abort
             return get(b:, 'coc_current_function', '')
@@ -1180,7 +1236,7 @@ endif
 
 if get(g:, 'use_vim_lsp', 0)
     if has('timers') && has('lambda')
-        let statusline_extra_left_1 = ['VimLspDiagnostics', []]
+        let statusline_extra_left_1 = ['VimLspDiagnostics']
         function! VimLspDiagnostics() abort
             let counts = lsp#get_buffer_diagnostics_counts()
             return printf('E%d W%d I%d H%d',
@@ -1653,7 +1709,7 @@ nnoremap <leader>qV :cfdo %S/
 nnoremap <leader>lv :ldo .S/
 nnoremap <leader>lV :lfdo %S/
 
-" let statusline_extra_right_0 = ['SleuthIndicator', []]
+" let statusline_extra_right_0 = ['SleuthIndicator']
 nnoremap <silent> <leader>sh :Sleuth<cr>
 
 let g:ctrlp_working_path_mode = 'ra'
@@ -2080,7 +2136,7 @@ function! GitStatus()
     return printf('+%d ~%d -%d', a, m, r)
 endfunction
 
-let g:statusline_extra_left_0 = ['GitStatus', []]
+let g:statusline_extra_left_0 = ['GitStatus']
 " let g:gitgutter_highlight_lines = 1
 let g:gitgutter_map_keys = 0
 " let g:gitgutter_use_location_list = 1

@@ -325,12 +325,18 @@ set statusline+=⟨Ln\ %l/%L\ Col\ %c\ [%p%%]\ %{(&l:et?'et':'noet').':'.SW()}\ 
 function! StatuslineExtraLeft() abort
     let statueline_left = ''
     for i in range(4)
-        let statusline_extra = get(g:, 'statusline_extra_left_' . i , [])
+        let statusline_extra = get(b:, 'statusline_extra_left_' . i , get(g:, 'statusline_extra_left_' . i, []))
         if empty(statusline_extra)
             continue
         endif
         try
-            let status = call(statusline_extra[0], statusline_extra[1])
+            if len(statusline_extra) == 0
+                continue
+            elseif len(statusline_extra) == 1
+                let status = call(statusline_extra[0], [])
+            else
+                let status = call(statusline_extra[0], statusline_extra[1])
+            endif
         catch
             continue
         endtry
@@ -345,12 +351,18 @@ endfunction
 function! StatuslineExtraRight() abort
     let statueline_right = ''
     for i in range(4, 0, -1)
-        let statusline_extra = get(g:, 'statusline_extra_right_' . i , [])
+        let statusline_extra = get(b:, 'statusline_extra_right_' . i , get(g:, 'statusline_extra_right_' . i, []))
         if empty(statusline_extra)
             continue
         endif
         try
-            let status = call(statusline_extra[0], statusline_extra[1])
+            if len(statusline_extra) == 0
+                continue
+            elseif len(statusline_extra) == 1
+                let status = call(statusline_extra[0], [])
+            else
+                let status = call(statusline_extra[0], statusline_extra[1])
+            endif
         catch
             continue
         endtry

@@ -1,5 +1,6 @@
 local validate = vim.validate
-local util = require 'vim.lsp.util'
+local lsp_util = require 'vim.lsp.util'
+local lsp_proto = require("vim.lsp.protocol")
 
 M = {}
 
@@ -15,12 +16,12 @@ function M.show_completion_popup(result)
     if not result or not result.documentation then
         return
     end
-    local lines = util.convert_input_to_markdown_lines(result.documentation)
-    lines = util.trim_empty_lines(lines)
+    local lines = lsp_util.convert_input_to_markdown_lines(result.documentation)
+    lines = lsp_util.trim_empty_lines(lines)
     if vim.tbl_isempty(lines) then
         return
     end
-    util.open_floating_preview(lines, util.try_trim_markdown_code_blocks(lines), {
+    lsp_util.open_floating_preview(lines, lsp_util.try_trim_markdown_code_blocks(lines), {
         border = "single"
     })
 end
@@ -55,7 +56,7 @@ function M.on_complete_done()
         -- Text edit in the same line would mess with the cursor position
         local edits = vim.tbl_filter(function(x) return x.range.start.line ~= (lnum - 1) end, item.additionalTextEdits)
         vim.api.nvim_set_option('ul', vim.api.nvim_get_option('ul'))
-        vim.lsp.util.apply_text_edits(edits, bufnr)
+        lsp_util.apply_text_edits(edits, bufnr)
     end
 end
 
@@ -81,7 +82,7 @@ function M.signature_help()
                 line_to_cursor = vim.trim(line:sub(1, pos[2]))
             end
             if M.check_trigger_character(line_to_cursor, client.server_capabilities.signatureHelpProvider.triggerCharacters) then
-                local params = vim.lsp.util.make_position_params()
+                local params = lsp_util.make_position_params()
                 -- M.request('textDocument/signatureHelp', params)
                 M.request('textDocument/signatureHelp', params, M.signature_help_callback)
                 return
@@ -101,13 +102,6 @@ function M.check_trigger_character(line_to_cursor, trigger_character)
     return false
 end
 
-M.signature_help_callback_inner = vim.lsp.with(vim.lsp.handlers.signature_help, {
-    silent = true,
-    max_height = math.max(12, math.floor(vim.o.lines / 4)),
-    border = "single",
-    focusable = false
-})
-
 function M.signature_help_callback(err, result, ctx, config)
     if vim.fn.pumvisible() ~= 0 then
         return
@@ -115,7 +109,12 @@ function M.signature_help_callback(err, result, ctx, config)
     if pcall(require, 'cmp') and require'cmp'.visible() then
         return
     end
-    M.signature_help_callback_inner(err, result, ctx, config)
+    vim.lsp.with(vim.lsp.handlers.signature_help, {
+        silent = true,
+        max_height = math.max(12, math.floor(vim.o.lines / 4)),
+        border = "single",
+        focusable = false
+    })(err, result, ctx, config)
 end
 
 function M.preview_location(location, context, before_context)
@@ -134,14 +133,16 @@ function M.preview_location(location, context, before_context)
     local contents =
     vim.api.nvim_buf_get_lines(bufnr, range.start.line - before_context, range['end'].line + 1 + context, false)
     local filetype = vim.api.nvim_buf_get_option(bufnr, 'filetype')
-    return vim.lsp.util.open_floating_preview(contents, filetype)
+    return vim.lsp.lsp_util.open_floating_preview(contents, filetype, {
+        border = "single"
+    })
 end
 
 function M.switch_header_source()
     vim.lsp.buf_request(
     0,
     'textDocument/switchSourceHeader',
-    vim.lsp.util.make_text_document_params(),
+    lsp_util.make_text_document_params(),
     function(err, result, ctx, config)
         if err then
             print(err)
@@ -168,27 +169,27 @@ function M.preview_location_callback(err, result, ctx, config)
 end
 
 function M.peek_declaration()
-    local params = vim.lsp.util.make_position_params()
+    local params = lsp_util.make_position_params()
     return vim.lsp.buf_request(0, 'textDocument/declaration', params, M.preview_location_callback)
 end
 
 function M.peek_definition()
-    local params = vim.lsp.util.make_position_params()
+    local params = lsp_util.make_position_params()
     return vim.lsp.buf_request(0, 'textDocument/definition', params, M.preview_location_callback)
 end
 
 function M.peek_type_definition()
-    local params = vim.lsp.util.make_position_params()
+    local params = lsp_util.make_position_params()
     return vim.lsp.buf_request(0, 'textDocument/typeDefinition', params, M.preview_location_callback)
 end
 
 function M.peek_implementation()
-    local params = vim.lsp.util.make_position_params()
+    local params = lsp_util.make_position_params()
     return vim.lsp.buf_request(0, 'textDocument/implementation', params, M.preview_location_callback)
 end
 
 function M.lsp_progress()
-    local messages = vim.lsp.util.get_progress_messages()
+    local messages = lsp_util.get_progress_messages()
     if #messages == 0 then
         return ''
     end
