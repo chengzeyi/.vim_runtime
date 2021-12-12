@@ -1320,8 +1320,8 @@ function! ClearRolodexSettings() abort
         let &winminheight = s:remember_wmh
         let &winheight = s:remember_wh
         let &helpheight = s:remember_hh
-        let &winminwidth = s:remember_wmw
-        let &winwidth = s:remember_ww
+        " let &winminwidth = s:remember_wmw
+        " let &winwidth = s:remember_ww
     endif
 endfunction
 
@@ -1332,9 +1332,10 @@ function! SetRolodexSettings() abort
         let s:remember_wmh = &winminheight
         let s:remember_wh = &winheight
         let s:remember_hh = &helpheight
-        let s:remember_wmw = &winminwidth
-        let s:remember_ww = &winwidth
-        set noequalalways winminheight=0 winheight=999 helpheight=999 winminwidth=0 winwidth=999
+        " let s:remember_wmw = &winminwidth
+        " let s:remember_ww = &winwidth
+        set noequalalways winminheight=0 winheight=999 helpheight=999
+        " set winminwidth=0 winwidth=999
     endif
 endfunction
 
