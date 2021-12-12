@@ -289,17 +289,17 @@ if UseFtplugin('javascript')
     let g:javascript_plugin_flow = 1
 endif
 
-if UseFtplugin('markdown')
-    let g:vim_markdown_conceal = 1
-    let g:vim_markdown_conceal_code_blocks = 1
-    let g:vim_markdown_fenced_languages = [
-                \ 'c++=cpp',
-                \ 'viml=vim',
-                \ 'bash=sh',
-                \ 'ini=dosini',
-                \ 'csharp=cs'
-                \ ]
-endif
+" if UseFtplugin('markdown')
+"     let g:vim_markdown_conceal = 1
+"     let g:vim_markdown_conceal_code_blocks = 1
+"     let g:vim_markdown_fenced_languages = [
+"                 \ 'c++=cpp',
+"                 \ 'viml=vim',
+"                 \ 'bash=sh',
+"                 \ 'ini=dosini',
+"                 \ 'csharp=cs'
+"                 \ ]
+" endif
 
 if UseFtplugin('latex')
     augroup MyFZFVimTex
