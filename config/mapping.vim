@@ -814,20 +814,6 @@ if has('cscope')
     nnoremap <c-\><c-\>D :scs find d<space>
 endif
 
-nnoremap <leader>vv :VCS<space>
-command! -nargs=+ -complete=command VCS call VCS(<q-args>)
-
-function! VCS(cmd) abort
-    let saved = getcwd()
-    exe 'lcd' GetVcsRoot()
-    try
-        exe a:cmd
-    catch
-        echohl ErrorMsg | echo v:exception | echohl None
-    endtry
-    exe 'lcd' saved
-endfunction
-
 nnoremap <leader>vg :vim //j % <bar> cw
             \<left><left><left><left><left><left><left><left><left>
 nnoremap <leader>vG :vim //j **/* <bar> cw
@@ -1036,13 +1022,29 @@ nnoremap <silent> <leader>cd :cd <c-r>=GetVcsRoot()<cr><cr>
 " Switch CWD to the directory of the open buffer
 nnoremap <silent> <leader>cD :cd %:p:h<cr>
 
+nnoremap <leader>vv :VCS<space>
+command! -nargs=+ -complete=command VCS call VCS(<q-args>)
+
+function! VCS(cmd) abort
+    let saved = getcwd()
+    exe 'lcd' GetVcsRoot()
+    try
+        exe a:cmd
+    catch
+        echohl ErrorMsg | echo v:exception | echohl None
+    endtry
+    exe 'lcd' saved
+endfunction
+
 function! GetVcsRoot(...) abort
     if empty(a:000)
         let cph = expand('%:p:h', 1)
     else
         let cph = fnamemodify(a:1, ':p:h')
     endif
-    if cph =~# '^.\+://' | retu | en
+    if cph =~# '^.\+://'
+        let cph = getcwd()
+    endif
     for mkr in ['.git/', '.hg/', '.svn/', '.bzr/', '_darcs/', '.vimprojects']
         let wd = call('find' . (mkr =~# '/$' ? 'dir' : 'file'), [mkr, cph . ';'])
         if !empty(wd) | break | endif
