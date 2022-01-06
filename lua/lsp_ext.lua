@@ -111,7 +111,7 @@ function M.signature_help_callback(err, result, ctx, config)
     end
     vim.lsp.with(vim.lsp.handlers.signature_help, {
         silent = true,
-        max_height = math.max(12, math.floor(vim.o.lines / 4)),
+        -- max_height = math.max(12, math.floor(vim.o.lines / 4)),
         border = "single",
         focusable = false
     })(err, result, ctx, config)

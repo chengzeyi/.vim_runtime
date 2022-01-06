@@ -1967,6 +1967,7 @@ if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
 lua << EOF
 if pcall(require, 'lspfuzzy') then
     require'lspfuzzy'.setup {
+        save_last = false,
         fzf_preview = {
             'up:50%:+{2}-/2', 'ctrl-/', 'ctrl-^'
         },
