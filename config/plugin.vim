@@ -154,9 +154,9 @@ Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf', {'dir': '~/.fzf'}
 Plug 'junegunn/fzf.vim'
 Plug 'chengzeyi/fzf-preview.vim'
-if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
-    Plug 'ojroques/nvim-lspfuzzy'
-endif
+" if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
+"     Plug 'ojroques/nvim-lspfuzzy'
+" endif
 
 Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-startify'
@@ -733,24 +733,24 @@ local feedkey = function(key, mode)
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
-local get_bufnrs = function()
-    local bufs = {}
-    for _, win in ipairs(vim.api.nvim_list_wins()) do
-        local bufnr = vim.api.nvim_win_get_buf(win)
-        if vim.api.nvim_buf_line_count(bufnr) > 50000 then
-            return
-        end
-        -- local bufname = vim.api.nvim_buf_get_name(0)
-        -- local size = vim.fn.getfsize(bufname)
-        -- if size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000 then
-            -- return
-        -- end
-        bufs[vim.api.nvim_win_get_buf(win)] = true
-    end
-    return vim.tbl_keys(bufs)
-end
+-- local get_bufnrs = function()
+--     local bufs = {}
+--     for _, win in ipairs(vim.api.nvim_list_wins()) do
+--         local bufnr = vim.api.nvim_win_get_buf(win)
+--         if vim.api.nvim_buf_line_count(bufnr) > 50000 then
+--             return
+--         end
+--         -- local bufname = vim.api.nvim_buf_get_name(0)
+--         -- local size = vim.fn.getfsize(bufname)
+--         -- if size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000 then
+--             -- return
+--         -- end
+--         bufs[vim.api.nvim_win_get_buf(win)] = true
+--     end
+--     return vim.tbl_keys(bufs)
+-- end
 
-local cmd_get_bufnrs = function()
+local get_bufnrs = function()
     local bufs = {}
     local bufnr = vim.api.nvim_get_current_buf()
     if vim.api.nvim_buf_line_count(bufnr) <= 50000 then
@@ -812,6 +812,7 @@ cmp.setup({
         -- { name = 'snippy' }, -- For snippy users.
         -- { name = 'tags' },
         { name = 'path' },
+        -- { name = 'buffer' },
         { name = 'buffer', option = {
                 get_bufnrs = get_bufnrs 
             }
@@ -833,8 +834,9 @@ local cmdline_search_configs = {
     {
         { name = 'nvim_lsp_document_symbol' }
     }, {
+        -- { name = 'buffer' },
         { name = 'buffer', option = {
-                get_bufnrs = cmd_get_bufnrs
+                get_bufnrs = get_bufnrs
             }
         }
     }
@@ -1957,34 +1959,34 @@ nnoremap <leader>FG :FZFGREP<space>
 nnoremap <leader>Fp :FZFGGrep<space>
 nnoremap <leader>FP :FZFGGREP<space>
 
-if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
-    function! InitLspFuzzy() abort
-        try
-            call fzf#exec()
-        catch
-            return
-        endtry
-lua << EOF
-if pcall(require, 'lspfuzzy') then
-    require'lspfuzzy'.setup {
-        save_last = false,
-        fzf_preview = {
-            'up:50%:+{2}-/2', 'ctrl-/', 'ctrl-^'
-        },
-    }
-end
-EOF
-    endfunction
+" if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
+"     function! InitLspFuzzy() abort
+"         try
+"             call fzf#exec()
+"         catch
+"             return
+"         endtry
+" lua << EOF
+" if pcall(require, 'lspfuzzy') then
+"     require'lspfuzzy'.setup {
+"         save_last = false,
+"         fzf_preview = {
+"             'up:50%:+{2}-/2', 'ctrl-/', 'ctrl-^'
+"         },
+"     }
+" end
+" EOF
+"     endfunction
 
-    augroup MyLspFuzzy
-        autocmd!
-        if v:vim_did_enter
-            if exists('g:loaded_lspfuzzy') | call InitLspFuzzy() | endif
-        else
-            au VimEnter * if exists('g:loaded_lspfuzzy') | call InitLspFuzzy() | endif
-        endif
-    augroup END
-endif
+"     augroup MyLspFuzzy
+"         autocmd!
+"         if v:vim_did_enter
+"             if exists('g:loaded_lspfuzzy') | call InitLspFuzzy() | endif
+"         else
+"             au VimEnter * if exists('g:loaded_lspfuzzy') | call InitLspFuzzy() | endif
+"         endif
+"     augroup END
+" endif
 
 nnoremap <silent> <c-g> :Grepper<cr>
 if !exists('g:grepper')
