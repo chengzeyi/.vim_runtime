@@ -733,31 +733,25 @@ local feedkey = function(key, mode)
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
--- local get_bufnrs = function()
---     local bufs = {}
---     for _, win in ipairs(vim.api.nvim_list_wins()) do
---         local bufnr = vim.api.nvim_win_get_buf(win)
---         if vim.api.nvim_buf_line_count(bufnr) > 50000 then
---             return
---         end
---         -- local bufname = vim.api.nvim_buf_get_name(0)
---         -- local size = vim.fn.getfsize(bufname)
---         -- if size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000 then
---             -- return
---         -- end
---         bufs[vim.api.nvim_win_get_buf(win)] = true
---     end
---     return vim.tbl_keys(bufs)
--- end
-
 local get_bufnrs = function()
     local bufs = {}
-    local bufnr = vim.api.nvim_get_current_buf()
-    if vim.api.nvim_buf_line_count(bufnr) <= 50000 then
-        bufs[bufnr] = true
+    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+        local bufnr = vim.api.nvim_win_get_buf(win)
+        if vim.api.nvim_buf_line_count(bufnr) <= 50000 then
+            bufs[vim.api.nvim_win_get_buf(win)] = true
+        end
     end
     return vim.tbl_keys(bufs)
 end
+
+-- local get_bufnrs = function()
+--     local bufs = {}
+--     local bufnr = vim.api.nvim_get_current_buf()
+--     if vim.api.nvim_buf_line_count(bufnr) <= 50000 then
+--         bufs[bufnr] = true
+--     end
+--     return vim.tbl_keys(bufs)
+-- end
 
 cmp.setup({
     snippet = {
