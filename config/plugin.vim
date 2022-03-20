@@ -158,9 +158,9 @@ Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf', {'dir': '~/.fzf'}
 Plug 'junegunn/fzf.vim'
 Plug 'chengzeyi/fzf-preview.vim'
-if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
-    Plug 'ojroques/nvim-lspfuzzy'
-endif
+" if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
+"     Plug 'ojroques/nvim-lspfuzzy'
+" endif
 
 Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-startify'
@@ -739,29 +739,23 @@ end
 
 local get_bufnrs = function()
     local bufs = {}
-    for _, win in ipairs(vim.api.nvim_list_wins()) do
+    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
         local bufnr = vim.api.nvim_win_get_buf(win)
-        if vim.api.nvim_buf_line_count(bufnr) > 50000 then
-            return
+        if vim.api.nvim_buf_line_count(bufnr) <= 50000 then
+            bufs[vim.api.nvim_win_get_buf(win)] = true
         end
-        -- local bufname = vim.api.nvim_buf_get_name(0)
-        -- local size = vim.fn.getfsize(bufname)
-        -- if size == -2 or size > 1024 * 1024 or vim.api.nvim_buf_line_count(bufnr) > 50000 then
-            -- return
-        -- end
-        bufs[vim.api.nvim_win_get_buf(win)] = true
     end
     return vim.tbl_keys(bufs)
 end
 
-local cmd_get_bufnrs = function()
-    local bufs = {}
-    local bufnr = vim.api.nvim_get_current_buf()
-    if vim.api.nvim_buf_line_count(bufnr) <= 50000 then
-        bufs[bufnr] = true
-    end
-    return vim.tbl_keys(bufs)
-end
+-- local get_bufnrs = function()
+--     local bufs = {}
+--     local bufnr = vim.api.nvim_get_current_buf()
+--     if vim.api.nvim_buf_line_count(bufnr) <= 50000 then
+--         bufs[bufnr] = true
+--     end
+--     return vim.tbl_keys(bufs)
+-- end
 
 cmp.setup({
     snippet = {
@@ -816,6 +810,7 @@ cmp.setup({
         -- { name = 'snippy' }, -- For snippy users.
         -- { name = 'tags' },
         { name = 'path' },
+        -- { name = 'buffer' },
         { name = 'buffer', option = {
                 get_bufnrs = get_bufnrs 
             }
@@ -837,8 +832,9 @@ local cmdline_search_configs = {
     {
         { name = 'nvim_lsp_document_symbol' }
     }, {
+        -- { name = 'buffer' },
         { name = 'buffer', option = {
-                get_bufnrs = cmd_get_bufnrs
+                get_bufnrs = get_bufnrs
             }
         }
     }
@@ -998,9 +994,17 @@ EOF
         let sl = ''
         if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
             let sl .= 'E'
-            let sl .= luaeval('vim.lsp.diagnostic.get_count(0, [[Error]])')
+            if has('nvim-0.6.0')
+                let sl .= luaeval('#vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })')
+            else
+                let sl .= luaeval('vim.lsp.diagnostic.get_count(0, [[Error]])')
+            endif
             let sl .= ' W'
-            let sl .= luaeval('vim.lsp.diagnostic.get_count(0, [[Warning]])')
+            if has('nvim-0.6.0')
+                let sl .= luaeval('#vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })')
+            else
+                let sl .= luaeval('vim.lsp.diagnostic.get_count(0, [[Warning]])')
+            endif
             let progress = luaeval('require"lsp_ext".lsp_progress()')
             if !empty(progress)
                 let sl .= ' '
@@ -1961,33 +1965,34 @@ nnoremap <leader>FG :FZFGREP<space>
 nnoremap <leader>Fp :FZFGGrep<space>
 nnoremap <leader>FP :FZFGGREP<space>
 
-if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
-    function! InitLspFuzzy() abort
-        try
-            call fzf#exec()
-        catch
-            return
-        endtry
-lua << EOF
-if pcall(require, 'lspfuzzy') then
-    require'lspfuzzy'.setup {
-        fzf_preview = {
-            'up:50%:+{2}-/2', 'ctrl-/', 'ctrl-^'
-        },
-    }
-end
-EOF
-    endfunction
+" if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
+"     function! InitLspFuzzy() abort
+"         try
+"             call fzf#exec()
+"         catch
+"             return
+"         endtry
+" lua << EOF
+" if pcall(require, 'lspfuzzy') then
+"     require'lspfuzzy'.setup {
+"         save_last = false,
+"         fzf_preview = {
+"             'up:50%:+{2}-/2', 'ctrl-/', 'ctrl-^'
+"         },
+"     }
+" end
+" EOF
+"     endfunction
 
-    augroup MyLspFuzzy
-        autocmd!
-        if v:vim_did_enter
-            if exists('g:loaded_lspfuzzy') | call InitLspFuzzy() | endif
-        else
-            au VimEnter * if exists('g:loaded_lspfuzzy') | call InitLspFuzzy() | endif
-        endif
-    augroup END
-endif
+"     augroup MyLspFuzzy
+"         autocmd!
+"         if v:vim_did_enter
+"             if exists('g:loaded_lspfuzzy') | call InitLspFuzzy() | endif
+"         else
+"             au VimEnter * if exists('g:loaded_lspfuzzy') | call InitLspFuzzy() | endif
+"         endif
+"     augroup END
+" endif
 
 nnoremap <silent> <c-g> :Grepper<cr>
 if !exists('g:grepper')
