@@ -990,9 +990,17 @@ EOF
         let sl = ''
         if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
             let sl .= 'E'
-            let sl .= luaeval('vim.lsp.diagnostic.get_count(0, [[Error]])')
+            if has('nvim-0.6.0')
+                let sl .= luaeval('#vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })')
+            else
+                let sl .= luaeval('vim.lsp.diagnostic.get_count(0, [[Error]])')
+            endif
             let sl .= ' W'
-            let sl .= luaeval('vim.lsp.diagnostic.get_count(0, [[Warning]])')
+            if has('nvim-0.6.0')
+                let sl .= luaeval('#vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })')
+            else
+                let sl .= luaeval('vim.lsp.diagnostic.get_count(0, [[Warning]])')
+            endif
             let progress = luaeval('require"lsp_ext".lsp_progress()')
             if !empty(progress)
                 let sl .= ' '
