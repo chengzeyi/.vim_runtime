@@ -121,6 +121,10 @@ if get(g:, 'use_asyncomplete', 0)
     endif
 endif
 
+if get(g:, 'use_tabnine', 0) && has('nvim-0.6.0')
+    Plug 'github/copilot.vim'
+endif
+
 " if (has('nvim-0.3.0') || v:version >= 800) && has('python3')
 "     if has('nvim')
 "         Plug 'Shougo/denite.nvim', {'do': ':UpdateRemotePlugins'}
