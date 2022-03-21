@@ -820,9 +820,17 @@ cmp.setup({
     formatting = {
         format = function(entry, vim_item)
             -- Kind icons
-            vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind] or "", vim_item.kind) -- This concatonates the icons with the name of the item kind
+            local kind = string.format('%s %s', kind_icons[vim_item.kind] or '', vim_item.kind) -- This concatonates the icons with the name of the item kind
             -- Source
-            vim_item.menu = source_names[entry.source.name] or ""
+            local menu = source_names[entry.source.name] or ""
+            if entry.source.name == 'cmp_tabnine' then
+				if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
+					menu = menu .. ' ' .. entry.completion_item.data.detail
+				end
+                kind = string.format('%s %s', '', vim_item.kind) -- This concatonates the icons with the name of the item kind
+			end
+			vim_item.kind = kind
+			vim_item.menu = menu
             return vim_item
         end
     },

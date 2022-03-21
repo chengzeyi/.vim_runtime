@@ -195,7 +195,7 @@ function M.lsp_progress()
     end
     local status = {}
     for _, msg in pairs(messages) do
-        table.insert(status, (msg.percentage or 0) .. '%% ' .. (msg.title or ''))
+        table.insert(status, (msg.percentage or 0) .. '% ' .. (msg.title or ''))
     end
     local spinners = {
         '⠋',
