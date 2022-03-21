@@ -314,11 +314,12 @@ if has('patch-8.1.2315') || has('nvim-0.5.0')
 endif
 set stal=1
 
-if has('nvim-0.7.0')
-    set laststatus=3
-else
-    set laststatus=2
-endif
+set laststatus=2
+" if has('nvim-0.7.0')
+"     set laststatus=3
+" else
+"     set laststatus=2
+" endif
 " Always show the status line
 set statusline=%f%m⟩%<
 set statusline+=%{StatuslineExtraLeft()}
