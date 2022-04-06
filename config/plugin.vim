@@ -67,7 +67,7 @@ if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
     if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
         Plug 'hrsh7th/cmp-nvim-lsp'
         Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
-        " Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+        Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
     endif
 
     if get(g:, 'use_tabnine', 0)
@@ -121,7 +121,7 @@ if get(g:, 'use_asyncomplete', 0)
     endif
 endif
 
-if get(g:, 'use_tabnine', 0) && has('nvim-0.6.0')
+if get(g:, 'use_copilot', 0) && has('nvim-0.6.0')
     Plug 'github/copilot.vim'
 endif
 
@@ -802,7 +802,7 @@ cmp.setup({
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'nvim_lua' },
-        -- { name = 'nvim_lsp_signature_help' },
+        { name = 'nvim_lsp_signature_help' },
         { name = 'cmp_tabnine' },
         { name = 'vsnip' }, -- For vsnip users.
         -- { name = 'luasnip' }, -- For luasnip users.
@@ -883,6 +883,10 @@ if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
             return
         endif
 lua << EOF
+vim.g.symbols_outline = {
+    width = 30
+}
+
 local on_attach = function(client, bufnr)
     -- if pcall(require, 'aerial') then
     --     require'aerial'.on_attach(client, bufnr, { preserve_callback = true })
@@ -940,8 +944,8 @@ local on_attach = function(client, bufnr)
         -- vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua require"lsp_ext".on_complete_done()]]
         -- vim.api.nvim_command [[autocmd CompleteChanged <buffer> lua require"lsp_ext".on_complete_changed()]]
     end
-    vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.signature_help()]]
-    vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua vim.lsp.buf.signature_help()]]
+    -- vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.signature_help()]]
+    -- vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua vim.lsp.buf.signature_help()]]
     vim.api.nvim_command [[augroup END]]
 
     if vim.lsp.tagfunc then
@@ -991,6 +995,7 @@ for _, server in ipairs(vim.g.use_nvim_lsp_configs or {}) do
     end
     require'lspconfig'[server].setup(config)
 end
+
 EOF
     endfunction
 
@@ -1059,12 +1064,6 @@ EOF
     " command! -nargs=0 LspStop lua vim.lsp.stop_client(vim.lsp.get_active_clients())
     command! -nargs=0 LspDebug lua vim.lsp.set_log_level('debug')
     command! -nargs=0 LspOpenLog lua vim.cmd('e '..vim.fn.fnameescape(vim.lsp.get_log_path()))
-
-lua << EOF
-vim.g.symbols_outline = {
-    width = 30
-}
-EOF
 
     augroup MySymbolsOutline
         autocmd!
@@ -1420,6 +1419,14 @@ if get(g:, 'use_asyncomplete', 0)
                     \ 'completor': function('asyncomplete#sources#neosnippet#completor')
                     \ }))
     endif
+endif
+
+if get(g:, 'use_copilot', 0) && has('nvim-0.6.0')
+    inoremap <silent> <script> <expr> <m-l> copilot#Accept('')
+    imap <silent> <m-h> <Plug>(copilot-dismiss)
+    imap <silent> <m-j> <Plug>(copilot-next)
+    imap <silent> <m-k> <Plug>(copilot-previous)
+    let g:copilot_no_tab_map = v:true
 endif
 
 " if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
