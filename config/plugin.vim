@@ -170,6 +170,13 @@ Plug 'mbbill/undotree'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
+if exists(':terminal')
+    if has('nvim')
+        Plug 'rbgrouleff/bclose.vim'
+    endif
+    Plug 'francoiscabrol/ranger.vim'
+endif
+
 Plug 'sbdchd/neoformat'
 
 " Plug 'lfilho/cosco.vim'
@@ -2106,6 +2113,16 @@ augroup MyNERDTree
     autocmd!
     autocmd BufEnter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
 augroup END
+
+if exists(':terminal')
+    if executable('ranger')
+        let g:NERDTreeHijackNetrw = 0
+        let g:ranger_replace_netrw = 1
+    endif
+    let g:ranger_map_keys = 0
+    nnoremap <silent> <leader>rg :Ranger<cr>
+    nnoremap <silent> <leader>rG :RangerCurrentDirectory<cr>
+endif
 
 let g:neoformat_basic_format_align = 1
 let g:neoformat_basic_format_retab = 1
