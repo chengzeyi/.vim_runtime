@@ -2117,7 +2117,11 @@ augroup END
 if exists(':terminal')
     if executable('ranger')
         let g:NERDTreeHijackNetrw = 0
-        let g:ranger_replace_netrw = 1
+        " let g:ranger_replace_netrw = 1
+        augroup ReplaceNetrwByRangerVim
+            autocmd VimEnter * silent! autocmd! FileExplorer
+            autocmd BufEnter * ++nested if isdirectory(expand("%")) | call OpenRangerOnVimLoadDir("%") | endif
+        augroup END
     endif
     let g:ranger_map_keys = 0
     nnoremap <silent> <leader>rg :Ranger<cr>
