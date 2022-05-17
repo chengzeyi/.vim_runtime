@@ -391,11 +391,14 @@ if has('persistent_undo')
 endif
 
 if has('diff')
-    set diffopt=
-    if has('patch-8.1.0360') || has('nvim-0.3.2')
-        set diffopt+=internal,filler,indent-heuristic,algorithm:histogram
-    endif
-    set diffopt+=context:3,foldcolumn:1
+    " Default VIM on MacOSX has a bug with this
+    try
+        set diffopt+=context:3,foldcolumn:1
+        if has('patch-8.1.0360') || has('nvim-0.3.2')
+            set diffopt+=internal,filler,indent-heuristic,algorithm:histogram
+        endif
+    catch
+    endtry
 endif
 
 " set complete-=i
