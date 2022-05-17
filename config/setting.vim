@@ -391,10 +391,11 @@ if has('persistent_undo')
 endif
 
 if has('diff')
-    set diffopt+=context:3,foldcolumn:1
+    set diffopt=
     if has('patch-8.1.0360') || has('nvim-0.3.2')
         set diffopt+=internal,filler,indent-heuristic,algorithm:histogram
     endif
+    set diffopt+=context:3,foldcolumn:1
 endif
 
 " set complete-=i
