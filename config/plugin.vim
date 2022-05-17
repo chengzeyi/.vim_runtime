@@ -400,27 +400,27 @@ require'nvim-treesitter.configs'.setup {
     -- }
 -- }
 
-local queries = require 'nvim-treesitter.query'
-require'nvim-treesitter'.define_modules {
-    my_statusline = {
-        enable = true,
-        attach = function(bufnr, lang)
-            if vim.g.statusline_extra_left_2 then
-                return
-            end
-            vim.b.statusline_extra_left_2 = {
-                "luaeval",
-                {
-                    "require'util'.treesitter_statusline()"
-                }
-            }
-        end,
-        detach = function(bufnr)
-            vim.b.statusline_extra_left_2 = nil
-        end,
-        is_supported = queries.has_locals
-    }
-}
+-- local queries = require 'nvim-treesitter.query'
+-- require'nvim-treesitter'.define_modules {
+--     my_statusline = {
+--         enable = true,
+--         attach = function(bufnr, lang)
+--             if vim.g.statusline_extra_left_2 then
+--                 return
+--             end
+--             vim.b.statusline_extra_left_2 = {
+--                 "luaeval",
+--                 {
+--                     "require'util'.treesitter_statusline()"
+--                 }
+--             }
+--         end,
+--         detach = function(bufnr)
+--             vim.b.statusline_extra_left_2 = nil
+--         end,
+--         is_supported = queries.has_locals
+--     }
+-- }
 
 local queries = require 'nvim-treesitter.query'
 require'nvim-treesitter'.define_modules {
