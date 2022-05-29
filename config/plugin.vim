@@ -83,6 +83,10 @@ if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
     Plug 'hrsh7th/cmp-path'
     Plug 'hrsh7th/cmp-cmdline'
 
+    " if executable('rg')
+    "     Plug 'lukas-reineke/cmp-rg'
+    " endif
+
     " Plug 'uga-rosa/cmp-dictionary'
     " Plug 'quangnguyen30192/cmp-nvim-tags'
 
@@ -732,6 +736,7 @@ local source_names = {
     latex_symbols = "[LaTeX]",
     tags = "[Tag]",
     path = "[Path]",
+    rg = "[RG]",
     dictionary = "[Dict]",
 }
 
@@ -775,10 +780,10 @@ cmp.setup({
         end,
     },
     mapping = {
-        ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-        ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-        ['<C-y>'] = cmp.mapping(cmp.mapping.close(), { 'i', 'c' }),
+        ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4)),
+        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4)),
+        ['<C-Space>'] = cmp.mapping(cmp.mapping.complete()),
+        ['<C-y>'] = cmp.mapping(cmp.mapping.close()),
         -- ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
         ['<C-e>'] = cmp.mapping({
             i = cmp.mapping.abort(),
@@ -786,7 +791,7 @@ cmp.setup({
         }),
         ['<CR>'] = cmp.mapping.confirm(),
         -- ['<CR>'] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
-        ["<Tab>"] = cmp.mapping(function(fallback)
+        ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
             -- elseif vim.fn["vsnip#available"](1) == 1 then
@@ -796,15 +801,15 @@ cmp.setup({
             else
                 fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
             end
-        end, { "i", "s" }),
+        end),
 
-        ["<S-Tab>"] = cmp.mapping(function()
+        ['<S-Tab>'] = cmp.mapping(function()
             if cmp.visible() then
                 cmp.select_prev_item()
             -- elseif vim.fn["vsnip#jumpable"](-1) == 1 then
                 -- feedkey("<Plug>(vsnip-jump-prev)", "")
             end
-        end, { "i", "s" }),
+        end),
     },
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
@@ -822,6 +827,7 @@ cmp.setup({
                 get_bufnrs = get_bufnrs 
             }
         },
+        -- { name = 'rg' },
         -- { name = 'dictionary', keyword_length = 2 },
     }),
     formatting = {
@@ -844,7 +850,8 @@ cmp.setup({
 })
 
 local cmdline_search_configs = {
-    {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
         { name = 'nvim_lsp_document_symbol' }
     }, {
         -- { name = 'buffer' },
@@ -852,15 +859,16 @@ local cmdline_search_configs = {
                 get_bufnrs = get_bufnrs
             }
         }
-    }
+    })
 }
 
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline('/', unpack(cmdline_search_configs))
-cmp.setup.cmdline('?', unpack(cmdline_search_configs))
+cmp.setup.cmdline('/', cmdline_search_configs)
+cmp.setup.cmdline('?', cmdline_search_configs)
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
         { name = 'path' }
     }, {
@@ -942,7 +950,14 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gM', '<cmd>lua require"lsp_ext".peek_implementation()<cr>', opts)
 
     vim.api.nvim_command [[augroup MyNvimLspBuffer]]
-    if client.resolved_capabilities.document_highlight then
+    
+    local has_document_highlight
+    if vim.fn.has('nvim-0.7.0') then
+        has_document_highlight = client.server_capabilities.documentHighlightProvider
+    else
+        has_document_highlight = client.resolved_capabilities.document_highlight
+    end
+    if has_document_highlight then
         vim.api.nvim_command [[autocmd! * <buffer>]]
         vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
