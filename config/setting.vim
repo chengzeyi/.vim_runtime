@@ -65,6 +65,8 @@ if has('patch-8.1.1564') || has('nvim-0.5.0')
     set signcolumn=number
 endif
 
+set colorcolumn=+2
+
 set exrc
 set secure
 
@@ -271,7 +273,8 @@ set nobackup
 set nowb
 set noswapfile
 
-set formatoptions+=tcromMqj
+set formatoptions-=t
+set formatoptions+=cromMqj
 
 set nojoinspaces
 
