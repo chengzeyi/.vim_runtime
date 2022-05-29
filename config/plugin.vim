@@ -952,7 +952,7 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_command [[augroup MyNvimLspBuffer]]
     
     local has_document_highlight
-    if vim.fn.has('nvim-0.7.0') then
+    if vim.fn.has('nvim-0.7.0') == 1 then
         has_document_highlight = client.server_capabilities.documentHighlightProvider
     else
         has_document_highlight = client.resolved_capabilities.document_highlight
