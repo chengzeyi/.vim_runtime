@@ -789,7 +789,16 @@ cmp.setup({
             i = cmp.mapping.abort(),
             c = cmp.mapping.close(),
         }),
-        ['<CR>'] = cmp.mapping.confirm(),
+        ['<CR>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.confirm({}, function()
+                    cmp.close()
+                    fallback()
+                end)
+            else
+                fallback()
+            end
+        end),
         -- ['<CR>'] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
         ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
