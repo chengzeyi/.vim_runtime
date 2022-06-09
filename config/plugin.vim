@@ -790,7 +790,7 @@ cmp.setup({
             c = cmp.mapping.close(),
         }),
         ['<CR>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
+            if cmp.visible() and cmp.get_active_entry() ~= undefined then
                 cmp.confirm({}, function()
                     cmp.close()
                     fallback()
