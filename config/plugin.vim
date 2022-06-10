@@ -822,22 +822,22 @@ cmp.setup({
     },
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        { name = 'nvim_lua' },
         { name = 'nvim_lsp_signature_help' },
-        { name = 'cmp_tabnine' },
+        { name = 'nvim_lua' },
         { name = 'vsnip' }, -- For vsnip users.
         -- { name = 'luasnip' }, -- For luasnip users.
         -- { name = 'ultisnips' }, -- For ultisnips users.
         -- { name = 'snippy' }, -- For snippy users.
         -- { name = 'tags' },
-        { name = 'path' },
         -- { name = 'buffer' },
         { name = 'buffer', option = {
                 get_bufnrs = get_bufnrs 
             }
         },
-        -- { name = 'rg' },
+        { name = 'path' },
         -- { name = 'dictionary', keyword_length = 2 },
+        { name = 'cmp_tabnine' },
+        -- { name = 'rg' },
     }),
     formatting = {
         format = function(entry, vim_item)
