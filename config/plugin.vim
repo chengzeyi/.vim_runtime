@@ -1023,6 +1023,13 @@ for _, server in ipairs(vim.g.use_nvim_lsp_configs or {}) do
         config['filetypes'] = {
             'c', 'cpp', 'objc', 'objcpp', 'cuda', 'arduino'
         }
+        config['cmd'] = {
+            'clangd',
+            '--compile-commands-dir=build',
+            '--background-index',
+            '--all-scopes-completion',
+            '--clang-tidy'
+        }
     end
     require'lspconfig'[server].setup(config)
 end
