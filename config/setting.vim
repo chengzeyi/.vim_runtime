@@ -273,8 +273,8 @@ set nobackup
 set nowb
 set noswapfile
 
-set formatoptions-=t
-set formatoptions+=cromMqj
+set formatoptions-=tc
+set formatoptions+=romMqj
 
 set nojoinspaces
 
