@@ -837,14 +837,14 @@ cmp.setup({
         -- { name = 'snippy' }, -- For snippy users.
         -- { name = 'tags' },
         -- { name = 'buffer' },
-        { name = 'buffer', option = {
-                get_bufnrs = get_bufnrs,
-                max_item_count = 5,
-            }
+        { name = 'buffer',
+          option = {
+              get_bufnrs = get_bufnrs,
+          },
+          max_item_count = 5,
         },
-        { name = 'path', option = {
-                max_item_count = 5,
-            }
+        { name = 'path',
+          max_item_count = 5,
         },
         -- { name = 'dictionary', keyword_length = 2 },
         { name = 'cmp_tabnine' },
