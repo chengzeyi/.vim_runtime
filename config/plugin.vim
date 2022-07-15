@@ -82,6 +82,7 @@ if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
     Plug 'hrsh7th/cmp-buffer'
     Plug 'hrsh7th/cmp-path'
     Plug 'hrsh7th/cmp-cmdline'
+    Plug 'dmitmel/cmp-cmdline-history'
 
     " if executable('rg')
     "     Plug 'lukas-reineke/cmp-rg'
@@ -127,6 +128,10 @@ endif
 
 if get(g:, 'use_copilot', 0) && has('nvim-0.6.0')
     Plug 'github/copilot.vim'
+    " if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
+    "     Plug 'zbirenbaum/copilot.lua'
+    "     Plug 'zbirenbaum/copilot-cmp'
+    " endif
 endif
 
 " if (has('nvim-0.3.0') || v:version >= 800) && has('python3')
@@ -722,11 +727,12 @@ local kind_icons = {
     Struct = "",
     Event = "",
     Operator = "",
-    TypeParameter = ""
+    TypeParameter = "",
 }
 
 local source_names = {
     buffer = "[Buffer]",
+    copilot = "[Copilot]",
     nvim_lsp = "[LSP]",
     nvim_lsp_signature_help = "[Signature]",
     cmp_tabnine = "[TN]",
@@ -821,6 +827,7 @@ cmp.setup({
         end),
     },
     sources = cmp.config.sources({
+        { name = 'copilot' },
         { name = 'nvim_lsp' },
         { name = 'nvim_lsp_signature_help' },
         { name = 'nvim_lua' },
@@ -831,10 +838,14 @@ cmp.setup({
         -- { name = 'tags' },
         -- { name = 'buffer' },
         { name = 'buffer', option = {
-                get_bufnrs = get_bufnrs 
+                get_bufnrs = get_bufnrs,
+                max_item_count = 5,
             }
         },
-        { name = 'path' },
+        { name = 'path', option = {
+                max_item_count = 5,
+            }
+        },
         -- { name = 'dictionary', keyword_length = 2 },
         { name = 'cmp_tabnine' },
         -- { name = 'rg' },
@@ -844,21 +855,31 @@ cmp.setup({
             -- Kind icons
             local kind = string.format('%s %s', kind_icons[vim_item.kind] or '', vim_item.kind) -- This concatonates the icons with the name of the item kind
             -- Source
-            local menu = source_names[entry.source.name] or ""
-            if entry.source.name == 'cmp_tabnine' then
-				if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
-					menu = menu .. ' ' .. entry.completion_item.data.detail
-				end
+            local name = entry.source.name
+            local menu = source_names[name] or ""
+            if name == 'cmp_tabnine' then
                 kind = string.format('%s %s', '', vim_item.kind) -- This concatonates the icons with the name of the item kind
-			end
-			vim_item.kind = kind
-			vim_item.menu = menu
+                if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
+                    menu = menu .. ' ' .. entry.completion_item.data.detail
+                end
+            elseif name == 'copilot' then
+                kind = string.format('%s %s', '', vim_item.kind) -- This concatonates the icons with the name of the item kind
+                vim_item.kind_hl_group = 'CmpItemKindCopilot'
+            end
+            vim_item.kind = kind
+            vim_item.menu = menu
             return vim_item
         end
     },
 })
 
 local cmdline_search_configs = {
+    -- view = {                                                
+    --     entries = {
+    --         name = 'wildmenu',
+    --         separator = '|'
+    --     }       
+    -- },
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
         { name = 'nvim_lsp_document_symbol' }
@@ -867,7 +888,8 @@ local cmdline_search_configs = {
         { name = 'buffer', option = {
                 get_bufnrs = get_bufnrs
             }
-        }
+        },
+        { name = 'cmdline_history' }
     })
 }
 
@@ -879,9 +901,9 @@ cmp.setup.cmdline('?', cmdline_search_configs)
 cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
-        { name = 'path' }
-    }, {
-        { name = 'cmdline' }
+        { name = 'cmdline' },
+        { name = 'path' },
+        { name = 'cmdline_history' }
     })
 })
 EOF
@@ -1465,6 +1487,13 @@ if get(g:, 'use_copilot', 0) && has('nvim-0.6.0')
     imap <silent> <m-j> <Plug>(copilot-next)
     imap <silent> <m-k> <Plug>(copilot-previous)
     let g:copilot_no_tab_map = v:true
+    " if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
+    "     augroup MyCopilot
+    "         autocmd!
+    "         au BufEnter * let b:copilot_enabled = v:false
+    "         au VimEnter * lua vim.defer_fn(function() require('copilot').setup() end, 100)
+    "     augroup END
+    " endif
 endif
 
 " if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')

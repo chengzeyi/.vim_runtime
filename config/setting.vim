@@ -292,10 +292,10 @@ set shiftwidth=4
 set tabstop=4
 set softtabstop=-1
 
-set cink+=*<cr>
+" set cink+=*<cr>
 set cino+=l1,g0,N-s,E-s,(0,Ws
 
-set indentkeys+=*<cr>
+" set indentkeys+=*<cr>
 
 " set commentstring=//\ %s
 
