@@ -63,7 +63,7 @@ if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
     " Plug 'romgrk/nvim-treesitter-context'
 endif
 
-if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
+if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.7.0')
     if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
         Plug 'hrsh7th/cmp-nvim-lsp'
         Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
@@ -128,7 +128,7 @@ endif
 
 if get(g:, 'use_copilot', 0) && has('nvim-0.6.0')
     Plug 'github/copilot.vim'
-    " if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
+    " if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.7.0')
     "     Plug 'zbirenbaum/copilot.lua'
     "     Plug 'zbirenbaum/copilot-cmp'
     " endif
@@ -644,7 +644,7 @@ EOF
     nnoremap gss <cmd>echo nvim_treesitter#statusline()<cr>
 endif
 
-if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
+if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.7.0')
     imap <expr> <c-j> vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<c-j>'
     smap <expr> <c-j> vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<c-j>'
     imap <expr> <c-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<c-k>'
@@ -1487,7 +1487,7 @@ if get(g:, 'use_copilot', 0) && has('nvim-0.6.0')
     imap <silent> <m-j> <Plug>(copilot-next)
     imap <silent> <m-k> <Plug>(copilot-previous)
     let g:copilot_no_tab_map = v:true
-    " if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.5.0')
+    " if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.7.0')
     "     augroup MyCopilot
     "         autocmd!
     "         au BufEnter * let b:copilot_enabled = v:false
