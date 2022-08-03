@@ -685,6 +685,7 @@ EOF
 lua << EOF
 -- Setup nvim-cmp.
 local cmp = require'cmp'
+local keymap = require'cmp.utils.keymap'
 
 if pcall(require, 'cmp_tabnine.config') then
     local tabnine = require('cmp_tabnine.config')
@@ -796,10 +797,9 @@ cmp.setup({
             c = cmp.mapping.close(),
         }),
         ['<CR>'] = cmp.mapping(function(fallback)
-            if cmp.visible() and cmp.get_active_entry() ~= undefined then
+            if cmp.visible() and cmp.get_active_entry() then
                 cmp.confirm({}, function()
                     cmp.close()
-                    fallback()
                 end)
             else
                 fallback()
