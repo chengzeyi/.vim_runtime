@@ -1049,8 +1049,7 @@ for _, server in ipairs(vim.g.use_nvim_lsp_configs or {}) do
             'clangd',
             '--compile-commands-dir=build',
             '--background-index',
-            '--all-scopes-completion',
-            '--clang-tidy'
+            '--all-scopes-completion'
         }
     end
     require'lspconfig'[server].setup(config)
