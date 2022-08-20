@@ -226,6 +226,10 @@ endif
 "     Plug 'metakirby5/codi.vim'
 " endif
 
+if has('nvim')
+    Plug 'edluffy/hologram.nvim'
+endif
+
 Plug 'kana/vim-textobj-fold'
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
@@ -2333,6 +2337,16 @@ endif
 "     nnoremap <silent> <leader>co :Codi!!<cr>
 "     nnoremap <leader>cO :Codi!!<space>
 " endif
+
+if has('nvim')
+    if luaeval('pcall(require, "hologram")')
+lua << EOF
+        require('hologram').setup{
+            auto_display = true -- WIP automatic markdown image display, may be prone to breaking
+        }
+EOF
+    end
+end
 
 try
     " call textobj#user#plugin('datetime', {
