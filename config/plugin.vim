@@ -1854,7 +1854,8 @@ let g:fzf_command_prefix = 'FZF'
 " [Commands] --expect expression for directly executing the command
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 let g:fzf_tags_command = 'ctags -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q'
-let g:fzf_preview_window = ['up:50%', 'ctrl-/', 'ctrl-^']
+" let g:fzf_preview_window = ['up:50%', 'ctrl-/', 'ctrl-^']
+let g:fzf_preview_window = ['right,50%,<70(up,40%)', 'ctrl-/', 'ctrl-^']
 
 function! s:build_quickfix_list(lines) abort
     call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
