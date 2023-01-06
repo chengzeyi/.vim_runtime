@@ -1003,6 +1003,7 @@ local on_attach = function(client, bufnr)
     end
     -- vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.signature_help()]]
     -- vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua vim.lsp.buf.signature_help()]]
+    vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.diagnostic.open_float()]]
     vim.api.nvim_command [[augroup END]]
 
     if vim.lsp.tagfunc then
