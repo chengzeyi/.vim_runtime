@@ -1488,7 +1488,7 @@ endif
 if get(g:, 'use_copilot', 0) && has('nvim-0.6.0')
     inoremap <silent> <script> <expr> <m-l> copilot#Accept('')
     imap <silent> <m-h> <Plug>(copilot-dismiss)
-    imap <silent> <m-j> <Plug>(copilot-next)
+    imap <silent> <expr> <m-j> empty(copilot#GetDisplayedSuggestion().text) ? '<Plug>(copilot-suggest)' : '<Plug>(copilot-next)'
     imap <silent> <m-k> <Plug>(copilot-previous)
     let g:copilot_no_tab_map = v:true
     " if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.7.0')
