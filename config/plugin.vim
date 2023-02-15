@@ -230,6 +230,10 @@ endif
 "     Plug 'edluffy/hologram.nvim'
 " endif
 
+if has('nvim-0.7.0')
+    Plug 'rcarriga/nvim-notify'
+endif
+
 Plug 'kana/vim-textobj-fold'
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
@@ -342,25 +346,25 @@ endif
 
 " if has('nvim-0.5.0')
 "     if luaeval('pcall(require, "aerial")')
-"     lua << EOF
-"     local aerial = require'aerial'
+" lua << EOF
+" local aerial = require'aerial'
 
-"     aerial.register_attach_cb(function(bufnr)
-"         vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>tt', '<cmd>AerialToggle!<CR>', {})
-"         vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>tT', '<cmd>AerialToggle<CR>', {})
-"         vim.api.nvim_buf_set_keymap(bufnr, 'n', '(', '<cmd>AerialPrev<CR>', {})
-"         vim.api.nvim_buf_set_keymap(bufnr, 'n', ')', '<cmd>AerialNext<CR>', {})
-"         vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<cmd>AerialPrevUp<CR>', {})
-"         vim.api.nvim_buf_set_keymap(bufnr, 'n', '}', '<cmd>AerialNextUp<CR>', {})
-"     end)
+" aerial.register_attach_cb(function(bufnr)
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>tt', '<cmd>AerialToggle!<CR>', {})
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>tT', '<cmd>AerialToggle<CR>', {})
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', '(', '<cmd>AerialPrev<CR>', {})
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', ')', '<cmd>AerialNext<CR>', {})
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<cmd>AerialPrevUp<CR>', {})
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', '}', '<cmd>AerialNextUp<CR>', {})
+" end)
 
-"     vim.g.aerial = {
-"         max_width = 30,
-"         min_width = 30,
-"         close_behavior = 'global',
-"         placement_editor_edge = true,
-"     }
-"     EOF
+" vim.g.aerial = {
+"     max_width = 30,
+"     min_width = 30,
+"     close_behavior = 'global',
+"     placement_editor_edge = true,
+" }
+" EOF
 "     endif
 " endif
 
@@ -1103,7 +1107,8 @@ EOF
     "     lua vim.lsp.buf.hover()
     " endfunction
 
-    nnoremap <silent> <leader><cr><cr> <cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()))<cr>
+    nnoremap <silent> <leader><cr><cr> <cmd>LspInfo<cr>
+    " nnoremap <silent> <leader><cr><cr> <cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()))<cr>
     nnoremap <silent> <leader><cr>a <cmd>lua vim.lsp.buf.code_action()<cr>
     nnoremap <silent> <leader><cr>A <cmd>lua vim.lsp.buf.range_code_action()<cr>
     xnoremap <silent> <leader><cr>A <cmd>lua vim.lsp.buf.range_code_action()<cr>
@@ -2349,6 +2354,29 @@ endif
 " EOF
 "     end
 " end
+
+if has('nvim-0.7.0')
+    if luaeval('pcall(require, "notify")')
+lua << EOF
+local notify = require('notify')
+vim.notify = notify
+
+print = function(...)
+    local print_safe_args = {}
+    local _ = { ... }
+    for i = 1, #_ do
+        table.insert(print_safe_args, tostring(_[i]))
+    end
+    notify(table.concat(print_safe_args, ' '), "info")
+end
+
+notify.setup({
+    render = 'compact',
+    top_down = false,
+})
+EOF
+    endif
+endif
 
 try
     " call textobj#user#plugin('datetime', {
