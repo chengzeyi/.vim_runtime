@@ -879,6 +879,12 @@ cmp.setup({
             return vim_item
         end
     },
+    view = {                                                        
+        entries = {
+            name = 'custom',
+            selection_order = 'near_cursor',
+        },
+    },
 })
 
 local cmdline_search_configs = {
@@ -1001,9 +1007,17 @@ local on_attach = function(client, bufnr)
         vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()]]
-        vim.api.nvim_command [[autocmd BufEnter,CursorHold,InsertLeave <buffer> silent! lua vim.lsp.codelens.refresh()]]
         -- vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua require"lsp_ext".on_complete_done()]]
         -- vim.api.nvim_command [[autocmd CompleteChanged <buffer> lua require"lsp_ext".on_complete_changed()]]
+    end
+    local has_codelens
+    if vim.fn.has('nvim-0.7.0') == 1 then
+        has_codelens = client.server_capabilities.codeLensProvider
+    else
+        has_codelens = client.resolved_capabilities.code_lens
+    end
+    if has_codelens then
+        vim.api.nvim_command [[autocmd BufEnter,CursorHold,InsertLeave <buffer> silent! lua vim.lsp.codelens.refresh()]]
     end
     -- vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.signature_help()]]
     -- vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua vim.lsp.buf.signature_help()]]
@@ -1019,13 +1033,12 @@ local config = {
     on_attach = on_attach,
     handlers = { ['textDocument/signatureHelp'] = require'lsp_ext'.signature_help_callback }
 }
-if capabilities then
-    config['capabilities'] = capabilities
-end
-
 local capabilities = nil
 if pcall(require, 'cmp_nvim_lsp') then
-    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+    capabilities = require('cmp_nvim_lsp').default_capabilities()
+end
+if capabilities then
+    config['capabilities'] = capabilities
 end
 
 local lspconfig = require'lspconfig'
@@ -1042,11 +1055,6 @@ lspconfig.util.default_config = vim.tbl_extend(
 --         update_in_insert = true,
 --     }
 -- )
-
-local capabilities = nil
-if pcall(require, 'cmp_nvim_lsp') then
-    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-end
 
 for _, server in ipairs(vim.g.use_nvim_lsp_configs or {}) do
     local config = {}

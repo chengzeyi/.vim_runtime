@@ -1131,9 +1131,10 @@ function! ICR()
     if &buftype ==# 'quickfix' || exists('*win_gettype') && win_gettype() ==# 'command'
         return "\<CR>"
     endif
+    let current_line = getline('.')
     " generic case
-    let previous = getline('.')[col('.') - 2]
-    let next = getline('.')[col('.') - 1]
+    let previous = current_line[col('.') - 2]
+    let next = current_line[col('.') - 1]
     let idx = stridx('{[(', previous)
     if previous !=# '' && idx >= 0 && idx == stridx('}])', next)
         return "\<cr>\<esc>==O"

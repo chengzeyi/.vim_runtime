@@ -416,7 +416,7 @@ if has('patch-8.1.1882') && has('textprop')
     set completeopt+=popup
     set completepopup=height:20,width:80,align:menu,border:off,highlight:Pmenu
 endif
-set pumheight=12
+set pumheight=16
 " if exists('&pumblend')
 "     set pumblend=10
 "     augroup MyPumBlend
