@@ -879,12 +879,12 @@ cmp.setup({
             return vim_item
         end
     },
-    view = {                                                        
-        entries = {
-            name = 'custom',
-            selection_order = 'near_cursor',
-        },
-    },
+    -- view = {                                                        
+    --     entries = {
+    --         name = 'custom',
+    --         selection_order = 'near_cursor',
+    --     },
+    -- },
 })
 
 local cmdline_search_configs = {
@@ -1120,6 +1120,9 @@ EOF
     nnoremap <silent> <leader><cr>a <cmd>lua vim.lsp.buf.code_action()<cr>
     nnoremap <silent> <leader><cr>A <cmd>lua vim.lsp.buf.range_code_action()<cr>
     xnoremap <silent> <leader><cr>A <cmd>lua vim.lsp.buf.range_code_action()<cr>
+    nnoremap <silent> <leader><cr>q <cmd>lua vim.lsp.buf.code_action({ only = 'quickfix' })<cr>
+    nnoremap <silent> <leader><cr>Q <cmd>lua vim.lsp.buf.range_code_action({ only = 'quickfix' })<cr>
+    xnoremap <silent> <leader><cr>Q <cmd>lua vim.lsp.buf.range_code_action({ only = 'quickfix' })<cr>
     nnoremap <silent> <leader><cr>f <cmd>lua vim.lsp.buf.formatting()<cr>
     nnoremap <silent> <leader><cr>F <cmd>lua vim.lsp.buf.range_formatting()<cr>
     xnoremap <silent> <leader><cr>F <cmd>lua vim.lsp.buf.range_formatting()<cr>
