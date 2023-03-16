@@ -1889,10 +1889,10 @@ let g:fzf_action = {
 let g:fzf_colors = {
             \ 'fg':      ['fg', 'Pmenu'],
             \ 'bg':      ['bg', 'Pmenu'],
-            \ 'hl':      ['fg', 'Comment'],
+            \ 'hl':      ['fg', 'Title'],
             \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'PmenuSel'],
             \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-            \ 'hl+':     ['fg', 'Statement'],
+            \ 'hl+':     ['fg', 'Title'],
             \ 'info':    ['fg', 'PreProc'],
             \ 'border':  ['fg', 'VertSplit'],
             \ 'prompt':  ['fg', 'Conditional'],
