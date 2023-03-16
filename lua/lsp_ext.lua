@@ -1,6 +1,6 @@
 local validate = vim.validate
-local lsp_util = require 'vim.lsp.util'
-local lsp_proto = require("vim.lsp.protocol")
+local lsp_util = require'vim.lsp.util'
+local lsp_proto = require'vim.lsp.protocol'
 
 M = {}
 
@@ -133,7 +133,7 @@ function M.preview_location(location, context, before_context)
     local contents =
     vim.api.nvim_buf_get_lines(bufnr, range.start.line - before_context, range['end'].line + 1 + context, false)
     local filetype = vim.api.nvim_buf_get_option(bufnr, 'filetype')
-    return vim.lsp.lsp_util.open_floating_preview(contents, filetype, {
+    return lsp_util.open_floating_preview(contents, filetype, {
         border = "single"
     })
 end
