@@ -826,11 +826,15 @@ cmp.setup({
             end
         end),
 
-        ['<S-Tab>'] = cmp.mapping(function()
+        ['<S-Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
             -- elseif vim.fn["vsnip#jumpable"](-1) == 1 then
                 -- feedkey("<Plug>(vsnip-jump-prev)", "")
+            elseif has_words_before() then
+                cmp.complete()
+            else
+                fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
             end
         end),
     },
@@ -911,9 +915,70 @@ local cmdline_search_configs = {
 cmp.setup.cmdline('/', cmdline_search_configs)
 cmp.setup.cmdline('?', cmdline_search_configs)
 
+local function delay(fn, time)
+    local timer = vim.loop.new_timer()
+    timer:start(time, 0, vim.schedule_wrap(function()
+        fn()
+        timer:stop()
+    end))
+end
+
+cmd_mapping = cmp.mapping.preset.cmdline()
+cmd_mapping_override = {
+    ['<Tab>'] = {
+        c = function()
+            if vim.api.nvim_get_mode().mode == "c" then
+                local text = vim.fn.getcmdline()
+                local expanded = vim.fn.expandcmd(text)
+                if expanded ~= text then
+                    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-U>", true, true, true) .. expanded, "n", false)
+                    -- triggering right away won't work, need to wait a cycle
+                    delay(cmp.complete, 0)
+                elseif cmp.visible() then
+                    cmp.select_next_item()
+                else
+                    cmp.complete()
+                end
+            else
+                if cmp.visible() then
+                    cmp.select_next_item()
+                else
+                    cmp.complete()
+                end
+            end -- in the real mapping there are other elseif clauses
+        end,
+    },
+    ['<S-Tab>'] = {
+        c = function()
+            if vim.api.nvim_get_mode().mode == "c" then
+                local text = vim.fn.getcmdline()
+                local expanded = vim.fn.expandcmd(text)
+                if expanded ~= text then
+                    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-U>", true, true, true) .. expanded, "n", false)
+                    -- triggering right away won't work, need to wait a cycle
+                    delay(cmp.complete, 0)
+                elseif cmp.visible() then
+                    cmp.select_prev_item()
+                else
+                    cmp.complete()
+                end
+            else
+                if cmp.visible() then
+                    cmp.select_prev_item()
+                else
+                    cmp.complete()
+                end
+            end
+        end
+    }
+}
+for k, v in pairs(cmd_mapping_override) do
+    cmd_mapping[k] = v
+end
+
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(':', {
-    mapping = cmp.mapping.preset.cmdline(),
+    mapping = cmd_mapping,
     sources = cmp.config.sources({
         { name = 'cmdline' },
         { name = 'path' },
