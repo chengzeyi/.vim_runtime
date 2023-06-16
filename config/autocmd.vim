@@ -248,7 +248,7 @@ augroup END
 augroup MyFileType
     autocmd!
     " autocmd FileType * setlocal cink= indentkeys=
-    autocmd FileType c,cpp,objc,cs,java,json setlocal commentstring=//\ %s
+    autocmd FileType c,cpp,objc,objcpp,cuda,cs,java,json setlocal commentstring=//\ %s
     " autocmd FileType json syntax match Comment +\/\/.\+$+
     " if has('python3') || has('python')
         " autocmd Filetype python compiler pylint

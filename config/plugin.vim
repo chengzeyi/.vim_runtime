@@ -230,9 +230,9 @@ endif
 "     Plug 'edluffy/hologram.nvim'
 " endif
 
-if has('nvim-0.7.0')
-    Plug 'rcarriga/nvim-notify'
-endif
+" if has('nvim-0.7.0')
+"     Plug 'rcarriga/nvim-notify'
+" endif
 
 Plug 'kana/vim-textobj-fold'
 Plug 'kana/vim-textobj-user'
@@ -1937,7 +1937,7 @@ let g:fzf_command_prefix = 'FZF'
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 let g:fzf_tags_command = 'ctags -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q'
 " let g:fzf_preview_window = ['up:50%', 'ctrl-/', 'ctrl-^']
-let g:fzf_preview_window = ['right,50%,<70(up,40%)', 'ctrl-/', 'ctrl-^']
+let g:fzf_preview_window = ['right,50%,<240(up,40%)', 'ctrl-/', 'ctrl-^']
 
 function! s:build_quickfix_list(lines) abort
     call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
@@ -2431,28 +2431,28 @@ endif
 "     end
 " end
 
-if has('nvim-0.7.0')
-    if luaeval('pcall(require, "notify")')
-lua << EOF
-local notify = require('notify')
-vim.notify = notify
+" if has('nvim-0.7.0')
+"     if luaeval('pcall(require, "notify")')
+" lua << EOF
+" local notify = require('notify')
+" vim.notify = notify
 
-print = function(...)
-    local print_safe_args = {}
-    local _ = { ... }
-    for i = 1, #_ do
-        table.insert(print_safe_args, tostring(_[i]))
-    end
-    notify(table.concat(print_safe_args, ' '), "info")
-end
+" print = function(...)
+"     local print_safe_args = {}
+"     local _ = { ... }
+"     for i = 1, #_ do
+"         table.insert(print_safe_args, tostring(_[i]))
+"     end
+"     notify(table.concat(print_safe_args, ' '), "info")
+" end
 
-notify.setup({
-    render = 'compact',
-    top_down = false,
-})
-EOF
-    endif
-endif
+" notify.setup({
+"     render = 'compact',
+"     -- top_down = false,
+" })
+" EOF
+"     endif
+" endif
 
 try
     " call textobj#user#plugin('datetime', {
