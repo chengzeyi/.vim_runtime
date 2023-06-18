@@ -295,6 +295,9 @@ augroup MyOpenLargeFile
                 \ |     setlocal noundofile
                 \ |     setlocal noswapfile
                 \ | endif
+    autocmd BufWinEnter * if IsLargeFile(expand('<afile>'))
+                \ |     syntax clear
+                \ | endif
     " if get(g:, 'use_treesitter', 0) && has('nvim-0.5.0')
     "     autocmd BufReadPre * if IsLargeFile(expand('<afile>'))
     "                 \ | call DisableTSForCurrentBuf()

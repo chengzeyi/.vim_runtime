@@ -293,6 +293,10 @@ if get(g:, 'use_devicons', 0)
     Plug 'ryanoasis/vim-devicons'
 endif
 
+if has('nvim')
+    Plug 't-troebst/perfanno.nvim'
+endif
+
 call plug#end()
 
 " if has('patch-7.4.2201')
@@ -768,7 +772,7 @@ local get_bufnrs = function()
     local bufs = {}
     for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
         local bufnr = vim.api.nvim_win_get_buf(win)
-        if vim.api.nvim_buf_line_count(bufnr) <= 50000 then
+        if vim.api.nvim_buf_line_count(bufnr) <= 50000 and vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr)) <= 1e6 then
             bufs[vim.api.nvim_win_get_buf(win)] = true
         end
     end
@@ -927,7 +931,7 @@ cmd_mapping = cmp.mapping.preset.cmdline()
 cmd_mapping_override = {
     ['<Tab>'] = {
         c = function()
-            if vim.api.nvim_get_mode().mode == "c" then
+            if vim.api.nvim_get_mode().mode == "c" and cmp.get_selected_entry() == nil then
                 local text = vim.fn.getcmdline()
                 local expanded = vim.fn.expandcmd(text)
                 if expanded ~= text then
@@ -950,7 +954,7 @@ cmd_mapping_override = {
     },
     ['<S-Tab>'] = {
         c = function()
-            if vim.api.nvim_get_mode().mode == "c" then
+            if vim.api.nvim_get_mode().mode == "c" and cmp.get_selected_entry() == nil then
                 local text = vim.fn.getcmdline()
                 local expanded = vim.fn.expandcmd(text)
                 if expanded ~= text then
@@ -2528,3 +2532,11 @@ nnoremap <leader>cx :XtermColorTable<cr>
 
 nmap <silent> <leader>cc <Plug>Colorizer
 xmap <silent> <leader>cc <Plug>Colorizer
+
+if has('nvim')
+    if luaeval('pcall(require, "perfanno")')
+lua << EOF
+require("perfanno").setup()
+EOF
+    endif
+endif
