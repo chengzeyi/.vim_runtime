@@ -1074,7 +1074,7 @@ local on_attach = function(client, bufnr)
     if has_document_highlight then
         vim.api.nvim_command [[autocmd! * <buffer>]]
         vim.api.nvim_command [[autocmd CursorHold <buffer> silent! lua vim.lsp.buf.document_highlight()]]
-        vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
+        -- vim.api.nvim_command [[autocmd CursorHoldI <buffer> silent! lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorMoved <buffer> silent! lua vim.lsp.buf.clear_references()]]
         -- vim.api.nvim_command [[autocmd CompleteDone <buffer> silent! lua require"lsp_ext".on_complete_done()]]
         -- vim.api.nvim_command [[autocmd CompleteChanged <buffer> lua require"lsp_ext".on_complete_changed()]]
