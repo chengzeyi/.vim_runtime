@@ -2393,9 +2393,9 @@ if exists(':terminal')
         " imap <silent> <c-space> <Plug>(Multiterm)
         " imap <silent> <nul> <Plug>(Multiterm)
 
-        nmap <silent> <c-n> <Plug>(Multiterm)
-        tmap <silent> <c-n> <Plug>(Multiterm)
-        vmap <silent> <c-n> <Plug>(Multiterm)
+        nmap <silent> <F12> <Plug>(Multiterm)
+        tmap <silent> <F12> <Plug>(Multiterm)
+        vmap <silent> <F12> <Plug>(Multiterm)
     elseif has('nvim') || has('patch-8.0.1593')
         let g:nuake_position = 'top'
         " let g:nuake_size = 0.2
@@ -2415,13 +2415,13 @@ if exists(':terminal')
         " inoremap <silent> <c-space> <c-o>:Nuake<cr>
         " inoremap <silent> <nul> <c-o>:Nuake<cr>
 
-        nnoremap <silent> <c-n> :Nuake<cr>
+        nnoremap <silent> <F12> :Nuake<cr>
         if has('nvim')
-            tnoremap <silent> <c-n> <cmd>Nuake<cr>
+            tnoremap <silent> <F12> <cmd>Nuake<cr>
         else
-            tnoremap <silent> <c-n> <c-w>:Nuake<cr>
+            tnoremap <silent> <F12> <c-w>:Nuake<cr>
         endif
-        vnoremap <silent> <c-n> :<c-u>Nuake<cr>
+        vnoremap <silent> <F12> :<c-u>Nuake<cr>
     endif
 endif
 
