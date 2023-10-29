@@ -869,17 +869,20 @@ cmp.setup({
     formatting = {
         format = function(entry, vim_item)
             -- Kind icons
-            local kind = string.format('%s %s', kind_icons[vim_item.kind] or '', vim_item.kind) -- This concatonates the icons with the name of the item kind
+            -- local kind = string.format('%s %s', kind_icons[vim_item.kind] or '', vim_item.kind) -- This concatonates the icons with the name of the item kind
+            local kind = vim_item.kind
             -- Source
             local name = entry.source.name
             local menu = source_names[name] or ""
             if name == 'cmp_tabnine' then
-                kind = string.format('%s %s', '', vim_item.kind) -- This concatonates the icons with the name of the item kind
+                -- kind = string.format('%s %s', '', vim_item.kind) -- This concatonates the icons with the name of the item kind
+                kind = vim_item.kind
                 if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
                     menu = menu .. ' ' .. entry.completion_item.data.detail
                 end
             elseif name == 'copilot' then
-                kind = string.format('%s %s', '', vim_item.kind) -- This concatonates the icons with the name of the item kind
+                -- kind = string.format('%s %s', '', vim_item.kind) -- This concatonates the icons with the name of the item kind
+                kind = vim_item.kind
                 vim_item.kind_hl_group = 'CmpItemKindCopilot'
             end
             vim_item.kind = kind
