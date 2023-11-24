@@ -1586,6 +1586,10 @@ if get(g:, 'use_copilot', 0) && has('nvim-0.6.0')
     "         au VimEnter * lua vim.defer_fn(function() require('copilot').setup() end, 100)
     "     augroup END
     " endif
+
+    let g:copilot_filetypes = {
+                \ '*': v:true,
+                \ }
 endif
 
 " if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
