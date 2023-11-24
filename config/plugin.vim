@@ -1195,9 +1195,9 @@ EOF
     nnoremap <silent> <leader><cr>q <cmd>lua vim.lsp.buf.code_action({ only = 'quickfix' })<cr>
     nnoremap <silent> <leader><cr>Q <cmd>lua vim.lsp.buf.range_code_action({ only = 'quickfix' })<cr>
     xnoremap <silent> <leader><cr>Q <cmd>lua vim.lsp.buf.range_code_action({ only = 'quickfix' })<cr>
-    nnoremap <silent> <leader><cr>f <cmd>lua vim.lsp.buf.formatting()<cr>
-    nnoremap <silent> <leader><cr>F <cmd>lua vim.lsp.buf.range_formatting()<cr>
-    xnoremap <silent> <leader><cr>F <cmd>lua vim.lsp.buf.range_formatting()<cr>
+    nnoremap <silent> <leader><cr>f <cmd>lua (vim.lsp.buf.format or vim.lsp.buf.formatting)()<cr>
+    nnoremap <silent> <leader><cr>F <cmd>lua (vim.lsp.buf.range_formatting or vim.lsp.buf.range_formatting)()<cr>
+    xnoremap <silent> <leader><cr>F <cmd>lua (vim.lsp.buf.range_formatting or vim.lsp.buf.range_formatting)()<cr>
     nnoremap <silent> <leader><cr>r <cmd>lua vim.lsp.buf.rename()<cr>
     nnoremap <silent> <leader><cr>e <cmd>lua vim.diagnostic.enable()<cr>
     nnoremap <silent> <leader><cr>E <cmd>lua vim.diagnostic.disable()<cr>
