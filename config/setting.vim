@@ -526,4 +526,15 @@ if executable('win32yank.exe')
               \   },
               \   'cache_enabled': 0,
               \ }
+else
+    " WSL yank support
+    " let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
+    let s:clip = 'clip.exe'
+    if executable(s:clip)
+        augroup WSLYank
+            autocmd!
+            autocmd TextYankPost * if v:event.operator ==# 'y'
+                        \ && v:event.regname ==# '*'| call system(s:clip, @*) | endif
+        augroup END
+    endif
 endif
