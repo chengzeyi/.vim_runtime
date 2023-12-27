@@ -1577,6 +1577,7 @@ endif
 
 if get(g:, 'use_copilot', 0) && has('nvim-0.6.0')
     inoremap <silent> <script> <expr> <m-l> copilot#Accept('')
+    inoremap <silent> <script> <expr> <m-o> copilot#AcceptWord('')
     imap <silent> <m-h> <Plug>(copilot-dismiss)
     imap <silent> <expr> <m-j> empty(copilot#GetDisplayedSuggestion().text) ? '<Plug>(copilot-suggest)' : '<Plug>(copilot-next)'
     imap <silent> <m-k> <Plug>(copilot-previous)
