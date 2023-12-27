@@ -511,3 +511,19 @@ let g:java_highlight_all = 1
 let g:java_highlight_functions = 'style'
 
 let g:no_google_python_indent = 1
+
+if executable('win32yank.exe')
+    set clipboard+=unnamedplus
+    let g:clipboard = {
+              \   'name': 'win32yank-wsl',
+              \   'copy': {
+              \      '+': 'win32yank.exe -i --crlf',
+              \      '*': 'win32yank.exe -i --crlf',
+              \    },
+              \   'paste': {
+              \      '+': 'win32yank.exe -o --lf',
+              \      '*': 'win32yank.exe -o --lf',
+              \   },
+              \   'cache_enabled': 0,
+              \ }
+endif
