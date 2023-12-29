@@ -512,29 +512,20 @@ let g:java_highlight_functions = 'style'
 
 let g:no_google_python_indent = 1
 
-if executable('powershell.exe')
-    " set clipboard+=unnamedplus
-    let g:clipboard = {
-                \   'name': 'WslClipboard',
-                \   'copy': {
-                \      '+': 'clip.exe',
-                \      '*': 'clip.exe',
-                \    },
-                \   'paste': {
-                \      '+': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-                \      '*': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-                \   },
-                \   'cache_enabled': 0,
-                \ }
-else
-    " WSL yank support
-    " let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
-    let s:clip = 'clip.exe'
-    if executable(s:clip)
-        augroup WSLYank
-            autocmd!
-            autocmd TextYankPost * if v:event.operator ==# 'y'
-                        \ && v:event.regname ==# '*'| call system(s:clip, @*) | endif
-        augroup END
+if !has('win32')
+    if executable('clip.exe') && executable('powershell.exe')
+        " set clipboard+=unnamedplus
+        let g:clipboard = {
+                    \   'name': 'WslClipboard',
+                    \   'copy': {
+                    \      '+': 'clip.exe',
+                    \      '*': 'clip.exe',
+                    \    },
+                    \   'paste': {
+                    \      '+': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+                    \      '*': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+                    \   },
+                    \   'cache_enabled': 0,
+                    \ }
     endif
 endif

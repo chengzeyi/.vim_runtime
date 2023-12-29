@@ -1404,7 +1404,10 @@ command! -nargs=* -complete=file Open call Open(<q-args>)
 
 function! Open(url) abort
     " Windows (and WSL)
-    if executable('cmd.exe')
+    if executable('wsl-open')
+        call system(['wsl-open', a:url])
+        " Linux/BSD
+    elseif executable('cmd.exe')
         call system(['cmd.exe', '/c', 'start', '/b', a:url])
         " Linux/BSD
     elseif executable('xdg-open')
