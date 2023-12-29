@@ -512,20 +512,20 @@ let g:java_highlight_functions = 'style'
 
 let g:no_google_python_indent = 1
 
-if executable('win32yank.exe')
-    set clipboard+=unnamedplus
+if executable('powershell.exe')
+    " set clipboard+=unnamedplus
     let g:clipboard = {
-              \   'name': 'win32yank-wsl',
-              \   'copy': {
-              \      '+': 'win32yank.exe -i --crlf',
-              \      '*': 'win32yank.exe -i --crlf',
-              \    },
-              \   'paste': {
-              \      '+': 'win32yank.exe -o --lf',
-              \      '*': 'win32yank.exe -o --lf',
-              \   },
-              \   'cache_enabled': 0,
-              \ }
+                \   'name': 'WslClipboard',
+                \   'copy': {
+                \      '+': 'clip.exe',
+                \      '*': 'clip.exe',
+                \    },
+                \   'paste': {
+                \      '+': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+                \      '*': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+                \   },
+                \   'cache_enabled': 0,
+                \ }
 else
     " WSL yank support
     " let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
