@@ -659,10 +659,17 @@ EOF
 endif
 
 if get(g:, 'use_nvim_cmp', 0) && has('nvim-0.7.0')
+    imap <expr> <c-l> vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<c-l>'
+    smap <expr> <c-l> vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<c-l>'
     imap <expr> <c-j> vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<c-j>'
     smap <expr> <c-j> vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<c-j>'
     imap <expr> <c-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<c-k>'
     smap <expr> <c-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<c-k>'
+
+    " nmap s <Plug>(vsnip-select-text)
+    " xmap s <Plug>(vsnip-select-text)
+    " nmap S <Plug>(vsnip-cut-text)
+    " xmap S <Plug>(vsnip-cut-text)
 
     function! InitNvimCmp() abort
         if !luaeval('pcall(require, "cmp")')
