@@ -214,14 +214,15 @@ endif
 if has('nvim')
     augroup NeovimTerminal
         autocmd!
+        autocmd TermOpen * setlocal cursorline
         autocmd TermOpen * setlocal statusline=%{b:term_title}%<%=
         autocmd TermOpen * setlocal statusline+=⟨Ln\ %l/%L\ Col\ %c\ [%p%%]
-        autocmd TermOpen * setlocal foldcolumn=0
-        autocmd TermOpen * setlocal signcolumn=no
-        autocmd TermOpen * setlocal nonumber
-        if has('patch-7.3.787')
-            autocmd TermOpen * setlocal norelativenumber
-        endif
+        " autocmd TermOpen * setlocal foldcolumn=0
+        " autocmd TermOpen * setlocal signcolumn=no
+        " autocmd TermOpen * setlocal nonumber
+        " if has('patch-7.3.787')
+        "     autocmd TermOpen * setlocal norelativenumber
+        " endif
         autocmd TermOpen * startinsert
         " autocmd TermClose *
         "             \ if expand('<afile>') !~# 'fzf' && expand('<afile>') !~# 'coc' |
@@ -231,12 +232,13 @@ if has('nvim')
 elseif exists(':terminal')
     augroup MyVimTerminal
         autocmd!
-        autocmd TerminalWinOpen * setlocal foldcolumn=0
-        autocmd TerminalWinOpen * setlocal signcolumn=no
-        autocmd TerminalWinOpen * setlocal nonumber
-        if has('patch-7.3.787')
-            autocmd TerminalWinOpen * setlocal norelativenumber
-        endif
+        autocmd TerminalWinOpen * setlocal cursorline
+        " autocmd TerminalWinOpen * setlocal foldcolumn=0
+        " autocmd TerminalWinOpen * setlocal signcolumn=no
+        " autocmd TerminalWinOpen * setlocal nonumber
+        " if has('patch-7.3.787')
+        "     autocmd TerminalWinOpen * setlocal norelativenumber
+        " endif
     augroup END
 endif
 
