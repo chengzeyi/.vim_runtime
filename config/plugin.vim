@@ -1129,13 +1129,13 @@ lspconfig.util.default_config = vim.tbl_extend(
     config
 )
 
--- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
---     vim.lsp.diagnostic.on_publish_diagnostics, {
---         -- Disable virtual_text
---         -- virtual_text = false,
---         update_in_insert = true,
---     }
--- )
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+        -- Disable virtual_text
+        virtual_text = false,
+        -- update_in_insert = true,
+    }
+)
 
 for _, server in ipairs(vim.g.use_nvim_lsp_configs or {}) do
     local config = {}
