@@ -214,7 +214,6 @@ endif
 if has('nvim')
     augroup NeovimTerminal
         autocmd!
-        autocmd TermOpen * setlocal cursorline
         autocmd TermOpen * setlocal statusline=%{b:term_title}%<%=
         autocmd TermOpen * setlocal statusline+=⟨Ln\ %l/%L\ Col\ %c\ [%p%%]
         " autocmd TermOpen * setlocal foldcolumn=0
@@ -232,7 +231,6 @@ if has('nvim')
 elseif exists(':terminal')
     augroup MyVimTerminal
         autocmd!
-        autocmd TerminalWinOpen * setlocal cursorline
         " autocmd TerminalWinOpen * setlocal foldcolumn=0
         " autocmd TerminalWinOpen * setlocal signcolumn=no
         " autocmd TerminalWinOpen * setlocal nonumber
