@@ -1958,7 +1958,7 @@ let g:fzf_command_prefix = 'FZF'
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 let g:fzf_tags_command = 'ctags -R --sort=yes --c++-kinds=+p --fields=+mnialS --extra=+q'
 " let g:fzf_preview_window = ['up:50%', 'ctrl-/', 'ctrl-^']
-let g:fzf_preview_window = ['right,50%,<240(up,40%)', 'ctrl-/', 'ctrl-^']
+let g:fzf_preview_window = ['right,50%,<80(up,40%)', 'ctrl-/', 'ctrl-^']
 
 function! s:build_quickfix_list(lines) abort
     call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
@@ -2166,7 +2166,7 @@ if pcall(require, 'lspfuzzy') then
     require'lspfuzzy'.setup {
         save_last = false,
         fzf_preview = {
-            'right:50%:+{2}-/2', 'ctrl-/', 'ctrl-^'
+            'right,50%,+{2}-/2,<80(up,40%,+{2}-/2)', 'ctrl-/', 'ctrl-^'
         },
     }
 end
