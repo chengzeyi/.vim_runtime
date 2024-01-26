@@ -1153,6 +1153,11 @@ for _, server in ipairs(vim.g.use_nvim_lsp_configs or {}) do
     require'lspconfig'[server].setup(config)
 end
 
+-- Hide all semantic highlights
+for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
+  vim.api.nvim_set_hl(0, group, {})
+end
+
 EOF
     endfunction
 
