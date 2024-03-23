@@ -247,6 +247,7 @@ augroup END
 
 augroup MyFileType
     autocmd!
+    autocmd BufRead,BufNewFile *.h.inc set filetype=cpp
     " autocmd FileType * setlocal cink= indentkeys=
     autocmd FileType c,cpp,objc,objcpp,cuda,cs,java,json setlocal commentstring=//\ %s
     " autocmd FileType json syntax match Comment +\/\/.\+$+
