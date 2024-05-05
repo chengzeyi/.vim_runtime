@@ -164,7 +164,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tacahiroy/ctrlp-funky'
 
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/fzf', {'dir': '~/.fzf'}
+Plug 'junegunn/fzf', {'dir': '~/.fzf_' . g:os}
 Plug 'junegunn/fzf.vim'
 Plug 'chengzeyi/fzf-preview.vim'
 if get(g:, 'use_nvim_lsp', 0) && has('nvim-0.5.0')
