@@ -15,6 +15,6 @@ source $HOME/.vim_runtime/config/core.vim
 
 mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}/nvim
 rm -f ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/init.vim
-ln -s $HOME/.vimrc ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/init.vim
+cp $HOME/.vimrc ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/init.vim
 
 echo 'Installed the Basic Vim configuration successfully!'
