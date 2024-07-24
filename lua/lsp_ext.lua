@@ -189,7 +189,7 @@ function M.peek_implementation()
 end
 
 function M.lsp_progress()
-    local messages = lsp_util.get_progress_messages()
+    local messages = (vim.lsp.status or lsp_util.get_progress_messages)()
     if #messages == 0 then
         return ''
     end
