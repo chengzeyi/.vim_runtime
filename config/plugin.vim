@@ -25,9 +25,9 @@ endfunction
 if UseFtplugin('cpp')
     Plug 'octol/vim-cpp-enhanced-highlight'
 endif
-if UseFtplugin('go')
-    Plug 'chengzeyi/go-highlight.vim'
-endif
+" if UseFtplugin('go')
+"     Plug 'chengzeyi/go-highlight.vim'
+" endif
 if UseFtplugin('java')
     Plug 'uiiaoo/java-syntax.vim'
 endif
