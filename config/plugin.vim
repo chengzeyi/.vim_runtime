@@ -1277,7 +1277,7 @@ if get(g:, 'use_coc', 0)
             au ColorScheme * hi! link CocErrorSign ErrorMsg
             au ColorScheme * hi! link CocWarningSign WarningMsg
             au ColorScheme * hi! link CocInfoSign MoreMsg
-            au ColorScheme * hi! link CocHintSign Question
+            au ColorScheme * hi! link CocHintSign SpecialKey
             au ColorScheme * hi! link CocErrorHighlight SpellBad
             au ColorScheme * hi! link CocWarningHighlight SpellCap
             au ColorScheme * hi! link CocInfoHighlight SpellLocal
