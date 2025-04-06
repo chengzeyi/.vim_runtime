@@ -55,6 +55,7 @@
   // "suggest.enablePreview": true,
   // "suggest.floatEnable": false,
   // "suggest.fixInsertedWord": false,
+  "suggest.noselect": true,
   "diagnostic.checkCurrentLine": true,
   // "diagnostic.messageTarget": "echo",
   // "diagnostic.virtualText": true,
@@ -82,5 +83,5 @@
   // "coc.source.around.enable": false,
   // "coc.source.buffer.enable": false,
   "coc.preferences.currentFunctionSymbolAutoUpdate": true,
-  "coc.preferences.extensionUpdateCheck": "never"
+  "extensions.updateCheck": "never"
 }
