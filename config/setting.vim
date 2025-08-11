@@ -490,7 +490,9 @@ if has('cscope')
     " set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-,a-
 endif
 
-set pastetoggle=<F2>
+if !has('nvim-0.9.0')
+    set pastetoggle=<F2>
+endif
 
 let mapleader = ' '
 let maplocalleader = '\'

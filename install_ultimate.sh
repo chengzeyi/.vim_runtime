@@ -23,6 +23,7 @@ source $HOME/.vim_runtime/config/core.vim
 \" let g:use_vim_lsp = 1
 \" let g:use_asyncomplete = 1
 \" let g:use_copilot = 1
+\" let g:use_codecompanion = 1
 \" let g:use_tabnine = 1
 " > $HOME/.vim_runtime/config/before.vim
 

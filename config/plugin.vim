@@ -134,6 +134,11 @@ if get(g:, 'use_copilot', 0) && has('nvim-0.6.0')
     " endif
 endif
 
+if get(g:, 'use_codecompanion', 0) && has('nvim-0.11.0')
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'olimorris/codecompanion.nvim'
+endif
+
 " if (has('nvim-0.3.0') || v:version >= 800) && has('python3')
 "     if has('nvim')
 "         Plug 'Shougo/denite.nvim', {'do': ':UpdateRemotePlugins'}
@@ -1166,7 +1171,12 @@ EOF
 
     function! LspStatus() abort
         let sl = ''
-        if luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
+        if has('nvim-0.11.0')
+            let is_not_empty = luaeval('not vim.tbl_isempty(vim.lsp.get_clients({ buffer = 0 }))')
+        else
+            let is_not_empty = luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
+        endif
+        if is_not_empty
             let sl .= 'E'
             if has('nvim-0.6.0')
                 let sl .= luaeval('#vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })')
@@ -1625,6 +1635,19 @@ if get(g:, 'use_copilot', 0) && has('nvim-0.6.0')
     let g:copilot_filetypes = {
                 \ '*': v:true,
                 \ }
+endif
+
+if get(g:, 'use_codecompanion', 0) && has('nvim-0.11.0')
+    if luaeval('pcall(require, "codecompanion")')
+lua << EOF
+require('codecompanion').setup()
+EOF
+    nnoremap <silent> <leader>cc :CodeCompanion<cr>
+    nnoremap <leader>cC :CodeCompanion<space>
+    nnoremap <silent> <leader>ct :CodeCompanionChat<cr>
+    nnoremap <leader>cT :CodeCompanionChat<space>
+    nnoremap <silent> <leader>ca :CodeCompanionActions<cr>
+    endif
 endif
 
 " if (v:version >= 800 || has('nvim-0.3.0')) && has('python3')
@@ -2585,13 +2608,13 @@ endtry
 
 nnoremap <leader>cx :XtermColorTable<cr>
 
-nmap <silent> <leader>cc <Plug>Colorizer
-xmap <silent> <leader>cc <Plug>Colorizer
+nmap <silent> <leader>cr <Plug>Colorizer
+xmap <silent> <leader>cr <Plug>Colorizer
 
 if has('nvim')
     if luaeval('pcall(require, "perfanno")')
 lua << EOF
-require("perfanno").setup()
+require('perfanno').setup()
 EOF
     endif
 endif
